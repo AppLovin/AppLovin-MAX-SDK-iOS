@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ALRewardedAdViewController.h
 //  DemoApp-ObjC
 //
 //  Created by Thomas So on 9/4/19.
@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+NS_ASSUME_NONNULL_BEGIN
 
+@interface ALRewardedAdViewController : UIViewController
 
 @end
 
+NS_ASSUME_NONNULL_END

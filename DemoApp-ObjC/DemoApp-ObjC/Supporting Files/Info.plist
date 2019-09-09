@@ -43,5 +43,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>AppLovinSdkKey</key>
+	<string>SDK_KEY_HERE</string>
 </dict>
 </plist>
