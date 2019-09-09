@@ -56,12 +56,12 @@
 		1D0CB33823204EBD0076AAAA /* Ads */ = {
 			isa = PBXGroup;
 			children = (
+				1D0CB33423204D120076AAAA /* ALBannerAdViewController.h */,
+				1D0CB33523204D120076AAAA /* ALBannerAdViewController.m */,
 				1D0CB32E23204CE70076AAAA /* ALInterstitialAdViewController.h */,
 				1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */,
 				1D0CB33123204CF70076AAAA /* ALRewardedAdViewController.h */,
 				1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */,
-				1D0CB33423204D120076AAAA /* ALBannerAdViewController.h */,
-				1D0CB33523204D120076AAAA /* ALBannerAdViewController.m */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
