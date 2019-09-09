@@ -76,15 +76,7 @@
                             </tableViewSection>
                         </sections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="e1i-r7-ONc">
-                        <barButtonItem key="leftBarButtonItem" image="bug" id="MGO-Js-kmt">
-                            <inset key="largeContentSizeImageInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
-                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="showMediationDebugger:" destination="Xhz-da-ENL" id="KOS-yS-zZw"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="e1i-r7-ONc"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0eV-wE-SZP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -109,7 +101,4 @@
             <point key="canvasLocation" x="-1030.4347826086957" y="170.75892857142856"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="bug" width="16" height="16"/>
-    </resources>
 </document>
