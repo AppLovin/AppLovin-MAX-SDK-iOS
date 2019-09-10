@@ -17,6 +17,8 @@ DerivedData/
 !default.perspectivev3
 xcuserdata/
 xcworkspace/
+*.xcworkspacedata
+DemoApp-ObjC/DemoApp-ObjC.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 
 ## Other
 *.moved-aside
