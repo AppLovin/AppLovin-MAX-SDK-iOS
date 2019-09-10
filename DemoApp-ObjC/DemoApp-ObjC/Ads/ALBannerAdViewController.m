@@ -23,21 +23,15 @@
     
     self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
     self.adView.delegate = self;
-    
-    // Calculate dimensions
-    CGFloat width = CGRectGetWidth(self.view.bounds); // Stretch to the width of the screen for banners to be fully functional
-    CGFloat height = (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 90 : 50; // Banner height on iPhone and iPad is 50 and 90, respectively
-    CGFloat x = 0;
-    CGFloat y = CGRectGetMaxY(self.view.bounds) - height;
-    
-    self.adView.frame = CGRectMake(x, y, width, height);
+    self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
     // Set background or background color for banners to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
 
-    // Center the banner and anchor it to the top of the screen.
-    self.adView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview: self.adView];
+
+    // Center the banner and anchor it to the top of the screen.
+    CGFloat height = (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 90 : 50; // Banner height on iPhone and iPad is 50 and 90, respectively
     [self.view addConstraints: @[[self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeLeading],
                                  [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTrailing],
                                  [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTop],

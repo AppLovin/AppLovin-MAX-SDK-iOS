@@ -161,10 +161,10 @@
             </objects>
             <point key="canvasLocation" x="471" y="171"/>
         </scene>
-        <!--Banner Ads-->
+        <!--AutoLayout Banner Ads-->
         <scene sceneID="whl-QQ-Von">
             <objects>
-                <viewController title="Banner Ads" id="t4N-CR-C81" customClass="ALBannerAdViewController" sceneMemberID="viewController">
+                <viewController title="AutoLayout Banner Ads" id="t4N-CR-C81" customClass="ALBannerAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uUJ-XM-qql">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
