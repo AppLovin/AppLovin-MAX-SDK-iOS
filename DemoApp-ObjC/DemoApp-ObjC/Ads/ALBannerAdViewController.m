@@ -34,16 +34,13 @@
 
     // Set background or background color for banners to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
-    
-    // Load the first ad
-    [self.adView loadAd];
-    
-    // Center the banner and anchor it to the bottom of the screen.
+
+    // Center the banner and anchor it to the top of the screen.
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview: self.adView];
     [self.view addConstraints: @[[self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeLeading],
                                  [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTrailing],
-                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeBottom],
+                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTop],
                                  [NSLayoutConstraint constraintWithItem: self.adView
                                                               attribute: NSLayoutAttributeHeight
                                                               relatedBy: NSLayoutRelationEqual
@@ -51,6 +48,9 @@
                                                               attribute: NSLayoutAttributeNotAnAttribute
                                                              multiplier: 1.0
                                                                constant: height]]];
+    
+    // Load the first ad
+    [self.adView loadAd];
 }
 
 - (NSLayoutConstraint *)constraintWithAdView:(MAAdView *)adView andAttribute:(NSLayoutAttribute)attribute
