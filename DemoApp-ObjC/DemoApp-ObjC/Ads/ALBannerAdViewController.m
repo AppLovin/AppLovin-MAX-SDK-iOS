@@ -35,10 +35,33 @@
     // Set background or background color for banners to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
     
-    [self.view addSubview: self.adView];
-    
     // Load the first ad
     [self.adView loadAd];
+    
+    // Center the banner and anchor it to the bottom of the screen.
+    self.adView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview: self.adView];
+    [self.view addConstraints: @[[self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeLeading],
+                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTrailing],
+                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeBottom],
+                                 [NSLayoutConstraint constraintWithItem: self.adView
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: nil
+                                                              attribute: NSLayoutAttributeNotAnAttribute
+                                                             multiplier: 1.0
+                                                               constant: height]]];
+}
+
+- (NSLayoutConstraint *)constraintWithAdView:(MAAdView *)adView andAttribute:(NSLayoutAttribute)attribute
+{
+    return [NSLayoutConstraint constraintWithItem: self.adView
+                                        attribute: attribute
+                                        relatedBy: NSLayoutRelationEqual
+                                           toItem: self.view
+                                        attribute: attribute
+                                       multiplier: 1.0
+                                         constant: 0.0];
 }
 
 #pragma mark - MAAdDelegate Protocol
