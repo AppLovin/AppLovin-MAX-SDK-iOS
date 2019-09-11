@@ -241,17 +241,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R5C-91-3ir" customClass="MAAdView">
-                                <rect key="frame" x="15" y="0.0" width="383" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5C-91-3ir" customClass="MAAdView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="KOc-zK-MqA"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="Lhe-mt-J8Q" id="7gx-Rn-iry"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="R5C-91-3ir" firstAttribute="top" secondItem="W3k-OJ-EjN" secondAttribute="top" id="3vc-81-DKA"/>
+                            <constraint firstItem="kyo-bA-O0z" firstAttribute="trailing" secondItem="R5C-91-3ir" secondAttribute="trailing" id="Cz2-ZK-Xl9"/>
+                            <constraint firstItem="R5C-91-3ir" firstAttribute="leading" secondItem="kyo-bA-O0z" secondAttribute="leading" id="f0U-cg-ZKR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kyo-bA-O0z"/>
                     </view>
