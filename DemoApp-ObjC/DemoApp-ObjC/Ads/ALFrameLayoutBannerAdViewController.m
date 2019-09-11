@@ -28,12 +28,14 @@
     CGFloat width = CGRectGetWidth(self.view.bounds); // Stretch to the width of the screen for banners to be fully functional
     CGFloat height = (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 90 : 50; // Banner height on iPhone and iPad is 50 and 90, respectively
     CGFloat x = 0;
-    CGFloat y = CGRectGetMaxY(self.view.bounds) - height;
+    CGFloat y = 0;
     
     self.adView.frame = CGRectMake(x, y, width, height);
     
     // Set background or background color for banners to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
+    
+    [self.view addSubview: self.adView];
     
     // Load the first ad
     [self.adView loadAd];

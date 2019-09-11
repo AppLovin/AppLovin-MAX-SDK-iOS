@@ -168,7 +168,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Na3-eY-zHa"/>
+                        <viewLayoutGuide key="safeArea" id="tt7-7E-5dX"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6mE-Fk-JPR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -194,7 +194,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="GnX-WC-OBx"/>
+                        <viewLayoutGuide key="safeArea" id="P0W-JD-8nB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g63-20-XpD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -209,7 +209,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="DMD-hN-91M"/>
+                        <viewLayoutGuide key="safeArea" id="mAF-qa-bfO"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                 </viewController>
@@ -225,7 +225,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="J1u-Mj-SDh"/>
+                        <viewLayoutGuide key="safeArea" id="5d1-qc-8SX"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                 </viewController>
@@ -233,17 +233,32 @@
             </objects>
             <point key="canvasLocation" x="1197" y="840"/>
         </scene>
-        <!--Interface Builder Banner Ads-->
+        <!--Interface Builder Banner-->
         <scene sceneID="xhy-cf-ZfV">
             <objects>
-                <viewController title="Interface Builder Banner Ads" id="Lhe-mt-J8Q" customClass="ALInterfaceBuilderBannerAdViewController" sceneMemberID="viewController">
+                <viewController title="Interface Builder Banner Ads" id="Lhe-mt-J8Q" userLabel="Interface Builder Banner" customClass="ALInterfaceBuilderBannerAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W3k-OJ-EjN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R5C-91-3ir" customClass="MAAdView">
+                                <rect key="frame" x="15" y="0.0" width="383" height="50"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="KOc-zK-MqA"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="rqf-PJ-jFf"/>
+                        <constraints>
+                            <constraint firstItem="R5C-91-3ir" firstAttribute="top" secondItem="W3k-OJ-EjN" secondAttribute="top" id="3vc-81-DKA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kyo-bA-O0z"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <connections>
+                        <outlet property="adView" destination="R5C-91-3ir" id="WCn-2m-59X"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MII-Ur-vbY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
