@@ -204,7 +204,7 @@
         <!--Auto Layout Banner Ads-->
         <scene sceneID="whl-QQ-Von">
             <objects>
-                <viewController title="Auto Layout Banner Ads" id="t4N-CR-C81" customClass="ALBannerAdViewController" sceneMemberID="viewController">
+                <viewController title="Auto Layout Banner Ads" id="t4N-CR-C81" customClass="ALAutoLayoutBannerAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uUJ-XM-qql">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

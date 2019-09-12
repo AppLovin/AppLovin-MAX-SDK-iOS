@@ -1,19 +1,19 @@
 //
-//  ALBannerAdViewController.m
+//  ALAutoLayoutBannerAdViewController.m
 //  DemoApp-ObjC
 //
 //  Created by Thomas So on 9/4/19.
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALBannerAdViewController.h"
+#import "ALAutoLayoutBannerAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALAutoLayoutBannerAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
-@implementation ALBannerAdViewController
+@implementation ALAutoLayoutBannerAdViewController
 
 #pragma mark - View Lifecycle
 
@@ -21,7 +21,7 @@
 {
     [super viewDidLoad];
     
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"BANNER_AD_UNIT_ID"];
     self.adView.delegate = self;
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 

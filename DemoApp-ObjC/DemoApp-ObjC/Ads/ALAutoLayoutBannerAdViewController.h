@@ -1,5 +1,5 @@
 //
-//  ALBannerAdViewController.h
+//  ALAutoLayoutBannerAdViewController.h
 //  DemoApp-ObjC
 //
 //  Created by Thomas So on 9/4/19.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALBannerAdViewController : UIViewController
+@interface ALAutoLayoutBannerAdViewController : UIViewController
 
 @end
 

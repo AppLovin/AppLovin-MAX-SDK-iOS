@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D0CB33023204CE70076AAAA /* ALInterstitialAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */; };
-		1D0CB33323204CF70076AAAA /* ALRewardedAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */; };
-		1D0CB33623204D120076AAAA /* ALBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33523204D120076AAAA /* ALBannerAdViewController.m */; };
-		1D992FE0231FA1C400C472F8 /* ALAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */; };
-		1D992FE3231FA1C400C472F8 /* ALHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */; };
 		1D992FE6231FA1C400C472F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE4231FA1C400C472F8 /* Main.storyboard */; };
 		1D992FE8231FA1C500C472F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE7231FA1C500C472F8 /* Assets.xcassets */; };
 		1D992FEB231FA1C500C472F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE9231FA1C500C472F8 /* LaunchScreen.storyboard */; };
-		1D992FEE231FA1C500C472F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FED231FA1C500C472F8 /* main.m */; };
+		37C7E1EB2328904E002165B5 /* ALAutoLayoutBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */; };
+		37C7E1EC2328904E002165B5 /* ALFrameLayoutBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */; };
+		37C7E1ED2328904E002165B5 /* ALInterstitialAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */; };
+		37C7E1EE2328904E002165B5 /* ALRewardedAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */; };
+		37C7E1EF2328904E002165B5 /* ALInterfaceBuilderBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */; };
+		37C7E1F223289286002165B5 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C7E1F123289286002165B5 /* AppLovinSDK.framework */; };
+		37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */; };
+		37C7E1F523297423002165B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FED231FA1C500C472F8 /* main.m */; };
+		37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,8 +26,8 @@
 		1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInterstitialAdViewController.m; sourceTree = "<group>"; };
 		1D0CB33123204CF70076AAAA /* ALRewardedAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALRewardedAdViewController.h; sourceTree = "<group>"; };
 		1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALRewardedAdViewController.m; sourceTree = "<group>"; };
-		1D0CB33423204D120076AAAA /* ALBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBannerAdViewController.h; sourceTree = "<group>"; };
-		1D0CB33523204D120076AAAA /* ALBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBannerAdViewController.m; sourceTree = "<group>"; };
+		1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAutoLayoutBannerAdViewController.h; sourceTree = "<group>"; };
+		1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAutoLayoutBannerAdViewController.m; sourceTree = "<group>"; };
 		1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DemoApp-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAppDelegate.h; sourceTree = "<group>"; };
 		1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAppDelegate.m; sourceTree = "<group>"; };
@@ -35,6 +38,10 @@
 		1D992FEA231FA1C500C472F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D992FEC231FA1C500C472F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D992FED231FA1C500C472F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInterfaceBuilderBannerAdViewController.m; sourceTree = "<group>"; };
+		37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
+		37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
+		37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALFrameLayoutBannerAdViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,12 +58,16 @@
 		1D0CB33823204EBD0076AAAA /* Ads */ = {
 			isa = PBXGroup;
 			children = (
-				1D0CB33423204D120076AAAA /* ALBannerAdViewController.h */,
-				1D0CB33523204D120076AAAA /* ALBannerAdViewController.m */,
+				1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */,
+				1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */,
+				37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */,
+				37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */,
 				1D0CB32E23204CE70076AAAA /* ALInterstitialAdViewController.h */,
 				1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */,
 				1D0CB33123204CF70076AAAA /* ALRewardedAdViewController.h */,
 				1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */,
+				37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */,
+				37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -180,12 +191,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D992FE3231FA1C400C472F8 /* ALHomeViewController.m in Sources */,
-				1D0CB33023204CE70076AAAA /* ALInterstitialAdViewController.m in Sources */,
-				1D992FEE231FA1C500C472F8 /* main.m in Sources */,
-				1D992FE0231FA1C400C472F8 /* ALAppDelegate.m in Sources */,
-				1D0CB33623204D120076AAAA /* ALBannerAdViewController.m in Sources */,
-				1D0CB33323204CF70076AAAA /* ALRewardedAdViewController.m in Sources */,
+				37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */,
+				37C7E1F523297423002165B5 /* main.m in Sources */,
+				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
+				37C7E1EB2328904E002165B5 /* ALAutoLayoutBannerAdViewController.m in Sources */,
+				37C7E1EC2328904E002165B5 /* ALFrameLayoutBannerAdViewController.m in Sources */,
+				37C7E1ED2328904E002165B5 /* ALInterstitialAdViewController.m in Sources */,
+				37C7E1EE2328904E002165B5 /* ALRewardedAdViewController.m in Sources */,
+				37C7E1EF2328904E002165B5 /* ALInterfaceBuilderBannerAdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +279,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -318,6 +332,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -336,6 +351,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -354,6 +370,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
