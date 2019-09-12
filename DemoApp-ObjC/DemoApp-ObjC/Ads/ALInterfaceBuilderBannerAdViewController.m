@@ -20,9 +20,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
-    self.adView.delegate = self;
+
+    // NOTE: Must set Storyboard "User Defined Runtime Attributes" for banner ad view
+    // Key Path = ad_unit_id
+    // Type     = String
+    // Value    = YOUR_AD_UNIT_ID
     
     // Load the first ad
     [self.adView loadAd];

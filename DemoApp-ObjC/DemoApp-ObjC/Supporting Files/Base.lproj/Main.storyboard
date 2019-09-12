@@ -233,10 +233,10 @@
             </objects>
             <point key="canvasLocation" x="1197" y="840"/>
         </scene>
-        <!--Interface Builder Banner-->
+        <!--Delegate-->
         <scene sceneID="xhy-cf-ZfV">
             <objects>
-                <viewController title="Interface Builder Banner Ads" id="Lhe-mt-J8Q" userLabel="Interface Builder Banner" customClass="ALInterfaceBuilderBannerAdViewController" sceneMemberID="viewController">
+                <viewController title="Interface Builder Banner Ads" id="Lhe-mt-J8Q" customClass="ALInterfaceBuilderBannerAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W3k-OJ-EjN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -247,6 +247,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="KOc-zK-MqA"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="BANNER_AD_UNIT_ID"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="delegate" destination="Lhe-mt-J8Q" id="7gx-Rn-iry"/>
                                 </connections>
