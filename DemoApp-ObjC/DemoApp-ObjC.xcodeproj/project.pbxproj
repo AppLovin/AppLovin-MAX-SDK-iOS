@@ -113,13 +113,6 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F4E58AC39678A67CDFA66543 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
