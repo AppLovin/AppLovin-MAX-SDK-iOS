@@ -77,7 +77,6 @@
 			children = (
 				1D992FDD231FA1C300C472F8 /* DemoApp-ObjC */,
 				1D992FDC231FA1C300C472F8 /* Products */,
-				F4E58AC39678A67CDFA66543 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
