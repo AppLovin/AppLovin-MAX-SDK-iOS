@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,6 @@
 		37C7E1ED2328904E002165B5 /* ALInterstitialAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */; };
 		37C7E1EE2328904E002165B5 /* ALRewardedAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */; };
 		37C7E1EF2328904E002165B5 /* ALInterfaceBuilderBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */; };
-		37C7E1F223289286002165B5 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C7E1F123289286002165B5 /* AppLovinSDK.framework */; };
 		37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */; };
 		37C7E1F523297423002165B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FED231FA1C500C472F8 /* main.m */; };
 		37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */; };
@@ -342,8 +341,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -361,8 +360,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
