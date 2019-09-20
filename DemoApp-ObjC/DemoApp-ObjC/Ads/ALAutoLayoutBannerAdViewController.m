@@ -48,7 +48,7 @@
 
 - (NSLayoutConstraint *)constraintWithAdView:(MAAdView *)adView andAttribute:(NSLayoutAttribute)attribute
 {
-    return [NSLayoutConstraint constraintWithItem: self.adView
+    return [NSLayoutConstraint constraintWithItem: adView
                                         attribute: attribute
                                         relatedBy: NSLayoutRelationEqual
                                            toItem: self.view
