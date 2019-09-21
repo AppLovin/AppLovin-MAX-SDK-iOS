@@ -11,15 +11,16 @@ import AppLovinSDK
 
 class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
 {
-    private var rewardedAd: MARewardedAd
+    private var rewardedAd: MARewardedAd?
     
     // MARK: View Lifecycle
     
-    func viewDidLoad()
+    override func viewDidLoad()
     {
         super.viewDidLoad()
         
         rewardedAd = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_AD_UNIT_ID")
+        guard let rewardedAd = rewardedAd else { return }
         rewardedAd.delegate = self
         
         // Load the first ad
@@ -30,7 +31,7 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     
     @IBAction func showAd()
     {
-        if rewardedAd.isReady
+        if let rewardedAd = rewardedAd, rewardedAd.isReady
         {
             rewardedAd.show()
         }
@@ -47,7 +48,10 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     {
         // Rewarded ad failed to load. We recommend re-trying in 3 seconds.
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(3 * Double(NSEC_PER_SEC)), execute: {
-            rewardedAd.loadAd()
+            if let rewardedAd = self.rewardedAd
+            {
+                rewardedAd.load()
+            }
         })
     }
     
@@ -58,13 +62,19 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     func didHide(_ ad: MAAd)
     {
         // Rewarded ad is hidden. Pre-load the next ad
-        rewardedAd.load()
+        if let rewardedAd = rewardedAd
+        {
+            rewardedAd.load()
+        }
     }
     
     func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
     {
         // Rewarded ad failed to display. We recommend loading the next ad
-        rewardedAd.loadAd()
+        if let rewardedAd = rewardedAd
+        {
+            rewardedAd.load()
+        }
     }
     
     // MARK: MARewardedAdDelegate Protocol

@@ -11,15 +11,16 @@ import AppLovinSDK
 
 class ALFrameLayoutBannerAdViewController: UIViewController, MAAdViewAdDelegate
 {
-    private var adView: MAAdView
+    private var adView: MAAdView?
     
     // MARK: View Lifecycle
     
-    func viewDidLoad()
+    override func viewDidLoad()
     {
         super.viewDidLoad()
         
         adView = MAAdView(adUnitIdentifier: "BANNER_AD_UNIT_ID")
+        guard let adView = adView else { return }
         adView.delegate = self
         
         // Calculate dimensions
@@ -45,17 +46,17 @@ class ALFrameLayoutBannerAdViewController: UIViewController, MAAdViewAdDelegate
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) {}
     
-    func didDisplay(_ ad: MAAd?) {}
+    func didDisplay(_ ad: MAAd) {}
     
-    func didHide(_ ad: MAAd?) {}
+    func didHide(_ ad: MAAd) {}
     
-    func didClick(_ ad: MAAd?) {}
+    func didClick(_ ad: MAAd) {}
     
-    func didFail(toDisplay ad: MAAd?, withErrorCode errorCode: Int) {}
+    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int) {}
     
     // MARK: MAAdViewAdDelegate Protocol
     
-    func didExpand(_ ad: MAAd?) {}
+    func didExpand(_ ad: MAAd) {}
     
-    func didCollapseAd(_ ad: MAAd?) {}
+    func didCollapse(_ ad: MAAd) {}
 }
