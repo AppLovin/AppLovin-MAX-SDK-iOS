@@ -6,11 +6,7 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-func main(_ argc: Int, _ argv: [Int]?) -> Int
-{
-    autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass(ALAppDelegate.self))
-    }
-}
+UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, NSStringFromClass(ALAppDelegate.self))

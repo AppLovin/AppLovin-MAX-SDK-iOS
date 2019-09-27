@@ -17,7 +17,7 @@
 		3763B24E23357D3000E49783 /* ALInterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B24D23357D3000E49783 /* ALInterstitialAdViewController.swift */; };
 		3763B25023357D3A00E49783 /* ALRewardedAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */; };
 		3763B25223357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */; };
-		3763B25823357DF200E49783 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B25723357DF200E49783 /* main.swift */; };
+		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
 		D12A7518669E31113E1637A0 /* Pods_DemoApp_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 759C0DBA575A3709CC1667F5 /* Pods_DemoApp_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,7 @@
 		3763B24D23357D3000E49783 /* ALInterstitialAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALInterstitialAdViewController.swift; sourceTree = "<group>"; };
 		3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALRewardedAdViewController.swift; sourceTree = "<group>"; };
 		3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALInterfaceBuilderBannerAdViewController.swift; sourceTree = "<group>"; };
-		3763B25723357DF200E49783 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		759C0DBA575A3709CC1667F5 /* Pods_DemoApp_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoApp_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21F1B69BD190130AC04F21B /* Pods-DemoApp-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoApp-Swift.release.xcconfig"; path = "Target Support Files/Pods-DemoApp-Swift/Pods-DemoApp-Swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,7 +96,7 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3763B25723357DF200E49783 /* main.swift */,
+				37C4D0E7233D834900096894 /* main.swift */,
 				3763B24223357C4D00E49783 /* Info.plist */,
 				3763B23D23357C4D00E49783 /* Assets.xcassets */,
 				3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */,
@@ -240,7 +240,7 @@
 			files = (
 				3763B25223357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift in Sources */,
 				3763B24C23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift in Sources */,
-				3763B25823357DF200E49783 /* main.swift in Sources */,
+				37C4D0E8233D834900096894 /* main.swift in Sources */,
 				3763B24923357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift in Sources */,
 				3763B25023357D3A00E49783 /* ALRewardedAdViewController.swift in Sources */,
 				3763B23923357C4B00E49783 /* ALHomeViewController.swift in Sources */,
@@ -310,7 +310,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -370,7 +370,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -395,15 +395,17 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				INFOPLIST_FILE = "DemoApp-Swift/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-Swift/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -418,15 +420,17 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				INFOPLIST_FILE = "DemoApp-Swift/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-Swift/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
