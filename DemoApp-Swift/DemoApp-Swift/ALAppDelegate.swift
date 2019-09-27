@@ -11,6 +11,8 @@ import AppLovinSDK
 
 class ALAppDelegate: UIResponder, UIApplicationDelegate
 {
+    var window: UIWindow?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
         #warning("Make sure to add your AppLovin SDK key in the Info.plist under the \"AppLovinSDKKey\" key")
