@@ -27,15 +27,15 @@ class ALAutoLayoutBannerAdViewController: UIViewController, MAAdViewAdDelegate
         // Set background or background color for banners to be fully functional
         adView.backgroundColor = .black
         
+        view.addSubview(adView)
+
         // Center the banner and anchor it to the top of the screen.
         let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50 // Banner height on iPhone and iPad is 50 and 90, respectively
-        
         view.addConstraints([
             constraint(with: adView, andAttribute: .leading),
             constraint(with: adView, andAttribute: .trailing),
             constraint(with: adView, andAttribute: .top),
             NSLayoutConstraint(item: adView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: height)])
-        view.addSubview(adView)
         
         // Load the first ad
         adView.loadAd()
