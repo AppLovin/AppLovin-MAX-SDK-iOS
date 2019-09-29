@@ -11,7 +11,7 @@ import AppLovinSDK
 
 class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
 {
-    private var interstitialAd: MAInterstitialAd?
+    private let interstitialAd = MAInterstitialAd(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     // MARK: View Lifecycle
     
@@ -19,8 +19,6 @@ class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
     {
         super.viewDidLoad()
         
-        interstitialAd = MAInterstitialAd(adUnitIdentifier: "YOUR_AD_UNIT_ID")
-        guard let interstitialAd = interstitialAd else { return }
         interstitialAd.delegate = self
         
         // Load the first ad
@@ -31,10 +29,7 @@ class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
     
     @IBAction func showAd()
     {
-        if let interstitialAd = interstitialAd, interstitialAd.isReady
-        {
-            interstitialAd.show()
-        }
+        interstitialAd.show()
     }
     
     // MARK: MAAdDelegate Protocol
@@ -48,10 +43,7 @@ class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
     {
         // Interstitial ad failed to load. We recommend re-trying in 3 seconds.
         DispatchQueue.main.asyncAfter(deadline: .now() + Double(3 * Double(NSEC_PER_SEC)), execute: {
-            if let interstitialAd = self.interstitialAd
-            {
-                interstitialAd.load()
-            }
+            self.interstitialAd.load()
         })
     }
     
@@ -66,18 +58,12 @@ class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
     func didHide(_ ad: MAAd)
     {
         // Interstitial ad is hidden. Pre-load the next ad
-        if let interstitialAd = interstitialAd
-        {
-            interstitialAd.load()
-        }
+        interstitialAd.load()
     }
     
     func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
     {
         // Interstitial ad failed to display. We recommend loading the next ad
-        if let interstitialAd = interstitialAd
-        {
-            interstitialAd.load()
-        }
+        interstitialAd.load()
     }
 }

@@ -11,7 +11,7 @@ import AppLovinSDK
 
 class ALAutoLayoutBannerAdViewController: UIViewController, MAAdViewAdDelegate
 {
-    private var adView: MAAdView?
+    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     // MARK: View Lifecycle
     
@@ -19,8 +19,6 @@ class ALAutoLayoutBannerAdViewController: UIViewController, MAAdViewAdDelegate
     {
         super.viewDidLoad()
         
-        adView = MAAdView(adUnitIdentifier: "BANNER_AD_UNIT_ID")
-        guard let adView = adView else { return }
         adView.delegate = self
         adView.translatesAutoresizingMaskIntoConstraints = false
         

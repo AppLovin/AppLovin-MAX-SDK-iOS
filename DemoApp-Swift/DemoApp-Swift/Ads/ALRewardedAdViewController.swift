@@ -11,7 +11,7 @@ import AppLovinSDK
 
 class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
 {
-    private var rewardedAd: MARewardedAd?
+    private let rewardedAd = MARewardedAd.shared(withAdUnitIdentifier: "REWARD_AD_UNIT_ID")
     
     // MARK: View Lifecycle
     
@@ -19,8 +19,6 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     {
         super.viewDidLoad()
         
-        rewardedAd = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_AD_UNIT_ID")
-        guard let rewardedAd = rewardedAd else { return }
         rewardedAd.delegate = self
         
         // Load the first ad
@@ -31,10 +29,7 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     
     @IBAction func showAd()
     {
-        if let rewardedAd = rewardedAd, rewardedAd.isReady
-        {
-            rewardedAd.show()
-        }
+        rewardedAd.show()
     }
     
     // MARK: MAAdDelegate Protocol
@@ -48,10 +43,7 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     {
         // Rewarded ad failed to load. We recommend re-trying in 3 seconds.
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(3 * Double(NSEC_PER_SEC)), execute: {
-            if let rewardedAd = self.rewardedAd
-            {
-                rewardedAd.load()
-            }
+            self.rewardedAd.load()
         })
     }
     
@@ -62,19 +54,13 @@ class ALRewardedAdViewController: UIViewController, MARewardedAdDelegate
     func didHide(_ ad: MAAd)
     {
         // Rewarded ad is hidden. Pre-load the next ad
-        if let rewardedAd = rewardedAd
-        {
-            rewardedAd.load()
-        }
+        rewardedAd.load()
     }
     
     func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
     {
         // Rewarded ad failed to display. We recommend loading the next ad
-        if let rewardedAd = rewardedAd
-        {
-            rewardedAd.load()
-        }
+        rewardedAd.load()
     }
     
     // MARK: MARewardedAdDelegate Protocol
