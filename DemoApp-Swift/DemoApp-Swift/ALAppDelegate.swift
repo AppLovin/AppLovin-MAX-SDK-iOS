@@ -18,8 +18,8 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
         #warning("Make sure to add your AppLovin SDK key in the Info.plist under the \"AppLovinSDKKey\" key")
         
         // Initialize the AppLovin SDK
-        ALSdk.shared()?.mediationProvider = ALMediationProviderMAX;
-        ALSdk.shared()?.initializeSdk(completionHandler: { configuration in
+        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
+        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         })
         
