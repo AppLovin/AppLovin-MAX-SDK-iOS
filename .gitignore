@@ -18,7 +18,7 @@ DerivedData/
 xcuserdata/
 xcworkspace/
 *.xcworkspacedata
-DemoApp-ObjC/DemoApp-ObjC.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*IDEWorkspaceChecks.plist
 
 ## Other
 *.moved-aside
