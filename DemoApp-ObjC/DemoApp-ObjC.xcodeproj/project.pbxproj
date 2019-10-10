@@ -18,6 +18,7 @@
 		37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */; };
 		37C7E1F523297423002165B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FED231FA1C500C472F8 /* main.m */; };
 		37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */; };
+		C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALFrameLayoutBannerAdViewController.h; sourceTree = "<group>"; };
+		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
+		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,8 @@
 				1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */,
 				1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */,
 				1D993015231FA39000C472F8 /* Supporting Files */,
+				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
+				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
 			);
 			path = "DemoApp-ObjC";
 			sourceTree = "<group>";
@@ -182,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */,
 				37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */,
 				37C7E1F523297423002165B5 /* main.m in Sources */,
 				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
