@@ -30,45 +30,21 @@ class ALInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdView
     
     // MARK: MAAdDelegate Protocol
     
-    func didLoad(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didLoad(_ ad: MAAd) { logCallback() }
     
-    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)
-    {
-        logCallback()
-    }
+    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) { logCallback() }
 
-    func didDisplay(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didDisplay(_ ad: MAAd) { logCallback() }
     
-    func didHide(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didHide(_ ad: MAAd) { logCallback() }
     
-    func didClick(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didClick(_ ad: MAAd) { logCallback() }
     
-    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
-    {
-        logCallback()
-    }
+    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int) { logCallback() }
     
     // MARK: MAAdViewAdDelegate Protocol
     
-    func didExpand(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didExpand(_ ad: MAAd) { logCallback() }
     
-    func didCollapse(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didCollapse(_ ad: MAAd) { logCallback() }
 }

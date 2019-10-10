@@ -13,12 +13,11 @@ class ALBaseAdViewController: UIViewController
 {
     @IBOutlet weak var callbackTableView: UITableView!
     
-    internal var callbacks: [String] = []
+    private var callbacks: [String] = []
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
         callbackTableView.dataSource = self
     }
     

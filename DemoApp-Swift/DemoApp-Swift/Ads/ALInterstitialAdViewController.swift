@@ -50,25 +50,13 @@ class ALInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
         })
     }
     
-    func didDisplay(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didDisplay(_ ad: MAAd) { logCallback() }
     
-    func didClick(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didClick(_ ad: MAAd) { logCallback() }
     
-    func didExpand(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didExpand(_ ad: MAAd) { logCallback() }
     
-    func didCollapse(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didCollapse(_ ad: MAAd) { logCallback() }
     
     func didHide(_ ad: MAAd)
     {

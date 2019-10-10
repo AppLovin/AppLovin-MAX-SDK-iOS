@@ -50,15 +50,9 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
         })
     }
     
-    func didDisplay(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didDisplay(_ ad: MAAd) { logCallback() }
     
-    func didClick(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didClick(_ ad: MAAd) { logCallback() }
     
     func didHide(_ ad: MAAd)
     {
@@ -78,15 +72,9 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
     
     // MARK: MARewardedAdDelegate Protocol
     
-    func didStartRewardedVideo(for ad: MAAd)
-    {
-        logCallback()
-    }
+    func didStartRewardedVideo(for ad: MAAd) { logCallback() }
     
-    func didCompleteRewardedVideo(for ad: MAAd)
-    {
-        logCallback()
-    }
+    func didCompleteRewardedVideo(for ad: MAAd) { logCallback() }
     
     func didRewardUser(for ad: MAAd, with reward: MAReward)
     {
