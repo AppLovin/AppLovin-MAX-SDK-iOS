@@ -15,12 +15,6 @@ class ALBaseAdViewController: UIViewController
     
     private var callbacks: [String] = []
     
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        callbackTableView.dataSource = self
-    }
-    
     internal func logCallback(functionName: String = #function)
     {
         callbacks.append(functionName)
