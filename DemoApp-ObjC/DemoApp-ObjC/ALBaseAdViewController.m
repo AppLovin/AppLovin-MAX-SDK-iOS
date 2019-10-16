@@ -23,8 +23,6 @@
     [super viewDidLoad];
     
     self.callbacks = [[NSMutableArray alloc] init];
-    
-    self.callbackTableView.dataSource = self;
 }
 
 - (void)logCallback:(const char *)name
