@@ -7,7 +7,6 @@
 //
 
 #import "ALHomeViewController.h"
-
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALHomeViewController()
@@ -26,6 +25,5 @@
 {
     [[ALSdk shared] showMediationDebugger];
 }
-
 
 @end
