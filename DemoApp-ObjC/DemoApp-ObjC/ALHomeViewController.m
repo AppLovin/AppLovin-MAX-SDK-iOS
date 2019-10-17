@@ -8,6 +8,8 @@
 
 #import "ALHomeViewController.h"
 
+#import <AppLovinSDK/AppLovinSDK.h>
+
 @interface ALHomeViewController()
 
 @end
@@ -19,5 +21,11 @@
     [super viewDidLoad];
     
 }
+
+- (IBAction)showMediationDebugger:(UIBarButtonItem *)sender
+{
+    [[ALSdk shared] showMediationDebugger];
+}
+
 
 @end

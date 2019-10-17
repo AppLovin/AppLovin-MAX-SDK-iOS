@@ -124,7 +124,13 @@
                             </tableViewSection>
                         </sections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="e1i-r7-ONc"/>
+                    <navigationItem key="navigationItem" id="e1i-r7-ONc">
+                        <barButtonItem key="rightBarButtonItem" title="Mediation Debugger" image="bug" id="sOu-fq-WnP">
+                            <connections>
+                                <action selector="showMediationDebugger:" destination="Xhz-da-ENL" id="LZd-kT-V5s"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0eV-wE-SZP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -271,4 +277,7 @@
             <point key="canvasLocation" x="1920" y="840"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bug" width="29" height="29"/>
+    </resources>
 </document>
