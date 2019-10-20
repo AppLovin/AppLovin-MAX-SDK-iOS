@@ -27,7 +27,6 @@ extension ALBaseAdViewController: UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "callbackCell", for: indexPath)
-
         cell.textLabel?.text = callbacks[indexPath.row]
 
         return cell
