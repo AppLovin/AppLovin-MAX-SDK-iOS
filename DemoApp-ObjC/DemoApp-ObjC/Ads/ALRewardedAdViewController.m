@@ -43,41 +43,61 @@
 - (void)didLoadAd:(MAAd *)ad
 {
     // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
 {
+    [self logCallback: __PRETTY_FUNCTION__];
+    
     // Rewarded ad failed to load. We recommend re-trying in 3 seconds.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self.rewardedAd loadAd];
     });
 }
 
-- (void)didDisplayAd:(MAAd *)ad {}
+- (void)didDisplayAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didClickAd:(MAAd *)ad {}
+- (void)didClickAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
 - (void)didHideAd:(MAAd *)ad
 {
+    [self logCallback: __PRETTY_FUNCTION__];
+    
     // Rewarded ad is hidden. Pre-load the next ad
     [self.rewardedAd loadAd];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
 {
+    [self logCallback: __PRETTY_FUNCTION__];
+    
     // Rewarded ad failed to display. We recommend loading the next ad
     [self.rewardedAd loadAd];
 }
 
 #pragma mark - MARewardedAdDelegate Protocol
 
-- (void)didStartRewardedVideoForAd:(MAAd *)ad {}
+- (void)didStartRewardedVideoForAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didCompleteRewardedVideoForAd:(MAAd *)ad {}
+- (void)didCompleteRewardedVideoForAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
 - (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
 {
     // Rewarded ad was displayed and user should receive the reward
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 @end

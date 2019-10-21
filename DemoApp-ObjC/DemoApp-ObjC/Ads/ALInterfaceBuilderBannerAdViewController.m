@@ -32,22 +32,46 @@
 
 #pragma mark - MAAdDelegate Protocol
 
-- (void)didLoadAd:(MAAd *)ad {}
+- (void)didLoadAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode {}
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didDisplayAd:(MAAd *)ad {}
+- (void)didDisplayAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didHideAd:(MAAd *)ad {}
+- (void)didHideAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didClickAd:(MAAd *)ad {}
+- (void)didClickAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode {}
+- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
 #pragma mark - MAAdViewAdDelegate Protocol
 
-- (void)didExpandAd:(MAAd *)ad {}
+- (void)didExpandAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
-- (void)didCollapseAd:(MAAd *)ad {}
+- (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
 
 @end

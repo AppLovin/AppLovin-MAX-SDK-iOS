@@ -6,11 +6,11 @@
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ALBaseAdViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALInterstitialAdViewController : UIViewController
+@interface ALInterstitialAdViewController : ALBaseAdViewController
 
 @end
 
