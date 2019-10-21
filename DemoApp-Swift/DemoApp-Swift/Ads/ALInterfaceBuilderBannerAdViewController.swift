@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALInterfaceBuilderBannerAdViewController: UIViewController, MAAdViewAdDelegate
+class ALInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     @IBOutlet weak var adView: MAAdView!
     
@@ -30,21 +30,21 @@ class ALInterfaceBuilderBannerAdViewController: UIViewController, MAAdViewAdDele
     
     // MARK: MAAdDelegate Protocol
     
-    func didLoad(_ ad: MAAd) {}
+    func didLoad(_ ad: MAAd) { logCallback() }
     
-    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) {}
+    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) { logCallback() }
+
+    func didDisplay(_ ad: MAAd) { logCallback() }
     
-    func didDisplay(_ ad: MAAd) {}
+    func didHide(_ ad: MAAd) { logCallback() }
     
-    func didHide(_ ad: MAAd) {}
+    func didClick(_ ad: MAAd) { logCallback() }
     
-    func didClick(_ ad: MAAd) {}
-    
-    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int) {}
+    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int) { logCallback() }
     
     // MARK: MAAdViewAdDelegate Protocol
     
-    func didExpand(_ ad: MAAd) {}
+    func didExpand(_ ad: MAAd) { logCallback() }
     
-    func didCollapse(_ ad: MAAd) {}
+    func didCollapse(_ ad: MAAd) { logCallback() }
 }

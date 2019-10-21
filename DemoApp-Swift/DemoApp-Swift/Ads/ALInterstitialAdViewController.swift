@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
+class ALInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let interstitialAd = MAInterstitialAd(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -37,32 +37,39 @@ class ALInterstitialAdViewController: UIViewController, MAAdViewAdDelegate
     func didLoad(_ ad: MAAd)
     {
         // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
+        logCallback()
     }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)
     {
+        logCallback()
+        
         // Interstitial ad failed to load. We recommend re-trying in 3 seconds.
         DispatchQueue.main.asyncAfter(deadline: .now() + Double(3 * Double(NSEC_PER_SEC)), execute: {
             self.interstitialAd.load()
         })
     }
     
-    func didDisplay(_ ad: MAAd) {}
+    func didDisplay(_ ad: MAAd) { logCallback() }
     
-    func didClick(_ ad: MAAd) {}
+    func didClick(_ ad: MAAd) { logCallback() }
     
-    func didExpand(_ ad: MAAd) {}
-
-    func didCollapse(_ ad: MAAd) {}
-
+    func didExpand(_ ad: MAAd) { logCallback() }
+    
+    func didCollapse(_ ad: MAAd) { logCallback() }
+    
     func didHide(_ ad: MAAd)
     {
+        logCallback()
+        
         // Interstitial ad is hidden. Pre-load the next ad
         interstitialAd.load()
     }
     
     func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
     {
+        logCallback()
+        
         // Interstitial ad failed to display. We recommend loading the next ad
         interstitialAd.load()
     }
