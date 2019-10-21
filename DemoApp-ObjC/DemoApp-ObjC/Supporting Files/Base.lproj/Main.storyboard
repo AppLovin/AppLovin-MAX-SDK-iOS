@@ -166,7 +166,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="DWd-eS-9J8">
                                 <rect key="frame" x="0.0" y="88" width="414" height="734"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="BEs-Zo-6a9" style="IBUITableViewCellStyleDefault" id="kAq-aq-eIp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="BEs-Zo-6a9" style="IBUITableViewCellStyleDefault" id="kAq-aq-eIp">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kAq-aq-eIp" id="wZs-GO-H4z">
@@ -182,6 +182,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -220,7 +226,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="nSl-lu-A7Q">
                                 <rect key="frame" x="0.0" y="88" width="414" height="734"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="qb8-ty-LUR" style="IBUITableViewCellStyleDefault" id="53b-9Q-XU4">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="qb8-ty-LUR" style="IBUITableViewCellStyleDefault" id="53b-9Q-XU4">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="53b-9Q-XU4" id="FQs-bW-MHq">
@@ -236,6 +242,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -282,7 +294,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="4Y3-6E-uJn">
                                 <rect key="frame" x="0.0" y="50" width="414" height="758"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="5ef-Bb-HNL" style="IBUITableViewCellStyleDefault" id="XWb-tb-Wj7">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="5ef-Bb-HNL" style="IBUITableViewCellStyleDefault" id="XWb-tb-Wj7">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XWb-tb-Wj7" id="poe-22-5GP">
@@ -298,6 +310,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -336,7 +354,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="eQi-3M-UAx">
                                 <rect key="frame" x="0.0" y="50" width="414" height="758"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="GNq-H4-dWE" style="IBUITableViewCellStyleDefault" id="NPT-dE-Pm1">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="GNq-H4-dWE" style="IBUITableViewCellStyleDefault" id="NPT-dE-Pm1">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NPT-dE-Pm1" id="VIS-8F-guz">
@@ -352,6 +370,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -403,7 +427,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Qlv-TU-frd">
                                 <rect key="frame" x="0.0" y="50" width="414" height="758"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="4B8-t6-bp4" style="IBUITableViewCellStyleDefault" id="IYb-0w-edj">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="4B8-t6-bp4" style="IBUITableViewCellStyleDefault" id="IYb-0w-edj">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IYb-0w-edj" id="Xed-uu-zcL">
@@ -419,6 +443,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

@@ -34,44 +34,44 @@
 
 - (void)didLoadAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didDisplayAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didHideAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didClickAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 #pragma mark - MAAdViewAdDelegate Protocol
 
 - (void)didExpandAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didCollapseAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 @end

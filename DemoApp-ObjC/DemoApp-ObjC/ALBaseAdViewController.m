@@ -22,30 +22,26 @@
 {
     [super viewDidLoad];
     
-    self.callbacks = [[NSMutableArray alloc] init];
+    self.callbacks = [NSMutableArray array];
 }
 
 - (void)logCallback:(const char *)name
 {
     [self.callbacks addObject: [NSString stringWithCString: name encoding: NSUTF8StringEncoding]];
     
-    NSArray<NSIndexPath *> *lastIndexPath = @[ [NSIndexPath indexPathForRow: self.callbacks.count - 1 inSection: 0] ];
+    NSArray<NSIndexPath *> *lastIndexPath = @[[NSIndexPath indexPathForRow: self.callbacks.count - 1 inSection: 0]];
     [self.callbackTableView insertRowsAtIndexPaths: lastIndexPath withRowAnimation: UITableViewRowAnimationAutomatic];
 }
 
-
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"callbackCell" forIndexPath: indexPath];
-    
     cell.textLabel.text = self.callbacks[indexPath.row];
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.adjustsFontSizeToFitWidth = YES;
     
     return cell;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.callbacks.count;
 }

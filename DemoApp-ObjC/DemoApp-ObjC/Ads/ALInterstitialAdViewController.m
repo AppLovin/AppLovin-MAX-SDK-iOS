@@ -44,12 +44,12 @@
 - (void)didLoadAd:(MAAd *)ad
 {
     // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
     
     // Interstitial ad failed to load. We recommend re-trying in 3 seconds.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -59,17 +59,17 @@
 
 - (void)didDisplayAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didClickAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)didHideAd:(MAAd *)ad
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
     
     // Interstitial ad is hidden. Pre-load the next ad
     [self.interstitialAd loadAd];
@@ -77,7 +77,7 @@
 
 - (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
 {
-    [super logCallback: __PRETTY_FUNCTION__];
+    [self logCallback: __PRETTY_FUNCTION__];
     
     // Interstitial ad failed to display. We recommend loading the next ad
     [self.interstitialAd loadAd];
