@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import AppLovinSDK
 
 class ALHomeViewController: UITableViewController
 {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+    }
+    
+    @IBAction func showMediationDebugger(_ sender: UIBarButtonItem!)
+    {
+        ALSdk.shared()!.showMediationDebugger()
     }
 }
 
