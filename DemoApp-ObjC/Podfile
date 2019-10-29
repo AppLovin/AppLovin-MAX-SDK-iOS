@@ -1,6 +1,6 @@
 use_frameworks!
 inhibit_all_warnings!
 
-target 'DemoApp-ObjC' do
+target 'MAX Demo App' do
   pod 'AppLovinSDK'
 end
