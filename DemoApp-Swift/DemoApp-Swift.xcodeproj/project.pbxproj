@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3763B23323357C4B00E49783 /* DemoApp-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DemoApp-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3763B23323357C4B00E49783 /* MAX Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAX Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763B23623357C4B00E49783 /* ALAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAppDelegate.swift; sourceTree = "<group>"; };
 		3763B23823357C4B00E49783 /* ALHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		3763B23B23357C4B00E49783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		3763B23423357C4B00E49783 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3763B23323357C4B00E49783 /* DemoApp-Swift.app */,
+				3763B23323357C4B00E49783 /* MAX Demo App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -126,7 +126,7 @@
 			);
 			name = "DemoApp-Swift";
 			productName = "DemoApp-Swift";
-			productReference = 3763B23323357C4B00E49783 /* DemoApp-Swift.app */;
+			productReference = 3763B23323357C4B00E49783 /* MAX Demo App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -346,7 +346,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "MAX Demo App";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -370,7 +370,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "MAX Demo App";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;

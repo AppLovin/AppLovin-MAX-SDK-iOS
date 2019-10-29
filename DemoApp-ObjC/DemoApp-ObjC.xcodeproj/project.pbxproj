@@ -28,7 +28,7 @@
 		1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALRewardedAdViewController.m; sourceTree = "<group>"; };
 		1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAutoLayoutBannerAdViewController.h; sourceTree = "<group>"; };
 		1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAutoLayoutBannerAdViewController.m; sourceTree = "<group>"; };
-		1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DemoApp-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D992FDB231FA1C300C472F8 /* MAX Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAX Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAppDelegate.h; sourceTree = "<group>"; };
 		1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAppDelegate.m; sourceTree = "<group>"; };
 		1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALHomeViewController.h; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		1D992FDC231FA1C300C472F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */,
+				1D992FDB231FA1C300C472F8 /* MAX Demo App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,7 +134,7 @@
 			);
 			name = "DemoApp-ObjC";
 			productName = "DemoApp-ObjC";
-			productReference = 1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */;
+			productReference = 1D992FDB231FA1C300C472F8 /* MAX Demo App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -349,7 +349,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "MAX Demo App";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -368,7 +368,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "MAX Demo App";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
