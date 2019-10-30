@@ -28,7 +28,7 @@
 		1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALRewardedAdViewController.m; sourceTree = "<group>"; };
 		1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAutoLayoutBannerAdViewController.h; sourceTree = "<group>"; };
 		1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAutoLayoutBannerAdViewController.m; sourceTree = "<group>"; };
-		1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DemoApp-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D992FDB231FA1C300C472F8 /* MAX Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAX Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAppDelegate.h; sourceTree = "<group>"; };
 		1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAppDelegate.m; sourceTree = "<group>"; };
 		1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALHomeViewController.h; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		1D992FDC231FA1C300C472F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */,
+				1D992FDB231FA1C300C472F8 /* MAX Demo App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,9 +120,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D992FDA231FA1C300C472F8 /* DemoApp-ObjC */ = {
+		1D992FDA231FA1C300C472F8 /* MAX Demo App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "DemoApp-ObjC" */;
+			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "MAX Demo App" */;
 			buildPhases = (
 				1D992FD7231FA1C300C472F8 /* Sources */,
 				1D992FD8231FA1C300C472F8 /* Frameworks */,
@@ -132,9 +132,9 @@
 			);
 			dependencies = (
 			);
-			name = "DemoApp-ObjC";
+			name = "MAX Demo App";
 			productName = "DemoApp-ObjC";
-			productReference = 1D992FDB231FA1C300C472F8 /* DemoApp-ObjC.app */;
+			productReference = 1D992FDB231FA1C300C472F8 /* MAX Demo App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -164,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D992FDA231FA1C300C472F8 /* DemoApp-ObjC */,
+				1D992FDA231FA1C300C472F8 /* MAX Demo App */,
 			);
 		};
 /* End PBXProject section */
@@ -385,7 +385,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "DemoApp-ObjC" */ = {
+		1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "MAX Demo App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D992FF2231FA1C500C472F8 /* Debug */,

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3763B23323357C4B00E49783 /* DemoApp-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DemoApp-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3763B23323357C4B00E49783 /* MAX Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAX Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763B23623357C4B00E49783 /* ALAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAppDelegate.swift; sourceTree = "<group>"; };
 		3763B23823357C4B00E49783 /* ALHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		3763B23B23357C4B00E49783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		3763B23423357C4B00E49783 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3763B23323357C4B00E49783 /* DemoApp-Swift.app */,
+				3763B23323357C4B00E49783 /* MAX Demo App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,9 +112,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3763B23223357C4B00E49783 /* DemoApp-Swift */ = {
+		3763B23223357C4B00E49783 /* MAX Demo App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3763B24523357C4D00E49783 /* Build configuration list for PBXNativeTarget "DemoApp-Swift" */;
+			buildConfigurationList = 3763B24523357C4D00E49783 /* Build configuration list for PBXNativeTarget "MAX Demo App" */;
 			buildPhases = (
 				3763B22F23357C4B00E49783 /* Sources */,
 				3763B23023357C4B00E49783 /* Frameworks */,
@@ -124,9 +124,9 @@
 			);
 			dependencies = (
 			);
-			name = "DemoApp-Swift";
+			name = "MAX Demo App";
 			productName = "DemoApp-Swift";
-			productReference = 3763B23323357C4B00E49783 /* DemoApp-Swift.app */;
+			productReference = 3763B23323357C4B00E49783 /* MAX Demo App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -158,7 +158,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3763B23223357C4B00E49783 /* DemoApp-Swift */,
+				3763B23223357C4B00E49783 /* MAX Demo App */,
 			);
 		};
 /* End PBXProject section */
@@ -390,7 +390,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3763B24523357C4D00E49783 /* Build configuration list for PBXNativeTarget "DemoApp-Swift" */ = {
+		3763B24523357C4D00E49783 /* Build configuration list for PBXNativeTarget "MAX Demo App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3763B24623357C4D00E49783 /* Debug */,
