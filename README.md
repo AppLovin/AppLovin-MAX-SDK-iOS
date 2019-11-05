@@ -11,7 +11,7 @@ Please check out our [documentation](https://dash.applovin.com/documentation/med
 To get started with the demo apps, follow the instructions below:
 
 1. Open a Terminal window in the directory of the desired project: `DemoApp-ObjC` or `DemoApp-Swift`.
-2. Install the latest latest SDK using CocoaPods using `pod install`.
+2. Install the latest SDK with CocoaPods using `pod install`.
 3. Open the newly generated Xcode workspace file using `YOUR_PROJECT_NAME.xcworkspace`.
 4. Update the `AppLovinSdkKey` value in the `Info.plist` file with the Applovin SDK key associated with your account.
 5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
