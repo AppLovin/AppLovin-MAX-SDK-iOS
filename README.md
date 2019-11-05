@@ -13,9 +13,9 @@ To get started with the demo apps, follow the instructions below:
 1. Open a Terminal window in the directory of the desired project: `DemoApp-ObjC` or `DemoApp-Swift`.
 2. Install the latest latest SDK using CocoaPods using `pod install`.
 3. Open the newly generated Xcode workspace file using `YOUR_PROJECT_NAME.xcworkspace`.
-4. Update the `AppLovinSdkKey` value in the `Info.plist` file with your Applovin SDK key associated with your account.
-5. Update the bundle identifier with your own unique identifier associated with the application you will create in the MAX dashboard.
-6. Update the unique ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard.
+4. Update the `AppLovinSdkKey` value in the `Info.plist` file with the Applovin SDK key associated with your account.
+5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
+6. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
 
 ## Support
 We recommend using GitHub to file issues. For feature requests, improvements, questions or any other integration issues using MAX Mediation by AppLovin, please reach out to your account team and copy devsupport@applovin.com.
