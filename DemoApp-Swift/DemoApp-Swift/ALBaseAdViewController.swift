@@ -1,6 +1,6 @@
 //
 //  ALBaseAdViewController.swift
-//  MAX Demo App - Swift
+//  DemoApp-Swift
 //
 //  Created by Harry Arakkal on 10/7/19.
 //  Copyright © 2019 AppLovin. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  ALAutoLayoutMRecAdViewController.swift
-//  MAX Demo App - Swift
+//  DemoApp-Swift
 //
 //  Created by Andrew Tian on 1/13/20.
 //  Copyright © 2020 AppLovin. All rights reserved.
