@@ -1,6 +1,6 @@
 //
 //  ALBaseAdViewController.m
-//  DemoApp-ObjC
+//  MAX Demo App - ObjC
 //
 //  Created by Harry Arakkal on 10/9/19.
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.

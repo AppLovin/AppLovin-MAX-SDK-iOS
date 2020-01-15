@@ -1,6 +1,6 @@
 //
 //  ALFrameLayoutBannerAdViewController.m
-//  DemoApp-ObjC
+//  MAX Demo App - ObjC
 //
 //  Created by Andrew Tian on 9/10/19.
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.
