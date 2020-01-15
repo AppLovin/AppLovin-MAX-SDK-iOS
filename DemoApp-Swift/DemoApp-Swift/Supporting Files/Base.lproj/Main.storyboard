@@ -523,7 +523,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="J02-6t-1c0">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="250" width="414" height="558"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="isW-G0-soy" style="IBUITableViewCellStyleDefault" id="4hc-Ty-phq">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
@@ -551,7 +551,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="J02-6t-1c0" firstAttribute="leading" secondItem="9JD-uD-JEO" secondAttribute="leading" id="5yY-QE-u8u"/>
-                            <constraint firstItem="J02-6t-1c0" firstAttribute="top" secondItem="w3y-Z9-6Vb" secondAttribute="top" constant="50" id="BRT-zy-20s">
+                            <constraint firstItem="J02-6t-1c0" firstAttribute="top" secondItem="w3y-Z9-6Vb" secondAttribute="top" constant="250" id="BRT-zy-20s">
                                 <variation key="heightClass=regular-widthClass=regular" constant="90"/>
                             </constraint>
                             <constraint firstItem="J02-6t-1c0" firstAttribute="trailing" secondItem="9JD-uD-JEO" secondAttribute="trailing" id="WSw-nW-i9u"/>
@@ -578,7 +578,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="ORB-Bh-jFz">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="250" width="414" height="558"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="jUR-3y-gmE" style="IBUITableViewCellStyleDefault" id="oHX-X6-YNw">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
@@ -605,7 +605,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ORB-Bh-jFz" firstAttribute="top" secondItem="Dth-go-5ZT" secondAttribute="top" constant="50" id="7qH-yJ-xZe">
+                            <constraint firstItem="ORB-Bh-jFz" firstAttribute="top" secondItem="Dth-go-5ZT" secondAttribute="top" constant="250" id="7qH-yJ-xZe">
                                 <variation key="heightClass=regular-widthClass=regular" constant="90"/>
                             </constraint>
                             <constraint firstItem="ORB-Bh-jFz" firstAttribute="leading" secondItem="YLZ-hO-DYj" secondAttribute="leading" id="KgM-Qf-8Nd"/>
@@ -633,10 +633,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIH-As-IQB" customClass="MAAdView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="b0l-TW-PkZ"/>
+                                    <constraint firstAttribute="height" constant="250" id="b0l-TW-PkZ"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="BANNER_AD_UNIT_ID"/>
@@ -646,7 +646,7 @@
                                 </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="SVs-x2-vL0">
-                                <rect key="frame" x="0.0" y="50" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="250" width="414" height="558"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="MJy-AQ-G3e" style="IBUITableViewCellStyleDefault" id="L0n-0y-mFC">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
