@@ -35,8 +35,8 @@
     [[self.adView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor] setActive: YES];
     [[self.adView.topAnchor constraintEqualToAnchor: self.view.topAnchor] setActive: YES];
     
-    [[self.adView.widthAnchor constraintEqualToConstant: 300] setActive: YES];
-    [[self.adView.heightAnchor constraintEqualToConstant: 250] setActive: YES];
+    [[self.adView.widthAnchor constraintEqualToAnchor: self.view.widthAnchor] setActive: YES];
+    [[self.adView.heightAnchor constraintEqualToConstant: UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? 90 : 50 ] setActive: YES];
     
     // Load the first ad
     [self.adView loadAd];
