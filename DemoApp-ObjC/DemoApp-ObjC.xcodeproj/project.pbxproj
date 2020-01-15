@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1D992FE6231FA1C400C472F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE4231FA1C400C472F8 /* Main.storyboard */; };
 		1D992FE8231FA1C500C472F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE7231FA1C500C472F8 /* Assets.xcassets */; };
 		1D992FEB231FA1C500C472F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE9231FA1C500C472F8 /* LaunchScreen.storyboard */; };
+		371C9BD323CE8A8F0010DE84 /* ALAutoLayoutMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 371C9BD223CE8A8F0010DE84 /* ALAutoLayoutMRecAdViewController.m */; };
 		37C7E1EB2328904E002165B5 /* ALAutoLayoutBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */; };
 		37C7E1EC2328904E002165B5 /* ALFrameLayoutBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */; };
 		37C7E1ED2328904E002165B5 /* ALInterstitialAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */; };
@@ -38,6 +39,8 @@
 		1D992FEA231FA1C500C472F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D992FEC231FA1C500C472F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D992FED231FA1C500C472F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		371C9BD223CE8A8F0010DE84 /* ALAutoLayoutMRecAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAutoLayoutMRecAdViewController.m; sourceTree = "<group>"; };
+		371C9BD423CE8AAC0010DE84 /* ALAutoLayoutMRecAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAutoLayoutMRecAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInterfaceBuilderBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
@@ -62,6 +65,8 @@
 			children = (
 				1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */,
 				1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */,
+				371C9BD423CE8AAC0010DE84 /* ALAutoLayoutMRecAdViewController.h */,
+				371C9BD223CE8A8F0010DE84 /* ALAutoLayoutMRecAdViewController.m */,
 				37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */,
 				37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */,
 				1D0CB32E23204CE70076AAAA /* ALInterstitialAdViewController.h */,
@@ -98,9 +103,9 @@
 				1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */,
 				1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */,
 				1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */,
-				1D993015231FA39000C472F8 /* Supporting Files */,
 				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
 				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
+				1D993015231FA39000C472F8 /* Supporting Files */,
 			);
 			path = "DemoApp-ObjC";
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
 				37C7E1EB2328904E002165B5 /* ALAutoLayoutBannerAdViewController.m in Sources */,
 				37C7E1EC2328904E002165B5 /* ALFrameLayoutBannerAdViewController.m in Sources */,
+				371C9BD323CE8A8F0010DE84 /* ALAutoLayoutMRecAdViewController.m in Sources */,
 				37C7E1ED2328904E002165B5 /* ALInterstitialAdViewController.m in Sources */,
 				37C7E1EE2328904E002165B5 /* ALRewardedAdViewController.m in Sources */,
 				37C7E1EF2328904E002165B5 /* ALInterfaceBuilderBannerAdViewController.m in Sources */,
