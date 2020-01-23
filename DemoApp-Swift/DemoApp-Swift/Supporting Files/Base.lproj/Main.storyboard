@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Ga-dD-PKi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7Ga-dD-PKi">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -517,7 +517,7 @@
         <!--Auto Layout MRec Ads-->
         <scene sceneID="szR-f5-bWj">
             <objects>
-                <viewController title="Auto Layout MRec Ads" id="iFt-N6-o4J" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
+                <viewController title="Auto Layout MRec Ads" id="iFt-N6-o4J" customClass="ALAutoLayoutMRecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9JD-uD-JEO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -562,7 +562,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="yIa-cX-WGN"/>
                     <connections>
-                        <outlet property="callbackTableView" destination="J02-6t-1c0" id="RCT-QS-nUN"/>
+                        <outlet property="callbackTableView" destination="J02-6t-1c0" id="WHl-25-f0S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wUS-ZN-icO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -572,7 +572,7 @@
         <!--Frame Layout MRec Ads-->
         <scene sceneID="rOi-Fn-5b7">
             <objects>
-                <viewController title="Frame Layout MRec Ads" id="hsQ-LV-sQq" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
+                <viewController title="Frame Layout MRec Ads" id="hsQ-LV-sQq" customClass="ALFrameLayoutMRecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YLZ-hO-DYj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -627,19 +627,21 @@
         <!--Delegate-->
         <scene sceneID="m8s-zg-qMf">
             <objects>
-                <viewController title="Interface Builder MRec Ads" id="8Fa-WX-ib9" customClass="ALInterfaceBuilderBannerAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Interface Builder MRec Ads" id="8Fa-WX-ib9" customClass="ALInterfaceBuilderMRecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2sI-YK-Hos">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JIH-As-IQB" customClass="MAAdView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                <rect key="frame" x="57" y="0.0" width="300" height="250"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="b0l-TW-PkZ"/>
+                                    <constraint firstAttribute="width" constant="300" id="osk-QZ-8JB"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="BANNER_AD_UNIT_ID"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="MREC_AD_UNIT_ID"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_format" value="MREC"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="delegate" destination="8Fa-WX-ib9" id="fr4-gR-EH0"/>
@@ -673,10 +675,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="JIH-As-IQB" firstAttribute="leading" secondItem="2sI-YK-Hos" secondAttribute="leading" id="00d-PK-jZ6"/>
+                            <constraint firstItem="JIH-As-IQB" firstAttribute="centerX" secondItem="2sI-YK-Hos" secondAttribute="centerX" id="56X-Ko-kf4"/>
                             <constraint firstItem="JIH-As-IQB" firstAttribute="top" secondItem="2sI-YK-Hos" secondAttribute="top" id="GfI-ag-BCf"/>
                             <constraint firstItem="SVs-x2-vL0" firstAttribute="trailing" secondItem="2sI-YK-Hos" secondAttribute="trailing" id="HXT-KR-aVl"/>
-                            <constraint firstAttribute="trailing" secondItem="JIH-As-IQB" secondAttribute="trailing" id="QUb-c9-zBr"/>
                             <constraint firstItem="SVs-x2-vL0" firstAttribute="leading" secondItem="2sI-YK-Hos" secondAttribute="leading" id="WNM-7q-VJM"/>
                             <constraint firstAttribute="bottom" secondItem="SVs-x2-vL0" secondAttribute="bottom" id="mwn-Ze-exo"/>
                             <constraint firstItem="SVs-x2-vL0" firstAttribute="top" secondItem="JIH-As-IQB" secondAttribute="bottom" id="uUE-AI-EtH"/>
@@ -692,7 +693,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RCA-n8-WFx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1919" y="1505"/>
+            <point key="canvasLocation" x="1918.840579710145" y="1504.6875"/>
         </scene>
     </scenes>
     <resources>
