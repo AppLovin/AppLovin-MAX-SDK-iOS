@@ -20,9 +20,9 @@ class ALInterfaceBuilderMrecAdViewController: ALBaseAdViewController, MAAdViewAd
         super.viewDidLoad()
         
         // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
-        // Key Path = ad_unit_id
+        // Key Path = ad_unit_id & ad_format
         // Type     = String
-        // Value    = YOUR_AD_UNIT_ID
+        // Value    = YOUR_AD_UNIT_ID & MREC
         
         // Load the first ad
         adView.loadAd()
