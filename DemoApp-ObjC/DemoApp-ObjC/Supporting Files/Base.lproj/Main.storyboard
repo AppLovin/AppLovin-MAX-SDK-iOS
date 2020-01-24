@@ -127,7 +127,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Auto Layout MRecs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MY6-ej-O7M">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Auto Layout MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MY6-ej-O7M" userLabel="Auto Layout MRECs">
                                                     <rect key="frame" x="20" y="0.0" width="355" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -147,7 +147,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Frame Layout MRecs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8PM-KO-gsM" userLabel="Frame Layout MRecs">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Frame Layout MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8PM-KO-gsM">
                                                     <rect key="frame" x="20" y="0.0" width="355" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -167,7 +167,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Interface Builder MRecs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nL3-NR-fMh" userLabel="Interface Builder MRecs">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Interface Builder MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nL3-NR-fMh">
                                                     <rect key="frame" x="20" y="0.0" width="355" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -544,10 +544,10 @@
             </objects>
             <point key="canvasLocation" x="1920" y="840"/>
         </scene>
-        <!--Auto Layout MRec Ads-->
+        <!--Auto Layout MREC Ads-->
         <scene sceneID="024-dZ-feT">
             <objects>
-                <viewController title="Auto Layout MRec Ads" id="TzI-Tr-LEw" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
+                <viewController title="Auto Layout MREC Ads" id="TzI-Tr-LEw" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cLi-hP-NQw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -599,10 +599,10 @@
             </objects>
             <point key="canvasLocation" x="470" y="1505"/>
         </scene>
-        <!--Frame Layout MRec Ads-->
+        <!--Frame Layout MREC Ads-->
         <scene sceneID="469-G5-dCW">
             <objects>
-                <viewController title="Frame Layout MRec Ads" id="DNA-qh-9u0" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
+                <viewController title="Frame Layout MREC Ads" id="DNA-qh-9u0" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0MF-lb-2fc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -657,7 +657,7 @@
         <!--Delegate-->
         <scene sceneID="Hsw-rB-NPd">
             <objects>
-                <viewController title="Interface Builder MRec Ads" id="mXm-Dj-rgC" customClass="ALInterfaceBuilderBannerAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Interface Builder MREC Ads" id="mXm-Dj-rgC" customClass="ALInterfaceBuilderBannerAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GsI-Ti-uGz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

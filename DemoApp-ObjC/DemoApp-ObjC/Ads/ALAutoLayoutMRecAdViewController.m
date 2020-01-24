@@ -21,8 +21,7 @@
 {
     [super viewDidLoad];
     
-//    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
     self.adView.delegate = self;
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
