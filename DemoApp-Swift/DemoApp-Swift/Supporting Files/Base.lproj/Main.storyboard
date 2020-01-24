@@ -640,7 +640,7 @@
                                     <constraint firstAttribute="width" constant="300" id="osk-QZ-8JB"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="MREC_AD_UNIT_ID"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="YOUR_AD_UNIT_ID"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="ad_format" value="MREC"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
