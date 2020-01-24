@@ -34,7 +34,7 @@ class ALFrameLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         adView.backgroundColor = .black
         
         view.addSubview(adView)
-
+        
         // Load the first ad
         adView.loadAd()
     }
@@ -44,7 +44,7 @@ class ALFrameLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
     func didLoad(_ ad: MAAd) { logCallback() }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) { logCallback() }
-
+    
     func didDisplay(_ ad: MAAd) { logCallback() }
     
     func didHide(_ ad: MAAd) { logCallback() }

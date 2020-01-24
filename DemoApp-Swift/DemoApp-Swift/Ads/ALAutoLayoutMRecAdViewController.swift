@@ -11,8 +11,7 @@ import AppLovinSDK
 
 class ALAutoLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
-//    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
-    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
+    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
     
     // MARK: View Lifecycle
     
@@ -27,7 +26,7 @@ class ALAutoLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelega
         adView.backgroundColor = .black
         
         view.addSubview(adView)
-
+        
         // Center the mrec and anchor it to the top of the screen.
         adView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -44,7 +43,7 @@ class ALAutoLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelega
     func didLoad(_ ad: MAAd) { logCallback() }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) { logCallback() }
-
+    
     func didDisplay(_ ad: MAAd) { logCallback() }
     
     func didHide(_ ad: MAAd) { logCallback() }
