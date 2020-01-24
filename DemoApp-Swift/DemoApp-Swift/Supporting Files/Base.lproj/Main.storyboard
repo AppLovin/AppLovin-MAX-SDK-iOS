@@ -460,7 +460,7 @@
                                     <constraint firstAttribute="height" constant="50" id="KOc-zK-MqA"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="BANNER_AD_UNIT_ID"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="ad_unit_id" value="YOUR_AD_UNIT_ID"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="delegate" destination="Lhe-mt-J8Q" id="7gx-Rn-iry"/>
