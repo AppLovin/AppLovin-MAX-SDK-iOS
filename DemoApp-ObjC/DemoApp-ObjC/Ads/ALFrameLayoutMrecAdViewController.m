@@ -27,9 +27,10 @@
     // Dimensions
     CGFloat width = 300;
     CGFloat height = 250;
+    CGFloat x = self.view.center.x - 150;
     CGFloat y = 0;
     
-    self.adView.frame = CGRectMake(self.view.center.x, y, width, height);
+    self.adView.frame = CGRectMake(x, y, width, height);
     
     // Set background or background color for MRECs to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;

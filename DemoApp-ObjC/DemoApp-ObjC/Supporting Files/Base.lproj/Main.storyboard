@@ -602,7 +602,7 @@
         <!--Frame Layout MREC Ads-->
         <scene sceneID="469-G5-dCW">
             <objects>
-                <viewController title="Frame Layout MREC Ads" id="DNA-qh-9u0" customClass="ALAutoLayoutMrecAdViewController" sceneMemberID="viewController">
+                <viewController title="Frame Layout MREC Ads" id="DNA-qh-9u0" customClass="ALFrameLayoutMrecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0MF-lb-2fc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
