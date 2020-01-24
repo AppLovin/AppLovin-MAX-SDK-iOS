@@ -22,12 +22,12 @@ class ALAutoLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelega
         adView.delegate = self
         adView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set background or background color for mrecs to be fully functional
+        // Set background or background color for MRECs to be fully functional
         adView.backgroundColor = .black
         
         view.addSubview(adView)
         
-        // Center the mrec and anchor it to the top of the screen.
+        // Center the MREC and anchor it to the top of the screen.
         adView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         

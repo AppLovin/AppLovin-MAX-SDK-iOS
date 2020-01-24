@@ -25,12 +25,12 @@
     self.adView.delegate = self;
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    // Set background or background color for mrecs to be fully functional
+    // Set background or background color for MRECs to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
 
     [self.view addSubview: self.adView];
 
-    // Center the mrec and anchor it to the top of the screen.
+    // Center the MREC and anchor it to the top of the screen.
     [[self.adView.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor] setActive: YES];
     [[self.adView.topAnchor constraintEqualToAnchor: self.view.topAnchor] setActive: YES];
     
