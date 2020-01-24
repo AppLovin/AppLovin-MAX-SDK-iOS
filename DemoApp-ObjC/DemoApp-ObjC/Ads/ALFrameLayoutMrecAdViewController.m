@@ -31,7 +31,7 @@
     
     self.adView.frame = CGRectMake(self.view.center.x, y, width, height);
     
-    // Set background or background color for banners to be fully functional
+    // Set background or background color for MRECs to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
     
     [self.view addSubview: self.adView];
