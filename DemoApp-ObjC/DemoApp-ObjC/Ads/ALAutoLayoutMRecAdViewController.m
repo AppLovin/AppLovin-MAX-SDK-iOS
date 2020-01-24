@@ -1,19 +1,19 @@
 //
-//  ALAutoLayoutMRecAdViewController.m
+//  ALAutoLayoutMrecAdViewController.m
 //  DemoApp-ObjC
 //
 //  Created by Andrew Tian on 1/14/20.
 //  Copyright © 2020 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALAutoLayoutMRecAdViewController.h"
+#import "ALAutoLayoutMrecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALAutoLayoutMRecAdViewController()<MAAdViewAdDelegate>
+@interface ALAutoLayoutMrecAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
-@implementation ALAutoLayoutMRecAdViewController
+@implementation ALAutoLayoutMrecAdViewController
 
 #pragma mark - View Lifecycle
 

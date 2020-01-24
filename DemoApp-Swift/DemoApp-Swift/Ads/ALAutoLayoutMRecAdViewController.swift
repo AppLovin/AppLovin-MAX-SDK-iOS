@@ -1,5 +1,5 @@
 //
-//  ALAutoLayoutMRecAdViewController.swift
+//  ALAutoLayoutMrecAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 1/13/20.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALAutoLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
 //    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")

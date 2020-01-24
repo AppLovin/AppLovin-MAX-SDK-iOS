@@ -547,7 +547,7 @@
         <!--Auto Layout MREC Ads-->
         <scene sceneID="024-dZ-feT">
             <objects>
-                <viewController title="Auto Layout MREC Ads" id="TzI-Tr-LEw" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
+                <viewController title="Auto Layout MREC Ads" id="TzI-Tr-LEw" customClass="ALAutoLayoutMrecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cLi-hP-NQw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -602,7 +602,7 @@
         <!--Frame Layout MREC Ads-->
         <scene sceneID="469-G5-dCW">
             <objects>
-                <viewController title="Frame Layout MREC Ads" id="DNA-qh-9u0" customClass="ALAutoLayoutMRecAdViewController" sceneMemberID="viewController">
+                <viewController title="Frame Layout MREC Ads" id="DNA-qh-9u0" customClass="ALAutoLayoutMrecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0MF-lb-2fc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -657,7 +657,7 @@
         <!--Delegate-->
         <scene sceneID="Hsw-rB-NPd">
             <objects>
-                <viewController title="Interface Builder MREC Ads" id="mXm-Dj-rgC" customClass="ALInterfaceBuilderBannerAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Interface Builder MREC Ads" id="mXm-Dj-rgC" customClass="ALInterfaceBuilderMrecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GsI-Ti-uGz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

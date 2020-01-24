@@ -1,5 +1,5 @@
 //
-//  ALFrameLayoutMRecAdViewController.swift
+//  ALFrameLayoutMrecAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 1/23/20.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALFrameLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -21,7 +21,7 @@ class ALFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         
         adView.delegate = self
         
-        // Calculate dimensions
+        // Dimensions
         let width: CGFloat = 300
         let height: CGFloat = 250
         let x: CGFloat = 0

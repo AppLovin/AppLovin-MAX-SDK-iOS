@@ -1,5 +1,5 @@
 //
-//  ALInterfaceBuilderMRecAdViewController.swift
+//  ALInterfaceBuilderMrecAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 1/23/20.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALInterfaceBuilderMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALInterfaceBuilderMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     @IBOutlet weak var adView: MAAdView!
     

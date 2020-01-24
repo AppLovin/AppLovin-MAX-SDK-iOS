@@ -1,5 +1,5 @@
 //
-//  ALAutoLayoutMRecAdViewController.h
+//  ALAutoLayoutMrecAdViewController.h
 //  DemoApp-ObjC
 //
 //  Created by Andrew Tian on 1/14/20.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALAutoLayoutMRecAdViewController : ALBaseAdViewController
+@interface ALAutoLayoutMrecAdViewController : ALBaseAdViewController
 
 @end
 

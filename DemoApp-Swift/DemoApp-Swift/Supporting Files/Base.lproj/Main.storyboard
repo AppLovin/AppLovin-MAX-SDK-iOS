@@ -167,7 +167,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Interface Builder MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A9K-GW-rYP" userLabel="Interface Builder MRecs">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Interface Builder MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A9K-GW-rYP" userLabel="Interface Builder MRECs">
                                                     <rect key="frame" x="20" y="0.0" width="355" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -514,10 +514,10 @@
             </objects>
             <point key="canvasLocation" x="1920" y="840"/>
         </scene>
-        <!--Auto Layout MRec Ads-->
+        <!--Auto Layout MREC Ads-->
         <scene sceneID="szR-f5-bWj">
             <objects>
-                <viewController title="Auto Layout MRec Ads" id="iFt-N6-o4J" customClass="ALAutoLayoutMRecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Auto Layout MREC Ads" id="iFt-N6-o4J" userLabel="Auto Layout MREC Ads" customClass="ALAutoLayoutMrecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9JD-uD-JEO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -569,10 +569,10 @@
             </objects>
             <point key="canvasLocation" x="470" y="1505"/>
         </scene>
-        <!--Frame Layout MRec Ads-->
+        <!--Frame Layout MREC Ads-->
         <scene sceneID="rOi-Fn-5b7">
             <objects>
-                <viewController title="Frame Layout MRec Ads" id="hsQ-LV-sQq" customClass="ALFrameLayoutMRecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Frame Layout MREC Ads" id="hsQ-LV-sQq" userLabel="Frame Layout MREC Ads" customClass="ALFrameLayoutMrecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YLZ-hO-DYj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -627,7 +627,7 @@
         <!--Delegate-->
         <scene sceneID="m8s-zg-qMf">
             <objects>
-                <viewController title="Interface Builder MRec Ads" id="8Fa-WX-ib9" customClass="ALInterfaceBuilderMRecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Interface Builder MREC Ads" id="8Fa-WX-ib9" customClass="ALInterfaceBuilderMrecAdViewController" customModule="MAX_Demo_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2sI-YK-Hos">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
