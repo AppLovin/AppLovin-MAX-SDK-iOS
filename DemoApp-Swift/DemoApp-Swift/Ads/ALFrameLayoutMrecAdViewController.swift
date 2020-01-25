@@ -1,15 +1,15 @@
 //
-//  ALAutoLayoutBannerAdViewController.swift
+//  ALFrameLayoutMrecAdViewController.swift
 //  DemoApp-Swift
 //
-//  Created by Andrew Tian on 9/20/19.
-//  Copyright © 2019 AppLovin. All rights reserved.
+//  Created by Andrew Tian on 1/23/20.
+//  Copyright © 2020 AppLovin. All rights reserved.
 //
 
 import UIKit
 import AppLovinSDK
 
-class ALAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALFrameLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -20,20 +20,20 @@ class ALAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDele
         super.viewDidLoad()
         
         adView.delegate = self
-        adView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set background or background color for banners to be fully functional
+        // Dimensions
+        let width: CGFloat = 300
+        let height: CGFloat = 250
+        let x: CGFloat = 0
+        let y: CGFloat = 0
+        
+        adView.frame = CGRect(x: x, y: y, width: width, height: height)
+        adView.center.x = self.view.center.x
+        
+        // Set background or background color for MRECs to be fully functional
         adView.backgroundColor = .black
         
         view.addSubview(adView)
-
-        // Anchor the banner to the left, right, and top of the screen.
-        adView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true;
-        adView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true;
-        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true;
-        
-        adView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true;
-        adView.heightAnchor.constraint(equalToConstant: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50).isActive = true // Banner height on iPhone and iPad is 50 and 90, respectively
         
         // Load the first ad
         adView.loadAd()
@@ -44,7 +44,7 @@ class ALAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDele
     func didLoad(_ ad: MAAd) { logCallback() }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) { logCallback() }
-
+    
     func didDisplay(_ ad: MAAd) { logCallback() }
     
     func didHide(_ ad: MAAd) { logCallback() }

@@ -1,19 +1,19 @@
 //
-//  ALAutoLayoutBannerAdViewController.m
+//  ALAutoLayoutMrecAdViewController.m
 //  DemoApp-ObjC
 //
-//  Created by Thomas So on 9/4/19.
-//  Copyright © 2019 AppLovin Corporation. All rights reserved.
+//  Created by Andrew Tian on 1/14/20.
+//  Copyright © 2020 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALAutoLayoutBannerAdViewController.h"
+#import "ALAutoLayoutMrecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALAutoLayoutBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALAutoLayoutMrecAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
-@implementation ALAutoLayoutBannerAdViewController
+@implementation ALAutoLayoutMrecAdViewController
 
 #pragma mark - View Lifecycle
 
@@ -21,22 +21,21 @@
 {
     [super viewDidLoad];
     
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
     self.adView.delegate = self;
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    // Set background or background color for banners to be fully functional
+    // Set background or background color for MRECs to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
 
     [self.view addSubview: self.adView];
 
-    // Anchor the banner to the left, right, and top of the screen.
-    [[self.adView.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor] setActive: YES];
-    [[self.adView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor] setActive: YES];
+    // Center the MREC and anchor it to the top of the screen.
+    [[self.adView.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor] setActive: YES];
     [[self.adView.topAnchor constraintEqualToAnchor: self.view.topAnchor] setActive: YES];
     
-    [[self.adView.widthAnchor constraintEqualToAnchor: self.view.widthAnchor] setActive: YES];
-    [[self.adView.heightAnchor constraintEqualToConstant: UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? 90 : 50 ] setActive: YES];
+    [[self.adView.widthAnchor constraintEqualToConstant: 300] setActive: YES];
+    [[self.adView.heightAnchor constraintEqualToConstant: 250] setActive: YES];
     
     // Load the first ad
     [self.adView loadAd];
