@@ -21,7 +21,8 @@
 {
     [super viewDidLoad];
     
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
+    // NOTE: MRECs will be supported in Android SDK 9.12.0 & iOS SDK 6.12.0
+    // self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
     self.adView.delegate = self;
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
