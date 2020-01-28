@@ -19,6 +19,8 @@ class ALInterfaceBuilderMrecAdViewController: ALBaseAdViewController, MAAdViewAd
     {
         super.viewDidLoad()
         
+        // NOTE: MRECs will be supported in Android SDK 9.12.0 & iOS SDK 6.12.0
+        
         // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
         // Key Path = ad_unit_id & ad_format
         // Type     = String

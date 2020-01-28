@@ -11,6 +11,8 @@ import AppLovinSDK
 
 class ALFrameLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
+    // NOTE: MRECs will be supported in Android SDK 9.12.0 & iOS SDK 6.12.0
+    // private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     // MARK: View Lifecycle
