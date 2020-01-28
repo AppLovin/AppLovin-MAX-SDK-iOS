@@ -27,16 +27,21 @@ class ALAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDele
         
         view.addSubview(adView)
 
-        // Anchor the banner to the left, right, and top of the screen.
-        adView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true;
-        adView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true;
-        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true;
-        
-        adView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true;
-        adView.heightAnchor.constraint(equalToConstant: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50).isActive = true // Banner height on iPhone and iPad is 50 and 90, respectively
+        // Center the banner and anchor it to the top of the screen.
+        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50 // Banner height on iPhone and iPad is 50 and 90, respectively
+        view.addConstraints([
+            constraint(with: adView, andAttribute: .leading),
+            constraint(with: adView, andAttribute: .trailing),
+            constraint(with: adView, andAttribute: .top),
+            NSLayoutConstraint(item: adView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: height)])
         
         // Load the first ad
         adView.loadAd()
+    }
+    
+    func constraint(with adView: MAAdView, andAttribute attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint
+    {
+        return NSLayoutConstraint(item: adView, attribute: attribute, relatedBy: .equal, toItem: view, attribute: attribute, multiplier: 1.0, constant: 0.0)
     }
     
     // MARK: MAAdDelegate Protocol
