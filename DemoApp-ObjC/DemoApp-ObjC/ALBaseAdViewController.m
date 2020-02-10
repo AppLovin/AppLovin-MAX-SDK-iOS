@@ -22,6 +22,17 @@
     self.callbacks = [NSMutableArray array];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear: animated];
+    [self.navigationController setToolbarHidden: self.hidesBottomBarWhenPushed animated: YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden: YES];
+    [super viewWillDisappear: animated];
+}
 - (void)logCallback:(const char *)name
 {
     [self.callbacks addObject: [NSString stringWithCString: name encoding: NSUTF8StringEncoding]];

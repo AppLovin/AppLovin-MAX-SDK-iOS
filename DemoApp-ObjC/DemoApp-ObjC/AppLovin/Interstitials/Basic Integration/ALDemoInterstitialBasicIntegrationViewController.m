@@ -21,7 +21,6 @@
 {
     [super viewDidLoad];
 
-    // Alternatively, you can create an instance of `ALInterstitialAd`, but you must store it in a strong property
     self.interstitialAd = [ALInterstitialAd shared];
     self.interstitialAd.adLoadDelegate = self;
     self.interstitialAd.adDisplayDelegate = self;

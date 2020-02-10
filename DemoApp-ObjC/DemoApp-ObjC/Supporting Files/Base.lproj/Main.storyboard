@@ -11,7 +11,7 @@
         <!--AppLovin Demo App-->
         <scene sceneID="kUz-88-3U0">
             <objects>
-                <tableViewController id="Xhz-da-ENL" customClass="ALHomeViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="Xhz-da-ENL" customClass="ALHomeViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="qUe-EF-iqJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -98,7 +98,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="MRecs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UL8-DK-n9s">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UL8-DK-n9s">
                                                     <rect key="frame" x="20" y="0.0" width="355" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -335,7 +335,7 @@
         <!--Interstitial Ads-->
         <scene sceneID="jqw-xY-VjK">
             <objects>
-                <viewController title="Interstitial Ads" id="hvg-Tw-ebo" customClass="ALInterstitialAdViewController" sceneMemberID="viewController">
+                <viewController title="Interstitial Ads" hidesBottomBarWhenPushed="YES" id="hvg-Tw-ebo" customClass="ALInterstitialAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cMa-q4-eJl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -391,6 +391,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tt7-7E-5dX"/>
                     </view>
+                    <navigationItem key="navigationItem" id="jEc-Jk-Z8g"/>
                     <connections>
                         <outlet property="callbackTableView" destination="DWd-eS-9J8" id="ute-nQ-z8x"/>
                     </connections>
@@ -402,7 +403,7 @@
         <!--Rewarded Ads-->
         <scene sceneID="n68-Er-1n0">
             <objects>
-                <viewController title="Rewarded Ads" id="Ax6-sK-Kei" customClass="ALRewardedAdViewController" sceneMemberID="viewController">
+                <viewController title="Rewarded Ads" hidesBottomBarWhenPushed="YES" id="Ax6-sK-Kei" customClass="ALRewardedAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NfR-Km-vOC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -459,6 +460,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="P0W-JD-8nB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="QwW-xb-Eif"/>
                     <connections>
                         <outlet property="callbackTableView" destination="nSl-lu-A7Q" id="cga-LC-4Uo"/>
                     </connections>
@@ -470,7 +472,7 @@
         <!--Auto Layout Banner Ads-->
         <scene sceneID="whl-QQ-Von">
             <objects>
-                <viewController title="Auto Layout Banner Ads" id="t4N-CR-C81" customClass="ALAutoLayoutBannerAdViewController" sceneMemberID="viewController">
+                <viewController title="Auto Layout Banner Ads" hidesBottomBarWhenPushed="YES" id="t4N-CR-C81" customClass="ALAutoLayoutBannerAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uUJ-XM-qql">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -519,6 +521,7 @@
                         <viewLayoutGuide key="safeArea" id="mAF-qa-bfO"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="oSu-hh-Hl0"/>
                     <connections>
                         <outlet property="callbackTableView" destination="4Y3-6E-uJn" id="cdL-2T-SDA"/>
                     </connections>
@@ -530,7 +533,7 @@
         <!--Frame Layout Banner Ads-->
         <scene sceneID="U9h-UA-DzG">
             <objects>
-                <viewController title="Frame Layout Banner Ads" id="0nG-y1-jZJ" customClass="ALFrameLayoutBannerAdViewController" sceneMemberID="viewController">
+                <viewController title="Frame Layout Banner Ads" hidesBottomBarWhenPushed="YES" id="0nG-y1-jZJ" customClass="ALFrameLayoutBannerAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Wt-xw-LQM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -579,6 +582,7 @@
                         <viewLayoutGuide key="safeArea" id="5d1-qc-8SX"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="B7u-Bf-rJz"/>
                     <connections>
                         <outlet property="callbackTableView" destination="eQi-3M-UAx" id="ZOj-Fz-xDQ"/>
                     </connections>
@@ -653,6 +657,7 @@
                         <viewLayoutGuide key="safeArea" id="kyo-bA-O0z"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="fIO-qX-4dn"/>
                     <connections>
                         <outlet property="adView" destination="R5C-91-3ir" id="WCn-2m-59X"/>
                         <outlet property="callbackTableView" destination="Qlv-TU-frd" id="FF0-qB-Iic"/>

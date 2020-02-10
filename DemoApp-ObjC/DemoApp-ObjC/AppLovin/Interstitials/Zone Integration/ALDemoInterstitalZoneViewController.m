@@ -11,6 +11,7 @@
 
 @interface ALDemoInterstitalZoneViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
 @property (nonatomic, strong) ALAd *ad;
+@property (nonatomic, strong) ALInterstitialAd *interstitialAd;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *showButton;
 @end
 
@@ -24,10 +25,11 @@
 - (IBAction)showInterstitial:(id)sender
 {
     // Optional: Assign delegates
-    [ALInterstitialAd shared].adDisplayDelegate = self;
-    [ALInterstitialAd shared].adVideoPlaybackDelegate = self;
-    
-    [[ALInterstitialAd shared] showAd: self.ad];
+    self.interstitialAd = [ALInterstitialAd shared];
+    self.interstitialAd.adDisplayDelegate = self;
+    self.interstitialAd.adVideoPlaybackDelegate = self;
+
+    [self.interstitialAd showAd: self.ad];
 }
 
 #pragma mark - Ad Load Delegate
