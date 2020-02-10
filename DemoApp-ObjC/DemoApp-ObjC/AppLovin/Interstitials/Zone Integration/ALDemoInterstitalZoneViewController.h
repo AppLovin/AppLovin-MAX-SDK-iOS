@@ -6,7 +6,8 @@
 //  Copyright © 2018 AppLovin. All rights reserved.
 //
 
-#import "ALDemoBaseViewController.h"
+#import "ALBaseAdViewController.h"
 
-@interface ALDemoInterstitalZoneViewController : ALDemoBaseViewController
+@interface ALDemoInterstitalZoneViewController : ALBaseAdViewController
+
 @end

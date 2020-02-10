@@ -24,8 +24,6 @@
 		E573083123EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083023EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m */; };
 		E573083423EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083323EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m */; };
 		E573083823EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083723EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m */; };
-		E573083D23EB97A200D972F4 /* ALDemoBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083C23EB97A200D972F4 /* ALDemoBaseTableViewController.m */; };
-		E573084523EB988700D972F4 /* ALDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573084323EB988700D972F4 /* ALDemoBaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +33,7 @@
 		1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALRewardedAdViewController.m; sourceTree = "<group>"; };
 		1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAutoLayoutBannerAdViewController.h; sourceTree = "<group>"; };
 		1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAutoLayoutBannerAdViewController.m; sourceTree = "<group>"; };
-		1D992FDB231FA1C300C472F8 /* MAX Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAX Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D992FDB231FA1C300C472F8 /* AppLovin Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLovin Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAppDelegate.h; sourceTree = "<group>"; };
 		1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAppDelegate.m; sourceTree = "<group>"; };
 		1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALHomeViewController.h; sourceTree = "<group>"; };
@@ -61,11 +59,6 @@
 		E573083323EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitialManualLoadingViewController.m; sourceTree = "<group>"; };
 		E573083623EB972C00D972F4 /* ALDemoInterstitalZoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoInterstitalZoneViewController.h; sourceTree = "<group>"; };
 		E573083723EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitalZoneViewController.m; sourceTree = "<group>"; };
-		E573083B23EB97A200D972F4 /* ALDemoBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoBaseTableViewController.h; sourceTree = "<group>"; };
-		E573083C23EB97A200D972F4 /* ALDemoBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoBaseTableViewController.m; sourceTree = "<group>"; };
-		E573084323EB988700D972F4 /* ALDemoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALDemoBaseViewController.m; path = "../../../../../iOS-SDK-Demo/Objective-C Demo App/iOS-SDK-Demo/ALDemoBaseViewController.m"; sourceTree = "<group>"; };
-		E573084423EB988700D972F4 /* ALDemoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALDemoBaseViewController.h; path = "../../../../../iOS-SDK-Demo/Objective-C Demo App/iOS-SDK-Demo/ALDemoBaseViewController.h"; sourceTree = "<group>"; };
-		E5CE04FE23EC9E3A0092D010 /* ALDebugLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ALDebugLog.h; path = "../../../../../iOS-SDK-Demo/Objective-C Demo App/iOS-SDK-Demo/Native Ads Carousel/ALDebugLog.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,21 +73,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1D0CB33823204EBD0076AAAA /* Ads */ = {
+		1D0CB33823204EBD0076AAAA /* MAX */ = {
 			isa = PBXGroup;
 			children = (
 				1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */,
 				1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */,
 				37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */,
 				37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */,
+				37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */,
+				37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */,
 				1D0CB32E23204CE70076AAAA /* ALInterstitialAdViewController.h */,
 				1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */,
 				1D0CB33123204CF70076AAAA /* ALRewardedAdViewController.h */,
 				1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */,
-				37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */,
-				37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */,
 			);
-			path = Ads;
+			path = MAX;
 			sourceTree = "<group>";
 		};
 		1D992FD2231FA1C300C472F8 = {
@@ -110,7 +103,7 @@
 		1D992FDC231FA1C300C472F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D992FDB231FA1C300C472F8 /* MAX Demo App.app */,
+				1D992FDB231FA1C300C472F8 /* AppLovin Demo App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,15 +111,15 @@
 		1D992FDD231FA1C300C472F8 /* DemoApp-ObjC */ = {
 			isa = PBXGroup;
 			children = (
-				E57306F223EB91B400D972F4 /* AppLovin Integration Examples */,
-				1D0CB33823204EBD0076AAAA /* Ads */,
+				E57306F223EB91B400D972F4 /* AppLovin */,
+				1D0CB33823204EBD0076AAAA /* MAX */,
 				1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */,
 				1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */,
 				1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */,
 				1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */,
-				1D993015231FA39000C472F8 /* Supporting Files */,
 				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
 				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
+				1D993015231FA39000C472F8 /* Supporting Files */,
 			);
 			path = "DemoApp-ObjC";
 			sourceTree = "<group>";
@@ -152,13 +145,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E57306F223EB91B400D972F4 /* AppLovin Integration Examples */ = {
+		E57306F223EB91B400D972F4 /* AppLovin */ = {
 			isa = PBXGroup;
 			children = (
-				E573083F23EB97BD00D972F4 /* Components */,
 				E573083A23EB975500D972F4 /* Interstitials */,
 			);
-			path = "AppLovin Integration Examples";
+			path = AppLovin;
 			sourceTree = "<group>";
 		};
 		E573082C23EB967600D972F4 /* Basic Integration */ = {
@@ -198,18 +190,6 @@
 			path = Interstitials;
 			sourceTree = "<group>";
 		};
-		E573083F23EB97BD00D972F4 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				E5CE04FE23EC9E3A0092D010 /* ALDebugLog.h */,
-				E573084423EB988700D972F4 /* ALDemoBaseViewController.h */,
-				E573084323EB988700D972F4 /* ALDemoBaseViewController.m */,
-				E573083B23EB97A200D972F4 /* ALDemoBaseTableViewController.h */,
-				E573083C23EB97A200D972F4 /* ALDemoBaseTableViewController.m */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		E78F8BA3589F2C90575EFE63 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,9 +202,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D992FDA231FA1C300C472F8 /* MAX Demo App */ = {
+		1D992FDA231FA1C300C472F8 /* AppLovin Demo App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "MAX Demo App" */;
+			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin Demo App" */;
 			buildPhases = (
 				4577F07282180123D343F122 /* [CP] Check Pods Manifest.lock */,
 				1D992FD7231FA1C300C472F8 /* Sources */,
@@ -236,9 +216,9 @@
 			);
 			dependencies = (
 			);
-			name = "MAX Demo App";
+			name = "AppLovin Demo App";
 			productName = "DemoApp-ObjC";
-			productReference = 1D992FDB231FA1C300C472F8 /* MAX Demo App.app */;
+			productReference = 1D992FDB231FA1C300C472F8 /* AppLovin Demo App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -268,7 +248,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D992FDA231FA1C300C472F8 /* MAX Demo App */,
+				1D992FDA231FA1C300C472F8 /* AppLovin Demo App */,
 			);
 		};
 /* End PBXProject section */
@@ -338,8 +318,6 @@
 				37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */,
 				37C7E1F523297423002165B5 /* main.m in Sources */,
 				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
-				E573083D23EB97A200D972F4 /* ALDemoBaseTableViewController.m in Sources */,
-				E573084523EB988700D972F4 /* ALDemoBaseViewController.m in Sources */,
 				E573083823EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m in Sources */,
 				37C7E1EB2328904E002165B5 /* ALAutoLayoutBannerAdViewController.m in Sources */,
 				37C7E1EC2328904E002165B5 /* ALFrameLayoutBannerAdViewController.m in Sources */,
@@ -539,7 +517,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "MAX Demo App" */ = {
+		1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin Demo App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D992FF2231FA1C500C472F8 /* Debug */,

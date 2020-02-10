@@ -6,7 +6,8 @@
 //  Copyright © 2015 AppLovin. All rights reserved.
 //
 
-#import "ALDemoBaseViewController.h"
+#import "ALBaseAdViewController.h"
 
-@interface ALDemoInterstitialManualLoadingViewController : ALDemoBaseViewController
+@interface ALDemoInterstitialManualLoadingViewController : ALBaseAdViewController
+
 @end

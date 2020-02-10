@@ -10,7 +10,7 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALHomeViewController()
-
+@property (weak, nonatomic) IBOutlet UITableViewCell *mediationDebuggerCell;
 @end
 
 @implementation ALHomeViewController
@@ -18,12 +18,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
 }
 
-- (IBAction)showMediationDebugger:(UIBarButtonItem *)sender
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[ALSdk shared] showMediationDebugger];
+    if ([tableView cellForRowAtIndexPath:indexPath] == self.mediationDebuggerCell)
+    {
+        [[ALSdk shared] showMediationDebugger];
+    }
 }
 
 @end

@@ -1,25 +1,24 @@
 //
-//  ALDemoInterstitalZoneViewController.m
-//  iOS-SDK-Demo-ObjC
+//  ALDemoInterstitialManualLoadingViewController.m
+//  iOS-SDK-Demo
 //
-//  Created by Suyash Saxena on 6/19/18.
-//  Copyright © 2018 AppLovin. All rights reserved.
+//  Created by Thomas So on 9/25/15.
+//  Copyright © 2015 AppLovin. All rights reserved.
 //
 
-#import "ALDemoInterstitalZoneViewController.h"
+#import "ALDemoInterstitialManualLoadingViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALDemoInterstitalZoneViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
+@interface ALDemoInterstitialManualLoadingViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
 @property (nonatomic, strong) ALAd *ad;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *showButton;
 @end
 
-@implementation ALDemoInterstitalZoneViewController
+@implementation ALDemoInterstitialManualLoadingViewController
 
 - (IBAction)loadInterstitial:(id)sender
 {
-    [self log: @"Interstitial loading..."];
-    [[ALSdk shared].adService loadNextAdForZoneIdentifier: @"YOUR_ZONE_ID" andNotify: self];
+    [[ALSdk shared].adService loadNextAd: ALAdSize.interstitial andNotify: self];
 }
 
 - (IBAction)showInterstitial:(id)sender
@@ -29,16 +28,14 @@
     [ALInterstitialAd shared].adVideoPlaybackDelegate = self;
     
     [[ALInterstitialAd shared] showAd: self.ad];
-    
-    [self log: @"Interstitial Shown"];
 }
 
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self log: @"Interstitial ad Loaded"];
-    
+    [self logCallback: __PRETTY_FUNCTION__];
+
     self.ad = ad;
     self.showButton.enabled = YES;
 }
@@ -46,36 +43,36 @@
 - (void) adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
 {
     // Look at ALErrorCodes.h for list of error codes
-    [self log: @"Interstitial failed to load with error code = %d", code];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 #pragma mark - Ad Display Delegate
 
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view
 {
-    [self log: @"Interstitial Displayed"];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view
 {
-    [self log: @"Interstitial Dismissed"];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view
 {
-    [self log: @"Interstitial Clicked"];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 #pragma mark - Ad Video Playback Delegate
 
 - (void)videoPlaybackBeganInAd:(ALAd *)ad
 {
-    [self log: @"Video Started"];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 - (void)videoPlaybackEndedInAd:(ALAd *)ad atPlaybackPercent:(NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched
 {
-    [self log: @"Video Ended"];
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 @end
