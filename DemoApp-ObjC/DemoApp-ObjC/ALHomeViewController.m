@@ -14,6 +14,7 @@
 @end
 
 @implementation ALHomeViewController
+static const NSInteger kRowIndexToHideForPhone = 3;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -23,6 +24,23 @@
     {
         [[ALSdk shared] showMediationDebugger];
     }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone && indexPath.section == 0 && indexPath.row == kRowIndexToHideForPhone )
+    {
+        cell.hidden = YES;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone && indexPath.section == 0 && indexPath.row == kRowIndexToHideForPhone )
+    {
+        return 0;
+    }
+    return [super tableView: tableView heightForRowAtIndexPath: indexPath];
 }
 
 @end

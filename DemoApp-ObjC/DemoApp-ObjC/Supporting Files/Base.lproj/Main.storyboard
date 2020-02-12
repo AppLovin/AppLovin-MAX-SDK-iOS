@@ -96,6 +96,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Yf1-CA-6zK" kind="show" id="yEf-f6-BTF"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="UL8-DK-n9s" style="IBUITableViewCellStyleDefault" id="S2k-DA-B2h">
                                         <rect key="frame" x="0.0" y="231.5" width="414" height="44"/>
@@ -702,6 +705,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dBj-Km-dh1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="668" y="-1136"/>
+        </scene>
+        <!--Leaders-->
+        <scene sceneID="l8d-6C-Au6">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Leaders" id="Yf1-CA-6zK" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="K8Z-tg-CIs"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qk6-cg-9JD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="667" y="-1089"/>
         </scene>
     </scenes>
 </document>
