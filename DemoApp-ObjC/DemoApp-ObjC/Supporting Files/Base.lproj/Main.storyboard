@@ -116,6 +116,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="oEt-E2-kPP" kind="show" id="Et9-j4-Jz2"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="xmC-YA-eJi" style="IBUITableViewCellStyleDefault" id="c2N-cI-bfa">
                                         <rect key="frame" x="0.0" y="275.5" width="414" height="44"/>
@@ -694,7 +697,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ta1-mP-y5o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="685" y="-1201"/>
+            <point key="canvasLocation" x="676" y="-1240"/>
         </scene>
         <!--Banners-->
         <scene sceneID="P0Y-L3-cu2">
@@ -704,7 +707,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dBj-Km-dh1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="668" y="-1136"/>
+            <point key="canvasLocation" x="668" y="-1203"/>
         </scene>
         <!--Leaders-->
         <scene sceneID="l8d-6C-Au6">
@@ -714,7 +717,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qk6-cg-9JD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="667" y="-1089"/>
+            <point key="canvasLocation" x="667" y="-1152"/>
+        </scene>
+        <!--MRECs-->
+        <scene sceneID="wTN-jG-d9n">
+            <objects>
+                <viewControllerPlaceholder storyboardName="MRECs" id="oEt-E2-kPP" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="3Ku-66-ugL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NlI-D8-e2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="662" y="-1099"/>
         </scene>
     </scenes>
 </document>
