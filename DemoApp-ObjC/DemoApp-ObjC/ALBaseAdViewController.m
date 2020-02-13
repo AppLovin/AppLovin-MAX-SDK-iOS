@@ -33,6 +33,7 @@
     [self.navigationController setToolbarHidden: YES];
     [super viewWillDisappear: animated];
 }
+
 - (void)logCallback:(const char *)name
 {
     [self.callbacks addObject: [NSString stringWithCString: name encoding: NSUTF8StringEncoding]];

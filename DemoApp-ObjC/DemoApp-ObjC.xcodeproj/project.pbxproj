@@ -61,6 +61,7 @@
 		E56786F523F4C24500ACA6C1 /* Star_Sprite_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E56786E523F4C24500ACA6C1 /* Star_Sprite_3.png */; };
 		E56786F623F4C24500ACA6C1 /* applovin_card_learn_more.png in Resources */ = {isa = PBXBuildFile; fileRef = E56786E623F4C24500ACA6C1 /* applovin_card_learn_more.png */; };
 		E56786F723F4C24500ACA6C1 /* applovin_card_unmuted.png in Resources */ = {isa = PBXBuildFile; fileRef = E56786E723F4C24500ACA6C1 /* applovin_card_unmuted.png */; };
+		E56786FA23F4CAE100ACA6C1 /* ALEventTrackingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E56786F823F4CAE000ACA6C1 /* ALEventTrackingViewController.m */; };
 		E57306F123EB90D500D972F4 /* Interstitials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57306F023EB90D500D972F4 /* Interstitials.storyboard */; };
 		E573083123EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083023EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m */; };
 		E573083423EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083323EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m */; };
@@ -158,6 +159,8 @@
 		E56786E523F4C24500ACA6C1 /* Star_Sprite_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_3.png; sourceTree = "<group>"; };
 		E56786E623F4C24500ACA6C1 /* applovin_card_learn_more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_learn_more.png; sourceTree = "<group>"; };
 		E56786E723F4C24500ACA6C1 /* applovin_card_unmuted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_unmuted.png; sourceTree = "<group>"; };
+		E56786F823F4CAE000ACA6C1 /* ALEventTrackingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALEventTrackingViewController.m; sourceTree = "<group>"; };
+		E56786F923F4CAE000ACA6C1 /* ALEventTrackingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALEventTrackingViewController.h; sourceTree = "<group>"; };
 		E57306F023EB90D500D972F4 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
 		E573082F23EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoInterstitialBasicIntegrationViewController.h; sourceTree = "<group>"; };
 		E573083023EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitialBasicIntegrationViewController.m; sourceTree = "<group>"; };
@@ -471,9 +474,19 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		E56786FB23F4CAE700ACA6C1 /* Event Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				E56786F923F4CAE000ACA6C1 /* ALEventTrackingViewController.h */,
+				E56786F823F4CAE000ACA6C1 /* ALEventTrackingViewController.m */,
+			);
+			path = "Event Tracking";
+			sourceTree = "<group>";
+		};
 		E57306F223EB91B400D972F4 /* AppLovin */ = {
 			isa = PBXGroup;
 			children = (
+				E56786FB23F4CAE700ACA6C1 /* Event Tracking */,
 				E567860723F489C100ACA6C1 /* Native Ads */,
 				E567860323F484D200ACA6C1 /* MRECs */,
 				E56785FB23F35BCA00ACA6C1 /* Leaders */,
@@ -678,6 +691,7 @@
 				E56785EB23F3557100ACA6C1 /* ALDemoInterfaceBuilderBannerViewController.m in Sources */,
 				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
 				E56786D123F48C1A00ACA6C1 /* ALDemoArticle.m in Sources */,
+				E56786FA23F4CAE100ACA6C1 /* ALEventTrackingViewController.m in Sources */,
 				E56786B923F48B2000ACA6C1 /* ALCarouselReplayOverlayView.m in Sources */,
 				E573083823EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m in Sources */,
 				E56786BB23F48B2000ACA6C1 /* ALCarouselView.m in Sources */,
