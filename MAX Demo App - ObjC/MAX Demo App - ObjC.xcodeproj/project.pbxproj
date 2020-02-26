@@ -64,12 +64,12 @@
 				1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */,
 				37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */,
 				37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */,
+				37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */,
+				37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */,
 				1D0CB32E23204CE70076AAAA /* ALInterstitialAdViewController.h */,
 				1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */,
 				1D0CB33123204CF70076AAAA /* ALRewardedAdViewController.h */,
 				1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */,
-				37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */,
-				37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -77,7 +77,7 @@
 		1D992FD2231FA1C300C472F8 = {
 			isa = PBXGroup;
 			children = (
-				1D992FDD231FA1C300C472F8 /* DemoApp-ObjC */,
+				1D992FDD231FA1C300C472F8 /* MAX Demo App - ObjC */,
 				1D992FDC231FA1C300C472F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,28 +90,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D992FDD231FA1C300C472F8 /* DemoApp-ObjC */ = {
+		1D992FDD231FA1C300C472F8 /* MAX Demo App - ObjC */ = {
 			isa = PBXGroup;
 			children = (
 				1D0CB33823204EBD0076AAAA /* Ads */,
 				1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */,
 				1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */,
+				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
+				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
 				1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */,
 				1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */,
 				1D993015231FA39000C472F8 /* Supporting Files */,
-				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
-				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
 			);
-			path = "DemoApp-ObjC";
+			path = "MAX Demo App - ObjC";
 			sourceTree = "<group>";
 		};
 		1D993015231FA39000C472F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1D992FED231FA1C500C472F8 /* main.m */,
-				1D992FEC231FA1C500C472F8 /* Info.plist */,
 				1D992FE7231FA1C500C472F8 /* Assets.xcassets */,
+				1D992FEC231FA1C500C472F8 /* Info.plist */,
 				1D992FE9231FA1C500C472F8 /* LaunchScreen.storyboard */,
+				1D992FED231FA1C500C472F8 /* main.m */,
 				1D992FE4231FA1C400C472F8 /* Main.storyboard */,
 			);
 			path = "Supporting Files";
@@ -151,7 +151,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "DemoApp-ObjC" */;
+			buildConfigurationList = 1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "MAX Demo App - ObjC" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -341,7 +341,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-ObjC/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -360,7 +360,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-ObjC/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -376,7 +376,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "DemoApp-ObjC" */ = {
+		1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "MAX Demo App - ObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D992FEF231FA1C500C472F8 /* Debug */,
