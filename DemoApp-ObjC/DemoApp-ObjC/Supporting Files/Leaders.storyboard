@@ -78,7 +78,7 @@
         <!--Leaders-->
         <scene sceneID="o2X-0q-0XJ">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="75p-Jk-TKL" userLabel="Leaders" customClass="ALDemoBaseTableViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="75p-Jk-TKL" userLabel="Leaders" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="5zm-hk-fkT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

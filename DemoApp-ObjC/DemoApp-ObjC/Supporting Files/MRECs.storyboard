@@ -10,7 +10,7 @@
         <!--MRECs-->
         <scene sceneID="uUN-CF-XFx">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="5Gv-do-t8r" customClass="ALDemoBaseTableViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="5Gv-do-t8r" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9eo-PZ-UdT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -13,6 +13,8 @@
 
 @interface ALHomeViewController()
 @property (nonatomic, weak) IBOutlet UITableViewCell *mediationDebuggerCell;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *muteToggle;
+
 @end
 
 @implementation ALHomeViewController
@@ -24,6 +26,8 @@ static const NSInteger kRowIndexToHideForPhone = 3;
 {
     [super viewDidLoad];
     [self addFooterLabel];
+    
+    self.muteToggle.image = [self muteIconForCurrentSdkMuteSetting];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,6 +66,23 @@ static const NSInteger kRowIndexToHideForPhone = 3;
         return 0;
     }
     return [super tableView: tableView heightForRowAtIndexPath: indexPath];
+}
+
+#pragma mark - Sound Toggling
+
+- (IBAction)toggleMute:(UIBarButtonItem *)sender
+{
+    /**
+     * Toggling the sdk mute setting will affect whether your video ads begin in a muted state or not.
+     */
+    ALSdk *sdk = [ALSdk shared];
+    sdk.settings.muted = !sdk.settings.muted;
+    sender.image = [self muteIconForCurrentSdkMuteSetting];
+}
+
+- (UIImage *)muteIconForCurrentSdkMuteSetting
+{
+    return [ALSdk shared].settings.muted ? [UIImage imageNamed: @"mute"] : [UIImage imageNamed: @"unmute"];
 }
 
 #pragma mark - Table View Actions
