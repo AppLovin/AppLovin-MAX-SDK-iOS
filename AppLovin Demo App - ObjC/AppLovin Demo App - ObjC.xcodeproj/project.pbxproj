@@ -187,18 +187,53 @@
 		1D0CB33823204EBD0076AAAA /* MAX */ = {
 			isa = PBXGroup;
 			children = (
+				1D629D5D240F4E6600FE6F5F /* Banners */,
+				1D629D5E240F4E7200FE6F5F /* Interstitials */,
+				1D629D5F240F4E7500FE6F5F /* Rewarded */,
+			);
+			path = MAX;
+			sourceTree = "<group>";
+		};
+		1D629D5D240F4E6600FE6F5F /* Banners */ = {
+			isa = PBXGroup;
+			children = (
 				1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */,
 				1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */,
 				37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */,
 				37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */,
 				37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */,
 				37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */,
+			);
+			path = Banners;
+			sourceTree = "<group>";
+		};
+		1D629D5E240F4E7200FE6F5F /* Interstitials */ = {
+			isa = PBXGroup;
+			children = (
 				1D0CB32E23204CE70076AAAA /* ALInterstitialAdViewController.h */,
 				1D0CB32F23204CE70076AAAA /* ALInterstitialAdViewController.m */,
+			);
+			path = Interstitials;
+			sourceTree = "<group>";
+		};
+		1D629D5F240F4E7500FE6F5F /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
 				1D0CB33123204CF70076AAAA /* ALRewardedAdViewController.h */,
 				1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */,
 			);
-			path = MAX;
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
+		1D629D60240F4E8A00FE6F5F /* Base Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
+				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
+				1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */,
+				1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */,
+			);
+			path = "Base Classes";
 			sourceTree = "<group>";
 		};
 		1D992FD2231FA1C300C472F8 = {
@@ -224,10 +259,6 @@
 			children = (
 				1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */,
 				1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */,
-				C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */,
-				C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */,
-				1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */,
-				1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */,
 				E57306F223EB91B400D972F4 /* AppLovin */,
 				1D0CB33823204EBD0076AAAA /* MAX */,
 				1D993015231FA39000C472F8 /* Supporting Files */,
@@ -238,6 +269,7 @@
 		1D993015231FA39000C472F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1D629D60240F4E8A00FE6F5F /* Base Classes */,
 				1D992FED231FA1C500C472F8 /* main.m */,
 				1D992FEC231FA1C500C472F8 /* Info.plist */,
 				1D992FE7231FA1C500C472F8 /* Assets.xcassets */,
@@ -488,12 +520,12 @@
 		E57306F223EB91B400D972F4 /* AppLovin */ = {
 			isa = PBXGroup;
 			children = (
-				E56786FB23F4CAE700ACA6C1 /* Event Tracking */,
-				E567860723F489C100ACA6C1 /* Native Ads */,
-				E567860323F484D200ACA6C1 /* MRECs */,
-				E56785FB23F35BCA00ACA6C1 /* Leaders */,
 				E56785EF23F3558500ACA6C1 /* Banners */,
+				E56786FB23F4CAE700ACA6C1 /* Event Tracking */,
 				E573083A23EB975500D972F4 /* Interstitials */,
+				E56785FB23F35BCA00ACA6C1 /* Leaders */,
+				E567860323F484D200ACA6C1 /* MRECs */,
+				E567860723F489C100ACA6C1 /* Native Ads */,
 				E567854723F22E1E00ACA6C1 /* Rewarded */,
 			);
 			path = AppLovin;
