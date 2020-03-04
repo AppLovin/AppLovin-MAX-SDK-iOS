@@ -86,7 +86,7 @@
 		1D992FEC231FA1C500C472F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D992FED231FA1C500C472F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		322CF789A29F2709AEFF414F /* Pods-MAX Demo App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAX Demo App.debug.xcconfig"; path = "Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App.debug.xcconfig"; sourceTree = "<group>"; };
-		334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLovin_Demo_App___ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_AppLovin_Demo_App___ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInterfaceBuilderBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
@@ -862,7 +862,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
-				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-ObjC/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AppLovin Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -882,7 +882,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
-				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-ObjC/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AppLovin Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
