@@ -18,8 +18,8 @@
 		37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */; };
 		37C7E1F523297423002165B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FED231FA1C500C472F8 /* main.m */; };
 		37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */; };
+		984B77AE40857BBE38B5426D /* Pods_AppLovin_Demo_App___ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */; };
 		C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */; };
-		CC6A058CBF675457D6EF883A /* Pods_MAX_Demo_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F7C5A30FFBA674E71DCF58 /* Pods_MAX_Demo_App.framework */; };
 		E56784A623F22AB300ACA6C1 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */; };
 		E567854523F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */; };
 		E567854623F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */; };
@@ -86,13 +86,15 @@
 		1D992FEC231FA1C500C472F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D992FED231FA1C500C472F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		322CF789A29F2709AEFF414F /* Pods-MAX Demo App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAX Demo App.debug.xcconfig"; path = "Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App.debug.xcconfig"; sourceTree = "<group>"; };
+		334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLovin_Demo_App___ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInterfaceBuilderBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALFrameLayoutBannerAdViewController.h; sourceTree = "<group>"; };
+		9B54F8B46C1024A9E6D40A19 /* Pods-AppLovin Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
-		C0F7C5A30FFBA674E71DCF58 /* Pods_MAX_Demo_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MAX_Demo_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCFFA3A41722E89DA7D330AF /* Pods-AppLovin Demo App - ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin Demo App - ObjC.release.xcconfig"; path = "Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		DF14602E8771779B7FC59241 /* Pods-MAX Demo App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAX Demo App.release.xcconfig"; path = "Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App.release.xcconfig"; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosViewController.m; sourceTree = "<group>"; };
@@ -175,7 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC6A058CBF675457D6EF883A /* Pods_MAX_Demo_App.framework in Frameworks */,
+				984B77AE40857BBE38B5426D /* Pods_AppLovin_Demo_App___ObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +255,7 @@
 		D62B98F1E5C1023DFDDC991D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C0F7C5A30FFBA674E71DCF58 /* Pods_MAX_Demo_App.framework */,
+				334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -539,6 +541,8 @@
 			children = (
 				322CF789A29F2709AEFF414F /* Pods-MAX Demo App.debug.xcconfig */,
 				DF14602E8771779B7FC59241 /* Pods-MAX Demo App.release.xcconfig */,
+				9B54F8B46C1024A9E6D40A19 /* Pods-AppLovin Demo App - ObjC.debug.xcconfig */,
+				DCFFA3A41722E89DA7D330AF /* Pods-AppLovin Demo App - ObjC.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -647,7 +651,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MAX Demo App-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AppLovin Demo App - ObjC-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -660,15 +664,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -853,7 +857,7 @@
 		};
 		1D992FF2231FA1C500C472F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 322CF789A29F2709AEFF414F /* Pods-MAX Demo App.debug.xcconfig */;
+			baseConfigurationReference = 9B54F8B46C1024A9E6D40A19 /* Pods-AppLovin Demo App - ObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -873,7 +877,7 @@
 		};
 		1D992FF3231FA1C500C472F8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF14602E8771779B7FC59241 /* Pods-MAX Demo App.release.xcconfig */;
+			baseConfigurationReference = DCFFA3A41722E89DA7D330AF /* Pods-AppLovin Demo App - ObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

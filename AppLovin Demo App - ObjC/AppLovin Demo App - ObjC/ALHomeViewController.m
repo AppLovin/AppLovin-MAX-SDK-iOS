@@ -14,7 +14,6 @@
 @interface ALHomeViewController()
 @property (nonatomic, weak) IBOutlet UITableViewCell *mediationDebuggerCell;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *muteToggle;
-
 @end
 
 @implementation ALHomeViewController
