@@ -52,7 +52,7 @@
 		3763B22A23357C4B00E49783 = {
 			isa = PBXGroup;
 			children = (
-				3763B23523357C4B00E49783 /* MAX Demo App - Swift */,
+				3763B23523357C4B00E49783 /* DemoApp-Swift */,
 				3763B23423357C4B00E49783 /* Products */,
 				41B2F44DF9EB96E1BC86CD12 /* Pods */,
 			);
@@ -66,16 +66,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3763B23523357C4B00E49783 /* MAX Demo App - Swift */ = {
+		3763B23523357C4B00E49783 /* DemoApp-Swift */ = {
 			isa = PBXGroup;
 			children = (
 				3763B24A23357CFB00E49783 /* Ads */,
 				3763B23623357C4B00E49783 /* ALAppDelegate.swift */,
-				C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */,
 				3763B23823357C4B00E49783 /* ALHomeViewController.swift */,
 				3763B25323357D7900E49783 /* Supporting Files */,
+				C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */,
 			);
-			path = "MAX Demo App - Swift";
+			path = "DemoApp-Swift";
 			sourceTree = "<group>";
 		};
 		3763B24A23357CFB00E49783 /* Ads */ = {
@@ -83,9 +83,9 @@
 			children = (
 				3763B24823357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift */,
 				3763B24B23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift */,
-				3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */,
 				3763B24D23357D3000E49783 /* ALInterstitialAdViewController.swift */,
 				3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */,
+				3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -93,11 +93,11 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3763B23D23357C4D00E49783 /* Assets.xcassets */,
+				37C4D0E7233D834900096894 /* main.swift */,
 				3763B24223357C4D00E49783 /* Info.plist */,
+				3763B23D23357C4D00E49783 /* Assets.xcassets */,
 				3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */,
 				3763B23A23357C4B00E49783 /* Main.storyboard */,
-				37C4D0E7233D834900096894 /* main.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -145,7 +145,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3763B22E23357C4B00E49783 /* Build configuration list for PBXProject "MAX Demo App - Swift" */;
+			buildConfigurationList = 3763B22E23357C4B00E49783 /* Build configuration list for PBXProject "DemoApp-Swift" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -338,7 +338,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				INFOPLIST_FILE = "$(SRCROOT)/MAX Demo App - Swift/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-Swift/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -362,7 +362,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				INFOPLIST_FILE = "$(SRCROOT)/MAX Demo App - Swift/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp-Swift/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -381,7 +381,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3763B22E23357C4B00E49783 /* Build configuration list for PBXProject "MAX Demo App - Swift" */ = {
+		3763B22E23357C4B00E49783 /* Build configuration list for PBXProject "DemoApp-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3763B24323357C4D00E49783 /* Debug */,
