@@ -38,6 +38,26 @@
                                             <segue destination="bDb-jO-IMe" kind="show" id="fXt-f6-ZyB"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="WM8-6k-zGp" style="IBUITableViewCellStyleDefault" id="ZSM-e2-AlR">
+                                        <rect key="frame" x="0.0" y="83.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZSM-e2-AlR" id="9NZ-HZ-xeX">
+                                            <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Using Interface Builder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WM8-6k-zGp">
+                                                    <rect key="frame" x="16" y="0.0" width="324" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="YcV-km-Hza" kind="show" id="J4Q-nn-6mn"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -95,6 +115,81 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Spa-5h-Dqk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1380" y="1255"/>
+        </scene>
+        <!--Interface Builder MRECs-->
+        <scene sceneID="PSi-72-UdW">
+            <objects>
+                <viewController title="Interface Builder MRECs" hidesBottomBarWhenPushed="YES" id="YcV-km-Hza" customClass="ALDemoInterfaceBuilderMRECViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rmt-p5-I4Q"/>
+                        <viewControllerLayoutGuide type="bottom" id="NZ4-1i-Tn9"/>
+                    </layoutGuides>
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="INv-GO-Z1M">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="bQW-9d-rv6" userLabel="CallBack Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="389"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="389" id="8g9-mz-tmq"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="Jnm-4y-9Ld" style="IBUITableViewCellStyleDefault" id="02S-r0-Tda">
+                                        <rect key="frame" x="15" y="55.5" width="345" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="02S-r0-Tda" id="izJ-HW-bgh">
+                                            <rect key="frame" x="0.0" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jnm-4y-9Ld">
+                                                    <rect key="frame" x="15" y="0.0" width="315" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="YcV-km-Hza" id="aTJ-ng-ZtC"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtT-tU-6Vk" customClass="ALAdView">
+                                <rect key="frame" x="37.5" y="397" width="300" height="250"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="WOh-fb-4HS"/>
+                                    <constraint firstAttribute="width" constant="300" id="d6B-tv-Ut8"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="gtT-tU-6Vk" secondAttribute="centerX" id="FIP-Fl-oBX"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="top" secondItem="INv-GO-Z1M" secondAttribute="topMargin" id="Gne-f2-R7W"/>
+                            <constraint firstItem="gtT-tU-6Vk" firstAttribute="top" secondItem="bQW-9d-rv6" secondAttribute="bottom" constant="8" id="SkE-k0-9Wy"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="INv-GO-Z1M" secondAttribute="centerX" id="UvW-Ea-KG4"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leadingMargin" constant="-16" id="t5u-Kw-FvH"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="adView" destination="gtT-tU-6Vk" id="zTh-vr-BNT"/>
+                        <outlet property="callbackTableView" destination="bQW-9d-rv6" id="12c-jO-i3z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WRa-Uo-IQ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2088.8000000000002" y="1253.5232383808097"/>
         </scene>
     </scenes>
 </document>

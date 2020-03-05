@@ -66,6 +66,7 @@
 		E573083123EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083023EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m */; };
 		E573083423EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083323EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m */; };
 		E573083823EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083723EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m */; };
+		E5C8F4C724119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C8F4C624119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +171,8 @@
 		E573083323EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitialManualLoadingViewController.m; sourceTree = "<group>"; };
 		E573083623EB972C00D972F4 /* ALDemoInterstitalZoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoInterstitalZoneViewController.h; sourceTree = "<group>"; };
 		E573083723EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitalZoneViewController.m; sourceTree = "<group>"; };
+		E5C8F4C524119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALDemoInterfaceBuilderMRECViewController.h; sourceTree = "<group>"; };
+		E5C8F4C624119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterfaceBuilderMRECViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,8 +389,8 @@
 		E567860323F484D200ACA6C1 /* MRECs */ = {
 			isa = PBXGroup;
 			children = (
-				E567860123F484C900ACA6C1 /* ALDemoProgrammaticMRECViewController.h */,
-				E567860023F484C900ACA6C1 /* ALDemoProgrammaticMRECViewController.m */,
+				E5C8F4C82411B17B00592BF8 /* Programmatic */,
+				E5C8F4C92411B18B00592BF8 /* Interface Builder */,
 			);
 			path = MRECs;
 			sourceTree = "<group>";
@@ -568,6 +571,24 @@
 			path = Interstitials;
 			sourceTree = "<group>";
 		};
+		E5C8F4C82411B17B00592BF8 /* Programmatic */ = {
+			isa = PBXGroup;
+			children = (
+				E567860123F484C900ACA6C1 /* ALDemoProgrammaticMRECViewController.h */,
+				E567860023F484C900ACA6C1 /* ALDemoProgrammaticMRECViewController.m */,
+			);
+			path = Programmatic;
+			sourceTree = "<group>";
+		};
+		E5C8F4C92411B18B00592BF8 /* Interface Builder */ = {
+			isa = PBXGroup;
+			children = (
+				E5C8F4C524119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.h */,
+				E5C8F4C624119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m */,
+			);
+			path = "Interface Builder";
+			sourceTree = "<group>";
+		};
 		E78F8BA3589F2C90575EFE63 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,6 +755,7 @@
 				E56786CB23F48B8A00ACA6C1 /* ALNativeAdVideoPlayer.m in Sources */,
 				37C7E1EB2328904E002165B5 /* ALAutoLayoutBannerAdViewController.m in Sources */,
 				E567860623F4899600ACA6C1 /* ALDemoNativeAdProgrammaticViewController.m in Sources */,
+				E5C8F4C724119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m in Sources */,
 				E56785FA23F35BC200ACA6C1 /* ALDemoProgrammaticLeaderViewController.m in Sources */,
 				37C7E1EC2328904E002165B5 /* ALFrameLayoutBannerAdViewController.m in Sources */,
 				E56786BC23F48B2000ACA6C1 /* ALNativeAdVideoView.m in Sources */,
