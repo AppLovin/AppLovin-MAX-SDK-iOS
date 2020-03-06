@@ -129,9 +129,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="bQW-9d-rv6" userLabel="CallBack Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="389"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="367"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="389" id="8g9-mz-tmq"/>
+                                    <constraint firstAttribute="height" constant="367" id="44R-nI-G9L"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="Jnm-4y-9Ld" style="IBUITableViewCellStyleDefault" id="02S-r0-Tda">
@@ -163,7 +163,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtT-tU-6Vk" customClass="ALAdView">
-                                <rect key="frame" x="37.5" y="397" width="300" height="250"/>
+                                <rect key="frame" x="37.5" y="377" width="300" height="250"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="WOh-fb-4HS"/>
@@ -173,11 +173,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="gtT-tU-6Vk" secondAttribute="centerX" id="FIP-Fl-oBX"/>
-                            <constraint firstItem="bQW-9d-rv6" firstAttribute="top" secondItem="INv-GO-Z1M" secondAttribute="topMargin" id="Gne-f2-R7W"/>
-                            <constraint firstItem="gtT-tU-6Vk" firstAttribute="top" secondItem="bQW-9d-rv6" secondAttribute="bottom" constant="8" id="SkE-k0-9Wy"/>
-                            <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="INv-GO-Z1M" secondAttribute="centerX" id="UvW-Ea-KG4"/>
-                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leadingMargin" constant="-16" id="t5u-Kw-FvH"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="top" secondItem="INv-GO-Z1M" secondAttribute="topMargin" id="67x-za-orH"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="INv-GO-Z1M" secondAttribute="centerX" id="9Hy-9P-twS"/>
+                            <constraint firstItem="gtT-tU-6Vk" firstAttribute="top" secondItem="bQW-9d-rv6" secondAttribute="bottom" constant="10" id="LQE-5p-QcI"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="gtT-tU-6Vk" secondAttribute="centerX" id="PGV-N3-uBC"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leadingMargin" constant="-16" id="rcm-dV-qFj"/>
+                            <constraint firstItem="NZ4-1i-Tn9" firstAttribute="top" secondItem="gtT-tU-6Vk" secondAttribute="bottom" constant="20" id="yF2-fi-xAm"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
