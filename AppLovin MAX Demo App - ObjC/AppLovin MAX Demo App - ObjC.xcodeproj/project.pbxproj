@@ -18,7 +18,6 @@
 		37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */; };
 		37C7E1F523297423002165B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FED231FA1C500C472F8 /* main.m */; };
 		37C7E1F62329742E002165B5 /* ALHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D992FE2231FA1C400C472F8 /* ALHomeViewController.m */; };
-		984B77AE40857BBE38B5426D /* Pods_AppLovin_Demo_App___ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */; };
 		C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */; };
 		E56784A623F22AB300ACA6C1 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */; };
 		E567854523F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */; };
@@ -76,7 +75,7 @@
 		1D0CB33223204CF70076AAAA /* ALRewardedAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALRewardedAdViewController.m; sourceTree = "<group>"; };
 		1D0CB33423204D120076AAAA /* ALAutoLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAutoLayoutBannerAdViewController.h; sourceTree = "<group>"; };
 		1D0CB33523204D120076AAAA /* ALAutoLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAutoLayoutBannerAdViewController.m; sourceTree = "<group>"; };
-		1D992FDB231FA1C300C472F8 /* AppLovin Demo App - ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLovin Demo App - ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D992FDB231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLovin MAX Demo App - ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALAppDelegate.h; sourceTree = "<group>"; };
 		1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALAppDelegate.m; sourceTree = "<group>"; };
 		1D992FE1231FA1C400C472F8 /* ALHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALHomeViewController.h; sourceTree = "<group>"; };
@@ -86,17 +85,12 @@
 		1D992FEA231FA1C500C472F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D992FEC231FA1C500C472F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D992FED231FA1C500C472F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		322CF789A29F2709AEFF414F /* Pods-MAX Demo App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAX Demo App.debug.xcconfig"; path = "Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App.debug.xcconfig"; sourceTree = "<group>"; };
-		334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_AppLovin_Demo_App___ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C7E1E523285B4E002165B5 /* ALInterfaceBuilderBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInterfaceBuilderBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1E723285B6A002165B5 /* ALInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1EA23285EDF002165B5 /* ALFrameLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALFrameLayoutBannerAdViewController.h; sourceTree = "<group>"; };
-		9B54F8B46C1024A9E6D40A19 /* Pods-AppLovin Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
-		DCFFA3A41722E89DA7D330AF /* Pods-AppLovin Demo App - ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin Demo App - ObjC.release.xcconfig"; path = "Target Support Files/Pods-AppLovin Demo App - ObjC/Pods-AppLovin Demo App - ObjC.release.xcconfig"; sourceTree = "<group>"; };
-		DF14602E8771779B7FC59241 /* Pods-MAX Demo App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MAX Demo App.release.xcconfig"; path = "Target Support Files/Pods-MAX Demo App/Pods-MAX Demo App.release.xcconfig"; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosViewController.m; sourceTree = "<group>"; };
 		E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosZoneViewController.m; sourceTree = "<group>"; };
@@ -180,7 +174,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				984B77AE40857BBE38B5426D /* Pods_AppLovin_Demo_App___ObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,9 +235,8 @@
 		1D992FD2231FA1C300C472F8 = {
 			isa = PBXGroup;
 			children = (
-				1D992FDD231FA1C300C472F8 /* AppLovin Demo App - ObjC */,
+				1D992FDD231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */,
 				1D992FDC231FA1C300C472F8 /* Products */,
-				E78F8BA3589F2C90575EFE63 /* Pods */,
 				D62B98F1E5C1023DFDDC991D /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -252,12 +244,12 @@
 		1D992FDC231FA1C300C472F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D992FDB231FA1C300C472F8 /* AppLovin Demo App - ObjC.app */,
+				1D992FDB231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D992FDD231FA1C300C472F8 /* AppLovin Demo App - ObjC */ = {
+		1D992FDD231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */ = {
 			isa = PBXGroup;
 			children = (
 				1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */,
@@ -266,7 +258,7 @@
 				1D0CB33823204EBD0076AAAA /* MAX */,
 				1D993015231FA39000C472F8 /* Supporting Files */,
 			);
-			path = "AppLovin Demo App - ObjC";
+			path = "AppLovin MAX Demo App - ObjC";
 			sourceTree = "<group>";
 		};
 		1D993015231FA39000C472F8 /* Supporting Files */ = {
@@ -290,7 +282,6 @@
 		D62B98F1E5C1023DFDDC991D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				334BA97A6A05BB6976EE279D /* Pods_AppLovin_Demo_App___ObjC.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -589,23 +580,12 @@
 			path = "Interface Builder";
 			sourceTree = "<group>";
 		};
-		E78F8BA3589F2C90575EFE63 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				322CF789A29F2709AEFF414F /* Pods-MAX Demo App.debug.xcconfig */,
-				DF14602E8771779B7FC59241 /* Pods-MAX Demo App.release.xcconfig */,
-				9B54F8B46C1024A9E6D40A19 /* Pods-AppLovin Demo App - ObjC.debug.xcconfig */,
-				DCFFA3A41722E89DA7D330AF /* Pods-AppLovin Demo App - ObjC.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D992FDA231FA1C300C472F8 /* AppLovin Demo App - ObjC */ = {
+		1D992FDA231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin Demo App - ObjC" */;
+			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin MAX Demo App - ObjC" */;
 			buildPhases = (
 				4577F07282180123D343F122 /* [CP] Check Pods Manifest.lock */,
 				1D992FD7231FA1C300C472F8 /* Sources */,
@@ -617,9 +597,9 @@
 			);
 			dependencies = (
 			);
-			name = "AppLovin Demo App - ObjC";
+			name = "AppLovin MAX Demo App - ObjC";
 			productName = "DemoApp-ObjC";
-			productReference = 1D992FDB231FA1C300C472F8 /* AppLovin Demo App - ObjC.app */;
+			productReference = 1D992FDB231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -636,7 +616,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "AppLovin Demo App - ObjC" */;
+			buildConfigurationList = 1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "AppLovin MAX Demo App - ObjC" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -649,7 +629,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D992FDA231FA1C300C472F8 /* AppLovin Demo App - ObjC */,
+				1D992FDA231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */,
 			);
 		};
 /* End PBXProject section */
@@ -911,12 +891,11 @@
 		};
 		1D992FF2231FA1C500C472F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B54F8B46C1024A9E6D40A19 /* Pods-AppLovin Demo App - ObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
-				INFOPLIST_FILE = "$(SRCROOT)/AppLovin Demo App - ObjC/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -931,12 +910,11 @@
 		};
 		1D992FF3231FA1C500C472F8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DCFFA3A41722E89DA7D330AF /* Pods-AppLovin Demo App - ObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
-				INFOPLIST_FILE = "$(SRCROOT)/AppLovin Demo App - ObjC/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -952,7 +930,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "AppLovin Demo App - ObjC" */ = {
+		1D992FD6231FA1C300C472F8 /* Build configuration list for PBXProject "AppLovin MAX Demo App - ObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D992FEF231FA1C500C472F8 /* Debug */,
@@ -961,7 +939,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin Demo App - ObjC" */ = {
+		1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin MAX Demo App - ObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D992FF2231FA1C500C472F8 /* Debug */,
