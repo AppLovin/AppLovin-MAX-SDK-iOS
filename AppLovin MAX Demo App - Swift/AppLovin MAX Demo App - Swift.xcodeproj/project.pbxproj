@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,7 @@
 		3763B25223357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
 		C0DE8BAE234E80B6004B0CFC /* ALBaseAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */; };
+		CA7BA617D61BC550810FA5B1 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39088FC05A141C32406904D4 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,9 @@
 		3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALRewardedAdViewController.swift; sourceTree = "<group>"; };
 		3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALInterfaceBuilderBannerAdViewController.swift; sourceTree = "<group>"; };
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		39088FC05A141C32406904D4 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A60F5D3B8EF8ED40B790CC12 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
+		B224CB6451613DD34E215084 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA7BA617D61BC550810FA5B1 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +59,8 @@
 			children = (
 				3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */,
 				3763B23423357C4B00E49783 /* Products */,
+				E29B4B4AD63A8019949FDE56 /* Pods */,
+				A0390F16072926F7D40C5D7B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,7 +75,8 @@
 		3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */ = {
 			isa = PBXGroup;
 			children = (
-				3763B24A23357CFB00E49783 /* Ads */,
+				E5EE50CB241C07E20032B659 /* AppLovin */,
+				3763B24A23357CFB00E49783 /* MAX */,
 				3763B23623357C4B00E49783 /* ALAppDelegate.swift */,
 				C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */,
 				3763B23823357C4B00E49783 /* ALHomeViewController.swift */,
@@ -77,16 +85,14 @@
 			path = "AppLovin MAX Demo App - Swift";
 			sourceTree = "<group>";
 		};
-		3763B24A23357CFB00E49783 /* Ads */ = {
+		3763B24A23357CFB00E49783 /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				3763B24823357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift */,
-				3763B24B23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift */,
-				3763B24D23357D3000E49783 /* ALInterstitialAdViewController.swift */,
-				3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */,
-				3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */,
+				E5EE50CA241C07B80032B659 /* Banners */,
+				E5EE50C8241C07980032B659 /* Interstitials */,
+				E5EE50C9241C07A90032B659 /* Rewarded */,
 			);
-			path = Ads;
+			path = MAX;
 			sourceTree = "<group>";
 		};
 		3763B25323357D7900E49783 /* Supporting Files */ = {
@@ -325,6 +331,7 @@
 		};
 		3763B24623357C4D00E49783 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B224CB6451613DD34E215084 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
