@@ -14,9 +14,16 @@ class ALHomeViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.navigationController?.setToolbarHidden(self.hidesBottomBarWhenPushed, animated: true)
         addFooterLabel()
     }
     
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        super.viewWillDisappear(animated)
+    }
+
     func addFooterLabel()
     {
         let footer = UILabel()

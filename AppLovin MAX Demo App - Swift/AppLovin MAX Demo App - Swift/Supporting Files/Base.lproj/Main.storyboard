@@ -294,18 +294,22 @@
         <!--Navigation Controller-->
         <scene sceneID="xQE-Gg-Qfm">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Ga-dD-PKi" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lXr-9K-gJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="7Ga-dD-PKi" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Pkd-by-cEc">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KxK-R5-hlL">
+                        <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
-                        <segue destination="Xhz-da-ENL" kind="relationship" relationship="rootViewController" id="eu1-lC-4dr"/>
+                        <segue destination="Xhz-da-ENL" kind="relationship" relationship="rootViewController" id="tmD-Rq-Xfi"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lXr-9K-gJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1030.4347826086957" y="170.75892857142856"/>
         </scene>
@@ -773,7 +777,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSL-74-r2d">
-                                <rect key="frame" x="0.0" y="74.5" width="414" height="699.5"/>
+                                <rect key="frame" x="0.0" y="74.5" width="414" height="650.5"/>
                                 <subviews>
                                     <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DHB-Td-Zi7">
                                         <rect key="frame" x="74" y="23.5" width="324" height="35"/>
