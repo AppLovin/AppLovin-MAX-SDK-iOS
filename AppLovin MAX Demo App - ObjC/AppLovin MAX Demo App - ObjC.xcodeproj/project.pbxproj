@@ -254,6 +254,7 @@
 			children = (
 				1D992FDE231FA1C300C472F8 /* ALAppDelegate.h */,
 				1D992FDF231FA1C400C472F8 /* ALAppDelegate.m */,
+				1D629D60240F4E8A00FE6F5F /* Base Classes */,
 				E57306F223EB91B400D972F4 /* AppLovin */,
 				1D0CB33823204EBD0076AAAA /* MAX */,
 				1D993015231FA39000C472F8 /* Supporting Files */,
@@ -264,7 +265,6 @@
 		1D993015231FA39000C472F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1D629D60240F4E8A00FE6F5F /* Base Classes */,
 				1D992FED231FA1C500C472F8 /* main.m */,
 				1D992FEC231FA1C500C472F8 /* Info.plist */,
 				1D992FE7231FA1C500C472F8 /* Assets.xcassets */,

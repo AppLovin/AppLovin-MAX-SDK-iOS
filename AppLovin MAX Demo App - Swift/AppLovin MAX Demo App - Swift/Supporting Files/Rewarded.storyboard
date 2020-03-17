@@ -120,7 +120,7 @@
                         <barButtonItem title="Preload" id="ai0-bn-Jr2">
                             <color key="tintColor" red="0.039215686270000001" green="0.51372549020000002" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="preloadRewardedVideo:" destination="WQc-9e-8j4" id="9lI-3Y-dLt"/>
+                                <action selector="preloadRewardedVideo" destination="WQc-9e-8j4" id="lgG-wx-cfm"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="pn0-h9-u8g">
@@ -129,7 +129,7 @@
                         <barButtonItem title="Show if Ready" id="pQB-Fy-M2r">
                             <color key="tintColor" red="0.039215686270000001" green="0.51372549020000002" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="showRewardedVideo:" destination="WQc-9e-8j4" id="agO-zE-k5r"/>
+                                <action selector="showRewardedVideo" destination="WQc-9e-8j4" id="dqn-3E-se1"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -193,7 +193,7 @@
                         <barButtonItem title="Preload" id="8Wb-3m-rI7">
                             <color key="tintColor" red="0.039215686270000001" green="0.51372549020000002" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="preloadRewardedVideo:" destination="eb7-3E-xQZ" id="R84-j6-zph"/>
+                                <action selector="preloadRewardedVideo" destination="eb7-3E-xQZ" id="rzQ-6P-aW4"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="DCn-VI-mdX">
@@ -202,7 +202,7 @@
                         <barButtonItem title="Show if Ready" id="xlZ-Nl-46k">
                             <color key="tintColor" red="0.039215686270000001" green="0.51372549020000002" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="showRewardedVideo:" destination="eb7-3E-xQZ" id="6kf-AP-0ho"/>
+                                <action selector="showRewardedVideo" destination="eb7-3E-xQZ" id="YVl-eV-4sy"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
