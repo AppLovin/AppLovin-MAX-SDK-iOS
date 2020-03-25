@@ -39,6 +39,9 @@ class ALInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
     {
         // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
         logCallback()
+        
+        // Reset retry attempt
+        retryAttempt = 0
     }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)

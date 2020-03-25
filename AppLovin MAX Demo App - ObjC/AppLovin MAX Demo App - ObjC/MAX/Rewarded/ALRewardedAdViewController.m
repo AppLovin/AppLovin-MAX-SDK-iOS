@@ -45,6 +45,9 @@
 {
     // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
     [self logCallback: __PRETTY_FUNCTION__];
+    
+    // Reset retry attempt
+    self.retryAttempt = 0;
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode

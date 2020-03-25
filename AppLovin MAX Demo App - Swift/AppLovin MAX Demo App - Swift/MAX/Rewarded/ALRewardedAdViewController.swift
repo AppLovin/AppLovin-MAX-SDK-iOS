@@ -39,6 +39,9 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
     {
         // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
         logCallback()
+        
+        // Reset retry attempt
+        retryAttempt = 0
     }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)

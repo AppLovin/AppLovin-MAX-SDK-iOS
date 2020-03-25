@@ -46,6 +46,9 @@
 {
     // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
     [self logCallback: __PRETTY_FUNCTION__];
+    
+    // Reset retry attempt
+    self.retryAttempt = 0;
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
