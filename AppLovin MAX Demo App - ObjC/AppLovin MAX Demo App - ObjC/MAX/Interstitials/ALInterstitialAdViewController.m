@@ -12,6 +12,7 @@
 
 @interface ALInterstitialAdViewController()<MAAdDelegate>
 @property (nonatomic, strong) MAInterstitialAd *interstitialAd;
+@property (nonatomic, assign) NSInteger retryAttempt;
 @end
 
 @implementation ALInterstitialAdViewController
@@ -51,8 +52,12 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Interstitial ad failed to load. We recommend re-trying in 3 seconds.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    // Interstitial ad failed to load. We recommend retrying with exponentially higher delays.
+    
+    self.retryAttempt++;
+    NSInteger delaySec = pow(2, self.retryAttempt);
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self.interstitialAd loadAd];
     });
 }

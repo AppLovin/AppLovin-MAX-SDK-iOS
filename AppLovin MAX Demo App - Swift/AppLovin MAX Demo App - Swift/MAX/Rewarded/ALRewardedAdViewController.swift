@@ -12,6 +12,7 @@ import AppLovinSDK
 class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
 {
     private let rewardedAd = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_AD_UNIT_ID")
+    private var retryAttempt = 0.0
     
     // MARK: View Lifecycle
     
@@ -44,10 +45,14 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
     {
         logCallback()
         
-        // Rewarded ad failed to load. We recommend re-trying in 3 seconds.
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(3 * Double(NSEC_PER_SEC)), execute: {
+        // Rewarded ad failed to load. We recommend retrying with exponentially higher delays.
+        
+        retryAttempt += 1
+        let delaySec = pow(2.0, retryAttempt)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
             self.rewardedAd.load()
-        })
+        }
     }
     
     func didDisplay(_ ad: MAAd) { logCallback() }
