@@ -11,6 +11,7 @@
 
 @interface ALRewardedAdViewController()<MARewardedAdDelegate>
 @property (nonatomic, strong) MARewardedAd *rewardedAd;
+@property (nonatomic, assign) NSInteger retryAttempt;
 @end
 
 @implementation ALRewardedAdViewController
@@ -44,14 +45,21 @@
 {
     // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
     [self logCallback: __PRETTY_FUNCTION__];
+    
+    // Reset retry attempt
+    self.retryAttempt = 0;
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Rewarded ad failed to load. We recommend re-trying in 3 seconds.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    // Rewarded ad failed to load. We recommend retrying with exponentially higher delays.
+    
+    self.retryAttempt++;
+    NSInteger delaySec = pow(2, self.retryAttempt);
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self.rewardedAd loadAd];
     });
 }

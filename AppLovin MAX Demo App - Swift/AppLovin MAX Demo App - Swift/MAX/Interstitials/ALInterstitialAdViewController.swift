@@ -12,6 +12,7 @@ import AppLovinSDK
 class ALInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let interstitialAd = MAInterstitialAd(adUnitIdentifier: "YOUR_AD_UNIT_ID")
+    private var retryAttempt = 0.0
     
     // MARK: View Lifecycle
     
@@ -38,16 +39,23 @@ class ALInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
     {
         // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
         logCallback()
+        
+        // Reset retry attempt
+        retryAttempt = 0
     }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)
     {
         logCallback()
         
-        // Interstitial ad failed to load. We recommend re-trying in 3 seconds.
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(3 * Double(NSEC_PER_SEC)), execute: {
+        // Interstitial ad failed to load. We recommend retrying with exponentially higher delays.
+        
+        retryAttempt += 1
+        let delaySec = pow(2.0, retryAttempt)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
             self.interstitialAd.load()
-        })
+        }
     }
     
     func didDisplay(_ ad: MAAd) { logCallback() }
