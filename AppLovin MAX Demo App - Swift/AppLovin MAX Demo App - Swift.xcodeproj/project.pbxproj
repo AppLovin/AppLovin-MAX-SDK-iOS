@@ -7,59 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DDCE59D242AE564007EAC8D /* ALFrameLayoutBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE596242AE564007EAC8D /* ALFrameLayoutBannerAdViewController.swift */; };
+		1DDCE59E242AE564007EAC8D /* ALInterfaceBuilderBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE597242AE564007EAC8D /* ALInterfaceBuilderBannerAdViewController.swift */; };
+		1DDCE59F242AE564007EAC8D /* ALAutoLayoutBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE598242AE564007EAC8D /* ALAutoLayoutBannerAdViewController.swift */; };
+		1DDCE5A0242AE564007EAC8D /* ALRewardedAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE59A242AE564007EAC8D /* ALRewardedAdViewController.swift */; };
+		1DDCE5A1242AE564007EAC8D /* ALInterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE59C242AE564007EAC8D /* ALInterstitialAdViewController.swift */; };
+		1DDCE5A5242AE5CE007EAC8D /* ALHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */; };
+		1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */; };
 		3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B23623357C4B00E49783 /* ALAppDelegate.swift */; };
-		3763B23923357C4B00E49783 /* ALHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B23823357C4B00E49783 /* ALHomeViewController.swift */; };
 		3763B23E23357C4D00E49783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23D23357C4D00E49783 /* Assets.xcassets */; };
 		3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */; };
-		3763B24923357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B24823357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift */; };
-		3763B24C23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B24B23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift */; };
-		3763B24E23357D3000E49783 /* ALInterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B24D23357D3000E49783 /* ALInterstitialAdViewController.swift */; };
-		3763B25023357D3A00E49783 /* ALRewardedAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */; };
-		3763B25223357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
-		C0DE8BAE234E80B6004B0CFC /* ALBaseAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */; };
-		CA7BA617D61BC550810FA5B1 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39088FC05A141C32406904D4 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */; };
-		E5942DA224218DA4002A2BD6 /* ALDemoRewardedVideosZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5942DA024218DA4002A2BD6 /* ALDemoRewardedVideosZoneViewController.swift */; };
-		E5942DA324218DA4002A2BD6 /* ALDemoRewardedVideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5942DA124218DA4002A2BD6 /* ALDemoRewardedVideosViewController.swift */; };
 		E5EE50D5241C259D0032B659 /* Banners.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D4241C259D0032B659 /* Banners.storyboard */; };
 		E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D6241C25AA0032B659 /* Leaders.storyboard */; };
 		E5EE50D9241C25AA0032B659 /* Interstitials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */; };
 		E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DA241C25B60032B659 /* Rewarded.storyboard */; };
 		E5EE50DD241C25B70032B659 /* MRECs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DB241C25B60032B659 /* MRECs.storyboard */; };
-		E5EE50E2241C37B70032B659 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EE50DF241C37B70032B659 /* ALDemoInterstitialManualLoadingViewController.swift */; };
-		E5EE50E3241C37B70032B659 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EE50E0241C37B70032B659 /* ALDemoInterstitialZoneViewController.swift */; };
-		E5EE50E4241C37B70032B659 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EE50E1241C37B70032B659 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23A23357C4B00E49783 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1DDCE596242AE564007EAC8D /* ALFrameLayoutBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALFrameLayoutBannerAdViewController.swift; sourceTree = "<group>"; };
+		1DDCE597242AE564007EAC8D /* ALInterfaceBuilderBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALInterfaceBuilderBannerAdViewController.swift; sourceTree = "<group>"; };
+		1DDCE598242AE564007EAC8D /* ALAutoLayoutBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAutoLayoutBannerAdViewController.swift; sourceTree = "<group>"; };
+		1DDCE59A242AE564007EAC8D /* ALRewardedAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALRewardedAdViewController.swift; sourceTree = "<group>"; };
+		1DDCE59C242AE564007EAC8D /* ALInterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALInterstitialAdViewController.swift; sourceTree = "<group>"; };
+		1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
+		1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
 		3763B23323357C4B00E49783 /* AppLovin MAX Demo App - Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLovin MAX Demo App - Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763B23623357C4B00E49783 /* ALAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAppDelegate.swift; sourceTree = "<group>"; };
-		3763B23823357C4B00E49783 /* ALHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		3763B23B23357C4B00E49783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3763B23D23357C4D00E49783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3763B24023357C4D00E49783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3763B24223357C4D00E49783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3763B24823357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAutoLayoutBannerAdViewController.swift; sourceTree = "<group>"; };
-		3763B24B23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALFrameLayoutBannerAdViewController.swift; sourceTree = "<group>"; };
-		3763B24D23357D3000E49783 /* ALInterstitialAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALInterstitialAdViewController.swift; sourceTree = "<group>"; };
-		3763B24F23357D3A00E49783 /* ALRewardedAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALRewardedAdViewController.swift; sourceTree = "<group>"; };
-		3763B25123357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALInterfaceBuilderBannerAdViewController.swift; sourceTree = "<group>"; };
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		39088FC05A141C32406904D4 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A60F5D3B8EF8ED40B790CC12 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
-		B224CB6451613DD34E215084 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
-		C0DE8BAD234E80B6004B0CFC /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
-		E5942DA024218DA4002A2BD6 /* ALDemoRewardedVideosZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoRewardedVideosZoneViewController.swift; sourceTree = "<group>"; };
-		E5942DA124218DA4002A2BD6 /* ALDemoRewardedVideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoRewardedVideosViewController.swift; sourceTree = "<group>"; };
 		E5EE50D4241C259D0032B659 /* Banners.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Banners.storyboard; sourceTree = "<group>"; };
 		E5EE50D6241C25AA0032B659 /* Leaders.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leaders.storyboard; sourceTree = "<group>"; };
 		E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
 		E5EE50DA241C25B60032B659 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E5EE50DB241C25B60032B659 /* MRECs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MRECs.storyboard; sourceTree = "<group>"; };
-		E5EE50DF241C37B70032B659 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
-		E5EE50E0241C37B70032B659 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
-		E5EE50E1241C37B70032B659 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,20 +53,60 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA7BA617D61BC550810FA5B1 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01A619B207BFFD657E517608 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		1DDCE595242AE564007EAC8D /* Banners */ = {
+			isa = PBXGroup;
+			children = (
+				1DDCE596242AE564007EAC8D /* ALFrameLayoutBannerAdViewController.swift */,
+				1DDCE597242AE564007EAC8D /* ALInterfaceBuilderBannerAdViewController.swift */,
+				1DDCE598242AE564007EAC8D /* ALAutoLayoutBannerAdViewController.swift */,
+			);
+			path = Banners;
+			sourceTree = "<group>";
+		};
+		1DDCE599242AE564007EAC8D /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				1DDCE59A242AE564007EAC8D /* ALRewardedAdViewController.swift */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
+		1DDCE59B242AE564007EAC8D /* Interstitials */ = {
+			isa = PBXGroup;
+			children = (
+				1DDCE59C242AE564007EAC8D /* ALInterstitialAdViewController.swift */,
+			);
+			path = Interstitials;
+			sourceTree = "<group>";
+		};
+		1DDCE5A2242AE5CE007EAC8D /* Base Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */,
+				1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */,
+			);
+			path = "Base Classes";
+			sourceTree = "<group>";
+		};
 		3763B22A23357C4B00E49783 = {
 			isa = PBXGroup;
 			children = (
 				3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */,
 				3763B23423357C4B00E49783 /* Products */,
-				E29B4B4AD63A8019949FDE56 /* Pods */,
-				A0390F16072926F7D40C5D7B /* Frameworks */,
+				01A619B207BFFD657E517608 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,10 +121,9 @@
 		3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */ = {
 			isa = PBXGroup;
 			children = (
-				E5EE50CB241C07E20032B659 /* AppLovin */,
+				1DDCE5A2242AE5CE007EAC8D /* Base Classes */,
 				3763B24A23357CFB00E49783 /* MAX */,
 				3763B23623357C4B00E49783 /* ALAppDelegate.swift */,
-				E5EE50D3241C22A80032B659 /* Base Classes */,
 				3763B25323357D7900E49783 /* Supporting Files */,
 			);
 			path = "AppLovin MAX Demo App - Swift";
@@ -107,9 +132,9 @@
 		3763B24A23357CFB00E49783 /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				E5EE50CA241C07B80032B659 /* Banners */,
-				E5EE50C8241C07980032B659 /* Interstitials */,
-				E5EE50C9241C07A90032B659 /* Rewarded */,
+				1DDCE595242AE564007EAC8D /* Banners */,
+				1DDCE59B242AE564007EAC8D /* Interstitials */,
+				1DDCE599242AE564007EAC8D /* Rewarded */,
 			);
 			path = MAX;
 			sourceTree = "<group>";
@@ -208,20 +233,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5942DA324218DA4002A2BD6 /* ALDemoRewardedVideosViewController.swift in Sources */,
-				E5EE50E4241C37B70032B659 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */,
-				3763B25223357D4A00E49783 /* ALInterfaceBuilderBannerAdViewController.swift in Sources */,
-				E5EE50E2241C37B70032B659 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */,
-				3763B24C23357D1C00E49783 /* ALFrameLayoutBannerAdViewController.swift in Sources */,
-				E5942DA224218DA4002A2BD6 /* ALDemoRewardedVideosZoneViewController.swift in Sources */,
+				1DDCE5A1242AE564007EAC8D /* ALInterstitialAdViewController.swift in Sources */,
+				1DDCE59E242AE564007EAC8D /* ALInterfaceBuilderBannerAdViewController.swift in Sources */,
+				1DDCE5A5242AE5CE007EAC8D /* ALHomeViewController.swift in Sources */,
+				1DDCE59F242AE564007EAC8D /* ALAutoLayoutBannerAdViewController.swift in Sources */,
+				1DDCE5A0242AE564007EAC8D /* ALRewardedAdViewController.swift in Sources */,
 				37C4D0E8233D834900096894 /* main.swift in Sources */,
-				3763B24923357CEC00E49783 /* ALAutoLayoutBannerAdViewController.swift in Sources */,
-				3763B25023357D3A00E49783 /* ALRewardedAdViewController.swift in Sources */,
-				3763B23923357C4B00E49783 /* ALHomeViewController.swift in Sources */,
-				C0DE8BAE234E80B6004B0CFC /* ALBaseAdViewController.swift in Sources */,
-				3763B24E23357D3000E49783 /* ALInterstitialAdViewController.swift in Sources */,
+				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
+				1DDCE59D242AE564007EAC8D /* ALFrameLayoutBannerAdViewController.swift in Sources */,
 				3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */,
-				E5EE50E3241C37B70032B659 /* ALDemoInterstitialZoneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +385,6 @@
 		};
 		3763B24623357C4D00E49783 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B224CB6451613DD34E215084 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
