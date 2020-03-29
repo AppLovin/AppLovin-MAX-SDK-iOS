@@ -17,5 +17,15 @@ To get started with the demo apps, follow the instructions below:
 5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
 6. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
 
+## Error Codes
+| Code          | Description   |
+| ------------- |:-------------:|
+| -1            | Indicates an unspecified error with one of the mediated network SDKs. |
+| 204           | Indicates that no ads are currently eligible for your device. |
+| -1001         | Indicates that the ad request timed out (usually due to poor connectivity). |
+| -1009         | Indicates that the device is not connected to the internet (e.g. airplane mode). |
+| -5001         | Indicates that the ad failed to load due to various reasons (such as no networks being able to fill). |
+| -5201         | Indicates an internal state error with the AppLovin MAX SDK. |
+
 ## Support
 We recommend using GitHub to file issues. For feature requests, improvements, questions or any other integration issues using MAX Mediation by AppLovin, please reach out to your account team and copy devsupport@applovin.com.
