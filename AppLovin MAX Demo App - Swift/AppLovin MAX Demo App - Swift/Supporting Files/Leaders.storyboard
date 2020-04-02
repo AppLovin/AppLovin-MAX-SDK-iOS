@@ -10,7 +10,7 @@
         <!--Programmatic Leaders-->
         <scene sceneID="UEi-tT-tGc">
             <objects>
-                <viewController title="Leaders" id="fkB-CC-Szz" userLabel="Programmatic Leaders" customClass="ALDemoProgrammaticLeaderViewController" sceneMemberID="viewController">
+                <viewController title="Leaders" id="fkB-CC-Szz" userLabel="Programmatic Leaders" customClass="ALDemoProgrammaticLeaderViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="drm-cN-uXY"/>
                         <viewControllerLayoutGuide type="bottom" id="d7E-QU-AEe"/>
@@ -140,7 +140,7 @@
         <!--Interface Builder Leaders-->
         <scene sceneID="0dO-5N-mPP">
             <objects>
-                <viewController title="Leaders" id="8bw-1Z-l8R" userLabel="Interface Builder Leaders" customClass="ALDemoInterfaceBuilderLeaderViewController" sceneMemberID="viewController">
+                <viewController title="Leaders" id="8bw-1Z-l8R" userLabel="Interface Builder Leaders" customClass="ALDemoInterfaceBuilderLeaderViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xKz-gx-5mE"/>
                         <viewControllerLayoutGuide type="bottom" id="DkK-3T-hdP"/>

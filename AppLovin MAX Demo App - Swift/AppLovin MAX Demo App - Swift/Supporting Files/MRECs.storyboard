@@ -72,7 +72,7 @@
         <!--Programmatic MRECs-->
         <scene sceneID="Kjf-YA-azc">
             <objects>
-                <viewController title="Programmatic MRECs" hidesBottomBarWhenPushed="YES" id="bDb-jO-IMe" customClass="ALDemoProgrammaticMRECViewController" sceneMemberID="viewController">
+                <viewController title="Programmatic MRECs" hidesBottomBarWhenPushed="YES" id="bDb-jO-IMe" customClass="ALDemoProgrammaticMRecViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Ofj-82-KA3" userLabel="CallBack Table View">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

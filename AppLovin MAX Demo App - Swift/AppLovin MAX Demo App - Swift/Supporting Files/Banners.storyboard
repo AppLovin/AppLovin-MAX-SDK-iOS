@@ -10,7 +10,7 @@
         <!--Programmatic Banners-->
         <scene sceneID="Wrv-z4-XAS">
             <objects>
-                <viewController title="Banners" id="1eE-GE-L8a" userLabel="Programmatic Banners" customClass="ALDemoProgrammaticBannerViewController" sceneMemberID="viewController">
+                <viewController title="Banners" id="1eE-GE-L8a" userLabel="Programmatic Banners" customClass="ALDemoProgrammaticBannerViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DN5-bi-jkE"/>
                         <viewControllerLayoutGuide type="bottom" id="amy-cz-zWv"/>
@@ -161,7 +161,7 @@
         <!--Interface Builder Banners-->
         <scene sceneID="uGo-wi-Wly">
             <objects>
-                <viewController title="Banners" id="8j1-N3-dgk" userLabel="Interface Builder Banners" customClass="ALDemoInterfaceBuilderBannerViewController" sceneMemberID="viewController">
+                <viewController title="Banners" id="8j1-N3-dgk" userLabel="Interface Builder Banners" customClass="ALDemoInterfaceBuilderBannerViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4GX-FT-UP3"/>
                         <viewControllerLayoutGuide type="bottom" id="Kz9-f6-WMk"/>
@@ -246,7 +246,7 @@
         <!--Zone Integration-->
         <scene sceneID="4cy-LT-fSK">
             <objects>
-                <viewController title="Zone Integration" id="elx-6x-fQM" userLabel="Zone Integration" customClass="ALDemoBannerZoneViewController" sceneMemberID="viewController">
+                <viewController title="Zone Integration" id="elx-6x-fQM" userLabel="Zone Integration" customClass="ALDemoBannerZoneViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jlU-Qz-HKB"/>
                         <viewControllerLayoutGuide type="bottom" id="Edy-h1-CBR"/>
