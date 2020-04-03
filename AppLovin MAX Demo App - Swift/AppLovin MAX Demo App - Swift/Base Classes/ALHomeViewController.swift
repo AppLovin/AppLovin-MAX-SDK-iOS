@@ -19,7 +19,8 @@ class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDe
     let kRowIndexToHideForPhones = 3;
     
     @IBOutlet var muteToggle: UIBarButtonItem!
-
+    @IBOutlet weak var mediationDebuggerCell: UITableViewCell!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -39,6 +40,11 @@ class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDe
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if tableView.cellForRow(at: indexPath) == mediationDebuggerCell
+        {
+            ALSdk.shared()!.showMediationDebugger()
+        }
         
         if indexPath.section == 2
         {
@@ -91,11 +97,6 @@ class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDe
         frame.size.height = footer.sizeThatFits(CGSize(width: footer.frame.width, height: CGFloat.greatestFiniteMagnitude)).height + 60
         footer.frame = frame
         tableView.tableFooterView = footer
-    }
-    
-    @IBAction func showMediationDebugger(_ sender: UIBarButtonItem!)
-    {
-        ALSdk.shared()!.showMediationDebugger()
     }
     
     // MARK: Sound Toggling

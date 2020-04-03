@@ -291,6 +291,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mediationDebuggerCell" destination="QJO-G7-XeA" id="FCt-m9-w31"/>
                         <outlet property="muteToggle" destination="Mpf-Kg-UX0" id="ML6-eM-NAV"/>
                     </connections>
                 </tableViewController>
