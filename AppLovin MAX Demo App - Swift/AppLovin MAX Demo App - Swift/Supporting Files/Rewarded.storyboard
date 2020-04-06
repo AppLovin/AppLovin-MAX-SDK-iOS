@@ -62,7 +62,7 @@
                             </tableViewSection>
                         </sections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Rewarded Videos" id="Rgc-bq-vfm"/>
+                    <navigationItem key="navigationItem" title="Rewarded" id="Rgc-bq-vfm"/>
                     <nil key="simulatedStatusBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nrQ-l1-rxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
