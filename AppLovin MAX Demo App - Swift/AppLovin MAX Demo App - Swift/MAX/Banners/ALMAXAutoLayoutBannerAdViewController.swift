@@ -1,5 +1,5 @@
 //
-//  ALFrameLayoutBannerAdViewController.swift
+//  ALAutoLayoutBannerAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 9/20/19.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -20,22 +20,28 @@ class ALFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDel
         super.viewDidLoad()
         
         adView.delegate = self
-        
-        // Calculate dimensions
-        let width = view.bounds.width // Stretch to the width of the screen for banners to be fully functional
-        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50 // Banner height on iPhone and iPad is 50 and 90, respectively
-        let x: CGFloat = 0
-        let y: CGFloat = 0
-        
-        adView.frame = CGRect(x: x, y: y, width: width, height: height)
+        adView.translatesAutoresizingMaskIntoConstraints = false
         
         // Set background or background color for banners to be fully functional
         adView.backgroundColor = .black
         
         view.addSubview(adView)
+
+        // Center the banner and anchor it to the top of the screen.
+        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50 // Banner height on iPhone and iPad is 50 and 90, respectively
+        view.addConstraints([
+            constraint(with: adView, andAttribute: .leading),
+            constraint(with: adView, andAttribute: .trailing),
+            constraint(with: adView, andAttribute: .top),
+            NSLayoutConstraint(item: adView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: height)])
         
         // Load the first ad
         adView.loadAd()
+    }
+    
+    func constraint(with adView: MAAdView, andAttribute attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint
+    {
+        return NSLayoutConstraint(item: adView, attribute: attribute, relatedBy: .equal, toItem: view, attribute: attribute, multiplier: 1.0, constant: 0.0)
     }
     
     // MARK: MAAdDelegate Protocol

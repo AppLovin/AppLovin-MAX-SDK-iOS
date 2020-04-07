@@ -1,5 +1,5 @@
 //
-//  ALInterfaceBuilderBannerAdViewController.swift
+//  ALFrameLayoutBannerAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 9/20/19.
@@ -9,9 +9,9 @@
 import UIKit
 import AppLovinSDK
 
-class ALInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
-    @IBOutlet weak var adView: MAAdView!
+    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     // MARK: View Lifecycle
     
@@ -19,10 +19,20 @@ class ALInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdView
     {
         super.viewDidLoad()
         
-        // NOTE: Must set Storyboard "User Defined Runtime Attributes" for banner ad view
-        // Key Path = ad_unit_id
-        // Type     = String
-        // Value    = YOUR_AD_UNIT_ID
+        adView.delegate = self
+        
+        // Calculate dimensions
+        let width = view.bounds.width // Stretch to the width of the screen for banners to be fully functional
+        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50 // Banner height on iPhone and iPad is 50 and 90, respectively
+        let x: CGFloat = 0
+        let y: CGFloat = 0
+        
+        adView.frame = CGRect(x: x, y: y, width: width, height: height)
+        
+        // Set background or background color for banners to be fully functional
+        adView.backgroundColor = .black
+        
+        view.addSubview(adView)
         
         // Load the first ad
         adView.loadAd()

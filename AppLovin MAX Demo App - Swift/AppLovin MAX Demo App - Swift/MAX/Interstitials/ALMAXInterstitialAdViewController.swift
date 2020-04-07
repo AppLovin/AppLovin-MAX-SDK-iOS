@@ -1,5 +1,5 @@
 //
-//  ALRewardedAdViewController.swift
+//  ALInterstitialAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 9/20/19.
@@ -9,9 +9,9 @@
 import UIKit
 import AppLovinSDK
 
-class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
+class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
-    private let rewardedAd = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_AD_UNIT_ID")
+    private let interstitialAd = MAInterstitialAd(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     private var retryAttempt = 0.0
     
     // MARK: View Lifecycle
@@ -20,24 +20,24 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
     {
         super.viewDidLoad()
         
-        rewardedAd.delegate = self
+        interstitialAd.delegate = self
         
         // Load the first ad
-        rewardedAd.load()
+        interstitialAd.load()
     }
     
     // MARK: IB Actions
     
     @IBAction func showAd()
     {
-        rewardedAd.show()
+        interstitialAd.show()
     }
     
     // MARK: MAAdDelegate Protocol
     
     func didLoad(_ ad: MAAd)
     {
-        // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
+        // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
         logCallback()
         
         // Reset retry attempt
@@ -48,13 +48,13 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
     {
         logCallback()
         
-        // Rewarded ad failed to load. We recommend retrying with exponentially higher delays.
+        // Interstitial ad failed to load. We recommend retrying with exponentially higher delays.
         
         retryAttempt += 1
         let delaySec = pow(2.0, retryAttempt)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
-            self.rewardedAd.load()
+            self.interstitialAd.load()
         }
     }
     
@@ -62,31 +62,23 @@ class ALRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
     
     func didClick(_ ad: MAAd) { logCallback() }
     
+    func didExpand(_ ad: MAAd) { logCallback() }
+    
+    func didCollapse(_ ad: MAAd) { logCallback() }
+    
     func didHide(_ ad: MAAd)
     {
         logCallback()
         
-        // Rewarded ad is hidden. Pre-load the next ad
-        rewardedAd.load()
+        // Interstitial ad is hidden. Pre-load the next ad
+        interstitialAd.load()
     }
     
     func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
     {
         logCallback()
         
-        // Rewarded ad failed to display. We recommend loading the next ad
-        rewardedAd.load()
-    }
-    
-    // MARK: MARewardedAdDelegate Protocol
-    
-    func didStartRewardedVideo(for ad: MAAd) { logCallback() }
-    
-    func didCompleteRewardedVideo(for ad: MAAd) { logCallback() }
-    
-    func didRewardUser(for ad: MAAd, with reward: MAReward)
-    {
-        // Rewarded ad was displayed and user should receive the reward
-        logCallback()
+        // Interstitial ad failed to display. We recommend loading the next ad
+        interstitialAd.load()
     }
 }
