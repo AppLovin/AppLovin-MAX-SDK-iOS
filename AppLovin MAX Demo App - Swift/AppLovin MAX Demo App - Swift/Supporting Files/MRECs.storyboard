@@ -119,7 +119,7 @@
         <!--Interface Builder MRECs-->
         <scene sceneID="PSi-72-UdW">
             <objects>
-                <viewController title="Interface Builder MRECs" hidesBottomBarWhenPushed="YES" id="YcV-km-Hza" customClass="ALDemoInterfaceBuilderMRECViewController" sceneMemberID="viewController">
+                <viewController title="Interface Builder MRECs" hidesBottomBarWhenPushed="YES" id="YcV-km-Hza" customClass="ALDemoInterfaceBuilderMRECViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rmt-p5-I4Q"/>
                         <viewControllerLayoutGuide type="bottom" id="NZ4-1i-Tn9"/>
@@ -184,7 +184,7 @@
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="adView" destination="gtT-tU-6Vk" id="zTh-vr-BNT"/>
+                        <outlet property="adView" destination="gtT-tU-6Vk" id="hza-kJ-fod"/>
                         <outlet property="callbackTableView" destination="bQW-9d-rv6" id="12c-jO-i3z"/>
                     </connections>
                 </viewController>

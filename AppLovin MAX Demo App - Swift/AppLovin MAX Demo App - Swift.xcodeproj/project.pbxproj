@@ -19,6 +19,7 @@
 		3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
 		D0AF8467286941EF044CC885 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C65FDE8218409C279881166 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */; };
+		E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
 		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
@@ -86,6 +87,7 @@
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4A01728177945B7213FAE5D4 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "../../../iOS-Workspace/Pods/Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
 		52EB72780CED2C604D59DCF5 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "../../../iOS-Workspace/Pods/Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
+		E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRECViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				E5BDBE8E2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift */,
+				E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift */,
 			);
 			path = Mrecs;
 			sourceTree = "<group>";
@@ -624,6 +627,7 @@
 				E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */,
 				E5BDBFD524350C1400F82D79 /* ALCarouselView.m in Sources */,
 				E5BDBFE124350C3A00F82D79 /* ALCarouselViewModel.m in Sources */,
+				E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift in Sources */,
 				E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */,
 				E5BDBFD624350C1400F82D79 /* ALCarouselReplayOverlayView.m in Sources */,
 				E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */,
