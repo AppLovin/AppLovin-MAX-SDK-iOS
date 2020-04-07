@@ -6,14 +6,14 @@
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALAutoLayoutBannerAdViewController.h"
+#import "ALMAXAutoLayoutBannerAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALAutoLayoutBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXAutoLayoutBannerAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
-@implementation ALAutoLayoutBannerAdViewController
+@implementation ALMAXAutoLayoutBannerAdViewController
 
 #pragma mark - View Lifecycle
 

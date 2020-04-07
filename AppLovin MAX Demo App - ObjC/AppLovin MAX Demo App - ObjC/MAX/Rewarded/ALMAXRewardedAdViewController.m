@@ -1,21 +1,20 @@
 //
-//  ALInterstitialAdViewController.m
+//  ALRewardedAdViewController.m
 //  DemoApp-ObjC
 //
 //  Created by Thomas So on 9/4/19.
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALInterstitialAdViewController.h"
-#import "ALBaseAdViewController.h"
+#import "ALMAXRewardedAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALInterstitialAdViewController()<MAAdDelegate>
-@property (nonatomic, strong) MAInterstitialAd *interstitialAd;
+@interface ALMAXRewardedAdViewController()<MARewardedAdDelegate>
+@property (nonatomic, strong) MARewardedAd *rewardedAd;
 @property (nonatomic, assign) NSInteger retryAttempt;
 @end
 
-@implementation ALInterstitialAdViewController
+@implementation ALMAXRewardedAdViewController
 
 #pragma mark - View Lifecycle
 
@@ -23,20 +22,20 @@
 {
     [super viewDidLoad];
     
-    self.interstitialAd = [[MAInterstitialAd alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
-    self.interstitialAd.delegate = self;
+    self.rewardedAd = [MARewardedAd sharedWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.rewardedAd.delegate = self;
     
     // Load the first ad
-    [self.interstitialAd loadAd];
+    [self.rewardedAd loadAd];
 }
 
 #pragma mark - IB Actions
 
 - (IBAction)showAd
 {
-    if ( [self.interstitialAd isReady] )
+    if ( [self.rewardedAd isReady] )
     {
-        [self.interstitialAd showAd];
+        [self.rewardedAd showAd];
     }
 }
 
@@ -44,7 +43,7 @@
 
 - (void)didLoadAd:(MAAd *)ad
 {
-    // Interstitial ad is ready to be shown. '[self.interstitialAd isReady]' will now return 'YES'
+    // Rewarded ad is ready to be shown. '[self.rewardedAd isReady]' will now return 'YES'
     [self logCallback: __PRETTY_FUNCTION__];
     
     // Reset retry attempt
@@ -55,13 +54,13 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Interstitial ad failed to load. We recommend retrying with exponentially higher delays.
+    // Rewarded ad failed to load. We recommend retrying with exponentially higher delays.
     
     self.retryAttempt++;
     NSInteger delaySec = pow(2, self.retryAttempt);
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self.interstitialAd loadAd];
+        [self.rewardedAd loadAd];
     });
 }
 
@@ -79,16 +78,34 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Interstitial ad is hidden. Pre-load the next ad
-    [self.interstitialAd loadAd];
+    // Rewarded ad is hidden. Pre-load the next ad
+    [self.rewardedAd loadAd];
 }
 
 - (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Interstitial ad failed to display. We recommend loading the next ad
-    [self.interstitialAd loadAd];
+    // Rewarded ad failed to display. We recommend loading the next ad
+    [self.rewardedAd loadAd];
+}
+
+#pragma mark - MARewardedAdDelegate Protocol
+
+- (void)didStartRewardedVideoForAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+- (void)didCompleteRewardedVideoForAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+- (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
+{
+    // Rewarded ad was displayed and user should receive the reward
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 @end

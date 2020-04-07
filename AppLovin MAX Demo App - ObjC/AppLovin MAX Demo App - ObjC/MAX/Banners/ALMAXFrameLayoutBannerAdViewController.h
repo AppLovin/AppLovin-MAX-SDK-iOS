@@ -1,8 +1,8 @@
 //
-//  ALRewardedAdViewController.h
+//  ALFrameLayoutBannerAdViewController.h
 //  DemoApp-ObjC
 //
-//  Created by Thomas So on 9/4/19.
+//  Created by Andrew Tian on 9/10/19.
 //  Copyright © 2019 AppLovin Corporation. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALRewardedAdViewController : ALBaseAdViewController
+@interface ALMAXFrameLayoutBannerAdViewController : ALBaseAdViewController
 
 @end
 
