@@ -1,6 +1,0 @@
-use_frameworks!
-inhibit_all_warnings!
-
-target 'MAX Demo App' do
-  pod 'AppLovinSDK'
-end

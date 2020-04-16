@@ -1,0 +1,6 @@
+use_frameworks!
+inhibit_all_warnings!
+
+target 'AppLovin MAX Demo App - ObjC' do
+  pod 'AppLovinSDK'
+end
