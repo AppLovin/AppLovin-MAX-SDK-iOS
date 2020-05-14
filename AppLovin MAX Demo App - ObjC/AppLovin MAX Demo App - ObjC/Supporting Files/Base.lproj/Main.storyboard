@@ -1284,7 +1284,7 @@
         <!--Auto Layout MREC Ads-->
         <scene sceneID="eje-UV-dEV">
             <objects>
-                <viewController title="Auto Layout MREC Ads" id="HUo-rV-Kqu" userLabel="Auto Layout MREC Ads" customClass="ALMAXAutoLayoutMrecAdViewController" sceneMemberID="viewController">
+                <viewController title="Auto Layout MREC Ads" id="HUo-rV-Kqu" userLabel="Auto Layout MREC Ads" customClass="ALMAXAutoLayoutMRecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M4W-xE-oTn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1339,7 +1339,7 @@
         <!--Frame Layout MREC Ads-->
         <scene sceneID="CRz-VO-IY7">
             <objects>
-                <viewController title="Frame Layout MREC Ads" id="509-mm-zbk" userLabel="Frame Layout MREC Ads" customClass="ALMAXFrameLayoutMrecAdViewController" sceneMemberID="viewController">
+                <viewController title="Frame Layout MREC Ads" id="509-mm-zbk" userLabel="Frame Layout MREC Ads" customClass="ALMAXFrameLayoutMRecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SMF-On-vKw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1394,7 +1394,7 @@
         <!--Interface Builder MREC Ads-->
         <scene sceneID="dAR-sx-wFL">
             <objects>
-                <viewController title="Interface Builder MREC Ads" id="cOy-wk-Mux" customClass="ALMAXInterfaceBuilderMrecAdViewController" sceneMemberID="viewController">
+                <viewController title="Interface Builder MREC Ads" id="cOy-wk-Mux" customClass="ALMAXInterfaceBuilderMRecAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4b5-oJ-BwF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

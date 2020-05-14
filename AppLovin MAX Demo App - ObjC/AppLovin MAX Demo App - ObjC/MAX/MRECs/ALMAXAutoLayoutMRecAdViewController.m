@@ -9,11 +9,11 @@
 #import "ALMAXAutoLayoutMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXAutoLayoutMrecAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXAutoLayoutMRecAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
-@implementation ALMAXAutoLayoutMrecAdViewController
+@implementation ALMAXAutoLayoutMRecAdViewController
 
 #pragma mark - View Lifecycle
 
