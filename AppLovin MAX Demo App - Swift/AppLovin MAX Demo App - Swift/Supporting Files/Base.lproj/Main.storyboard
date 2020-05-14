@@ -665,7 +665,7 @@
         <!--Auto Layout MREC Ads-->
         <scene sceneID="szR-f5-bWj">
             <objects>
-                <viewController title="Auto Layout MREC Ads" id="iFt-N6-o4J" userLabel="Auto Layout MREC Ads" customClass="ALMAXAutoLayoutMrecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Auto Layout MREC Ads" id="iFt-N6-o4J" userLabel="Auto Layout MREC Ads" customClass="ALMAXAutoLayoutMRecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9JD-uD-JEO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -720,7 +720,7 @@
         <!--Frame Layout MREC Ads-->
         <scene sceneID="rOi-Fn-5b7">
             <objects>
-                <viewController title="Frame Layout MREC Ads" id="hsQ-LV-sQq" userLabel="Frame Layout MREC Ads" customClass="ALMAXFrameLayoutMrecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Frame Layout MREC Ads" id="hsQ-LV-sQq" userLabel="Frame Layout MREC Ads" customClass="ALMAXFrameLayoutMRecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YLZ-hO-DYj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -775,7 +775,7 @@
         <!--Interface Builder MREC Ads-->
         <scene sceneID="m8s-zg-qMf">
             <objects>
-                <viewController title="Interface Builder MREC Ads" id="8Fa-WX-ib9" customClass="ALMAXInterfaceBuilderMrecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Interface Builder MREC Ads" id="8Fa-WX-ib9" customClass="ALMAXInterfaceBuilderMRecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2sI-YK-Hos">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

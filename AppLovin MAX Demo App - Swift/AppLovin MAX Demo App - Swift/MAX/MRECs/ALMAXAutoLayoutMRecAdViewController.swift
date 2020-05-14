@@ -1,5 +1,5 @@
 //
-//  ALMAXAutoLayoutMrecAdViewController.swift
+//  ALMAXAutoLayoutMRecAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 1/13/20.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXAutoLayoutMrecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
     
