@@ -247,7 +247,6 @@
 			children = (
 				1D992FDD231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */,
 				1D992FDC231FA1C300C472F8 /* Products */,
-				E695006C95897C4F7A488656 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -594,13 +593,6 @@
 				E5C8F4C624119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m */,
 			);
 			path = "Interface Builder";
-			sourceTree = "<group>";
-		};
-		E695006C95897C4F7A488656 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
