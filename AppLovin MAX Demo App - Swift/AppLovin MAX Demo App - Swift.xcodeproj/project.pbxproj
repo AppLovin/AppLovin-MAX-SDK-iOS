@@ -17,8 +17,11 @@
 		3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B23623357C4B00E49783 /* ALAppDelegate.swift */; };
 		3763B23E23357C4D00E49783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23D23357C4D00E49783 /* Assets.xcassets */; };
 		3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */; };
+		37B6CECE246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CECD246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift */; };
+		37B6CED0246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */; };
+		37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
-		E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift */; };
+		E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
 		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
@@ -82,8 +85,11 @@
 		3763B23D23357C4D00E49783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3763B24023357C4D00E49783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3763B24223357C4D00E49783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37B6CECD246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXFrameLayoutMRecAdViewController.swift; sourceTree = "<group>"; };
+		37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXInterfaceBuilderMRecAdViewController.swift; sourceTree = "<group>"; };
+		37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAutoLayoutMRecAdViewController.swift; sourceTree = "<group>"; };
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRECViewController.swift; sourceTree = "<group>"; };
+		E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRecViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +241,7 @@
 		3763B24A23357CFB00E49783 /* MAX */ = {
 			isa = PBXGroup;
 			children = (
+				37B6CECC246DE9DE0068A6A4 /* MRECs */,
 				1DDCE595242AE564007EAC8D /* Banners */,
 				1DDCE59B242AE564007EAC8D /* Interstitials */,
 				1DDCE599242AE564007EAC8D /* Rewarded */,
@@ -260,12 +267,22 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		37B6CECC246DE9DE0068A6A4 /* MRECs */ = {
+			isa = PBXGroup;
+			children = (
+				37B6CECD246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift */,
+				37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */,
+				37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */,
+			);
+			path = MRECs;
+			sourceTree = "<group>";
+		};
 		E5BDBDF22432C4E800F82D79 /* AppLovin */ = {
 			isa = PBXGroup;
 			children = (
 				E5BDBFF224354C5800F82D79 /* Event Tracking */,
 				E5BDBFE824350D0100F82D79 /* Native */,
-				E5BDBE902434141100F82D79 /* Mrecs */,
+				E5BDBE902434141100F82D79 /* MRECs */,
 				E5BDBE8D243404DD00F82D79 /* Leaders */,
 				E5BDBE882433F50800F82D79 /* Banners */,
 				E5BDBDF32432C4E800F82D79 /* Interstitials */,
@@ -313,13 +330,13 @@
 			path = Leaders;
 			sourceTree = "<group>";
 		};
-		E5BDBE902434141100F82D79 /* Mrecs */ = {
+		E5BDBE902434141100F82D79 /* MRECs */ = {
 			isa = PBXGroup;
 			children = (
 				E5BDBE8E2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift */,
-				E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift */,
+				E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift */,
 			);
-			path = Mrecs;
+			path = MRECs;
 			sourceTree = "<group>";
 		};
 		E5BDBF9924350B2400F82D79 /* Programattic */ = {
@@ -545,10 +562,12 @@
 				E5BDBFD424350C1400F82D79 /* ALCarouselMediaView.m in Sources */,
 				E5BDBE862433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift in Sources */,
 				E5BDBE8B243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift in Sources */,
+				37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */,
 				1DDCE59E242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift in Sources */,
 				E5BDBF9E24350B6000F82D79 /* ALDemoArticle.m in Sources */,
 				1DDCE5A5242AE5CE007EAC8D /* ALHomeViewController.swift in Sources */,
 				E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */,
+				37B6CED0246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift in Sources */,
 				E5BDBDFE2432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift in Sources */,
 				1DDCE59F242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift in Sources */,
 				E5BDBF9824350B1200F82D79 /* ALDemoNativeAdProgrammaticViewController.swift in Sources */,
@@ -557,6 +576,7 @@
 				1DDCE5A0242AE564007EAC8D /* ALMAXRewardedAdViewController.swift in Sources */,
 				E5BDBE8F2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift in Sources */,
 				37C4D0E8233D834900096894 /* main.swift in Sources */,
+				37B6CECE246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift in Sources */,
 				E5BDBFE624350CC100F82D79 /* ALDemoNativeAdFeedTableViewController.swift in Sources */,
 				E5BDBF9F24350B6000F82D79 /* ALDemoRSSFeedRetriever.m in Sources */,
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
@@ -567,7 +587,7 @@
 				E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */,
 				E5BDBFD524350C1400F82D79 /* ALCarouselView.m in Sources */,
 				E5BDBFE124350C3A00F82D79 /* ALCarouselViewModel.m in Sources */,
-				E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRECViewController.swift in Sources */,
+				E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */,
 				E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */,
 				E5BDBFD624350C1400F82D79 /* ALCarouselReplayOverlayView.m in Sources */,
 				E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */,
