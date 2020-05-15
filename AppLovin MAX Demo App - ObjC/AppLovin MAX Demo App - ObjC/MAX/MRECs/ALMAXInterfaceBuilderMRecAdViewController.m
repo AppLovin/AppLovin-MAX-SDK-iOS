@@ -1,5 +1,5 @@
 //
-//  ALInterfaceBuilderMRecAdViewController.m
+//  ALMAXInterfaceBuilderMRecAdViewController.m
 //  DemoApp-ObjC
 //
 //  Created by Andrew Tian on 1/23/20.

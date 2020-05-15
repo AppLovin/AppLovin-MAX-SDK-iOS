@@ -1,5 +1,5 @@
 //
-//  ALInterfaceBuilderBannerAdViewController.h
+//  ALMAXInterfaceBuilderBannerAdViewController.h
 //  DemoApp-ObjC
 //
 //  Created by Andrew Tian on 9/10/19.
