@@ -1,5 +1,5 @@
 //
-//  ALAutoLayoutBannerAdViewController.swift
+//  ALMAXAutoLayoutBannerAdViewController.swift
 //  DemoApp-Swift
 //
 //  Created by Andrew Tian on 9/20/19.

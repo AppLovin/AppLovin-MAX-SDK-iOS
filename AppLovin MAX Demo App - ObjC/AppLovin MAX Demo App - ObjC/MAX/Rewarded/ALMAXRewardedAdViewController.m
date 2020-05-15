@@ -1,5 +1,5 @@
 //
-//  ALRewardedAdViewController.m
+//  ALMAXRewardedAdViewController.m
 //  DemoApp-ObjC
 //
 //  Created by Thomas So on 9/4/19.
