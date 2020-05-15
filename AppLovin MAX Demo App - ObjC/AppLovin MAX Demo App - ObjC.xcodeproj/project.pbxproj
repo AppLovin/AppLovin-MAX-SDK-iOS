@@ -10,6 +10,9 @@
 		1D992FE6231FA1C400C472F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE4231FA1C400C472F8 /* Main.storyboard */; };
 		1D992FE8231FA1C500C472F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE7231FA1C500C472F8 /* Assets.xcassets */; };
 		1D992FEB231FA1C500C472F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE9231FA1C500C472F8 /* LaunchScreen.storyboard */; };
+		37B6CED5246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */; };
+		37B6CED8246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */; };
+		37B6CEDB246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */; };
 		37C7E1EB2328904E002165B5 /* ALMAXAutoLayoutBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB33523204D120076AAAA /* ALMAXAutoLayoutBannerAdViewController.m */; };
 		37C7E1EC2328904E002165B5 /* ALMAXFrameLayoutBannerAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C7E1E823285E94002165B5 /* ALMAXFrameLayoutBannerAdViewController.m */; };
 		37C7E1ED2328904E002165B5 /* ALMAXInterstitialAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0CB32F23204CE70076AAAA /* ALMAXInterstitialAdViewController.m */; };
@@ -85,6 +88,12 @@
 		1D992FEA231FA1C500C472F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D992FEC231FA1C500C472F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D992FED231FA1C500C472F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXAutoLayoutMRecAdViewController.m; sourceTree = "<group>"; };
+		37B6CED6246E05330068A6A4 /* ALMAXAutoLayoutMRecAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXAutoLayoutMRecAdViewController.h; sourceTree = "<group>"; };
+		37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXFrameLayoutMRecAdViewController.m; sourceTree = "<group>"; };
+		37B6CED9246E05870068A6A4 /* ALMAXFrameLayoutMRecAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXFrameLayoutMRecAdViewController.h; sourceTree = "<group>"; };
+		37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXInterfaceBuilderMRecAdViewController.m; sourceTree = "<group>"; };
+		37B6CEDC246E062F0068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXInterfaceBuilderMRecAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E523285B4E002165B5 /* ALMAXInterfaceBuilderBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXInterfaceBuilderBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1E723285B6A002165B5 /* ALMAXInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALMAXFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
@@ -183,6 +192,7 @@
 		1D0CB33823204EBD0076AAAA /* MAX */ = {
 			isa = PBXGroup;
 			children = (
+				37B6CED3246E04D30068A6A4 /* MRECs */,
 				1D629D5D240F4E6600FE6F5F /* Banners */,
 				1D629D5E240F4E7200FE6F5F /* Interstitials */,
 				1D629D5F240F4E7500FE6F5F /* Rewarded */,
@@ -276,6 +286,19 @@
 				E56785FE23F4846000ACA6C1 /* MRECs.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		37B6CED3246E04D30068A6A4 /* MRECs */ = {
+			isa = PBXGroup;
+			children = (
+				37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */,
+				37B6CED6246E05330068A6A4 /* ALMAXAutoLayoutMRecAdViewController.h */,
+				37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */,
+				37B6CED9246E05870068A6A4 /* ALMAXFrameLayoutMRecAdViewController.h */,
+				37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */,
+				37B6CEDC246E062F0068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.h */,
+			);
+			path = MRECs;
 			sourceTree = "<group>";
 		};
 		E567854723F22E1E00ACA6C1 /* Rewarded */ = {
@@ -673,6 +696,7 @@
 				E56785E823F3555A00ACA6C1 /* ALDemoProgrammaticBannerViewController.m in Sources */,
 				E567854623F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m in Sources */,
 				E56786D223F48C1A00ACA6C1 /* ALDemoRSSFeedRetriever.m in Sources */,
+				37B6CEDB246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m in Sources */,
 				E56785EB23F3557100ACA6C1 /* ALDemoInterfaceBuilderBannerViewController.m in Sources */,
 				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
 				E56786D123F48C1A00ACA6C1 /* ALDemoArticle.m in Sources */,
@@ -680,11 +704,13 @@
 				E56786B923F48B2000ACA6C1 /* ALCarouselReplayOverlayView.m in Sources */,
 				E573083823EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m in Sources */,
 				E56786BB23F48B2000ACA6C1 /* ALCarouselView.m in Sources */,
+				37B6CED5246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m in Sources */,
 				E56786CB23F48B8A00ACA6C1 /* ALNativeAdVideoPlayer.m in Sources */,
 				37C7E1EB2328904E002165B5 /* ALMAXAutoLayoutBannerAdViewController.m in Sources */,
 				E567860623F4899600ACA6C1 /* ALDemoNativeAdProgrammaticViewController.m in Sources */,
 				E5C8F4C724119F0F00592BF8 /* ALDemoInterfaceBuilderMRECViewController.m in Sources */,
 				E56785FA23F35BC200ACA6C1 /* ALDemoProgrammaticLeaderViewController.m in Sources */,
+				37B6CED8246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m in Sources */,
 				37C7E1EC2328904E002165B5 /* ALMAXFrameLayoutBannerAdViewController.m in Sources */,
 				E56786BC23F48B2000ACA6C1 /* ALNativeAdVideoView.m in Sources */,
 				E56786C223F48B7500ACA6C1 /* UIView+ALActivityIndicator.m in Sources */,

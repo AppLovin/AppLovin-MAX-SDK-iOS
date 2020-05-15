@@ -1,19 +1,19 @@
 //
-//  ALMAXInterfaceBuilderBannerAdViewController.m
+//  ALMAXInterfaceBuilderMRecAdViewController.m
 //  DemoApp-ObjC
 //
-//  Created by Andrew Tian on 9/10/19.
-//  Copyright © 2019 AppLovin Corporation. All rights reserved.
+//  Created by Andrew Tian on 1/23/20.
+//  Copyright © 2020 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMAXInterfaceBuilderBannerAdViewController.h"
+#import "ALMAXInterfaceBuilderMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXInterfaceBuilderBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXInterfaceBuilderMRecAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) IBOutlet MAAdView *adView;
 @end
 
-@implementation ALMAXInterfaceBuilderBannerAdViewController
+@implementation ALMAXInterfaceBuilderMRecAdViewController
 
 #pragma mark - View Lifecycle
 
@@ -21,7 +21,7 @@
 {
     [super viewDidLoad];
 
-    // NOTE: Must set Storyboard "User Defined Runtime Attributes" for banner ad view
+    // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
     // Key Path = ad_unit_id
     // Type     = String
     // Value    = YOUR_AD_UNIT_ID

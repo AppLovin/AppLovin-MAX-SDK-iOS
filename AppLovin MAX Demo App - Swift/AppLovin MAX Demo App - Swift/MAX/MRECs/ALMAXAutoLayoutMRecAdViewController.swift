@@ -1,17 +1,17 @@
 //
-//  ALMAXAutoLayoutBannerAdViewController.swift
+//  ALMAXAutoLayoutMRecAdViewController.swift
 //  DemoApp-Swift
 //
-//  Created by Andrew Tian on 9/20/19.
-//  Copyright © 2019 AppLovin. All rights reserved.
+//  Created by Andrew Tian on 1/13/20.
+//  Copyright © 2020 AppLovin. All rights reserved.
 //
 
 import UIKit
 import AppLovinSDK
 
-class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
-    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
+    private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
     
     // MARK: View Lifecycle
     
@@ -22,18 +22,17 @@ class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdD
         adView.delegate = self
         adView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set background or background color for banners to be fully functional
+        // Set background or background color for MRECs to be fully functional
         adView.backgroundColor = .black
         
         view.addSubview(adView)
-
-        // Anchor the banner to the left, right, and top of the screen.
-        adView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true;
-        adView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true;
-        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true;
         
-        adView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true;
-        adView.heightAnchor.constraint(equalToConstant: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50).isActive = true // Banner height on iPhone and iPad is 50 and 90, respectively
+        // Center the MREC and anchor it to the top of the screen.
+        adView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        adView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        adView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         
         // Load the first ad
         adView.loadAd()
@@ -44,7 +43,7 @@ class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdD
     func didLoad(_ ad: MAAd) { logCallback() }
     
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int) { logCallback() }
-
+    
     func didDisplay(_ ad: MAAd) { logCallback() }
     
     func didHide(_ ad: MAAd) { logCallback() }

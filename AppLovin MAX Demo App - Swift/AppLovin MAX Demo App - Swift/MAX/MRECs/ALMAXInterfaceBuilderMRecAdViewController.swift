@@ -1,15 +1,15 @@
 //
-//  ALMAXInterfaceBuilderBannerAdViewController.swift
+//  ALMAXInterfaceBuilderMRecAdViewController.swift
 //  DemoApp-Swift
 //
-//  Created by Andrew Tian on 9/20/19.
-//  Copyright © 2019 AppLovin. All rights reserved.
+//  Created by Andrew Tian on 1/23/20.
+//  Copyright © 2020 AppLovin. All rights reserved.
 //
 
 import UIKit
 import AppLovinSDK
 
-class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXInterfaceBuilderMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     @IBOutlet weak var adView: MAAdView!
     
@@ -19,10 +19,10 @@ class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdV
     {
         super.viewDidLoad()
         
-        // NOTE: Must set Storyboard "User Defined Runtime Attributes" for banner ad view
-        // Key Path = ad_unit_id
+        // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
+        // Key Path = ad_unit_id & ad_format
         // Type     = String
-        // Value    = YOUR_AD_UNIT_ID
+        // Value    = YOUR_AD_UNIT_ID & MREC
         
         // Load the first ad
         adView.loadAd()

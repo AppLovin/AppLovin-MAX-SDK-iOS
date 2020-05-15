@@ -1,19 +1,19 @@
 //
-//  ALMAXFrameLayoutBannerAdViewController.m
+//  ALMAXAutoLayoutMRecAdViewController.m
 //  DemoApp-ObjC
 //
-//  Created by Andrew Tian on 9/10/19.
-//  Copyright © 2019 AppLovin Corporation. All rights reserved.
+//  Created by Andrew Tian on 1/14/20.
+//  Copyright © 2020 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMAXFrameLayoutBannerAdViewController.h"
+#import "ALMAXAutoLayoutMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXFrameLayoutBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXAutoLayoutMRecAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
-@implementation ALMAXFrameLayoutBannerAdViewController
+@implementation ALMAXAutoLayoutMRecAdViewController
 
 #pragma mark - View Lifecycle
 
@@ -21,21 +21,21 @@
 {
     [super viewDidLoad];
     
-    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
     self.adView.delegate = self;
-    
-    // Calculate dimensions
-    CGFloat width = CGRectGetWidth(self.view.bounds); // Stretch to the width of the screen for banners to be fully functional
-    CGFloat height = (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 90 : 50; // Banner height on iPhone and iPad is 50 and 90, respectively
-    CGFloat x = 0;
-    CGFloat y = 0;
-    
-    self.adView.frame = CGRectMake(x, y, width, height);
-    
-    // Set background or background color for banners to be fully functional
+    self.adView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    // Set background or background color for MRECs to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
-    
+
     [self.view addSubview: self.adView];
+
+    // Center the MREC and anchor it to the top of the screen.
+    [[self.adView.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor] setActive: YES];
+    [[self.adView.topAnchor constraintEqualToAnchor: self.view.topAnchor] setActive: YES];
+    
+    [[self.adView.widthAnchor constraintEqualToConstant: 300] setActive: YES];
+    [[self.adView.heightAnchor constraintEqualToConstant: 250] setActive: YES];
     
     // Load the first ad
     [self.adView loadAd];

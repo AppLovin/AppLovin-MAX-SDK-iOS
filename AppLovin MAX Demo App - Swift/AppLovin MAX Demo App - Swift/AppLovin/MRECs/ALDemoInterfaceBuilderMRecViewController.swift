@@ -1,5 +1,5 @@
 //
-//  ALDemoInterfaceBuilderMRECViewController.swift
+//  ALDemoInterfaceBuilderMRecViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
 //  Created by Varsha Hanji on 4/6/20.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALDemoInterfaceBuilderMRECViewController : ALBaseAdViewController
+class ALDemoInterfaceBuilderMRecViewController : ALBaseAdViewController
 {
     
     @IBOutlet weak var adView: ALAdView!
@@ -42,7 +42,7 @@ class ALDemoInterfaceBuilderMRECViewController : ALBaseAdViewController
     }
 }
 
-extension ALDemoInterfaceBuilderMRECViewController : ALAdLoadDelegate
+extension ALDemoInterfaceBuilderMRecViewController : ALAdLoadDelegate
 {
     func adService(_ adService: ALAdService, didLoad ad: ALAd)
     {
@@ -56,7 +56,7 @@ extension ALDemoInterfaceBuilderMRECViewController : ALAdLoadDelegate
     }
 }
 
-extension ALDemoInterfaceBuilderMRECViewController : ALAdDisplayDelegate
+extension ALDemoInterfaceBuilderMRecViewController : ALAdDisplayDelegate
 {
     func ad(_ ad: ALAd, wasDisplayedIn view: UIView)
     {
@@ -74,7 +74,7 @@ extension ALDemoInterfaceBuilderMRECViewController : ALAdDisplayDelegate
     }
 }
 
-extension ALDemoInterfaceBuilderMRECViewController : ALAdViewEventDelegate
+extension ALDemoInterfaceBuilderMRecViewController : ALAdViewEventDelegate
 {
     func ad(_ ad: ALAd, didPresentFullscreenFor adView: ALAdView)
     {

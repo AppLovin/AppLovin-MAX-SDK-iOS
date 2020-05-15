@@ -1,5 +1,5 @@
 //
-//  ALAutoLayoutBannerAdViewController.m
+//  ALMAXAutoLayoutBannerAdViewController.m
 //  DemoApp-ObjC
 //
 //  Created by Thomas So on 9/4/19.
@@ -30,32 +30,16 @@
 
     [self.view addSubview: self.adView];
 
-    // Center the banner and anchor it to the top of the screen.
-    CGFloat height = (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 90 : 50; // Banner height on iPhone and iPad is 50 and 90, respectively
-    [self.view addConstraints: @[[self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeLeading],
-                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTrailing],
-                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTop],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeHeight
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeNotAnAttribute
-                                                             multiplier: 1.0
-                                                               constant: height]]];
-
+    // Anchor the banner to the left, right, and top of the screen.
+    [[self.adView.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor] setActive: YES];
+    [[self.adView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor] setActive: YES];
+    [[self.adView.topAnchor constraintEqualToAnchor: self.view.topAnchor] setActive: YES];
+    
+    [[self.adView.widthAnchor constraintEqualToAnchor: self.view.widthAnchor] setActive: YES];
+    [[self.adView.heightAnchor constraintEqualToConstant: UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? 90 : 50 ] setActive: YES];
+    
     // Load the first ad
     [self.adView loadAd];
-}
-
-- (NSLayoutConstraint *)constraintWithAdView:(MAAdView *)adView andAttribute:(NSLayoutAttribute)attribute
-{
-    return [NSLayoutConstraint constraintWithItem: adView
-                                        attribute: attribute
-                                        relatedBy: NSLayoutRelationEqual
-                                           toItem: self.view
-                                        attribute: attribute
-                                       multiplier: 1.0
-                                         constant: 0.0];
 }
 
 #pragma mark - MAAdDelegate Protocol
