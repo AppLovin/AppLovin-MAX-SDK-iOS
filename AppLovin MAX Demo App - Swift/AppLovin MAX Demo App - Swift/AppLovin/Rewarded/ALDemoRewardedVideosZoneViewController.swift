@@ -20,6 +20,13 @@ class ALDemoRewardedVideosZoneViewController : ALBaseAdViewController
         incentivizedInterstitial = ALIncentivizedInterstitialAd(zoneIdentifier: "YOUR_ZONE_ID")
     }
     
+    // You need to preload each rewarded video before it can be displayed
+    @IBAction func preloadRewardedVideo()
+    {
+        logCallback()
+        incentivizedInterstitial.preloadAndNotify(self)
+    }
+    
     @IBAction func showRewardedVideo()
     {
         // You need to preload each rewarded video before it can be displayed
@@ -31,13 +38,6 @@ class ALDemoRewardedVideosZoneViewController : ALBaseAdViewController
         {
             preloadRewardedVideo()
         }
-    }
-    
-    // You need to preload each rewarded video before it can be displayed
-    @IBAction func preloadRewardedVideo()
-    {
-        logCallback()
-        incentivizedInterstitial.preloadAndNotify(self)
     }
 }
 

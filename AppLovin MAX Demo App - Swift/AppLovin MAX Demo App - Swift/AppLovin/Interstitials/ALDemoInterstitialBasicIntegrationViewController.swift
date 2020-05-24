@@ -11,8 +11,6 @@ import AppLovinSDK
 
 class ALDemoInterstitialBasicIntegrationViewController : ALBaseAdViewController
 {
-//    @IBOutlet weak var showButton: UIBarButtonItem!
-    
     @IBOutlet weak var showButton: UIButton!
     
     private let interstitialAd = ALInterstitialAd.shared()

@@ -12,11 +12,18 @@ import AppLovinSDK
 class ALDemoRewardedVideosViewController : ALBaseAdViewController
 {
     private let rewardedAd = ALIncentivizedInterstitialAd.shared()
-
+    
+    // You need to preload each rewarded video before it can be displayed
+    @IBAction func preloadRewardedVideo()
+    {
+        logCallback()
+        rewardedAd.preloadAndNotify(self)
+    }
+    
     @IBAction func showRewardedVideo()
     {
         // You need to preload each rewarded video before it can be displayed
-        if ALIncentivizedInterstitialAd.shared().isReadyForDisplay
+        if rewardedAd.isReadyForDisplay
         {
             // Optional: Assign delegates
             rewardedAd.adDisplayDelegate = self
@@ -28,13 +35,6 @@ class ALDemoRewardedVideosViewController : ALBaseAdViewController
         {
             preloadRewardedVideo()
         }
-    }
-    
-    // You need to preload each rewarded video before it can be displayed
-    @IBAction func preloadRewardedVideo()
-    {
-        logCallback()
-        rewardedAd.preloadAndNotify(self)
     }
 }
 
