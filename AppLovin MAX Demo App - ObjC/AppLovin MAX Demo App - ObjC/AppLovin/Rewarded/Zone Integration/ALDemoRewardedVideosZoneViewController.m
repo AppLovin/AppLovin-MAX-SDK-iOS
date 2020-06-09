@@ -29,19 +29,19 @@
 // You need to preload each rewarded video before it can be displayed
 - (IBAction)preloadRewardedVideo:(id)sender
 {
-    [self.incentivizedInterstitial preloadAndNotify: self];
+    [self.rewardedAd preloadAndNotify: self];
 }
 
 - (IBAction)showRewardedVideo:(id)sender
 {
     // You need to preload each rewarded video before it can be displayed
-    if ( [self.incentivizedInterstitial isReadyForDisplay] )
+    if ( [self.rewardedAd isReadyForDisplay] )
     {
         // Optional: Assign delegates
-        self.incentivizedInterstitial.adDisplayDelegate = self;
-        self.incentivizedInterstitial.adVideoPlaybackDelegate = self;
+        self.rewardedAd.adDisplayDelegate = self;
+        self.rewardedAd.adVideoPlaybackDelegate = self;
         
-        [self.incentivizedInterstitial showAndNotify: self];
+        [self.rewardedAd showAndNotify: self];
     }
     else
     {
