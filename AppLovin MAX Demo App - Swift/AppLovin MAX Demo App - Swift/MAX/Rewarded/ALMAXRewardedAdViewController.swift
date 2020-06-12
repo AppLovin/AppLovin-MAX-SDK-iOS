@@ -48,7 +48,7 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
     {
         logCallback()
         
-        // Rewarded ad failed to load. We recommend retrying with exponentially higher delays up to a maximum delay.
+        // Rewarded ad failed to load. We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds).
         
         retryAttempt += 1
         let delaySec = pow(2.0, min(6.0, retryAttempt))
