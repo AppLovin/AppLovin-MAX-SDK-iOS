@@ -54,10 +54,10 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Rewarded ad failed to load. We recommend retrying with exponentially higher delays.
+    // Rewarded ad failed to load. We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds).
     
     self.retryAttempt++;
-    NSInteger delaySec = pow(2, self.retryAttempt);
+    NSInteger delaySec = pow(2, MIN(6, self.retryAttempt));
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self.rewardedAd loadAd];
