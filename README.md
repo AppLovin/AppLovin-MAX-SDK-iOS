@@ -30,4 +30,5 @@ To get started with the demo apps, follow the instructions below:
 | -5201         | Indicates an internal state error with the AppLovin MAX SDK. |
 
 ## Support
-We recommend using GitHub to file issues. For feature requests, improvements, questions or any other integration issues using MAX Mediation by AppLovin, please reach out to your account team and copy devsupport@applovin.com.
+We recommend using GitHub to file issues. For feature requests, improvements, questions or any other integration issues using MAX Mediation by AppLovin, contact us via our support page https://monetization-support.applovin.com/hc/en-us.
+
