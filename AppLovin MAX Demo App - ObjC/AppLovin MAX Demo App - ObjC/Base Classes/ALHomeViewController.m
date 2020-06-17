@@ -43,10 +43,6 @@ static const NSInteger kRowIndexToHideForPhone = 3;
         {
             [self openSupportSite];
         }
-        else if ( indexPath.row == 1 )
-        {
-            [self attemptSendEmail];
-        }
     }
 }
 
@@ -100,31 +96,6 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     else
     {
         [[UIApplication sharedApplication] openURL: [NSURL URLWithString: kSupportLink]];
-    }
-}
-
-- (void)attemptSendEmail
-{
-    if ( [MFMailComposeViewController canSendMail] )
-    {
-        MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-        mailController.mailComposeDelegate = self;
-        [mailController setSubject: @"iOS SDK support"];
-        [mailController setToRecipients: @[kSupportEmail]];
-        [mailController setMessageBody: [NSString stringWithFormat: @"\n\n---\nSDK Version: %@", [ALSdk version]] isHTML: NO];
-        mailController.navigationBar.tintColor = [UIColor whiteColor];
-        [self presentViewController: mailController animated: YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent];
-        }];
-    }
-    else
-    {
-        NSString *message = [NSString stringWithFormat: @"Your device is not configured for sending emails.\n\nPlease send emails to %@", kSupportEmail];
-        [[[UIAlertView alloc] initWithTitle: @"Email Unavailable"
-                                    message: message
-                                   delegate: nil
-                          cancelButtonTitle: @"OK"
-                          otherButtonTitles: nil] show];
     }
 }
 
