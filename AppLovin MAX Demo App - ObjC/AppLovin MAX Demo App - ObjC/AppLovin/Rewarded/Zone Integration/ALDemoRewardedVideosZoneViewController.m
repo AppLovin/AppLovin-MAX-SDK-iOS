@@ -67,6 +67,12 @@
 {
     /* AppLovin servers validated the reward. Refresh user balance from your server.  We will also pass the number of coins
      awarded and the name of the currency.  However, ideally, you should verify this with your server before granting it. */
+    
+    // i.e. - "Coins", "Gold", whatever you set in the dashboard.
+    NSLog(@"Received %@ %@", response[@"amount"], response[@"currencyName"]);
+    
+     // For example, "5" or "5.00" if you've specified an amount in the UI.
+    NSLog(@"Amount given %@", @([response[@"amount"] floatValue]));
    
     // Do something with this information.
     // [MYCurrencyManagerClass updateUserCurrency: currencyName withChange: amountGiven];
