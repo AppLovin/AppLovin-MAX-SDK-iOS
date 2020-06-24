@@ -120,11 +120,16 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     else
     {
         NSString *message = [NSString stringWithFormat: @"Your device is not configured for sending emails.\n\nPlease send emails to %@", kSupportEmail];
-        [[[UIAlertView alloc] initWithTitle: @"Email Unavailable"
-                                    message: message
-                                   delegate: nil
-                          cancelButtonTitle: @"OK"
-                          otherButtonTitles: nil] show];
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Email Unavailable"
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -133,11 +138,14 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     switch ( result )
     {
         case MFMailComposeResultSent:
-            [[[UIAlertView alloc] initWithTitle: @"Email Sent"
-                                        message: @"Thank you for your email, we will process it as soon as possible."
-                                       delegate: nil
-                              cancelButtonTitle: @"OK"
-                              otherButtonTitles: nil] show];
+        { UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Email Sent"
+                                                                         message:@"Thank you for your email, we will process it as soon as possible."
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];}
         case MFMailComposeResultCancelled:
         case MFMailComposeResultSaved:
         case MFMailComposeResultFailed:
