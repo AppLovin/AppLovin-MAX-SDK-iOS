@@ -123,11 +123,11 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     {
         NSString *message = [NSString stringWithFormat: @"Your device is not configured for sending emails.\n\nPlease send emails to %@", kSupportEmail];
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Email Unavailable"
-                                                                       message: message
-                                                                preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Email Unavailable"
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
         
         [alert addAction:defaultAction];
@@ -140,11 +140,11 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     switch ( result )
     {
         case MFMailComposeResultSent:
-        { UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Email Sent"
+        { UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Email Sent"
                                                                          message:@"Thank you for your email, we will process it as soon as possible."
-                                                                  preferredStyle: UIAlertControllerStyleAlert];
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
             
-            UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];
             
             [alert addAction:defaultAction];}
