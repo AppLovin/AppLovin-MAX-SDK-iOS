@@ -15,6 +15,8 @@
 @property (nonatomic, weak) IBOutlet UITableViewCell *mediationDebuggerCell;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *muteToggle;
 @end
+@interface ALHomeViewController()<MFMailComposeViewControllerDelegate>;
+@end
 
 @implementation ALHomeViewController
 static NSString *const kSupportEmail = @"support@applovin.com";
@@ -108,7 +110,7 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     if ( [MFMailComposeViewController canSendMail] )
     {
         MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-        mailController.mailComposeDelegate = (id<MFMailComposeViewControllerDelegate>)self;
+        mailController.mailComposeDelegate = self;
         [mailController setSubject: @"iOS SDK support"];
         [mailController setToRecipients: @[kSupportEmail]];
         [mailController setMessageBody: [NSString stringWithFormat: @"\n\n---\nSDK Version: %@", [ALSdk version]] isHTML: NO];
