@@ -108,7 +108,7 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     if ( [MFMailComposeViewController canSendMail] )
     {
         MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-        mailController.mailComposeDelegate = self;
+        mailController.mailComposeDelegate = (id<MFMailComposeViewControllerDelegate>)self;
         [mailController setSubject: @"iOS SDK support"];
         [mailController setToRecipients: @[kSupportEmail]];
         [mailController setMessageBody: [NSString stringWithFormat: @"\n\n---\nSDK Version: %@", [ALSdk version]] isHTML: NO];
