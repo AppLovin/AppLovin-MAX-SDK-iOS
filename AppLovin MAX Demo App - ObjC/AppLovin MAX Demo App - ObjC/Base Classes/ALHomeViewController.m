@@ -45,10 +45,6 @@ static const NSInteger kRowIndexToHideForPhone = 3;
         {
             [self openSupportSite];
         }
-        else if ( indexPath.row == 1 )
-        {
-            [self attemptSendEmail];
-        }
     }
 }
 

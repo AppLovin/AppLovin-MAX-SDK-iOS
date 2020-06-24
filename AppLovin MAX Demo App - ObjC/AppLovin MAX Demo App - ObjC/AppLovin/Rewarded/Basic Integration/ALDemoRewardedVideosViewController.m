@@ -15,15 +15,29 @@
 
 @implementation ALDemoRewardedVideosViewController
 
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.rewardedAd =[ALIncentivizedInterstitialAd shared];
+}
+
 #pragma mark - IB Action Methods
+
+// You need to preload each rewarded video before it can be displayed
+- (IBAction)preloadRewardedVideo:(id)sender
+{
+    [self.rewardedAd preloadAndNotify: self];
+}
 
 - (IBAction)showRewardedVideo:(id)sender
 {
     // You need to preload each rewarded video before it can be displayed
-    if ( [[ALIncentivizedInterstitialAd shared] isReadyForDisplay] )
+    if ( [self.rewardedAd isReadyForDisplay] )
     {
         // Optional: Assign delegates
-        self.rewardedAd = [ALIncentivizedInterstitialAd shared];
         self.rewardedAd.adDisplayDelegate = self;
         self.rewardedAd.adVideoPlaybackDelegate = self;
         
@@ -33,14 +47,6 @@
     {
         [self preloadRewardedVideo: nil];
     }
-}
-
-// You need to preload each rewarded video before it can be displayed
-- (IBAction)preloadRewardedVideo:(id)sender
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-    
-    [self.rewardedAd preloadAndNotify: self];
 }
 
 #pragma mark - Ad Load Delegate

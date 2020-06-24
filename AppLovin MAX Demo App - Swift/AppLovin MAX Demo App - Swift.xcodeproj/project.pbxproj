@@ -229,10 +229,10 @@
 		3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */ = {
 			isa = PBXGroup;
 			children = (
+				3763B23623357C4B00E49783 /* ALAppDelegate.swift */,
 				E5BDBDF22432C4E800F82D79 /* AppLovin */,
 				1DDCE5A2242AE5CE007EAC8D /* Base Classes */,
 				3763B24A23357CFB00E49783 /* MAX */,
-				3763B23623357C4B00E49783 /* ALAppDelegate.swift */,
 				3763B25323357D7900E49783 /* Supporting Files */,
 			);
 			path = "AppLovin MAX Demo App - Swift";
@@ -241,9 +241,9 @@
 		3763B24A23357CFB00E49783 /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				37B6CECC246DE9DE0068A6A4 /* MRECs */,
 				1DDCE595242AE564007EAC8D /* Banners */,
 				1DDCE59B242AE564007EAC8D /* Interstitials */,
+				37B6CECC246DE9DE0068A6A4 /* MRECs */,
 				1DDCE599242AE564007EAC8D /* Rewarded */,
 			);
 			path = MAX;
@@ -252,7 +252,7 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E5BDBFEC243515C100F82D79 /* AppLovin MAX Demo App Swift-Bridging-Header.h */,
+				1D527D29247A4CB700958645 /* AppLovin MAX Demo App-Bridging-Header.h */,
 				E5EE50DB241C25B60032B659 /* MRECs.storyboard */,
 				E5EE50DA241C25B60032B659 /* Rewarded.storyboard */,
 				E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */,
@@ -280,12 +280,12 @@
 		E5BDBDF22432C4E800F82D79 /* AppLovin */ = {
 			isa = PBXGroup;
 			children = (
-				E5BDBFF224354C5800F82D79 /* Event Tracking */,
-				E5BDBFE824350D0100F82D79 /* Native */,
-				E5BDBE902434141100F82D79 /* MRECs */,
-				E5BDBE8D243404DD00F82D79 /* Leaders */,
 				E5BDBE882433F50800F82D79 /* Banners */,
+				E5BDBFF224354C5800F82D79 /* Event Tracking */,
 				E5BDBDF32432C4E800F82D79 /* Interstitials */,
+				E5BDBE8D243404DD00F82D79 /* Leaders */,
+				E5BDBE902434141100F82D79 /* MRECs */,
+				E5BDBFE824350D0100F82D79 /* Native */,
 				E5BDBDF72432C4E800F82D79 /* Rewarded */,
 			);
 			name = AppLovin;

@@ -10,7 +10,7 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALDemoRewardedVideosZoneViewController()<ALAdLoadDelegate, ALAdRewardDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
-@property (nonatomic, strong) ALIncentivizedInterstitialAd *incentivizedInterstitial;
+@property (nonatomic, strong) ALIncentivizedInterstitialAd *rewardedAd;
 @end
 
 @implementation ALDemoRewardedVideosZoneViewController
@@ -21,34 +21,32 @@
 {
     [super viewDidLoad];
     
-    self.incentivizedInterstitial = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier: @"YOUR_ZONE_ID"];
+    self.rewardedAd = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier: @"YOUR_ZONE_ID"];
 }
 
 #pragma mark - IB Action Methods
 
+// You need to preload each rewarded video before it can be displayed
+- (IBAction)preloadRewardedVideo:(id)sender
+{
+    [self.rewardedAd preloadAndNotify: self];
+}
+
 - (IBAction)showRewardedVideo:(id)sender
 {
     // You need to preload each rewarded video before it can be displayed
-    if ( self.incentivizedInterstitial.isReadyForDisplay )
+    if ( [self.rewardedAd isReadyForDisplay] )
     {
         // Optional: Assign delegates
-        self.incentivizedInterstitial.adDisplayDelegate = self;
-        self.incentivizedInterstitial.adVideoPlaybackDelegate = self;
+        self.rewardedAd.adDisplayDelegate = self;
+        self.rewardedAd.adVideoPlaybackDelegate = self;
         
-        [self.incentivizedInterstitial showAndNotify: self];
+        [self.rewardedAd showAndNotify: self];
     }
     else
     {
         [self preloadRewardedVideo: nil];
     }
-}
-
-// You need to preload each rewarded video before it can be displayed
-- (IBAction)preloadRewardedVideo:(id)sender
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-
-    [self.incentivizedInterstitial preloadAndNotify: self];
 }
 
 #pragma mark - Ad Load Delegate

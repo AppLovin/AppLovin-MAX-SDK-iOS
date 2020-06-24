@@ -48,10 +48,10 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
     {
         logCallback()
         
-        // Interstitial ad failed to load. We recommend retrying with exponentially higher delays.
+        // Interstitial ad failed to load. We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds).
         
         retryAttempt += 1
-        let delaySec = pow(2.0, retryAttempt)
+        let delaySec = pow(2.0, min(6.0, retryAttempt))
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delaySec) {
             self.interstitialAd.load()

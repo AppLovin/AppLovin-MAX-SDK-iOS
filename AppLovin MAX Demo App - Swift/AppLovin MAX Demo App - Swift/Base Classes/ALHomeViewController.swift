@@ -52,10 +52,6 @@ class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDe
             {
                 openSupportSite()
             }
-            else if indexPath.row == 1
-            {
-                attemptSendEmail()
-            }
         }
     }
 
@@ -134,32 +130,7 @@ class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDe
             UIApplication.shared.openURL(supportURL)
         }
     }
-    
-    func attemptSendEmail()
-    {
-        if MFMailComposeViewController.canSendMail()
-        {
-            let mailController = MFMailComposeViewController()
-            mailController.mailComposeDelegate = self
-            mailController.setSubject("iOS SDK Support")
-            mailController.setToRecipients([kSupportEmail])
-            mailController.setMessageBody("\n\n---\nSDK Version: \(ALSdk.version())", isHTML: false)
-            mailController.navigationBar.tintColor = UIColor.white
-            
-            present(mailController, animated: true, completion: {
-                UIApplication.shared.statusBarStyle = .lightContent
-            })
-        }
-        else
-        {
-            let message = "Your device is not configured for sending emails.\n\nPlease send emails to \(kSupportEmail)"
-            let alertVC = UIAlertController(title: "Email Unavailable", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .cancel)
-            alertVC.addAction(okAction)
-            present(alertVC, animated: true)
-        }
-    }
-    
+        
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
     {
         switch ( result.rawValue )
