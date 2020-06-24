@@ -101,59 +101,6 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     }
 }
 
-- (void)attemptSendEmail
-{
-    if ( [MFMailComposeViewController canSendMail] )
-    {
-        MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-        mailController.mailComposeDelegate = self;
-        [mailController setSubject: @"iOS SDK support"];
-        [mailController setToRecipients: @[kSupportEmail]];
-        [mailController setMessageBody: [NSString stringWithFormat: @"\n\n---\nSDK Version: %@", [ALSdk version]] isHTML: NO];
-        mailController.navigationBar.tintColor = [UIColor whiteColor];
-        [self presentViewController: mailController animated: YES completion:^{
-            [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent];
-        }];
-    }
-    else
-    {
-        NSString *message = [NSString stringWithFormat: @"Your device is not configured for sending emails.\n\nPlease send emails to %@", kSupportEmail];
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle: @"Email Unavailable"
-                                                                       message: message
-                                                                preferredStyle: UIAlertControllerStyleAlert];
-        
-        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    switch ( result )
-    {
-        case MFMailComposeResultSent:
-        { UIAlertController *alert = [UIAlertController alertControllerWithTitle: @"Email Sent"
-                                                                         message: @"Thank you for your email, we will process it as soon as possible."
-                                                                  preferredStyle: UIAlertControllerStyleAlert];
-            
-            UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {}];
-            
-            [alert addAction:defaultAction];}
-        case MFMailComposeResultCancelled:
-        case MFMailComposeResultSaved:
-        case MFMailComposeResultFailed:
-        default:
-            break;
-    }
-    
-    [self dismissViewControllerAnimated: YES completion: nil];
-}
-
 - (void)addFooterLabel
 {
     UILabel *footer = [[UILabel alloc] init];
