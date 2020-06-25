@@ -8,14 +8,11 @@
 
 #import "ALHomeViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
-#import <MessageUI/MFMailComposeViewController.h>
 #import <SafariServices/SafariServices.h>
 
 @interface ALHomeViewController()
 @property (nonatomic, weak) IBOutlet UITableViewCell *mediationDebuggerCell;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *muteToggle;
-@end
-@interface ALHomeViewController()<MFMailComposeViewControllerDelegate>;
 @end
 
 @implementation ALHomeViewController
