@@ -16,7 +16,6 @@
 @end
 
 @implementation ALHomeViewController
-static NSString *const kSupportEmail = @"support@applovin.com";
 static NSString *const kSupportLink = @"https://support.applovin.com/support/home";
 static const NSInteger kRowIndexToHideForPhone = 3;
 
