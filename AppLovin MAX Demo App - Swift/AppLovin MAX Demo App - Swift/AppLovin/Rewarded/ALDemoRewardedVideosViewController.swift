@@ -66,7 +66,6 @@ extension ALDemoRewardedVideosViewController : ALAdRewardDelegate
         if let amount = response["amount"] as? NSString, let currencyName = response["currency"] as? NSString
         {
             NSLog("Received %@ %@", amount, currencyName)
-            print("Received \(amount) \(currencyName)")
             logCallback()
         }
     }
