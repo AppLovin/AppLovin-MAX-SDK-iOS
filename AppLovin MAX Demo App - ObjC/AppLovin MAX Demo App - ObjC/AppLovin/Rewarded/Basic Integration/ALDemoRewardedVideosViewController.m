@@ -70,8 +70,8 @@
     
     // i.e. - "Coins", "Gold", whatever you set in the dashboard.
     // For example, "5" or "5.00" if you've specified an amount in the UI.
-    NSLog(@"Received %@ %@", @([response[@"amount"] floatValue]), response[@"currencyName"]);
-
+    NSLog(@"Received %@ %@", response[@"amount"], response[@"currencyName"]);
+    
     // Do something with this information.
     // [MYCurrencyManagerClass updateUserCurrency: currencyName withChange: amountGiven];
     [self logCallback: __PRETTY_FUNCTION__];
