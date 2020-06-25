@@ -63,8 +63,9 @@ extension ALDemoRewardedVideosViewController : ALAdRewardDelegate
         
         // "current" - "Coins", "Gold", whatever you set in the dashboard.
         // "amount" - "5" or "5.00" if you've specified an amount in the UI.
-        if let _ = response["amount"] as? NSString, let _ = response["currency"] as? NSString
+        if let amount = response["amount"] as? NSString, let currencyName = response["currency"] as? NSString
         {
+            NSLog("Received %@ %@", amount, currencyName)
             logCallback()
         }
     }
