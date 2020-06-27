@@ -11,9 +11,8 @@ import AppLovinSDK
 import MessageUI
 import SafariServices
 
-class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDelegate
+class ALHomeViewController: UITableViewController
 {
-    let kSupportEmail = "support@applovin.com"
     let kSupportLink = "https://support.applovin.com/support/home"
 
     let kRowIndexToHideForPhones = 3;
@@ -131,20 +130,5 @@ class ALHomeViewController: UITableViewController, MFMailComposeViewControllerDe
         }
     }
         
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
-    {
-        switch ( result.rawValue )
-        {
-        case ( MFMailComposeResult.sent.rawValue ):
-            let alertVC = UIAlertController(title: "Email Sent", message: "Thank you for your email, we will process it as soon as possible.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .cancel)
-            alertVC.addAction(okAction)
-            present(alertVC, animated: true)
-        default:
-            break
-        }
-        
-        dismiss(animated: true, completion: nil)
-    }
 }
 

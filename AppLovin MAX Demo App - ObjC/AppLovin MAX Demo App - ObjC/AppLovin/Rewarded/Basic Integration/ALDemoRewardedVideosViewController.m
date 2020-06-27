@@ -69,11 +69,8 @@
      awarded and the name of the currency.  However, ideally, you should verify this with your server before granting it. */
     
     // i.e. - "Coins", "Gold", whatever you set in the dashboard.
-    NSString *currencyName = response[@"currency"];
-    
     // For example, "5" or "5.00" if you've specified an amount in the UI.
-    NSString *amountGivenString = response[@"amount"];
-    NSNumber *amountGiven = @([amountGivenString floatValue]);
+    NSLog(@"Received %@ %@", response[@"amount"], response[@"currencyName"]);
     
     // Do something with this information.
     // [MYCurrencyManagerClass updateUserCurrency: currencyName withChange: amountGiven];

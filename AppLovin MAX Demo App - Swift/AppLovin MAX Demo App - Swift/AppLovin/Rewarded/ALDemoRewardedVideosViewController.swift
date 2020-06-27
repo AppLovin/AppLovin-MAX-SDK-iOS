@@ -65,6 +65,7 @@ extension ALDemoRewardedVideosViewController : ALAdRewardDelegate
         // "amount" - "5" or "5.00" if you've specified an amount in the UI.
         if let amount = response["amount"] as? NSString, let currencyName = response["currency"] as? NSString
         {
+            print("Received \(amount) \(currencyName)")
             logCallback()
         }
     }

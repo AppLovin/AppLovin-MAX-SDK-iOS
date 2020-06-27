@@ -8,7 +8,6 @@
 
 #import "ALHomeViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
-#import <MessageUI/MFMailComposeViewController.h>
 #import <SafariServices/SafariServices.h>
 
 @interface ALHomeViewController()
@@ -17,7 +16,6 @@
 @end
 
 @implementation ALHomeViewController
-static NSString *const kSupportEmail = @"support@applovin.com";
 static NSString *const kSupportLink = @"https://support.applovin.com/support/home";
 static const NSInteger kRowIndexToHideForPhone = 3;
 
@@ -97,26 +95,6 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     {
         [[UIApplication sharedApplication] openURL: [NSURL URLWithString: kSupportLink]];
     }
-}
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    switch ( result )
-    {
-        case MFMailComposeResultSent:
-            [[[UIAlertView alloc] initWithTitle: @"Email Sent"
-                                        message: @"Thank you for your email, we will process it as soon as possible."
-                                       delegate: nil
-                              cancelButtonTitle: @"OK"
-                              otherButtonTitles: nil] show];
-        case MFMailComposeResultCancelled:
-        case MFMailComposeResultSaved:
-        case MFMailComposeResultFailed:
-        default:
-            break;
-    }
-    
-    [self dismissViewControllerAnimated: YES completion: nil];
 }
 
 - (void)addFooterLabel
