@@ -141,9 +141,6 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="bQW-9d-rv6" userLabel="CallBack Table View">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="367"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="367" id="44R-nI-G9L"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="Jnm-4y-9Ld" style="IBUITableViewCellStyleDefault" id="02S-r0-Tda">
                                         <rect key="frame" x="15" y="55.5" width="345" height="43.5"/>
