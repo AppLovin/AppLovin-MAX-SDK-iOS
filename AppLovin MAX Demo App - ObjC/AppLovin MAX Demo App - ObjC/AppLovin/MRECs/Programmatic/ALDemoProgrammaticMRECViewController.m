@@ -47,7 +47,7 @@ static const CGFloat kMRECWidth = 300.0f;
                                     multiplier: 1.0
                                       constant: 0],
         [NSLayoutConstraint constraintWithItem: self.callbackTableView
-                                     attribute:NSLayoutAttributeLeading
+                                     attribute: NSLayoutAttributeLeading
                                      relatedBy: NSLayoutRelationEqual
                                         toItem: self.view
                                      attribute: NSLayoutAttributeLeading
