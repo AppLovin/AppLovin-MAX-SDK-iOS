@@ -9,7 +9,7 @@
 #import "ALBaseAdViewController.h"
 
 @interface ALBaseAdViewController ()<UITableViewDataSource>
-@property (nonatomic, weak) IBOutlet UITableView *callbackTableView;
+//@property (nonatomic, weak) IBOutlet UITableView *callbackTableView;
 @property (nonatomic, strong) NSMutableArray<NSString *> *callbacks;
 
 @end
