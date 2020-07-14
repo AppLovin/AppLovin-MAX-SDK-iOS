@@ -13,6 +13,7 @@ class ALDemoProgrammaticMRecViewController : ALBaseAdViewController
 {
     private let kMRecHeight: CGFloat = 250
     private let kMRecWidth: CGFloat = 300
+    private let kcallBackTableviewHeight : CGFloat = 325
     
     private let adView = ALAdView(size: .mrec)
     
@@ -33,13 +34,14 @@ class ALDemoProgrammaticMRecViewController : ALBaseAdViewController
         adView.loadNextAd()
         
         view.addSubview(adView)
-        
+        guard let callbackTableView = callbackTableView else { return }
         view.addConstraints([
-            callbackTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            callbackTableView.heightAnchor.constraint(equalToConstant: 325),
-            callbackTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            callbackTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            adView.topAnchor.constraint(equalTo: callbackTableView.bottomAnchor, constant: 10),
+            NSLayoutConstraint(item: callbackTableView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: callbackTableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: kcallBackTableviewHeight),
+            NSLayoutConstraint(item: callbackTableView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: callbackTableView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0),
+            
+            NSLayoutConstraint(item: adView, attribute: .top, relatedBy: .equal, toItem: callbackTableView, attribute: .bottom, multiplier: 1.0, constant: 10),
             NSLayoutConstraint(item: adView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0.0),
             NSLayoutConstraint(item: adView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: kMRecHeight),
             NSLayoutConstraint(item: adView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: kMRecWidth),

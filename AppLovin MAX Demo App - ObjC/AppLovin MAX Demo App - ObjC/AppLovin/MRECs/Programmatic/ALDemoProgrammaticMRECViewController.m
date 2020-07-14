@@ -16,6 +16,7 @@
 @implementation ALDemoProgrammaticMRECViewController
 static const CGFloat kMRECHeight = 250.0f;
 static const CGFloat kMRECWidth = 300.0f;
+static const CGFloat kcallBackTableviewHeight = 325.0f;
 
 #pragma mark - View Lifecycle
 
@@ -39,38 +40,61 @@ static const CGFloat kMRECWidth = 300.0f;
     [self.view addSubview: self.adView];
     
     [self.view addConstraints: @[
-        [NSLayoutConstraint constraintWithItem: self.callbackTableView attribute: NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:325],
-        [NSLayoutConstraint constraintWithItem:self.callbackTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
-        [NSLayoutConstraint constraintWithItem:self.callbackTableView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0],
-        [NSLayoutConstraint constraintWithItem:self.callbackTableView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0],
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute: NSLayoutAttributeHeight
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: nil
+                                     attribute: NSLayoutAttributeNotAnAttribute
+                                    multiplier: 1.0 constant: kcallBackTableviewHeight],
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute:NSLayoutAttributeTop
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem:self.view
+                                     attribute:NSLayoutAttributeTop
+                                    multiplier:1.0
+                                      constant:0],
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute:NSLayoutAttributeLeading
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.view
+                                     attribute:NSLayoutAttributeLeading
+                                    multiplier:1.0
+                                      constant:0],
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute:NSLayoutAttributeTrailing
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:self.view
+                                     attribute:NSLayoutAttributeTrailing
+                                    multiplier:1.0
+                                      constant:0],
         [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeCenterX
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeCenterX
-                                                             multiplier: 1.0
-                                                               constant: 0.0],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.callbackTableView
-                                                              attribute: NSLayoutAttributeBottom
-                                                             multiplier: 1.0
-                                                               constant: 10.0],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeHeight
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeNotAnAttribute
-                                                             multiplier: 1.0
-                                                               constant: kMRECHeight],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeWidth
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeNotAnAttribute
-                                                             multiplier: 1.0
-                                                               constant: kMRECWidth]]];
+                                     attribute: NSLayoutAttributeCenterX
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.view
+                                     attribute: NSLayoutAttributeCenterX
+                                    multiplier: 1.0
+                                      constant: 0.0],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeTop
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.callbackTableView
+                                     attribute: NSLayoutAttributeBottom
+                                    multiplier: 1.0
+                                      constant: 10.0],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeHeight
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: nil
+                                     attribute: NSLayoutAttributeNotAnAttribute
+                                    multiplier: 1.0
+                                      constant: kMRECHeight],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeWidth
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: nil
+                                     attribute: NSLayoutAttributeNotAnAttribute
+                                    multiplier: 1.0
+                                      constant: kMRECWidth]]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
