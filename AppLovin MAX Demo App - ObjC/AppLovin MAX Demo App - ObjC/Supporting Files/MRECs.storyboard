@@ -182,10 +182,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="bQW-9d-rv6" firstAttribute="top" secondItem="INv-GO-Z1M" secondAttribute="topMargin" id="67x-za-orH"/>
+                            <constraint firstAttribute="trailing" secondItem="bQW-9d-rv6" secondAttribute="trailing" id="8qb-D1-Tsu"/>
                             <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="INv-GO-Z1M" secondAttribute="centerX" id="9Hy-9P-twS"/>
                             <constraint firstItem="gtT-tU-6Vk" firstAttribute="top" secondItem="bQW-9d-rv6" secondAttribute="bottom" constant="10" id="LQE-5p-QcI"/>
                             <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="gtT-tU-6Vk" secondAttribute="centerX" id="PGV-N3-uBC"/>
-                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leadingMargin" constant="-16" id="rcm-dV-qFj"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leading" id="gR7-vd-cI8"/>
                             <constraint firstItem="NZ4-1i-Tn9" firstAttribute="top" secondItem="gtT-tU-6Vk" secondAttribute="bottom" constant="20" id="yF2-fi-xAm"/>
                         </constraints>
                     </view>

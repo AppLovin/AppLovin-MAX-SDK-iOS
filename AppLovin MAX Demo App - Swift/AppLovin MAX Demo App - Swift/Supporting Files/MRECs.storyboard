@@ -140,17 +140,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="bQW-9d-rv6" userLabel="CallBack Table View">
-                                <rect key="frame" x="4" y="0.0" width="406" height="528"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="528"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="Jnm-4y-9Ld" style="IBUITableViewCellStyleDefault" id="02S-r0-Tda">
-                                        <rect key="frame" x="20" y="55.5" width="366" height="43.5"/>
+                                        <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="02S-r0-Tda" id="izJ-HW-bgh">
-                                            <rect key="frame" x="0.0" y="0.0" width="366" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jnm-4y-9Ld">
-                                                    <rect key="frame" x="20" y="0.0" width="326" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="334" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -182,10 +182,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="bQW-9d-rv6" firstAttribute="top" secondItem="INv-GO-Z1M" secondAttribute="topMargin" id="67x-za-orH"/>
+                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leading" id="7Gf-6s-Z9w"/>
                             <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="INv-GO-Z1M" secondAttribute="centerX" id="9Hy-9P-twS"/>
                             <constraint firstItem="gtT-tU-6Vk" firstAttribute="top" secondItem="bQW-9d-rv6" secondAttribute="bottom" constant="10" id="LQE-5p-QcI"/>
                             <constraint firstItem="bQW-9d-rv6" firstAttribute="centerX" secondItem="gtT-tU-6Vk" secondAttribute="centerX" id="PGV-N3-uBC"/>
-                            <constraint firstItem="bQW-9d-rv6" firstAttribute="leading" secondItem="INv-GO-Z1M" secondAttribute="leadingMargin" constant="-16" id="rcm-dV-qFj"/>
+                            <constraint firstAttribute="trailing" secondItem="bQW-9d-rv6" secondAttribute="trailing" id="xb5-VB-clR"/>
                             <constraint firstItem="NZ4-1i-Tn9" firstAttribute="top" secondItem="gtT-tU-6Vk" secondAttribute="bottom" constant="20" id="yF2-fi-xAm"/>
                         </constraints>
                     </view>
