@@ -36,6 +36,7 @@ static const CGFloat kMRECWidth = 300.0f;
     [self.adView loadNextAd];
     
     [self.view addSubview: self.adView];
+    
     [self.view addConstraints: @[[NSLayoutConstraint constraintWithItem: self.adView
                                                               attribute: NSLayoutAttributeCenterX
                                                               relatedBy: NSLayoutRelationEqual
