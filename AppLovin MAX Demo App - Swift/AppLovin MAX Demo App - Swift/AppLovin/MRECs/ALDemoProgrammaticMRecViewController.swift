@@ -13,7 +13,6 @@ class ALDemoProgrammaticMRecViewController : ALBaseAdViewController
 {
     private let kMRecHeight: CGFloat = 250
     private let kMRecWidth: CGFloat = 300
-    private let kcallBackTableviewHeight : CGFloat = 367
     
     private let adView = ALAdView(size: .mrec)
     
