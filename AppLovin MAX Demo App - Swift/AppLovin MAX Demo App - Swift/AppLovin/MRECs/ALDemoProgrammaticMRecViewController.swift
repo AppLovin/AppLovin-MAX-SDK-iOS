@@ -40,7 +40,7 @@ class ALDemoProgrammaticMRecViewController : ALBaseAdViewController
             
             NSLayoutConstraint(item: adView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0.0),
             NSLayoutConstraint(item: adView, attribute: .top, relatedBy: .equal, toItem: callbackTableView, attribute: .bottom, multiplier: 1.0, constant: 10),
-            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: adView, attribute: .bottom, multiplier: 1.0, constant: 20),
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: adView, attribute: .bottom, multiplier: 1.0, constant: 10),
             NSLayoutConstraint(item: adView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: kMRecHeight),
             NSLayoutConstraint(item: adView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: kMRecWidth)
         ])
