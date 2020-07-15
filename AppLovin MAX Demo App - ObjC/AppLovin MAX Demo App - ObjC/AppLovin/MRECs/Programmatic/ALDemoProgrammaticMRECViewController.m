@@ -31,39 +31,70 @@ static const CGFloat kMRECWidth = 300.0f;
     self.adView.adDisplayDelegate = self;
     self.adView.adEventDelegate = self;
     self.adView.translatesAutoresizingMaskIntoConstraints = false;
+    self.callbackTableView.translatesAutoresizingMaskIntoConstraints = false;
     
     // Call loadNextAd() to start showing ads
     [self.adView loadNextAd];
     
     [self.view addSubview: self.adView];
-    [self.view addConstraints: @[[NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeCenterX
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeCenterX
-                                                             multiplier: 1.0
-                                                               constant: 0.0],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeCenterY
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeCenterY
-                                                             multiplier: 1.0
-                                                               constant: 0.0],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeHeight
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeNotAnAttribute
-                                                             multiplier: 1.0
-                                                               constant: kMRECHeight],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeWidth
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeNotAnAttribute
-                                                             multiplier: 1.0
-                                                               constant: kMRECWidth]]];
+    
+    [self.view addConstraints: @[
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute: NSLayoutAttributeTop
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.view
+                                     attribute: NSLayoutAttributeTop
+                                    multiplier: 1.0
+                                      constant: 0],
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute: NSLayoutAttributeLeading
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.view
+                                     attribute: NSLayoutAttributeLeading
+                                    multiplier: 1.0
+                                      constant: 0],
+        [NSLayoutConstraint constraintWithItem: self.callbackTableView
+                                     attribute: NSLayoutAttributeTrailing
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.view
+                                     attribute: NSLayoutAttributeTrailing
+                                    multiplier: 1.0
+                                      constant: 0],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeCenterX
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.view
+                                     attribute: NSLayoutAttributeCenterX
+                                    multiplier: 1.0
+                                      constant: 0.0],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeTop
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.callbackTableView
+                                     attribute: NSLayoutAttributeBottom
+                                    multiplier: 1.0
+                                      constant: 10.0],
+        [NSLayoutConstraint constraintWithItem: self.view
+                                     attribute: NSLayoutAttributeBottom
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: self.adView
+                                     attribute: NSLayoutAttributeBottom
+                                    multiplier: 1.0
+                                      constant: 10],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeHeight
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: nil
+                                     attribute: NSLayoutAttributeNotAnAttribute
+                                    multiplier: 1.0
+                                      constant: kMRECHeight],
+        [NSLayoutConstraint constraintWithItem: self.adView
+                                     attribute: NSLayoutAttributeWidth
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: nil
+                                     attribute: NSLayoutAttributeNotAnAttribute
+                                    multiplier: 1.0
+                                      constant: kMRECWidth]]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

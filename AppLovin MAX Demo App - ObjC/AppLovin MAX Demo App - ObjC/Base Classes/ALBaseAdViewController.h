@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ALBaseAdViewController : UIViewController
-
+@property (nonatomic, weak) IBOutlet UITableView *callbackTableView;
 /**
  * Used for logging ad callbacks in the callback table.
  */
