@@ -74,13 +74,13 @@ static const CGFloat kMRECWidth = 300.0f;
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0
                                       constant: 10.0],
-        [NSLayoutConstraint constraintWithItem: self.adView
+        [NSLayoutConstraint constraintWithItem: self.view
                                      attribute: NSLayoutAttributeBottom
                                      relatedBy: NSLayoutRelationEqual
-                                        toItem: self.view
+                                        toItem: self.adView
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0
-                                      constant: -20.0],
+                                      constant: 20],
         [NSLayoutConstraint constraintWithItem: self.adView
                                      attribute: NSLayoutAttributeHeight
                                      relatedBy: NSLayoutRelationEqual
