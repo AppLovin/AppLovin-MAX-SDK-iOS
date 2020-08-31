@@ -3,14 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1D992FE6231FA1C400C472F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE4231FA1C400C472F8 /* Main.storyboard */; };
 		1D992FE8231FA1C500C472F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE7231FA1C500C472F8 /* Assets.xcassets */; };
 		1D992FEB231FA1C500C472F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D992FE9231FA1C500C472F8 /* LaunchScreen.storyboard */; };
-		29E44EF32B97BDC47CD3A23A /* Pods_AppLovin_MAX_Demo_App___ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A42F21E254B7BA7907E3811 /* Pods_AppLovin_MAX_Demo_App___ObjC.framework */; };
 		37B6CED5246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */; };
 		37B6CED8246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */; };
 		37B6CEDB246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */; };
@@ -68,11 +67,8 @@
 		37C7E1E723285B6A002165B5 /* ALMAXInterfaceBuilderBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXInterfaceBuilderBannerAdViewController.h; sourceTree = "<group>"; };
 		37C7E1E823285E94002165B5 /* ALMAXFrameLayoutBannerAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXFrameLayoutBannerAdViewController.m; sourceTree = "<group>"; };
 		37C7E1EA23285EDF002165B5 /* ALMAXFrameLayoutBannerAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXFrameLayoutBannerAdViewController.h; sourceTree = "<group>"; };
-		6A42F21E254B7BA7907E3811 /* Pods_AppLovin_MAX_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_AppLovin_MAX_Demo_App___ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7037E5621EF18EAE3E7CB1FD /* Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
-		CFD211DA7813EE0DD5346906 /* Pods-AppLovin MAX Demo App - ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - ObjC.release.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosViewController.m; sourceTree = "<group>"; };
 		E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosZoneViewController.m; sourceTree = "<group>"; };
@@ -107,21 +103,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29E44EF32B97BDC47CD3A23A /* Pods_AppLovin_MAX_Demo_App___ObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		12FFD5162F2ADAAA82DF1684 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6A42F21E254B7BA7907E3811 /* Pods_AppLovin_MAX_Demo_App___ObjC.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		1D0CB33823204EBD0076AAAA /* MAX */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,7 +168,6 @@
 				1D992FDD231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */,
 				1D992FDC231FA1C300C472F8 /* Products */,
 				8E29EB50BD3F277A061F5F61 /* Pods */,
-				12FFD5162F2ADAAA82DF1684 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -239,8 +225,6 @@
 		8E29EB50BD3F277A061F5F61 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7037E5621EF18EAE3E7CB1FD /* Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig */,
-				CFD211DA7813EE0DD5346906 /* Pods-AppLovin MAX Demo App - ObjC.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -401,11 +385,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D992FF1231FA1C500C472F8 /* Build configuration list for PBXNativeTarget "AppLovin MAX Demo App - ObjC" */;
 			buildPhases = (
-				2CAA2E4BF66124F5E15CBEA6 /* [CP] Check Pods Manifest.lock */,
 				1D992FD7231FA1C300C472F8 /* Sources */,
 				1D992FD8231FA1C300C472F8 /* Frameworks */,
 				1D992FD9231FA1C300C472F8 /* Resources */,
-				0DAA258C133019CBDB68F2A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -465,48 +447,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		0DAA258C133019CBDB68F2A6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2CAA2E4BF66124F5E15CBEA6 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AppLovin MAX Demo App - ObjC-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D992FD7231FA1C300C472F8 /* Sources */ = {
@@ -677,11 +617,11 @@
 		};
 		1D992FF2231FA1C500C472F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7037E5621EF18EAE3E7CB1FD /* Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DEVELOPMENT_TEAM = 7WXN7X228H;
 				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -691,17 +631,18 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		1D992FF3231FA1C500C472F8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFD211DA7813EE0DD5346906 /* Pods-AppLovin MAX Demo App - ObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DEVELOPMENT_TEAM = 7WXN7X228H;
 				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -711,6 +652,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
