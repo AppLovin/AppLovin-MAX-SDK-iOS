@@ -32,7 +32,6 @@
 		E56785F423F35B8F00ACA6C1 /* Leaders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56785F323F35B8F00ACA6C1 /* Leaders.storyboard */; };
 		E56785F923F35BC200ACA6C1 /* ALDemoInterfaceBuilderLeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E56785F723F35BC200ACA6C1 /* ALDemoInterfaceBuilderLeaderViewController.m */; };
 		E56785FA23F35BC200ACA6C1 /* ALDemoProgrammaticLeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E56785F823F35BC200ACA6C1 /* ALDemoProgrammaticLeaderViewController.m */; };
-		E56785FF23F4846000ACA6C1 /* MRECs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56785FE23F4846000ACA6C1 /* MRECs.storyboard */; };
 		E56786FA23F4CAE100ACA6C1 /* ALEventTrackingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E56786F823F4CAE000ACA6C1 /* ALEventTrackingViewController.m */; };
 		E57306F123EB90D500D972F4 /* Interstitials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E57306F023EB90D500D972F4 /* Interstitials.storyboard */; };
 		E573083123EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E573083023EB96E400D972F4 /* ALDemoInterstitialBasicIntegrationViewController.m */; };
@@ -86,7 +85,6 @@
 		E56785F623F35BC200ACA6C1 /* ALDemoInterfaceBuilderLeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoInterfaceBuilderLeaderViewController.h; sourceTree = "<group>"; };
 		E56785F723F35BC200ACA6C1 /* ALDemoInterfaceBuilderLeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterfaceBuilderLeaderViewController.m; sourceTree = "<group>"; };
 		E56785F823F35BC200ACA6C1 /* ALDemoProgrammaticLeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoProgrammaticLeaderViewController.m; sourceTree = "<group>"; };
-		E56785FE23F4846000ACA6C1 /* MRECs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MRECs.storyboard; sourceTree = "<group>"; };
 		E56786F823F4CAE000ACA6C1 /* ALEventTrackingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALEventTrackingViewController.m; sourceTree = "<group>"; };
 		E56786F923F4CAE000ACA6C1 /* ALEventTrackingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALEventTrackingViewController.h; sourceTree = "<group>"; };
 		E57306F023EB90D500D972F4 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
@@ -204,7 +202,6 @@
 				E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */,
 				E567854A23F3541100ACA6C1 /* Banners.storyboard */,
 				E56785F323F35B8F00ACA6C1 /* Leaders.storyboard */,
-				E56785FE23F4846000ACA6C1 /* MRECs.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -436,7 +433,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D992FEB231FA1C500C472F8 /* LaunchScreen.storyboard in Resources */,
-				E56785FF23F4846000ACA6C1 /* MRECs.storyboard in Resources */,
 				E56785F423F35B8F00ACA6C1 /* Leaders.storyboard in Resources */,
 				1D992FE8231FA1C500C472F8 /* Assets.xcassets in Resources */,
 				E56784A623F22AB300ACA6C1 /* Rewarded.storyboard in Resources */,

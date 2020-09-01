@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,7 +36,6 @@
 		E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D6241C25AA0032B659 /* Leaders.storyboard */; };
 		E5EE50D9241C25AA0032B659 /* Interstitials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */; };
 		E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DA241C25B60032B659 /* Rewarded.storyboard */; };
-		E5EE50DD241C25B70032B659 /* MRECs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DB241C25B60032B659 /* MRECs.storyboard */; };
 		E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23A23357C4B00E49783 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +73,6 @@
 		E5EE50D6241C25AA0032B659 /* Leaders.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leaders.storyboard; sourceTree = "<group>"; };
 		E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
 		E5EE50DA241C25B60032B659 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
-		E5EE50DB241C25B60032B659 /* MRECs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MRECs.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +172,6 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E5EE50DB241C25B60032B659 /* MRECs.storyboard */,
 				E5EE50DA241C25B60032B659 /* Rewarded.storyboard */,
 				E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */,
 				E5EE50D6241C25AA0032B659 /* Leaders.storyboard */,
@@ -317,7 +314,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */,
-				E5EE50DD241C25B70032B659 /* MRECs.storyboard in Resources */,
 				3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */,
 				E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */,
 				E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */,
