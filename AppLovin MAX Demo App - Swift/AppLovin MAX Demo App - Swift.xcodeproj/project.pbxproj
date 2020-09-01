@@ -86,13 +86,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01A619B207BFFD657E517608 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		1DDCE595242AE564007EAC8D /* Banners */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +127,6 @@
 				E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */,
 				3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */,
 				3763B23423357C4B00E49783 /* Products */,
-				01A619B207BFFD657E517608 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -499,7 +491,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
@@ -513,7 +504,6 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "AppLovin MAX Demo App-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

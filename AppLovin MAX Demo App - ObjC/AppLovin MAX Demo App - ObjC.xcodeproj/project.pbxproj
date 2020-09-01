@@ -165,7 +165,6 @@
 			children = (
 				1D992FDD231FA1C300C472F8 /* AppLovin MAX Demo App - ObjC */,
 				1D992FDC231FA1C300C472F8 /* Products */,
-				8E29EB50BD3F277A061F5F61 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -217,13 +216,6 @@
 				37B6CEDC246E062F0068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.h */,
 			);
 			path = MRECs;
-			sourceTree = "<group>";
-		};
-		8E29EB50BD3F277A061F5F61 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		E567854723F22E1E00ACA6C1 /* Rewarded */ = {
@@ -615,7 +607,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
 				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
@@ -627,7 +618,6 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -636,7 +626,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7WXN7X228H;
 				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
@@ -648,7 +637,6 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.enterprise.apps.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
