@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,7 +21,6 @@
 		37B6CED0246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */; };
 		37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
-		E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
 		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
@@ -32,42 +31,11 @@
 		E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE842433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift */; };
 		E5BDBE8B243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE89243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift */; };
 		E5BDBE8C243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE8A243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift */; };
-		E5BDBE8F2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE8E2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift */; };
-		E5BDBF9824350B1200F82D79 /* ALDemoNativeAdProgrammaticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBF9724350B1200F82D79 /* ALDemoNativeAdProgrammaticViewController.swift */; };
-		E5BDBF9E24350B6000F82D79 /* ALDemoArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBF9B24350B5F00F82D79 /* ALDemoArticle.m */; };
-		E5BDBF9F24350B6000F82D79 /* ALDemoRSSFeedRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBF9D24350B5F00F82D79 /* ALDemoRSSFeedRetriever.m */; };
-		E5BDBFB324350BBF00F82D79 /* Star_Sprite_3.5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA324350BBD00F82D79 /* Star_Sprite_3.5.png */; };
-		E5BDBFB424350BBF00F82D79 /* Star_Sprite_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA424350BBD00F82D79 /* Star_Sprite_2.png */; };
-		E5BDBFB524350BBF00F82D79 /* Star_Sprite_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA524350BBD00F82D79 /* Star_Sprite_0.png */; };
-		E5BDBFB624350BBF00F82D79 /* Star_Sprite_5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA624350BBD00F82D79 /* Star_Sprite_5.png */; };
-		E5BDBFB724350BBF00F82D79 /* Star_Sprite_0.5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA724350BBD00F82D79 /* Star_Sprite_0.5.png */; };
-		E5BDBFB824350BBF00F82D79 /* applovin_card_muted.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA824350BBD00F82D79 /* applovin_card_muted.png */; };
-		E5BDBFB924350BBF00F82D79 /* Star_Sprite_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFA924350BBE00F82D79 /* Star_Sprite_1.png */; };
-		E5BDBFBA24350BBF00F82D79 /* applovin_card_unmuted.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFAA24350BBE00F82D79 /* applovin_card_unmuted.png */; };
-		E5BDBFBB24350BBF00F82D79 /* Star_Sprite_4.5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFAB24350BBE00F82D79 /* Star_Sprite_4.5.png */; };
-		E5BDBFBC24350BBF00F82D79 /* Star_Sprite_2.5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFAC24350BBE00F82D79 /* Star_Sprite_2.5.png */; };
-		E5BDBFBD24350BBF00F82D79 /* Star_Sprite_4.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFAD24350BBE00F82D79 /* Star_Sprite_4.png */; };
-		E5BDBFBE24350BBF00F82D79 /* Star_Sprite_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFAE24350BBE00F82D79 /* Star_Sprite_3.png */; };
-		E5BDBFBF24350BBF00F82D79 /* Star_Sprite_1.5.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFAF24350BBE00F82D79 /* Star_Sprite_1.5.png */; };
-		E5BDBFC024350BBF00F82D79 /* applovin_card_learn_more.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFB024350BBE00F82D79 /* applovin_card_learn_more.png */; };
-		E5BDBFC124350BBF00F82D79 /* applovin_card_play.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFB124350BBE00F82D79 /* applovin_card_play.png */; };
-		E5BDBFC224350BBF00F82D79 /* applovin_card_replay.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BDBFB224350BBF00F82D79 /* applovin_card_replay.png */; };
-		E5BDBFC724350BE600F82D79 /* UIView+ALActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFC624350BE600F82D79 /* UIView+ALActivityIndicator.m */; };
-		E5BDBFD324350C1400F82D79 /* ALCarouselCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFC924350C1300F82D79 /* ALCarouselCardView.m */; };
-		E5BDBFD424350C1400F82D79 /* ALCarouselMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFCA24350C1300F82D79 /* ALCarouselMediaView.m */; };
-		E5BDBFD524350C1400F82D79 /* ALCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFCD24350C1300F82D79 /* ALCarouselView.m */; };
-		E5BDBFD624350C1400F82D79 /* ALCarouselReplayOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFCE24350C1300F82D79 /* ALCarouselReplayOverlayView.m */; };
-		E5BDBFD724350C1400F82D79 /* ALNativeAdVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFD124350C1400F82D79 /* ALNativeAdVideoView.m */; };
-		E5BDBFE124350C3A00F82D79 /* ALCarouselViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFDA24350C3900F82D79 /* ALCarouselViewModel.m */; };
-		E5BDBFE224350C3A00F82D79 /* ALCarouselCardState.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFDE24350C3A00F82D79 /* ALCarouselCardState.m */; };
-		E5BDBFE324350C3A00F82D79 /* ALNativeAdVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFDF24350C3A00F82D79 /* ALNativeAdVideoPlayer.m */; };
-		E5BDBFE624350CC100F82D79 /* ALDemoNativeAdFeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFE524350CC100F82D79 /* ALDemoNativeAdFeedTableViewController.swift */; };
 		E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFF024354C3F00F82D79 /* ALEventTrackingViewController.swift */; };
 		E5EE50D5241C259D0032B659 /* Banners.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D4241C259D0032B659 /* Banners.storyboard */; };
 		E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D6241C25AA0032B659 /* Leaders.storyboard */; };
 		E5EE50D9241C25AA0032B659 /* Interstitials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */; };
 		E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DA241C25B60032B659 /* Rewarded.storyboard */; };
-		E5EE50DD241C25B70032B659 /* MRECs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DB241C25B60032B659 /* MRECs.storyboard */; };
 		E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23A23357C4B00E49783 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -89,7 +57,6 @@
 		37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXInterfaceBuilderMRecAdViewController.swift; sourceTree = "<group>"; };
 		37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAutoLayoutMRecAdViewController.swift; sourceTree = "<group>"; };
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRecViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
@@ -100,59 +67,12 @@
 		E5BDBE842433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoProgrammaticBannerViewController.swift; sourceTree = "<group>"; };
 		E5BDBE89243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoProgrammaticLeaderViewController.swift; sourceTree = "<group>"; };
 		E5BDBE8A243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderLeaderViewController.swift; sourceTree = "<group>"; };
-		E5BDBE8E2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoProgrammaticMRecViewController.swift; sourceTree = "<group>"; };
-		E5BDBF9724350B1200F82D79 /* ALDemoNativeAdProgrammaticViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoNativeAdProgrammaticViewController.swift; sourceTree = "<group>"; };
-		E5BDBF9A24350B5F00F82D79 /* ALDemoRSSFeedRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoRSSFeedRetriever.h; sourceTree = "<group>"; };
-		E5BDBF9B24350B5F00F82D79 /* ALDemoArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoArticle.m; sourceTree = "<group>"; };
-		E5BDBF9C24350B5F00F82D79 /* ALDemoArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoArticle.h; sourceTree = "<group>"; };
-		E5BDBF9D24350B5F00F82D79 /* ALDemoRSSFeedRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRSSFeedRetriever.m; sourceTree = "<group>"; };
-		E5BDBFA124350B9600F82D79 /* ALCarouselViewSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALCarouselViewSettings.h; sourceTree = "<group>"; };
-		E5BDBFA324350BBD00F82D79 /* Star_Sprite_3.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_3.5.png; sourceTree = "<group>"; };
-		E5BDBFA424350BBD00F82D79 /* Star_Sprite_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_2.png; sourceTree = "<group>"; };
-		E5BDBFA524350BBD00F82D79 /* Star_Sprite_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_0.png; sourceTree = "<group>"; };
-		E5BDBFA624350BBD00F82D79 /* Star_Sprite_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_5.png; sourceTree = "<group>"; };
-		E5BDBFA724350BBD00F82D79 /* Star_Sprite_0.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_0.5.png; sourceTree = "<group>"; };
-		E5BDBFA824350BBD00F82D79 /* applovin_card_muted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_muted.png; sourceTree = "<group>"; };
-		E5BDBFA924350BBE00F82D79 /* Star_Sprite_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_1.png; sourceTree = "<group>"; };
-		E5BDBFAA24350BBE00F82D79 /* applovin_card_unmuted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_unmuted.png; sourceTree = "<group>"; };
-		E5BDBFAB24350BBE00F82D79 /* Star_Sprite_4.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_4.5.png; sourceTree = "<group>"; };
-		E5BDBFAC24350BBE00F82D79 /* Star_Sprite_2.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_2.5.png; sourceTree = "<group>"; };
-		E5BDBFAD24350BBE00F82D79 /* Star_Sprite_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_4.png; sourceTree = "<group>"; };
-		E5BDBFAE24350BBE00F82D79 /* Star_Sprite_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_3.png; sourceTree = "<group>"; };
-		E5BDBFAF24350BBE00F82D79 /* Star_Sprite_1.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star_Sprite_1.5.png; sourceTree = "<group>"; };
-		E5BDBFB024350BBE00F82D79 /* applovin_card_learn_more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_learn_more.png; sourceTree = "<group>"; };
-		E5BDBFB124350BBE00F82D79 /* applovin_card_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_play.png; sourceTree = "<group>"; };
-		E5BDBFB224350BBF00F82D79 /* applovin_card_replay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applovin_card_replay.png; sourceTree = "<group>"; };
-		E5BDBFC424350BE600F82D79 /* UIView+ALActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ALActivityIndicator.h"; sourceTree = "<group>"; };
-		E5BDBFC524350BE600F82D79 /* ALCarouselView+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALCarouselView+Internal.h"; sourceTree = "<group>"; };
-		E5BDBFC624350BE600F82D79 /* UIView+ALActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ALActivityIndicator.m"; sourceTree = "<group>"; };
-		E5BDBFC924350C1300F82D79 /* ALCarouselCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCarouselCardView.m; sourceTree = "<group>"; };
-		E5BDBFCA24350C1300F82D79 /* ALCarouselMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCarouselMediaView.m; sourceTree = "<group>"; };
-		E5BDBFCB24350C1300F82D79 /* ALCarouselCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselCardView.h; sourceTree = "<group>"; };
-		E5BDBFCC24350C1300F82D79 /* ALCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselView.h; sourceTree = "<group>"; };
-		E5BDBFCD24350C1300F82D79 /* ALCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCarouselView.m; sourceTree = "<group>"; };
-		E5BDBFCE24350C1300F82D79 /* ALCarouselReplayOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCarouselReplayOverlayView.m; sourceTree = "<group>"; };
-		E5BDBFCF24350C1400F82D79 /* ALCarouselReplayOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselReplayOverlayView.h; sourceTree = "<group>"; };
-		E5BDBFD024350C1400F82D79 /* ALNativeAdVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNativeAdVideoView.h; sourceTree = "<group>"; };
-		E5BDBFD124350C1400F82D79 /* ALNativeAdVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNativeAdVideoView.m; sourceTree = "<group>"; };
-		E5BDBFD224350C1400F82D79 /* ALCarouselMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselMediaView.h; sourceTree = "<group>"; };
-		E5BDBFD924350C3900F82D79 /* ALCarouselViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselViewModel.h; sourceTree = "<group>"; };
-		E5BDBFDA24350C3900F82D79 /* ALCarouselViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCarouselViewModel.m; sourceTree = "<group>"; };
-		E5BDBFDB24350C3900F82D79 /* ALDebugLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDebugLog.h; sourceTree = "<group>"; };
-		E5BDBFDC24350C3900F82D79 /* ALNativeAdVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALNativeAdVideoPlayer.h; sourceTree = "<group>"; };
-		E5BDBFDD24350C3A00F82D79 /* ALCarouselCardState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselCardState.h; sourceTree = "<group>"; };
-		E5BDBFDE24350C3A00F82D79 /* ALCarouselCardState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCarouselCardState.m; sourceTree = "<group>"; };
-		E5BDBFDF24350C3A00F82D79 /* ALNativeAdVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALNativeAdVideoPlayer.m; sourceTree = "<group>"; };
-		E5BDBFE024350C3A00F82D79 /* ALCarouselRenderingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCarouselRenderingProtocol.h; sourceTree = "<group>"; };
-		E5BDBFE524350CC100F82D79 /* ALDemoNativeAdFeedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoNativeAdFeedTableViewController.swift; sourceTree = "<group>"; };
-		E5BDBFEC243515C100F82D79 /* AppLovin MAX Demo App Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovin MAX Demo App Swift-Bridging-Header.h"; sourceTree = "<group>"; };
 		E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovin MAX Demo App-Bridging-Header.h"; sourceTree = "<group>"; };
 		E5BDBFF024354C3F00F82D79 /* ALEventTrackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALEventTrackingViewController.swift; sourceTree = "<group>"; };
 		E5EE50D4241C259D0032B659 /* Banners.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Banners.storyboard; sourceTree = "<group>"; };
 		E5EE50D6241C25AA0032B659 /* Leaders.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leaders.storyboard; sourceTree = "<group>"; };
 		E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
 		E5EE50DA241C25B60032B659 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
-		E5EE50DB241C25B60032B659 /* MRECs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MRECs.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,13 +86,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		01A619B207BFFD657E517608 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		1DDCE595242AE564007EAC8D /* Banners */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,7 +127,6 @@
 				E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */,
 				3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */,
 				3763B23423357C4B00E49783 /* Products */,
-				01A619B207BFFD657E517608 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -252,8 +164,6 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1D527D29247A4CB700958645 /* AppLovin MAX Demo App-Bridging-Header.h */,
-				E5EE50DB241C25B60032B659 /* MRECs.storyboard */,
 				E5EE50DA241C25B60032B659 /* Rewarded.storyboard */,
 				E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */,
 				E5EE50D6241C25AA0032B659 /* Leaders.storyboard */,
@@ -284,8 +194,6 @@
 				E5BDBFF224354C5800F82D79 /* Event Tracking */,
 				E5BDBDF32432C4E800F82D79 /* Interstitials */,
 				E5BDBE8D243404DD00F82D79 /* Leaders */,
-				E5BDBE902434141100F82D79 /* MRECs */,
-				E5BDBFE824350D0100F82D79 /* Native */,
 				E5BDBDF72432C4E800F82D79 /* Rewarded */,
 			);
 			name = AppLovin;
@@ -328,130 +236,6 @@
 				E5BDBE8A243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift */,
 			);
 			path = Leaders;
-			sourceTree = "<group>";
-		};
-		E5BDBE902434141100F82D79 /* MRECs */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBE8E2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift */,
-				E5220BF2243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift */,
-			);
-			path = MRECs;
-			sourceTree = "<group>";
-		};
-		E5BDBF9924350B2400F82D79 /* Programattic */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBF9724350B1200F82D79 /* ALDemoNativeAdProgrammaticViewController.swift */,
-			);
-			path = Programattic;
-			sourceTree = "<group>";
-		};
-		E5BDBFA024350B7400F82D79 /* RSS Feed Parsing */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBF9A24350B5F00F82D79 /* ALDemoRSSFeedRetriever.h */,
-				E5BDBF9D24350B5F00F82D79 /* ALDemoRSSFeedRetriever.m */,
-				E5BDBF9C24350B5F00F82D79 /* ALDemoArticle.h */,
-				E5BDBF9B24350B5F00F82D79 /* ALDemoArticle.m */,
-			);
-			path = "RSS Feed Parsing";
-			sourceTree = "<group>";
-		};
-		E5BDBFA224350BA600F82D79 /* Customizable SETTINGS */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFA124350B9600F82D79 /* ALCarouselViewSettings.h */,
-			);
-			path = "Customizable SETTINGS";
-			sourceTree = "<group>";
-		};
-		E5BDBFC324350BD000F82D79 /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFA524350BBD00F82D79 /* Star_Sprite_0.png */,
-				E5BDBFA724350BBD00F82D79 /* Star_Sprite_0.5.png */,
-				E5BDBFA924350BBE00F82D79 /* Star_Sprite_1.png */,
-				E5BDBFAF24350BBE00F82D79 /* Star_Sprite_1.5.png */,
-				E5BDBFA424350BBD00F82D79 /* Star_Sprite_2.png */,
-				E5BDBFAC24350BBE00F82D79 /* Star_Sprite_2.5.png */,
-				E5BDBFAE24350BBE00F82D79 /* Star_Sprite_3.png */,
-				E5BDBFA324350BBD00F82D79 /* Star_Sprite_3.5.png */,
-				E5BDBFAD24350BBE00F82D79 /* Star_Sprite_4.png */,
-				E5BDBFAB24350BBE00F82D79 /* Star_Sprite_4.5.png */,
-				E5BDBFA624350BBD00F82D79 /* Star_Sprite_5.png */,
-				E5BDBFB024350BBE00F82D79 /* applovin_card_learn_more.png */,
-				E5BDBFA824350BBD00F82D79 /* applovin_card_muted.png */,
-				E5BDBFB124350BBE00F82D79 /* applovin_card_play.png */,
-				E5BDBFB224350BBF00F82D79 /* applovin_card_replay.png */,
-				E5BDBFAA24350BBE00F82D79 /* applovin_card_unmuted.png */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
-		E5BDBFC824350C0000F82D79 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFC524350BE600F82D79 /* ALCarouselView+Internal.h */,
-				E5BDBFC624350BE600F82D79 /* UIView+ALActivityIndicator.m */,
-				E5BDBFC424350BE600F82D79 /* UIView+ALActivityIndicator.h */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		E5BDBFD824350C1B00F82D79 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFCB24350C1300F82D79 /* ALCarouselCardView.h */,
-				E5BDBFC924350C1300F82D79 /* ALCarouselCardView.m */,
-				E5BDBFD224350C1400F82D79 /* ALCarouselMediaView.h */,
-				E5BDBFCA24350C1300F82D79 /* ALCarouselMediaView.m */,
-				E5BDBFCF24350C1400F82D79 /* ALCarouselReplayOverlayView.h */,
-				E5BDBFCE24350C1300F82D79 /* ALCarouselReplayOverlayView.m */,
-				E5BDBFCC24350C1300F82D79 /* ALCarouselView.h */,
-				E5BDBFCD24350C1300F82D79 /* ALCarouselView.m */,
-				E5BDBFD024350C1400F82D79 /* ALNativeAdVideoView.h */,
-				E5BDBFD124350C1400F82D79 /* ALNativeAdVideoView.m */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		E5BDBFE424350C7500F82D79 /* Carousel UI */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFDD24350C3A00F82D79 /* ALCarouselCardState.h */,
-				E5BDBFDE24350C3A00F82D79 /* ALCarouselCardState.m */,
-				E5BDBFE024350C3A00F82D79 /* ALCarouselRenderingProtocol.h */,
-				E5BDBFD924350C3900F82D79 /* ALCarouselViewModel.h */,
-				E5BDBFDA24350C3900F82D79 /* ALCarouselViewModel.m */,
-				E5BDBFDB24350C3900F82D79 /* ALDebugLog.h */,
-				E5BDBFDC24350C3900F82D79 /* ALNativeAdVideoPlayer.h */,
-				E5BDBFDF24350C3A00F82D79 /* ALNativeAdVideoPlayer.m */,
-				E5BDBFD824350C1B00F82D79 /* Views */,
-				E5BDBFC824350C0000F82D79 /* Categories */,
-				E5BDBFC324350BD000F82D79 /* Assets */,
-				E5BDBFA224350BA600F82D79 /* Customizable SETTINGS */,
-			);
-			path = "Carousel UI";
-			sourceTree = "<group>";
-		};
-		E5BDBFE724350CD200F82D79 /* Feed  */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFE524350CC100F82D79 /* ALDemoNativeAdFeedTableViewController.swift */,
-				E5BDBFE424350C7500F82D79 /* Carousel UI */,
-				E5BDBFA024350B7400F82D79 /* RSS Feed Parsing */,
-			);
-			path = "Feed ";
-			sourceTree = "<group>";
-		};
-		E5BDBFE824350D0100F82D79 /* Native */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFE724350CD200F82D79 /* Feed  */,
-				E5BDBF9924350B2400F82D79 /* Programattic */,
-			);
-			path = Native;
 			sourceTree = "<group>";
 		};
 		E5BDBFF224354C5800F82D79 /* Event Tracking */ = {
@@ -521,30 +305,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5BDBFB724350BBF00F82D79 /* Star_Sprite_0.5.png in Resources */,
-				E5BDBFBD24350BBF00F82D79 /* Star_Sprite_4.png in Resources */,
 				E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */,
-				E5BDBFB824350BBF00F82D79 /* applovin_card_muted.png in Resources */,
-				E5EE50DD241C25B70032B659 /* MRECs.storyboard in Resources */,
 				3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */,
-				E5BDBFC124350BBF00F82D79 /* applovin_card_play.png in Resources */,
 				E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */,
-				E5BDBFBC24350BBF00F82D79 /* Star_Sprite_2.5.png in Resources */,
-				E5BDBFC224350BBF00F82D79 /* applovin_card_replay.png in Resources */,
-				E5BDBFBB24350BBF00F82D79 /* Star_Sprite_4.5.png in Resources */,
-				E5BDBFB624350BBF00F82D79 /* Star_Sprite_5.png in Resources */,
-				E5BDBFB924350BBF00F82D79 /* Star_Sprite_1.png in Resources */,
-				E5BDBFB524350BBF00F82D79 /* Star_Sprite_0.png in Resources */,
 				E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */,
-				E5BDBFB424350BBF00F82D79 /* Star_Sprite_2.png in Resources */,
-				E5BDBFBF24350BBF00F82D79 /* Star_Sprite_1.5.png in Resources */,
 				3763B23E23357C4D00E49783 /* Assets.xcassets in Resources */,
-				E5BDBFC024350BBF00F82D79 /* applovin_card_learn_more.png in Resources */,
 				E5EE50D5241C259D0032B659 /* Banners.storyboard in Resources */,
-				E5BDBFB324350BBF00F82D79 /* Star_Sprite_3.5.png in Resources */,
 				E5EE50D9241C25AA0032B659 /* Interstitials.storyboard in Resources */,
-				E5BDBFBE24350BBF00F82D79 /* Star_Sprite_3.png in Resources */,
-				E5BDBFBA24350BBF00F82D79 /* applovin_card_unmuted.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,40 +325,25 @@
 				E5BDBE852433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift in Sources */,
 				1DDCE5A1242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift in Sources */,
 				E5BDBE8C243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift in Sources */,
-				E5BDBFD324350C1400F82D79 /* ALCarouselCardView.m in Sources */,
-				E5BDBFD424350C1400F82D79 /* ALCarouselMediaView.m in Sources */,
 				E5BDBE862433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift in Sources */,
 				E5BDBE8B243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift in Sources */,
 				37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */,
 				1DDCE59E242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift in Sources */,
-				E5BDBF9E24350B6000F82D79 /* ALDemoArticle.m in Sources */,
 				1DDCE5A5242AE5CE007EAC8D /* ALHomeViewController.swift in Sources */,
 				E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */,
 				37B6CED0246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift in Sources */,
 				E5BDBDFE2432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift in Sources */,
 				1DDCE59F242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift in Sources */,
-				E5BDBF9824350B1200F82D79 /* ALDemoNativeAdProgrammaticViewController.swift in Sources */,
-				E5BDBFE224350C3A00F82D79 /* ALCarouselCardState.m in Sources */,
-				E5BDBFE324350C3A00F82D79 /* ALNativeAdVideoPlayer.m in Sources */,
 				1DDCE5A0242AE564007EAC8D /* ALMAXRewardedAdViewController.swift in Sources */,
-				E5BDBE8F2434140600F82D79 /* ALDemoProgrammaticMRecViewController.swift in Sources */,
 				37C4D0E8233D834900096894 /* main.swift in Sources */,
 				37B6CECE246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift in Sources */,
-				E5BDBFE624350CC100F82D79 /* ALDemoNativeAdFeedTableViewController.swift in Sources */,
-				E5BDBF9F24350B6000F82D79 /* ALDemoRSSFeedRetriever.m in Sources */,
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
 				1DDCE59D242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift in Sources */,
-				E5BDBFC724350BE600F82D79 /* UIView+ALActivityIndicator.m in Sources */,
 				E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */,
 				3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */,
 				E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */,
-				E5BDBFD524350C1400F82D79 /* ALCarouselView.m in Sources */,
-				E5BDBFE124350C3A00F82D79 /* ALCarouselViewModel.m in Sources */,
-				E5220BF3243BFCA600514F16 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */,
 				E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */,
-				E5BDBFD624350C1400F82D79 /* ALCarouselReplayOverlayView.m in Sources */,
 				E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */,
-				E5BDBFD724350C1400F82D79 /* ALNativeAdVideoView.m in Sources */,
 				E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
