@@ -19,8 +19,6 @@ To get started with the demo apps, follow the instructions below:
 5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
 6. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
 
-<img src="https://user-images.githubusercontent.com/20387467/116487118-18aa7980-a844-11eb-9951-f1a6de651c82.PNG" width="350" height="700" />
-
 <img src="https://user-images.githubusercontent.com/20387467/116487126-1cd69700-a844-11eb-9f09-a711ce32b28a.PNG" width="350" height="700" />
 
 ## Error Codes
