@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This class contains settings that enable the AppLovin consent flow.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flowMAX Integration Guide ⇒ iOS ⇒ Consent Flow</a>
  */
 @interface ALConsentFlowSettings : NSObject
 

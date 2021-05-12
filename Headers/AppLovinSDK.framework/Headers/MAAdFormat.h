@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
  * <b>Note:</b> The height is the only adaptive dimension; the width spans the screen.
  *
  * <b>Note:</b> Only AdMob / Google Ad Manager currently has support for adaptive banners and the maximum height is 15% the height of the screen.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/banners#adaptive-banners">MAX Integration Guide ⇒ iOS ⇒ Banners ⇒ Adaptive Banners</a>
  */
 @property (nonatomic, assign, readonly) CGSize adaptiveSize;
 
@@ -77,6 +79,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param width  The width to retrieve the adaptive banner size for.
  *
  * @return The adaptive banner size for the current orientation and width.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/banners#adaptive-banners">MAX Integration Guide ⇒ iOS ⇒ Banners ⇒ Adaptive Banners</a>
  */
  // [PLP] what are the units of 'width'?
 - (CGSize)adaptiveSizeForWidth:(CGFloat)width;

@@ -34,17 +34,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode;
 
 /**
- * This method is invoked when an ad is displayed.
+ * This method is invoked when a full-screen ad is displayed.
  *
  * This method is invoked on the main UI thread.
  */
+ // [PLP] https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec says this is deprecated?
 - (void)didDisplayAd:(MAAd *)ad;
 
 /**
- * This method is invoked when an ad is hidden.
+ * This method is invoked when a full-screen ad is hidden.
  *
  * This method is invoked on the main UI thread.
  */
+ // [PLP] https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec says this is deprecated?
 - (void)didHideAd:(MAAd *)ad;
 
 /**

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * This enum represents whether or not the consent dialog should be shown for this user.
  * The state where no such determination could be made is represented by `ALConsentDialogStateUnknown`.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
  */
 typedef NS_ENUM(NSInteger, ALConsentDialogState)
 {
@@ -69,11 +71,15 @@ typedef NS_ENUM(NSInteger, ALAppTrackingTransparencyStatus)
 
 /**
  * Gets the consent dialog state for this user. If no such determination could be made, the value of this property will be `ALConsentDialogStateUnknown`.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
  */
 @property (nonatomic, assign, readonly) ALConsentDialogState consentDialogState;
 
 /**
  * Gets the country code for this user. The value of this property will be an empty string if no country code is available for this user.
+ *
+ * @warning Do not confuse this with currency code which is "USD" in most cases.
  */
 @property (nonatomic, copy, readonly) NSString *countryCode;
 

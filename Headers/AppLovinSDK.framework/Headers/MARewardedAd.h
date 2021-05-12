@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This class represents a full-screen rewarded ad.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/rewarded-ads">MAX Integration Guide ⇒ iOS ⇒ Rewarded Ads</a>
  */
 @interface MARewardedAd : NSObject
 
@@ -52,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Load the current rewarded ad. Use {@link delegate} to assign a delegate that should be notified about ad load state.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/rewarded-ads#loading-a-rewarded-ad">MAX Integration Guide ⇒ iOS ⇒ Rewarded Ads ⇒ Loading a Rewarded Ad</a>
  */
 - (void)loadAd;
 
@@ -61,6 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
  * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
  * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
  * </ul>
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/rewarded-ads#showing-a-rewarded-ad">MAX Integration Guide ⇒ iOS ⇒ Rewarded Ads ⇒ Showing a Rewarded Ad</a>
  */
 - (void)showAd;
 
@@ -72,6 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
  * </ul>
  *
  * @param placement The placement to tie the showing ad's events to.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api#setting-an-ad-placement-name">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API ⇒ Setting an Ad Placement Name</a>
  */
  // [PLP] what does it mean to tie a placement to events? who ties it?
 - (void)showAdForPlacement:(nullable NSString *)placement;

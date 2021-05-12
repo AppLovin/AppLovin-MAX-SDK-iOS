@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  * If you use reward validation, you can optionally set an identifier that AppLovin will include with its currency validation postbacks (for example, a username
  * or email address). AppLovin will include this in the postback when AppLovin pings your currency endpoint from our server.
  *
- * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api">MAX S2S Rewarded Callback API</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api#setting-an-internal-user-id">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API ⇒ Setting an Internal User ID</a>
  */
 @property (nonatomic, copy, nullable) NSString *userIdentifier;
 
@@ -145,6 +145,8 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  * The SDK invokes the callback on the main thread.
  *
  * @param completionHandler The callback that the SDK will call when the SDK finishes initializing.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/integration#initialize-the-sdk">MAX Integration Guide ⇒ iOS ⇒ Integration ⇒ Initialize the SDK</a>
  */
 - (void)initializeSdkWithCompletionHandler:(nullable ALSdkInitializationCompletionHandler)completionHandler;
 
@@ -152,6 +154,8 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  * Initializes the default instance of AppLovin SDK.
  *
  * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/integration#initialize-the-sdk">MAX Integration Guide ⇒ iOS ⇒ Integration ⇒ Initialize the SDK</a>
  */
 + (void)initializeSdk;
 
@@ -161,6 +165,8 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @param completionHandler The callback that the SDK will run on the main queue when the SDK finishes initializing.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/integration#initialize-the-sdk">MAX Integration Guide ⇒ iOS ⇒ Integration ⇒ Initialize the SDK</a>
  */
 + (void)initializeSdkWithCompletionHandler:(nullable ALSdkInitializationCompletionHandler)completionHandler;
 

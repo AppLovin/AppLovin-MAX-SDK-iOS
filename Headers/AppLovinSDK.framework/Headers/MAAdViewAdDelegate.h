@@ -13,18 +13,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This delegate is notified about ad view events.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/banners">MAX Integration Guide ⇒ iOS ⇒ Banners</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs">MAX Integration Guide ⇒ iOS ⇒ MRECs</a>
  */
 @protocol MAAdViewAdDelegate<MAAdDelegate>
 
 /**
- * This method is invoked when the `MAAdView` has expanded to the full screen.
+ * This method is invoked when the {@link MAAdView} has expanded to the full screen.
  *
  * @param ad An ad for which the ad view expanded.
  */
 - (void)didExpandAd:(MAAd *)ad;
 
 /**
- * This method is invoked when the `MAAdView` has collapsed back to its original size.
+ * This method is invoked when the {@link MAAdView} has collapsed back to its original size.
  *
  * @param ad An ad for which the ad view collapsed.
  */

@@ -66,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
  * </ul>
  *
  * @param placement The placement to tie the showing ad's events to.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
  */
  // [PLP] what does it mean to "tie" events to a placement? who ties them?
 - (void)showAdForPlacement:(nullable NSString *)placement;

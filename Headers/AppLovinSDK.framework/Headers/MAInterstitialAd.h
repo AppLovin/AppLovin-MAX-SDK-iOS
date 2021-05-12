@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This class represents a full-screen interstitial ad.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/interstitials">MAX Integration Guide ⇒ iOs ⇒ Interstitials</a>
  */
 @interface MAInterstitialAd : NSObject
 
@@ -48,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Load the ad for the current interstitial. Set {@link delegate} to assign a delegate that should be notified about ad load state.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/interstitials#loading-an-interstitial-ad">MAX Integration Guide ⇒ iOs ⇒ Interstitials ⇒ Loading an Interstitial Ad</a>
  */
 - (void)loadAd;
 
@@ -57,6 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
  * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
  * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
  * </ul>
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/interstitials#showing-an-interstitial-ad">MAX Integration Guide ⇒ iOs ⇒ Interstitials ⇒ Showing an Interstitial Ad</a>
  */
 - (void)showAd;
 
@@ -68,6 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
  * </ul>
  *
  * @param placement The placement to tie the showing ad's events to.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
  */
  // [PLP] what does it mean to "tie" an event to a placement? who ties?
 - (void)showAdForPlacement:(nullable NSString *)placement;
