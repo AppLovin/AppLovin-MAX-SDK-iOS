@@ -17,16 +17,16 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MAAdViewAdDelegate<MAAdDelegate>
 
 /**
- * This method will be invoked when the `MAAdView` has expanded the full screen.
+ * This method is invoked when the `MAAdView` has expanded to the full screen.
  *
- * @param ad An ad for which the ad view expanded for.
+ * @param ad An ad for which the ad view expanded.
  */
 - (void)didExpandAd:(MAAd *)ad;
 
 /**
- * This method will be invoked when the `MAAdView` has collapsed back to its original size.
+ * This method is invoked when the `MAAdView` has collapsed back to its original size.
  *
- * @param ad An ad for which the ad view collapsed for.
+ * @param ad An ad for which the ad view collapsed.
  */
 - (void)didCollapseAd:(MAAd *)ad;
 

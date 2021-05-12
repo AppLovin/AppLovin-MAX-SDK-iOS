@@ -13,63 +13,74 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class represents a view-based ad - i.e. banner, mrec or leader.
+ * This class represents a view-based ad — i.e. banner, mrec, or leader.
  */
 @interface MAAdView : UIView
 
 /**
- * Create a new ad view for a given ad unit id.
+ * Creates a new ad view for a given ad unit ID.
  *
- * @param adUnitIdentifier Ad unit id to load ads for.
+ * @param adUnitIdentifier Ad unit ID to load ads for.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier;
 
 /**
- * Create a new ad view for a given ad unit id.
+ * Creates a new ad view for a given ad unit ID.
  *
- * @param adUnitIdentifier Ad unit id to load ads for.
- * @param sdk                              SDK to use. An instance of the SDK may be obtained by calling +[ALSdk shared].
+ * @param adUnitIdentifier Ad unit ID to load ads for.
+ * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
 /**
- * Create a new ad view for a given ad unit id and ad format.
+ * Creates a new ad view for a given ad unit ID and ad format.
  *
- * @param adUnitIdentifier Ad unit id to load ads for.
- * @param adFormat                   Ad format to load ads for.
+ * @param adUnitIdentifier Ad unit ID to load ads for.
+ * @param adFormat         Ad format to load ads for.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat;
 
 /**
- * Create a new ad view for a given ad unit id, ad format, and sdk.
+ * Create a new ad view for a given ad unit ID, ad format, and SDK.
  *
  * @param adUnitIdentifier Ad unit id to load ads for.
- * @param adFormat                   Ad format to load ads for.
- * @param sdk                              SDK to use. An instance of the SDK may be obtained by calling +[ALSdk shared].
+ * @param adFormat         Ad format to load ads for.
+ * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat sdk:(ALSdk *)sdk;
 
+/**
+ * Use `initWithAdUnitIdentifier` to create a new ad view.
+ */
 - (instancetype)init NS_UNAVAILABLE;
+/**
+ * Use `initWithAdUnitIdentifier` to create a new ad view.
+ */
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+/**
+ * Use `initWithAdUnitIdentifier` to create a new ad view.
+ */
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_UNAVAILABLE;
+/**
+ * Use `initWithAdUnitIdentifier` to create a new ad view.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**
- * Set a delegate that will be notified about ad events.
+ * A delegate that will be notified about ad events.
  */
 @property (nonatomic, weak, nullable) IBOutlet id<MAAdViewAdDelegate> delegate;
 
 /**
- * Set an extra parameter for the ad.
+ * Sets an extra parameter key/value pair for the ad.
  *
- * @param key     Parameter key.
+ * @param key   Parameter key.
  * @param value Parameter value.
  */
 - (void)setExtraParameterForKey:(NSString *)key value:(nullable NSString *)value;
 
 /**
- * Load ad for the current ad view. Use {@link MAAdView:delegate} to assign a delegate that should be
- * notified about ad load state.
+ * Loads the ad for the current ad view. Set {@link delegate} to assign a delegate that should be notified about ad load state.
  */
 - (void)loadAd;
 
@@ -89,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *placement;
 
 /**
- * The ad unit identifier this @c MAAdView was initialized with and is loading ads for.
+ * The ad unit identifier this `MAAdView` was initialized with and is loading ads for.
  */
 @property (nonatomic, copy, readonly) NSString *adUnitIdentifier;
 

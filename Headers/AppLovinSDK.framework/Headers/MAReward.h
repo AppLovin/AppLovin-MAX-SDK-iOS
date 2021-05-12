@@ -14,27 +14,40 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MAReward : NSObject
 
 /**
- * This the label that is used when a label is not given by the third-party network.
+ * The label that is used when a label is not given by the third-party network.
  */
 @property (nonatomic, copy, readonly, class) NSString *defaultLabel;
 
 /**
- * This is the amount that is used when no amount is given by the third-party network.
+ * The amount that is used when no amount is given by the third-party network.
  */
+// [PLP] what are the units of "amount"?
 @property (nonatomic, assign, readonly, class) NSInteger defaultAmount;
 
 /**
- * Get rewarded label or `MAReward.defaultLabel` if none specified.
+ * Gets the reward label or {@link defaultLabel} if none specified.
  */
 @property (nonatomic, copy, readonly) NSString *label;
 
 /**
- * Get rewarded amount or `MAReward.defaultAmount` if none specified.
+ * Gets the rewarded amount or {@link defaultAmount} if none specified.
  */
+// [PLP] what are the units of "amount"?
 @property (nonatomic, assign, readonly) NSInteger amount;
 
 
+/**
+ * Create a reward object.
+ */
 + (instancetype)reward;
+
+/**
+ * Create a reward object, with a label and an amount.
+ *
+ * @param amount  The rewarded amount.
+ * @param label   The reward label.
+ */
+// [PLP] what are the units of "amount"?
 + (instancetype)rewardWithAmount:(NSInteger)amount label:(NSString *)label;
 
 - (instancetype)init NS_UNAVAILABLE;

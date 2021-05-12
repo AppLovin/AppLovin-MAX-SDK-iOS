@@ -122,6 +122,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Presents the mediation debugger UI. This debugger tool provides the status of your integration for each third-party ad network.
  *
  * Call this method after the SDK has initialized, for example in the `completionHandler` of `initializeSdkWithCompletionHandler`.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/mediation-debugger">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Mediation Debugger</a>
  */
 - (void)showMediationDebugger;
 
@@ -149,14 +151,14 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Initializes the default instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property 'AppLovinSdkKey'.
+ * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
  */
 + (void)initializeSdk;
 
 /**
  * Initializes the default instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property 'AppLovinSdkKey'.
+ * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @param completionHandler The callback that the SDK will run on the main queue when the SDK finishes initializing.
  */
@@ -165,7 +167,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Gets a shared instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property 'AppLovinSdkKey'.
+ * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @return The shared instance of AppLovin's SDK, or nil if SDK key is not set in the application's Info.plist.
  */
@@ -174,7 +176,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Gets a shared instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property 'AppLovinSdkKey'.
+ * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @param settings An SDK settings object.
  *

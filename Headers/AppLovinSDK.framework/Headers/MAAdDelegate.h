@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This protocol defines a listener intended to be notified about ad events.
+ * This protocol defines a listener to be notified about ad events.
  */
 @protocol MAAdDelegate<NSObject>
 
@@ -23,13 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * This method is called when an ad could not be retrieved.
  *
- * Common error codes:
- * 204 - no ad is available
- * 5xx - internal server error
- * negative number - internal errors
+ * <b>Common error codes:</b><table>
+ * <tr><td>204</td><td>no ad is available</td></tr>
+ * <tr><td>5xx</td><td>internal server error</td></tr>
+ * <tr><td>negative number</td><td>internal errors</td></tr></table>
  *
- * @param adUnitIdentifier  Ad unit identifier for which the ad was requested.
- * @param errorCode         An error code representing the failure reason. Common error codes are defined in `MAErrorCode.h`.
+ * @param adUnitIdentifier  The ad that was requested.
+ * @param errorCode         Represents the failure reason. Common error codes are defined in {@link MAErrorCodes.h}.
  */
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode;
 
@@ -55,12 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didClickAd:(MAAd *)ad;
 
 /**
- * This method is invoked when the ad failed to displayed.
+ * This method is invoked when the ad failed to display.
  *
  * This method is invoked on the main UI thread.
  *
- * @param ad        Ad that was just failed to display.
- * @param errorCode Error that indicates display failure. Common error codes are defined in `MAErrorCode.h`.
+ * @param ad        The ad that failed to display.
+ * @param errorCode Represents the failure reason. Common error codes are defined in {@link MAErrorCodes.h}.
  */
 - (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode;
 
