@@ -36,14 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadNextAdForZoneIdentifier:(NSString *)zoneIdentifier andNotify:(id<ALAdLoadDelegate>)delegate;
 
 /**
- * Generates a token used for advanced header bidding.
+ * A token used for advanced header bidding.
  */
 @property (nonatomic, copy, readonly) NSString *bidToken;
 
 /**
  * Fetches a new ad for the given ad token. The provided ad token must be one that was received from AppLovin S2S API.
  *
- * <b>Note:</b> this method is designed to be called by SDK mediation providers. Use `loadNextAdForZoneIdentifier:andNotify:` for regular integrations.
+ * @warning This method is designed to be called by SDK mediation providers. Use {@link ALAdService::loadNextAdForZoneIdentifier:andNotify:} for regular
+ *          integrations.
  *
  * @param adToken   Ad token returned from AppLovin S2S API. Must not be `nil`.
  * @param delegate  A callback that `loadNextAdForAdToken` calls to notify that the ad has been loaded. Must not be `nil`.
@@ -53,8 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Fetch a new ad for any of the provided zone identifiers.
  *
- * <b>Please note:</b> this method is designed to be called by SDK mediation providers. Please use `loadNextAdForZoneIdentifier:andNotify:` for regular
- * integrations.
+ * @warning This method is designed to be called by SDK mediation providers. Use {@link ALAdService::loadNextAdForZoneIdentifier:andNotify:} for regular
+ *          integrations.
  *
  * @param zoneIdentifiers  An array of zone identifiers for which an ad should be loaded. Must not be `nil`.
  * @param delegate         A callback that `loadNextAdForZoneIdentifiers` calls to notify that the ad has been loaded. Must not be `nil`.
@@ -65,25 +66,28 @@ NS_ASSUME_NONNULL_BEGIN
  * Access ALAdService through {@link ALSdk}'s `adService` property instead.
  */
 - (instancetype)init __attribute__((unavailable("Access ALAdService through ALSdk's adService property.")));
+/**
+ * Access ALAdService through {@link ALSdk}'s `adService` property instead.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end
 
 @interface ALAdService(ALDeprecated)
 /**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use `[ALAdService loadNextAd:andNotify:]` to load ads to display.
+ * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use {@link ALAdService::loadNextAd:andNotify:} to load ads to display.
  */
 - (void)preloadAdOfSize:(ALAdSize *)adSize __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAd:andNotify:] to load ads to display.");
 /**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use `[ALAdService loadNextAdForZoneIdentifier:andNotify:]` to load ads to display.
+ * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use {@link ALAdService::loadNextAdForZoneIdentifier:andNotify:} to load ads to display.
  */
 - (void)preloadAdForZoneIdentifier:(NSString *)zoneIdentifier __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAdForZoneIdentifier:andNotify:] to load ads to display.");
 /**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use `[ALAdService loadNextAd:andNotify:]` to load ads to display.
+ * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use {@link ALAdService::loadNextAd:andNotify:} to load ads to display.
  */
 - (BOOL)hasPreloadedAdOfSize:(ALAdSize *)adSize __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAd:andNotify:] to load ads to display.");
 /**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use `[ALAdService loadNextAdForZoneIdentifier:andNotify:]` to load ads to display.
+ * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use {@link ALAdService::loadNextAdForZoneIdentifier:andNotify:} to load ads to display.
  */
 - (BOOL)hasPreloadedAdForZoneIdentifier:(NSString *)zoneIdentifier __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAdForZoneIdentifier:andNotify:] to load ads to display.");
 @end

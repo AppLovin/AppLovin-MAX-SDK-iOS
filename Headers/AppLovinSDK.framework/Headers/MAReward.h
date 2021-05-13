@@ -25,12 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly, class) NSInteger defaultAmount;
 
 /**
- * Gets the reward label or {@link defaultLabel} if none specified.
+ * The reward label or {@link defaultLabel} if none specified.
  */
 @property (nonatomic, copy, readonly) NSString *label;
 
 /**
- * Gets the rewarded amount or {@link defaultAmount} if none specified.
+ * The rewarded amount or {@link defaultAmount} if none specified.
  */
 // [PLP] what are the units of "amount"?
 @property (nonatomic, assign, readonly) NSInteger amount;
@@ -50,7 +50,13 @@ NS_ASSUME_NONNULL_BEGIN
 // [PLP] what are the units of "amount"?
 + (instancetype)rewardWithAmount:(NSInteger)amount label:(NSString *)label;
 
+/**
+ * Use {@link reward} or {@link rewardWithAmount:label:} to create a reward object.
+ */
 - (instancetype)init NS_UNAVAILABLE;
+/**
+ * Use {@link reward} or {@link rewardWithAmount:label:} to create a reward object.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

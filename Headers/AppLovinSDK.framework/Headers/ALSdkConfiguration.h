@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, ALConsentDialogState)
 };
 
 /**
- * AppLovin SDK-defined app tracking transparency status values (extended to include "unavailable" state on iOS before iOS14).
+ * AppLovin SDK-defined app tracking transparency status values (extended to include “unavailable” state on iOS before iOS14).
  */
 typedef NS_ENUM(NSInteger, ALAppTrackingTransparencyStatus)
 {
@@ -48,29 +48,28 @@ typedef NS_ENUM(NSInteger, ALAppTrackingTransparencyStatus)
     ALAppTrackingTransparencyStatusUnavailable = -1,
     
     /**
-     * The value returned if a user has not yet received an authorization request to authorize access to app-related data that can be used for tracking the user
-     * or the device.
+     * The user has not yet received an authorization request to authorize access to app-related data that can be used for tracking the user or the device.
      */
     ALAppTrackingTransparencyStatusNotDetermined,
     
     /**
-     * The value returned if authorization to access app-related data that can be used for tracking the user or the device is restricted.
+     * Authorization to access app-related data that can be used for tracking the user or the device is restricted.
      */
     ALAppTrackingTransparencyStatusRestricted,
     
     /**
-     * The value returned if the user denies authorization to access app-related data that can be used for tracking the user or the device.
+     * The user denies authorization to access app-related data that can be used for tracking the user or the device.
      */
     ALAppTrackingTransparencyStatusDenied,
     
     /**
-     * The value returned if the user authorizes access to app-related data that can be used for tracking the user or the device.
+     * The user authorizes access to app-related data that can be used for tracking the user or the device.
      */
     ALAppTrackingTransparencyStatusAuthorized
 };
 
 /**
- * Gets the consent dialog state for this user. If no such determination could be made, the value of this property will be `ALConsentDialogStateUnknown`.
+ * The consent dialog state for this user. If no determination could be made, the value of this property will be `ALConsentDialogStateUnknown`.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
  */
@@ -79,7 +78,7 @@ typedef NS_ENUM(NSInteger, ALAppTrackingTransparencyStatus)
 /**
  * Gets the country code for this user. The value of this property will be an empty string if no country code is available for this user.
  *
- * @warning Do not confuse this with currency code which is "USD" in most cases.
+ * @warning Do not confuse this with the <em>currency</em> code which is “USD” in most cases.
  */
 @property (nonatomic, copy, readonly) NSString *countryCode;
 

@@ -21,19 +21,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * This method is invoked on the main UI thread.
  * 
- * @param ad     Ad that was just displayed. Will not be `nil`.
- * @param view   Ad view in which the ad was displayed. Will not be `nil`.
+ * @param ad    Ad that was just displayed. Will not be `nil`.
+ * @param view  Ad view in which the ad was displayed. Will not be `nil`.
  */
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view;
 
 /**
- * This method is invoked when the ad is hidden from the view.
- * This occurs when the user "X"es out of an interstitial.
+ * This method is invoked when the ad is hidden from the view. This occurs when the user “X”es out of an interstitial.
  *
  * This method is invoked on the main UI thread.
  * 
- * @param ad     Ad that was just hidden. Will not be `nil`.
- * @param view   Ad view in which the ad was hidden. Will not be `nil`.
+ * @param ad    Ad that was just hidden. Will not be `nil`.
+ * @param view  Ad view in which the ad was hidden. Will not be `nil`.
  */
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view;
 
@@ -42,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * This method is invoked on the main UI thread.
  *
- * @param ad     Ad that was just clicked. Will not be `nil`.
- * @param view   Ad view in which the ad was hidden. Will not be `nil`.
+ * @param ad    Ad that was just clicked. Will not be `nil`.
+ * @param view  Ad view in which the ad was clicked. Will not be `nil`.
  */
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view;
 

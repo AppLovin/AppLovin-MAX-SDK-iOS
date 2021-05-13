@@ -53,19 +53,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat sdk:(ALSdk *)sdk;
 
 /**
- * Use `initWithAdUnitIdentifier` to create a new ad view.
+ * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
+ * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use `initWithAdUnitIdentifier` to create a new ad view.
+ * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
+ * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
  */
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 /**
- * Use `initWithAdUnitIdentifier` to create a new ad view.
+ * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
+ * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
  */
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_UNAVAILABLE;
 /**
- * Use `initWithAdUnitIdentifier` to create a new ad view.
+ * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
+ * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
  */
 + (instancetype)new NS_UNAVAILABLE;
 
@@ -101,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Pauses auto-refreshing of the banner.
  *
- * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/banners#hiding-a-banner"MAX Integration Guide ⇒ iOS ⇒ MRECs ⇒ Hiding a Banner</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/banners#hiding-a-banner">MAX Integration Guide ⇒ iOS ⇒ MRECs ⇒ Hiding a Banner</a>
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#hiding-and-showing-an-mrec">MAX Integration Guide ⇒ iOS ⇒ MRECs ⇒ Hiding and Showing an MREC</a>
  */
 - (void)stopAutoRefresh;

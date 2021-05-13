@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class represents an ad that has been served by AppLovin's mediation server and that should be displayed to the user.
+ * This class represents an ad that has been served by AppLovin’s mediation server and that should be displayed to the user.
  */
 @interface MAAd : NSObject
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *networkName;
 
 /**
- * The creative ID tied to the ad, if any. It may not be available for some ad networks until `MAFullscreenAdDelegate.didDisplayAd` is called.
+ * The creative ID tied to the ad, if any. It may not be available for some ad networks until {@link MAAdDelegate::didDisplayAd:} is called.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/creative-debugger#creative-id">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Creative Debugger ⇒ Creative ID</a>
  *
@@ -42,13 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSString *creativeIdentifier;
 
 /**
- * The ad's revenue amount, or -1 if it does not exist.
+ * The ad’s revenue amount, or −1 if it does not exist.
  */
  // [PLP] "it" meaning the ad, or the amount?
 @property (nonatomic, assign, readonly) double revenue;
 
 /**
- * The placement to tie the ad's postbacks to.
+ * The placement to tie the ad’s postbacks to.
  */
  // [PLP] what does it mean to tie postbacks to a placement? who ties them?
 @property (atomic, copy, readonly, nullable) NSString *placement;
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Gets an arbitrary ad value for a given key.
  *
- * @param key The key for the value you want to retrieve.
+ * @param key          The key for the value you want to retrieve.
  * @param defaultValue The default value to return if the value for `key` does not exist or is `nil`.
  *
  * @return An arbitrary ad value for a given key, or the default value if does not exist.

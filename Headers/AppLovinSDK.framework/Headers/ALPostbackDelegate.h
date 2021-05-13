@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Success means having received a 2<var>xx</var> response code from the remote endpoint.
  *
  * @param postbackService The postback service that made the postback call.
- * @param postbackURL The URL that was notified.
+ * @param postbackURL     The URL that was notified.
  */
 - (void)postbackService:(ALPostbackService *)postbackService didExecutePostback:(NSURL *)postbackURL;
 
@@ -27,10 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
  * Failure means having received a response code outside the 2<var>xx</var> range, or having been unable to establish a connection.
  *
  * @param postbackService The postback service that attempted the postback call.
- * @param postbackURL The URL to which the notification attempt was made.
- * @param errorCode The HTTP status code received, if any; otherwise a negative constant.
+ * @param postbackURL     The URL to which the notification attempt was made.
+ * @param errorCode       The HTTP status code received, if any; otherwise a negative constant.
  */
- // [PLP] does the particular "negative constant" have any meaning; e.g. might different negative constants refer to different reasons a connection could not be established?
+// [PLP] does the particular "negative constant" have any meaning; e.g. might different negative constants refer to different reasons a connection could not be established?
 - (void)postbackService:(ALPostbackService *)postbackService didFailToExecutePostback:(nullable NSURL *)postbackURL errorCode:(NSInteger)errorCode;
 
 @end

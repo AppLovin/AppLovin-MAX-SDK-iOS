@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  This protocol defines a listener that listens to rewarded video events.
+ * This protocol defines a listener that listens to rewarded video events.
  */
 @protocol ALAdRewardDelegate <NSObject>
 
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  * If you are using reward validation for incentivized videos, this method will be invoked if we contacted AppLovin successfully. This means that we believe the
  * reward is legitimate and you should award it.
  *
- * <b>Tip:</b> refresh the user's balance from your server at this point rather than relying on local data that could be tampered with on jailbroken devices.
+ * <b>Tip:</b> refresh the user’s balance from your server at this point rather than relying on local data that could be tampered with on jailbroken devices.
  *
  * The `response` `NSDictionary` will typically include the keys `"currency"` and `"amount"`, which point to `NSStrings` that contain the name and amount of the
  * virtual currency that you may award.
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)rewardValidationRequestForAd:(ALAd *)ad didExceedQuotaWithResponse:(NSDictionary *)response;
 
 /**
- * This method is invoked if the AppLovin server rejected the reward request. The usual cause of this is if the user fails to pass an anti-fraud check.
+ * This method is invoked if the AppLovin server rejected the reward request. The usual cause of this is that the user fails to pass an anti-fraud check.
  *
  * @param ad       Ad that was viewed.
  * @param response Dictionary that contains response data from the server.
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)rewardValidationRequestForAd:(ALAd *)ad wasRejectedWithResponse:(NSDictionary *)response;
 
 /**
- * This method is invoked if were unable to contact AppLovin, and so no ping will be heading to your server.
+ * This method is invoked if were unable to contact AppLovin, and so no ping will be issued to your S2S rewarded callback server.
  *
  * @param ad           Ad that was viewed.
  * @param responseCode A failure code that corresponds to a constant defined in {@link ALErrorCodes.h}.

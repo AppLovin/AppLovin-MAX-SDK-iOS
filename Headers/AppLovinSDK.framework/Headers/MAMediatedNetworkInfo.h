@@ -30,10 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *adapterVersion;
 
 /**
- * The version of the mediated network's SDK.
+ * The version of the mediated network’s SDK.
  */
 @property (nonatomic, copy, readonly) NSString *sdkVersion;
-
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

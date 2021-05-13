@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This method is called when a new ad has been loaded.
+ *
+ * @param ad  The ad that was loaded.
  */
 - (void)didLoadAd:(MAAd *)ad;
 
@@ -37,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
  * This method is invoked when a full-screen ad is displayed.
  *
  * This method is invoked on the main UI thread.
+ *
+ * @param ad  The ad that was displayed.
  */
  // [PLP] https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec says this is deprecated?
 - (void)didDisplayAd:(MAAd *)ad;
@@ -45,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
  * This method is invoked when a full-screen ad is hidden.
  *
  * This method is invoked on the main UI thread.
+ *
+ * @param ad  The ad that was hidden.
  */
  // [PLP] https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec says this is deprecated?
 - (void)didHideAd:(MAAd *)ad;
@@ -53,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  * This method is invoked when the ad is clicked.
  *
  * This method is invoked on the main UI thread.
+ *
+ * @param ad  The ad that was clicked.
  */
 - (void)didClickAd:(MAAd *)ad;
 
@@ -62,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  * This method is invoked on the main UI thread.
  *
  * @param ad        The ad that failed to display.
- * @param errorCode Represents the failure reason. Common error codes are defined in {@link MAErrorCodes.h}.
+ * @param errorCode The failure reason. Common error codes are defined in {@link MAErrorCodes.h}.
  */
 - (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode;
 

@@ -91,7 +91,7 @@ typedef NS_ENUM(NSInteger, ALAdViewDisplayErrorCode)
  *
  * @param ad     Ad that the ad view failed to display.
  * @param adView Ad view that failed to display the ad.
- * @param code   Error code that specifies the reason why the ad view failed to display ad.
+ * @param code   Error code that specifies the reason why the ad view failed to display the ad.
  */
 - (void)ad:(ALAd *)ad didFailToDisplayInAdView:(ALAdView *)adView withError:(ALAdViewDisplayErrorCode)code;
 

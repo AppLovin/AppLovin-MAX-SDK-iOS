@@ -36,23 +36,23 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Loading and Showing Ads, Class Methods
 
 /**
- * Shows an interstitial over the application's key window. This loads the next interstitial and displays it.
+ * Shows an interstitial over the application’s key window. This loads the next interstitial and displays it.
  */
 + (instancetype)show;
 
 /**
  * Gets a reference to the shared singleton instance.
  *
- * This method calls `[ALSdk shared]` which requires that you have an SDK key defined in `Info.plist`.
+ * This method calls {@link ALSdk::shared} which requires that you have an SDK key defined in `Info.plist`.
  *
- * @warning If you use `[ALSdk sharedWithKey: …]` then you will need to use the instance methods instead.
+ * @warning If you use {@link ALSdk::sharedWithKey:} then you will need to use the instance methods instead.
  */
 + (instancetype)shared;
 
 #pragma mark - Loading and Showing Ads, Instance Methods
 
 /**
- * Shows an interstitial over the application's key window. This loads the next interstitial and displays it.
+ * Shows an interstitial over the application’s key window. This loads the next interstitial and displays it.
  */
 - (void)show;
 
@@ -71,7 +71,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param sdk The AppLovin SDK instance to use.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk;
+
+/**
+ * Use {@link shared} or {@link initWithSdk:} instead
+ */
 - (instancetype)init NS_UNAVAILABLE;
+/**
+ * Use {@link shared} or {@link initWithSdk:} instead
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

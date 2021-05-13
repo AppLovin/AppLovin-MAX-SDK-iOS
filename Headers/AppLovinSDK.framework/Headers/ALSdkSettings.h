@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 /**
- * URL for your company's privacy policy. This is required in order to enable the consent flow.
+ * URL for your company’s privacy policy. This is required in order to enable the consent flow.
  *
  * This defaults to the value that you entered into your `Info.plist` file via `AppLovinConsentFlowInfo`⇒`AppLovinConsentFlowPrivacyPolicy`.
  *
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSURL *privacyPolicyURL;
 
 /**
- * URL for your company's terms of service. This is optional; you can enable the consent flow with or without it.
+ * URL for your company’s terms of service. This is optional; you can enable the consent flow with or without it.
  *
  * This defaults to the value that you entered into your `Info.plist` file via `AppLovinConsentFlowInfo`⇒`AppLovinConsentFlowTermsOfService`.
  *

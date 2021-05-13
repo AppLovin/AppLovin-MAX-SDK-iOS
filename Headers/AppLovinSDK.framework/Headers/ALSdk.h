@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - High Level SDK Properties
 
 /**
- * The current version of the SDK. The value is in the format of &quot;<var>Major</var>.<var>Minor</var>.<var>Revision</var>&quot;.
+ * The current version of the SDK. The value is in the format of “<var>Major</var>.<var>Minor</var>.<var>Revision</var>”.
  */
 @property (class, nonatomic, copy, readonly) NSString *version;
 
@@ -39,12 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, assign, readonly) NSUInteger versionCode;
 
 /**
- * This SDK's SDK key.
+ * This SDK’s SDK key.
  */
 @property (nonatomic, copy, readonly) NSString *sdkKey;
 
 /**
- * This SDK's SDK settings.
+ * This SDK’s SDK settings.
  */
 @property (nonatomic, strong, readonly) ALSdkSettings *settings;
 
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setPluginVersion:(NSString *)pluginVersion;
 
 /**
- * An identifier for the current user. This identifier will be tied to SDK events and AppLovin's optional S2S postbacks.
+ * An identifier for the current user. This identifier will be tied to SDK events and AppLovin’s optional S2S postbacks.
  *
  * If you use reward validation, you can optionally set an identifier that AppLovin will include with its currency validation postbacks (for example, a username
  * or email address). AppLovin will include this in the postback when AppLovin pings your currency endpoint from our server.
@@ -99,7 +99,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ALUserService *userService;
 
 /**
- * Get an instance of the AppLovin variable service. This service is used to perform various AB tests that you have set up on your AppLovin dashboard on your users.
+ * Get an instance of the AppLovin variable service. This service is used to perform various A/B tests that you have set up on your AppLovin dashboard on your
+ * users.
  *
  * @return Variable service. Guaranteed not to be `NULL`.
  */
@@ -121,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Presents the mediation debugger UI. This debugger tool provides the status of your integration for each third-party ad network.
  *
- * Call this method after the SDK has initialized, for example in the `completionHandler` of `initializeSdkWithCompletionHandler`.
+ * Call this method after the SDK has initialized, for example in the `completionHandler` of {@link initializeSdkWithCompletionHandler:}.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/mediation-debugger">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Mediation Debugger</a>
  */
@@ -153,7 +154,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Initializes the default instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/integration#initialize-the-sdk">MAX Integration Guide ⇒ iOS ⇒ Integration ⇒ Initialize the SDK</a>
  */
@@ -162,7 +163,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Initializes the default instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @param completionHandler The callback that the SDK will run on the main queue when the SDK finishes initializing.
  *
@@ -173,20 +174,20 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Gets a shared instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
  *
- * @return The shared instance of AppLovin's SDK, or nil if SDK key is not set in the application's Info.plist.
+ * @return The shared instance of AppLovin’s SDK, or `nil` if SDK key is not set in the application’s Info.plist.
  */
 + (nullable ALSdk *)shared;
 
 /**
  * Gets a shared instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application's `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
  *
  * @param settings An SDK settings object.
  *
- * @return The shared instance of AppLovin's SDK, or nil if SDK key is not set in the application's Info.plist.
+ * @return The shared instance of AppLovin’s SDK, or nil if SDK key is not set in the application’s Info.plist.
  */
 + (nullable ALSdk *)sharedWithSettings:(ALSdkSettings *)settings;
 
@@ -211,11 +212,13 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  // [PLP] what does it mean for the key to be "not set"? Does this mean "if you passed in a null or empty string for the key" or something more subtle?
 + (nullable ALSdk *)sharedWithKey:(NSString *)key settings:(ALSdkSettings *)settings;
 
-
 /**
- * To get an instance of this SDK, use the `shared` or `sharedWithKey` methods.
+ * To get an instance of this SDK, use the {@link shared}, {@link sharedWithSettings:}, {@link sharedWithKey:}, or {@link sharedWithKey:settings:} methods.
  */
 - (instancetype)init __attribute__((unavailable("Use +[ALSdk shared], +[ALSdk sharedWithKey:], or +[ALSdk sharedWithKey:settings:].")));
+/**
+ * To get an instance of this SDK, use the {@link shared}, {@link sharedWithSettings:}, {@link sharedWithKey:}, or {@link sharedWithKey:settings:} methods.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

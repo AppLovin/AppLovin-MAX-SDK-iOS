@@ -36,7 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @return An instance of a rewarded ad tied to the specified ad unit ID.
  */
 + (instancetype)sharedWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
+
+/**
+ * Use {@link sharedWithAdUnitIdentifier:} or {@link sharedWithAdUnitIdentifier:sdk:} to create a rewarded ad instance.
+ */
 - (instancetype)init NS_UNAVAILABLE;
+/**
+ * Use {@link sharedWithAdUnitIdentifier:} or {@link sharedWithAdUnitIdentifier:sdk:} to create a rewarded ad instance.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**
@@ -77,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
  * </ul>
  *
- * @param placement The placement to tie the showing ad's events to.
+ * @param placement The placement to tie the showing ad’s events to.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
  * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api#setting-an-ad-placement-name">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API ⇒ Setting an Ad Placement Name</a>

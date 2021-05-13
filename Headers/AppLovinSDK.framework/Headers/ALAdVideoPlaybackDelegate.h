@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * This method is invoked on the main UI thread.
  *
- * @param ad Ad in which video playback began.
+ * @param ad  Ad in which video playback began.
  */
 - (void)videoPlaybackBeganInAd:(ALAd *)ad;
 

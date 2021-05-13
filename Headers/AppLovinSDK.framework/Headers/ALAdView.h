@@ -15,7 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class represents a view-based ad — i.e. banner, mrec, or leader.
+ * This interface represents a view-based ad — i.e. banner, mrec, or leader.
  */
 @interface ALAdView : UIView
 
@@ -57,12 +57,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ALAdSize *adSize;
 
 /**
- * The zone identifier this ALAdView was initialized with and is loading ads for, if any.
+ * The zone identifier this `ALAdView` was initialized with and is loading ads for, if any.
  */
 @property (nonatomic, copy, readonly, nullable) NSString *zoneIdentifier;
 
 /**
- * Whether or not this ad view should automatically load an ad when inflated from StoryBoard or a nib file (when `awakeFromNib` is called).
+ * Whether or not this ad view should automatically load an ad when inflated from StoryBoard or a nib file (when {@link UIView::awakeFromNib} is called).
  * The default value is `NO` so you are responsible for loading the ad by invoking {@link loadNextAd}.
  */
  // [PLP] "when inflated" - who inflates what?
@@ -79,12 +79,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Loads <em>and</em> displays an ad into the view. This method returns immediately.
  *
- * Note: To load the ad but not display it, use `[[ALSdk shared].adService loadNextAd: … andNotify: …]` then `[adView renderAd: …]` to render it.
+ * <b>Note:</b> To load the ad but not display it, use {@link ALSdk::shared}.{@link ALSdk::adService adService}
+ * {@link ALAdService::loadNextAd:andNotify: loadNextAd:andNotify:} then {@link render:} to render it.
  */
 - (void)loadNextAd;
 
 /**
- * Render a specific ad that was loaded via {@link ALAdService}.
+ * Renders a specific ad that was loaded via {@link ALAdService}.
  *
  * @param ad Ad to render. Must not be `nil`.
  */
@@ -95,42 +96,42 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- *  Initializes the ad view with a given size.
+ * Initializes the ad view with a given size.
  *
- *  @param size {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param size {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
  *
- *  @return A new instance of `ALAdView`.
+ * @return A new instance of `ALAdView`.
  */
 - (instancetype)initWithSize:(ALAdSize *)size;
 
 /**
- *  Initializes the ad view for a given size and zone.
+ * Initializes the ad view for a given size and zone.
  *
- *  @param size           {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
- *  @param zoneIdentifier Identifier for the zone this `ALAdView` should load ads for.
+ * @param size           {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param zoneIdentifier Identifier for the zone this `ALAdView` should load ads for.
  *
- *  @return A new instance of `ALAdView`.
+ * @return A new instance of `ALAdView`.
  */
 - (instancetype)initWithSize:(ALAdSize *)size zoneIdentifier:(nullable NSString *)zoneIdentifier;
 
 /**
- *  Initializes the ad view with a given SDK and size.
+ * Initializes the ad view with a given SDK and size.
  *
- *  @param sdk  Instance of {@link ALSdk} to use.
- *  @param size {@link ALAdSize} representing the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param sdk  Instance of {@link ALSdk} to use.
+ * @param size {@link ALAdSize} representing the size of this ad. For example, {@link ALAdSize.banner}.
  *
- *  @return A new instance of `ALAdView`.
+ * @return A new instance of `ALAdView`.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk size:(ALAdSize *)size;
 
 /**
- *  Initializes the ad view with a given SDK, size, and zone.
+ * Initializes the ad view with a given SDK, size, and zone.
  *
- *  @param sdk            Instance of {@link ALSdk} to use.
- *  @param size           {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
- *  @param zoneIdentifier Identifier for the zone that this `ALAdView` should load ads for.
+ * @param sdk            Instance of {@link ALSdk} to use.
+ * @param size           {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param zoneIdentifier Identifier for the zone that this `ALAdView` should load ads for.
  *
- *  @return A new instance of `ALAdView`.
+ * @return A new instance of `ALAdView`.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk size:(ALAdSize *)size zoneIdentifier:(nullable NSString *)zoneIdentifier;
 
@@ -144,7 +145,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A new instance of `ALAdView`.
  */
 - (instancetype)initWithFrame:(CGRect)frame size:(ALAdSize *)size sdk:(ALSdk *)sdk;
+/**
+ * Use {@link initWithSize:}, {@link initWithSize:zoneIdentifier:}, {@link initWithSdk:size:}, {@link initWithSdk:size:zoneIdentifier:}, or
+ * {@link initWithFrame:size:sdk:} instead.
+ */
 - (instancetype)init NS_UNAVAILABLE;
+/**
+ * Use {@link initWithSize:}, {@link initWithSize:zoneIdentifier:}, {@link initWithSdk:size:}, {@link initWithSdk:size:zoneIdentifier:}, or
+ * {@link initWithFrame:size:sdk:} instead.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

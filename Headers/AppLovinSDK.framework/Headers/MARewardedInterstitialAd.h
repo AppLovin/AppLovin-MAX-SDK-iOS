@@ -28,7 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
+
+/**
+ * Use {@link initWithAdUnitIdentifier:} or {@link initWithAdUnitIdentifier:sdk:} to create a fullscreen ad instance.
+ */
 - (instancetype)init NS_UNAVAILABLE;
+/**
+ * Use {@link initWithAdUnitIdentifier:} or {@link initWithAdUnitIdentifier:sdk:} to create a fullscreen ad instance.
+ */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**
@@ -65,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
  * </ul>
  *
- * @param placement The placement to tie the showing ad's events to.
+ * @param placement The placement to tie the showing ad’s events to.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
  */

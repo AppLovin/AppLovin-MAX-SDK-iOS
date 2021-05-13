@@ -13,17 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ALAdType : NSObject
 
 /**
- * Represents a standard advertisement that does not provide a reward to the user.
+ * A standard advertisement that does not provide a reward to the user.
  */
 @property (class, nonatomic, strong, readonly) ALAdType *regular;
 
 /**
- * Represents a rewarded ad which will provide the user virtual currency upon completion.
+ * A rewarded ad, which will provide the user virtual currency upon completion.
  */
 @property (class, nonatomic, strong, readonly) ALAdType *incentivized;
 
 /**
- * Represents a rewarded interstitial ad which the user can skip and be granted a reward upon successful completion of the ad.
+ * A rewarded interstitial ad, which the user can skip or be granted a reward upon successful completion of the ad.
  */
 @property (class, nonatomic, strong, readonly) ALAdType *autoIncentivized;
 
