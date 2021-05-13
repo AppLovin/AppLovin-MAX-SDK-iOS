@@ -41,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ * @deprecated
+ */
 @interface ALAdSize(ALDeprecated)
 /**
  * @deprecated

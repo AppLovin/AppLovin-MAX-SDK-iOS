@@ -223,6 +223,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ * @deprecated
+ */
 @interface ALIncentivizedInterstitialAd(ALDeprecated)
 /**
  * @deprecated Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.

@@ -7,8 +7,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * The postback service dispatches postbacks to a developer-specified URL.
+ */
 @class ALPostbackService;
 
+/**
+ * This protocol allows you to monitor the dispatching of postbacks to a developer-specified URL by the postback service.
+ */
 @protocol ALPostbackDelegate <NSObject>
 
 /**

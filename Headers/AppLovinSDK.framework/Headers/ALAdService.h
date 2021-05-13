@@ -73,6 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version.
+ */
 @interface ALAdService(ALDeprecated)
 /**
  * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use {@link ALAdService::loadNextAd:andNotify:} to load ads to display.

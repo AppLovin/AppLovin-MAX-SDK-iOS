@@ -11,10 +11,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This protocol defines a listener for ad load events.
+ * This service loads an ad.
  */
 @class ALAdService;
 
+/**
+ * This protocol defines a listener for ad load events.
+ */
 @protocol ALAdLoadDelegate <NSObject>
 
 /**
