@@ -34,12 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
  * This method is invoked on the main UI thread.
  *
  * @param ad                Ad in which video playback ended.
- * @param percentPlayed     How much of the video was watched, as a percent.
- * @param wasFullyWatched   Whether or not the video was watched to, or very near to, completion.
+ * @param percentPlayed     How much of the video was watched, as a percent, between 0 and 100.
+ * @param wasFullyWatched   Whether or not the video was watched to 95% or more of completion.
  */
- // [PLP]
- // "as a percent" is potentially ambiguous. It could be an integer "25" or a decimal "0.25"
- // do we want to give more precise guidance about what "wasFullyWatched" means (e.g. whose criteria applies to determine how much is "fully")?
 - (void)videoPlaybackEndedInAd:(ALAd *)ad atPlaybackPercent:(NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched;
 
 @end

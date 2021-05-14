@@ -16,21 +16,21 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Ad Delegates
 
 /**
- * An object that conforms to the {@link ALAdLoadDelegate} protocol, which, if set, will be notified of ad load events.
+ * An object that conforms to the {@link ALAdLoadDelegate} protocol. If you provide a value for `adLoadDelegate` in your instance, this delegate will be
+ * notified of ad load events.
  */
- // [PLP] how do you set a protocol or an object? who notifies?
 @property (nonatomic, strong, nullable) id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- * An object that conforms to the {@link ALAdDisplayDelegate} protocol, which, if set, will be notified of ad show/hide events.
+ * An object that conforms to the {@link ALAdDisplayDelegate} protocol. If you provide a value for `adDisplayDelegate` in your instance, this delegate will be
+ * notified of ad show/hide events.
  */
- // [PLP] how do you set a protocol or an object? who notifies?
 @property (nonatomic, strong, nullable) id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- * An object that conforms to the {@link ALAdVideoPlaybackDelegate} protocol, which, if set, will be notified of video start/finish events.
+ * An object that conforms to the {@link ALAdVideoPlaybackDelegate} protocol. If you provide a value for `adVideoPlaybackDelegate` in your instance, this
+ * delegate will be notified of video start/finish events.
  */
- // [PLP] how do you set a protocol or an object? who notifies?
 @property (nonatomic, strong, nullable) id<ALAdVideoPlaybackDelegate> adVideoPlaybackDelegate;
 
 #pragma mark - Loading and Showing Ads, Class Methods

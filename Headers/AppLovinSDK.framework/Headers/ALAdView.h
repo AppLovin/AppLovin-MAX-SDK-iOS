@@ -24,27 +24,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- * An object that conforms to the {@link ALAdLoadDelegate} protocol, which, if set, will be notified of ad load events.
+ * An object that conforms to the {@link ALAdLoadDelegate} protocol. If you provide a value for `adLoadDelegate` in your instance, this delegate will be
+ * notified of ad load events.
  *
  * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this `ALAdView`.
  */
- // [PLP] "if set" - how do you "set" an object or a protocol?
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- * An object that conforms to the {@link ALAdDisplayDelegate} protocol, which, if set, will be notified of ad show/hide events.
+ * An object that conforms to the {@link ALAdDisplayDelegate} protocol. If you provide a value for `adDisplayDelegate` in your instance, this delegate will be
+ * notified of ad show/hide events.
  *
  * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this `ALAdView`.
  */
- // [PLP] "if set" - how do you "set" an object or a protocol?
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- * An object that conforms to the {@link ALAdViewEventDelegate} protocol, which, if set, will be notified of `ALAdView`-specific events.
+ * An object that conforms to the {@link ALAdViewEventDelegate} protocol. If you provide a value for `adEventDelegate` in your instance, this delegate will be
+ * notified of `ALAdView`-specific events.
  *
  * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this `ALAdView`.
  */
- // [PLP] "if set" - how do you "set" an object or a protocol?
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdViewEventDelegate> adEventDelegate;
 
 /**
