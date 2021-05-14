@@ -24,12 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly, class) NSInteger defaultAmount;
 
 /**
- * The reward label or {@link defaultLabel} if none specified.
+ * The reward label or @code [MAReward defaultLabel] @endcode if none specified.
  */
 @property (nonatomic, copy, readonly) NSString *label;
 
 /**
- * The rewarded amount or {@link defaultAmount} if none specified.
+ * The rewarded amount or @code [MAReward defaultAmount] @endcode if none specified.
  */
 @property (nonatomic, assign, readonly) NSInteger amount;
 
@@ -48,11 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)rewardWithAmount:(NSInteger)amount label:(NSString *)label;
 
 /**
- * Use {@link reward} or {@link rewardWithAmount:label:} to create a reward object.
+ * Use @code +[MAReward reward] @endcode or @code +[MAReward rewardWithAmount:label:] @endcode to create a reward object.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use {@link reward} or {@link rewardWithAmount:label:} to create a reward object.
+ * Use @code +[MAReward reward] @endcode or @code +[MAReward rewardWithAmount:label:] @endcode to create a reward object.
  */
 + (instancetype)new NS_UNAVAILABLE;
 

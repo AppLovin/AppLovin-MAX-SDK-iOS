@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Creates a new ad view for a given ad unit ID.
  *
  * @param adUnitIdentifier Ad unit ID to load ads for.
- * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
+ * @param sdk              SDK to use. You can obtain an instance of the SDK by calling @code +[ALSdk shared] @endcode.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
@@ -48,28 +48,28 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param adUnitIdentifier Ad unit id to load ads for.
  * @param adFormat         Ad format to load ads for.
- * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
+ * @param sdk              SDK to use. You can obtain an instance of the SDK by calling @code +[ALSdk shared] @endcode.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat sdk:(ALSdk *)sdk;
 
 /**
- * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
- * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
+ * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
+ * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
- * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
+ * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
+ * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
  */
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 /**
- * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
- * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
+ * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
+ * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
  */
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_UNAVAILABLE;
 /**
- * Use {@link initWithAdUnitIdentifier:}, {@link initWithAdUnitIdentifier:sdk:}, {@link initWithAdUnitIdentifier:adFormat:}, or
- * {@link initWithAdUnitIdentifier:adFormat:sdk:} to create a new ad view.
+ * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
+ * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
  */
 + (instancetype)new NS_UNAVAILABLE;
 
@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setExtraParameterForKey:(NSString *)key value:(nullable NSString *)value;
 
 /**
- * Loads the ad for the current ad view. Set {@link delegate} to assign a delegate that should be notified about ad load state.
+ * Loads the ad for the current ad view. Set @code [MAAdView delegate] @endcode to assign a delegate that should be notified about ad load state.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/banners#loading-a-banner">MAX Integration Guide ⇒ iOS ⇒ MRECs ⇒ Loading a Banner</a>
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec">MAX Integration Guide ⇒ iOS ⇒ MRECs ⇒ Loading an MREC</a>

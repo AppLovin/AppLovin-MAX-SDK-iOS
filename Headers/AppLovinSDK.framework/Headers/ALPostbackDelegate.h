@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param postbackService The postback service that attempted the postback call.
  * @param postbackURL     The URL to which the notification attempt was made.
- * @param errorCode       The HTTP status code received, if any; otherwise one of the negative constants defined in {@link ALErrorCodes.h}.
+ * @param errorCode       The HTTP status code received, if any; otherwise one of the negative constants defined in ALErrorCodes.h.
  */
 - (void)postbackService:(ALPostbackService *)postbackService didFailToExecutePostback:(nullable NSURL *)postbackURL errorCode:(NSInteger)errorCode;
 

@@ -38,11 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
 /**
- * Use {@link sharedWithAdUnitIdentifier:} or {@link sharedWithAdUnitIdentifier:sdk:} to create a rewarded ad instance.
+ * Use @code +[MARewardedAd sharedWithAdUnitIdentifier:] @endcode or @code +[MARewardedAd sharedWithAdUnitIdentifier:sdk:] @endcode to create a rewarded ad
+ * instance.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use {@link sharedWithAdUnitIdentifier:} or {@link sharedWithAdUnitIdentifier:sdk:} to create a rewarded ad instance.
+ * Use @code +[MARewardedAd sharedWithAdUnitIdentifier:] @endcode or @code +[MARewardedAd sharedWithAdUnitIdentifier:sdk:] @endcode to create a rewarded ad
+ * instance.
  */
 + (instancetype)new NS_UNAVAILABLE;
 
@@ -60,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setExtraParameterForKey:(NSString *)key value:(nullable NSString *)value;
 
 /**
- * Load the current rewarded ad. Use {@link delegate} to assign a delegate that should be notified about ad load state.
+ * Load the current rewarded ad. Use @code [MARewardedAd delegate] @endcode to assign a delegate that should be notified about ad load state.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/rewarded-ads#loading-a-rewarded-ad">MAX Integration Guide ⇒ iOS ⇒ Rewarded Ads ⇒ Loading a Rewarded Ad</a>
  */
@@ -69,8 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Show the loaded rewarded ad.
  * <ul>
- * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
- * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
+ * <li>Use @code [MARewardedAd delegate] @endcode to assign a delegate that should be notified about display events.</li>
+ * <li>Use @code [MARewardedAd ready] @endcode to check if an ad was successfully loaded.</li>
  * </ul>
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/rewarded-ads#showing-a-rewarded-ad">MAX Integration Guide ⇒ iOS ⇒ Rewarded Ads ⇒ Showing a Rewarded Ad</a>
@@ -80,8 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Show the loaded rewarded ad for a given placement name that you have assigned.
  * <ul>
- * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
- * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
+ * <li>Use @code [MARewardedAd delegate] @endcode to assign a delegate that should be notified about display events.</li>
+ * <li>Use @code [MARewardedAd ready] @endcode to check if an ad was successfully loaded.</li>
  * </ul>
  *
  * @param placement The placement to tie the showing ad’s events to.

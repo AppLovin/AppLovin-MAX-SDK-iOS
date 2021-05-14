@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, class) MAAdFormat *interstitial;
 
 /**
- * Similar to {@link interstitial}, except that users are given a reward at the end of the advertisement.
+ * Similar to @code [MAAdFormat interstitial] @endcode, except that users are given a reward at the end of the advertisement.
  */
 @property (nonatomic, strong, readonly, class) MAAdFormat *rewarded;
 

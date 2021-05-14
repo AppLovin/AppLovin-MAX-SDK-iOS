@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#mute-audio">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Mute Audio</a>
  */
- // [PLP] {@link} to the part of the dashboard where you can change this?
+ // [PLP] @see the part of the dashboard where you can change this?
 @property (nonatomic, assign) BOOL muted;
 
 /**

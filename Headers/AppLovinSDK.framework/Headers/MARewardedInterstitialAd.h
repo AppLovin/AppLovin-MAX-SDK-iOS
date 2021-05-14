@@ -25,16 +25,18 @@ NS_ASSUME_NONNULL_BEGIN
  * Create a new MAX rewarded interstitial.
  *
  * @param adUnitIdentifier Ad unit ID to load ads for.
- * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
+ * @param sdk              SDK to use. You can obtain an instance of the SDK by calling @code +[ALSdk shared] @endcode.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
 /**
- * Use {@link initWithAdUnitIdentifier:} or {@link initWithAdUnitIdentifier:sdk:} to create a fullscreen ad instance.
+ * Use @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to
+ * create a fullscreen ad instance.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use {@link initWithAdUnitIdentifier:} or {@link initWithAdUnitIdentifier:sdk:} to create a fullscreen ad instance.
+ * Use @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to
+ * create a fullscreen ad instance.
  */
 + (instancetype)new NS_UNAVAILABLE;
 
@@ -52,15 +54,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setExtraParameterForKey:(NSString *)key value:(nullable NSString *)value;
 
 /**
- * Load the current rewarded interstitial. Set {@link delegate} to assign a delegate that should be notified about ad load state.
+ * Load the current rewarded interstitial. Set @code [MARewardedInterstitialAd delegate] @endcode to assign a delegate that should be notified about ad load
+ * state.
  */
 - (void)loadAd;
 
 /**
  * Show the loaded interstitial.
  * <ul>
- * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
- * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
+ * <li>Use @code [MARewardedInterstitialAd delegate] @endcode to assign a delegate that should be notified about display events.</li>
+ * <li>Use @code [MARewardedInterstitialAd ready] @endcode to check if an ad was successfully loaded.</li>
  * </ul>
  */
 - (void)showAd;
@@ -68,8 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Show the loaded interstitial for a given placement name that you have assigned, for granular reporting in events.
  * <ul>
- * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
- * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
+ * <li>Use @code [MARewardedInterstitialAd delegate] @endcode to assign a delegate that should be notified about display events.</li>
+ * <li>Use @code [MARewardedInterstitialAd ready] @endcode to check if an ad was successfully loaded.</li>
  * </ul>
  *
  * @param placement The placement to tie the showing ad’s events to.

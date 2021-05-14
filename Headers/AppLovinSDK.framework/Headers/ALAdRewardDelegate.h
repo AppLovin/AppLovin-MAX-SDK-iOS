@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The SDK invokes this method if it was unable to contact AppLovin, and so AppLovin will not issue a ping to your S2S rewarded callback server.
  *
  * @param ad           Ad that was viewed.
- * @param responseCode A failure code that corresponds to a constant defined in {@link ALErrorCodes.h}.
+ * @param responseCode A failure code that corresponds to a constant defined in ALErrorCodes.h.
  */
 - (void)rewardValidationRequestForAd:(ALAd *)ad didFailWithError:(NSInteger)responseCode;
 

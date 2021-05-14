@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The SDK invokes this method on the main UI thread.
  *
  * @param adService AdService that failed to load an ad.
- * @param code      An error code that corresponds to one of the constants defined in {@link ALErrorCodes.h}.
+ * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code;
 

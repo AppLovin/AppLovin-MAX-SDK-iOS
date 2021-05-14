@@ -29,16 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
  * Creates a new mediation interstitial.
  *
  * @param adUnitIdentifier Ad unit ID to load ads for.
- * @param sdk              SDK to use. You can obtain an instance of the SDK by calling {@link ALSdk::shared}.
+ * @param sdk              SDK to use. You can obtain an instance of the SDK by calling @code +[ALSdk shared] @endcode.
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
 /**
- * Use {@link initWithAdUnitIdentifier:} or {@link initWithAdUnitIdentifier:sdk:} to create an interstitial ad instance.
+ * Use @code -[MAInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MAInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to create an
+ * interstitial ad instance.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use {@link initWithAdUnitIdentifier:} or {@link initWithAdUnitIdentifier:sdk:} to create an interstitial ad instance.
+ * Use @code -[MAInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MAInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to create an
+ * interstitial ad instance.
  */
 + (instancetype)new NS_UNAVAILABLE;
 
@@ -56,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setExtraParameterForKey:(NSString *)key value:(nullable NSString *)value;
 
 /**
- * Load the ad for the current interstitial. Set {@link delegate} to assign a delegate that should be notified about ad load state.
+ * Load the ad for the current interstitial. Set @code [MAInterstitialAd delegate] @endcode to assign a delegate that should be notified about ad load state.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/interstitials#loading-an-interstitial-ad">MAX Integration Guide ⇒ iOs ⇒ Interstitials ⇒ Loading an Interstitial Ad</a>
  */
@@ -65,8 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Show the loaded interstitial.
  * <ul>
- * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
- * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
+ * <li>Use @code [MAInterstitialAd delegate] @endcode to assign a delegate that should be notified about display events.</li>
+ * <li>Use @code [MAInterstitialAd ready] @endcode to check if an ad was successfully loaded.</li>
  * </ul>
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/interstitials#showing-an-interstitial-ad">MAX Integration Guide ⇒ iOs ⇒ Interstitials ⇒ Showing an Interstitial Ad</a>
@@ -76,8 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The placement name that you assign when you integrate each ad format, for granular reporting in events (e.g. "Rewarded_Store", "Rewarded_LevelEnd").
  * <ul>
- * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
- * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
+ * <li>Use @code [MAInterstitialAd delegate] @endcode to assign a delegate that should be notified about display events.</li>
+ * <li>Use @code [MAInterstitialAd ready] @endcode to check if an ad was successfully loaded.</li>
  * </ul>
  *
  * @param placement The placement to tie the showing ad’s events to.

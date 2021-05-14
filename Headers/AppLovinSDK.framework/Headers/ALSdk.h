@@ -108,20 +108,20 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - MAX
 
 /**
- * The mediation provider. Set this either by using one of the provided strings in {@link ALMediationProvider.h}, or your own string if you do not find an
+ * The mediation provider. Set this either by using one of the provided strings in ALMediationProvider.h, or your own string if you do not find an
  * applicable one there.
  */
 @property (nonatomic, copy, nullable) NSString *mediationProvider;
 
 /**
- * The list of available mediation networks, as an array of {@link MAMediatedNetworkInfo} objects.
+ * The list of available mediation networks, as an array of @code [MAMediatedNetworkInfo] @endcode objects.
  */
 @property (nonatomic, strong, readonly) NSArray<MAMediatedNetworkInfo *> *availableMediatedNetworks;
 
 /**
  * Presents the mediation debugger UI. This debugger tool provides the status of your integration for each third-party ad network.
  *
- * Call this method after the SDK has initialized, for example in the `completionHandler` of {@link initializeSdkWithCompletionHandler:}.
+ * Call this method after the SDK has initialized, for example in the `completionHandler` of @code -[ALSdk initializeSdkWithCompletionHandler:] @endcode.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/mediation-debugger">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Mediation Debugger</a>
  */
@@ -210,11 +210,13 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 + (nullable ALSdk *)sharedWithKey:(NSString *)key settings:(ALSdkSettings *)settings;
 
 /**
- * To get an instance of this SDK, use the {@link shared}, {@link sharedWithSettings:}, {@link sharedWithKey:}, or {@link sharedWithKey:settings:} methods.
+ * To get an instance of this SDK, use the @code +[ALSdk shared] @endcode, @code +[ALSdk sharedWithSettings:] @endcode, @code +[ALSdk sharedWithKey:] @endcode,
+ * or @code +[ALSdk sharedWithKey:settings:] @endcode methods.
  */
 - (instancetype)init __attribute__((unavailable("Use +[ALSdk shared], +[ALSdk sharedWithKey:], or +[ALSdk sharedWithKey:settings:].")));
 /**
- * To get an instance of this SDK, use the {@link shared}, {@link sharedWithSettings:}, {@link sharedWithKey:}, or {@link sharedWithKey:settings:} methods.
+ * To get an instance of this SDK, use the @code +[ALSdk shared] @endcode, @code +[ALSdk sharedWithSettings:] @endcode, @code +[ALSdk sharedWithKey:] @endcode,
+ * or @code +[ALSdk sharedWithKey:settings:] @endcode methods.
  */
 + (instancetype)new NS_UNAVAILABLE;
 

@@ -15,7 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This interface represents a view-based ad — i.e. banner, mrec, or leader.
+ * This interface represents a view-based ad — i.e. banner, MREC, or leader.
  */
 @interface ALAdView : UIView
 
@@ -24,24 +24,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- * An object that conforms to the {@link ALAdLoadDelegate} protocol. If you provide a value for `adLoadDelegate` in your instance, this delegate will be
- * notified of ad load events.
+ * An object that conforms to the @code [ALAdLoadDelegate] @endcode protocol. If you provide a value for `adLoadDelegate` in your instance, the SDK will notify
+ * this delegate of ad load events.
  *
  * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this `ALAdView`.
  */
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- * An object that conforms to the {@link ALAdDisplayDelegate} protocol. If you provide a value for `adDisplayDelegate` in your instance, this delegate will be
- * notified of ad show/hide events.
+ * An object that conforms to the @code [ALAdDisplayDelegate] @endcode protocol. If you provide a value for `adDisplayDelegate` in your instance, the SDK will
+ * notify this delegate of ad show/hide events.
  *
  * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this `ALAdView`.
  */
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- * An object that conforms to the {@link ALAdViewEventDelegate} protocol. If you provide a value for `adEventDelegate` in your instance, this delegate will be
- * notified of `ALAdView`-specific events.
+ * An object that conforms to the @code [ALAdViewEventDelegate] @endcode protocol. If you provide a value for `adEventDelegate` in your instance, the SDK will
+ * notify this delegate of `ALAdView`-specific events.
  *
  * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this `ALAdView`.
  */
@@ -62,8 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSString *zoneIdentifier;
 
 /**
- * Whether or not this ad view should automatically load the ad when iOS inflates it from a StoryBoard or from a nib file (when {@link UIView::awakeFromNib} is
- * called). The default value is `NO` which means you are responsible for loading the ad by invoking {@link loadNextAd}.
+ * Whether or not this ad view should automatically load the ad when iOS inflates it from a StoryBoard or from a nib file (when
+ * @code -[UIView awakeFromNib] @endcode is called). The default value is `NO` which means you are responsible for loading the ad by invoking
+ * @code -[ALAdView loadNextAd] @endcode.
  */
 @property (nonatomic, assign, getter=isAutoloadEnabled, setter=setAutoloadEnabled:) BOOL autoload;
 
@@ -74,13 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Loads <em>and</em> displays an ad into the view. This method returns immediately.
  *
- * <b>Note:</b> To load the ad but not display it, use {@link ALSdk::shared}.{@link ALSdk::adService adService}
- * {@link ALAdService::loadNextAd:andNotify: loadNextAd:andNotify:} then {@link render:} to render it.
+ * <b>Note:</b> To load the ad but not display it, use @code +[ALSdk shared] @endcode ⇒ @code [ALSDK adService] @endcode
+ *              ⇒ @code -[ALAdService loadNextAd:andNotify:] @endcode, then @code -[ALAdView render:] @endcode to render it.
  */
 - (void)loadNextAd;
 
 /**
- * Renders a specific ad that was loaded via {@link ALAdService}.
+ * Renders a specific ad that was loaded via @code [ALAdService] @endcode.
  *
  * @param ad Ad to render.
  */
@@ -93,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes the ad view with a given size.
  *
- * @param size {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param size @code [ALAdSize] @endcode that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
  *
  * @return A new instance of `ALAdView`.
  */
@@ -102,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes the ad view for a given size and zone.
  *
- * @param size           {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param size           @code [ALAdSize] @endcode that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
  * @param zoneIdentifier Identifier for the zone this `ALAdView` should load ads for.
  *
  * @return A new instance of `ALAdView`.
@@ -112,8 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes the ad view with a given SDK and size.
  *
- * @param sdk  Instance of {@link ALSdk} to use.
- * @param size {@link ALAdSize} representing the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param sdk  Instance of @code [ALSdk] @endcode to use.
+ * @param size @code [ALAdSize] @endcode that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
  *
  * @return A new instance of `ALAdView`.
  */
@@ -122,8 +123,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes the ad view with a given SDK, size, and zone.
  *
- * @param sdk            Instance of {@link ALSdk} to use.
- * @param size           {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
+ * @param sdk            Instance of @code [ALSdk] @endcode to use.
+ * @param size           @code [ALAdSize] @endcode that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
  * @param zoneIdentifier Identifier for the zone that this `ALAdView` should load ads for.
  *
  * @return A new instance of `ALAdView`.
@@ -131,23 +132,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSdk:(ALSdk *)sdk size:(ALAdSize *)size zoneIdentifier:(nullable NSString *)zoneIdentifier;
 
 /**
- * Initializes the ad view with a given frame, ad size, and ALSdk instance.
+ * Initializes the ad view with a given frame, ad size, and SDK instance.
  *
  * @param frame  Describes the position and dimensions of the ad.
- * @param size   {@link ALAdSize} that represents the size of this ad. For example, {@link ALAdSize.banner}.
- * @param sdk    Instance of {@link ALSdk} to use.
+ * @param size   @code [ALAdSize] @endcode that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
+ * @param sdk    Instance of @code [ALSdk] @endcode to use.
  *
  * @return A new instance of `ALAdView`.
  */
 - (instancetype)initWithFrame:(CGRect)frame size:(ALAdSize *)size sdk:(ALSdk *)sdk;
+
 /**
- * Use {@link initWithSize:}, {@link initWithSize:zoneIdentifier:}, {@link initWithSdk:size:}, {@link initWithSdk:size:zoneIdentifier:}, or
- * {@link initWithFrame:size:sdk:} instead.
+ * Use @code -[ALAdView initWithSize:] @endcode, @code -[ALAdView initWithSize:zoneIdentifier:] @endcode, @code -[ALAdView initWithSdk:size:] @endcode,
+ * @code -[ALAdView initWithSdk:size:zoneIdentifier:] @endcode, or @code -[ALAdView initWithFrame:size:sdk:] @endcode instead.
  */
 - (instancetype)init NS_UNAVAILABLE;
 /**
- * Use {@link initWithSize:}, {@link initWithSize:zoneIdentifier:}, {@link initWithSdk:size:}, {@link initWithSdk:size:zoneIdentifier:}, or
- * {@link initWithFrame:size:sdk:} instead.
+ * Use @code -[ALAdView initWithSize:] @endcode, @code -[ALAdView initWithSize:zoneIdentifier:] @endcode, @code -[ALAdView initWithSdk:size:] @endcode,
+ * @code -[ALAdView initWithSdk:size:zoneIdentifier:] @endcode, or @code -[ALAdView initWithFrame:size:sdk:] @endcode instead.
  */
 + (instancetype)new NS_UNAVAILABLE;
 
