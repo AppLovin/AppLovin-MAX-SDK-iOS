@@ -47,13 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)rewardWithAmount:(NSInteger)amount label:(NSString *)label;
 
-/**
- * Use @code +[MAReward reward] @endcode or @code +[MAReward rewardWithAmount:label:] @endcode to create a reward object.
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code +[MAReward reward] @endcode or @code +[MAReward rewardWithAmount:label:] @endcode to create a reward object.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

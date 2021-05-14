@@ -37,15 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)sharedWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
-/**
- * Use @code +[MARewardedAd sharedWithAdUnitIdentifier:] @endcode or @code +[MARewardedAd sharedWithAdUnitIdentifier:sdk:] @endcode to create a rewarded ad
- * instance.
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code +[MARewardedAd sharedWithAdUnitIdentifier:] @endcode or @code +[MARewardedAd sharedWithAdUnitIdentifier:sdk:] @endcode to create a rewarded ad
- * instance.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**

@@ -142,15 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFrame:(CGRect)frame size:(ALAdSize *)size sdk:(ALSdk *)sdk;
 
-/**
- * Use @code -[ALAdView initWithSize:] @endcode, @code -[ALAdView initWithSize:zoneIdentifier:] @endcode, @code -[ALAdView initWithSdk:size:] @endcode,
- * @code -[ALAdView initWithSdk:size:zoneIdentifier:] @endcode, or @code -[ALAdView initWithFrame:size:sdk:] @endcode instead.
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code -[ALAdView initWithSize:] @endcode, @code -[ALAdView initWithSize:zoneIdentifier:] @endcode, @code -[ALAdView initWithSdk:size:] @endcode,
- * @code -[ALAdView initWithSdk:size:zoneIdentifier:] @endcode, or @code -[ALAdView initWithFrame:size:sdk:] @endcode instead.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

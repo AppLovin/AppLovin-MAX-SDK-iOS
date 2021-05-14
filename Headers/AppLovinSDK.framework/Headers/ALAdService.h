@@ -62,36 +62,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)loadNextAdForZoneIdentifiers:(NSArray<NSString *> *)zoneIdentifiers andNotify:(id<ALAdLoadDelegate>)delegate;
 
-/**
- * Access ALAdService through @code [ALSdk adService] @endcode instead.
- */
 - (instancetype)init __attribute__((unavailable("Access ALAdService through ALSdk's adService property.")));
-/**
- * Access ALAdService through @code [ALSdk adService] @endcode instead.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end
 
-/**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version.
- */
 @interface ALAdService(ALDeprecated)
-/**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use @code -[ALAdService loadNextAd:andNotify:] @endcode to load ads to display.
- */
 - (void)preloadAdOfSize:(ALAdSize *)adSize __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAd:andNotify:] to load ads to display.");
-/**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use @code -[ALAdService loadNextAdForZoneIdentifier:andNotify:] @endcode to load ads to display.
- */
 - (void)preloadAdForZoneIdentifier:(NSString *)zoneIdentifier __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAdForZoneIdentifier:andNotify:] to load ads to display.");
-/**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use @code -[ALAdService loadNextAd:andNotify:] @endcode to load ads to display.
- */
 - (BOOL)hasPreloadedAdOfSize:(ALAdSize *)adSize __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAd:andNotify:] to load ads to display.");
-/**
- * @deprecated Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use @code -[ALAdService loadNextAdForZoneIdentifier:andNotify:] @endcode to load ads to display.
- */
 - (BOOL)hasPreloadedAdForZoneIdentifier:(NSString *)zoneIdentifier __deprecated_msg("Manually preloading ads in the background has been deprecated and will be removed in a future SDK version. Please use [ALAdService loadNextAdForZoneIdentifier:andNotify:] to load ads to display.");
 @end
 

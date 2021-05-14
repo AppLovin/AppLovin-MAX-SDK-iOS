@@ -209,15 +209,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  */
 + (nullable ALSdk *)sharedWithKey:(NSString *)key settings:(ALSdkSettings *)settings;
 
-/**
- * To get an instance of this SDK, use the @code +[ALSdk shared] @endcode, @code +[ALSdk sharedWithSettings:] @endcode, @code +[ALSdk sharedWithKey:] @endcode,
- * or @code +[ALSdk sharedWithKey:settings:] @endcode methods.
- */
 - (instancetype)init __attribute__((unavailable("Use +[ALSdk shared], +[ALSdk sharedWithKey:], or +[ALSdk sharedWithKey:settings:].")));
-/**
- * To get an instance of this SDK, use the @code +[ALSdk shared] @endcode, @code +[ALSdk sharedWithSettings:] @endcode, @code +[ALSdk sharedWithKey:] @endcode,
- * or @code +[ALSdk sharedWithKey:settings:] @endcode methods.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

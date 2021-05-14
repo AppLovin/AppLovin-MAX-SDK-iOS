@@ -41,21 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-/**
- * @deprecated
- */
 @interface ALAdSize(ALDeprecated)
-/**
- * @deprecated
- */
 @property (nonatomic, assign, readonly) CGFloat width __deprecated;
-/**
- * @deprecated
- */
 @property (nonatomic, assign, readonly) CGFloat height __deprecated;
-/**
- * @deprecated MRECs have been deprecated and will be removed in a future SDK version.
- */
 @property (class, nonatomic, strong, readonly) ALAdSize *mrec __deprecated_msg("MRECs have been deprecated and will be removed in a future SDK version.");
 @end
 

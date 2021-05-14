@@ -52,25 +52,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier adFormat:(MAAdFormat *)adFormat sdk:(ALSdk *)sdk;
 
-/**
- * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
- * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
- * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
- */
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-/**
- * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
- * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
- */
 - (instancetype)initWithCoder:(NSCoder *)decoder NS_UNAVAILABLE;
-/**
- * Use @code -[MAAdView initWithAdUnitIdentifier:] @endcode, @code -[MAAdView initWithAdUnitIdentifier:sdk:] @endcode,
- * @code -[MAAdView initWithAdUnitIdentifier:adFormat:] @endcode, or @code -[MAAdView initWithAdUnitIdentifier:adFormat:sdk:] @endcode to create a new ad view.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**

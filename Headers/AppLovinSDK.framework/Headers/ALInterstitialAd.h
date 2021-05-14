@@ -72,13 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk;
 
-/**
- * Use @code +[ALInterstitialAd shared] @endcode or @code -[ALInterstitialAd initWithSdk:] @endcode instead
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code +[ALInterstitialAd shared] @endcode or @code -[ALInterstitialAd initWithSdk:] @endcode instead
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

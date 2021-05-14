@@ -33,15 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
-/**
- * Use @code -[MAInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MAInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to create an
- * interstitial ad instance.
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code -[MAInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MAInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to create an
- * interstitial ad instance.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**

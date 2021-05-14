@@ -90,10 +90,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * You must have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode before you call @c showAndNotify.
  *
- * By using the @code [ALAdRewardDelegate] @endcode, you can verify with AppLovin servers that the video view is legitimate, as AppLovin will confirm whether the
- * specific ad was actually served. Then AppLovin will ping your server with a URL at which you can update the user’s balance. The Reward Validation Delegate
- * will tell you whether this service was able to reach AppLovin servers or not. If you receive a successful response, you should refresh the user’s balance
- * from your server. For more info, see the documentation.
+ * By using the @code [ALAdRewardDelegate] @endcode, you can verify with AppLovin servers that the video view is legitimate, as AppLovin will confirm whether
+ * the specific ad was actually served. Then AppLovin will ping your server with a URL at which you can update the user’s balance. The Reward Validation
+ * Delegate will tell you whether this service was able to reach AppLovin servers or not. If you receive a successful response, you should refresh the user’s
+ * balance from your server. For more info, see the documentation.
  *
  * @param adRewardDelegate The reward delegate to notify upon validating reward authenticity with AppLovin.
  *
@@ -216,63 +216,25 @@ NS_ASSUME_NONNULL_BEGIN
  // I don't see anything about setting the delegate or using showAd->andNotify at https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api
 - (void)showAd:(ALAd *)ad andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate;
 
-/**
- * To initialize an incentivized interstitial, use `initWithSdk`, `initWithZoneIdentifier`, or `[ALIncentivizedInterstitialAd shared]` instead.
- */
 - (instancetype)init __attribute__((unavailable("Use initWithSdk:, initWithZoneIdentifier:, or [ALIncentivizedInterstitialAd shared] instead.")));
-/**
- * To initialize an incentivized interstitial, use `initWithSdk`, `initWithZoneIdentifier`, or `[ALIncentivizedInterstitialAd shared]` instead.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 @end
 
-/**
- * @deprecated
- */
 @interface ALIncentivizedInterstitialAd(ALDeprecated)
-/**
- * @deprecated Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.
- */
 + (void)showOverPlacement:(nullable NSString *)placement
 __deprecated_msg("Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.");
-/**
- * @deprecated Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.
- */
 + (void)showOverPlacement:(nullable NSString *)placement andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate
 __deprecated_msg("Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.");
-/**
- * @deprecated Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.
- */
 + (void)showOver:(UIWindow *)window placement:(nullable NSString *)placement andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate
 __deprecated_msg("Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.");
-/**
- * @deprecated Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.
- */
 - (void)showOver:(UIWindow *)window placement:(nullable NSString *)placement andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate
 __deprecated_msg("Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.");
-/**
- * @deprecated Use @code -[ALIncentivizedInterstitialAd initWithSdk:] @endcode, @code -[ALIncentivizedInterstitialAd initWithZoneIdentifier:] @endcode,
- *             @code -[ALIncentivizedInterstitialAd initWithZoneIdentifier:sdk:] @endcode or @code +[ALIncentivizedInterstitialAd shared] instead.
- */
 - (instancetype)initIncentivizedInterstitialWithSdk:(ALSdk *)sdk __deprecated_msg("Use initWithSdk:, initWithZoneIdentifier: or [ALIncentivizedInterstitialAd shared] instead.");
 
-/**
- * @deprecated Explicitly passing in an UIWindow to show an ad is deprecated as all cases show over the application’s key window. Use `showAndNotify` instead.
- */
 + (void)showOver:(UIWindow *)window andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate __deprecated_msg("Explicitly passing in an UIWindow to show an ad is deprecated as all cases show over the application's key window. Use showAndNotify: instead.");
-/**
- * @deprecated Explicitly passing in an UIWindow to show an ad is deprecated as all cases show over the application’s key window. Use `showAndNotify` instead.
- */
 - (void)showOver:(UIWindow *)window andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate __deprecated_msg("Explicitly passing in an UIWindow to show an ad is deprecated as all cases show over the application's key window. Use showAndNotify: instead.");
-/**
- * @deprecated Explicitly passing in an UIWindow to show an ad is deprecated as all cases show over the application’s key window. Use `showAndNotify` instead.
- */
 - (void)showOver:(UIWindow *)window renderAd:(ALAd *)ad andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate __deprecated_msg("Explicitly passing in an UIWindow to show an ad is deprecated as all cases show over the application's key window. Use showAd:andNotify: instead.");
-/**
- * @deprecated Please use @code [ALSdk userIdentifier] @endcode instead to properly identify your users in our system. This property is now deprecated and will
- * be removed in a future SDK version.
- */
 @property (nonatomic, copy, nullable, class) NSString *userIdentifier __deprecated_msg("Please use -[ALSdk userIdentifier] instead to properly identify your users in our system. This property is now deprecated and will be removed in a future SDK version.");
 
 @end

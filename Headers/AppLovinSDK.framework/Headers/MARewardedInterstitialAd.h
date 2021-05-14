@@ -29,15 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithAdUnitIdentifier:(NSString *)adUnitIdentifier sdk:(ALSdk *)sdk;
 
-/**
- * Use @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to
- * create a fullscreen ad instance.
- */
 - (instancetype)init NS_UNAVAILABLE;
-/**
- * Use @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:] @endcode or @code -[MARewardedInterstitialAd initWithAdUnitIdentifier:sdk:] @endcode to
- * create a fullscreen ad instance.
- */
 + (instancetype)new NS_UNAVAILABLE;
 
 /**

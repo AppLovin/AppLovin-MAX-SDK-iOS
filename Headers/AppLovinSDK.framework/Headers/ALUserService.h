@@ -18,17 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-/**
- * @deprecated This version of the consent flow has been deprecated as of v7.0.0, please refer to
- * <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flow">MAX Integration Guide ⇒ iOS ⇒ Consent Flow</a> to learn how to
- * enable the new consent flow.
- */
 @interface ALUserService(ALDeprecated)
-/**
- * @deprecated This version of the consent flow has been deprecated as of v7.0.0, please refer to
- * <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flow">MAX Integration Guide ⇒ iOS ⇒ Consent Flow</a> to learn how to
- * enable the new consent flow.
- */
 - (void)showConsentDialogWithCompletionHandler:(void (^_Nullable)(void))completionHandler __deprecated_msg("This version of the consent flow has been deprecated as of v7.0.0, please refer to our documentation for enabling the new consent flow.");
 @end
 

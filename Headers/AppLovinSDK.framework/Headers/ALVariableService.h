@@ -69,20 +69,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 __attribute__ ((deprecated))
 @protocol ALVariableServiceDelegate<NSObject>
-/**
- * @deprecated This API is deprecated as of SDK version 6.12.6; use the initialization callback to retrieve variables instead.
- */
 - (void)variableService:(ALVariableService *)variableService didUpdateVariables:(NSDictionary<NSString *, id> *)variables __deprecated_msg("This API has been deprecated. Please use our SDK's initialization callback to retrieve variables instead.");
 @end
 
 @interface ALVariableService(ALDeprecated)
-/**
- * @deprecated This API is deprecated as of SDK version 6.12.6; use the initialization callback to retrieve variables instead.
- */
 @property (nonatomic, weak, nullable) id<ALVariableServiceDelegate> delegate __deprecated_msg("This API has been deprecated. Please use our SDK's initialization callback to retrieve variables instead.");
-/**
- * @deprecated This API is deprecated as of SDK version 6.12.6; use the initialization callback to retrieve variables instead.
- */
 - (void)loadVariables __deprecated_msg("This API has been deprecated. Please use our SDK's initialization callback to retrieve variables instead.");
 @end
 
