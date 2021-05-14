@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param key The key for the value you want to retrieve.
  *
- * @return The ad value corresponding to `key`, or `nil` if no value for that key exists.
+ * @return The ad value corresponding to @c key, or @c nil if no value for that key exists.
  */
 - (nullable NSString *)adValueForKey:(NSString *)key;
 
@@ -64,9 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Gets the ad value for a given key.
  *
  * @param key          The key for the value you want to retrieve.
- * @param defaultValue The default value to return if the value for `key` does not exist or is `nil`.
+ * @param defaultValue The default value to return if the value for @c key does not exist or is @c nil.
  *
- * @return The ad value corresponding to `key`, or the default value if no value for that key exists.
+ * @return The ad value corresponding to @c key, or the default value if no value for that key exists.
  */
 - (nullable NSString *)adValueForKey:(NSString *)key defaultValue:(nullable NSString *)defaultValue;
 

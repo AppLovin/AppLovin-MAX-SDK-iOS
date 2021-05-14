@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, class) MAAdFormat *interstitial;
 
 /**
- * Similar to @code [MAAdFormat interstitial] @endcode, except that users are given a reward at the end of the advertisement.
+ * Similar to @code [MAAdFormat interstitial] @endcode except that users are given a reward at the end of the advertisement.
  */
 @property (nonatomic, strong, readonly, class) MAAdFormat *rewarded;
 
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, class) MAAdFormat *native;
 
 /**
- * The size of the AdView format ad, or `CGSizeZero` otherwise.
+ * The size of the AdView format ad, or @c CGSizeZero otherwise.
  */
 @property (nonatomic, assign, readonly) CGSize size;
 

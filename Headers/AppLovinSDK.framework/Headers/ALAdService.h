@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Fetches a new ad, of a given size, and notifies a supplied delegate on completion.
  *
  * @param adSize    Size of an ad to load.
- * @param delegate  A callback that `loadNextAd` calls to notify of the fact that the ad is loaded.
+ * @param delegate  A callback that @c loadNextAd calls to notify of the fact that the ad is loaded.
  */
 - (void)loadNextAd:(ALAdSize *)adSize andNotify:(id<ALAdLoadDelegate>)delegate;
 
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Fetches a new ad, for a given zone, and notifies a supplied delegate on completion.
  *
  * @param zoneIdentifier  The identifier of the zone to load an ad for.
- * @param delegate        A callback that `loadNextAdForZoneIdentifier` calls to notify of the fact that the ad is loaded.
+ * @param delegate        A callback that @c loadNextAdForZoneIdentifier calls to notify of the fact that the ad is loaded.
  */
 - (void)loadNextAdForZoneIdentifier:(NSString *)zoneIdentifier andNotify:(id<ALAdLoadDelegate>)delegate;
 
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          regular integrations.
  *
  * @param adToken   Ad token returned from AppLovin S2S API.
- * @param delegate  A callback that `loadNextAdForAdToken` calls to notify that the ad has been loaded.
+ * @param delegate  A callback that @c loadNextAdForAdToken calls to notify that the ad has been loaded.
  */
 - (void)loadNextAdForAdToken:(NSString *)adToken andNotify:(id<ALAdLoadDelegate>)delegate;
 
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          regular integrations.
  *
  * @param zoneIdentifiers  An array of zone identifiers for which an ad should be loaded.
- * @param delegate         A callback that `loadNextAdForZoneIdentifiers` calls to notify that the ad has been loaded.
+ * @param delegate         A callback that @c loadNextAdForZoneIdentifiers calls to notify that the ad has been loaded.
  */
 - (void)loadNextAdForZoneIdentifiers:(NSArray<NSString *> *)zoneIdentifiers andNotify:(id<ALAdLoadDelegate>)delegate;
 

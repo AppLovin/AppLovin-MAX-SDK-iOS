@@ -18,10 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Sets a super property that this service will record with all future events.
  *
- * If `superProperty` is `nil`, this method will remove the super property with key `key` from being recorded with all future events.
+ * If @c superProperty is @c nil, this method will remove the super property with key @c key from being recorded with all future events.
  *
- * @param superProperty The value to assign to the super property whose key is `key`. Valid types include `NSString`, `NSNumber`, `NSSDate`, `NSURL`, `NSArray`,
- *                      and `NSDictionary`. Set this to `nil` to remove the super property whose key is `key` from being recorded with all future events.
+ * @param superProperty The value to assign to the super property whose key is @c key. Valid types include @c NSString, @c NSNumber, @c NSSDate, @c NSURL,
+ *                      @c NSArray, and @c NSDictionary. Set this to @c nil to remove the super property whose key is @c key from being recorded with all future
+ *                      events.
  * @param key           The key that identifies the the super property whose value this method sets.
  */
 - (void)setSuperProperty:(nullable id)superProperty forKey:(NSString *)key;

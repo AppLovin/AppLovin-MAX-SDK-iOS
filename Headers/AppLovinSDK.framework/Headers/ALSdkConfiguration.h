@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * This enum represents whether or not the consent dialog should be shown for this user.
- * The state where no such determination could be made is represented by `ALConsentDialogStateUnknown`.
+ * The state where no such determination could be made is represented by @c ALConsentDialogStateUnknown.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
  */
@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, ALAppTrackingTransparencyStatus)
 };
 
 /**
- * The consent dialog state for this user. If no determination could be made, the value of this property will be `ALConsentDialogStateUnknown`.
+ * The consent dialog state for this user. If no determination could be made, the value of this property will be @c ALConsentDialogStateUnknown.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
  */

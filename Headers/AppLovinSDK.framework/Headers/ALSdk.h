@@ -86,14 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The AppLovin event service, which tracks post-install user events.
  *
- * @return Event service. Guaranteed not to be `NULL`.
+ * @return Event service. Guaranteed not to be @c NULL.
  */
 @property (nonatomic, strong, readonly) ALEventService *eventService;
 
 /**
  * The service object, which performs user-related tasks.
  *
- * @return User service. Guaranteed not to be `NULL`.
+ * @return User service. Guaranteed not to be @c NULL.
  */
 @property (nonatomic, strong, readonly) ALUserService *userService;
 
@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Get an instance of the AppLovin variable service. This service is used to perform various A/B tests that you have set up on your AppLovin dashboard on your
  * users.
  *
- * @return Variable service. Guaranteed not to be `NULL`.
+ * @return Variable service. Guaranteed not to be @c NULL.
  */
 @property (nonatomic, strong, readonly) ALVariableService *variableService;
 
@@ -114,14 +114,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *mediationProvider;
 
 /**
- * The list of available mediation networks, as an array of @code [MAMediatedNetworkInfo] @endcode objects.
+ * The list of available mediation networks, as an array of @c MAMediatedNetworkInfo objects.
  */
 @property (nonatomic, strong, readonly) NSArray<MAMediatedNetworkInfo *> *availableMediatedNetworks;
 
 /**
  * Presents the mediation debugger UI. This debugger tool provides the status of your integration for each third-party ad network.
  *
- * Call this method after the SDK has initialized, for example in the `completionHandler` of @code -[ALSdk initializeSdkWithCompletionHandler:] @endcode.
+ * Call this method after the SDK has initialized, for example in the @c completionHandler of @code -[ALSdk initializeSdkWithCompletionHandler:] @endcode.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/mediation-debugger">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Mediation Debugger</a>
  */
@@ -153,7 +153,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Initializes the default instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s @code Info.plist @endcode under the property @c AppLovinSdkKey.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/integration#initialize-the-sdk">MAX Integration Guide ⇒ iOS ⇒ Integration ⇒ Initialize the SDK</a>
  */
@@ -162,7 +162,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Initializes the default instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s @code Info.plist @endcode under the property @c AppLovinSdkKey.
  *
  * @param completionHandler The callback that the SDK will run on the main queue when the SDK finishes initializing.
  *
@@ -173,20 +173,20 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
 /**
  * Gets a shared instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s @code Info.plist @endcode under the property @c AppLovinSdkKey.
  *
- * @return The shared instance of AppLovin’s SDK, or `nil` (indicating an error) if the SDK key is not set in the application’s `Info.plist`.
+ * @return The shared instance of AppLovin’s SDK, or @c nil (indicating an error) if the SDK key is not set in the application’s @code Info.plist @endcode.
  */
 + (nullable ALSdk *)shared;
 
 /**
  * Gets a shared instance of AppLovin SDK.
  *
- * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
+ * @warning Make sure your SDK key is set in the application’s @code Info.plist @endcode under the property @c AppLovinSdkKey.
  *
  * @param settings An SDK settings object.
  *
- * @return The shared instance of AppLovin’s SDK, or `nil` (indicating an error) if the SDK key is not set in the application’s `Info.plist`.
+ * @return The shared instance of AppLovin’s SDK, or @c nil (indicating an error) if the SDK key is not set in the application’s @code Info.plist @endcode.
  */
 + (nullable ALSdk *)sharedWithSettings:(ALSdkSettings *)settings;
 
@@ -195,7 +195,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  *
  * @param key SDK key to use for the instance of the AppLovin SDK.
  *
- * @return An instance of AppLovin’s SDK, or `nil` (indicating an error) if `key` is not set.
+ * @return An instance of AppLovin’s SDK, or @c nil (indicating an error) if @c key is not set.
  */
 + (nullable ALSdk *)sharedWithKey:(NSString *)key;
 
@@ -205,7 +205,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  * @param key       SDK key to use for the instance of the AppLovin SDK.
  * @param settings  An SDK settings object.
  *
- * @return An instance of AppLovin’s SDK, or `nil` (indicating an error) if `key` is not set.
+ * @return An instance of AppLovin’s SDK, or @c nil (indicating an error) if @c key is not set.
  */
 + (nullable ALSdk *)sharedWithKey:(NSString *)key settings:(ALSdkSettings *)settings;
 

@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *placement;
 
 /**
- * The ad unit identifier this `MAAdView` was initialized with and is loading ads for.
+ * The ad unit identifier this @c MAAdView was initialized with and is loading ads for.
  */
 @property (nonatomic, copy, readonly) NSString *adUnitIdentifier;
 

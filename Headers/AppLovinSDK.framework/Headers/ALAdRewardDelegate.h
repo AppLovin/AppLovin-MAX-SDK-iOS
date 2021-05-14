@@ -25,11 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * <b>Tip:</b> refresh the user’s balance from your server at this point rather than relying on local data that could be tampered with on jailbroken devices.
  *
- * The `response` `NSDictionary` will typically include the keys `"currency"` and `"amount"`, which point to `NSStrings` that contain the name and amount of the
+ * The @c response @c NSDictionary will typically include the keys @c "currency" and @c "amount", which point to @c NSStrings that contain the name and amount of the
  * virtual currency that you may award.
  *
  * @param ad       Ad that was viewed.
- * @param response Dictionary that contains response data from the server, including `"currency"` and `"amount"`.
+ * @param response Dictionary that contains response data from the server, including @c "currency" and @c "amount".
  */
  // [PLP]
  // "If you use reward validation for incentivized videos..." -- how do you "use" this?

@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param key The key for which you want to retrieve the ad value.
  *
- * @return The arbitrary ad value corresponding to `key`, or `nil` if no such value exists for `key`.
+ * @return The arbitrary ad value corresponding to @c key, or @c nil if no such value exists for @c key.
  */
 - (nullable NSString *)adValueForKey:(NSString *)key;
 
@@ -48,16 +48,16 @@ NS_ASSUME_NONNULL_BEGIN
  * Gets the ad value for a given key, or a default value if no such value exists.
  *
  * @param key          The key for which you want to retrieve the ad value.
- * @param defaultValue The default value to return if the value of `key` does not exist or is `nil`.
+ * @param defaultValue The default value to return if the value of @c key does not exist or is @c nil.
  *
- * @return The arbitrary ad value corresponding to `key`, or the value of `defaultValue` if no such value exists for `key`.
+ * @return The arbitrary ad value corresponding to @c key, or the value of @c defaultValue if no such value exists for @c key.
  */
 - (nullable NSString *)adValueForKey:(NSString *)key defaultValue:(nullable NSString *)defaultValue;
 
 /**
  * A unique ID that identifies this advertisement.
  *
- * If you need to report a broken ad to AppLovin support, please include this number’s `longValue`.
+ * If you need to report a broken ad to AppLovin support, please include this number’s @c longValue.
  */
 @property (nonatomic, strong, readonly) NSNumber *adIdNumber;
 

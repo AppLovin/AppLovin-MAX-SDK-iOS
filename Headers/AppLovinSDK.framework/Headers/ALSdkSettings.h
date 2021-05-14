@@ -17,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ALConsentFlowSettings : NSObject
 
 /**
- * Set this to `YES` to enable the consent flow. You must also provide your privacy policy and terms of service URLs in this object, and you must provide a
- * `NSUserTrackingUsageDescription` string in your `Info.plist` file.
+ * Set this to @c YES to enable the consent flow. You must also provide your privacy policy and terms of service URLs in this object, and you must provide a
+ * @c NSUserTrackingUsageDescription string in your @code Info.plist @endcode file.
  *
- * This defaults to the value that you entered into your `Info.plist` file via `AppLovinConsentFlowInfo`⇒`AppLovinConsentFlowEnabled`.
+ * This defaults to the value that you entered into your @code Info.plist @endcode file via @c AppLovinConsentFlowInfo ⇒ @c AppLovinConsentFlowEnabled.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flow#info.plist">MAX Integration Guide ⇒ iOS ⇒ Consent Flow ⇒ Info.plist</a>
  */
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * URL for your company’s privacy policy. This is required in order to enable the consent flow.
  *
- * This defaults to the value that you entered into your `Info.plist` file via `AppLovinConsentFlowInfo`⇒`AppLovinConsentFlowPrivacyPolicy`.
+ * This defaults to the value that you entered into your @code Info.plist @endcode file via @c AppLovinConsentFlowInfo ⇒ @c AppLovinConsentFlowPrivacyPolicy.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flow#info.plist">MAX Integration Guide ⇒ iOS ⇒ Consent Flow ⇒ Info.plist</a>
  */
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * URL for your company’s terms of service. This is optional; you can enable the consent flow with or without it.
  *
- * This defaults to the value that you entered into your `Info.plist` file via `AppLovinConsentFlowInfo`⇒`AppLovinConsentFlowTermsOfService`.
+ * This defaults to the value that you entered into your @code Info.plist @endcode file via @c AppLovinConsentFlowInfo ⇒ @c AppLovinConsentFlowTermsOfService.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flow#info.plist">MAX Integration Guide ⇒ iOS ⇒ Consent Flow ⇒ Info.plist</a>
  */
@@ -60,20 +60,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ALConsentFlowSettings *consentFlowSettings;
 
 /**
- * A toggle for verbose logging for the SDK. This is set to `NO` by default. Set it to `NO` if you want the SDK to be silent (this is recommended for App Store
+ * A toggle for verbose logging for the SDK. This is set to @c NO by default. Set it to @c NO if you want the SDK to be silent (this is recommended for App Store
  * submissions).
  *
- * If set to `YES` AppLovin messages will appear in the standard application log which is accessible via the console. All AppLovin log messages are prefixed
- * with the `/AppLovinSdk: [AppLovinSdk]` tag.
+ * If set to @c YES AppLovin messages will appear in the standard application log which is accessible via the console. All AppLovin log messages are prefixed
+ * with the @code /AppLovinSdk: [AppLovinSdk] @endcode tag.
  *
- * Verbose logging is <em>disabled</em> (`NO`) by default.
+ * Verbose logging is <em>disabled</em> (@c NO) by default.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#enable-verbose-logging">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Enable Verbose Logging</a>
  */
 @property (nonatomic, assign) BOOL isVerboseLogging;
 
 /**
- * Whether to begin video ads in a muted state or not. Defaults to `NO` unless you change this in the dashboard.
+ * Whether to begin video ads in a muted state or not. Defaults to @c NO unless you change this in the dashboard.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#mute-audio">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Mute Audio</a>
  */
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL muted;
 
 /**
- * Whether the creative debugger will be displayed on fullscreen ads after flipping the device screen down twice. Defaults to `YES`.
+ * Whether the creative debugger will be displayed on fullscreen ads after flipping the device screen down twice. Defaults to @c YES.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/creative-debugger">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Creative Debugger</a>
  */
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<NSString *> *initializationAdUnitIdentifiers;
 
 /**
- * Whether or not the AppLovin SDK listens to exceptions. Defaults to `YES`.
+ * Whether or not the AppLovin SDK listens to exceptions. Defaults to @c YES.
  */
 @property (nonatomic, assign, getter=isExceptionHandlerEnabled) BOOL exceptionHandlerEnabled;
 

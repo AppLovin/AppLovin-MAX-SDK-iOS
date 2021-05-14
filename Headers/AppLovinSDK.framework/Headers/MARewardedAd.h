@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAdForPlacement:(nullable NSString *)placement;
 
 /**
- * The ad unit identifier this `MARewardedAd` was initialized with and is loading ads for.
+ * The ad unit identifier this @c MARewardedAd was initialized with and is loading ads for.
  */
 @property (nonatomic, copy, readonly) NSString *adUnitIdentifier;
 

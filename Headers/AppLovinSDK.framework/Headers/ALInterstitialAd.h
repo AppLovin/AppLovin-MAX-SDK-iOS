@@ -16,19 +16,19 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Ad Delegates
 
 /**
- * An object that conforms to the @code [ALAdLoadDelegate] @endcode protocol. If you provide a value for `adLoadDelegate` in your instance, the SDK will notify
+ * An object that conforms to the @c ALAdLoadDelegate protocol. If you provide a value for @c adLoadDelegate in your instance, the SDK will notify
  * this delegate of ad load events.
  */
 @property (nonatomic, strong, nullable) id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- * An object that conforms to the @code [ALAdDisplayDelegate] @endcode protocol. If you provide a value for `adDisplayDelegate` in your instance, the SDK will
+ * An object that conforms to the @c ALAdDisplayDelegate protocol. If you provide a value for @c adDisplayDelegate in your instance, the SDK will
  * notify this delegate of ad show/hide events.
  */
 @property (nonatomic, strong, nullable) id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- * An object that conforms to the @code [ALAdVideoPlaybackDelegate] @endcode protocol. If you provide a value for `adVideoPlaybackDelegate` in your instance,
+ * An object that conforms to the @c ALAdVideoPlaybackDelegate protocol. If you provide a value for @c adVideoPlaybackDelegate in your instance,
  * the SDK will notify this delegate of video start/finish events.
  */
 @property (nonatomic, strong, nullable) id<ALAdVideoPlaybackDelegate> adVideoPlaybackDelegate;
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Gets a reference to the shared singleton instance.
  *
- * This method calls @code +[ALSdk shared] @endcode which requires that you have an SDK key defined in `Info.plist`.
+ * This method calls @code +[ALSdk shared] @endcode which requires that you have an SDK key defined in @code Info.plist @endcode.
  *
  * @warning If you use @code +[ALSdk sharedWithKey:] @endcode then you will need to use the instance methods instead.
  */
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)show;
 
 /**
- * Shows the current interstitial over a given window and renders a specified ad loaded by @code [ALAdService] @endcode.
+ * Shows the current interstitial over a given window and renders a specified ad loaded by @c ALAdService.
  *
  * @param ad The ad to render into this interstitial.
  */
