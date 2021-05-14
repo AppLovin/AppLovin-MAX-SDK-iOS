@@ -16,14 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MAAdDelegate<NSObject>
 
 /**
- * This method is called when a new ad has been loaded.
+ * The SDK invokes this method when a new ad has been loaded.
  *
  * @param ad  The ad that was loaded.
  */
 - (void)didLoadAd:(MAAd *)ad;
 
 /**
- * This method is called when an ad could not be retrieved.
+ * The SDK invokes this method when an ad could not be retrieved.
  *
  * <b>Common error codes:</b><table>
  * <tr><td>204</td><td>no ad is available</td></tr>
@@ -36,38 +36,40 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode;
 
 /**
- * This method is invoked when a full-screen ad is displayed.
+ * The SDK invokes this method when a full-screen ad is displayed.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
+ *
+ * @warning This method is deprecated for MRECs. It will only be called for full-screen ads.
  *
  * @param ad  The ad that was displayed.
  */
- // [PLP] https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec says this is deprecated?
 - (void)didDisplayAd:(MAAd *)ad;
 
 /**
- * This method is invoked when a full-screen ad is hidden.
+ * The SDK invokes this method when a full-screen ad is hidden.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
+ *
+ * @warning This method is deprecated for MRECs. It will only be called for full-screen ads.
  *
  * @param ad  The ad that was hidden.
  */
- // [PLP] https://dash.applovin.com/documentation/mediation/ios/getting-started/mrecs#loading-an-mrec says this is deprecated?
 - (void)didHideAd:(MAAd *)ad;
 
 /**
- * This method is invoked when the ad is clicked.
+ * The SDK invokes this method when the ad is clicked.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad  The ad that was clicked.
  */
 - (void)didClickAd:(MAAd *)ad;
 
 /**
- * This method is invoked when the ad failed to display.
+ * The SDK invokes this method when the ad failed to display.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad        The ad that failed to display.
  * @param errorCode The failure reason. Common error codes are defined in {@link MAErrorCodes.h}.

@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The amount that is used when no amount is given by the third-party network.
  */
-// [PLP] what are the units of "amount"?
 @property (nonatomic, assign, readonly, class) NSInteger defaultAmount;
 
 /**
@@ -32,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The rewarded amount or {@link defaultAmount} if none specified.
  */
-// [PLP] what are the units of "amount"?
 @property (nonatomic, assign, readonly) NSInteger amount;
 
 
@@ -47,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param amount  The rewarded amount.
  * @param label   The reward label.
  */
-// [PLP] what are the units of "amount"?
 + (instancetype)rewardWithAmount:(NSInteger)amount label:(NSString *)label;
 
 /**

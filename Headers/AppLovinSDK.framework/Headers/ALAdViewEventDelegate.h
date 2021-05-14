@@ -31,21 +31,21 @@ typedef NS_ENUM(NSInteger, ALAdViewDisplayErrorCode)
 @optional
 
 /**
- * This method is invoked after the ad view presents fullscreen content.
+ * The SDK invokes this method after the ad view begins to present fullscreen content.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
+ *
+ * Note: Some banners, when clicked, will expand into fullscreen content, whereupon the SDK will call this method.
  *
  * @param ad     Ad for which the ad view presented fullscreen content.
  * @param adView Ad view that presented fullscreen content.
  */
- // [PLP]
- // Unclear from the description whether this invocation happens only after the fullscreen content ends or as soon as the fullscreen content has begun.
 - (void)ad:(ALAd *)ad didPresentFullscreenForAdView:(ALAdView *)adView;
 
 /**
- * This method is invoked as the fullscreen content is about to be dismissed.
+ * The SDK invokes this method as the fullscreen content is about to be dismissed.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad     Ad for which the fullscreen content is to be dismissed.
  * @param adView Ad view that contains the ad for which the fullscreen content is to be dismissed.
@@ -53,9 +53,9 @@ typedef NS_ENUM(NSInteger, ALAdViewDisplayErrorCode)
 - (void)ad:(ALAd *)ad willDismissFullscreenForAdView:(ALAdView *)adView;
 
 /**
- * This method is invoked after the fullscreen content is dismissed.
+ * The SDK invokes this method after the fullscreen content is dismissed.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad     Ad for which the fullscreen content is dismissed.
  * @param adView Ad view that contains the ad for which the fullscreen content is dismissed.
@@ -63,31 +63,29 @@ typedef NS_ENUM(NSInteger, ALAdViewDisplayErrorCode)
 - (void)ad:(ALAd *)ad didDismissFullscreenForAdView:(ALAdView *)adView;
 
 /**
- * This method is invoked when the user is about to be taken out of the application after a click.
+ * The SDK invokes this method when the user is about to be taken out of the application after the user clicks on the ad.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad     Ad for which the user will be taken out of the application.
  * @param adView Ad view that contains the ad for which the user will be taken out of the application.
  */
- // [PLP] "after a click" means "after clicking on the ad" specifically?
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView;
 
 /**
- * This method is invoked when the user returns to the application after a click.
+ * The SDK invokes this method when the user returns to the application after the user clicks on the ad.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad     Ad from which the user will return to the application.
  * @param adView Ad view that contains the ad from which the user will return to the application.
  */
- // [PLP] "after a click" means "after clicking on the ad" specifically?
 - (void)ad:(ALAd *)ad didReturnToApplicationForAdView:(ALAdView *)adView;
 
 /**
- * This method is invoked if the ad view fails to display an ad.
+ * The SDK invokes this method if the ad view fails to display an ad.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad     Ad that the ad view failed to display.
  * @param adView Ad view that failed to display the ad.

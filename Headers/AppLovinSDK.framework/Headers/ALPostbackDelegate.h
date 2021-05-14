@@ -34,9 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param postbackService The postback service that attempted the postback call.
  * @param postbackURL     The URL to which the notification attempt was made.
- * @param errorCode       The HTTP status code received, if any; otherwise a negative constant.
+ * @param errorCode       The HTTP status code received, if any; otherwise one of the negative constants defined in {@link ALErrorCodes.h}.
  */
-// [PLP] does the particular "negative constant" have any meaning; e.g. might different negative constants refer to different reasons a connection could not be established?
 - (void)postbackService:(ALPostbackService *)postbackService didFailToExecutePostback:(nullable NSURL *)postbackURL errorCode:(NSInteger)errorCode;
 
 @end

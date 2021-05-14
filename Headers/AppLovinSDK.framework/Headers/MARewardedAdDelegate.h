@@ -20,17 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MARewardedAdDelegate<MAAdDelegate>
 
 /**
- * This method is invoked when rewarded video has started.
+ * The SDK invokes this method when rewarded video has started.
  */
 - (void)didStartRewardedVideoForAd:(MAAd *)ad;
 
 /**
- * This method is invoked when rewarded video has completed.
+ * The SDK invokes this method when rewarded video has completed.
  */
 - (void)didCompleteRewardedVideoForAd:(MAAd *)ad;
 
 /**
- * This method is invoked when a user should be granted a reward.
+ * The SDK invokes this method when a user should be granted a reward.
  *
  * @param ad     Ad for which the reward ad was rewarded.
  * @param reward The reward to be granted to the user.

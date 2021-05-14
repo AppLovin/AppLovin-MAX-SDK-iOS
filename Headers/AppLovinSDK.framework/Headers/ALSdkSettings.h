@@ -17,14 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ALConsentFlowSettings : NSObject
 
 /**
- * Whether or not the flow should be enabled. You must also provide your privacy policy and terms of service URLs in this object, and you must provide a
+ * Set this to `YES` to enable the consent flow. You must also provide your privacy policy and terms of service URLs in this object, and you must provide a
  * `NSUserTrackingUsageDescription` string in your `Info.plist` file.
  *
  * This defaults to the value that you entered into your `Info.plist` file via `AppLovinConsentFlowInfo`⇒`AppLovinConsentFlowEnabled`.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/consent-flow#info.plist">MAX Integration Guide ⇒ iOS ⇒ Consent Flow ⇒ Info.plist</a>
  */
- // [PLP] "should be enabled" by whom?
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 /**
@@ -95,16 +94,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<NSString *> *testDeviceAdvertisingIdentifiers;
 
 /**
- * The MAX ad unit IDs that will be used for this instance of the SDK. Third-party SDKs will be initialized with the credentials configured for these ad unit
- * IDs.
+ * The MAX ad unit IDs that you will use for this instance of the SDK. This initializes third-party SDKs with the credentials configured for these ad unit IDs.
  */
- // [PLP] "will be used" by whom? "will be initialized" by whom?
 @property (nonatomic, copy) NSArray<NSString *> *initializationAdUnitIdentifiers;
 
 /**
  * Whether or not the AppLovin SDK listens to exceptions. Defaults to `YES`.
  */
- // [PLP] what are the implications of this to the app developer?
 @property (nonatomic, assign, getter=isExceptionHandlerEnabled) BOOL exceptionHandlerEnabled;
 
 @end

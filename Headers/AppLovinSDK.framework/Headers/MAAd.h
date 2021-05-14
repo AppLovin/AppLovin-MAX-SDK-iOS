@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *networkName;
 
 /**
- * The creative ID tied to the ad, if any. It may not be available for some ad networks until {@link MAAdDelegate::didDisplayAd:} is called.
+ * The creative ID tied to the ad, if any. It may not be available for some ad networks until the SDK calls {@link MAAdDelegate::didDisplayAd:}.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/creative-debugger#creative-id">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Creative Debugger ⇒ Creative ID</a>
  *
@@ -42,38 +42,32 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSString *creativeIdentifier;
 
 /**
- * The ad’s revenue amount, or −1 if it does not exist.
+ * The ad’s revenue amount, or −1 if no revenue amount exists.
  */
- // [PLP] "it" meaning the ad, or the amount?
 @property (nonatomic, assign, readonly) double revenue;
 
 /**
- * The placement to tie the ad’s postbacks to.
+ * The placement name that you assign when you integrate each ad format, for granular reporting in postbacks (e.g. "Rewarded_Store", "Rewarded_LevelEnd").
  */
- // [PLP] what does it mean to tie postbacks to a placement? who ties them?
 @property (atomic, copy, readonly, nullable) NSString *placement;
 
 /**
- * Gets an arbitrary ad value for a given key.
+ * Gets the ad value for a given key.
  *
  * @param key The key for the value you want to retrieve.
  *
- * @return An arbitrary ad value for a given key, or `nil` if does not exist.
+ * @return The ad value corresponding to `key`, or `nil` if no value for that key exists.
  */
- // [PLP] what makes an ad value arbitrary or not?
- // [PLP] nil if a value does not exist for the key or if the key itself does not exist?
 - (nullable NSString *)adValueForKey:(NSString *)key;
 
 /**
- * Gets an arbitrary ad value for a given key.
+ * Gets the ad value for a given key.
  *
  * @param key          The key for the value you want to retrieve.
  * @param defaultValue The default value to return if the value for `key` does not exist or is `nil`.
  *
- * @return An arbitrary ad value for a given key, or the default value if does not exist.
+ * @return The ad value corresponding to `key`, or the default value if no value for that key exists.
  */
- // [PLP] what makes an ad value arbitrary or not?
- // [PLP] the default value if a value does not exist for the key or if the key itself does not exist?
 - (nullable NSString *)adValueForKey:(NSString *)key defaultValue:(nullable NSString *)defaultValue;
 
 + (instancetype)new NS_UNAVAILABLE;

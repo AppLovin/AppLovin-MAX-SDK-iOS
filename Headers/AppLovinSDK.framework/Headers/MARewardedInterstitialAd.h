@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAd;
 
 /**
- * Show the loaded interstitial for a given placement to tie ad events to.
+ * Show the loaded interstitial for a given placement name that you have assigned, for granular reporting in events.
  * <ul>
  * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
  * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
@@ -76,7 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
  */
- // [PLP] what does it mean to "tie" events to a placement? who ties them?
 - (void)showAdForPlacement:(nullable NSString *)placement;
 
 /**

@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ALAdDisplayDelegate <NSObject>
 
 /**
- * This method is invoked when the ad is displayed in the view.
+ * The SDK invokes this when the ad is displayed in the view.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  * 
  * @param ad    Ad that was just displayed.
  * @param view  Ad view in which the ad was displayed.
@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view;
 
 /**
- * This method is invoked when the ad is hidden from the view. This occurs when the user “X”es out of an interstitial.
+ * The SDK invokes this method when the ad is hidden from the view. This occurs when the user “X”es out of an interstitial.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  * 
  * @param ad    Ad that was just hidden.
  * @param view  Ad view in which the ad was hidden.
@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view;
 
 /**
- * This method is invoked when the ad is clicked in the view.
+ * The SDK invokes this method when the ad is clicked in the view.
  * 
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad    Ad that was just clicked.
  * @param view  Ad view in which the ad was clicked.

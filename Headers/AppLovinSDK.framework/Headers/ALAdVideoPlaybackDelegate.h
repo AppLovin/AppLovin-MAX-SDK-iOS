@@ -20,18 +20,18 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ALAdVideoPlaybackDelegate <NSObject>
 
 /**
- * This method is invoked when a video starts playing in an ad.
+ * The SDK invokes this method when a video starts playing in an ad.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad  Ad in which video playback began.
  */
 - (void)videoPlaybackBeganInAd:(ALAd *)ad;
 
 /**
- * This method is invoked when a video stops playing in an ad.
+ * The SDK invokes this method when a video stops playing in an ad.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param ad                Ad in which video playback ended.
  * @param percentPlayed     How much of the video was watched, as a percent, between 0 and 100.

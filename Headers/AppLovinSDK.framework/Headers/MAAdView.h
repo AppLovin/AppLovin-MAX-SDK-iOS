@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopAutoRefresh;
 
 /**
- * The placement to tie the future ad events to.
+ * The placement name that you assign when you integrate each ad format, for granular reporting in ad events (e.g. "Rewarded_Store", "Rewarded_LevelEnd").
  */
 @property (nonatomic, copy, nullable) NSString *placement;
 

@@ -24,14 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
  *                      and `NSDictionary`. Set this to `nil` to remove the super property whose key is `key` from being recorded with all future events.
  * @param key           The key that identifies the the super property whose value this method sets.
  */
- // [PLP] what does it mean to "record" a property (where is it recorded, how can this record be accessed)?
 - (void)setSuperProperty:(nullable id)superProperty forKey:(NSString *)key;
 
 /**
- * NSDictionary that represents the currently-set super properties that this services passes up on events.
+ * NSDictionary that represents the currently-set super properties that this services records with events.
  */
- // [PLP] what does it mean to "pass up" a property (e.g. passed to whom?)? how is this distinct from "record"ing a property?
- // [PLP] "on events" = "attached to events" or "on the occasion of events"?
 @property (nonatomic, copy, readonly) NSDictionary<NSString *, id> *superProperties;
 
 /**
@@ -59,13 +56,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * AppLovin recommends that you use one of the predefined strings provided in {@link ALEventTypes.h} for the parameter keys, when one of those strings applies
  * to the event. At a minimum, provide the following parameters: {@link kALEventParameterProductIdentifierKey}, {@link kALEventParameterRevenueAmountKey}, and
- * {@link kALEventParameterRevenueCurrencyKey}. If you pass a value for {@link kALEventParameterStoreKitReceiptKey}, we will use that value for validation.
- * Otherwise, we will collect {@link NSBundle::mainBundle}::{@link NSBundle::appStoreReceiptURL appStoreReceiptURL} and use it for validation.
+ * {@link kALEventParameterRevenueCurrencyKey}. If you pass a value for {@link kALEventParameterStoreKitReceiptKey}, AppLovin will use that value for
+ * validation. Otherwise, AppLovin will collect {@link NSBundle::mainBundle}::{@link NSBundle::appStoreReceiptURL appStoreReceiptURL} and use it for validation.
  *
  * @param transactionIdentifier Value of the {@link SKTransaction::transactionIdentifier} property.
  * @param parameters            A dictionary that contains key-value pairs that further describe this event.
  */
- // [PLP] Who is "we"?
 - (void)trackInAppPurchaseWithTransactionIdentifier:(NSString *)transactionIdentifier parameters:(nullable NSDictionary<NSString *, id> *)parameters;
 
 /**

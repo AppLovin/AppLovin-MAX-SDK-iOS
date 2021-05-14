@@ -62,14 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSString *zoneIdentifier;
 
 /**
- * Whether or not this ad view should automatically load an ad when inflated from StoryBoard or a nib file (when {@link UIView::awakeFromNib} is called).
- * The default value is `NO` so you are responsible for loading the ad by invoking {@link loadNextAd}.
+ * Whether or not this ad view should automatically load the ad when iOS inflates it from a StoryBoard or from a nib file (when {@link UIView::awakeFromNib} is
+ * called). The default value is `NO` which means you are responsible for loading the ad by invoking {@link loadNextAd}.
  */
- // [PLP] "when inflated" - who inflates what?
- // "load an ad when inflated from Storyboard or a nib file" - ambiguity; does this mean:
- //   * "load an ad when inflated from Storyboard or when inflated from a nib file"
- //   * "load an ad from Storyboard when X is inflated or when X is from a nib file"
- //   * "load an ad from Storyboard when inflated or from a nib file otherwise"
 @property (nonatomic, assign, getter=isAutoloadEnabled, setter=setAutoloadEnabled:) BOOL autoload;
 
 /**

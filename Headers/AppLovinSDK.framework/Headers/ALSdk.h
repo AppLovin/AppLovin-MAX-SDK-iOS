@@ -49,9 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ALSdkSettings *settings;
 
 /**
- * The SDK configuration object provided upon initialization.
+ * The SDK configuration object that the SDK creates when you initialize the SDK.
  */
- // [PLP] who provided it to whom? Is this "the SDK configuration object you provided when you initialized the SDK"? If so, how do you provide it?
 @property (nonatomic, strong, readonly) ALSdkConfiguration *configuration;
 
 /**
@@ -176,7 +175,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  *
  * @warning Make sure your SDK key is set in the application’s `Info.plist` under the property `AppLovinSdkKey`.
  *
- * @return The shared instance of AppLovin’s SDK, or `nil` if SDK key is not set in the application’s Info.plist.
+ * @return The shared instance of AppLovin’s SDK, or `nil` (indicating an error) if the SDK key is not set in the application’s `Info.plist`.
  */
 + (nullable ALSdk *)shared;
 
@@ -187,7 +186,7 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  *
  * @param settings An SDK settings object.
  *
- * @return The shared instance of AppLovin’s SDK, or nil if SDK key is not set in the application’s Info.plist.
+ * @return The shared instance of AppLovin’s SDK, or `nil` (indicating an error) if the SDK key is not set in the application’s `Info.plist`.
  */
 + (nullable ALSdk *)sharedWithSettings:(ALSdkSettings *)settings;
 
@@ -196,9 +195,8 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  *
  * @param key SDK key to use for the instance of the AppLovin SDK.
  *
- * @return An instance of AppLovinSDK, or `nil` if the SDK key is not set.
+ * @return An instance of AppLovin’s SDK, or `nil` (indicating an error) if `key` is not set.
  */
- // [PLP] what does it mean for the key to be "not set"? Does this mean "if you passed in a null or empty string for the key" or something more subtle?
 + (nullable ALSdk *)sharedWithKey:(NSString *)key;
 
 /**
@@ -207,9 +205,8 @@ typedef void (^ALSdkInitializationCompletionHandler)(ALSdkConfiguration *configu
  * @param key       SDK key to use for the instance of the AppLovin SDK.
  * @param settings  An SDK settings object.
  *
- * @return An instance of AppLovinSDK, or `nil` if SDK key is not set.
+ * @return An instance of AppLovin’s SDK, or `nil` (indicating an error) if `key` is not set.
  */
- // [PLP] what does it mean for the key to be "not set"? Does this mean "if you passed in a null or empty string for the key" or something more subtle?
 + (nullable ALSdk *)sharedWithKey:(NSString *)key settings:(ALSdkSettings *)settings;
 
 /**

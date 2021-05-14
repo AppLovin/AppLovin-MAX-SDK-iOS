@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ALAdLoadDelegate <NSObject>
 
 /**
- * This method is invoked when an ad is loaded by the AdService.
+ * The SDK invokes this method when an ad is loaded by the AdService.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param adService AdService that loaded the ad.
  * @param ad        Ad that was loaded.
@@ -31,9 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad;
 
 /**
- * This method is invoked when an ad load fails.
+ * The SDK invokes this method when an ad load fails.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
  * @param adService AdService that failed to load an ad.
  * @param code      An error code that corresponds to one of the constants defined in {@link ALErrorCodes.h}.

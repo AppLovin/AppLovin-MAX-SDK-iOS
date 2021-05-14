@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showAd;
 
 /**
- * Show the loaded rewarded ad for a given placement to tie ad events to.
+ * Show the loaded rewarded ad for a given placement name that you have assigned.
  * <ul>
  * <li>Use {@link delegate} to assign a delegate that should be notified about display events.</li>
  * <li>Use {@link ready} to check if an ad was successfully loaded.</li>
@@ -89,7 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/advanced-settings#ad-placements">MAX Integration Guide ⇒ iOS ⇒ Advanced Settings ⇒ Ad Placements</a>
  * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api#setting-an-ad-placement-name">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API ⇒ Setting an Ad Placement Name</a>
  */
- // [PLP] what does it mean to tie a placement to events? who ties it?
 - (void)showAdForPlacement:(nullable NSString *)placement;
 
 /**
