@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Renders a specific ad that was loaded via {@link ALAdService}.
  *
- * @param ad Ad to render. Must not be `nil`.
+ * @param ad Ad to render.
  */
 - (void)render:(ALAd *)ad;
 

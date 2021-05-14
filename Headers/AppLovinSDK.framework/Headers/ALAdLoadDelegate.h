@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * This method is invoked on the main UI thread.
  *
- * @param adService AdService that loaded the ad. Will not be `nil`.
- * @param ad        Ad that was loaded. Will not be `nil`.
+ * @param adService AdService that loaded the ad.
+ * @param ad        Ad that was loaded.
  */
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad;
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * This method is invoked on the main UI thread.
  *
- * @param adService AdService that failed to load an ad. Will not be `nil`.
+ * @param adService AdService that failed to load an ad.
  * @param code      An error code that corresponds to one of the constants defined in {@link ALErrorCodes.h}.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code;
