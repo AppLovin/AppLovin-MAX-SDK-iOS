@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view;
 
 /**
- * The SDK invokes this method when the ad is hidden from the view. This occurs when the user “X”es out of an interstitial.
+ * The SDK invokes this method when the ad is hidden from the view. This occurs when the user "X"es out of an interstitial.
  *
  * The SDK invokes this method on the main UI thread.
  * 

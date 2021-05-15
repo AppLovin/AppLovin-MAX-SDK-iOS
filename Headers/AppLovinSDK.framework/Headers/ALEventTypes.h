@@ -79,7 +79,7 @@ extern NSString *const kALEventTypeUserCompletedTutorial;
 extern NSString *const kALEventTypeUserCompletedLevel;
 
 /**
- * Signifies that the user completed (or “unlocked”) a particular achievement.
+ * Signifies that the user completed (or "unlocked") a particular achievement.
  *
  * Suggested parameters: @c kALEventParameterCompletedAchievementKey.
  *

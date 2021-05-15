@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param hasUserConsent @c YES if the user provided consent for information-sharing with AppLovin. @c NO by default.
  *
- * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation ("GDPR")</a>
  */
 + (void)setHasUserConsent:(BOOL)hasUserConsent;
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return @c YES if the user provided consent for information-sharing.
  *
- * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation (“GDPR”)</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#general-data-protection-regulation-(%E2%80%9Cgdpr%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ General Data Protection Regulation ("GDPR")</a>
  */
 + (BOOL)hasUserConsent;
 
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param doNotSell @c YES if the user opted out of the sale of their personal information.
  *
- * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#california-consumer-privacy-act-(%E2%80%9Cccpa%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ California Consumer Privacy Act (“CCPA”)</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#california-consumer-privacy-act-(%E2%80%9Cccpa%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ California Consumer Privacy Act ("CCPA")</a>
  */
 + (void)setDoNotSell:(BOOL)doNotSell;
 
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return @c YES if user opted out of the sale of their personal information.
  *
- * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#california-consumer-privacy-act-(%E2%80%9Cccpa%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ California Consumer Privacy Act (“CCPA”)</a>
+ * @see <a href="https://dash.applovin.com/documentation/mediation/ios/getting-started/privacy#california-consumer-privacy-act-(%E2%80%9Cccpa%E2%80%9D)">MAX Integration Guide ⇒ iOS ⇒ Privacy ⇒ California Consumer Privacy Act ("CCPA")</a>
  */
 + (BOOL)isDoNotSell;
 
