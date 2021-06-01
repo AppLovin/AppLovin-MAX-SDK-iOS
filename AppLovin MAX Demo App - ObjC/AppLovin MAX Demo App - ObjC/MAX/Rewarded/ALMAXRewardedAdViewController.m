@@ -50,7 +50,7 @@
     self.retryAttempt = 0;
 }
 
-- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError*)errorCode
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
@@ -82,7 +82,7 @@
     [self.rewardedAd loadAd];
 }
 
-- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
+- (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError*)errorCode
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
@@ -105,6 +105,11 @@
 - (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
 {
     // Rewarded ad was displayed and user should receive the reward
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+- (void)didPayRevenue:(MAAd *)ad
+{
     [self logCallback: __PRETTY_FUNCTION__];
 }
 

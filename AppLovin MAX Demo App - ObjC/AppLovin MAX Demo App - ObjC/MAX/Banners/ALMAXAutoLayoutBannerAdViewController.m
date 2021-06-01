@@ -49,7 +49,7 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError*)errorCode
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }
@@ -69,7 +69,12 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
+- (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError*)errorCode
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+- (void)didPayRevenue:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }
