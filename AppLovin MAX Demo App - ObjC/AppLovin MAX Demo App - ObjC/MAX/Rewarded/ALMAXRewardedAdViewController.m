@@ -102,7 +102,7 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
+- (void)didPayRevenueForAd:(MAAd *)ad withReward:(MAReward *)reward
 {
     // Rewarded ad was displayed and user should receive the reward
     [self logCallback: __PRETTY_FUNCTION__];

@@ -74,7 +74,7 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didPayRevenue:(MAAd *)ad
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }
