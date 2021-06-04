@@ -51,7 +51,7 @@
     self.retryAttempt = 0;
 }
 
-- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)errorCode
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
@@ -83,7 +83,7 @@
     [self.interstitialAd loadAd];
 }
 
-- (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)errorCode
+- (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
