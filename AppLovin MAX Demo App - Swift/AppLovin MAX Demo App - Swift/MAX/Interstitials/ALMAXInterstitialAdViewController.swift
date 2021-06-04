@@ -44,7 +44,7 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         retryAttempt = 0
     }
     
-    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)
+    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
     {
         logCallback()
         
@@ -74,11 +74,13 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         interstitialAd.load()
     }
     
-    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
+    func didFail(toDisplay ad: MAAd, withError error: MAError)
     {
         logCallback()
         
         // Interstitial ad failed to display. We recommend loading the next ad
         interstitialAd.load()
     }
+    
+    func didPayRevenue(for ad: MAAd) { logCallback() }
 }

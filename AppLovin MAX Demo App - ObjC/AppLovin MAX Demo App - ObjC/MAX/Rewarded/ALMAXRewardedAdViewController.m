@@ -50,7 +50,7 @@
     self.retryAttempt = 0;
 }
 
-- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
@@ -82,12 +82,17 @@
     [self.rewardedAd loadAd];
 }
 
-- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
+- (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
     // Rewarded ad failed to display. We recommend loading the next ad
     [self.rewardedAd loadAd];
+}
+
+- (void)didPayRevenueForAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 #pragma mark - MARewardedAdDelegate Protocol

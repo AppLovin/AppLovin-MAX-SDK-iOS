@@ -44,7 +44,7 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
         retryAttempt = 0
     }
     
-    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withErrorCode errorCode: Int)
+    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
     {
         logCallback()
         
@@ -70,13 +70,15 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
         rewardedAd.load()
     }
     
-    func didFail(toDisplay ad: MAAd, withErrorCode errorCode: Int)
+    func didFail(toDisplay ad: MAAd, withError error: MAError)
     {
         logCallback()
         
         // Rewarded ad failed to display. We recommend loading the next ad
         rewardedAd.load()
     }
+    
+    func didPayRevenue(for ad: MAAd) { logCallback() }
     
     // MARK: MARewardedAdDelegate Protocol
     
