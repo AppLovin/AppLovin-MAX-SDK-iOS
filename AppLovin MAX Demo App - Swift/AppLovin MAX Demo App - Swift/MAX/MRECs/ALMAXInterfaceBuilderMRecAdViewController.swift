@@ -32,7 +32,7 @@ class ALMAXInterfaceBuilderMRecAdViewController: ALBaseAdViewController, MAAdVie
     
     func didLoad(_ ad: MAAd) { logCallback() }
     
-    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError errorCode: MAError) { logCallback() }
+    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) { logCallback() }
 
     func didDisplay(_ ad: MAAd) { logCallback() }
     
@@ -40,7 +40,7 @@ class ALMAXInterfaceBuilderMRecAdViewController: ALBaseAdViewController, MAAdVie
     
     func didClick(_ ad: MAAd) { logCallback() }
     
-    func didFail(toDisplay ad: MAAd, withError errorCode: MAError) { logCallback() }
+    func didFail(toDisplay ad: MAAd, withError error: MAError) { logCallback() }
     
     func didPayRevenue(for ad: MAAd) { logCallback() }
     
