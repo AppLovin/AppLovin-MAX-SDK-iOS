@@ -9,7 +9,7 @@
 #import "ALMAXAutoLayoutMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXAutoLayoutMRecAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXAutoLayoutMRecAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
@@ -22,7 +22,10 @@
     [super viewDidLoad];
     
     self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
+    
     self.adView.delegate = self;
+    self.adView.revenueDelegate = self;
+    
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
     // Set background or background color for MRECs to be fully functional
@@ -73,11 +76,6 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didPayRevenueForAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
 #pragma mark - MAAdViewAdDelegate Protocol
 
 - (void)didExpandAd:(MAAd *)ad
@@ -86,6 +84,13 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+#pragma mark - MAAdRevenueDelegate Protocol
+
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

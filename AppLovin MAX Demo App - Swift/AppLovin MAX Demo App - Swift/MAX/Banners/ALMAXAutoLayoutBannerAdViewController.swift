@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -20,6 +20,8 @@ class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdD
         super.viewDidLoad()
         
         adView.delegate = self
+        adView.revenueDelegate = self
+        
         adView.translatesAutoresizingMaskIntoConstraints = false
         
         // Set background or background color for banners to be fully functional
@@ -52,12 +54,14 @@ class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdD
     func didClick(_ ad: MAAd) { logCallback() }
     
     func didFail(toDisplay ad: MAAd, withError error: MAError) { logCallback() }
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
-    
+        
     // MARK: MAAdViewAdDelegate Protocol
     
     func didExpand(_ ad: MAAd) { logCallback() }
     
     func didCollapse(_ ad: MAAd) { logCallback() }
+    
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd) { logCallback() }
 }
