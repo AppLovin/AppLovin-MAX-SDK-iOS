@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate, MAAdRevenueDelegate
+class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegate
 {
     private let rewardedAd = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_AD_UNIT_ID")
     private var retryAttempt = 0.0
@@ -21,7 +21,6 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
         super.viewDidLoad()
         
         rewardedAd.delegate = self
-        rewardedAd.revenueDelegate = self
         
         // Load the first ad
         rewardedAd.load()
@@ -79,6 +78,8 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
         rewardedAd.load()
     }
     
+    func didPayRevenue(for ad: MAAd) { logCallback() }
+    
     // MARK: MARewardedAdDelegate Protocol
     
     func didStartRewardedVideo(for ad: MAAd) { logCallback() }
@@ -90,8 +91,4 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
         // Rewarded ad was displayed and user should receive the reward
         logCallback()
     }
-    
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
 }
