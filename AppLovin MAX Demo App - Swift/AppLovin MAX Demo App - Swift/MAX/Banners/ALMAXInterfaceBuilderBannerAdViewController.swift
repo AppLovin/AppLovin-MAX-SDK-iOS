@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
     @IBOutlet weak var adView: MAAdView!
     
@@ -41,12 +41,14 @@ class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdV
     func didClick(_ ad: MAAd) { logCallback() }
     
     func didFail(toDisplay ad: MAAd, withError error: MAError) { logCallback() }
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
-    
+        
     // MARK: MAAdViewAdDelegate Protocol
     
     func didExpand(_ ad: MAAd) { logCallback() }
     
     func didCollapse(_ ad: MAAd) { logCallback() }
+    
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd) { logCallback() }
 }

@@ -9,7 +9,7 @@
 #import "ALMAXFrameLayoutMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXFrameLayoutMRecAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXFrameLayoutMRecAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
@@ -22,7 +22,9 @@
     [super viewDidLoad];
     
     self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
+    
     self.adView.delegate = self;
+    self.adView.revenueDelegate = self;
     
     // Dimensions
     CGFloat width = 300;
@@ -73,11 +75,6 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didPayRevenueForAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
 #pragma mark - MAAdViewAdDelegate Protocol
 
 - (void)didExpandAd:(MAAd *)ad
@@ -86,6 +83,13 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+#pragma mark - MAAdRevenueDelegate Protocol
+
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

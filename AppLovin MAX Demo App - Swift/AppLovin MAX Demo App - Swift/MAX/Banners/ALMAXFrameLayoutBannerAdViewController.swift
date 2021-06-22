@@ -60,3 +60,4 @@ class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAd
     
     func didCollapse(_ ad: MAAd) { logCallback() }
 }
+
