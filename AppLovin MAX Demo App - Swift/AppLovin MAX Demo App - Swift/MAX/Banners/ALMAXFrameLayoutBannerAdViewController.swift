@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -20,6 +20,7 @@ class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAd
         super.viewDidLoad()
         
         adView.delegate = self
+        adView.revenueDelegate = self
         
         // Calculate dimensions
         let width = view.bounds.width // Stretch to the width of the screen for banners to be fully functional
@@ -51,12 +52,14 @@ class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAd
     func didClick(_ ad: MAAd) { logCallback() }
     
     func didFail(toDisplay ad: MAAd, withError error: MAError) { logCallback() }
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
-    
+        
     // MARK: MAAdViewAdDelegate Protocol
     
     func didExpand(_ ad: MAAd) { logCallback() }
     
     func didCollapse(_ ad: MAAd) { logCallback() }
+    
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd) { logCallback() }
 }

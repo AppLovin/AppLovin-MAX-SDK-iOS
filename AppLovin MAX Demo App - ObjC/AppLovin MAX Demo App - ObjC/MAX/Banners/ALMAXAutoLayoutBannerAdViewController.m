@@ -9,7 +9,7 @@
 #import "ALMAXAutoLayoutBannerAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXAutoLayoutBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXAutoLayoutBannerAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
@@ -22,7 +22,10 @@
     [super viewDidLoad];
     
     self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
+    
     self.adView.delegate = self;
+    self.adView.revenueDelegate = self;
+    
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
     // Set background or background color for banners to be fully functional
@@ -74,11 +77,6 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
-- (void)didPayRevenueForAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
 #pragma mark - MAAdViewAdDelegate Protocol
 
 - (void)didExpandAd:(MAAd *)ad
@@ -87,6 +85,13 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+#pragma mark - MAAdRevenueDelegate Protocol
+
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

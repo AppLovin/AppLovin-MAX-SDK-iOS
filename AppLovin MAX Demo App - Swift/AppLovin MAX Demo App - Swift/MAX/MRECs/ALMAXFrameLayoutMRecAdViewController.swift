@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
+class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
@@ -20,6 +20,7 @@ class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDe
         super.viewDidLoad()
         
         adView.delegate = self
+        adView.revenueDelegate = self
         
         // Dimensions
         let width: CGFloat = 300
@@ -52,12 +53,14 @@ class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDe
     func didClick(_ ad: MAAd) { logCallback() }
     
     func didFail(toDisplay ad: MAAd, withError error: MAError) { logCallback() }
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
-    
+        
     // MARK: MAAdViewAdDelegate Protocol
     
     func didExpand(_ ad: MAAd) { logCallback() }
     
     func didCollapse(_ ad: MAAd) { logCallback() }
+    
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd) { logCallback() }
 }
