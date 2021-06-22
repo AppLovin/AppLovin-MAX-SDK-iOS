@@ -20,7 +20,7 @@ class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDe
         super.viewDidLoad()
         
         adView.delegate = self
-        adView.delegate = self
+        adView.revenueDelegate = self
         
         // Dimensions
         let width: CGFloat = 300
