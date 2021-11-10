@@ -23,6 +23,27 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         })
         
+        let barTintColor = UIColor.init(red: 10/255.0, green: 131/255.0, blue: 170/255.0, alpha: 1.0)
+        let navigationBarAppearance = UINavigationBar.appearance()
+        if #available(iOS 15.0, *)
+        {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = barTintColor
+            appearance.titleTextAttributes = [.foregroundColor : UIColor.white]
+            navigationBarAppearance.standardAppearance = appearance
+            navigationBarAppearance.scrollEdgeAppearance = appearance
+            navigationBarAppearance.tintColor = .white
+        }
+        else
+        {
+            // Fallback on earlier versions
+            navigationBarAppearance.isTranslucent = false
+            navigationBarAppearance.barTintColor = barTintColor
+            navigationBarAppearance.titleTextAttributes = [.foregroundColor : UIColor.white]
+            navigationBarAppearance.tintColor = .white
+        }
+        
         return true
     }
 }
