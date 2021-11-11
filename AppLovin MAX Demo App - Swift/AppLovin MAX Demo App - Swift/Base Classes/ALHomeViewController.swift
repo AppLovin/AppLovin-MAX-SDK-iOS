@@ -78,10 +78,9 @@ class ALHomeViewController: UITableViewController
         footer.font = UIFont.systemFont(ofSize: 14)
         footer.numberOfLines = 0
         
-        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         let sdkVersion = ALSdk.version()
         let systemVersion = UIDevice.current.systemVersion
-        let text = "App Version: \(appVersion)\nSDK Version: \(sdkVersion)\niOS Version: \(systemVersion)\n\nLanguage: Swift"
+        let text = "SDK Version: \(sdkVersion)\niOS Version: \(systemVersion)\n\nLanguage: Swift"
         
         let style = NSMutableParagraphStyle()
         style.alignment = .center
