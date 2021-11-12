@@ -103,10 +103,9 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     footer.font = [UIFont systemFontOfSize: 14.0f];
     footer.numberOfLines = 0;
     
-    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     NSString *sdkVersion = [ALSdk version];
     NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *text = [NSString stringWithFormat: @"App Version: %@\nSDK Version: %@\niOS Version: %@\n\nLanguage: Objective-C", appVersion, sdkVersion, systemVersion];
+    NSString *text = [NSString stringWithFormat: @"SDK Version: %@\niOS Version: %@\n\nLanguage: Objective-C", sdkVersion, systemVersion];
     
     NSMutableParagraphStyle *style  = [[NSMutableParagraphStyle alloc] init];
     style.alignment =  NSTextAlignmentCenter;
