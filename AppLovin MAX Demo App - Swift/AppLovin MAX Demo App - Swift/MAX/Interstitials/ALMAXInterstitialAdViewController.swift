@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
+class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let interstitialAd = MAInterstitialAd(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     private var retryAttempt = 0.0
@@ -21,7 +21,6 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         super.viewDidLoad()
         
         interstitialAd.delegate = self
-        interstitialAd.revenueDelegate = self
         
         // Load the first ad
         interstitialAd.load()
@@ -83,7 +82,4 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         interstitialAd.load()
     }
     
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
 }

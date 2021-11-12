@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
+class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate
 {
     private let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: MAAdFormat.mrec)
     
@@ -20,7 +20,6 @@ class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDel
         super.viewDidLoad()
         
         adView.delegate = self
-        adView.revenueDelegate = self
         
         adView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -60,7 +59,4 @@ class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDel
     
     func didCollapse(_ ad: MAAd) { logCallback() }
     
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd) { logCallback() }
 }
