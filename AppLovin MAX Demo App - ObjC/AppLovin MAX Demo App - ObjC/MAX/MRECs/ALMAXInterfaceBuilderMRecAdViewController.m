@@ -9,7 +9,7 @@
 #import "ALMAXInterfaceBuilderMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXInterfaceBuilderMRecAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
+@interface ALMAXInterfaceBuilderMRecAdViewController()<MAAdViewAdDelegate>
 @property (nonatomic, strong) IBOutlet MAAdView *adView;
 @end
 
@@ -70,13 +70,6 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
-#pragma mark - MAAdRevenueDelegate Protocol
-
-- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

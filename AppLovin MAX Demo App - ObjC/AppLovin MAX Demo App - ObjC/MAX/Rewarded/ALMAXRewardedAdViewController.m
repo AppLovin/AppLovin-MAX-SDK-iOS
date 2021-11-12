@@ -9,7 +9,7 @@
 #import "ALMAXRewardedAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXRewardedAdViewController()<MARewardedAdDelegate, MAAdRevenueDelegate>
+@interface ALMAXRewardedAdViewController()<MARewardedAdDelegate>
 @property (nonatomic, strong) MARewardedAd *rewardedAd;
 @property (nonatomic, assign) NSInteger retryAttempt;
 @end
@@ -25,7 +25,6 @@
     self.rewardedAd = [MARewardedAd sharedWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
     
     self.rewardedAd.delegate = self;
-    self.rewardedAd.revenueDelegate = self;
     
     // Load the first ad
     [self.rewardedAd loadAd];
@@ -107,13 +106,6 @@
 - (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
 {
     // Rewarded ad was displayed and user should receive the reward
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
-#pragma mark - MAAdRevenueDelegate Protocol
-
-- (void)didPayRevenueForAd:(MAAd *)ad
-{
     [self logCallback: __PRETTY_FUNCTION__];
 }
 

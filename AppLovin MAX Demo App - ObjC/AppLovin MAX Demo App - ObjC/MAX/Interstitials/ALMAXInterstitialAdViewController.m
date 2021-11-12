@@ -10,7 +10,7 @@
 #import "ALBaseAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXInterstitialAdViewController()<MAAdDelegate, MAAdRevenueDelegate>
+@interface ALMAXInterstitialAdViewController()<MAAdDelegate>
 @property (nonatomic, strong) MAInterstitialAd *interstitialAd;
 @property (nonatomic, assign) NSInteger retryAttempt;
 @end
@@ -26,7 +26,6 @@
     self.interstitialAd = [[MAInterstitialAd alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
     
     self.interstitialAd.delegate = self;
-    self.interstitialAd.revenueDelegate = self;
     
     // Load the first ad
     [self.interstitialAd loadAd];
@@ -91,13 +90,6 @@
     
     // Interstitial ad failed to display. We recommend loading the next ad
     [self.interstitialAd loadAd];
-}
-
-#pragma mark - MAAdRevenueDelegate Protocol
-
-- (void)didPayRevenueForAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
 }
 
 @end
