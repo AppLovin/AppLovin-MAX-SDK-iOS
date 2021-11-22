@@ -34,18 +34,12 @@ class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
         
         // Center the MREC and anchor it to the top of the screen.
         view.addSubview(mrecAdView)
-        view.addConstraints([
-            constraint(with: mrecAdView, attribute: .leading),
-            constraint(with: mrecAdView, attribute: .trailing),
-            constraint(with: mrecAdView, attribute: .top),
-            NSLayoutConstraint(item: mrecAdView,
-                               attribute: .height,
-                               relatedBy: .equal,
-                               toItem: nil,
-                               attribute: .notAnAttribute,
-                               multiplier: 1.0,
-                               constant: kMrecHeight)
-            ])
+        mrecAdView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        mrecAdView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        mrecAdView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        mrecAdView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        
     }
     
     override func viewDidDisappear(_ animated: Bool)
