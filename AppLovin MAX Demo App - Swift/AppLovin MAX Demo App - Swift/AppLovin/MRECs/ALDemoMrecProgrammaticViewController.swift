@@ -12,8 +12,6 @@ import AppLovinSDK
 class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
 {
     
-    private let kMrecHeight: CGFloat = 300
-    
     private let mrecAdView = ALAdView(size: .mrec)
     @IBOutlet weak var loadButton: UIBarButtonItem!
     
@@ -51,17 +49,6 @@ class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
         mrecAdView.adEventDelegate = nil
     }
     
-    private func constraint(with mrecAdView: ALAdView, attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint
-    {
-        return NSLayoutConstraint(item: mrecAdView,
-                                  attribute: attribute,
-                                  relatedBy: .equal,
-                                  toItem: view,
-                                  attribute: attribute,
-                                  multiplier: 1.0,
-                                  constant: 0.0)
-    }
-    
     @IBAction func loadNextAd()
     {
         mrecAdView.loadNextAd()
@@ -81,7 +68,7 @@ extension ALDemoMrecProgrammaticViewController : ALAdLoadDelegate
     {
         // Look at ALErrorCodes.h for list of error codes
         logCallback()
-
+        
         loadButton.isEnabled = true
     }
 }
@@ -91,7 +78,7 @@ extension ALDemoMrecProgrammaticViewController : ALAdDisplayDelegate
     func ad(_ ad: ALAd, wasDisplayedIn view: UIView)
     {
         logCallback()
-
+        
         loadButton.isEnabled = true
     }
     
