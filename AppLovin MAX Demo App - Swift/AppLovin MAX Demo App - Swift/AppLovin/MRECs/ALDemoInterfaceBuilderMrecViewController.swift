@@ -53,7 +53,7 @@ extension ALDemoInterfaceBuilderMrecViewController : ALAdLoadDelegate
     {
         // Look at ALErrorCodes.h for list of error codes
         logCallback()
-
+        
         loadButton.isEnabled = true
     }
 }
@@ -63,7 +63,7 @@ extension ALDemoInterfaceBuilderMrecViewController : ALAdDisplayDelegate
     func ad(_ ad: ALAd, wasDisplayedIn view: UIView)
     {
         logCallback()
-
+        
         loadButton.isEnabled = true
     }
     

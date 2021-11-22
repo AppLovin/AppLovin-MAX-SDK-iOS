@@ -37,7 +37,6 @@ class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
         
         mrecAdView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         mrecAdView.heightAnchor.constraint(equalToConstant: 250).isActive = true
-        
     }
     
     override func viewDidDisappear(_ animated: Bool)
