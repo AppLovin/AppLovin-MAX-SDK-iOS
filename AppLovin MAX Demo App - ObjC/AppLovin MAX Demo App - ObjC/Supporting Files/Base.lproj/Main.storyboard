@@ -116,6 +116,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="oEt-E2-kPP" kind="show" id="ZuS-9O-o9B"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="uD0-c1-ORV" style="IBUITableViewCellStyleDefault" id="BrE-RZ-nJa">
                                         <rect key="frame" x="0.0" y="269.5" width="414" height="44"/>
@@ -672,10 +675,10 @@
             </objects>
             <point key="canvasLocation" x="667" y="-1152"/>
         </scene>
-        <!--MRECs-->
+        <!--Mrecs-->
         <scene sceneID="wTN-jG-d9n">
             <objects>
-                <viewControllerPlaceholder storyboardName="MRECs" id="oEt-E2-kPP" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Mrecs" id="oEt-E2-kPP" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="3Ku-66-ugL"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NlI-D8-e2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
