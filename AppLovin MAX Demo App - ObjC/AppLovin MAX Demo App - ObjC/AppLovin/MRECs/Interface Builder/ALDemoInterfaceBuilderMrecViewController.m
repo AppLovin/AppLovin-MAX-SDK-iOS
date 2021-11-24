@@ -22,6 +22,11 @@
 {
     [super viewDidLoad];
     
+    // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
+    // Key Path = size
+    // Type     = String
+    // Value    = mrec
+    
     self.adView.adLoadDelegate = self;
     self.adView.adDisplayDelegate = self;
     self.adView.adEventDelegate = self;
