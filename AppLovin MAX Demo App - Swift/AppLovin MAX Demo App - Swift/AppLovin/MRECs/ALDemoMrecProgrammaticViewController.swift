@@ -21,6 +21,11 @@ class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
     {
         super.viewDidLoad()
         
+        // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
+        // Key Path = size
+        // Type     = String
+        // Value    = mrec
+        
         // Optional: Implement the ad delegates to receive ad events.
         mrecAdView.adLoadDelegate = self
         mrecAdView.adDisplayDelegate = self
