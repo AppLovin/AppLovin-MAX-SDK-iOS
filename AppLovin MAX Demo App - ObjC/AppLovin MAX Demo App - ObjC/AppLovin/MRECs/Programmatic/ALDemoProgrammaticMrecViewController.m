@@ -74,7 +74,7 @@
 {
     // Look at ALErrorCodes.h for list of error codes
     [self logCallback: __PRETTY_FUNCTION__];
-
+    
     self.loadButton.enabled = YES;
 }
 
@@ -83,7 +83,7 @@
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view
 {
     [self logCallback: __PRETTY_FUNCTION__];
-
+    
     self.loadButton.enabled = YES;
 }
 
