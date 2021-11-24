@@ -15,7 +15,6 @@
 @end
 
 @implementation ALDemoMrecZoneViewController
-static const CGFloat kMrecHeight = 250.0f;
 
 #pragma mark - View Lifecycle
 
@@ -54,16 +53,6 @@ static const CGFloat kMrecHeight = 250.0f;
     self.adView.adEventDelegate = nil;
 }
 
-- (NSLayoutConstraint *)constraintWithAdView:(ALAdView *)adView andAttribute:(NSLayoutAttribute)attribute
-{
-    return [NSLayoutConstraint constraintWithItem: self.adView
-                                        attribute: attribute
-                                        relatedBy: NSLayoutRelationEqual
-                                           toItem: self.view
-                                        attribute: attribute
-                                       multiplier: 1.0
-                                         constant: 0.0];
-}
 
 #pragma mark - IB Action
 

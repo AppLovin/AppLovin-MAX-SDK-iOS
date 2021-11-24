@@ -16,7 +16,6 @@
 @end
 
 @implementation ALDemoProgrammaticMrecViewController
-static const CGFloat kMrecHeight = 300.0f;
 
 #pragma mark - View Lifecycle
 
@@ -36,18 +35,14 @@ static const CGFloat kMrecHeight = 300.0f;
     // Call loadNextAd() to start showing ads
     [self.adView loadNextAd];
     
-    // Center the mrec and anchor it to the bottom of the screen.
+    // Center the MREC and anchor it to the top of the screen.
     [self.view addSubview: self.adView];
-    [self.view addConstraints: @[[self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeLeading],
-                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTrailing],
-                                 [self constraintWithAdView: self.adView andAttribute: NSLayoutAttributeTop],
-                                 [NSLayoutConstraint constraintWithItem: self.adView
-                                                              attribute: NSLayoutAttributeHeight
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeNotAnAttribute
-                                                             multiplier: 1.0
-                                                               constant: kMrecHeight]]];
+    
+    [[self.adView.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor] setActive: YES];
+    [[self.adView.topAnchor constraintEqualToAnchor: self.view.topAnchor] setActive: YES];
+    
+    [[self.adView.widthAnchor constraintEqualToConstant: 300] setActive: YES];
+    [[self.adView.heightAnchor constraintEqualToConstant: 250] setActive: YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -57,17 +52,6 @@ static const CGFloat kMrecHeight = 300.0f;
     self.adView.adLoadDelegate = nil;
     self.adView.adDisplayDelegate = nil;
     self.adView.adEventDelegate = nil;
-}
-
-- (NSLayoutConstraint *)constraintWithAdView:(ALAdView *)adView andAttribute:(NSLayoutAttribute)attribute
-{
-    return [NSLayoutConstraint constraintWithItem: self.adView
-                                        attribute: attribute
-                                        relatedBy: NSLayoutRelationEqual
-                                           toItem: self.view
-                                        attribute: attribute
-                                       multiplier: 1.0
-                                         constant: 0.0];
 }
 
 #pragma mark - IB Action
