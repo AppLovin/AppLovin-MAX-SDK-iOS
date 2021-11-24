@@ -20,6 +20,11 @@ class ALDemoInterfaceBuilderMrecViewController : ALBaseAdViewController
     {
         super.viewDidLoad()
         
+        // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
+        // Key Path = size
+        // Type     = String
+        // Value    = mrec
+        
         adView.adLoadDelegate = self
         adView.adDisplayDelegate = self
         adView.adEventDelegate = self

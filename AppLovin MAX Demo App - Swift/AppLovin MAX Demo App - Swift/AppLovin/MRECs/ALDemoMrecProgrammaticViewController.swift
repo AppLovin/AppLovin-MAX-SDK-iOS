@@ -11,8 +11,7 @@ import AppLovinSDK
 
 class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
 {
-    
-    private let mrecAdView = ALAdView(size: .mrec)
+    private let adView = ALAdView(size: .mrec)
     @IBOutlet weak var loadButton: UIBarButtonItem!
     
     // MARK: View Lifecycle
@@ -21,41 +20,36 @@ class ALDemoMrecProgrammaticViewController : ALBaseAdViewController
     {
         super.viewDidLoad()
         
-        // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
-        // Key Path = size
-        // Type     = String
-        // Value    = mrec
-        
         // Optional: Implement the ad delegates to receive ad events.
-        mrecAdView.adLoadDelegate = self
-        mrecAdView.adDisplayDelegate = self
-        mrecAdView.adEventDelegate = self
-        mrecAdView.translatesAutoresizingMaskIntoConstraints = false
+        adView.adLoadDelegate = self
+        adView.adDisplayDelegate = self
+        adView.adEventDelegate = self
+        adView.translatesAutoresizingMaskIntoConstraints = false
         
         // Call loadNextAd() to start showing ads
-        mrecAdView.loadNextAd()
+        adView.loadNextAd()
         
         // Center the MREC and anchor it to the top of the screen.
-        view.addSubview(mrecAdView)
-        mrecAdView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        mrecAdView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        view.addSubview(adView)
+        adView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         
-        mrecAdView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        mrecAdView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        adView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        adView.heightAnchor.constraint(equalToConstant: 250).isActive = true
     }
     
     override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(animated)
         
-        mrecAdView.adLoadDelegate = nil
-        mrecAdView.adDisplayDelegate = nil
-        mrecAdView.adEventDelegate = nil
+        adView.adLoadDelegate = nil
+        adView.adDisplayDelegate = nil
+        adView.adEventDelegate = nil
     }
     
     @IBAction func loadNextAd()
     {
-        mrecAdView.loadNextAd()
+        adView.loadNextAd()
         
         loadButton.isEnabled = false
     }

@@ -14,7 +14,7 @@ import SafariServices
 class ALHomeViewController: UITableViewController
 {
     let kSupportLink = "https://support.applovin.com/support/home"
-
+    
     let kRowIndexToHideForPhones = 3;
     
     @IBOutlet var muteToggle: UIBarButtonItem!
@@ -33,7 +33,7 @@ class ALHomeViewController: UITableViewController
         self.navigationController?.setToolbarHidden(true, animated: false)
         super.viewWillDisappear(animated)
     }
-
+    
     // MARK: Table View Delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
@@ -53,7 +53,7 @@ class ALHomeViewController: UITableViewController
             }
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
         if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == kRowIndexToHideForPhones
@@ -68,10 +68,10 @@ class ALHomeViewController: UITableViewController
         {
             return 0;
         }
-
+        
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
-
+    
     func addFooterLabel()
     {
         let footer = UILabel()
@@ -94,7 +94,7 @@ class ALHomeViewController: UITableViewController
     }
     
     // MARK: Sound Toggling
-
+    
     @IBAction func toggleMute(_ sender: UIBarButtonItem!)
     {
         /**
@@ -128,6 +128,6 @@ class ALHomeViewController: UITableViewController
             UIApplication.shared.openURL(supportURL)
         }
     }
-        
+    
 }
 
