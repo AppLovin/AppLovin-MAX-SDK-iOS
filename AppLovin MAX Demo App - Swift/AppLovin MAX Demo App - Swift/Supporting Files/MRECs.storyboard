@@ -165,7 +165,7 @@
                                     <constraint firstAttribute="width" constant="300" id="GYQ-6Z-aRn"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="size" value="mrec"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="size" value="MRec"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Tha-e3-gLi" userLabel="CallBack Table View">
