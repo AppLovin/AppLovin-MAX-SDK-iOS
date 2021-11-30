@@ -846,10 +846,10 @@
             </objects>
             <point key="canvasLocation" x="667" y="-1152"/>
         </scene>
-        <!--MRECs-->
+        <!--MRecs-->
         <scene sceneID="wTN-jG-d9n">
             <objects>
-                <viewControllerPlaceholder storyboardName="MRECs" id="oEt-E2-kPP" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="MRecs" id="oEt-E2-kPP" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="3Ku-66-ugL"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NlI-D8-e2U" userLabel="First Responder" sceneMemberID="firstResponder"/>

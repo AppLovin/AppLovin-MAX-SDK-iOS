@@ -22,7 +22,7 @@
 		37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
 		5BCB21D227445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */; };
-		5BCB21D427446691007218B2 /* MRECs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BCB21D327446691007218B2 /* MRECs.storyboard */; };
+		5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BCB21D327446691007218B2 /* MRecs.storyboard */; };
 		5BCB21D62745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
@@ -63,7 +63,7 @@
 		37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAutoLayoutMRecAdViewController.swift; sourceTree = "<group>"; };
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoMRecProgrammaticViewController.swift; sourceTree = "<group>"; };
-		5BCB21D327446691007218B2 /* MRECs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MRECs.storyboard; sourceTree = "<group>"; };
+		5BCB21D327446691007218B2 /* MRecs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MRecs.storyboard; sourceTree = "<group>"; };
 		5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRecViewController.swift; sourceTree = "<group>"; };
 		67004E102679B909F079A1E2 /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
 		84537EBC110BF6182DB60BF2 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_AppLovin_MAX_Demo_App___Swift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,7 +194,7 @@
 				3763B23D23357C4D00E49783 /* Assets.xcassets */,
 				3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */,
 				3763B23A23357C4B00E49783 /* Main.storyboard */,
-				5BCB21D327446691007218B2 /* MRECs.storyboard */,
+				5BCB21D327446691007218B2 /* MRecs.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -349,7 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */,
-				5BCB21D427446691007218B2 /* MRECs.storyboard in Resources */,
+				5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */,
 				3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */,
 				E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */,
 				E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */,

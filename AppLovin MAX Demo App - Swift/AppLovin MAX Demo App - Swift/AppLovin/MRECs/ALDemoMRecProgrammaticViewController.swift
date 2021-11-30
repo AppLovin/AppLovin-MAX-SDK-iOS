@@ -1,5 +1,5 @@
 //
-//  ALDemoMrecProgrammaticViewController.swift
+//  ALDemoMRecProgrammaticViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
 //  Created by Nana Amoah on 11/16/21.

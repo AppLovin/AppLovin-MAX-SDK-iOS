@@ -1,5 +1,5 @@
 //
-//  ALDemoInterfaceBuilderMrecViewController.swift
+//  ALDemoInterfaceBuilderMRecViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
 //  Created by Nana Amoah on 11/17/21.
