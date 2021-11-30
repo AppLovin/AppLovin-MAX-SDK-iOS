@@ -1,24 +1,24 @@
 //
-//  ALDemoMrecZoneViewController.swift
+//  ALDemoMrecProgrammaticViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
-//  Created by Nana Amoah on 11/18/21.
+//  Created by Nana Amoah on 11/16/21.
 //  Copyright © 2021 AppLovin. All rights reserved.
 //
 
 import UIKit
 import AppLovinSDK
 
-class ALDemoMrecZoneViewController : ALBaseAdViewController
+class ALDemoMRecProgrammaticViewController : ALBaseAdViewController
 {
-    private let adView = ALAdView(size: ALAdSize.mrec, zoneIdentifier: "YOUR_ZONE_ID")
+    private let adView = ALAdView(size: .mrec)
     @IBOutlet weak var loadButton: UIBarButtonItem!
     
     // MARK: View Lifecycle
     
-    override func viewDidAppear(_ animated: Bool)
+    override func viewDidLoad()
     {
-        super.viewDidAppear(animated)
+        super.viewDidLoad()
         
         // Optional: Implement the ad delegates to receive ad events.
         adView.adLoadDelegate = self
@@ -29,7 +29,7 @@ class ALDemoMrecZoneViewController : ALBaseAdViewController
         // Call loadNextAd() to start showing ads
         adView.loadNextAd()
         
-        // Center the MREC and anchor it to the top of the screen.
+        // Center the MRec and anchor it to the top of the screen.
         view.addSubview(adView)
         adView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -47,7 +47,6 @@ class ALDemoMrecZoneViewController : ALBaseAdViewController
         adView.adEventDelegate = nil
     }
     
-    
     @IBAction func loadNextAd()
     {
         adView.loadNextAd()
@@ -56,7 +55,7 @@ class ALDemoMrecZoneViewController : ALBaseAdViewController
     }
 }
 
-extension ALDemoMrecZoneViewController : ALAdLoadDelegate
+extension ALDemoMRecProgrammaticViewController : ALAdLoadDelegate
 {
     func adService(_ adService: ALAdService, didLoad ad: ALAd)
     {
@@ -72,7 +71,7 @@ extension ALDemoMrecZoneViewController : ALAdLoadDelegate
     }
 }
 
-extension ALDemoMrecZoneViewController : ALAdDisplayDelegate
+extension ALDemoMRecProgrammaticViewController : ALAdDisplayDelegate
 {
     func ad(_ ad: ALAd, wasDisplayedIn view: UIView)
     {
@@ -92,7 +91,7 @@ extension ALDemoMrecZoneViewController : ALAdDisplayDelegate
     }
 }
 
-extension ALDemoMrecZoneViewController : ALAdViewEventDelegate
+extension ALDemoMRecProgrammaticViewController : ALAdViewEventDelegate
 {
     func ad(_ ad: ALAd, didPresentFullscreenFor adView: ALAdView)
     {

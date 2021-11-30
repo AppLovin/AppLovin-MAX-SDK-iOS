@@ -59,26 +59,6 @@
                                             <segue destination="EV9-xI-1S2" kind="show" id="9wf-lV-ey5"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="BGX-5g-HII" style="IBUITableViewCellStyleDefault" id="5bT-KD-bON">
-                                        <rect key="frame" x="0.0" y="123" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5bT-KD-bON" id="bTL-sd-68p">
-                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Zone Integration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BGX-5g-HII">
-                                                    <rect key="frame" x="20" y="0.0" width="356.5" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="gHF-t6-8dq" kind="show" id="ysg-ed-CnS"/>
-                                        </connections>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -93,7 +73,7 @@
         <!--Programmatic MRECs-->
         <scene sceneID="o16-lg-1CI">
             <objects>
-                <viewController title="Banners" id="Tq7-sJ-cBN" userLabel="Programmatic MRECs" customClass="ALDemoMrecProgrammaticViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Banners" id="Tq7-sJ-cBN" userLabel="Programmatic MRECs" customClass="ALDemoMRecProgrammaticViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ix7-6T-jJN"/>
                         <viewControllerLayoutGuide type="bottom" id="hna-wf-n01"/>
@@ -168,7 +148,7 @@
         <!--Interface Builder MRECs-->
         <scene sceneID="cPA-W7-EZ7">
             <objects>
-                <viewController title="MRECs" id="EV9-xI-1S2" userLabel="Interface Builder MRECs" customClass="ALDemoInterfaceBuilderMrecViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MRECs" id="EV9-xI-1S2" userLabel="Interface Builder MRECs" customClass="ALDemoInterfaceBuilderMRecViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MwQ-Hy-VS8"/>
                         <viewControllerLayoutGuide type="bottom" id="5c1-Y8-HIf"/>
@@ -253,81 +233,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C0d-dM-CTy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2056.521739130435" y="578.57142857142856"/>
-        </scene>
-        <!--Zone Integration-->
-        <scene sceneID="f0f-M1-Sru">
-            <objects>
-                <viewController title="Zone Integration" id="gHF-t6-8dq" userLabel="Zone Integration" customClass="ALDemoMrecZoneViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="R0E-Hb-cih"/>
-                        <viewControllerLayoutGuide type="bottom" id="ryg-OD-iGh"/>
-                    </layoutGuides>
-                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="3E0-bX-bme">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="759"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Gvz-jj-jek" userLabel="CallBack Table View">
-                                <rect key="frame" x="0.0" y="250" width="414" height="509"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="callbackCell" textLabel="fsT-gP-61L" style="IBUITableViewCellStyleDefault" id="irL-aK-Lbg">
-                                        <rect key="frame" x="20" y="49.5" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="irL-aK-Lbg" id="NZI-47-rHk">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fsT-gP-61L">
-                                                    <rect key="frame" x="20" y="0.0" width="334" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="textLabel.numberOfLines">
-                                                <integer key="value" value="2"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="textLabel.adjustsFontSizeToFitWidth" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="gHF-t6-8dq" id="swy-pf-XFf"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ZA8-sH-ayZ"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Gvz-jj-jek" firstAttribute="trailing" secondItem="ZA8-sH-ayZ" secondAttribute="trailing" id="GDy-Xw-Wxd"/>
-                            <constraint firstAttribute="bottom" secondItem="Gvz-jj-jek" secondAttribute="bottom" id="UX7-Ap-LuZ"/>
-                            <constraint firstItem="Gvz-jj-jek" firstAttribute="leading" secondItem="ZA8-sH-ayZ" secondAttribute="leading" id="aDK-iQ-FHK"/>
-                            <constraint firstItem="Gvz-jj-jek" firstAttribute="top" secondItem="ZA8-sH-ayZ" secondAttribute="top" constant="250" id="fA6-BW-IUq"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="MN0-Ne-evk"/>
-                        <barButtonItem enabled="NO" title="Load" id="xYe-Yc-uil">
-                            <color key="tintColor" red="0.1588665843" green="0.5486382246" blue="0.70558029410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="loadNextAd" destination="gHF-t6-8dq" id="k8d-oD-cw9"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="6Db-98-rZz"/>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="Zone Integration" id="N0U-Lv-aRT"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="callbackTableView" destination="Gvz-jj-jek" id="Fvx-CB-3am"/>
-                        <outlet property="loadButton" destination="xYe-Yc-uil" id="RhK-Qp-Zlm"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2ts-re-BqR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2732" y="579"/>
         </scene>
     </scenes>
     <resources>

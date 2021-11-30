@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALDemoInterfaceBuilderMrecViewController : ALBaseAdViewController
+class ALDemoInterfaceBuilderMRecViewController : ALBaseAdViewController
 {
     @IBOutlet weak var adView: ALAdView!
     @IBOutlet weak var loadButton: UIBarButtonItem!
@@ -47,7 +47,7 @@ class ALDemoInterfaceBuilderMrecViewController : ALBaseAdViewController
     }
 }
 
-extension ALDemoInterfaceBuilderMrecViewController : ALAdLoadDelegate
+extension ALDemoInterfaceBuilderMRecViewController : ALAdLoadDelegate
 {
     func adService(_ adService: ALAdService, didLoad ad: ALAd)
     {
@@ -63,7 +63,7 @@ extension ALDemoInterfaceBuilderMrecViewController : ALAdLoadDelegate
     }
 }
 
-extension ALDemoInterfaceBuilderMrecViewController : ALAdDisplayDelegate
+extension ALDemoInterfaceBuilderMRecViewController : ALAdDisplayDelegate
 {
     func ad(_ ad: ALAd, wasDisplayedIn view: UIView)
     {
@@ -83,7 +83,7 @@ extension ALDemoInterfaceBuilderMrecViewController : ALAdDisplayDelegate
     }
 }
 
-extension ALDemoInterfaceBuilderMrecViewController : ALAdViewEventDelegate
+extension ALDemoInterfaceBuilderMRecViewController : ALAdViewEventDelegate
 {
     func ad(_ ad: ALAd, didPresentFullscreenFor adView: ALAdView)
     {
