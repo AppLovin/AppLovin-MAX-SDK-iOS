@@ -1,5 +1,5 @@
 //
-//  ALDemoInterfaceBuilderMrecViewController.h
+//  ALDemoInterfaceBuilderMRecViewController.h
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Nana Amoah on 11/22/21.
@@ -8,6 +8,6 @@
 
 #import "ALBaseAdViewController.h"
 
-@interface ALDemoInterfaceBuilderMrecViewController : ALBaseAdViewController
+@interface ALDemoInterfaceBuilderMRecViewController : ALBaseAdViewController
 
 @end

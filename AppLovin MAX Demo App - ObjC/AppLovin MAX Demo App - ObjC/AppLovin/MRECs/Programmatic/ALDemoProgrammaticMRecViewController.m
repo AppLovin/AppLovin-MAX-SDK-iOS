@@ -1,21 +1,21 @@
 //
-//  ALDemoProgrammaticMrecViewController.m
+//  ALDemoProgrammaticMRecViewController.m
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Nana Amoah on 11/18/21.
 //  Copyright © 2021 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALDemoProgrammaticMrecViewController.h"
+#import "ALDemoProgrammaticMRecViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALDemoProgrammaticMrecViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+@interface ALDemoProgrammaticMRecViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 @property (nonatomic, strong) ALAdView *adView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *loadButton;
 
 @end
 
-@implementation ALDemoProgrammaticMrecViewController
+@implementation ALDemoProgrammaticMRecViewController
 
 #pragma mark - View Lifecycle
 
@@ -23,7 +23,7 @@
 {
     [super viewDidLoad];
     
-    // Create the MREC view
+    // Create the MRec view
     self.adView = [[ALAdView alloc] initWithSize: ALAdSize.mrec];
     
     // Optional: Implement the ad delegates to receive ad events.
@@ -35,7 +35,7 @@
     // Call loadNextAd() to start showing ads
     [self.adView loadNextAd];
     
-    // Center the MREC and anchor it to the top of the screen.
+    // Center the MRec and anchor it to the top of the screen.
     [self.view addSubview: self.adView];
     
     [[self.adView.centerXAnchor constraintEqualToAnchor: self.view.centerXAnchor] setActive: YES];

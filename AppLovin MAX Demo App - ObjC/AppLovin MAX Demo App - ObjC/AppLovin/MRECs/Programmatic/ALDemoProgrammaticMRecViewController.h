@@ -1,5 +1,5 @@
 //
-//  ALDemoProgrammaticMrecViewController.h
+//  ALDemoProgrammaticMRecViewController.h
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Nana Amoah on 11/18/21.
@@ -8,6 +8,6 @@
 
 #import "ALBaseAdViewController.h"
 
-@interface ALDemoProgrammaticMrecViewController : ALBaseAdViewController
+@interface ALDemoProgrammaticMRecViewController : ALBaseAdViewController
 
 @end

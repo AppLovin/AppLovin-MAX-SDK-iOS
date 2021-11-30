@@ -1,20 +1,20 @@
 //
-//  ALDemoInterfaceBuilderMrecViewController.m
+//  ALDemoInterfaceBuilderMRecViewController.m
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Nana Amoah on 11/22/21.
 //  Copyright © 2021 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALDemoInterfaceBuilderMrecViewController.h"
+#import "ALDemoInterfaceBuilderMRecViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALDemoInterfaceBuilderMrecViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+@interface ALDemoInterfaceBuilderMRecViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 @property (nonatomic, weak) IBOutlet ALAdView *adView;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *loadButton;
 @end
 
-@implementation ALDemoInterfaceBuilderMrecViewController
+@implementation ALDemoInterfaceBuilderMRecViewController
 
 #pragma mark - View Lifecycle
 
@@ -22,10 +22,10 @@
 {
     [super viewDidLoad];
     
-    // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MREC ad view
+    // NOTE: Must set Storyboard "User Defined Runtime Attributes" for MRec ad view
     // Key Path = size
     // Type     = String
-    // Value    = mrec
+    // Value    = MRec
     
     self.adView.adLoadDelegate = self;
     self.adView.adDisplayDelegate = self;
