@@ -21,6 +21,16 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
         ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
         ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
+            
+            // initialize Adjust SDK
+            let yourAppToken = "{YourAppToken}"
+            let environment = ADJEnvironmentSandbox
+            let adjustConfig = ADJConfig(
+                appToken: yourAppToken,
+                environment: environment)
+
+            adjustConfig?.logLevel = ADJLogLevelVerbose
+            Adjust.appDidLaunch(adjustConfig)
         })
         
         let barTintColor = UIColor.init(red: 10/255.0, green: 131/255.0, blue: 170/255.0, alpha: 1.0)
