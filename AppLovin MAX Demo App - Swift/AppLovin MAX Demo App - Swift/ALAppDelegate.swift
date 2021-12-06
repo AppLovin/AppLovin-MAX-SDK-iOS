@@ -23,9 +23,8 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
         ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             
-            // initialize Adjust SDK
+            // Initialize Adjust SDK
             let adjustConfig = ADJConfig(appToken: "{YourAppToken}", environment: ADJEnvironmentSandbox)
-
             Adjust.appDidLaunch(adjustConfig)
         })
         
