@@ -21,10 +21,9 @@
     [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
         // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         
-        // initialize Adjust SDK
+        // Initialize Adjust SDK
         ADJConfig *adjustConfig = [ADJConfig configWithAppToken: @"{YourAppToken}" environment: ADJEnvironmentSandbox];
         
-        [adjustConfig setLogLevel: ADJLogLevelVerbose];
         [Adjust appDidLaunch: adjustConfig];
     }];
     

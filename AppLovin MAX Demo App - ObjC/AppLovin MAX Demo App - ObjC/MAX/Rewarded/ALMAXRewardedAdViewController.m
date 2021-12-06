@@ -119,7 +119,7 @@
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: ADJAdRevenueSourceAppLovinMAX];
 
-    [adjustAdRevenue setRevenue: ad.revenue currency:@"USD"];
+    [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];
     [adjustAdRevenue setAdRevenueNetwork: ad.networkName];
     [adjustAdRevenue setAdRevenueUnit: ad.adUnitIdentifier];
     [adjustAdRevenue setAdRevenuePlacement: ad.placement];
