@@ -23,7 +23,6 @@
         
         // Initialize Adjust SDK
         ADJConfig *adjustConfig = [ADJConfig configWithAppToken: @"{YourAppToken}" environment: ADJEnvironmentSandbox];
-        
         [Adjust appDidLaunch: adjustConfig];
     }];
     
