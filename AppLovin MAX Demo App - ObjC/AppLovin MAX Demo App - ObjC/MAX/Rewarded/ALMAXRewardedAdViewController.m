@@ -7,7 +7,7 @@
 //
 
 #import "ALMAXRewardedAdViewController.h"
-#import "Adjust.h"
+#import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXRewardedAdViewController()<MARewardedAdDelegate, MAAdRevenueDelegate>
@@ -117,14 +117,14 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource:ADJAdRevenueSourceAppLovinMAX];
+    ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: ADJAdRevenueSourceAppLovinMAX];
 
-    [adjustAdRevenue setRevenue:ad.revenue currency:@"USD"];
-    [adjustAdRevenue setAdRevenueNetwork:ad.networkName];
-    [adjustAdRevenue setAdRevenueUnit:ad.adUnitIdentifier];
-    [adjustAdRevenue setAdRevenuePlacement:ad.placement];
+    [adjustAdRevenue setRevenue: ad.revenue currency:@"USD"];
+    [adjustAdRevenue setAdRevenueNetwork: ad.networkName];
+    [adjustAdRevenue setAdRevenueUnit: ad.adUnitIdentifier];
+    [adjustAdRevenue setAdRevenuePlacement: ad.placement];
         
-    [Adjust trackAdRevenue:adjustAdRevenue];
+    [Adjust trackAdRevenue: adjustAdRevenue];
 }
 
 @end

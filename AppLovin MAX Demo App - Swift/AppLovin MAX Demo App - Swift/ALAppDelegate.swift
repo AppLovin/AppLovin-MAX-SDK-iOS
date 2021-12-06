@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Adjust
 import AppLovinSDK
 
 class ALAppDelegate: UIResponder, UIApplicationDelegate
@@ -23,11 +24,9 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             
             // initialize Adjust SDK
-            let yourAppToken = "{YourAppToken}"
-            let environment = ADJEnvironmentSandbox
             let adjustConfig = ADJConfig(
-                appToken: yourAppToken,
-                environment: environment)
+                appToken: "{YourAppToken}",
+                environment: ADJEnvironmentSandbox)
 
             adjustConfig?.logLevel = ADJLogLevelVerbose
             Adjust.appDidLaunch(adjustConfig)

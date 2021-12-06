@@ -86,7 +86,8 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
     
     // MARK: MAAdRevenueDelegate Protocol
     
-    func didPayRevenue(for ad: MAAd) {
+    func didPayRevenue(for ad: MAAd)
+    {
         logCallback()
         
         let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)
@@ -96,7 +97,8 @@ class ALMAXInterstitialAdViewController: ALBaseAdViewController, MAAdViewAdDeleg
         adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
         adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
         adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
-        if let placement = ad.placement {
+        if let placement = ad.placement
+        {
             adjustAdRevenue.setAdRevenuePlacement(placement)
         }
             
