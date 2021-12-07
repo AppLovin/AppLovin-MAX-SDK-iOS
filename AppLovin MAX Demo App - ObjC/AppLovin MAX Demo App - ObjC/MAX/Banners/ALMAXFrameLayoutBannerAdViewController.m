@@ -9,7 +9,7 @@
 #import "ALMAXFrameLayoutBannerAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXFrameLayoutBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXFrameLayoutBannerAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
@@ -24,6 +24,7 @@
     self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
     
     self.adView.delegate = self;
+    self.adView.revenueDelegate = self;
     
     // Calculate dimensions
     CGFloat width = CGRectGetWidth(self.view.bounds); // Stretch to the width of the screen for banners to be fully functional
@@ -82,6 +83,13 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+#pragma mark - MAAdRevenueDelegate Protocol
+
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

@@ -9,7 +9,7 @@
 #import "ALMAXInterfaceBuilderBannerAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXInterfaceBuilderBannerAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXInterfaceBuilderBannerAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) IBOutlet MAAdView *adView;
 @end
 
@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // NOTE: Must set Storyboard "User Defined Runtime Attributes" for banner ad view
     // Key Path = ad_unit_id
     // Type     = String
@@ -70,6 +70,13 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+#pragma mark - MAAdRevenueDelegate Protocol
+
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

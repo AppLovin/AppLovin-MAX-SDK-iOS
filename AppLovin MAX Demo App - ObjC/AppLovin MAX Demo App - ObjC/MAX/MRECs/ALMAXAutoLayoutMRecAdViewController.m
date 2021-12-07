@@ -9,7 +9,7 @@
 #import "ALMAXAutoLayoutMRecAdViewController.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXAutoLayoutMRecAdViewController()<MAAdViewAdDelegate>
+@interface ALMAXAutoLayoutMRecAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) MAAdView *adView;
 @end
 
@@ -24,6 +24,7 @@
     self.adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
     
     self.adView.delegate = self;
+    self.adView.revenueDelegate = self;
     
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
 
@@ -83,6 +84,13 @@
 }
 
 - (void)didCollapseAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+#pragma mark - MAAdRevenueDelegate Protocol
+
+- (void)didPayRevenueForAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

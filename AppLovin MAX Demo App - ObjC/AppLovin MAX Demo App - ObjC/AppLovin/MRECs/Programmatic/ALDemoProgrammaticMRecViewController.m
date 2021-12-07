@@ -12,7 +12,6 @@
 @interface ALDemoProgrammaticMRecViewController()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 @property (nonatomic, strong) ALAdView *adView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *loadButton;
-
 @end
 
 @implementation ALDemoProgrammaticMRecViewController
