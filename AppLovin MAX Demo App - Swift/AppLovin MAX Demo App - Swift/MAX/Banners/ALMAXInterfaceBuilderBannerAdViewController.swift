@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Adjust
 import AppLovinSDK
 
 class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
@@ -50,5 +51,22 @@ class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdV
     
     // MARK: MAAdRevenueDelegate Protocol
     
-    func didPayRevenue(for ad: MAAd) { logCallback() }
+    func didPayRevenue(for ad: MAAd)
+    {
+        logCallback()
+        
+        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)
+        
+        guard let adjustAdRevenue = adjustAdRevenue else { return }
+        
+        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
+        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
+        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
+        if let placement = ad.placement
+        {
+            adjustAdRevenue.setAdRevenuePlacement(placement)
+        }
+            
+        Adjust.trackAdRevenue(adjustAdRevenue)
+    }
 }
