@@ -101,7 +101,6 @@
     [self logCallback: __PRETTY_FUNCTION__];
     
     ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: ADJAdRevenueSourceAppLovinMAX];
-
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];
     [adjustAdRevenue setAdRevenueNetwork: ad.networkName];
     [adjustAdRevenue setAdRevenueUnit: ad.adUnitIdentifier];
