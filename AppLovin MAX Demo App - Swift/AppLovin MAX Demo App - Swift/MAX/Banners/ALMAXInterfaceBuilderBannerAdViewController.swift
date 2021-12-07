@@ -55,10 +55,7 @@ class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdV
     {
         logCallback()
         
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)
-        
-        guard let adjustAdRevenue = adjustAdRevenue else { return }
-        
+        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
         adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
         adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
         adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
