@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // NOTE: Must set Storyboard "User Defined Runtime Attributes" for banner ad view
     // Key Path = ad_unit_id
     // Type     = String

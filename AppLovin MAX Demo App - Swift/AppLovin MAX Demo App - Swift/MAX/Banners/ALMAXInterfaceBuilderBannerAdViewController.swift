@@ -49,6 +49,6 @@ class ALMAXInterfaceBuilderBannerAdViewController: ALBaseAdViewController, MAAdV
     func didCollapse(_ ad: MAAd) { logCallback() }
     
     // MARK: MAAdRevenueDelegate Protocol
-       
+    
     func didPayRevenue(for ad: MAAd) { logCallback() }
 }

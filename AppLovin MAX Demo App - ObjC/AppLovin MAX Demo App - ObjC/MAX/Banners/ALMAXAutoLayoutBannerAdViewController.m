@@ -27,12 +27,12 @@
     self.adView.revenueDelegate = self;
     
     self.adView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+
     // Set background or background color for banners to be fully functional
     self.adView.backgroundColor = UIColor.blackColor;
-    
+
     [self.view addSubview: self.adView];
-    
+
     // Anchor the banner to the left, right, and top of the screen.
     [[self.adView.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor] setActive: YES];
     [[self.adView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor] setActive: YES];
