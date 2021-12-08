@@ -217,12 +217,12 @@
 		37B6CED3246E04D30068A6A4 /* MRECs */ = {
 			isa = PBXGroup;
 			children = (
-				37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */,
 				37B6CED6246E05330068A6A4 /* ALMAXAutoLayoutMRecAdViewController.h */,
-				37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */,
+				37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */,
 				37B6CED9246E05870068A6A4 /* ALMAXFrameLayoutMRecAdViewController.h */,
-				37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */,
+				37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */,
 				37B6CEDC246E062F0068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.h */,
+				37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */,
 			);
 			path = MRECs;
 			sourceTree = "<group>";
@@ -284,8 +284,8 @@
 		E56785EF23F3558500ACA6C1 /* Banners */ = {
 			isa = PBXGroup;
 			children = (
-				E56785F123F355BD00ACA6C1 /* Programmatic */,
 				E56785F023F355A800ACA6C1 /* Interface Builder */,
+				E56785F123F355BD00ACA6C1 /* Programmatic */,
 				E56785F223F355CD00ACA6C1 /* Zone Integration */,
 			);
 			path = Banners;
@@ -357,11 +357,11 @@
 		E57306F223EB91B400D972F4 /* AppLovin */ = {
 			isa = PBXGroup;
 			children = (
-				5BCB21D727471A0C007218B2 /* MRECs */,
 				E56785EF23F3558500ACA6C1 /* Banners */,
 				E56786FB23F4CAE700ACA6C1 /* Event Tracking */,
 				E573083A23EB975500D972F4 /* Interstitials */,
 				E56785FB23F35BCA00ACA6C1 /* Leaders */,
+				5BCB21D727471A0C007218B2 /* MRECs */,
 				E567854723F22E1E00ACA6C1 /* Rewarded */,
 			);
 			path = AppLovin;
