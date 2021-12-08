@@ -95,4 +95,5 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }
+
 @end

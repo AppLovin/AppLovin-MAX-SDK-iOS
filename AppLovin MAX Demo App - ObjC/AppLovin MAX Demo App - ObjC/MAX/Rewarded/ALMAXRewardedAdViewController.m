@@ -25,7 +25,7 @@
     self.rewardedAd = [MARewardedAd sharedWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID"];
     
     self.rewardedAd.delegate = self;
-    self.rewardedAd.delegate = self;
+    self.rewardedAd.revenueDelegate = self;
     
     // Load the first ad
     [self.rewardedAd loadAd];
