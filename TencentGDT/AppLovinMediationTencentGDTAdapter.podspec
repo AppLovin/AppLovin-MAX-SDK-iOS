@@ -14,7 +14,7 @@ s.license =
   :type => 'Commercial License',
   :text => <<-LICENSE
 
-Copyright 2019 AppLovin Corp. All rights reserved.
+Copyright 2022 AppLovin Corp. All rights reserved.
 
 The AppLovin MAX SDK is available under a commercial license (https://www.applovin.com/eula).
 
