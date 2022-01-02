@@ -9,14 +9,6 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#import "MAAdapterInitializationParameters.h"
-#import "NSString+ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSNumber+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "ALUtils.h"
-#import "MAAdFormat+Internal.h"
-
 #define ADAPTER_VERSION @"8.1.1.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
@@ -498,10 +490,13 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: inneractiveErrorCode
                thirdPartySdkErrorMessage: inneractiveError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 @end

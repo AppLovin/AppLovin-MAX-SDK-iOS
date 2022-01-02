@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 5.16.2.0
 * Certified with MoPub SDK 5.16.2.
 * Update podspec to use `pod_target_xcconfig` over the deprecated `xcconfig`.

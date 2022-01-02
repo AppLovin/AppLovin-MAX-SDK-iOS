@@ -16,10 +16,6 @@
     #import "MoPub.h" // For raw integrations
 #endif
 
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-
 #define ADAPTER_VERSION @"5.16.2.0"
 
 @interface ALMoPubMediationAdapterInterstitialAdDelegate : NSObject<MPInterstitialAdControllerDelegate>
@@ -425,10 +421,13 @@ static ALAtomicBoolean *ALMoPubInitialized;
         }
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: moPubError.code
                thirdPartySdkErrorMessage: moPubError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 @end

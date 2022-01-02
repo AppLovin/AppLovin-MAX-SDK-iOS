@@ -8,11 +8,6 @@
 
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
-#import "ALUtils.h"
-#import "MAAdFormat+Internal.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSNumber+ALUtils.h"
-#import "NSString+ALUtils.h"
 
 #define ADAPTER_VERSION @"10.0.1.1"
 
@@ -391,10 +386,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             break;
     }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: inMobiErrorCode
                thirdPartySdkErrorMessage: inMobiError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat

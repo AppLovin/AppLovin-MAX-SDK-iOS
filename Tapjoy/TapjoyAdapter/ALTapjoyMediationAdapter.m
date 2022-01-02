@@ -8,8 +8,6 @@
 
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
-#import "NSDictionary+ALUtils.h"
-#import "ALUtils.h"
 
 #define ADAPTER_VERSION @"12.8.1.0"
 
@@ -342,10 +340,13 @@
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: tapjoyErrorCode
                thirdPartySdkErrorMessage: tapjoyError.description];
+#pragma clang diagnostic pop
 }
 
 @end
@@ -422,11 +423,14 @@
 {
     [self.parentAdapter log: @"Interstitial failed with error message: %@", errorMessage];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.unspecified.errorCode
                                                      errorString: MAAdapterError.unspecified.errorMessage
                                           thirdPartySdkErrorCode: 0
                                        thirdPartySdkErrorMessage: errorMessage];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
+#pragma clang diagnostic pop
 }
 
 @end
@@ -514,11 +518,14 @@
 {
     [self.parentAdapter log: @"Rewarded failed with error message: %@", errorMessage];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.unspecified.errorCode
                                                      errorString: MAAdapterError.unspecified.errorMessage
                                           thirdPartySdkErrorCode: 0
                                        thirdPartySdkErrorMessage: errorMessage];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
+#pragma clang diagnostic pop
 }
 
 @end

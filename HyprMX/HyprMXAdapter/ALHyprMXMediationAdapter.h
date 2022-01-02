@@ -6,9 +6,7 @@
 //  Copyright © 2020 AppLovin. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
-#import "MAInterstitialAdapter.h"
-#import "MARewardedAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALHyprMXMediationAdapter : ALMediationAdapter<MASignalProvider, MAAdViewAdapter, MAInterstitialAdapter, MARewardedAdapter>
 

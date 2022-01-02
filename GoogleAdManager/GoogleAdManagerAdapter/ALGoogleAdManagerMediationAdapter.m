@@ -9,20 +9,6 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#import "ALSdk.h"
-#import "ALUtils.h"
-#import "ALAtomicBoolean.h"
-#import "ALTimeUnit.h"
-#import "MAAdapterInitializationParameters.h"
-#import "MAAdFormat+Internal.h"
-#import "MANativeAd.h"
-#import "MANativeAdView.h"
-#import "UIView+ALUtils.h"
-#import "NSDate+ALUtils.h"
-#import "NSNumber+ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-
 #define ADAPTER_VERSION @"8.13.0.2"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
@@ -506,10 +492,13 @@ static NSString *ALGoogleSDKVersion;
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: googleAdManagerErrorCode
                thirdPartySdkErrorMessage: googleAdManagerError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat withServerParameters:(NSDictionary<NSString *, id> *)serverParameters

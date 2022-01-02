@@ -2,11 +2,11 @@
 //  ALDataseatMediationAdapter.h
 //  AppLovinSDK
 //
-//  Created by xxx on xxx.
+//  Created by Ashley Kulasxa on 8/23/21.
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALDataseatMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter>
 

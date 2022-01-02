@@ -2,6 +2,7 @@
 
 ## x.x.x.x
 * Remove `ALMaioZoneIds` since it is unused.
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 1.5.8.0
 * Certified with Maio SDK 1.5.8.

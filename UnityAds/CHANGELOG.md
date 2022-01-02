@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 4.0.0.0
 * Certified with UnityAds SDK 4.0.0.
 * Update to use consolidated `initialize()` API.

@@ -3,7 +3,7 @@
 //  sdk
 //
 
-#import "ALMediationAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMintegralMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter, MASignalProvider>
 

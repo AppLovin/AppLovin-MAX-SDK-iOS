@@ -8,11 +8,6 @@
 
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "ALAtomicBoolean.h"
-#import "MAAdFormat+Internal.h"
 
 #define ADAPTER_VERSION @"4.7.2.0.0"
 
@@ -325,10 +320,13 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: adColonyErrorCode
                thirdPartySdkErrorMessage: adColonyError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (AdColonyAppOptions *)optionsFromParameters:(id<MAAdapterParameters >)parameters

@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 7.0.4.0.1
 * Properly destroy native ad.
 

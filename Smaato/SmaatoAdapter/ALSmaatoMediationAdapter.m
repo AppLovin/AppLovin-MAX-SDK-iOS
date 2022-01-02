@@ -7,20 +7,12 @@
 //
 
 #import "ALSmaatoMediationAdapter.h"
-#import "ALMediationAdapterRouter.h"
 #import <SmaatoSDKCore/SmaatoSDKCore.h>
 #import <SmaatoSDKBanner/SmaatoSDKBanner.h>
 #import <SmaatoSDKInterstitial/SmaatoSDKInterstitial.h>
 #import <SmaatoSDKRewardedAds/SmaatoSDKRewardedAds.h>
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
-
-#import "ALUtils.h"
-#import "MAAdFormat+Internal.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "MANativeAd.h"
-#import "MANativeAdView.h"
 
 #define ADAPTER_VERSION @"21.6.19.1"
 
@@ -439,11 +431,14 @@
             adapterError = MAAdapterError.invalidConfiguration;
             break;
     }
-    
+  
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: smaatoErrorCode
                thirdPartySdkErrorMessage: smaatoError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (nullable SMAAdRequestParams *)createBiddingAdRequestParamsFromBidResponse:(NSString *)bidResponse

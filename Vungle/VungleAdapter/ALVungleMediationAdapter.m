@@ -11,13 +11,6 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#import "MAAdapterInitializationParameters.h"
-#import "ALMediationAdapterRouter.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "ALUtils.h"
-#import "MAAdFormat+Internal.h"
-
 #define ADAPTER_VERSION @"6.10.5.1"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
@@ -596,10 +589,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: vungleErrorCode
                thirdPartySdkErrorMessage: vungleError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 #pragma mark - Dynamic Properties

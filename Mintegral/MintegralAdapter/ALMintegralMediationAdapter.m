@@ -14,15 +14,6 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#import "ALSdk.h"
-#import "ALUtils.h"
-#import "MAAdapterError.h"
-#import "MAAdapterInitializationParameters.h"
-#import "MANativeAd.h"
-#import "MANativeAdView.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-
 #define ADAPTER_VERSION @"7.0.4.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
@@ -492,10 +483,13 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: mintegralErrorCode
                thirdPartySdkErrorMessage: mintegralError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (MTGBannerSizeType)sizeTypeFromAdFormat:(MAAdFormat *)adFormat

@@ -8,11 +8,6 @@
 
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "MAAdFormat+Internal.h"
-#import "MANativeAdView.h"
 
 #define ADAPTER_VERSION @"5.14.4.2"
 
@@ -312,10 +307,13 @@
 
 + (MAAdapterError *)toMaxError:(NSString *)reason
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: MAAdapterError.noFill.errorCode
                              errorString: MAAdapterError.noFill.errorMessage
                   thirdPartySdkErrorCode: 0
                thirdPartySdkErrorMessage: reason];
+#pragma clang diagnostic pop
 }
 
 @end

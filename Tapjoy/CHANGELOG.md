@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 12.8.1.0
 * Certified with Tapjoy SDK 12.8.1.
 * Update podspec to use `pod_target_xcconfig` over the deprecated `xcconfig`.

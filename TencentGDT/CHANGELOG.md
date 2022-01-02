@@ -2,6 +2,7 @@
 
 ## x.x.x.x.x
 * Update podspec to use `pod_target_xcconfig` over the deprecated `xcconfig`.
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 4.12.4.2
 * Added support for `videoMuted` property for fullscreen ads.

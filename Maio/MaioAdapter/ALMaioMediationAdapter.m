@@ -7,13 +7,8 @@
 //
 
 #import "ALMaioMediationAdapter.h"
-#import "ALAtomicBoolean.h"
-#import "ALMediationAdapterRouter.h"
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
-#import "ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "NSDictionary+ALUtils.h"
 
 #define ADAPTER_VERSION @"1.5.8.0"
 
@@ -355,10 +350,13 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: maioErrorCode
                thirdPartySdkErrorMessage: @""];
+#pragma clang diagnostic pop
 }
 
 - (NSString *)reasonToString:(MaioFailReason)reason

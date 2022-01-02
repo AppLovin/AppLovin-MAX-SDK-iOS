@@ -6,8 +6,7 @@
 //  Copyright © 2018 AppLovin. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
-#import "MANativeAdAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALByteDanceMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
