@@ -9,11 +9,6 @@
 #import "ALChartboostMediationAdapter.h"
 #import <Chartboost/Chartboost.h>
 #import <Chartboost/Chartboost+Mediation.h>
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "ALAtomicBoolean.h"
-#import "MAAdFormat+Internal.h"
 
 #define ADAPTER_VERSION @"8.5.0.2"
 
@@ -314,10 +309,13 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: chartBoostCacheErrorCode
                thirdPartySdkErrorMessage: chartBoostCacheError.description];
+#pragma clang diagnostic pop
     
 }
 
@@ -345,10 +343,13 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: chartBoostShowErrorCode
                thirdPartySdkErrorMessage: chartBoostShowError.description];
+#pragma clang diagnostic pop
 }
 
 - (CHBBannerSize)sizeFromAdFormat:(MAAdFormat *)adFormat

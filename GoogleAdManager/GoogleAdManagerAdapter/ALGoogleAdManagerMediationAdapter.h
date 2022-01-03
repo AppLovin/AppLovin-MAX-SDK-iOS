@@ -6,11 +6,7 @@
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
-#import "MAInterstitialAdapter.h"
-#import "MARewardedAdapter.h"
-#import "MAAdViewAdapter.h"
-#import "MANativeAdAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>

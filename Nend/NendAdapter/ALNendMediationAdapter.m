@@ -9,11 +9,9 @@
 #import "ALNendMediationAdapter.h"
 #import <NendAd/NendAd.h>
 #import <NendAd/NADLogger.h>
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
 
 #define ADAPTER_VERSION @"7.1.0.0"
+#define NSSTRING(_X) ( (_X != NULL) ? [NSString stringWithCString: _X encoding: NSStringEncodingConversionAllowLossy] : nil)
 
 @interface ALNendMediationAdapterInterstitialAdDelegate : NSObject<NADInterstitialVideoDelegate>
 @property (nonatomic,   weak) ALNendMediationAdapter *parentAdapter;
@@ -241,10 +239,13 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
             break;
     }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: nendErrorCode
                thirdPartySdkErrorMessage: nendError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 /**
@@ -267,10 +268,13 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: nendErrorCode
                thirdPartySdkErrorMessage: nendError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 + (CGRect)adViewFrameForAdFormat:(MAAdFormat *)adFormat

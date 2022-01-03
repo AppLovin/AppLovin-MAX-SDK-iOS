@@ -9,16 +9,6 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#import "ALSdk.h"
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "ALAtomicBoolean.h"
-#import "MAAdFormat+Internal.h"
-#import "MANativeAd.h"
-#import "MANativeAdView.h"
-#import "UIView+ALUtils.h"
-
 #define ADAPTER_VERSION @"6.9.0.2"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
@@ -477,10 +467,13 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: facebookErrorCode
                thirdPartySdkErrorMessage: facebookError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 @end

@@ -11,10 +11,6 @@
 #import "GDTUnifiedBannerView.h"
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "NSDate+ALUtils.h"
 
 #define ADAPTER_VERSION @"4.12.4.2"
 
@@ -268,10 +264,13 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: tencentErrorCode
                thirdPartySdkErrorMessage: tencentGDTError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 @end

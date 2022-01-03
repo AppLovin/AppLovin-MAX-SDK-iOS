@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 8.1.1.0
 * Certified with Fyber SDK 8.1.1.
 

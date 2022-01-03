@@ -7,11 +7,6 @@
 //
 
 #import "ALHyprMXMediationAdapter.h"
-#import "ALUtils.h"
-#import "MAAdFormat+Internal.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "ALAtomicBoolean.h"
 #import <HyprMX/HyprMX.h>
 
 #define ADAPTER_VERSION @"6.0.1.0"
@@ -309,10 +304,13 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: hyprMXErrorCode
                thirdPartySdkErrorMessage: hyprMXMessage];
+#pragma clang diagnostic pop
 }
 
 @end

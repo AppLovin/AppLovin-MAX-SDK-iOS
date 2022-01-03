@@ -10,11 +10,6 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "MAAdFormat+Internal.h"
-
 #define ADAPTER_VERSION @"2.5.1.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryAdsInterstitialDelegate>
@@ -294,10 +289,13 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: oguryError
                thirdPartySdkErrorMessage: thirdPartySdkErrorMessage];
+#pragma clang diagnostic pop
 }
 
 + (OguryAdsBannerSize *)sizeFromAdFormat:(MAAdFormat *)adFormat

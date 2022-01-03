@@ -7,13 +7,9 @@
 //
 
 #import "ALVerveMediationAdapter.h"
-#import "ALMediationAdapterRouter.h"
 #import <HyBid.h>
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "MAAdFormat+Internal.h"
 
-#define ADAPTER_VERSION @"2.5.2.0"
+#define ADAPTER_VERSION @"2.9.1.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject<HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -324,10 +320,14 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
             adapterError = MAAdapterError.internalError;
             break;
     }
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: verveErrorCode
                thirdPartySdkErrorMessage: verveError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 @end

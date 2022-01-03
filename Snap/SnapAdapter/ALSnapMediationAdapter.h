@@ -5,7 +5,7 @@
 //  Copyright © 2020 AppLovin. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALSnapMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter>
 

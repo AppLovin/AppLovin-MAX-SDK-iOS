@@ -6,10 +6,7 @@
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
-#import "MAInterstitialAdapter.h"
-#import "MARewardedAdapter.h"
-#import "MAAdViewAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALUnityAdsMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter>
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 2.5.1.0
 * Certified with OguryPresage SDK 2.5.1.
 

@@ -6,10 +6,7 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-#import <Maio/Maio.h>
-#import "ALMediationAdapter.h"
-#import "MAInterstitialAdapter.h"
-#import "MARewardedAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

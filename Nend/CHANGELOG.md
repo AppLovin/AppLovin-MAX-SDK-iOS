@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 7.1.0.0
 * Certified with Nend SDK 7.1.0.
 

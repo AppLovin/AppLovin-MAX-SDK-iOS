@@ -10,16 +10,6 @@
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
 #import <VerizonAdsInlinePlacement/VerizonAdsInlinePlacement.h>
 
-#import "ALSdk.h"
-#import "ALUtils.h"
-#import "MAAdapterInitializationParameters.h"
-#import "MAAdFormat+Internal.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "NSNumber+ALUtils.h"
-#import "NSDate+ALUtils.h"
-#import "ALTimeUnit.h"
-
 #define ADAPTER_VERSION @"1.14.2.0"
 
 /**
@@ -408,10 +398,13 @@ static NSString *const kMAVideoCompleteEventId = @"onVideoComplete";
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: verizonErrorCode
                thirdPartySdkErrorMessage: verizonAdsError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (VASInlineAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat

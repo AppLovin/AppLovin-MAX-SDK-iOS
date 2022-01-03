@@ -8,11 +8,6 @@
 #import "ALSnapMediationAdapter.h"
 #import <SAKSDK/SAKSDK.h>
 
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "MAAdFormat+Internal.h"
-
 #define ADAPTER_VERSION @"2.0.0.0"
 
 @interface ALSnapMediationAdapterInterstitialAdDelegate : NSObject<SAKInterstitialDelegate>
@@ -305,10 +300,13 @@ static MAAdapterInitializationStatus ALSnapSDKInitializationStatus = NSIntegerMi
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: snapErrorCode
                thirdPartySdkErrorMessage: snapError.description];
+#pragma clang diagnostic pop
 }
 
 - (SAKAdViewFormat)adSizeForAdFormat:(MAAdFormat *)adFormat

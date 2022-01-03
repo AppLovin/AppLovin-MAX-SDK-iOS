@@ -8,13 +8,6 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "MAAdFormat+Internal.h"
-#import "MANativeAd.h"
-#import "MANativeAdView.h"
-
 #define ADAPTER_VERSION @"2.4.20211004.2"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
@@ -336,10 +329,13 @@ static ALAtomicBoolean *ALLineInitialized;
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: lineAdsErrorCode
                thirdPartySdkErrorMessage: thirdPartySdkErrorMessage];
+#pragma clang diagnostic pop
 }
 
 - (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters

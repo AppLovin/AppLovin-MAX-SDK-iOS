@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 2.0.0.0
 * Fix initialization status bug.
 * Certified with Snap SDK 2.0.0.

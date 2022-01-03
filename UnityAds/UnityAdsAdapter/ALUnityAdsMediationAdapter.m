@@ -9,11 +9,6 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#import "ALSdk.h"
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-
 #define ADAPTER_VERSION @"4.0.0.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
@@ -292,10 +287,13 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: unityAdsBannerErrorCode
                thirdPartySdkErrorMessage: @""];
+#pragma clang diagnostic pop
 }
 
 + (MAAdapterError *)toMaxErrorWithLoadError:(UnityAdsLoadError)unityAdsLoadError withMessage:(NSString *)message
@@ -320,10 +318,13 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: unityAdsLoadError
                thirdPartySdkErrorMessage: message];
+#pragma clang diagnostic pop
 }
 
 + (MAAdapterError *)toMaxErrorWithShowError:(UnityAdsShowError)unityAdsShowError withMessage:(NSString *)message
@@ -354,10 +355,13 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: unityAdsShowError
                thirdPartySdkErrorMessage: message];
+#pragma clang diagnostic pop
 }
 
 #pragma mark - GDPR

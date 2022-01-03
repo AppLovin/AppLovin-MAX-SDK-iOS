@@ -6,7 +6,7 @@
 //  Copyright © 2018 AppLovin. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

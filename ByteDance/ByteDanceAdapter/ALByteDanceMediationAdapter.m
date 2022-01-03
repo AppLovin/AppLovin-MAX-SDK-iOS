@@ -8,12 +8,6 @@
 
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
-#import "MAAdFormat+Internal.h"
-#import "MANativeAd.h"
-#import "MANativeAdView.h"
 
 #define ADAPTER_VERSION @"4.2.0.2.2"
 
@@ -534,10 +528,13 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: byteDanceErrorCode
                thirdPartySdkErrorMessage: byteDanceError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 @end

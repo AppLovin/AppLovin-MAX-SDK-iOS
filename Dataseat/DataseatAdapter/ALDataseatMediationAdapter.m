@@ -9,10 +9,6 @@
 #import "ALDataseatMediationAdapter.h"
 #import <DataseatSDK/Dataseat.h>
 #import <DataseatSDK/DSErrorCode.h>
-#import "ALMediationAdapterRouter.h"
-#import "ALUtils.h"
-#import "NSDictionary+ALUtils.h"
-#import "MAAdFormat+Internal.h"
 
 #define ADAPTER_VERSION @"1.0.5.1"
 
@@ -190,7 +186,7 @@
     
     // If the Dataseat SDK is not fully initialized, it returns an NSError object that will crash the app if we call `description` or `localizedDescription` on it. This will hopefully be fixed in a future SDK release.
     return [MAAdapterError errorWithCode: adapterError.code
-                             errorString: adapterError.errorMessage
+                             errorString: adapterError.message
                   thirdPartySdkErrorCode: dataseatErrorCode
                thirdPartySdkErrorMessage: @""];
 }

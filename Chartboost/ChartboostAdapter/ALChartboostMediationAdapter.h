@@ -6,9 +6,7 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
-#import "MAInterstitialAdapter.h"
-#import "MARewardedAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALChartboostMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter>
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## x.x.x.x
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 2.4.20211004.2
 * Fix icon view never getting registered for interaction.
 

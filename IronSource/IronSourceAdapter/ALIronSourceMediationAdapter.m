@@ -1,10 +1,12 @@
+//
+//  ALIronSourceMediationAdapter.m
+//  AppLovinSDK
+//
+//  Copyright © 2022 AppLovin Corporation. All rights reserved.
+//
+
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
-
-#import "ALUtils.h"
-#import "ALMediationAdapterRouter.h"
-#import "NSDictionary+ALUtils.h"
-#import "NSString+ALUtils.h"
 
 #define ADAPTER_VERSION @"7.1.13.0.0"
 
@@ -423,10 +425,13 @@
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: ironSourceErrorCode
                thirdPartySdkErrorMessage: ironSourceError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 #pragma mark - ironSource Log Delegate

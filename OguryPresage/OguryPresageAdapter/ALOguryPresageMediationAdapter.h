@@ -6,9 +6,7 @@
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMediationAdapter.h"
-#import "MAInterstitialAdapter.h"
-#import "MARewardedAdapter.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALOguryPresageMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter>
 
