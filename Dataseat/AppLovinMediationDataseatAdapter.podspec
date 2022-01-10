@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationDataseatAdapter'
-s.version = '1.0.5.1'
+s.version = '1.0.9.0'
 s.platform = :ios, '11.0'
 s.summary = 'Dataseat adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationDataseatAdapter&s=indexed'
@@ -23,13 +23,13 @@ LICENSE
 
 s.source = 
 {
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/dataseat-adapter/AppLovinMediationDataseatAdapter-1.0.5.1.zip',
+  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/dataseat-adapter/AppLovinMediationDataseatAdapter-1.0.9.0.zip',
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationDataseatAdapter-1.0.5.1/AppLovinMediationDataseatAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationDataseatAdapter-1.0.9.0/AppLovinMediationDataseatAdapter.framework'
 
-s.dependency 'DataseatSDK', '= 1.0.5'
+s.dependency 'DataseatSDK', '= 1.0.9'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =

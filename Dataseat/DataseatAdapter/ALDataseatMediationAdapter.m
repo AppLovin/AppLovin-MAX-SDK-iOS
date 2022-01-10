@@ -10,7 +10,7 @@
 #import <DataseatSDK/Dataseat.h>
 #import <DataseatSDK/DSErrorCode.h>
 
-#define ADAPTER_VERSION @"1.0.5.1"
+#define ADAPTER_VERSION @"1.0.9.0"
 
 @interface ALDataseatMediationAdapterRouter : ALMediationAdapterRouter<DSSDKDelegate>
 @end
