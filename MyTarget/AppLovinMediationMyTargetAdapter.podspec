@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationMyTargetAdapter'
-s.version = '5.14.4.2'
+s.version = '5.14.4.3'
 s.platform = :ios, '9.0'
 s.summary = 'MyTarget adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationMyTargetAdapter&s=indexed'
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 {
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/mytarget-adapter/AppLovinMediationMyTargetAdapter-5.14.4.2.zip',
+  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/mytarget-adapter/AppLovinMediationMyTargetAdapter-5.14.4.3.zip',
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationMyTargetAdapter-5.14.4.2/AppLovinMediationMyTargetAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationMyTargetAdapter-5.14.4.3/AppLovinMediationMyTargetAdapter.framework'
 
 s.dependency 'myTargetSDK', '= 5.14.4'
 s.dependency 'AppLovinSDK'

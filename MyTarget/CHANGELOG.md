@@ -1,7 +1,8 @@
 # Changelog
 
-## x.x.x.x
+## 5.14.4.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Add SDK initialization code : `initSdk()`.
 
 ## 5.14.4.2
 * Properly destroy native ad.

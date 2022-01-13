@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.14.4.2"
+#define ADAPTER_VERSION @"5.14.4.3"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -74,12 +74,17 @@
 
 - (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void(^)(MAAdapterInitializationStatus initializationStatus, NSString *_Nullable errorMessage))completionHandler
 {
-    if ( [parameters isTesting] )
-    {
-        [MTRGManager setDebugMode: YES];
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if ( [parameters isTesting] )
+        {
+            [MTRGManager setDebugMode: YES];
+        }
+        
+        [self log: @"Initializing myTarget SDK..."];
+        [MTRGManager initSdk];
+    });
     
-    // myTarget SDK does not have any API for initialization.
     completionHandler( MAAdapterInitializationStatusDoesNotApply, nil );
 }
 
