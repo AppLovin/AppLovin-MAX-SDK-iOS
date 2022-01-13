@@ -1,6 +1,7 @@
 # Changelog
 
-## x.x.x.x
+## 12.9.0.0
+* Certified with Tapjoy SDK 12.9.0.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 12.8.1.0
