@@ -1,6 +1,7 @@
 # Changelog
 
-## x.x.x.x
+## 4.2.0.4.0
+* Certified with ByteDance SDK 4.2.0.4.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 4.2.0.2.2

@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationByteDanceAdapter'
-s.version = '4.2.0.2.2'
+s.version = '4.2.0.4.0'
 s.platform = :ios, '10.0'
 s.summary = 'ByteDance adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationByteDanceAdapter&s=indexed'
@@ -23,14 +23,14 @@ LICENSE
 
 s.source = 
 { 
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/bytedance-adapter/AppLovinMediationByteDanceAdapter-4.2.0.2.2.zip',
+  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/bytedance-adapter/AppLovinMediationByteDanceAdapter-4.2.0.4.0.zip',
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationByteDanceAdapter-4.2.0.2.2/AppLovinMediationByteDanceAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationByteDanceAdapter-4.2.0.4.0/AppLovinMediationByteDanceAdapter.framework'
 
-s.dependency 'Ads-Global/BUAdSDK', '= 4.2.0.2'
-s.dependency 'Ads-Global/Domestic', '= 4.2.0.2'
+s.dependency 'Ads-Global/BUAdSDK', '= 4.2.0.4'
+s.dependency 'Ads-Global/Domestic', '= 4.2.0.4'
 s.dependency 'AppLovinSDK'
 s.libraries = 'c++abi'
 
