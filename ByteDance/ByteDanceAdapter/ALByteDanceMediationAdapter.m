@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.0.4.0"
+#define ADAPTER_VERSION @"4.2.0.4.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -747,12 +747,12 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)nativeExpressBannerAdViewWillBecomVisible:(BUNativeExpressBannerView *)bannerAdView
 {
     [self.parentAdapter log: @"AdView will show"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)nativeExpressBannerAdViewRenderSuccess:(BUNativeExpressBannerView *)bannerAdView
 {
     [self.parentAdapter log: @"AdView shown successfully"];
-    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)nativeExpressBannerAdViewRenderFail:(BUNativeExpressBannerView *)bannerAdView error:(nullable NSError *)error

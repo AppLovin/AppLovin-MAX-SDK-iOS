@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.0.4.1
+* Moved impression callback to `-[BUNativeExpressBannerViewDelegate nativeExpressBannerAdViewWillBecomVisible]`.
+
 ## 4.2.0.4.0
 * Certified with ByteDance SDK 4.2.0.4.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
