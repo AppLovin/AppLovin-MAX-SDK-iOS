@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.3"
+#define ADAPTER_VERSION @"8.13.0.5"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -464,13 +464,16 @@ static NSString *ALGoogleSDKVersion;
                                                                                                               adFormat: adFormat
                                                                                                       serverParameters: parameters.serverParameters
                                                                                                              andNotify: delegate];
-        self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
-                                                 rootViewController: [ALUtils topViewControllerFromKeyWindow]
-                                                            adTypes: @[GADAdLoaderAdTypeNative]
-                                                            options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
-        self.nativeAdLoader.delegate = self.nativeAdViewAdapterDelegate;
-        
-        [self.nativeAdLoader loadRequest: request];
+        // Fetching the top view controller needs to be on the main queue
+        dispatchOnMainQueue(^{
+            self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
+                                                     rootViewController: [ALUtils topViewControllerFromKeyWindow]
+                                                                adTypes: @[GADAdLoaderAdTypeNative]
+                                                                options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
+            self.nativeAdLoader.delegate = self.nativeAdViewAdapterDelegate;
+            
+            [self.nativeAdLoader loadRequest: request];
+        });
     }
     else
     {
@@ -511,13 +514,17 @@ static NSString *ALGoogleSDKVersion;
     self.nativeAdAdapterDelegate = [[ALGoogleMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
                                                                                           serverParameters: parameters.serverParameters
                                                                                                  andNotify: delegate];
-    self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
-                                             rootViewController: [ALUtils topViewControllerFromKeyWindow]
-                                                        adTypes: @[GADAdLoaderAdTypeNative]
-                                                        options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
-    self.nativeAdLoader.delegate = self.nativeAdAdapterDelegate;
     
-    [self.nativeAdLoader loadRequest: request];
+    // Fetching the top view controller needs to be on the main queue
+    dispatchOnMainQueue(^{
+        self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
+                                                 rootViewController: [ALUtils topViewControllerFromKeyWindow]
+                                                            adTypes: @[GADAdLoaderAdTypeNative]
+                                                            options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
+        self.nativeAdLoader.delegate = self.nativeAdAdapterDelegate;
+        
+        [self.nativeAdLoader loadRequest: request];
+    });
 }
 
 #pragma mark - Shared Methods
@@ -1039,9 +1046,6 @@ static NSString *ALGoogleSDKVersion;
         return;
     }
     
-    nativeAd.delegate = self;
-    nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
-    
     GADMediaView *gadMediaView = [[GADMediaView alloc] init];
     MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: self.adFormat builderBlock:^(MANativeAdBuilder *builder) {
         
@@ -1071,7 +1075,11 @@ static NSString *ALGoogleSDKVersion;
         [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
     }
     
+    nativeAd.delegate = self;
+    
     dispatchOnMainQueue(^{
+        
+        nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         
         MANativeAdView *maxNativeAdView;
         if ( ALSdk.versionCode < 6140000 )
@@ -1212,7 +1220,11 @@ static NSString *ALGoogleSDKVersion;
     }
     
     nativeAd.delegate = self;
-    nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
+    
+    // Fetching the top view controller needs to be on the main queue
+    dispatchOnMainQueue(^{
+        nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
+    });
     
     MANativeAd *maxNativeAd = [[MAGoogleNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
         
@@ -1327,7 +1339,7 @@ static NSString *ALGoogleSDKVersion;
     {
         gadNativeAdView.imageView = self.mediaView;
     }
-
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     // Introduced in 10.4.0
