@@ -1,7 +1,8 @@
 # Changelog
 
-## x.x.x.x.x
+## 7.0.4.0.2
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Consolidate Mintegral SDK dependencies to `MintegralAdSDK`.
 
 ## 7.0.4.0.1
 * Properly destroy native ad.

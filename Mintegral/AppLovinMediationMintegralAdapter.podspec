@@ -5,7 +5,7 @@ s.authors =
     'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationMintegralAdapter'
-s.version = '7.0.4.0.1'
+s.version = '7.0.4.0.2'
 s.platform = :ios, '9.0'
 s.summary = 'Mintegral adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationMintegralAdapter&s=indexed'
@@ -23,17 +23,13 @@ LICENSE
 
 s.source =
 {
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/mintegral-adapter/AppLovinMediationMintegralAdapter-7.0.4.0.1.zip',
+  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/mintegral-adapter/AppLovinMediationMintegralAdapter-7.0.4.0.2.zip',
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationMintegralAdapter-7.0.4.0.1/AppLovinMediationMintegralAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationMintegralAdapter-7.0.4.0.2/AppLovinMediationMintegralAdapter.framework'
 
-s.dependency 'MintegralAdSDK/BannerAd', '= 7.0.4'
-s.dependency 'MintegralAdSDK/BidInterstitialVideoAd', '= 7.0.4'
-s.dependency 'MintegralAdSDK/BidRewardVideoAd', '= 7.0.4'
-s.dependency 'MintegralAdSDK/InterActiveAd', '= 7.0.4'
-s.dependency 'MintegralAdSDK/BidNativeAd', '= 7.0.4'
+s.dependency 'MintegralAdSDK', '= 7.0.4'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
