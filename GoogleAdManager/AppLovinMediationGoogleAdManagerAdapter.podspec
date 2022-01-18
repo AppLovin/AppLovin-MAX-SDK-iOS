@@ -5,7 +5,7 @@ s.authors =
     'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationGoogleAdManagerAdapter'
-s.version = '8.13.0.2'
+s.version = '8.13.0.4'
 s.platform = :ios, '9.0'
 s.summary = 'Google Ad Manager adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationGoogleAdManagerAdapter&s=indexed'
@@ -23,11 +23,11 @@ LICENSE
 
 s.source =
 {
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/googleadmanager-adapter/AppLovinMediationGoogleAdManagerAdapter-8.13.0.2.zip',
+  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/googleadmanager-adapter/AppLovinMediationGoogleAdManagerAdapter-8.13.0.4.zip',
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationGoogleAdManagerAdapter-8.13.0.2/AppLovinMediationGoogleAdManagerAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationGoogleAdManagerAdapter-8.13.0.4/AppLovinMediationGoogleAdManagerAdapter.framework'
 
 s.dependency 'Google-Mobile-Ads-SDK', '= 8.13.0'
 s.dependency 'AppLovinSDK'

@@ -1,7 +1,11 @@
 # Changelog
 
-## x.x.x.x
+## 8.13.0.4
+* Fix additional potential UI API being called on a background thread for native ads. 
+
+## 8.13.0.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Fix potential UI API being called on a background thread for native ads.
 
 ## 8.13.0.2
 * Properly destroy native ad.
