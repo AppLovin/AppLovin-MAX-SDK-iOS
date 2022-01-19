@@ -9,12 +9,12 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.2.1.0"
+#define ADAPTER_VERSION @"4.3.1.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
  */
-@interface ALAmazonMediationHints : NSObject<NSCopying>
+@interface ALTAMAmazonMediationHints : NSObject<NSCopying>
 
 /**
  * The bid info / mediation hints dict generated from Amazon's SDK.
@@ -73,7 +73,7 @@
 static NSMutableDictionary<MAAdFormat *, DTBAdLoader *> *ALAmazonAdLoaders;
 
 // Contains mapping of encoded bid id -> mediation hints / bid info
-static NSMutableDictionary<NSString *, ALAmazonMediationHints *> *ALMediationHintsCache;
+static NSMutableDictionary<NSString *, ALTAMAmazonMediationHints *> *ALMediationHintsCache;
 static NSObject *ALMediationHintsCacheLock;
 
 + (void)initialize
@@ -144,31 +144,31 @@ static NSObject *ALMediationHintsCacheLock;
     
     [self d: @"Collecting initial signal for format: %@", adFormat];
     
-//    id adResponseObj = parameters.localExtraParameters[@"amazon_ad_response"];
-//    id adErrorObj = parameters.localExtraParameters[@"amazon_ad_error"];
-//
-//    if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
-//    {
-//        DTBAdResponse *adResponse = (DTBAdResponse *) adResponseObj;
-//
-//        // Store ad loader for future ad refresh token collection
-//        ALAmazonAdLoaders[adFormat] = adResponse.dtbAdLoader;
-//
-//        [self processAdResponseWithParameters: parameters adResponse: adResponse andNotify: delegate];
-//    }
-//    else if ( [adErrorObj isKindOfClass: [DTBAdErrorInfo class]] )
-//    {
-//        DTBAdErrorInfo *adError = (DTBAdErrorInfo *) adErrorObj;
-//
-//        // Store ad loader for future ad refresh token collection
-//        ALAmazonAdLoaders[adFormat] = adError.dtbAdLoader;
-//
-//        [self failSignalCollectionWithError: adError andNotify: delegate];
-//    }
-//    else
-//    {
-//        [self failSignalCollectionWithErrorMessage: @"DTBAdResponse or DTBAdErrorInfo not passed in ad load API" andNotify: delegate];
-//    }
+    id adResponseObj = parameters.localExtraParameters[@"amazon_ad_response"];
+    id adErrorObj = parameters.localExtraParameters[@"amazon_ad_error"];
+    
+    if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
+    {
+        DTBAdResponse *adResponse = (DTBAdResponse *) adResponseObj;
+        
+        // Store ad loader for future ad refresh token collection
+        ALAmazonAdLoaders[adFormat] = adResponse.dtbAdLoader;
+        
+        [self processAdResponseWithParameters: parameters adResponse: adResponse andNotify: delegate];
+    }
+    else if ( [adErrorObj isKindOfClass: [DTBAdErrorInfo class]] )
+    {
+        DTBAdErrorInfo *adError = (DTBAdErrorInfo *) adErrorObj;
+        
+        // Store ad loader for future ad refresh token collection
+        ALAmazonAdLoaders[adFormat] = adError.dtbAdLoader;
+        
+        [self failSignalCollectionWithError: adError andNotify: delegate];
+    }
+    else
+    {
+        [self failSignalCollectionWithErrorMessage: @"DTBAdResponse or DTBAdErrorInfo not passed in ad load API" andNotify: delegate];
+    }
 }
 
 - (void)processAdResponseWithParameters:(id<MAAdapterParameters>)parameters adResponse:(DTBAdResponse *)adResponse andNotify:(id<MASignalCollectionDelegate>)delegate
@@ -178,7 +178,7 @@ static NSObject *ALMediationHintsCacheLock;
     NSString *encodedBidId = [adResponse amznSlots];
     if ( [encodedBidId al_isValidString] )
     {
-        ALAmazonMediationHints *mediationHints = [[ALAmazonMediationHints alloc] initWithValue: [adResponse mediationHints]];
+        ALTAMAmazonMediationHints *mediationHints = [[ALTAMAmazonMediationHints alloc] initWithValue: [adResponse mediationHints]];
         
         @synchronized ( ALMediationHintsCacheLock )
         {
@@ -198,7 +198,7 @@ static NSObject *ALMediationHintsCacheLock;
                 @synchronized ( ALMediationHintsCacheLock )
                 {
                     // Check if this is the same mediation hints / bid info as when the cleanup was scheduled
-                    ALAmazonMediationHints *currentMediationHints = ALMediationHintsCache[encodedBidId];
+                    ALTAMAmazonMediationHints *currentMediationHints = ALMediationHintsCache[encodedBidId];
                     if ( [currentMediationHints.identifier isEqual: mediationHints.identifier] )
                     {
                         [ALMediationHintsCache removeObjectForKey: encodedBidId];
@@ -217,11 +217,11 @@ static NSObject *ALMediationHintsCacheLock;
     }
 }
 
-//- (void)failSignalCollectionWithError:(DTBAdErrorInfo *)adError andNotify:(id<MASignalCollectionDelegate>)delegate
-//{
-//    NSString *errorMessage = [NSString stringWithFormat: @"Signal collection failed: %d", adError.dtbAdError];
-//    [self failSignalCollectionWithErrorMessage: errorMessage andNotify: delegate];
-//}
+- (void)failSignalCollectionWithError:(DTBAdErrorInfo *)adError andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    NSString *errorMessage = [NSString stringWithFormat: @"Signal collection failed: %d", adError.dtbAdError];
+    [self failSignalCollectionWithErrorMessage: errorMessage andNotify: delegate];
+}
 
 - (void)failSignalCollectionWithErrorMessage:(NSString *)errorMessage andNotify:(id<MASignalCollectionDelegate>)delegate
 {
@@ -246,7 +246,7 @@ static NSObject *ALMediationHintsCacheLock;
     self.adViewAdapterDelegate = [[ALAmazonAdMarketplaceMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     DTBAdBannerDispatcher *dispatcher = [[DTBAdBannerDispatcher alloc] initWithAdFrame: frame delegate: self.adViewAdapterDelegate];
     
-    ALAmazonMediationHints *mediationHints;
+    ALTAMAmazonMediationHints *mediationHints;
     @synchronized ( ALMediationHintsCacheLock )
     {
         mediationHints = ALMediationHintsCache[encodedBidId];
@@ -281,7 +281,7 @@ static NSObject *ALMediationHintsCacheLock;
     self.interstitialAdapterDelegate = [[ALAmazonAdMarketplaceMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialDispatcher = [[DTBAdInterstitialDispatcher alloc] initWithDelegate: self.interstitialAdapterDelegate];
     
-    ALAmazonMediationHints *mediationHints;
+    ALTAMAmazonMediationHints *mediationHints;
     @synchronized ( ALMediationHintsCacheLock )
     {
         mediationHints = ALMediationHintsCache[encodedBidId];
@@ -344,7 +344,7 @@ static NSObject *ALMediationHintsCacheLock;
 
 @end
 
-@implementation ALAmazonMediationHints
+@implementation ALTAMAmazonMediationHints
 
 - (instancetype)initWithValue:(NSDictionary *)value
 {
@@ -359,14 +359,14 @@ static NSObject *ALMediationHintsCacheLock;
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    ALAmazonMediationHints *copy = [[[self class] allocWithZone: zone] init];
+    ALTAMAmazonMediationHints *copy = [[[self class] allocWithZone: zone] init];
     copy.value                   = self.value;
     copy.identifier              = self.identifier;
     
     return copy;
 }
 
-- (BOOL)isEqual:(ALAmazonMediationHints *)other
+- (BOOL)isEqual:(ALTAMAmazonMediationHints *)other
 {
     if ( self == other )
         return YES;
@@ -391,7 +391,7 @@ static NSObject *ALMediationHintsCacheLock;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat: @"[ALAmazonMediationHints: identifier=%@, value=%@]", self.identifier, self.value];
+    return [NSString stringWithFormat: @"[ALTAMAmazonMediationHints: identifier=%@, value=%@]", self.identifier, self.value];
 }
 
 @end
@@ -414,23 +414,23 @@ static NSObject *ALMediationHintsCacheLock;
     return self;
 }
 
-//- (void)onSuccess:(DTBAdResponse *)adResponse
-//{
-//    // Store ad loader for future ad refresh token collection
-//    ALAmazonAdLoaders[self.adFormat] = adResponse.dtbAdLoader;
-//
-//    [self.parentAdapter processAdResponseWithParameters: self.parameters
-//                                             adResponse: adResponse
-//                                              andNotify: self.delegate];
-//}
-//
-//- (void)onFailure:(DTBAdError)error dtbAdErrorInfo:(DTBAdErrorInfo *)dtbAdErrorInfo
-//{
-//    // Store ad loader for future ad refresh token collection
-//    ALAmazonAdLoaders[self.adFormat] = dtbAdErrorInfo.dtbAdLoader;
-//
-//    [self.parentAdapter failSignalCollectionWithError: dtbAdErrorInfo andNotify: self.delegate];
-//}
+- (void)onSuccess:(DTBAdResponse *)adResponse
+{
+    // Store ad loader for future ad refresh token collection
+    ALAmazonAdLoaders[self.adFormat] = adResponse.dtbAdLoader;
+    
+    [self.parentAdapter processAdResponseWithParameters: self.parameters
+                                             adResponse: adResponse
+                                              andNotify: self.delegate];
+}
+
+- (void)onFailure:(DTBAdError)error dtbAdErrorInfo:(DTBAdErrorInfo *)dtbAdErrorInfo
+{
+    // Store ad loader for future ad refresh token collection
+    ALAmazonAdLoaders[self.adFormat] = dtbAdErrorInfo.dtbAdLoader;
+    
+    [self.parentAdapter failSignalCollectionWithError: dtbAdErrorInfo andNotify: self.delegate];
+}
 
 @end
 
