@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.2"
+#define ADAPTER_VERSION @"6.9.0.3"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -359,7 +359,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
                                                                                                    andNotify: delegate];
     self.nativeAdViewAd.delegate = self.nativeAdAdapterDelegate;
     
-    [self.nativeAdViewAd loadAdWithBidPayload: parameters.bidResponse];
+    dispatchOnMainQueue(^{
+        [self.nativeAdViewAd loadAdWithBidPayload: parameters.bidResponse];
+    });
 }
 
 #pragma mark - Shared Methods
