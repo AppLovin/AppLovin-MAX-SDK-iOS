@@ -34,12 +34,12 @@
     
     MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
         builder.titleLabelTag = 1001;
-        builder.bodyLabelTag = 1002;
-        builder.callToActionButtonTag = 1003;
+        builder.advertiserLabelTag = 1002;
+        builder.bodyLabelTag = 1003;
         builder.iconImageViewTag = 1004;
-        builder.mediaContentViewTag = 1005;
-        builder.advertiserLabelTag = 1006;
-        builder.optionsContentViewTag = 1007;
+        builder.optionsContentViewTag = 1005;
+        builder.mediaContentViewTag = 1006;
+        builder.callToActionButtonTag = 1007;
     }];
     [self.nativeAdView bindViewsWithAdViewBinder: binder];
     
