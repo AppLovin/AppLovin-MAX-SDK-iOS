@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.10.5.1"
+#define ADAPTER_VERSION @"6.10.5.2"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -291,9 +291,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 #pragma mark - MAAdViewAdapter Methods
 
-- (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters
-                         adFormat:(MAAdFormat *)adFormat
-                        andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *bidResponse = parameters.bidResponse;
     BOOL isBiddingAd = [bidResponse al_isValidString];
@@ -356,9 +354,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
-- (void)showAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters
-                         adFormat:(MAAdFormat *)adFormat
-                        andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (void)showAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *bidResponse = parameters.bidResponse;
     BOOL isBiddingAd = [bidResponse al_isValidString];
@@ -421,9 +417,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 #pragma mark - Shared Methods
 
-- (BOOL)loadAdForParameters:(id<MAAdapterResponseParameters>)parameters
-                   adFormat:(MAAdFormat *)adFormat
-                      error:(NSError **)error
+- (BOOL)loadAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat error:(NSError **)error
 {
     [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     
@@ -664,25 +658,29 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 #pragma mark - VungleSDKDelegate
 
 // This method is called when Vungle's SDK initializes to cache ads; it's also used as the load callback when [loadPlacementWithID:] is called
-- (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
-                      placementID:(NSString *)placementID
-                            error:(NSError *)error
+- (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable placementID:(NSString *)placementID error:(NSError *)error
 {
     if ( isAdPlayable )
     {
-        [self didLoadAdForPlacementIdentifier: placementID];
+        [self log: @"Ad is playable and loaded for placement id: %@", placementID];
+        
+        // NOTE: Break thread context when we call `loadPlacementWithID:` for banners and this calls into SDK downstream without a loadedAdView
+        deferToNextMainQueueRunloop(^{
+            [self didLoadAdForPlacementIdentifier: placementID];
+        });
+        
         return;
     }
     
     if ( error )
     {
         MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
-        [self log: @"Ad for placement identifier %@ failed to load with error: %@", placementID, adapterError];
+        [self log: @"Ad for placement id %@ failed to load with error: %@", placementID, adapterError];
         [self didFailToLoadAdForPlacementIdentifier: placementID error: adapterError];
     }
     else
     {
-        [self log: @"Ad for placement identifier %@ received no fill", placementID];
+        [self log: @"Ad for placement id %@ received no fill", placementID];
         
         // When `isAdPlayable` is `NO` and `error` is `nil` => NO FILL
         // https://app.asana.com/0/573104092700345/1161396323081913

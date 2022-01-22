@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationVungleAdapter'
-s.version = '6.10.5.1'
+s.version = '6.10.5.2'
 s.platform = :ios, '10.0'
 s.summary = 'Vungle adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationVungleAdapter&s=indexed'
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 { 
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/vungle-adapter/AppLovinMediationVungleAdapter-6.10.5.1.zip',
+  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/vungle-adapter/AppLovinMediationVungleAdapter-6.10.5.2.zip',
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationVungleAdapter-6.10.5.1/AppLovinMediationVungleAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationVungleAdapter-6.10.5.2/AppLovinMediationVungleAdapter.framework'
 
 s.dependency 'VungleSDK-iOS', '= 6.10.5'
 s.dependency 'AppLovinSDK'
