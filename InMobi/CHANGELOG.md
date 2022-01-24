@@ -1,6 +1,7 @@
 # Changelog
 
-## x.x.x.x
+## 10.0.2.0
+* Certified with InMobi SDK 10.0.2.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 10.0.1.1
