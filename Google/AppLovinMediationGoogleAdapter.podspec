@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationGoogleAdapter'
-s.version = '8.13.0.5'
+s.version = '8.13.0.6'
 s.platform = :ios, '9.0'
 s.summary = 'Google adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationGoogleAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 { 
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 {
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/google-adapter/AppLovinMediationGoogleAdapter-8.13.0.5.zip',
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/google-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationGoogleAdapter-8.13.0.5/AppLovinMediationGoogleAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'Google-Mobile-Ads-SDK', '= 8.13.0'
 s.dependency 'AppLovinSDK'
