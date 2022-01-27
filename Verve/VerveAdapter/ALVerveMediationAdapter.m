@@ -216,7 +216,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         NSNumber *hasUserConsent = parameters.hasUserConsent;
         if ( hasUserConsent )
         {
-            [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: hasUserConsent.boolValue ? @"1" : @"0"];
+            NSString* verveGDPRConsentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
+            if ( !verveGDPRConsentString || [verveGDPRConsentString isEqualToString:@""] )
+            {
+                [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: hasUserConsent.boolValue ? @"1" : @"0"];
+            }
         }
         else { /* Don't do anything if huc value not set */ }
     }
@@ -229,14 +233,19 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     if ( ALSdk.versionCode >= 61100 )
     {
-        NSNumber *isDoNotSell = parameters.doNotSell;
-        if ( isDoNotSell && isDoNotSell.boolValue )
+        NSString* verveUSPrivacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
+        
+        if ( !verveUSPrivacyString || [verveUSPrivacyString isEqualToString:@""] )
         {
-            [[HyBidUserDataManager sharedInstance] setIABUSPrivacyString: @"1NYN"];
-        }
-        else
-        {
-            [[HyBidUserDataManager sharedInstance] removeIABUSPrivacyString];
+            NSNumber *isDoNotSell = parameters.doNotSell;
+            if ( isDoNotSell && isDoNotSell.boolValue )
+            {
+                [[HyBidUserDataManager sharedInstance] setIABUSPrivacyString: @"1NYN"];
+            }
+            else
+            {
+                [[HyBidUserDataManager sharedInstance] removeIABUSPrivacyString];
+            }
         }
     }
 }
