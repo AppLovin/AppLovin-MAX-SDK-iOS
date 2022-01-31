@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.3.1.0"
+#define ADAPTER_VERSION @"4.3.1.1"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -120,55 +120,81 @@ static NSObject *ALMediationHintsCacheLock;
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     MAAdFormat *adFormat = parameters.adFormat;
-    
-    //
-    // See if ad loader for this ad format exists or not
-    //
-    DTBAdLoader *adLoader = ALAmazonAdLoaders[adFormat];
-    if ( adLoader )
-    {
-        [self d: @"Found existing ad loader for format: %@", adFormat];
-        
-        self.signalCollectionDelegate = [[ALAmazonSignalCollectionDelegate alloc] initWithParentAdapter: self
-                                                                                             parameters: parameters
-                                                                                               adFormat: parameters.adFormat
-                                                                                              andNotify: delegate];
-        [adLoader loadAd: self.signalCollectionDelegate];
-        
-        return;
-    }
-    
-    //
-    // This is the initial ad load for this particular ad format
-    //
-    
-    [self d: @"Collecting initial signal for format: %@", adFormat];
-    
     id adResponseObj = parameters.localExtraParameters[@"amazon_ad_response"];
     id adErrorObj = parameters.localExtraParameters[@"amazon_ad_error"];
     
+    // There may be cases where pubs pass in info from integration (e.g. CCPA) directly into a _new_ ad loader - check (and update) for that
+    DTBAdLoader *adLoader;
     if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
     {
-        DTBAdResponse *adResponse = (DTBAdResponse *) adResponseObj;
-        
-        // Store ad loader for future ad refresh token collection
-        ALAmazonAdLoaders[adFormat] = adResponse.dtbAdLoader;
-        
-        [self processAdResponseWithParameters: parameters adResponse: adResponse andNotify: delegate];
+        adLoader = ((DTBAdResponse *) adResponseObj).dtbAdLoader;
     }
     else if ( [adErrorObj isKindOfClass: [DTBAdErrorInfo class]] )
     {
-        DTBAdErrorInfo *adError = (DTBAdErrorInfo *) adErrorObj;
-        
-        // Store ad loader for future ad refresh token collection
-        ALAmazonAdLoaders[adFormat] = adError.dtbAdLoader;
-        
-        [self failSignalCollectionWithError: adError andNotify: delegate];
+        adLoader = ((DTBAdErrorInfo *) adErrorObj).dtbAdLoader;
+    }
+    
+    DTBAdLoader *currentAdLoader = ALAmazonAdLoaders[adFormat];
+    
+    if ( adLoader )
+    {
+        // We already have this ad loader - load _new_ signal
+        if ( adLoader == currentAdLoader )
+        {
+            [self loadSubsequentSignalForAdLoader: adLoader
+                                       parameters: parameters
+                                         adFormat: adFormat
+                                        andNotify: delegate];
+        }
+        // If new ad loader - update for ad format and proceed to initial signal collection logic
+        else
+        {
+            [self d: @"New loader passed in: %@, replacing current ad loader: %@", adLoader, currentAdLoader];
+            
+            ALAmazonAdLoaders[adFormat] = adLoader;
+            
+            if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
+            {
+                [self processAdResponseWithParameters: parameters
+                                           adResponse: (DTBAdResponse *) adResponseObj
+                                            andNotify: delegate];
+            }
+            else // DTBAdErrorInfo
+            {
+                [self failSignalCollectionWithError: (DTBAdErrorInfo *) adErrorObj andNotify: delegate];
+            }
+        }
     }
     else
     {
-        [self failSignalCollectionWithErrorMessage: @"DTBAdResponse or DTBAdErrorInfo not passed in ad load API" andNotify: delegate];
+        // Use cached ad loader
+        if ( currentAdLoader )
+        {
+            [self loadSubsequentSignalForAdLoader: currentAdLoader
+                                       parameters: parameters
+                                         adFormat: adFormat
+                                        andNotify: delegate];
+        }
+        // No ad loader passed in, and no ad loaders cached - fail signal collection
+        else
+        {
+            [self failSignalCollectionWithErrorMessage: @"DTBAdResponse or DTBAdErrorInfo not passed in ad load API" andNotify: delegate];
+        }
     }
+}
+
+- (void)loadSubsequentSignalForAdLoader:(DTBAdLoader *)adLoader
+                             parameters:(id<MASignalCollectionParameters>)parameters
+                               adFormat:(MAAdFormat *)adFormat
+                              andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    [self d: @"Found existing ad loader for format: %@", adFormat];
+    
+    self.signalCollectionDelegate = [[ALAmazonSignalCollectionDelegate alloc] initWithParentAdapter: self
+                                                                                         parameters: parameters
+                                                                                           adFormat: parameters.adFormat
+                                                                                          andNotify: delegate];
+    [adLoader loadAd: self.signalCollectionDelegate];
 }
 
 - (void)processAdResponseWithParameters:(id<MAAdapterParameters>)parameters adResponse:(DTBAdResponse *)adResponse andNotify:(id<MASignalCollectionDelegate>)delegate
