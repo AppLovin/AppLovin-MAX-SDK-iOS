@@ -45,7 +45,7 @@
     
     self.nativeAdLoader = [[MANativeAdLoader alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT"];
     self.nativeAdLoader.placement = @"Native Template Test Placement";
-    [self.nativeAdLoader setExtraParameterForKey: @"test_extra_key" value:@"test_extra_value"];
+    [self.nativeAdLoader setExtraParameterForKey: @"test_extra_key" value: @"test_extra_value"];
     
     self.nativeAdLoader.nativeAdDelegate = self;
     self.nativeAdLoader.revenueDelegate = self;
