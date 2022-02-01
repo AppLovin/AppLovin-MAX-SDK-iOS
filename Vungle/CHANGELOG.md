@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.10.6.0
+* Certified with Vungle SDK 6.10.6.
+
 ## 6.10.5.2
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Improve stability of banners.
