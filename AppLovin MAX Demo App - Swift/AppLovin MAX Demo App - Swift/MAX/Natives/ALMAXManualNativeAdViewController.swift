@@ -66,7 +66,8 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
     
     // MARK: MAAdRevenueDelegate Protocol
     
-    func didPayRevenue(for ad: MAAd) {
+    func didPayRevenue(for ad: MAAd) 
+    {
         logCallback()
         
         let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
