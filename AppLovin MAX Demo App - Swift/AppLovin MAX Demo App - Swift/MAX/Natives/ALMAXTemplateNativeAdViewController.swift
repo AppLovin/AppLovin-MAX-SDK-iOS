@@ -70,7 +70,8 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController, MAAdRevenueDe
 
 extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
 {
-    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd) {
+    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd) 
+    {
         logCallback()
         
         // Save ad for clean up
