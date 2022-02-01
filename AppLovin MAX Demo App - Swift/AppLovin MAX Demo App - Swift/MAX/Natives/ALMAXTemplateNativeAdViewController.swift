@@ -90,7 +90,8 @@ extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
         nativeAdContainerView.centerYAnchor.constraint(equalTo: maxNativeAdView.centerYAnchor).isActive = true
     }
     
-    func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
+    func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) 
+    {
         logCallback()
     }
     
