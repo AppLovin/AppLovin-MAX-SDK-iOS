@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.0.0.0"
+#define ADAPTER_VERSION @"4.0.0.1"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -132,6 +132,14 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@interstitial ad for placement \"%@\"...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementIdentifier];
     
+    if ( ![UnityAds isInitialized] )
+    {
+        [self log: @"Unity Ads SDK is not initialized: failing interstitial ad load..."];
+        [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
+    
     [self updatePrivacyConsent: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     
     self.interstitialDelegate = [[ALUnityAdsInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
@@ -170,6 +178,15 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@rewarded ad for placement \"%@\"...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementIdentifier];
+    
+    if ( ![UnityAds isInitialized] )
+    {
+        [self log: @"Unity Ads SDK is not initialized: failing rewarded ad load..."];
+        [delegate didFailToLoadRewardedAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
+    
     
     [self updatePrivacyConsent: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     
@@ -214,6 +231,15 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading banner ad for placement \"%@\"...", placementIdentifier];
+    
+    if ( ![UnityAds isInitialized] )
+    {
+        [self log: @"Unity Ads SDK is not initialized: failing banner ad load..."];
+        [delegate didFailToLoadAdViewAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
+    
     
     [self updatePrivacyConsent: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     

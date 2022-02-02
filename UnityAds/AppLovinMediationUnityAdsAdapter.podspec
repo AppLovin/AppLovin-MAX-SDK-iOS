@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationUnityAdsAdapter'
-s.version = '4.0.0.0'
+s.version = '4.0.0.1'
 s.platform = :ios, '9.0'
 s.summary = 'Unity adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationUnityAdsAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 { 
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 { 
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/unityads-adapter/AppLovinMediationUnityAdsAdapter-4.0.0.0.zip',
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/unityads-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationUnityAdsAdapter-4.0.0.0/AppLovinMediationUnityAdsAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'UnityAds', '= 4.0.0'
 s.dependency 'AppLovinSDK'
