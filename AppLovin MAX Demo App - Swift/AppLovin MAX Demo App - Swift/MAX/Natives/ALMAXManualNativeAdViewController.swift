@@ -44,11 +44,9 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
         nativeAdLoader.revenueDelegate = self
     }
     
-    override func viewDidDisappear(_ animated: Bool)
+    deinit
     {
-        super.viewDidDisappear(animated)
-        
-        cleanUpAd()
+        cleanUpAdIfNeeded()
         
         nativeAdLoader.nativeAdDelegate = nil
         nativeAdLoader.revenueDelegate = nil
@@ -58,12 +56,12 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
     
     @IBAction func showAd()
     {
-        cleanUpAd()
+        cleanUpAdIfNeeded()
 
         nativeAdLoader.loadAd(into: nativeAdView)
     }
     
-    func cleanUpAd()
+    func cleanUpAdIfNeeded()
     {
         // Clean up any pre-existing native ad
         if let currentNativeAd = nativeAd

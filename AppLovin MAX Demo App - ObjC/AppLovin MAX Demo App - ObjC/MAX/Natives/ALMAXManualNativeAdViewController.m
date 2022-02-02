@@ -44,16 +44,13 @@
     [self.nativeAdView bindViewsWithAdViewBinder: binder];
     
     self.nativeAdLoader = [[MANativeAdLoader alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT"];
-    
     self.nativeAdLoader.nativeAdDelegate = self;
     self.nativeAdLoader.revenueDelegate = self;
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)dealloc
 {
-    [super viewDidDisappear: animated];
-    
-    [self cleanUpAd];
+    [self cleanUpAdIfNeeded];
     
     self.nativeAdLoader.nativeAdDelegate = nil;
     self.nativeAdLoader.revenueDelegate = nil;
@@ -63,12 +60,12 @@
 
 - (IBAction)showAd
 {
-    [self cleanUpAd];
+    [self cleanUpAdIfNeeded];
     
     [self.nativeAdLoader loadAdIntoAdView: self.nativeAdView];
 }
 
-- (void)cleanUpAd
+- (void)cleanUpAdIfNeeded
 {
     // Clean up any pre-existing native ad to prevent memory leaks
     if ( self.nativeAd )
