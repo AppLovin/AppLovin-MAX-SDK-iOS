@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationFyberAdapter'
-s.version = '8.1.1.0'
+s.version = '8.1.3.0'
 s.platform = :ios, '9.0'
 s.summary = 'Fyber adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationFyberAdapter&s=indexed'
@@ -23,13 +23,13 @@ LICENSE
 
 s.source = 
 { 
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/fyber-adapter/AppLovinMediationFyberAdapter-8.1.1.0.zip',
+  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/fyber-adapter/AppLovinMediationFyberAdapter-8.1.3.0.zip',
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationFyberAdapter-8.1.1.0/AppLovinMediationFyberAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationFyberAdapter-8.1.3.0/AppLovinMediationFyberAdapter.framework'
 
-s.dependency 'Fyber_Marketplace_SDK', '= 8.1.1'
+s.dependency 'Fyber_Marketplace_SDK', '= 8.1.3'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =

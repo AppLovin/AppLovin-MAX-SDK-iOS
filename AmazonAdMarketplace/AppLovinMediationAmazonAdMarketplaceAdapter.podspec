@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationAmazonAdMarketplaceAdapter'
-s.version = '4.3.1.0'
+s.version = '4.3.1.1'
 s.platform = :ios, '10.0'
 s.summary = 'Amazon Publisher Services adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinAmazonAdMarketplaceMediationAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license =
 {
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source =
 {
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/amazonadmarketplace-adapter/AppLovinMediationAmazonAdMarketplaceAdapter-4.3.1.0.zip',
+  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/amazonadmarketplace-adapter/#{s.name}-#{s.version}.zip",
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationAmazonAdMarketplaceAdapter-4.3.1.0/AppLovinMediationAmazonAdMarketplaceAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 # NOTE: Amazon requested us to not add them to the list of transitive dependencies. External pubs have to manually integrate their SDK.
 s.dependency 'AppLovinSDK'

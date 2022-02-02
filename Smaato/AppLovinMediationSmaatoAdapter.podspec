@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationSmaatoAdapter'
-s.version = '21.6.19.1'
+s.version = '21.7.0.0'
 s.platform = :ios, '9.0'
 s.summary = 'Smaato adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationSmaatoAdapter&s=indexed'
@@ -23,14 +23,14 @@ LICENSE
 
 s.source = 
 {
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/smaato-adapter/AppLovinMediationSmaatoAdapter-21.6.19.1.zip',
+  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/smaato-adapter/AppLovinMediationSmaatoAdapter-21.7.0.0.zip',
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationSmaatoAdapter-21.6.19.1/AppLovinMediationSmaatoAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationSmaatoAdapter-21.7.0.0/AppLovinMediationSmaatoAdapter.framework'
 
-s.dependency 'smaato-ios-sdk', '= 21.6.19'
-s.dependency 'smaato-ios-sdk/InApp', '= 21.6.19'
+s.dependency 'smaato-ios-sdk', '= 21.7.0'
+s.dependency 'smaato-ios-sdk/InApp', '= 21.7.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =

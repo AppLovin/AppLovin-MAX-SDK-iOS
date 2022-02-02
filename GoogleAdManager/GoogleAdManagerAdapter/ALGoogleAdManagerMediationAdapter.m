@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.4"
+#define ADAPTER_VERSION @"8.13.0.5"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -385,7 +385,7 @@ static NSString *ALGoogleSDKVersion;
     if ( isNative )
     {
         GADNativeAdViewAdOptions *adViewAdOptions = [[GADNativeAdViewAdOptions alloc] init];
-        adViewAdOptions.preferredAdChoicesPosition = GADAdChoicesPositionTopRightCorner;
+        adViewAdOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromLocalExtra: parameters.localExtraParameters];
         
         GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
         nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = (adFormat == MAAdFormat.mrec); // MRECs can handle multiple images via AdMob's media view
@@ -433,7 +433,7 @@ static NSString *ALGoogleSDKVersion;
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
     GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
-    nativeAdViewOptions.preferredAdChoicesPosition = GADAdChoicesPositionTopRightCorner;
+    nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromLocalExtra: parameters.localExtraParameters];
     
     GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
     
@@ -694,6 +694,28 @@ static NSString *ALGoogleSDKVersion;
 - (BOOL)isValidNativeAd:(GADNativeAd *)nativeAd
 {
     return nativeAd.headline != nil;
+}
+
+- (NSInteger)adChoicesPlacementFromLocalExtra:(NSDictionary<NSString *, id>*)localExtraParams
+{
+    // Publishers can set via nativeAdLoader.setLocalExtraParameterForKey("gam_ad_choices_placement", value: .bottomLeftCorner.rawValue)
+    id adChoicesPlacementObj = localExtraParams[@"gam_ad_choices_placement"];
+    return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
+}
+
+- (BOOL)isValidAdChoicesPlacement:(id)placementObj
+{
+    if ( [placementObj isKindOfClass: [NSNumber class]] )
+    {
+        GADAdChoicesPosition rawValue = ((NSNumber *) placementObj).integerValue;
+        
+        return rawValue == GADAdChoicesPositionTopRightCorner ||
+        rawValue == GADAdChoicesPositionTopLeftCorner ||
+        rawValue == GADAdChoicesPositionBottomRightCorner ||
+        rawValue == GADAdChoicesPositionBottomLeftCorner;
+    }
+    
+    return NO;
 }
 
 @end

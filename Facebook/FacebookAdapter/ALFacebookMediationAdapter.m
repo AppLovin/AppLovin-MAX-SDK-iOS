@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.3"
+#define ADAPTER_VERSION @"6.9.0.4"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -796,11 +796,20 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         FBMediaView *mediaView = [[FBMediaView alloc] init];
         
         MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = self.parentAdapter.nativeAdViewAd.advertiserName;
+            builder.title = self.parentAdapter.nativeAdViewAd.headline;
             builder.body = self.parentAdapter.nativeAdViewAd.bodyText;
             builder.callToAction = self.parentAdapter.nativeAdViewAd.callToAction;
             builder.iconView = iconView;
             builder.mediaView = mediaView;
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 10.4.0
+            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+            {
+                builder.advertiser = self.parentAdapter.nativeAdViewAd.advertiserName;
+            }
+#pragma clang diagnostic pop
             
             FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
             adOptionsView.nativeAd = self.parentAdapter.nativeAdViewAd;
@@ -859,6 +868,20 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         {
             [clickableViews addObject: maxNativeAdView.bodyLabel];
         }
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 10.4.0
+        if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
+        {
+            id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
+            id advertiser = [maxNativeAd performSelector: @selector(advertiser)];
+            if ( [advertiser al_isValidString] && advertiserLabel )
+            {
+                [clickableViews addObject: advertiserLabel];
+            }
+        }
+#pragma clang diagnostic pop
         
         [self.parentAdapter.nativeAdViewAd registerViewForInteraction: maxNativeAdView
                                                             mediaView: mediaView
@@ -921,10 +944,19 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     dispatchOnMainQueue(^{
         
         MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = self.parentAdapter.nativeAdViewAd.advertiserName;
+            builder.title = self.parentAdapter.nativeAdViewAd.headline;
             builder.body = self.parentAdapter.nativeAdViewAd.bodyText;
             builder.callToAction = self.parentAdapter.nativeAdViewAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 10.4.0
+            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+            {
+                builder.advertiser = self.parentAdapter.nativeAdViewAd.advertiserName;
+            }
+#pragma clang diagnostic pop
             
             FBMediaView *mediaView = [[FBMediaView alloc] init];
             builder.mediaView = mediaView;
@@ -972,12 +1004,12 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 {
     if ( isTemplateAd )
     {
-        return [nativeAd.advertiserName al_isValidString];
+        return [nativeAd.headline al_isValidString];
     }
     else
     {
         // NOTE: Media view is created and will always be non-nil.
-        return [nativeAd.advertiserName al_isValidString]
+        return [nativeAd.headline al_isValidString]
         && [nativeAd.callToAction al_isValidString];
     }
 }
@@ -1025,6 +1057,20 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     {
         [clickableViews addObject: maxNativeAdView.mediaContentView];
     }
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    // Introduced in 10.4.0
+    if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
+    {
+        id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
+        id advertiser = [self performSelector: @selector(advertiser)];
+        if ( [advertiser al_isValidString] && advertiserLabel )
+        {
+            [clickableViews addObject: advertiserLabel];
+        }
+    }
+#pragma clang diagnostic pop
     
     [self.parentAdapter.nativeAdViewAd registerViewForInteraction: maxNativeAdView
                                                         mediaView: (FBMediaView *) self.mediaView
