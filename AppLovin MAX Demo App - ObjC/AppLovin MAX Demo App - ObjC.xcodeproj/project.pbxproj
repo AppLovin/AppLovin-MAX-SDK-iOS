@@ -126,7 +126,7 @@
 		1D0CB33823204EBD0076AAAA /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				77B6F432279B51AB0063F81D /* Natives */,
+				77B6F432279B51AB0063F81D /* Native Ads */,
 				1D629D5D240F4E6600FE6F5F /* Banners */,
 				1D629D5E240F4E7200FE6F5F /* Interstitials */,
 				37B6CED3246E04D30068A6A4 /* MRECs */,
@@ -264,15 +264,15 @@
 			path = "Interface Builder";
 			sourceTree = "<group>";
 		};
-		77B6F432279B51AB0063F81D /* Natives */ = {
+		77B6F432279B51AB0063F81D /* Native Ads */ = {
 			isa = PBXGroup;
 			children = (
+				77B6F435279B51AB0063F81D /* ALMAXManualNativeAdViewController.h */,
 				77B6F433279B51AB0063F81D /* ALMAXManualNativeAdViewController.m */,
 				77B6F434279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.h */,
-				77B6F435279B51AB0063F81D /* ALMAXManualNativeAdViewController.h */,
 				77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */,
 			);
-			path = Natives;
+			path = "Native Ads";
 			sourceTree = "<group>";
 		};
 		E567854723F22E1E00ACA6C1 /* Rewarded */ = {
