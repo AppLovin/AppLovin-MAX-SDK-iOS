@@ -29,16 +29,31 @@
     [super viewDidLoad];
     
     self.nativeAdLoader = [[MANativeAdLoader alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT"];
-    self.nativeAdLoader.placement = @"Native Template Test Placement";
-    [self.nativeAdLoader setExtraParameterForKey: @"test_extra_key" value: @"test_extra_value"];
     
     self.nativeAdLoader.nativeAdDelegate = self;
     self.nativeAdLoader.revenueDelegate = self;
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear: animated];
+    
+    [self cleanUpAd];
+    
+    self.nativeAdLoader.nativeAdDelegate = nil;
+    self.nativeAdLoader.revenueDelegate = nil;
+}
+
 #pragma mark - IB Actions
 
 - (IBAction)showAd
+{
+    [self cleanUpAd];
+    
+    [self.nativeAdLoader loadAd];
+}
+
+- (void)cleanUpAd
 {
     // Clean up any pre-existing native ad to prevent memory leaks
     if ( self.nativeAd )
@@ -50,8 +65,6 @@
     {
         [self.nativeAdView removeFromSuperview];
     }
-    
-    [self.nativeAdLoader loadAd];
 }
 
 #pragma mark - NativeAdDelegate Protocol
@@ -69,12 +82,6 @@
     
     // Set to false if modifying constraints after adding the ad view to your layout
     self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    // Set ad view to span width and height of container and center the ad
-    (void) [self.nativeAdContainerView.widthAnchor constraintEqualToAnchor: nativeAdView.widthAnchor];
-    (void) [self.nativeAdContainerView.heightAnchor constraintEqualToAnchor: nativeAdView.heightAnchor];
-    (void) [self.nativeAdContainerView.centerXAnchor constraintEqualToAnchor: nativeAdView.centerXAnchor];
-    (void) [self.nativeAdContainerView.centerYAnchor constraintEqualToAnchor: nativeAdView.centerYAnchor];
 }
 
 - (void)didFailToLoadNativeAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error

@@ -40,15 +40,30 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
         nativeAdView.bindViews(with: adViewBinder)
         
         nativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
-        nativeAdLoader.placement = "Native Custom Test Placement"
-        nativeAdLoader.setExtraParameterForKey("test_extra_key", value: "test_extra_value")
         nativeAdLoader.nativeAdDelegate = self
         nativeAdLoader.revenueDelegate = self
+    }
+    
+    override func viewDidDisappear(_ animated: Bool)
+    {
+        super.viewDidDisappear(animated)
+        
+        cleanUpAd()
+        
+        nativeAdLoader.nativeAdDelegate = nil
+        nativeAdLoader.revenueDelegate = nil
     }
     
     // MARK: IB Actions
     
     @IBAction func showAd()
+    {
+        cleanUpAd()
+
+        nativeAdLoader.loadAd(into: nativeAdView)
+    }
+    
+    func cleanUpAd()
     {
         // Clean up any pre-existing native ad
         if let currentNativeAd = nativeAd
@@ -60,8 +75,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
         {
             currentNativeAdView.removeFromSuperview()
         }
-
-        nativeAdLoader.loadAd(into: nativeAdView)
     }
     
     // MARK: MAAdRevenueDelegate Protocol
