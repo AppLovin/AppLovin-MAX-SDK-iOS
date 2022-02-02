@@ -12,11 +12,13 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXManualNativeAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
+
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) MANativeAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
+
 @end
 
 @implementation ALMAXManualNativeAdViewController
