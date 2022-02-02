@@ -10,11 +10,12 @@ import UIKit
 import Adjust
 import AppLovinSDK
 
-class ALMAXTemplateNativeAdViewController: ALBaseAdViewController, MAAdRevenueDelegate
+class ALMAXTemplateNativeAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
     
-    private var nativeAdLoader: MANativeAdLoader!
+    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
+    
     private var nativeAdView: UIView?
     private var nativeAd: MAAd?
     
@@ -24,7 +25,6 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController, MAAdRevenueDe
     {
         super.viewDidLoad()
         
-        nativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
         nativeAdLoader.nativeAdDelegate = self
         nativeAdLoader.revenueDelegate = self
     }
@@ -59,24 +59,6 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController, MAAdRevenueDe
 
         nativeAdLoader.loadAd()
     }
-    
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd)
-    {
-        logCallback()
-        
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
-        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
-        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
-        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
-        if let placement = ad.placement
-        {
-            adjustAdRevenue.setAdRevenuePlacement(placement)
-        }
-            
-        Adjust.trackAdRevenue(adjustAdRevenue)
-    }
 }
 
 extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
@@ -109,5 +91,26 @@ extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
     func didClickNativeAd(_ ad: MAAd) 
     {
         logCallback()
+    }
+}
+
+extension ALMAXTemplateNativeAdViewController: MAAdRevenueDelegate
+{
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd)
+    {
+        logCallback()
+        
+        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
+        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
+        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
+        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
+        if let placement = ad.placement
+        {
+            adjustAdRevenue.setAdRevenuePlacement(placement)
+        }
+            
+        Adjust.trackAdRevenue(adjustAdRevenue)
     }
 }

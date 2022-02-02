@@ -10,11 +10,12 @@ import UIKit
 import Adjust
 import AppLovinSDK
 
-class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDelegate
+class ALMAXManualNativeAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
     
-    private var nativeAdLoader: MANativeAdLoader!
+    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
+    
     private var nativeAdView: MANativeAdView!
     private var nativeAd: MAAd?
     
@@ -39,7 +40,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
         })
         nativeAdView.bindViews(with: adViewBinder)
         
-        nativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
         nativeAdLoader.nativeAdDelegate = self
         nativeAdLoader.revenueDelegate = self
     }
@@ -74,24 +74,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
 
         nativeAdLoader.loadAd(into: nativeAdView)
     }
-    
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd) 
-    {
-        logCallback()
-        
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
-        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
-        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
-        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
-        if let placement = ad.placement
-        {
-            adjustAdRevenue.setAdRevenuePlacement(placement)
-        }
-            
-        Adjust.trackAdRevenue(adjustAdRevenue)
-    }
 }
 
 extension ALMAXManualNativeAdViewController: MANativeAdDelegate
@@ -124,5 +106,26 @@ extension ALMAXManualNativeAdViewController: MANativeAdDelegate
     func didClickNativeAd(_ ad: MAAd)
     {
         logCallback()
+    }
+}
+
+extension ALMAXManualNativeAdViewController: MAAdRevenueDelegate
+{
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd)
+    {
+        logCallback()
+        
+        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
+        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
+        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
+        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
+        if let placement = ad.placement
+        {
+            adjustAdRevenue.setAdRevenuePlacement(placement)
+        }
+            
+        Adjust.trackAdRevenue(adjustAdRevenue)
     }
 }
