@@ -17,7 +17,6 @@
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) MANativeAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
-
 @end
 
 @implementation ALMAXManualNativeAdViewController
