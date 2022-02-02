@@ -26,7 +26,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
         super.viewDidLoad()
         
         let nativeAdViewNib = UINib(nibName: "NativeCustomAdView", bundle: Bundle.main)
-        
         nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView?
         
         let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
@@ -39,7 +38,7 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
             builder.callToActionButtonTag = 1007
         })
         nativeAdView.bindViews(with: adViewBinder)
-        
+
         nativeAdLoader.nativeAdDelegate = self
         nativeAdLoader.revenueDelegate = self
     }
@@ -89,6 +88,7 @@ extension ALMAXManualNativeAdViewController: MANativeAdDelegate
         nativeAdView = maxNativeAdView
         nativeAdContainerView.addSubview(maxNativeAdView)
 
+        // Set to false if modifying constraints after adding the ad view to your layout
         maxNativeAdView.translatesAutoresizingMaskIntoConstraints = false
 
         // Set ad view to span width and height of container and center the ad

@@ -44,7 +44,7 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController
         {
             nativeAdLoader.destroy(currentNativeAd)
         }
-
+        
         if let currentNativeAdView = nativeAdView
         {
             currentNativeAdView.removeFromSuperview()
@@ -56,26 +56,27 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController
     @IBAction func showAd()
     {
         cleanUpAdIfNeeded()
-
+        
         nativeAdLoader.loadAd()
     }
 }
 
 extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
 {
-    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd) 
+    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd)
     {
         logCallback()
         
         // Save ad for clean up
         nativeAd = ad
-
+        
         // Add ad view to view
         nativeAdView = maxNativeAdView
         nativeAdContainerView.addSubview(maxNativeAdView)
-
+        
+        // Set to false if modifying constraints after adding the ad view to your layout
         maxNativeAdView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         // Set ad view to span width and height of container and center the ad
         nativeAdContainerView.widthAnchor.constraint(equalTo: maxNativeAdView.widthAnchor).isActive = true
         nativeAdContainerView.heightAnchor.constraint(equalTo: maxNativeAdView.heightAnchor).isActive = true
@@ -83,12 +84,12 @@ extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
         nativeAdContainerView.centerYAnchor.constraint(equalTo: maxNativeAdView.centerYAnchor).isActive = true
     }
     
-    func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) 
+    func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
     {
         logCallback()
     }
     
-    func didClickNativeAd(_ ad: MAAd) 
+    func didClickNativeAd(_ ad: MAAd)
     {
         logCallback()
     }
@@ -110,7 +111,7 @@ extension ALMAXTemplateNativeAdViewController: MAAdRevenueDelegate
         {
             adjustAdRevenue.setAdRevenuePlacement(placement)
         }
-            
+        
         Adjust.trackAdRevenue(adjustAdRevenue)
     }
 }

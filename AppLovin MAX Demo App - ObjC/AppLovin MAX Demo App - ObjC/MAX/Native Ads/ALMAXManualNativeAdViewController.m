@@ -7,7 +7,6 @@
 //
 
 #import "ALMAXManualNativeAdViewController.h"
-#import "ALBaseAdViewController.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
@@ -30,7 +29,6 @@
     [super viewDidLoad];
     
     UINib *nativeAdViewNib = [UINib nibWithNibName: @"NativeCustomAdView" bundle: NSBundle.mainBundle];
-    
     self.nativeAdView = [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
     
     MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
@@ -64,7 +62,7 @@
     {
         [self.nativeAdLoader destroyAd: self.nativeAd];
     }
-
+    
     if ( self.nativeAdView )
     {
         [self.nativeAdView removeFromSuperview];
@@ -95,6 +93,12 @@
     
     // Set to false if modifying constraints after adding the ad view to your layout
     self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    // Set ad view to span width and height of container and center the ad
+    [self.nativeAdContainerView.widthAnchor constraintEqualToAnchor: nativeAdView.widthAnchor].active = YES;
+    [self.nativeAdContainerView.heightAnchor constraintEqualToAnchor: nativeAdView.heightAnchor].active = YES;
+    [self.nativeAdContainerView.centerXAnchor constraintEqualToAnchor: nativeAdView.centerXAnchor].active = YES;
+    [self.nativeAdContainerView.centerYAnchor constraintEqualToAnchor: nativeAdView.centerYAnchor].active = YES;
 }
 
 - (void)didFailToLoadNativeAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error
@@ -118,7 +122,7 @@
     [adjustAdRevenue setAdRevenueNetwork: ad.networkName];
     [adjustAdRevenue setAdRevenueUnit: ad.adUnitIdentifier];
     [adjustAdRevenue setAdRevenuePlacement: ad.placement];
-        
+    
     [Adjust trackAdRevenue: adjustAdRevenue];
 }
 
