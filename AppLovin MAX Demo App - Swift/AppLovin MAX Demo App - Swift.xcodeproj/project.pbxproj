@@ -165,10 +165,10 @@
 		3763B24A23357CFB00E49783 /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				77B6F439279B51F70063F81D /* Native Ads */,
 				1DDCE595242AE564007EAC8D /* Banners */,
 				1DDCE59B242AE564007EAC8D /* Interstitials */,
 				37B6CECC246DE9DE0068A6A4 /* MRECs */,
+				77B6F439279B51F70063F81D /* Native Ads */,
 				1DDCE599242AE564007EAC8D /* Rewarded */,
 			);
 			path = MAX;
