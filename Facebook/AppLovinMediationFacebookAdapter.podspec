@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationFacebookAdapter'
-s.version = '6.9.0.3'
+s.version = '6.9.0.4'
 s.platform = :ios, '9.0'
 s.summary = 'Facebook adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationFacebookAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 { 
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 { 
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/facebook-adapter/AppLovinMediationFacebookAdapter-6.9.0.3.zip',
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/facebook-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationFacebookAdapter-6.9.0.3/AppLovinMediationFacebookAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'FBAudienceNetwork', '= 6.9.0'
 s.dependency 'AppLovinSDK'

@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.0.4.1"
+#define ADAPTER_VERSION @"4.2.0.4.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -315,8 +315,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
-    
-    [self log: @"Loading native ad for slot id \"%@\"...", parameters.thirdPartyAdPlacementIdentifier];
+    NSString *bidResponse = parameters.bidResponse;
+    [self log: @"Loading %@native ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slotId];
     
     BUAdSlot *slot = [[BUAdSlot alloc] init];
     slot.ID = slotId;
@@ -331,7 +331,14 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                                                                              andNotify: delegate];
     self.nativeAdManager.delegate = self.nativeAdDelegate;
     
-    [self.nativeAdManager setMopubAdMarkUp: parameters.bidResponse];
+    if ( [bidResponse al_isValidString] )
+    {
+        [self.nativeAdManager setMopubAdMarkUp: bidResponse];
+    }
+    else
+    {
+        [self.nativeAdManager loadAdDataWithCount: 1];
+    }
 }
 
 #pragma mark - Helper Methods

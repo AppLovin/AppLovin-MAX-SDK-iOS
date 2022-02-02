@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationInMobiAdapter'
-s.version = '10.0.1.1'
+s.version = '10.0.2.0'
 s.platform = :ios, '9.0'
 s.summary = 'InMobi adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationInMobiAdapter&s=indexed'
@@ -23,13 +23,13 @@ LICENSE
 
 s.source = 
 { 
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/inmobi-adapter/AppLovinMediationInMobiAdapter-10.0.1.1.zip',
+  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/inmobi-adapter/AppLovinMediationInMobiAdapter-10.0.2.0.zip',
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationInMobiAdapter-10.0.1.1/AppLovinMediationInMobiAdapter.framework'
+s.vendored_frameworks = 'AppLovinMediationInMobiAdapter-10.0.2.0/AppLovinMediationInMobiAdapter.framework'
 
-s.dependency 'InMobiSDK/Core', '= 10.0.1'
+s.dependency 'InMobiSDK/Core', '= 10.0.2'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =

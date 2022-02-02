@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.0.4.2
+* Add non-bidding support for native ads.
+
 ## 4.2.0.4.1
 * Moved impression callback to `-[BUNativeExpressBannerViewDelegate nativeExpressBannerAdViewWillBecomVisible]`.
 

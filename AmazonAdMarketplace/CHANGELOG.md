@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.1.1
+* Add support for updating cached ad loaders with new ones passed in via local parameters.
+
 ## 4.3.1.0
 * Certified with APS SDK 4.3.1.
 

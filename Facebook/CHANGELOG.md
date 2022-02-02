@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.9.0.4
+* Fix headline and advertiser views in native ads.
+
 ## 6.9.0.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Address compiler warning about calling `loadAdWithBidPayload:` on a background thread.
