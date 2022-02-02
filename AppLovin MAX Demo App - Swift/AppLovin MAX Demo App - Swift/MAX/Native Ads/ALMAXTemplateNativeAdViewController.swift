@@ -15,8 +15,8 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController, MAAdRevenueDe
     @IBOutlet weak var nativeAdContainerView: UIView!
     
     private var nativeAdLoader: MANativeAdLoader!
-    private var nativeAd: MAAd?
     private var nativeAdView: UIView?
+    private var nativeAd: MAAd?
     
     // MARK: View Lifecycle
     
