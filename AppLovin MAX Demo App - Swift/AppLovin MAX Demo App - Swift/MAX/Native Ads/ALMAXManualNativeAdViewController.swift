@@ -52,15 +52,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
         nativeAdLoader.revenueDelegate = nil
     }
     
-    // MARK: IB Actions
-    
-    @IBAction func showAd()
-    {
-        cleanUpAdIfNeeded()
-
-        nativeAdLoader.loadAd(into: nativeAdView)
-    }
-    
     func cleanUpAdIfNeeded()
     {
         // Clean up any pre-existing native ad
@@ -73,6 +64,15 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController, MAAdRevenueDele
         {
             currentNativeAdView.removeFromSuperview()
         }
+    }
+    
+    // MARK: IB Actions
+    
+    @IBAction func showAd()
+    {
+        cleanUpAdIfNeeded()
+
+        nativeAdLoader.loadAd(into: nativeAdView)
     }
     
     // MARK: MAAdRevenueDelegate Protocol

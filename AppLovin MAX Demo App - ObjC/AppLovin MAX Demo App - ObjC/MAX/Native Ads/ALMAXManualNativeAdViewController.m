@@ -56,15 +56,6 @@
     self.nativeAdLoader.revenueDelegate = nil;
 }
 
-#pragma mark - IB Actions
-
-- (IBAction)showAd
-{
-    [self cleanUpAdIfNeeded];
-    
-    [self.nativeAdLoader loadAdIntoAdView: self.nativeAdView];
-}
-
 - (void)cleanUpAdIfNeeded
 {
     // Clean up any pre-existing native ad to prevent memory leaks
@@ -77,6 +68,15 @@
     {
         [self.nativeAdView removeFromSuperview];
     }
+}
+
+#pragma mark - IB Actions
+
+- (IBAction)showAd
+{
+    [self cleanUpAdIfNeeded];
+    
+    [self.nativeAdLoader loadAdIntoAdView: self.nativeAdView];
 }
 
 #pragma mark - NativeAdDelegate Protocol
