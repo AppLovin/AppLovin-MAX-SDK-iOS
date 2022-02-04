@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.1.2
+* Add more logging.
+
 ## 4.3.1.1
 * Add support for updating cached ad loaders with new ones passed in via local parameters.
 

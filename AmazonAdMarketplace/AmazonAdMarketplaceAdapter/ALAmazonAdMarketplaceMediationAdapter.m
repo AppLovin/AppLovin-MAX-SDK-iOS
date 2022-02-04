@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.3.1.1"
+#define ADAPTER_VERSION @"4.3.1.2"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -149,7 +149,7 @@ static NSObject *ALMediationHintsCacheLock;
         // If new ad loader - update for ad format and proceed to initial signal collection logic
         else
         {
-            [self d: @"New loader passed in: %@, replacing current ad loader: %@", adLoader, currentAdLoader];
+            [self d: @"New loader passed in for %@: %@, replacing current ad loader: %@", adFormat.label, adLoader, currentAdLoader];
             
             ALAmazonAdLoaders[adFormat] = adLoader;
             
@@ -188,11 +188,11 @@ static NSObject *ALMediationHintsCacheLock;
                                adFormat:(MAAdFormat *)adFormat
                               andNotify:(id<MASignalCollectionDelegate>)delegate
 {
-    [self d: @"Found existing ad loader for format: %@", adFormat];
+    [self d: @"Found existing ad loader (%@) for format: %@ - loading...", adLoader, adFormat];
     
     self.signalCollectionDelegate = [[ALAmazonSignalCollectionDelegate alloc] initWithParentAdapter: self
                                                                                          parameters: parameters
-                                                                                           adFormat: parameters.adFormat
+                                                                                           adFormat: adFormat
                                                                                           andNotify: delegate];
     [adLoader loadAd: self.signalCollectionDelegate];
 }
