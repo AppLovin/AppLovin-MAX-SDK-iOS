@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0.4.3
+* Fix native ads advertiser text not rendering.
+* Fix native ads media view not rendering.
+
 ## 4.2.0.4.2
 * Add non-bidding support for native ads.
 
