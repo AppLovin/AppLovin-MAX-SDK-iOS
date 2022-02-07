@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"4.4.2.0"
+#define ADAPTER_VERSION @"4.4.2.1"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -578,6 +578,12 @@
 {
     [self.parentAdapter log: @"%@ ad in-app browser closed", self.adFormatLabel];
     [self.delegate didCollapseAdViewAd];
+}
+
+- (void)adView:(YMAAdView *)adView didTrackImpressionWithData:(nullable id<YMAImpressionData>)impressionData
+{
+    [self.parentAdapter log: @"AdView ad impression tracked"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 @end

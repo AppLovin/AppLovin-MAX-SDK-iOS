@@ -1,7 +1,8 @@
 # Changelog
 
-## x.x.x.x
+## 4.4.2.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Add impression callback for ad view ads.
 
 ## 4.4.2.0
 * Certified with Yandex SDK 4.4.2.
