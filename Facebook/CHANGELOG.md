@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.9.0.5
+* Add support for true [native banner ads](https://developers.facebook.com/docs/audience-network/guides/ad-formats/native-banner/), which can be enabled on your MAX dashboard.
+
 ## 6.9.0.4
 * Fix headline and advertiser views in native ads.
 

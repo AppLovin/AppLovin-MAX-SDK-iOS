@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.4"
+#define ADAPTER_VERSION @"6.9.0.5"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -35,7 +35,9 @@
 @property (nonatomic,   weak) MAAdFormat *format;
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter format:(MAAdFormat *)format andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)format
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
 @interface ALFacebookMediationAdapterNativeAdViewAdDelegate : NSObject<FBNativeAdDelegate>
@@ -43,14 +45,28 @@
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter serverParameters:(NSDictionary<NSString *, id> *)serverParameters format:(MAAdFormat *)format andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                               format:(MAAdFormat *)format
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
 @interface ALFacebookMediationAdapterNativeAdDelegate : NSObject<FBNativeAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter serverParameters:(NSDictionary<NSString *, id> *)serverParameters andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+@end
+
+@interface ALFacebookMediationAdapterNativeBannerAdDelegate : NSObject<FBNativeBannerAdDelegate>
+@property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 @end
 
 @interface MAFacebookNativeAd : MANativeAd
@@ -65,7 +81,8 @@
 @property (nonatomic, strong) FBRewardedVideoAd *rewardedVideoAd;
 @property (nonatomic, strong) FBRewardedVideoAd *rewardedInterAd;
 @property (nonatomic, strong) FBAdView *adView;
-@property (nonatomic, strong) FBNativeAd *nativeAdViewAd;
+@property (nonatomic, strong) FBNativeAd *nativeAd;
+@property (nonatomic, strong) FBNativeBannerAd *nativeBannerAd;
 
 @property (nonatomic, strong) ALFacebookMediationAdapterInterstitialAdDelegate *interstitialAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterRewardedVideoAdDelegate *rewardedAdapterDelegate;
@@ -73,6 +90,7 @@
 @property (nonatomic, strong) ALFacebookMediationAdapterAdViewDelegate *adViewAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterNativeAdViewAdDelegate *nativeAdViewAdAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterNativeAdDelegate *nativeAdAdapterDelegate;
+@property (nonatomic, strong) ALFacebookMediationAdapterNativeBannerAdDelegate *nativeBannerAdAdapterDelegate;
 
 @end
 
@@ -164,10 +182,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     self.adView = nil;
     self.adViewAdapterDelegate = nil;
     
-    [self.nativeAdViewAd unregisterView];
-    self.nativeAdViewAd.delegate = nil;
-    self.nativeAdViewAd = nil;
+    [self.nativeAd unregisterView];
+    self.nativeAd.delegate = nil;
+    self.nativeAd = nil;
     self.nativeAdViewAdAdapterDelegate = nil;
+    
+    [self.nativeBannerAd unregisterView];
+    self.nativeBannerAd.delegate = nil;
+    self.nativeBannerAd = nil;
+    self.nativeBannerAdAdapterDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -316,15 +339,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     
     if ( isNative )
     {
-        self.nativeAdViewAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
+        self.nativeAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
         self.nativeAdViewAdAdapterDelegate = [[ALFacebookMediationAdapterNativeAdViewAdDelegate alloc] initWithParentAdapter: self
                                                                                                             serverParameters: parameters.serverParameters
                                                                                                                       format: adFormat
                                                                                                                    andNotify: delegate];
-        self.nativeAdViewAd.delegate = self.nativeAdViewAdAdapterDelegate;
+        self.nativeAd.delegate = self.nativeAdViewAdAdapterDelegate;
         
         [self log: @"Loading bidding native %@ ad...", adFormat.label];
-        [self.nativeAdViewAd loadAdWithBidPayload: parameters.bidResponse];
+        [self.nativeAd loadAdWithBidPayload: parameters.bidResponse];
     }
     else
     {
@@ -348,20 +371,37 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
+    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
+    BOOL isNativeBanner = [serverParameters al_boolForKey: @"is_native_banner"];
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading native ad: %@...", placementIdentifier];
+    [self log: @"Loading native %@ad: %@...", isNativeBanner ? @"banner " : @"" , placementIdentifier];
     
     [self updateAdSettingsWithParameters: parameters];
     
-    self.nativeAdViewAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
-    self.nativeAdAdapterDelegate = [[ALFacebookMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
-                                                                                            serverParameters: parameters.serverParameters
-                                                                                                   andNotify: delegate];
-    self.nativeAdViewAd.delegate = self.nativeAdAdapterDelegate;
-    
-    dispatchOnMainQueue(^{
-        [self.nativeAdViewAd loadAdWithBidPayload: parameters.bidResponse];
-    });
+    if ( isNativeBanner )
+    {
+        self.nativeBannerAd = [[FBNativeBannerAd alloc] initWithPlacementID: placementIdentifier];
+        self.nativeBannerAdAdapterDelegate = [[ALFacebookMediationAdapterNativeBannerAdDelegate alloc] initWithParentAdapter: self
+                                                                                                            serverParameters: serverParameters
+                                                                                                                   andNotify: delegate];
+        self.nativeBannerAd.delegate = self.nativeBannerAdAdapterDelegate;
+        
+        dispatchOnMainQueue(^{
+            [self.nativeBannerAd loadAdWithBidPayload: parameters.bidResponse];
+        });
+    }
+    else
+    {
+        self.nativeAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
+        self.nativeAdAdapterDelegate = [[ALFacebookMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                                serverParameters: serverParameters
+                                                                                                       andNotify: delegate];
+        self.nativeAd.delegate = self.nativeAdAdapterDelegate;
+        
+        dispatchOnMainQueue(^{
+            [self.nativeAd loadAdWithBidPayload: parameters.bidResponse];
+        });
+    }
 }
 
 #pragma mark - Shared Methods
@@ -476,6 +516,85 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
                   thirdPartySdkErrorCode: facebookErrorCode
                thirdPartySdkErrorMessage: facebookError.localizedDescription];
 #pragma clang diagnostic pop
+}
+
+- (void)renderTrueNativeAd:(FBNativeAdBase *)nativeAd
+          serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                 andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    // `nativeAd` may be nil if the adapter is destroyed before the ad loaded (timed out).
+    if ( !nativeAd )
+    {
+        [self log: @"Native ad failed to load: no fill"];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
+        
+        return;
+    }
+    
+    if ( ![nativeAd isAdValid] )
+    {
+        [self log: @"Native ad failed to load: ad is no longer valid"];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.adExpiredError];
+        
+        return;
+    }
+    
+    NSString *templateName = [serverParameters al_stringForKey: @"template" defaultValue: @""];
+    BOOL isTemplateAd = [templateName al_isValidString];
+    if ( ![self hasRequiredAssetsInAd: nativeAd isTemplateAd: isTemplateAd] )
+    {
+        [self e: @"Native ad (%@) does not have required assets.", nativeAd];
+        [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        
+        return;
+    }
+    
+    // Ensure UI rendering is done on main queue
+    dispatchOnMainQueue(^{
+        
+        MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
+            builder.title = nativeAd.headline;
+            builder.body = nativeAd.bodyText;
+            builder.callToAction = nativeAd.callToAction;
+            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 10.4.0
+            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+            {
+                builder.advertiser = nativeAd.advertiserName;
+            }
+#pragma clang diagnostic pop
+            
+            if ( self.nativeAd )
+            {
+                // Facebook true native banners do not use media views
+                builder.mediaView = [[FBMediaView alloc] init];
+            }
+            
+            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
+            adOptionsView.nativeAd = nativeAd;
+            adOptionsView.backgroundColor = UIColor.clearColor;
+            builder.optionsView = adOptionsView;
+        }];
+        
+        [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+    });
+}
+
+- (BOOL)hasRequiredAssetsInAd:(FBNativeAdBase *)nativeAd isTemplateAd:(BOOL)isTemplateAd
+{
+    if ( isTemplateAd )
+    {
+        return [nativeAd.headline al_isValidString];
+    }
+    else
+    {
+        // NOTE: Media view is created and will always be non-nil.
+        return [nativeAd.headline al_isValidString]
+        && [nativeAd.callToAction al_isValidString];
+    }
 }
 
 @end
@@ -654,7 +773,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 @implementation ALFacebookMediationAdapterAdViewDelegate
 
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter format:(MAAdFormat *)format andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)format
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
@@ -707,7 +828,10 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 @implementation ALFacebookMediationAdapterNativeAdViewAdDelegate
 
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter serverParameters:(NSDictionary<NSString *,id> *)serverParameters format:(MAAdFormat *)format andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *,id> *)serverParameters
+                               format:(MAAdFormat *)format
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
@@ -725,7 +849,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     [self.parentAdapter log: @"Native %@ loaded: %@", self.format.label, nativeAd.placementID];
     
     // `nativeAdViewAd` may be nil if the adapter is destroyed before the ad loaded (timed out).
-    if ( !self.parentAdapter.nativeAdViewAd )
+    if ( !self.parentAdapter.nativeAd )
     {
         [self.parentAdapter log: @"Native %@ failed to load: no fill", self.format.label];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
@@ -733,7 +857,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         return;
     }
     
-    if ( ![self.parentAdapter.nativeAdViewAd isAdValid] )
+    if ( ![self.parentAdapter.nativeAd isAdValid] )
     {
         [self.parentAdapter log: @"Native %@ failed to load: ad is no longer valid", self.format.label];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.adExpiredError];
@@ -752,7 +876,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             [self.parentAdapter log: @"Showing default Facebook native %@: AppLovin SDK version must be at least 6.14.0", self.format.label];
         }
         
-        FBNativeAdView *adView = [FBNativeAdView nativeAdViewWithNativeAd: self.parentAdapter.nativeAdViewAd];
+        FBNativeAdView *adView = [FBNativeAdView nativeAdViewWithNativeAd: self.parentAdapter.nativeAd];
         [self.delegate didLoadAdForAdView: adView];
     }
 }
@@ -796,9 +920,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         FBMediaView *mediaView = [[FBMediaView alloc] init];
         
         MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = self.parentAdapter.nativeAdViewAd.headline;
-            builder.body = self.parentAdapter.nativeAdViewAd.bodyText;
-            builder.callToAction = self.parentAdapter.nativeAdViewAd.callToAction;
+            builder.title = self.parentAdapter.nativeAd.headline;
+            builder.body = self.parentAdapter.nativeAd.bodyText;
+            builder.callToAction = self.parentAdapter.nativeAd.callToAction;
             builder.iconView = iconView;
             builder.mediaView = mediaView;
             
@@ -807,12 +931,12 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             // Introduced in 10.4.0
             if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
             {
-                builder.advertiser = self.parentAdapter.nativeAdViewAd.advertiserName;
+                builder.advertiser = self.parentAdapter.nativeAd.advertiserName;
             }
 #pragma clang diagnostic pop
             
             FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
-            adOptionsView.nativeAd = self.parentAdapter.nativeAdViewAd;
+            adOptionsView.nativeAd = self.parentAdapter.nativeAd;
             adOptionsView.backgroundColor = UIColor.clearColor;
             builder.optionsView = adOptionsView;
         }];
@@ -883,11 +1007,11 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         }
 #pragma clang diagnostic pop
         
-        [self.parentAdapter.nativeAdViewAd registerViewForInteraction: maxNativeAdView
-                                                            mediaView: mediaView
-                                                             iconView: iconView
-                                                       viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                       clickableViews: clickableViews];
+        [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
+                                                      mediaView: mediaView
+                                                       iconView: iconView
+                                                 viewController: [ALUtils topViewControllerFromKeyWindow]
+                                                 clickableViews: clickableViews];
         
         [self.delegate didLoadAdForAdView: maxNativeAdView];
     });
@@ -897,7 +1021,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 @implementation ALFacebookMediationAdapterNativeAdDelegate
 
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter serverParameters:(NSDictionary<NSString *, id> *)serverParameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
@@ -912,63 +1038,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 - (void)nativeAdDidLoad:(FBNativeAd *)nativeAd
 {
     [self.parentAdapter log: @"Native ad loaded: %@", nativeAd.placementID];
-    
-    // `nativeAdViewAd` may be nil if the adapter is destroyed before the ad loaded (timed out).
-    if ( !self.parentAdapter.nativeAdViewAd )
-    {
-        [self.parentAdapter log: @"Native ad failed to load: no fill"];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
-        
-        return;
-    }
-    
-    if ( ![self.parentAdapter.nativeAdViewAd isAdValid] )
-    {
-        [self.parentAdapter log: @"Native ad failed to load: ad is no longer valid"];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.adExpiredError];
-        
-        return;
-    }
-    
-    NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
-    BOOL isTemplateAd = [templateName al_isValidString];
-    if ( ![self hasRequiredAssetsInAd: self.parentAdapter.nativeAdViewAd isTemplateAd: isTemplateAd] )
-    {
-        [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
-        
-        return;
-    }
-    
-    // Ensure UI rendering is done on main queue
-    dispatchOnMainQueue(^{
-        
-        MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = self.parentAdapter.nativeAdViewAd.headline;
-            builder.body = self.parentAdapter.nativeAdViewAd.bodyText;
-            builder.callToAction = self.parentAdapter.nativeAdViewAd.callToAction;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                builder.advertiser = self.parentAdapter.nativeAdViewAd.advertiserName;
-            }
-#pragma clang diagnostic pop
-            
-            FBMediaView *mediaView = [[FBMediaView alloc] init];
-            builder.mediaView = mediaView;
-            
-            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
-            adOptionsView.nativeAd = self.parentAdapter.nativeAdViewAd;
-            adOptionsView.backgroundColor = UIColor.clearColor;
-            builder.optionsView = adOptionsView;
-        }];
-        
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
-    });
+    [self.parentAdapter renderTrueNativeAd: nativeAd
+                          serverParameters: self.serverParameters
+                                 andNotify: self.delegate];
 }
 
 - (void)nativeAdDidDownloadMedia:(FBNativeAd *)nativeAd
@@ -1000,18 +1072,59 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     [self.parentAdapter log: @"Native ad finished handling click: %@", nativeAd.placementID];
 }
 
-- (BOOL)hasRequiredAssetsInAd:(FBNativeAd *)nativeAd isTemplateAd:(BOOL)isTemplateAd
+@end
+
+@implementation ALFacebookMediationAdapterNativeBannerAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *,id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
-    if ( isTemplateAd )
+    self = [super init];
+    if ( self )
     {
-        return [nativeAd.headline al_isValidString];
+        self.serverParameters = serverParameters;
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
     }
-    else
-    {
-        // NOTE: Media view is created and will always be non-nil.
-        return [nativeAd.headline al_isValidString]
-        && [nativeAd.callToAction al_isValidString];
-    }
+    return self;
+}
+
+- (void)nativeBannerAdDidLoad:(FBNativeBannerAd *)nativeBannerAd
+{
+    [self.parentAdapter log: @"Native banner ad loaded: %@", nativeBannerAd.placementID];
+    [self.parentAdapter renderTrueNativeAd: nativeBannerAd
+                          serverParameters: self.serverParameters
+                                 andNotify: self.delegate];
+}
+
+- (void)nativeBannerAdDidDownloadMedia:(FBNativeBannerAd *)nativeBannerAd
+{
+    [self.parentAdapter log: @"Native banner ad (%@) successfully downloaded media", nativeBannerAd.placementID];
+}
+
+- (void)nativeBannerAd:(FBNativeBannerAd *)nativeBannerAd didFailWithError:(NSError *)error
+{
+    MAAdapterError *adapterError = [ALFacebookMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Native banner ad (%@) failed to load with error: %@", nativeBannerAd.placementID, adapterError];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)nativeBannerAdWillLogImpression:(FBNativeBannerAd *)nativeBannerAd
+{
+    [self.parentAdapter log: @"Native banner ad shown: %@", nativeBannerAd.placementID];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)nativeBannerAdDidClick:(FBNativeBannerAd *)nativeBannerAd
+{
+    [self.parentAdapter log: @"Native banner ad clicked: %@", nativeBannerAd.placementID];
+    [self.delegate didClickNativeAd];
+}
+
+- (void)nativeBannerAdDidFinishHandlingClick:(FBNativeBannerAd *)nativeBannerAd
+{
+    [self.parentAdapter log: @"Native banner ad finished handling click: %@", nativeBannerAd.placementID];
 }
 
 @end
@@ -1030,7 +1143,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAdViewAd )
+    if ( !self.parentAdapter.nativeAd && !self.parentAdapter.nativeBannerAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
         return;
@@ -1072,11 +1185,24 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
 #pragma clang diagnostic pop
     
-    [self.parentAdapter.nativeAdViewAd registerViewForInteraction: maxNativeAdView
-                                                        mediaView: (FBMediaView *) self.mediaView
-                                                    iconImageView: maxNativeAdView.iconImageView
-                                                   viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                   clickableViews: clickableViews];
+    if ( self.parentAdapter.nativeAd )
+    {
+        [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
+                                                      mediaView: (FBMediaView *)self.mediaView
+                                                  iconImageView: maxNativeAdView.iconImageView
+                                                 viewController: [ALUtils topViewControllerFromKeyWindow]
+                                                 clickableViews: clickableViews];
+    }
+    else
+    {
+        [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
+                                                        iconImageView: (UIImageView *)self.iconView
+                                                       viewController: [ALUtils topViewControllerFromKeyWindow]
+                                                       clickableViews: clickableViews];
+        
+        // Facebook sets the content mode for the media view to be aspect fill, so we need to reset it for true native banner icons.
+        self.mediaView.contentMode = UIViewContentModeScaleAspectFit;
+    }
 }
 
 @end
