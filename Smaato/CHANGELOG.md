@@ -1,5 +1,8 @@
 # Changelog
 
+## 21.7.1.0
+* Certified with Smaato SDK 21.7.1.
+
 ## 21.7.0.1
 * Fix native ads CTA button not clicking through.
 
