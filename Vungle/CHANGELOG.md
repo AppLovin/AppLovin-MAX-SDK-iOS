@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.10.6.1
+* Add missing call to configure rewards for rewarded ads.
+
 ## 6.10.6.0
 * Certified with Vungle SDK 6.10.6.
 

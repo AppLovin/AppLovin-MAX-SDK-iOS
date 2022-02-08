@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.10.6.0"
+#define ADAPTER_VERSION @"6.10.6.1"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -273,11 +273,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     {
         if ( [[VungleSDK sharedSDK] isAdCachedForPlacementID: placementIdentifier adMarkup: bidResponse] )
         {
+            [self configureRewardForParameters: parameters];
             willShow = [self showFullscreenAdForParameters: parameters error: &error];
         }
     }
     else if ( [[VungleSDK sharedSDK] isAdCachedForPlacementID: placementIdentifier] )
     {
+        [self configureRewardForParameters: parameters];
         willShow = [self showFullscreenAdForParameters: parameters error: &error];
     }
     
