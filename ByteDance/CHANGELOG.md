@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.3.0
+* Certified with ByteDance SDK 4.2.5.3.
+
 ## 4.2.0.4.3
 * Fix native ads advertiser text not rendering.
 * Fix native ads media view not rendering.
