@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.1.4
+* Fix case where new ad loader might not be used when passed in.
+
+## 4.3.1.3
+* Add more logging.
+
 ## 4.3.1.2
 * Add more logging.
 
