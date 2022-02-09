@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.5.3.1"
+#define ADAPTER_VERSION @"4.2.5.3.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -601,7 +601,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)fullscreenVideoAdDidClickDownload:(BUFullscreenVideoAd *)fullscreenVideoAd
+- (void)fullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd
 {
     [self.parentAdapter log: @"Interstitial clicked"];
     [self.delegate didClickInterstitialAd];
@@ -672,7 +672,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     [self.delegate didStartRewardedAdVideo];
 }
 
-- (void)rewardedVideoAdDidClose:(BURewardedVideoAd *)rewardedVideoAd
+- (void)rewardedVideoAdDidClick:(BURewardedVideoAd *)rewardedVideoAd
 {
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {

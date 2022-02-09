@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.3.2
+* Fix fullscreen ad click callbacks 
+
 ## 4.2.5.3.1
 * Remove c++ library
 
