@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.3.1
+* Remove c++ library
+
 ## 4.2.5.3.0
 * Certified with ByteDance SDK 4.2.5.3.
 
