@@ -10,7 +10,7 @@
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
 #import <VerizonAdsInlinePlacement/VerizonAdsInlinePlacement.h>
 
-#define ADAPTER_VERSION @"1.14.2.0"
+#define ADAPTER_VERSION @"1.14.2.1"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -222,7 +222,7 @@ static NSString *const kMAVideoCompleteEventId = @"onVideoComplete";
 {
     [self log: @"Collecting signal..."];
     
-    NSString *token = [[VASAds sharedInstance] biddingToken];
+    NSString *token = [[VASAds sharedInstance] biddingTokenTrimmedToSize: 4000];
     if ( !token )
     {
         NSString *errorMessage = @"VerizonAds SDK not initialized; failed to return a bid.";
