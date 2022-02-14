@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.2.0.0.0
+* Certified with IronSource SDK 7.2.0.0.
+
+## 7.1.14.0.0
+* Certified with IronSource SDK 7.1.14.0.
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+
 ## 7.1.13.0.0
 * Certified with IronSource SDK 7.1.13.0.
 
@@ -18,9 +25,6 @@
 ## 7.1.6.1.0
 * Certified with IronSource SDK 7.1.6.1.
 * Update podspec to use `pod_target_xcconfig` over the deprecated `xcconfig`.
-
-## x.x.x.x.x
-* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 7.1.5.0.0
 * Certified with IronSource SDK 7.1.5.0.
