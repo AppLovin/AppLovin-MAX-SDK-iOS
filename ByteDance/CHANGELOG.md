@@ -1,10 +1,14 @@
 # Changelog
 
+## 4.2.5.3.3
+* Add new error cases.
+* Fix main queue warning for native ads.
+
 ## 4.2.5.3.2
-* Fix fullscreen ad click callbacks 
+* Fix fullscreen ad click callbacks.
 
 ## 4.2.5.3.1
-* Remove c++ library
+* Remove c++ library.
 
 ## 4.2.5.3.0
 * Certified with ByteDance SDK 4.2.5.3.

@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.5.3.2"
+#define ADAPTER_VERSION @"4.2.5.3.3"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -531,6 +531,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         case BUUnionHardCodeError:
         case BUUnionPreviewFlowInvalid:
         case BUErrorCodeUndefined:
+        case BUErrorSlotAB_Disable:
+        case BUErrorSlotAB_EmptyResult:
             adapterError = MAAdapterError.internalError;
             break;
     }
@@ -828,13 +830,15 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     
     // Pangle's media view can be either a video or image (which they don't provide a view for)
-    BUNativeAdRelatedView *relatedView;
+    __block BUNativeAdRelatedView *relatedView;
     __block UIImageView *mediaImageView = nil;
     if ( [self.parentAdapter isVideoMediaView: data.imageMode] )
     {
-        relatedView = [[BUNativeAdRelatedView alloc] init];
-        relatedView.videoAdView.hidden = NO;
-        [relatedView refreshData: nativeAd];
+        dispatchOnMainQueue(^{
+            relatedView = [[BUNativeAdRelatedView alloc] init];
+            relatedView.videoAdView.hidden = NO;
+            [relatedView refreshData: nativeAd];
+        });
     }
     else if ( data.imageAry && data.imageAry.count > 0 )
     {
