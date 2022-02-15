@@ -9,8 +9,14 @@
 #import "ALVerizonAdsMediationAdapter.h"
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
 #import <VerizonAdsInlinePlacement/VerizonAdsInlinePlacement.h>
+#import <VerizonAdsCore/VASComponent.h>
+#import <VerizonAdsNativePlacement/VASNativeAd.h>
+#import <VerizonAdsNativePlacement/VASNativeAdFactory.h>
+#import <VerizonAdsVerizonNativeController/VASNativeTextComponent.h>
+#import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
+#import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.1"
+#define ADAPTER_VERSION @"1.14.2.2"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -43,6 +49,28 @@
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
+/**
+ * Dedicated delegate object for Verizon Ads native ads.
+ */
+@interface ALVerizonAdsMediationAdapterNativeAdDelegate : NSObject<VASNativeAdFactoryDelegate, VASNativeAdDelegate>
+@property (nonatomic,   weak) ALVerizonAdsMediationAdapter *parentAdapter;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+- (instancetype)init NS_UNAVAILABLE;
+@end
+
+@interface MAVerizonNativeAd : MANativeAd
+@property (nonatomic,   weak) ALVerizonAdsMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
+@end
+
 @interface ALVerizonAdsMediationAdapter()
 
 // Interstitial
@@ -57,12 +85,24 @@
 @property (nonatomic, strong) VASInlineAdView *inlineAdView;
 @property (nonatomic, strong) ALVerizonAdsMediationAdapterInlineAdViewDelegate *inlineAdViewDelegate;
 
+// Native
+@property (nonatomic, strong) VASNativeAd *nativeAd;
+@property (nonatomic, strong) ALVerizonAdsMediationAdapterNativeAdDelegate *nativeAdDelegate;
+@property (nonatomic,   weak) MANativeAdView *nativeAdView;
+@property (nonatomic, strong) UITapGestureRecognizer *titleGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *advertiserGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *bodyGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *iconGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *ctaGestureRecognizer;
+
 @end
 
 @implementation ALVerizonAdsMediationAdapter
+static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 10.0;
 
 // Event IDs
 static NSString *const kMAVideoCompleteEventId = @"onVideoComplete";
+static NSString *const kMAAdImpressionEventId = @"adImpression";
 
 #pragma mark - MAAdapter Methods
 
@@ -124,6 +164,28 @@ static NSString *const kMAVideoCompleteEventId = @"onVideoComplete";
     [self.interstitialAd destroy];
     self.interstitialAd = nil;
     self.interstitialDelegate = nil;
+    
+    [self.rewardedAd destroy];
+    self.rewardedAd = nil;
+    self.rewardedDelegate = nil;
+    
+    [self.nativeAd destroy];
+    self.nativeAd = nil;
+    self.nativeAdDelegate = nil;
+    
+    // Cleanup gesture recognizers set in [prepareViewForInteraction:]
+    [self.nativeAdView.titleLabel removeGestureRecognizer: self.titleGestureRecognizer];
+    [self.nativeAdView.advertiserLabel removeGestureRecognizer: self.advertiserGestureRecognizer];
+    [self.nativeAdView.bodyLabel removeGestureRecognizer: self.bodyGestureRecognizer];
+    [self.nativeAdView.iconImageView removeGestureRecognizer: self.iconGestureRecognizer];
+    [self.nativeAdView.callToActionButton removeGestureRecognizer: self.ctaGestureRecognizer];
+    
+    self.nativeAdView = nil;
+    self.titleGestureRecognizer = nil;
+    self.advertiserGestureRecognizer = nil;
+    self.bodyGestureRecognizer = nil;
+    self.iconGestureRecognizer = nil;
+    self.ctaGestureRecognizer = nil;
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -214,6 +276,28 @@ static NSString *const kMAVideoCompleteEventId = @"onVideoComplete";
     [self updateVerizonAdsSDKDataWithAdapterParameters: parameters];
     
     [inlineAdFactory load: self.inlineAdViewDelegate];
+}
+
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    NSString *bidResponse = parameters.bidResponse;
+    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading native %@for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @""), placementIdentifier];
+    
+    self.nativeAdDelegate = [[ALVerizonAdsMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                       serverParameters: parameters.serverParameters
+                                                                                              andNotify: delegate];
+    VASNativeAdFactory *nativeAdFactory = [[VASNativeAdFactory alloc] initWithPlacementId: placementIdentifier
+                                                                                  adTypes: @[@"simpleImage", @"simpleVideo"]
+                                                                                   vasAds: [VASAds sharedInstance]
+                                                                                 delegate: self.nativeAdDelegate];
+    nativeAdFactory.requestMetadata = [self createRequestMetadataForForServerParameters: parameters.serverParameters andBidResponse: bidResponse];
+    
+    [self updateVerizonAdsSDKDataWithAdapterParameters: parameters];
+    
+    [nativeAdFactory load: self.nativeAdDelegate];
 }
 
 #pragma mark - Signal Provider Protocol
@@ -681,6 +765,222 @@ static NSString *const kMAVideoCompleteEventId = @"onVideoComplete";
 - (void)inlineAd:(VASInlineAdView *)inlineAd event:(NSString *)eventId source:(NSString *)source arguments:(NSDictionary<NSString *,id> *)arguments
 {
     [self.parentAdapter log: @"AdView event from source: %@ with event ID: %@ and arguments: %@", source, eventId, arguments];
+}
+
+@end
+
+@implementation ALVerizonAdsMediationAdapterNativeAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.serverParameters = serverParameters;
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeAdFactory:(VASNativeAdFactory *)adFactory didLoadNativeAd:(VASNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad loaded: %@", nativeAd.placementId];
+    
+    dispatchOnMainQueue(^{
+        id<VASNativeTextComponent> titleComponent = (id<VASNativeTextComponent>)[nativeAd component: @"title"];
+        id<VASNativeTextComponent> disclaimerComponent = (id<VASNativeTextComponent>)[nativeAd component: @"disclaimer"];
+        id<VASNativeTextComponent> bodyComponent = (id<VASNativeTextComponent>)[nativeAd component: @"body"];
+        id<VASNativeTextComponent> ctaComponent = (id<VASNativeTextComponent>)[nativeAd component: @"callToAction"];
+        id<VASNativeImageComponent> iconComponent = (id<VASNativeImageComponent>)[nativeAd component: @"iconImage"];
+        id<VASNativeImageComponent> mediaImageComponent = (id<VASNativeImageComponent>)[nativeAd component: @"mainImage"];
+        id<VASNativeVideoComponent> mediaVideoComponent = (id<VASNativeVideoComponent>)[nativeAd component: @"video"];
+        UIView *mediaView = mediaVideoComponent.view ?: mediaImageComponent.view;
+        mediaView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        BOOL isTemplateAd = [templateName al_isValidString];
+        BOOL missingRequiredAssets = NO;
+        if ( isTemplateAd && ![titleComponent.text al_isValidString] )
+        {
+            missingRequiredAssets = YES;
+        }
+        else if ( ![titleComponent.text al_isValidString]
+                 || ![ctaComponent.text al_isValidString]
+                 || !mediaView )
+        {
+            missingRequiredAssets = YES;
+        }
+        
+        if ( missingRequiredAssets )
+        {
+            [self.parentAdapter e: @"Custom native ad (%@) does not have required assets.", nativeAd];
+            [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+            
+            return;
+        }
+        
+        self.parentAdapter.nativeAd = nativeAd;
+        
+        dispatch_group_t group = dispatch_group_create();
+        __block MANativeAdImage *iconImage = nil;
+        if ( iconComponent.URL )
+        {
+            [self.parentAdapter log: @"Fetching native ad icon: %@", iconComponent.URL];
+            [self loadImageForURLString: iconComponent.URL.absoluteString group: group successHandler:^(UIImage *image) {
+                iconImage = [[MANativeAdImage alloc] initWithImage: image];
+            }];
+        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            // Timeout tasks if incomplete within the given time
+            dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kDefaultImageTaskTimeoutSeconds * NSEC_PER_SEC)));
+            
+            MANativeAd *maxNativeAd = [[MAVerizonNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                             andNotify: self.delegate
+                                                                          builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = titleComponent.text;
+                builder.advertiser = disclaimerComponent.text;
+                builder.body = bodyComponent.text;
+                builder.callToAction = ctaComponent.text;
+                builder.icon = iconImage;
+                builder.mediaView = mediaView;
+            }];
+            
+            VASCreativeInfo *creativeInfo = nativeAd.creativeInfo;
+            NSDictionary *extraInfo = [creativeInfo.creativeId al_isValidString] ? @{@"creative_id" : creativeInfo.creativeId} : nil;
+            
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
+        });
+    });
+}
+
+- (void)nativeAdFactory:(VASNativeAdFactory *)adFactory didFailWithError:(VASErrorInfo *)errorInfo
+{
+    MAAdapterError *adapterError = [ALVerizonAdsMediationAdapter toMaxError: errorInfo];
+    [self.parentAdapter log: @"Native ad factory (%@) failed to load with error: %@", adFactory.placementId, adapterError];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)nativeAdDidFail:(VASNativeAd *)nativeAd withError:(VASErrorInfo *)errorInfo
+{
+    MAAdapterError *adapterError = [ALVerizonAdsMediationAdapter toMaxError: errorInfo];
+    [self.parentAdapter log: @"Native ad (%@) failed to load with error: %@", nativeAd.placementId, adapterError];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)nativeAdClicked:(VASNativeAd *)nativeAd withComponent:(id<VASComponent>)component
+{
+    [self.parentAdapter log: @"Native ad clicked"];
+    [self.delegate didClickNativeAd];
+}
+
+- (void)nativeAdDidLeaveApplication:(VASNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad left application"];
+}
+
+- (void)nativeAdDidClose:(VASNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad closed"];
+}
+
+- (void)nativeAd:(VASNativeAd *)nativeAd event:(NSString *)eventId source:(NSString *)source arguments:(NSDictionary<NSString *,id> *)arguments
+{
+    [self.parentAdapter log: @"Native event from source: %@ with event ID: %@ and arguments: %@", source, eventId, arguments];
+    
+    if ( [kMAAdImpressionEventId isEqualToString: eventId] )
+    {
+        [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+    }
+}
+
+- (UIViewController *)nativeAdPresentingViewController
+{
+    return [ALUtils topViewControllerFromKeyWindow];
+}
+
+- (void)loadImageForURLString:(NSString *)urlString group:(dispatch_group_t)group successHandler:(void (^)(UIImage *image))successHandler;
+{
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        dispatch_group_enter(group);
+        
+        [[[NSURLSession sharedSession] dataTaskWithURL: [NSURL URLWithString: urlString]
+                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if ( error )
+            {
+                [self.parentAdapter log: @"Failed to fetch native ad image with error: %@", error];
+            }
+            else if ( data )
+            {
+                [self.parentAdapter log: @"Native ad image data retrieved"];
+                
+                UIImage *image = [UIImage imageWithData: data];
+                if ( image )
+                {
+                    successHandler(image);
+                }
+            }
+            
+            // Don't consider the block done until this task is complete
+            dispatch_group_leave(group);
+        }] resume];
+    });
+}
+
+@end
+
+@implementation MAVerizonNativeAd
+
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+{
+    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)prepareViewForInteraction:(MANativeAdView *)nativeAdView
+{
+    if ( !self.parentAdapter.nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad view for interaction: Native ad is nil."];
+        return;
+    }
+    
+    // Verizon's click registration methods don't work with views when recycling is involved
+    // so they told us to manually invoke it as AdMob does
+    dispatchOnMainQueue(^{
+        
+        self.parentAdapter.titleGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickAction)];
+        self.parentAdapter.advertiserGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickAction)];
+        self.parentAdapter.bodyGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickAction)];
+        self.parentAdapter.iconGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickAction)];
+        self.parentAdapter.ctaGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickAction)];
+        
+        [nativeAdView.titleLabel addGestureRecognizer: self.parentAdapter.titleGestureRecognizer];
+        [nativeAdView.advertiserLabel addGestureRecognizer: self.parentAdapter.advertiserGestureRecognizer];
+        [nativeAdView.bodyLabel addGestureRecognizer: self.parentAdapter.bodyGestureRecognizer];
+        [nativeAdView.iconImageView addGestureRecognizer: self.parentAdapter.iconGestureRecognizer];
+        [nativeAdView.callToActionButton addGestureRecognizer: self.parentAdapter.ctaGestureRecognizer];
+    });
+}
+
+- (void)clickAction
+{
+    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];
+    
+    [self.parentAdapter.nativeAd invokeDefaultAction];
+    [self.delegate didClickNativeAd];
 }
 
 @end

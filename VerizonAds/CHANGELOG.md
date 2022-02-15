@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2.2
+* Add support for native ads.
+
 ## 1.14.2.1
 * Use `[[VASAds sharedInstance] biddingTokenTrimmedToSize: 4000]` for signal collection.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
