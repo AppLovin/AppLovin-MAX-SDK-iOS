@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.3.4
+* Do not use advertiser label `-[BUMaterialMeta source]` if it is same as title.
+
 ## 4.2.5.3.3
 * Add new error cases.
 * Fix main queue warning for native ads.

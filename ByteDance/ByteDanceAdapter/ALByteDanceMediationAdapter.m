@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.5.3.3"
+#define ADAPTER_VERSION @"4.2.5.3.4"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -1051,7 +1051,11 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             // Introduced in 10.4.0
             if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
             {
-                [builder performSelector: @selector(setAdvertiser:) withObject: data.source];
+                // NOTE: Might be same as `AdTitle` - ignore if that's the case
+                if ( ![data.AdTitle isEqualToString: data.source] )
+                {
+                    [builder performSelector: @selector(setAdvertiser:) withObject: data.source];
+                }
             }
 #pragma clang diagnostic pop
             
