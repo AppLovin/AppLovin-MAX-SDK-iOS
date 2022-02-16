@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.3.5
+* Fix rewarded ads' ad hidden and ad clicked callbacks.
+
 ## 4.2.5.3.4
 * Do not use advertiser label `-[BUMaterialMeta source]` if it is same as title.
 
