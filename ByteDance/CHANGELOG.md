@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.4.0
+* Certified with ByteDance SDK 4.2.5.4.
+
 ## 4.2.5.3.5
 * Fix rewarded ads' ad hidden and ad clicked callbacks.
 
