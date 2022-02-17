@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.5.4.0"
+#define ADAPTER_VERSION @"4.2.5.4.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -375,6 +375,15 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( isAgeRestrictedUser )
     {
         [BUAdSDKManager setCoppa: isAgeRestrictedUser.boolValue ? 1 : 0];
+    }
+    
+    if ( ALSdk.versionCode >= 611000 )
+    {
+        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
+        if ( isDoNotSell )
+        {
+            [BUAdSDKManager setCCPA: isDoNotSell.boolValue ? 1 : 0];
+        }
     }
 }
 
@@ -869,6 +878,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                 builder.callToAction = data.buttonText;
                 builder.icon = iconImage;
                 builder.mediaView = [self.parentAdapter isVideoMediaView: data.imageMode] ? relatedView.videoAdView : mediaImageView;
+                builder.optionsView = relatedView.logoADImageView;
             }];
             
             NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
@@ -994,14 +1004,20 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     // Pangle's media view can be either a video or image (which they don't provide a view for)
     __block UIView *mediaView;
+        
+    // Pangle's native ad logo view
+    __block UIView *optionsView;
     
     dispatchOnMainQueue(^{
+        // to show privacy icon (ad logo view) for image native ads we need to initialize related view outside the if
+        BUNativeAdRelatedView *relatedView = [[BUNativeAdRelatedView alloc] init];
+        [relatedView refreshData: nativeAd];
+        
+        optionsView = relatedView.logoADImageView;
         
         if ( [self.parentAdapter isVideoMediaView: data.imageMode] )
         {
-            BUNativeAdRelatedView *relatedView = [[BUNativeAdRelatedView alloc] init];
             relatedView.videoAdView.hidden = NO;
-            [relatedView refreshData: nativeAd];
             
             mediaView = relatedView.videoAdView;
         }
@@ -1014,7 +1030,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             {
                 [self.parentAdapter log: @"Fetching native ad media: %@", mediaImage.imageURL];
                 [self.parentAdapter loadImageForURLString: mediaImage.imageURL group: group successHandler:^(UIImage *image) {
-                    
                     mediaImageView = [[UIImageView alloc] initWithImage: image];
                     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
                     
@@ -1062,6 +1077,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             builder.callToAction = data.buttonText;
             builder.icon = iconImage;
             builder.mediaView = mediaView;
+            builder.optionsView = optionsView;
         }];
         
         [self.parentAdapter log: @"Native ad fully loaded: %@", self.slotId];
