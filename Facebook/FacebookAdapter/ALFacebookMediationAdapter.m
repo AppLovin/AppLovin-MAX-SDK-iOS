@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.5"
+#define ADAPTER_VERSION @"6.9.0.6"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -567,9 +567,14 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             }
 #pragma clang diagnostic pop
             
-            if ( self.nativeAd )
+            if ( self.nativeBannerAd )
             {
-                // Facebook true native banners do not use media views
+                // Facebook true native banners do not provide media views so use icon asset in place of it
+                UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: nativeAd.iconImage];
+                builder.mediaView = mediaImageView;
+            }
+            else
+            {
                 builder.mediaView = [[FBMediaView alloc] init];
             }
             
