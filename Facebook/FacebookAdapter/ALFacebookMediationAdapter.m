@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.6"
+#define ADAPTER_VERSION @"6.9.0.7"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -70,8 +70,11 @@
 @end
 
 @interface MAFacebookNativeAd : MANativeAd
-@property (nonatomic, weak) ALFacebookMediationAdapter *parentAdapter;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+@property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
+@property (nonatomic, assign) BOOL isTemplateAd;
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                         isTemplateAd:(BOOL)isTemplateAd
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
@@ -552,7 +555,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // Ensure UI rendering is done on main queue
     dispatchOnMainQueue(^{
         
-        MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
+        MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self
+                                                                       isTemplateAd: isTemplateAd
+                                                                       builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.headline;
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
@@ -1136,12 +1141,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 @implementation MAFacebookNativeAd
 
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
+                         isTemplateAd:(BOOL)isTemplateAd
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
     self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
+        self.isTemplateAd = isTemplateAd;
     }
     return self;
 }
@@ -1200,8 +1208,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
     else
     {
+        UIImageView *iconImageView = self.isTemplateAd ? (UIImageView *) self.mediaView : (UIImageView *) maxNativeAdView.iconImageView;
         [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
-                                                        iconImageView: (UIImageView *)self.iconView
+                                                        iconImageView: iconImageView
                                                        viewController: [ALUtils topViewControllerFromKeyWindow]
                                                        clickableViews: clickableViews];
         
