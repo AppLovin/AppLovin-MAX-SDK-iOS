@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.6"
+#define ADAPTER_VERSION @"8.13.0.7"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -480,7 +480,7 @@ static NSString *ALGoogleSDKVersion;
         GADAdSize adSize = [self adSizeFromAdFormat: adFormat withServerParameters: parameters.serverParameters];
         self.adView = [[GADBannerView alloc] initWithAdSize: adSize];
         self.adView.frame = (CGRect){.size = adSize.size};
-        self.adView.adUnitID = parameters.thirdPartyAdPlacementIdentifier;
+        self.adView.adUnitID = placementIdentifier;
         self.adView.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         self.adViewAdapterDelegate = [[ALGoogleMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
                                                                                                   adFormat: adFormat
@@ -996,12 +996,26 @@ static NSString *ALGoogleSDKVersion;
 {
     [self.parentAdapter log: @"%@ ad loaded: %@", self.adFormat.label, bannerView.adUnitID];
     
-    NSString *responseId = bannerView.responseInfo.responseIdentifier;
-    if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+    if ( ALSdk.versionCode >= 6150000 )
     {
+        NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
+        
+        NSString *responseId = bannerView.responseInfo.responseIdentifier;
+        if ( [responseId al_isValidString] )
+        {
+            extraInfo[@"creative_id"] = responseId;
+        }
+        
+        CGSize adSize = bannerView.adSize.size;
+        if ( !CGSizeEqualToSize(CGSizeZero, adSize) )
+        {
+            extraInfo[@"ad_width"] = @(adSize.width);
+            extraInfo[@"ad_height"] = @(adSize.height);
+        }
+        
         [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
                             withObject: bannerView
-                            withObject: @{@"creative_id" : responseId}];
+                            withObject: extraInfo];
     }
     else
     {
