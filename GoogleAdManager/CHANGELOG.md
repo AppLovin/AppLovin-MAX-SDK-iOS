@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.13.0.6
+* Add support for sending ad size information for adview ads. This value can be retrieved in the `didLoad()` callback using the `size` property from `MAAd.h` available in MAX SDK v11.2.0.
+
 ## 8.13.0.5
 * Add support for custom [AdChoices placements](https://developers.google.com/admob/ios/api/reference/Enums/GADAdChoicesPosition.html), which publishers can set by calling `setLocalExtraParameterForKey("gam_ad_choices_placement", GADAdChoicesPosition)` on the `MANativeAdLoader` instance.
 
