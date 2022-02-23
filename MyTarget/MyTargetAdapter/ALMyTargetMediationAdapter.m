@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.15.0.0"
+#define ADAPTER_VERSION @"5.15.0.1"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -259,6 +259,15 @@
     if ( isAgeRestrictedUser )
     {
         [MTRGPrivacy setUserAgeRestricted: isAgeRestrictedUser.boolValue];
+    }
+    
+    if ( ALSdk.versionCode >= 61100 )
+    {
+        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
+        if ( isDoNotSell )
+        {
+            [MTRGPrivacy setCcpaUserConsent: isDoNotSell.boolValue];
+        }
     }
 }
 
