@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.1.0"
+#define ADAPTER_VERSION @"21.7.1.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -89,6 +89,9 @@
         [self removeUnsupportedUserConsent];
         [self updateAgeRestrictedUser: parameters];
         
+        // NOTE: This does not work atm
+        [self updateLocationCollectionEnabled: parameters];
+        
         SMAConfiguration *config = [[SMAConfiguration alloc] initWithPublisherId: pubID];
         config.logLevel = [parameters isTesting] ? kSMALogLevelVerbose : kSMALogLevelError;
         config.httpsOnly = [parameters.serverParameters al_numberForKey: @"https_only"].boolValue;
@@ -145,6 +148,7 @@
     [self log: @"Loading %@%@ ad view ad for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), adFormat.label, self.placementIdentifier];
     
     [self updateAgeRestrictedUser: parameters];
+    [self updateLocationCollectionEnabled: parameters];
     
     self.adView = [[SMABannerView alloc] init];
     self.adView.autoreloadInterval = kSMABannerAutoreloadIntervalDisabled;
@@ -182,6 +186,7 @@
     [self log: @"Loading %@interstitial ad for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), self.placementIdentifier];
     
     [self updateAgeRestrictedUser: parameters];
+    [self updateLocationCollectionEnabled: parameters];
     
     [self.router addInterstitialAdapter: self
                                delegate: delegate
@@ -244,6 +249,7 @@
     [self log: @"Loading %@rewarded ad for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), self.placementIdentifier];
     
     [self updateAgeRestrictedUser: parameters];
+    [self updateLocationCollectionEnabled: parameters];
     
     [self.router addRewardedAdapter: self
                            delegate: delegate
@@ -309,6 +315,7 @@
     [self log: @"Loading %@ad: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @""), placementIdentifier];
     
     [self updateAgeRestrictedUser: parameters];
+    [self updateLocationCollectionEnabled: parameters];
     
     SMANativeAdRequest *nativeAdRequest = [[SMANativeAdRequest alloc] initWithAdSpaceId: placementIdentifier];
     nativeAdRequest.returnUrlsForImageAssets = NO;
@@ -355,6 +362,21 @@
 }
 
 #pragma mark - Helper Methods
+
+// TODO: Add local params support on init
+- (void)updateLocationCollectionEnabled:(id<MAAdapterParameters>)parameters
+{
+    if ( ALSdk.versionCode >= 11000000 )
+    {
+        NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+        NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
+        if ( isLocationCollectionEnabled )
+        {
+            // NOTE: According to docs - this is disabled by default
+            SmaatoSDK.gpsEnabled = isLocationCollectionEnabled.boolValue;
+        }
+    }
+}
 
 - (void)updateAgeRestrictedUser:(id<MAAdapterParameters>)parameters
 {

@@ -1,5 +1,8 @@
 # Changelog
 
+## 21.7.1.1
+* Add support for passing local parameter "is_location_collection_enabled" to set `SmaatoSDK.gpsEnabled`.
+
 ## 21.7.1.0
 * Certified with Smaato SDK 21.7.1.
 
