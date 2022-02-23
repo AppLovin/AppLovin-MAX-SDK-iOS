@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.2"
+#define ADAPTER_VERSION @"1.14.2.3"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -339,6 +339,19 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( [parameters.serverParameters al_containsValueForKey: @"consent_string"] )
     {
         builder.gdpr.consent = [parameters.serverParameters al_stringForKey: @"consent_string"];
+    }
+    
+    if ( ALSdk.versionCode >= 61100 )
+    {
+        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
+        if ( isDoNotSell )
+        {
+            builder.ccpa.privacy = isDoNotSell ? @"1YY-" : @"1YN-";
+        }
+        else
+        {
+            builder.ccpa.privacy = @"1---";
+        }
     }
     
     [[VASAds sharedInstance] setDataPrivacy: [builder build]];
