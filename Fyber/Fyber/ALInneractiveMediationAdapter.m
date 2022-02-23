@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.3.0"
+#define ADAPTER_VERSION @"8.1.3.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
@@ -410,6 +410,19 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     else
     {
         [[IASDKCore sharedInstance] clearGDPRConsentData];
+    }
+    
+    if ( ALSdk.versionCode >= 61100 )
+    {
+        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: requestParameters];
+        if ( isDoNotSell )
+        {
+            [[IASDKCore sharedInstance] setCCPAString: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
+        }
+        else
+        {
+            [[IASDKCore sharedInstance] setCCPAString: @"1---"];
+        }
     }
 }
 
