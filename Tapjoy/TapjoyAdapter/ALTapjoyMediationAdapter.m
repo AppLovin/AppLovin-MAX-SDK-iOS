@@ -9,7 +9,7 @@
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
 
-#define ADAPTER_VERSION @"12.9.0.0"
+#define ADAPTER_VERSION @"12.9.0.1"
 
 @interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject<TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
@@ -259,6 +259,19 @@
     else if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateDoesNotApply )
     {
         [tjPrivacyPolicy setSubjectToGDPR: NO];
+    }
+    
+    if ( ALSdk.versionCode >= 61100 )
+    {
+        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
+        if ( isDoNotSell )
+        {
+            [tjPrivacyPolicy setUSPrivacy: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
+        }
+        else
+        {
+            [tjPrivacyPolicy setUSPrivacy: @"1---"];
+        }
     }
 }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.9.0.1
+* Add support for IAB's CCPA Privacy String.
+
 ## 12.9.0.0
 * Certified with Tapjoy SDK 12.9.0.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.

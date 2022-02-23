@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationTapjoyAdapter'
-s.version = '12.9.0.0'
+s.version = '12.9.0.1'
 s.platform = :ios, '9.0'
 s.summary = 'Tapjoy adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationTapjoyAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 { 
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 { 
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/tapjoy-adapter/AppLovinMediationTapjoyAdapter-12.9.0.0.zip',
+  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/tapjoy-adapter/#{s.name}-#{s.version}.zip",
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationTapjoyAdapter-12.9.0.0/AppLovinMediationTapjoyAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'TapjoySDK', '= 12.9.0'
 s.dependency 'AppLovinSDK'
