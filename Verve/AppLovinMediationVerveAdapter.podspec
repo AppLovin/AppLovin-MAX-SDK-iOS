@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationVerveAdapter'
-s.version = '2.11.0.1'
+s.version = '2.11.1.0'
 s.platform = :ios, '9.0'
 s.summary = 'Verve adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'HyBid', '= 2.11.0'
+s.dependency 'HyBid', '= 2.11.1'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
