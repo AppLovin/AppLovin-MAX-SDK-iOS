@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.13.0.8
+* Fix AdChoices `localExtraParameters` crash. Publishers can set a custom placement on AppLovin SDKs 11.0.0+ and the placement is defaulted to the top right corner otherwise.
+
 ## 8.13.0.7
 * Add support for sending ad size information for adview ads. This value can be retrieved in the `didLoad()` callback using the `size` property from `MAAd.h` available in MAX SDK v11.2.0.
 

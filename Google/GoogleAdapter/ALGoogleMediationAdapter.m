@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.7"
+#define ADAPTER_VERSION @"8.13.0.8"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -455,7 +455,7 @@ static NSString *ALGoogleSDKVersion;
     if ( isNative )
     {
         GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
-        nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromLocalExtra: parameters.localExtraParameters];
+        nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
         
         GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
         nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = (adFormat == MAAdFormat.mrec); // MRECs can handle multiple images via AdMob's media view
@@ -503,7 +503,7 @@ static NSString *ALGoogleSDKVersion;
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd withParameters: parameters];
     
     GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
-    nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromLocalExtra: parameters.localExtraParameters];
+    nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
     
     GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
     
@@ -786,11 +786,19 @@ static NSString *ALGoogleSDKVersion;
     return nativeAd.headline != nil;
 }
 
-- (NSInteger)adChoicesPlacementFromLocalExtra:(NSDictionary<NSString *, id>*)localExtraParams
+- (NSInteger)adChoicesPlacementFromParameters:(id<MAAdapterParameters>)parameters
 {
-    // Publishers can set via nativeAdLoader.setLocalExtraParameterForKey("admob_ad_choices_placement", value: .bottomLeftCorner.rawValue)
-    id adChoicesPlacementObj = localExtraParams[@"admob_ad_choices_placement"];
-    return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
+    // Publishers can set via nativeAdLoader.setLocalExtraParameterForKey("admob_ad_choices_placement", value: Int)
+    // Note: This feature requires AppLovin v11.0.0+
+    if ( ALSdk.versionCode >= 11000000 )
+    {
+        NSDictionary<NSString *, id> *localExtraParams = parameters.localExtraParameters;
+        id adChoicesPlacementObj = localExtraParams ? localExtraParams[@"admob_ad_choices_placement"] : nil;
+        
+        return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
+    }
+    
+    return GADAdChoicesPositionTopRightCorner;
 }
 
 - (BOOL)isValidAdChoicesPlacement:(id)placementObj

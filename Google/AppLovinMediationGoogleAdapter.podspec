@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationGoogleAdapter'
-s.version = '8.13.0.7'
+s.version = '8.13.0.8'
 s.platform = :ios, '9.0'
 s.summary = 'Google adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
