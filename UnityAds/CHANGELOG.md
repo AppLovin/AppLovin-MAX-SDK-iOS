@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1.0
+* Certified with UnityAds SDK 4.0.1.
+
 ## 4.0.0.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Verify UnityAds SDK is initialized before loading ads.
