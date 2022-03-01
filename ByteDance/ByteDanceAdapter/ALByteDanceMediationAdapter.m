@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.2.5.6.0"
+#define ADAPTER_VERSION @"4.2.5.6.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -108,7 +108,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             configuration.logLevel = BUAdSDKLogLevelDebug;
         }
         
-        [BUAdSDKManager setUserExtData: [NSString stringWithFormat: @"[{\"name\":\"mediation\",\"value\":\"MAX\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]", self.adapterVersion]];
+        NSString *eventIdentifier = [parameters.serverParameters al_stringForKey: @"event_id"];
+        [BUAdSDKManager setUserExtData: [NSString stringWithFormat: @"[{\"name\":\"mediation\",\"value\":\"MAX\"},{\"name\":\"adapter_version\",\"value\":\"%@\"},{\"name\":\"hybrid_id\",\"value\":\"%@\"}]", self.adapterVersion, eventIdentifier]];
         
         [self updateConsentWithParameters: parameters];
         

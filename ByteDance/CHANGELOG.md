@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.5.6.1
+* Update adapters to ingest `event_id`.
+
 ## 4.2.5.6.0
 * Certified with ByteDance SDK 4.2.5.6.
 
