@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationNendAdapter'
-s.version = '7.1.0.0'
+s.version = '7.2.0.0'
 s.platform = :ios, '9.0'
 s.summary = 'Nend adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationNendAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 {
   :type => 'Commercial License',
@@ -23,13 +23,13 @@ LICENSE
 
 s.source = 
 { 
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/nend-adapter/AppLovinMediationNendAdapter-7.1.0.0.zip',
+  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/nend-adapter/#{s.name}-#{s.version}.zip",
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationNendAdapter-7.1.0.0/AppLovinMediationNendAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'NendSDK_iOS', '= 7.1.0'
+s.dependency 'NendSDK_iOS', '= 7.2.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =

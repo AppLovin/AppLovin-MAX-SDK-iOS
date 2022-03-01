@@ -10,7 +10,7 @@
 #import <NendAd/NendAd.h>
 #import <NendAd/NADLogger.h>
 
-#define ADAPTER_VERSION @"7.1.0.0"
+#define ADAPTER_VERSION @"7.2.0.0"
 #define NSSTRING(_X) ( (_X != NULL) ? [NSString stringWithCString: _X encoding: NSStringEncodingConversionAllowLossy] : nil)
 
 @interface ALNendMediationAdapterInterstitialAdDelegate : NSObject<NADInterstitialVideoDelegate>
