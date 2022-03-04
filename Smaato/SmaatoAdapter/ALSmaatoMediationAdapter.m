@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.1.1"
+#define ADAPTER_VERSION @"21.7.1.2"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -132,6 +132,8 @@
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
+    
+    [self updateLocationCollectionEnabled: parameters];
     
     NSString *signal = [SmaatoSDK collectSignals];
     [delegate didCollectSignal: signal];
