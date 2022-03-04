@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.0.2.1
+* Update to ingest `event_id` during ad load.
+
 ## 4.3.0.2.0
 * Certified with ByteDance SDK 4.3.0.2.
 
