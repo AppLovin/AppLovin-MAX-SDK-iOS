@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.11.1.2
+* Add support for passing local parameter "is_location_collection_enabled" to set `+[HyBid setLocationUpdates:]`.
+
 ## 2.11.1.1
 * Add support for location updates.
 
