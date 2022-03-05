@@ -9,7 +9,7 @@
 #import "ALVerveMediationAdapter.h"
 #import <HyBid.h>
 
-#define ADAPTER_VERSION @"2.11.1.0"
+#define ADAPTER_VERSION @"2.11.1.1"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject<HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -73,7 +73,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
             [HyBidLogger setLogLevel: HyBidLogLevelDebug];
         }
         
-        [HyBid setLocationUpdates: NO];
         [HyBid initWithAppToken: appToken completion:^(BOOL success) {
             if ( success )
             {

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.11.1.1
+* Add support for location updates.
+
 ## 2.11.1.0
 * Certified with Verve SDK 2.11.1.
 
