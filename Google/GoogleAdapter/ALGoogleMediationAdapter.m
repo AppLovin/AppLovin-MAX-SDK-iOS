@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.9"
+#define ADAPTER_VERSION @"8.13.0.10"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -687,7 +687,7 @@ static NSString *ALGoogleSDKVersion;
         // Requested by Google for signal collection
         extraParameters[@"query_info_type"] = @"requester_type_2";
         
-        if ( [adFormat isAdViewAd] && [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"] )
+        if ( ALSdk.versionCode >= 11000000 && [adFormat isAdViewAd] && [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"] )
         {
             GADAdSize adaptiveAdSize = [self adSizeFromAdFormat: adFormat isAdaptiveBanner: YES];
             extraParameters[@"adaptive_banner_w"] = @(adaptiveAdSize.size.width);
