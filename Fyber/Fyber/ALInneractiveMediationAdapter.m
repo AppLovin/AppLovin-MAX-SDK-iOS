@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.3.1"
+#define ADAPTER_VERSION @"8.1.3.2"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
@@ -53,6 +53,8 @@
 // Content Controllers
 @property (nonatomic, strong) IAVideoContentController *videoContentController;
 @property (nonatomic, strong) IAMRAIDContentController *MRAIDContentController;
+
+@property (nonatomic, weak) UIViewController *presentingViewController;
 
 @end
 
@@ -246,6 +248,11 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     
     if ( self.interstitialAdSpot.activeUnitController == self.interstitialUnitController )
     {
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            self.presentingViewController = parameters.presentingViewController;
+        }
+        
         ALInneractiveCurrentlyShowingAdapters[parameters.thirdPartyAdPlacementIdentifier] = self;
         [self.interstitialUnitController showAdAnimated: YES completion: nil];
     }
@@ -324,6 +331,11 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
+        
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            self.presentingViewController = parameters.presentingViewController;
+        }
         
         [self.rewardedUnitController showAdAnimated: YES completion: nil];
     }
@@ -529,7 +541,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 
 - (UIViewController *)IAParentViewControllerForUnitController:(nullable IAUnitController *)unitController
 {
-    return [ALUtils topViewControllerFromKeyWindow];
+    return self.parentAdapter.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
@@ -579,7 +591,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 
 - (UIViewController *)IAParentViewControllerForUnitController:(nullable IAUnitController *)unitController
 {
-    return [ALUtils topViewControllerFromKeyWindow];
+    return self.parentAdapter.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
