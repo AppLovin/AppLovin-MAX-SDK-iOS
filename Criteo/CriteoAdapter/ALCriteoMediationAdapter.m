@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.5.0.0"
+#define ADAPTER_VERSION @"4.5.0.1"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject<CRInterstitialDelegate>
@@ -166,7 +166,17 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     
     if ( [self.interstitialAd isAdLoaded] )
     {
-        [self.interstitialAd presentFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd presentFromRootViewController: presentingViewController];
     }
     else
     {
