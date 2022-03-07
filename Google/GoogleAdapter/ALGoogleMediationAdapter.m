@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.10"
+#define ADAPTER_VERSION @"8.13.0.11"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -283,7 +283,17 @@ static NSString *ALGoogleSDKVersion;
     
     if ( self.interstitialAd )
     {
-        [self.interstitialAd presentFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd presentFromRootViewController: presentingViewController];
     }
     else
     {
@@ -356,7 +366,18 @@ static NSString *ALGoogleSDKVersion;
     if ( self.rewardedInterstitialAd )
     {
         [self configureRewardForParameters: parameters];
-        [self.rewardedInterstitialAd presentFromRootViewController: [ALUtils topViewControllerFromKeyWindow] userDidEarnRewardHandler:^{
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedInterstitialAd presentFromRootViewController: presentingViewController userDidEarnRewardHandler:^{
             
             [self log: @"Rewarded interstitial ad user earned reward: %@", placementIdentifier];
             self.rewardedInterstitialAdapterDelegate.grantedReward = YES;

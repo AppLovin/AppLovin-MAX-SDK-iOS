@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.13.0.11
+* Add support for passing in a presenting view controller.
+
 ## 8.13.0.10
 * Fix version check minimum for local extra parameter API usage.
 
