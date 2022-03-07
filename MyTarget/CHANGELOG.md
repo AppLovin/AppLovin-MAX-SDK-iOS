@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.15.0.2
+* Add support for passing in a presenting view controller.
+
 ## 5.15.0.1
 * Add support for Binary CCPA.  
 

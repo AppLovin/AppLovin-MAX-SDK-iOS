@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.15.0.1"
+#define ADAPTER_VERSION @"5.15.0.2"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -149,7 +149,17 @@
 {
     [self log: @"Showing interstitial ad..."];
     
-    [self.interstitialAd showWithController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.interstitialAd showWithController: presentingViewController];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -181,7 +191,18 @@
     [self log: @"Showing rewarded ad..."];
     
     [self configureRewardForParameters: parameters];
-    [self.rewardedAd showWithController: [ALUtils topViewControllerFromKeyWindow]];
+    
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.rewardedAd showWithController: presentingViewController];
 }
 
 #pragma mark - MAAdViewAdapter Methods
