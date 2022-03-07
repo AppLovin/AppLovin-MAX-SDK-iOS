@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.13.0.8
+* Add support for passing in a presenting view controller.
+
 ## 8.13.0.7
 * Fix AdChoices `localExtraParameters` crash. Publishers can set a custom placement on AppLovin SDKs 11.0.0+ and the placement is defaulted to the top right corner otherwise.
 
