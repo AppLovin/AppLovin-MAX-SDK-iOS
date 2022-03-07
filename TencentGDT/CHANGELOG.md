@@ -1,8 +1,9 @@
 # Changelog
 
-## x.x.x.x.x
+## 4.12.4.3
 * Update podspec to use `pod_target_xcconfig` over the deprecated `xcconfig`.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Add support for passing in a presenting view controller.
 
 ## 4.12.4.2
 * Added support for `videoMuted` property for fullscreen ads.

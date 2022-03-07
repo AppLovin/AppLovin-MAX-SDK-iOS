@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationTencentGDTAdapter'
-s.version = '4.12.4.2'
+s.version = '4.12.4.3'
 s.platform = :ios, '9.0'
 s.summary = 'TencentGDT adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationTencentGDTAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 {
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 { 
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/tencentgdt-adapter/AppLovinMediationTencentGDTAdapter-4.12.4.2.zip',
+  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/tencentgdt-adapter/#{s.name}-#{s.version}.zip",
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationTencentGDTAdapter-4.12.4.2/AppLovinMediationTencentGDTAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'GDTMobSDK', '= 4.12.3'
 s.dependency 'AppLovinSDK'
