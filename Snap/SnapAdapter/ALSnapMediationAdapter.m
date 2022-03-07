@@ -8,7 +8,7 @@
 #import "ALSnapMediationAdapter.h"
 #import <SAKSDK/SAKSDK.h>
 
-#define ADAPTER_VERSION @"2.0.0.0"
+#define ADAPTER_VERSION @"2.0.0.1"
 
 @interface ALSnapMediationAdapterInterstitialAdDelegate : NSObject<SAKInterstitialDelegate>
 @property (nonatomic,   weak) ALSnapMediationAdapter *parentAdapter;
@@ -183,7 +183,17 @@ static MAAdapterInitializationStatus ALSnapSDKInitializationStatus = NSIntegerMi
             [SAKMobileAd shared].silentModeAudioEnabled = [parameters.serverParameters al_numberForKey: @"is_muted"].boolValue;
         }
         
-        [self.interstitialAd presentFromRootViewController: [ALUtils topViewControllerFromKeyWindow] dismissTransition: CGRectZero];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd presentFromRootViewController: presentingViewController dismissTransition: CGRectZero];
     }
     else
     {
@@ -233,7 +243,18 @@ static MAAdapterInitializationStatus ALSnapSDKInitializationStatus = NSIntegerMi
         }
         
         [self configureRewardForParameters: parameters];
-        [self.rewardedAd presentFromRootViewController: [ALUtils topViewControllerFromKeyWindow] dismissTransition: CGRectZero];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedAd presentFromRootViewController: presentingViewController dismissTransition: CGRectZero];
     }
     else
     {

@@ -1,7 +1,8 @@
 # Changelog
 
-## x.x.x.x
+## 2.0.0.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Add support for passing in a presenting view controller.
 
 ## 2.0.0.0
 * Fix initialization status bug.
