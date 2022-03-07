@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.1.2"
+#define ADAPTER_VERSION @"21.7.1.3"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -133,6 +133,7 @@
 {
     [self log: @"Collecting signal..."];
     
+    // Update local params, since not available on init
     [self updateLocationCollectionEnabled: parameters];
     
     NSString *signal = [SmaatoSDK collectSignals];
@@ -233,7 +234,17 @@
     self.interstitialAd = [self.router interstitialAdForPlacementIdentifier: placementIdentifier];
     if ( [self.interstitialAd availableForPresentation] )
     {
-        [self.interstitialAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd showFromViewController: presentingViewController];
     }
     else
     {
@@ -299,7 +310,17 @@
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        [self.rewardedAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedAd showFromViewController: presentingViewController];
     }
     else
     {

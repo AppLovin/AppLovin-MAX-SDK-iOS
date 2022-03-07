@@ -1,5 +1,8 @@
 # Changelog
 
+## 21.7.1.3
+* Add support for passing in a presenting view controller.
+
 ## 21.7.1.2
 * Add support for passing local parameter "is_location_collection_enabled" to set `SmaatoSDK.gpsEnabled` for signal collection.
  
