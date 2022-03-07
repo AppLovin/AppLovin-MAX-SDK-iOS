@@ -10,7 +10,7 @@
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
 
-#define ADAPTER_VERSION @"1.5.8.0"
+#define ADAPTER_VERSION @"1.5.8.1"
 
 @interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter<MaioDelegate>
 
@@ -140,7 +140,17 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     
     if ( [Maio canShowAtZoneId: self.zoneId] )
     {
-        [Maio showAtZoneId: self.zoneId vc: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [Maio showAtZoneId: self.zoneId vc: presentingViewController];
     }
     else
     {
@@ -181,7 +191,18 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     {
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
-        [Maio showAtZoneId: self.zoneId vc: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [Maio showAtZoneId: self.zoneId vc: presentingViewController];
     }
     else
     {

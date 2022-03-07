@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationMaioAdapter'
-s.version = '1.5.8.0'
+s.version = '1.5.8.1'
 s.platform = :ios, '9.0'
 s.summary = 'Maio adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationMaioAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 {
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 { 
-  	:http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/maio-adapter/AppLovinMediationMaioAdapter-1.5.8.0.zip',
+  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/maio-adapter/#{s.name}-#{s.version}.zip",
   	:type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationMaioAdapter-1.5.8.0/AppLovinMediationMaioAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'MaioSDK', '= 1.5.8'
 s.dependency 'AppLovinSDK'
