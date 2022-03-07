@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.3.1.4"
+#define ADAPTER_VERSION @"4.3.1.5"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -204,26 +204,6 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     }
 }
 
-- (nullable DTBAdLoader *)retrieveAdLoaderFromAdResponseObject:(nullable id)adResponseObj orAdErrorObject:(nullable id)adErrorObj
-{
-    if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
-    {
-        DTBAdLoader *adLoader = ((DTBAdResponse *) adResponseObj).dtbAdLoader;
-        
-        if ( ![ALUsedAmazonAdLoaders containsObject: adLoader] )
-        {
-            return adLoader;
-        }
-    }
-    
-    if ( [adErrorObj isKindOfClass: [DTBAdErrorInfo class]] )
-    {
-        return ((DTBAdErrorInfo *) adErrorObj).dtbAdLoader;
-    }
-    
-    return nil;
-}
-
 - (void)loadSubsequentSignalForAdLoader:(DTBAdLoader *)adLoader
                              parameters:(id<MASignalCollectionParameters>)parameters
                                adFormat:(MAAdFormat *)adFormat
@@ -372,7 +352,17 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     
     if ( self.interstitialDispatcher.interstitialLoaded )
     {
-        [self.interstitialDispatcher showFromController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialDispatcher showFromController: presentingViewController];
     }
     else
     {

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.1.5
+* Add support for passing in a presenting view controller.
+
 ## 4.3.1.4
 * Fix case where new ad loader might not be used when passed in.
 
