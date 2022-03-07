@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.0.2.2
+* Add support for passing in a presenting view controller.
+
 ## 4.3.0.2.1
 * Update to ingest `event_id` during ad load.
 

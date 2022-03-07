@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.3.0.2.1"
+#define ADAPTER_VERSION @"4.3.0.2.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -207,7 +207,18 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     [self log: @"Showing interstitial..."];
-    [self.interstitialAd showAdFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+    
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.interstitialAd showAdFromRootViewController: presentingViewController];
 }
 
 #pragma mark - Rewarded Ad Methods
@@ -252,7 +263,17 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     // Configure reward from server.
     [self configureRewardForParameters: parameters];
     
-    [self.rewardedVideoAd showAdFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.rewardedVideoAd showAdFromRootViewController: presentingViewController];
 }
 
 #pragma mark - AdView Ad Methods
