@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.0.1
+* Add support for passing in a presenting view controller.
+
 ## 7.2.0.0
 * Certified with Nend SDK 7.2.0.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.

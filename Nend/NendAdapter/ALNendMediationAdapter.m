@@ -10,7 +10,7 @@
 #import <NendAd/NendAd.h>
 #import <NendAd/NADLogger.h>
 
-#define ADAPTER_VERSION @"7.2.0.0"
+#define ADAPTER_VERSION @"7.2.0.1"
 #define NSSTRING(_X) ( (_X != NULL) ? [NSString stringWithCString: _X encoding: NSStringEncodingConversionAllowLossy] : nil)
 
 @interface ALNendMediationAdapterInterstitialAdDelegate : NSObject<NADInterstitialVideoDelegate>
@@ -138,7 +138,17 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     
     if ( [self.interstitialVideo isReady] )
     {
-        [self.interstitialVideo showAdFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialVideo showAdFromViewController: presentingViewController];
     }
     else
     {
@@ -180,7 +190,18 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     if ( [self.rewardedVideo isReady] )
     {
         [self configureRewardForParameters: parameters];
-        [self.rewardedVideo showAdFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedVideo showAdFromViewController: presentingViewController];
     }
     else
     {
