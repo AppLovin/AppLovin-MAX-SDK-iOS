@@ -7,19 +7,20 @@
 //
 
 #import "ALOguryPresageMediationAdapter.h"
+#import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"2.5.1.0"
+#define ADAPTER_VERSION @"2.6.0.1"
 
-@interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryAdsInterstitialDelegate>
+@interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 @property (nonatomic,   copy) NSString *adUnitIdentifier;
 - (instancetype)initWithParentAdapter:(ALOguryPresageMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate adUnitIdentifier:(NSString *)adUnitIdentifier;
 @end
 
-@interface ALOguryPresageMediationAdapterRewardedAdDelegate : NSObject<OguryAdsOptinVideoDelegate>
+@interface ALOguryPresageMediationAdapterRewardedAdDelegate : NSObject<OguryOptinVideoAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic,   copy) NSString *adUnitIdentifier;
@@ -30,11 +31,11 @@
 @interface ALOguryPresageMediationAdapter()
 
 // Interstitial
-@property (nonatomic, strong) OguryAdsInterstitial *interstitialAd;
+@property (nonatomic, strong) OguryInterstitialAd *interstitialAd;
 @property (nonatomic, strong) ALOguryPresageMediationAdapterInterstitialDelegate *interstitialDelegate;
 
 // Rewarded
-@property (nonatomic, strong) OguryAdsOptinVideo *rewardedAd;
+@property (nonatomic, strong) OguryOptinVideoAd *rewardedAd;
 @property (nonatomic, strong) ALOguryPresageMediationAdapterRewardedAdDelegate *rewardedAdDelegate;
 
 // State to track if we are currently showing an ad. Unfortunately, Ogury's SDK's onAdError(...) callback is invoked on ad load and ad display errors (including ad expiration)
@@ -67,34 +68,21 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
         // Must pass the user consent before initializing SDK for personalized ads
         [self updateUserConsent: parameters];
         
-        // Note: Ogury has initialization callback, but they do not accurately provide errors for failure (e.g., invalid asset key), so we won't use it for now
-        [[OguryAds shared] setupWithAssetKey: assetKey andCompletionHandler:^(NSError *_Nullable error)
-         {
-            if ( error )
-            {
-                [self log: @"Ogury setup failed with error: %@", error];
-                
-                ALOguryPresageInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
-                completionHandler(ALOguryPresageInitializationStatus, error.localizedDescription);
-                
-                return;
-            }
-            
-            [self log: @"Ogury setup successful"];
-            
-            ALOguryPresageInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
-            completionHandler(ALOguryPresageInitializationStatus, nil);
-        }];
+        OguryConfigurationBuilder *configurationBuilder = [[OguryConfigurationBuilder alloc] initWithAssetKey: assetKey];
+        [Ogury startWithConfiguration: [configurationBuilder build]];
+        
+        [self log: @"Ogury setup successful"];
+        
+        ALOguryPresageInitializationStatus = MAAdapterInitializationStatusInitializedUnknown;
     }
-    else
-    {
-        completionHandler(ALOguryPresageInitializationStatus, nil);
-    }
+
+    completionHandler(ALOguryPresageInitializationStatus, nil);
 }
 
+// Return version of the main Ogury SDK. Previous version of the adapater returned version of the Ogury Ads SDK.
 - (NSString *)SDKVersion
 {
-    return [[OguryAds shared] sdkVersion];
+    return [Ogury getSdkVersion];
 }
 
 - (NSString *)adapterVersion
@@ -111,16 +99,27 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     self.rewardedAdDelegate = nil;
 }
 
+#pragma mark - Signal Collection
+
+- (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    [self log: @"Collecting signal..."];
+    
+    NSString *signal = [OguryTokenService getBidderToken];
+    [delegate didCollectSignal: signal];
+}
+
 #pragma mark - MAInterstitialAdapter Methods
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     NSString *adUnitId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading interstitial for ad unit id: %@", adUnitId];
+    NSString *bidResponse = parameters.bidResponse;
+    [self log: @"Loading %@interstitial ad \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", adUnitId];
     
-    self.interstitialAd = [[OguryAdsInterstitial alloc] initWithAdUnitID: adUnitId];
+    self.interstitialAd = [[OguryInterstitialAd alloc] initWithAdUnitId: adUnitId];
     self.interstitialDelegate = [[ALOguryPresageMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate adUnitIdentifier: adUnitId];
-    self.interstitialAd.interstitialDelegate = self.interstitialDelegate;
+    self.interstitialAd.delegate = self.interstitialDelegate;
     
     // Update user consent before loading
     [self updateUserConsent: parameters];
@@ -132,7 +131,14 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     }
     else
     {
-        [self.interstitialAd load];
+        if ( [bidResponse al_isValidString] )
+        {
+            [self.interstitialAd loadWithAdMarkup: bidResponse];
+        }
+        else
+        {
+            [self.interstitialAd load];
+        }
     }
 }
 
@@ -144,7 +150,18 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     if ( [self.interstitialAd isLoaded] )
     {
         self.showing = YES;
-        [self.interstitialAd showAdInViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd showAdInViewController: presentingViewController];
     }
     else
     {
@@ -160,9 +177,9 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     NSString *adUnitId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading rewarded ad for ad unit id: %@", adUnitId];
     
-    self.rewardedAd = [[OguryAdsOptinVideo alloc] initWithAdUnitID: adUnitId];
+    self.rewardedAd = [[OguryOptinVideoAd alloc] initWithAdUnitId: adUnitId];
     self.rewardedAdDelegate = [[ALOguryPresageMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate adUnitIdentifier: adUnitId];
-    self.rewardedAd.optInVideoDelegate = self.rewardedAdDelegate;
+    self.rewardedAd.delegate = self.rewardedAdDelegate;
     
     // Update user consent before loading
     [self updateUserConsent: parameters];
@@ -189,7 +206,18 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
         [self configureRewardForParameters: parameters];
         
         self.showing = YES;
-        [self.rewardedAd showAdInViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedAd showAdInViewController: presentingViewController];
     }
     else
     {
@@ -240,52 +268,48 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     }
 }
 
-+ (MAAdapterError *)toMaxError:(OguryAdsErrorType)oguryError
++ (MAAdapterError *)toMaxError:(OguryError *)oguryError
 {
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     // Ogury iOS SDK currently does not provide error messages, so we're setting them manually
     // NOTE: SDK has no error code for noFill, instead has respective adNotAvailable delegate method
     
     // Error messages copied from https://ogury-ltd.gitbook.io/ios/ad-formats/interstitial-ad#error-codes
-    NSString *thirdPartySdkErrorMessage;
-    switch ( oguryError )
+    switch ( oguryError.code )
     {
-        case OguryAdsErrorLoadFailed:
+        case OguryAdsNotLoadedError:
             // We are not sure what kind of load error it is - may be misconfigured ad unit id, et al...
             adapterError = MAAdapterError.unspecified;
-            thirdPartySdkErrorMessage = @"The ad failed to load for an unknown reason.";
             break;
-        case OguryAdsErrorNoInternetConnection:
+        case OguryCoreErrorTypeNoInternetConnection:
             adapterError = MAAdapterError.noConnection;
-            thirdPartySdkErrorMessage = @"The device has no Internet connection. Try again when the device is connected to Internet again.";
             break;
-        case OguryAdsErrorAdDisable:
+        case OguryAdsAdDisabledError:
             adapterError = MAAdapterError.invalidConfiguration;
-            thirdPartySdkErrorMessage = @"Ad serving has been disabled for this placement/application.";
             break;
-        case OguryAdsErrorProfigNotSynced:
+        case OguryAdsProfigNotSyncedError:
             adapterError = MAAdapterError.invalidConfiguration;
-            thirdPartySdkErrorMessage = @"An internal SDK error occurred.";
             break;
-        case OguryAdsErrorAdExpired:
+        case OguryAdsAdExpiredError:
             adapterError = MAAdapterError.adExpiredError;
-            thirdPartySdkErrorMessage = @"The loaded ad is expired. You must call the show method within 4 hours after the load.";
             break;
-        case OguryAdsErrorSdkInitNotCalled:
+        case OguryAdsSdkInitNotCalledError:
             adapterError = MAAdapterError.notInitialized;
-            thirdPartySdkErrorMessage = @"The setup method has not been called before a call to the load or show methods.";
             break;
-        case OguryAdsErrorAnotherAdAlreadyDisplayed:
+        case OguryAdsAnotherAdAlreadyDisplayedError:
             adapterError = MAAdapterError.invalidLoadState;
-            thirdPartySdkErrorMessage = @"Another ad is already displayed on the screen.";
             break;
-        case OguryAdsErrorCantShowAdsInPresentingViewController:
+        case OguryAdsCantShowAdsInPresentingViewControllerError:
             adapterError = MAAdapterError.internalError;
-            thirdPartySdkErrorMessage = @"Currently a ViewController is being presented and it is preventing the ad from displaying.";
             break;
-        case OguryAdsErrorUnknown:
+        case OguryAdsAssetKeyNotValidError:
+            adapterError = MAAdapterError.invalidConfiguration;
+            break;
+        case OguryAdsNotAvailableError:
+            adapterError = MAAdapterError.noFill;
+            break;
+        case OguryAdsUnknownError:
             adapterError = MAAdapterError.unspecified;
-            thirdPartySdkErrorMessage = @"Unknown error type.";
             break;
     }
     
@@ -293,8 +317,8 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: oguryError
-               thirdPartySdkErrorMessage: thirdPartySdkErrorMessage];
+                  thirdPartySdkErrorCode: oguryError.code
+               thirdPartySdkErrorMessage: oguryError.localizedDescription];
 #pragma clang diagnostic pop
 }
 
@@ -333,44 +357,38 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     return self;
 }
 
-- (void)oguryAdsInterstitialAdLoaded
+- (void)didLoadOguryInterstitialAd:(OguryInterstitialAd *)interstitial
 {
     [self.parentAdapter log: @"Interstitial loaded: %@", self.adUnitIdentifier];
     [self.delegate didLoadInterstitialAd];
 }
 
-- (void)oguryAdsInterstitialAdNotAvailable
-{
-    [self.parentAdapter log: @"Interstitial ad NO FILL'd: %@", self.adUnitIdentifier];
-    [self.delegate didFailToLoadInterstitialAdWithError: MAAdapterError.noFill];
-}
-
-- (void)oguryAdsInterstitialAdDisplayed
+- (void)didDisplayOguryInterstitialAd:(OguryInterstitialAd *)interstitial
 {
     [self.parentAdapter log: @"Interstitial shown: %@", self.adUnitIdentifier];
 }
 
-- (void)oguryAdsInterstitialAdOnAdImpression
+- (void)didTriggerImpressionOguryInterstitialAd:(OguryInterstitialAd *)interstitial
 {
     [self.parentAdapter log: @"Interstitial triggered impression: %@", self.adUnitIdentifier];
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)oguryAdsInterstitialAdClicked
+- (void)didClickOguryInterstitialAd:(OguryInterstitialAd *)interstitial
 {
     [self.parentAdapter log: @"Interstitial clicked: %@", self.adUnitIdentifier];
     [self.delegate didClickInterstitialAd];
 }
 
-- (void)oguryAdsInterstitialAdClosed
+- (void)didCloseOguryInterstitialAd:(OguryInterstitialAd *)interstitial
 {
     [self.parentAdapter log: @"Interstitial hidden: %@", self.adUnitIdentifier];
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)oguryAdsInterstitialAdError:(OguryAdsErrorType)errorType
+- (void)didFailOguryInterstitialAdWithError:(OguryError *)error forAd:(OguryInterstitialAd *)interstitial
 {
-    MAAdapterError *maxError = [ALOguryPresageMediationAdapter toMaxError: errorType];
+    MAAdapterError *maxError = [ALOguryPresageMediationAdapter toMaxError: error];
     if ( [self.parentAdapter isShowing] )
     {
         [self.parentAdapter log: @"Interstitial (%@) failed to show with error: %@", self.adUnitIdentifier, maxError];
@@ -401,37 +419,31 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     return self;
 }
 
-- (void)oguryAdsOptinVideoAdLoaded
+- (void)didLoadOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
 {
     [self.parentAdapter log: @"Rewarded ad loaded: %@", self.adUnitIdentifier];
     [self.delegate didLoadRewardedAd];
 }
 
-- (void)oguryAdsOptinVideoAdNotAvailable
-{
-    [self.parentAdapter log: @"Rewarded ad NO FILL'd: %@", self.adUnitIdentifier];
-    [self.delegate didFailToLoadRewardedAdWithError: MAAdapterError.noFill];
-}
-
-- (void)oguryAdsOptinVideoAdDisplayed
+- (void)didDisplayOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", self.adUnitIdentifier];
 }
 
-- (void)oguryAdsOptinVideoAdOnAdImpression
+- (void)didTriggerImpressionOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
 {
     [self.parentAdapter log: @"Rewarded ad triggered impression: %@", self.adUnitIdentifier];
     [self.delegate didDisplayRewardedAd];
     [self.delegate didStartRewardedAdVideo];
 }
 
-- (void)oguryAdsOptinVideoAdClicked
+- (void)didClickOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
 {
     [self.parentAdapter log: @"Rewarded ad clicked: %@", self.adUnitIdentifier];
     [self.delegate didClickRewardedAd];
 }
 
-- (void)oguryAdsOptinVideoAdClosed
+- (void)didCloseOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
 {
     [self.delegate didCompleteRewardedAdVideo];
     
@@ -446,15 +458,15 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     [self.delegate didHideRewardedAd];
 }
 
-- (void)oguryAdsOptinVideoAdRewarded:(OGARewardItem *)item
+- (void)didRewardOguryOptinVideoAdWithItem:(OGARewardItem *)item forAd:(OguryOptinVideoAd *)optinVideo
 {
     [self.parentAdapter log: @"Rewarded ad (%@) granted reward with rewardName: %@, rewardValue: %@", self.adUnitIdentifier, item.rewardName, item.rewardValue];
     self.grantedReward = YES;
 }
 
-- (void)oguryAdsOptinVideoAdError:(OguryAdsErrorType)errorType
+- (void)didFailOguryOptinVideoAdWithError:(OguryError *)error forAd:(OguryOptinVideoAd *)optinVideo
 {
-    MAAdapterError *maxError = [ALOguryPresageMediationAdapter toMaxError: errorType];
+    MAAdapterError *maxError = [ALOguryPresageMediationAdapter toMaxError: error];
     if ( [self.parentAdapter isShowing] )
     {
         [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", self.adUnitIdentifier, maxError];

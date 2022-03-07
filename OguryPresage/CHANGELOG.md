@@ -1,6 +1,10 @@
 # Changelog
 
-## x.x.x.x
+## 2.6.0.1
+* Add support for passing in a presenting view controller.
+
+## 2.6.0.0
+* Use Ogury SDK 2.0.0 and Ogury Ads 3.0.0. Support for Header Bidding.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 
 ## 2.5.1.0

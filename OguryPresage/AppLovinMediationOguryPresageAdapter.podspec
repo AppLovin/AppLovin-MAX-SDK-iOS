@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationOguryPresageAdapter'
-s.version = '2.5.1.0'
+s.version = '2.6.0.1'
 s.platform = :ios, '10.0'
 s.summary = 'Ogury (Presage) adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationOguryPresageAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
 { 
   :type => 'Commercial License',
@@ -23,14 +23,14 @@ LICENSE
 
 s.source = 
 { 
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/ogurypresage-adapter/AppLovinMediationOguryPresageAdapter-2.5.1.0.zip',
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/ogurypresage-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationOguryPresageAdapter-2.5.1.0/AppLovinMediationOguryPresageAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'OguryAds', '= 2.5.1'
-s.dependency 'OguryChoiceManager', '= 3.1.8'
+s.dependency 'OgurySdk', '= 2.0.0'
+s.dependency 'OguryChoiceManager', '= 4.0.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
