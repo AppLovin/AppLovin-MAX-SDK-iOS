@@ -1,6 +1,9 @@
 # Changelog
 
-## 6.9.0.7
+## 6.9.0.9
+* Add support for passing in a presenting view controller.
+
+## 6.9.0.8
 * Fix icon click registration for manual native banners.
 
 ## 6.9.0.6

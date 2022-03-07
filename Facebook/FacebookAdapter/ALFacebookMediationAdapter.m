@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.7"
+#define ADAPTER_VERSION @"6.9.0.9"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -70,11 +70,8 @@
 @end
 
 @interface MAFacebookNativeAd : MANativeAd
-@property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
-@property (nonatomic, assign) BOOL isTemplateAd;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
-                         isTemplateAd:(BOOL)isTemplateAd
-                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+@property (nonatomic, weak) ALFacebookMediationAdapter *parentAdapter;
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
@@ -230,7 +227,17 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // Check if ad is already expired or invalidated, and do not show ad if that is the case. You will not get paid to show an invalidated ad.
     if ( [self.interstitialAd isAdValid] )
     {
-        [self.interstitialAd showAdFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
@@ -274,7 +281,17 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        [self.rewardedInterAd showAdFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedInterAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
@@ -555,9 +572,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // Ensure UI rendering is done on main queue
     dispatchOnMainQueue(^{
         
-        MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self
-                                                                       isTemplateAd: isTemplateAd
-                                                                       builderBlock:^(MANativeAdBuilder *builder) {
+        MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.headline;
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
@@ -1141,15 +1156,12 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 @implementation MAFacebookNativeAd
 
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
-                         isTemplateAd:(BOOL)isTemplateAd
-                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
     self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
-        self.isTemplateAd = isTemplateAd;
     }
     return self;
 }
@@ -1198,24 +1210,37 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
 #pragma clang diagnostic pop
     
-    if ( self.parentAdapter.nativeAd )
+    if ( self.parentAdapter.nativeBannerAd )
     {
-        [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
-                                                      mediaView: (FBMediaView *)self.mediaView
-                                                  iconImageView: maxNativeAdView.iconImageView
-                                                 viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                 clickableViews: clickableViews];
+        if ( maxNativeAdView.iconImageView )
+        {
+            [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
+                                                            iconImageView: maxNativeAdView.iconImageView
+                                                           viewController: [ALUtils topViewControllerFromKeyWindow]
+                                                           clickableViews: clickableViews];
+        }
+        else if ( self.mediaView )
+        {
+            [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
+                                                            iconImageView: (UIImageView *) self.mediaView
+                                                           viewController: [ALUtils topViewControllerFromKeyWindow]
+                                                           clickableViews: clickableViews];
+        }
+        else
+        {
+            [self.parentAdapter e: @"Failed to register native ad view for interaction: icon image view and media view are nil"];
+        }
+        
+        // Facebook sets the content mode for the media view to be aspect fill, so we need to reset it for true native banner media views.
+        self.mediaView.contentMode = UIViewContentModeScaleAspectFit;
     }
     else
     {
-        UIImageView *iconImageView = self.isTemplateAd ? (UIImageView *) self.mediaView : (UIImageView *) maxNativeAdView.iconImageView;
-        [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
-                                                        iconImageView: iconImageView
-                                                       viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                       clickableViews: clickableViews];
-        
-        // Facebook sets the content mode for the media view to be aspect fill, so we need to reset it for true native banner icons.
-        self.mediaView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
+                                                      mediaView: (FBMediaView *) self.mediaView
+                                                  iconImageView: maxNativeAdView.iconImageView
+                                                 viewController: [ALUtils topViewControllerFromKeyWindow]
+                                                 clickableViews: clickableViews];
     }
 }
 
