@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.1.0.0.0"
+#define ADAPTER_VERSION @"7.1.0.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -257,12 +257,34 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     if ( [self.bidInterstitialVideoManager isVideoReadyToPlayWithPlacementId: placementId unitId: unitId] )
     {
         [self log: @"Showing bidding interstitial..."];
-        [self.bidInterstitialVideoManager showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.bidInterstitialVideoManager showFromViewController: presentingViewController];
     }
     else if ( [self.interstitialVideoManager isVideoReadyToPlayWithPlacementId: placementId unitId: unitId] )
     {
         [self log: @"Showing mediated interstitial..."];
-        [self.interstitialVideoManager showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialVideoManager showFromViewController: presentingViewController];
     }
     else
     {
@@ -339,23 +361,43 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Showing bidding rewarded ad..."];
         
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
         [[MTGBidRewardAdManager sharedInstance] showVideoWithPlacementId: placementId
                                                                   unitId: unitId
                                                             withRewardId: rewardId
                                                                   userId: userId
                                                                 delegate: self.rewardedDelegate
-                                                          viewController: [ALUtils topViewControllerFromKeyWindow]];
+                                                          viewController: presentingViewController];
     }
     else if ( [[MTGRewardAdManager sharedInstance] isVideoReadyToPlayWithPlacementId: placementId unitId: unitId] )
     {
         [self log: @"Showing mediated rewarded ad..."];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
         
         [[MTGRewardAdManager sharedInstance] showVideoWithPlacementId: placementId
                                                                unitId: unitId
                                                          withRewardId: rewardId
                                                                userId: userId
                                                              delegate: self.rewardedDelegate
-                                                       viewController: [ALUtils topViewControllerFromKeyWindow]];
+                                                       viewController: presentingViewController];
     }
     else
     {

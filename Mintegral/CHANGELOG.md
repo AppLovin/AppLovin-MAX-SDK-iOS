@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.0.0.1
+* Add support for passing in a presenting view controller.
+
 ## 7.1.0.0.0
 * Certified with Mintegral SDK 7.1.0.
 
