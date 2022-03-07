@@ -9,7 +9,7 @@
 #import "ALVerveMediationAdapter.h"
 #import <HyBid.h>
 
-#define ADAPTER_VERSION @"2.11.1.2"
+#define ADAPTER_VERSION @"2.11.1.3"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject<HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -154,7 +154,17 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     if ( [self.interstitialAd isReady] )
     {
-        [self.interstitialAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd showFromViewController: presentingViewController];
     }
     else
     {
@@ -186,7 +196,18 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     if ( [self.rewardedAd isReady] )
     {
         [self configureRewardForParameters: parameters];
-        [self.rewardedAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedAd showFromViewController: presentingViewController];
     }
     else
     {

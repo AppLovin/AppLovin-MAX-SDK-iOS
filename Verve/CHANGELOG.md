@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.11.1.3
+* Add support for passing in a presenting view controller.
+
 ## 2.11.1.2
 * Add support for passing local parameter "is_location_collection_enabled" to set `+[HyBid setLocationUpdates:]`.
 
