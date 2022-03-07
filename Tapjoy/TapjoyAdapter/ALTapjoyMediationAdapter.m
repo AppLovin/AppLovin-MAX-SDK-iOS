@@ -9,7 +9,7 @@
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
 
-#define ADAPTER_VERSION @"12.9.0.1"
+#define ADAPTER_VERSION @"12.9.0.2"
 
 @interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject<TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
@@ -178,7 +178,17 @@
     
     if ( [self.interstitialPlacement isContentReady] )
     {
-        [self.interstitialPlacement showContentWithViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialPlacement showContentWithViewController: presentingViewController];
     }
     else
     {
@@ -226,7 +236,17 @@
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        [self.rewardedPlacement showContentWithViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedPlacement showContentWithViewController: presentingViewController];
     }
     else
     {

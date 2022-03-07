@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.9.0.2
+* Add support for passing in a presenting view controller.
+
 ## 12.9.0.1
 * Add support for IAB's CCPA Privacy String.
 
