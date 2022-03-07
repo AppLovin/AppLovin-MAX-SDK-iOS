@@ -10,7 +10,7 @@
 #import <DataseatSDK/Dataseat.h>
 #import <DataseatSDK/DSErrorCode.h>
 
-#define ADAPTER_VERSION @"1.0.9.0"
+#define ADAPTER_VERSION @"1.0.9.1"
 
 @interface ALDataseatMediationAdapterRouter : ALMediationAdapterRouter<DSSDKDelegate>
 @end
@@ -91,7 +91,17 @@
     
     if ( [[Dataseat shared] hasInterstitialAdAvailable] )
     {
-        [[Dataseat shared] showInterstitialAd: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [[Dataseat shared] showInterstitialAd: presentingViewController];
     }
     else
     {
@@ -142,7 +152,17 @@
     {
         [self configureRewardForParameters: parameters];
         
-        [[Dataseat shared] showRewardedAd: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [[Dataseat shared] showRewardedAd: presentingViewController];
     }
     else
     {
