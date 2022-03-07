@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.7.2.0.0"
+#define ADAPTER_VERSION @"4.7.2.0.1"
 
 @interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
@@ -179,7 +179,17 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
         return;
     }
     
-    BOOL success = [self.loadedInterstitialAd showWithPresentingViewController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    BOOL success = [self.loadedInterstitialAd showWithPresentingViewController: presentingViewController];
     if ( !success )
     {
         [self log: @"Interstitial ad failed to display"];
@@ -236,7 +246,17 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
         }
     }];
     
-    BOOL success = [self.loadedRewardedAd showWithPresentingViewController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    BOOL success = [self.loadedRewardedAd showWithPresentingViewController: presentingViewController];
     if ( !success )
     {
         [self log: @"Rewarded ad failed to display"];
