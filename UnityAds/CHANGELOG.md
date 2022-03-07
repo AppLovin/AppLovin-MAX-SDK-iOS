@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1.1
+* Add support for passing in a presenting view controller.
+
 ## 4.0.1.0
 * Certified with UnityAds SDK 4.0.1.
 
