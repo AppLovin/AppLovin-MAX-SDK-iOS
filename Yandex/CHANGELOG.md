@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.2.2
+* Add support for passing in a presenting view controller.
+
 ## 4.4.2.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Add impression callback for ad view ads.

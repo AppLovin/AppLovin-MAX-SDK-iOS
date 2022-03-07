@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"4.4.2.1"
+#define ADAPTER_VERSION @"4.4.2.2"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -146,7 +146,17 @@
         return;
     }
     
-    [self.interstitialAd presentFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.interstitialAd presentFromViewController: presentingViewController];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -189,7 +199,17 @@
     // Configure reward from server.
     [self configureRewardForParameters: parameters];
     
-    [self.rewardedAd presentFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.rewardedAd presentFromViewController: presentingViewController];
 }
 
 #pragma mark - MAAdViewAdapter Methods
