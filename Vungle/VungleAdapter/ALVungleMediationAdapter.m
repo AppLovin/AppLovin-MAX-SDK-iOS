@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.10.6.1"
+#define ADAPTER_VERSION @"6.10.6.2"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -468,9 +468,19 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
     if ( [bidResponse al_isValidString] )
     {
-        return [[VungleSDK sharedSDK] playAd: [ALUtils topViewControllerFromKeyWindow]
+        return [[VungleSDK sharedSDK] playAd: presentingViewController
                                      options: adOptions
                                  placementID: placementIdentifier
                                     adMarkup: bidResponse
@@ -478,7 +488,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
     else
     {
-        return [[VungleSDK sharedSDK] playAd: [ALUtils topViewControllerFromKeyWindow]
+        return [[VungleSDK sharedSDK] playAd: presentingViewController
                                      options: adOptions
                                  placementID: placementIdentifier
                                        error: error];

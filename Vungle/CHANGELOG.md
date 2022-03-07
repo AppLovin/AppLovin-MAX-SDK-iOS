@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.10.6.2
+* Add support for passing in a presenting view controller.
+
 ## 6.10.6.1
 * Add missing call to configure rewards for rewarded ads.
 
