@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.3"
+#define ADAPTER_VERSION @"1.14.2.4"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -219,7 +219,17 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         return;
     }
     
-    [self.interstitialAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.interstitialAd showFromViewController: presentingViewController];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -254,7 +264,18 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     }
     
     [self configureRewardForParameters: parameters];
-    [self.rewardedAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+    
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.rewardedAd showFromViewController: presentingViewController];
 }
 
 #pragma mark - MAAdViewAdapter Methods
