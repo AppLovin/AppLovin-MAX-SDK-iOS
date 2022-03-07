@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.2.1
+* Add support for passing in a presenting view controller.
+
 ## 10.0.2.0
 * Certified with InMobi SDK 10.0.2.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.

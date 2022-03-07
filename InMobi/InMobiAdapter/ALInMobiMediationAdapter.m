@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.2.0"
+#define ADAPTER_VERSION @"10.0.2.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -279,7 +279,17 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             }
         }
         
-        [interstitial showFromViewController: [ALUtils topViewControllerFromKeyWindow] withAnimation: animationType];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [interstitial showFromViewController: presentingViewController withAnimation: animationType];
         
         return YES;
     }
