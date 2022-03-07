@@ -10,7 +10,7 @@
 #import <Chartboost/Chartboost.h>
 #import <Chartboost/Chartboost+Mediation.h>
 
-#define ADAPTER_VERSION @"8.5.0.2"
+#define ADAPTER_VERSION @"8.5.0.3"
 
 @interface ALChartboostInterstitialDelegate : NSObject<CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -154,7 +154,17 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     
     if ( [self.interstitialAd isCached] )
     {
-        [self.interstitialAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.interstitialAd showFromViewController: presentingViewController];
     }
     else
     {
@@ -186,7 +196,18 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
-        [self.rewardedAd showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedAd showFromViewController: presentingViewController];
     }
     else
     {

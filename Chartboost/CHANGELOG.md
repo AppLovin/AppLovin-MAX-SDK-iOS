@@ -1,7 +1,8 @@
 # Changelog
 
-## x.x.x.x
+## 8.5.0.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Add support for passing in a presenting view controller.
 
 ## 8.5.0.2
 * Certified with Chartboost SDK 8.5.0.1.
