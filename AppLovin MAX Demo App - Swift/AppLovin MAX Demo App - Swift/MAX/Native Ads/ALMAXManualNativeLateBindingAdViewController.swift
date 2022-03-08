@@ -16,6 +16,7 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     
     private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
     
+    private var nativeAdView: MANativeAdView!
     private var nativeAd: MAAd?
     
     // MARK: View Lifecycle
@@ -43,12 +44,17 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
         {
             nativeAdLoader.destroy(currentNativeAd)
         }
+        
+        if let currentNativeAdView = nativeAdView
+        {
+            currentNativeAdView.removeFromSuperview()
+        }
     }
     
-    func createNativeAdView(): MANativeAdView
+    func createNativeAdView() -> MANativeAdView
     {
         let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
-        let nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView?
+        let nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView
         
         let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
             builder.titleLabelTag = 1001
@@ -70,31 +76,38 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     {
         cleanUpAdIfNeeded()
 
-        nativeAdLoader.loadAd(into: createNativeAdView())
+        nativeAdLoader.loadAd()
+        if let nativeAd = nativeAd
+        {
+            nativeAdLoader.renderNativeAdView(createNativeAdView(), with: nativeAd)
+        }
     }
 }
 
 extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
 {
-    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd)
+    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView?, for ad: MAAd)
     {
         logCallback()
         
         // Save ad for clean up
         nativeAd = ad
-
-        // Add ad view to view
-        nativeAdView = maxNativeAdView
-        nativeAdContainerView.addSubview(maxNativeAdView)
-
-        // Set to false if modifying constraints after adding the ad view to your layout
-        maxNativeAdView.translatesAutoresizingMaskIntoConstraints = false
-
-        // Set ad view to span width and height of container and center the ad
-        nativeAdContainerView.widthAnchor.constraint(equalTo: maxNativeAdView.widthAnchor).isActive = true
-        nativeAdContainerView.heightAnchor.constraint(equalTo: maxNativeAdView.heightAnchor).isActive = true
-        nativeAdContainerView.centerXAnchor.constraint(equalTo: maxNativeAdView.centerXAnchor).isActive = true
-        nativeAdContainerView.centerYAnchor.constraint(equalTo: maxNativeAdView.centerYAnchor).isActive = true
+        
+        if let adView = maxNativeAdView
+        {
+            // Add ad view to view
+            nativeAdView = adView
+            nativeAdContainerView.addSubview(adView)
+            
+            // Set to false if modifying constraints after adding the ad view to your layout
+            adView.translatesAutoresizingMaskIntoConstraints = false
+            
+            // Set ad view to span width and height of container and center the ad
+            nativeAdContainerView.widthAnchor.constraint(equalTo: adView.widthAnchor).isActive = true
+            nativeAdContainerView.heightAnchor.constraint(equalTo: adView.heightAnchor).isActive = true
+            nativeAdContainerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
+            nativeAdContainerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
+        }
     }
     
     func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
@@ -108,7 +121,7 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
     }
 }
 
-extension ALMAXManualNativeAdViewController: MAAdRevenueDelegate
+extension ALMAXManualNativeLateBindingAdViewController: MAAdRevenueDelegate
 {
     // MARK: MAAdRevenueDelegate Protocol
     

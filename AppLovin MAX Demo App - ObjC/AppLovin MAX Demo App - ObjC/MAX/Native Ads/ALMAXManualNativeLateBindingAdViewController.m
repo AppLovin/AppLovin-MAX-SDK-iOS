@@ -15,6 +15,7 @@
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) MANativeAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
 
 @end
@@ -46,6 +47,11 @@
     if ( self.nativeAd )
     {
         [self.nativeAdLoader destroyAd: self.nativeAd];
+    }
+    
+    if ( self.nativeAdView )
+    {
+        [self.nativeAdView removeFromSuperview];
     }
 }
 
@@ -88,6 +94,7 @@
     self.nativeAd = ad;
     
     // Add ad view to view
+    self.nativeAdView = nativeAdView;
     [self.nativeAdContainerView addSubview: nativeAdView];
     
     // Set to false if modifying constraints after adding the ad view to your layout
