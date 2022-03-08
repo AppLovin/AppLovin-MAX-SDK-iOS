@@ -1713,7 +1713,7 @@
         <!--Manual Late Binding API-->
         <scene sceneID="MQg-ZZ-3Bp">
             <objects>
-                <viewController title="Manual API" hidesBottomBarWhenPushed="YES" id="Qm7-sx-BRe" userLabel="Manual Late Binding API" customClass="ALMAXManualNativeAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Manual API" hidesBottomBarWhenPushed="YES" id="Qm7-sx-BRe" userLabel="Manual Late Binding API" customClass="ALMAXManualNativeLateBindingAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2jF-cb-5uE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1722,7 +1722,7 @@
                                 <rect key="frame" x="0.0" y="744" width="414" height="30"/>
                                 <state key="normal" title="Show"/>
                                 <connections>
-                                    <action selector="showAd" destination="Qm7-sx-BRe" eventType="touchUpInside" id="zjW-Np-sSZ"/>
+                                    <action selector="showAd" destination="Qm7-sx-BRe" eventType="touchUpInside" id="NP7-t0-K6r"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2SI-RC-0Wt" userLabel="Native Ad Container">
@@ -1782,7 +1782,7 @@
                     <navigationItem key="navigationItem" title="Manual API" id="loj-iZ-qKN"/>
                     <connections>
                         <outlet property="callbackTableView" destination="6kK-JD-rxh" id="Evi-Ly-NKw"/>
-                        <outlet property="nativeAdContainerView" destination="2SI-RC-0Wt" id="45U-fW-Ohx"/>
+                        <outlet property="nativeAdContainerView" destination="2SI-RC-0Wt" id="LqU-IL-Ir2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xR7-nR-KEz" userLabel="First Responder" sceneMemberID="firstResponder"/>

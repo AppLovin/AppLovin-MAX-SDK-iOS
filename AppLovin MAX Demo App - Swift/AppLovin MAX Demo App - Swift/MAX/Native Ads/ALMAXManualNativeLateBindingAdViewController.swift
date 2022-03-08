@@ -74,7 +74,7 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     }
 }
 
-extension ALMAXManualNativeAdViewController: MANativeAdDelegate
+extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
 {
     func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd)
     {

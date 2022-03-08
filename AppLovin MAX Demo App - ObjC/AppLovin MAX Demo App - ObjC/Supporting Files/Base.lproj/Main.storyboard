@@ -1623,7 +1623,7 @@
         <!--Manual Late Binding API-->
         <scene sceneID="Um3-1w-nFr">
             <objects>
-                <viewController title="Manual API" hidesBottomBarWhenPushed="YES" id="oGS-Vh-k44" userLabel="Manual Late Binding API" customClass="ALMAXManualNativeAdViewController" sceneMemberID="viewController">
+                <viewController title="Manual API" hidesBottomBarWhenPushed="YES" id="oGS-Vh-k44" userLabel="Manual Late Binding API" customClass="ALMAXManualNativeLateBindingAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ydE-ZR-p0e">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1692,7 +1692,7 @@
                     <navigationItem key="navigationItem" title="Manual API" id="9cg-d7-pOe"/>
                     <connections>
                         <outlet property="callbackTableView" destination="TlK-if-ZSk" id="GbD-6J-W6p"/>
-                        <outlet property="nativeAdContainerView" destination="dZc-TU-KTu" id="ZK8-T4-hE1"/>
+                        <outlet property="nativeAdContainerView" destination="dZc-TU-KTu" id="9sO-0d-0HG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OtN-QD-NTp" userLabel="First Responder" sceneMemberID="firstResponder"/>

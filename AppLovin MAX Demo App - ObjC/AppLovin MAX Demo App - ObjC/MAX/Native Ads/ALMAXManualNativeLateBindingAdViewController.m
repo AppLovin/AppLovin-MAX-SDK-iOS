@@ -19,7 +19,7 @@
 
 @end
 
-@implementation ALMAXManualNativeAdViewController
+@implementation ALMAXManualNativeLateBindingAdViewController
 
 #pragma mark - View Lifecycle
 
@@ -74,7 +74,8 @@
 {
     [self cleanUpAdIfNeeded];
     
-    [self.nativeAdLoader loadAdIntoAdView: [self createNativeAdView]];
+    [self.nativeAdLoader loadAd];
+    [self.nativeAdLoader renderNativeAdView: [self createNativeAdView] withAd: self.nativeAd];
 }
 
 #pragma mark - NativeAdDelegate Protocol
@@ -87,7 +88,6 @@
     self.nativeAd = ad;
     
     // Add ad view to view
-    self.nativeAdView = nativeAdView;
     [self.nativeAdContainerView addSubview: nativeAdView];
     
     // Set to false if modifying constraints after adding the ad view to your layout
