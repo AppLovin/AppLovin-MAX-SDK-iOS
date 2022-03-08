@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.5.0.1"
+#define ADAPTER_VERSION @"4.5.0.2"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject<CRInterstitialDelegate>
@@ -268,13 +268,11 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (void)updatePrivacySettings:(id<MAAdapterParameters>)parameters
 {
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *isDoNotSell = parameters.isDoNotSell;
+    if ( isDoNotSell )
     {
-        NSNumber *hasUserConsent = parameters.hasUserConsent;
-        if ( hasUserConsent )
-        {
-            [[Criteo sharedCriteo] setUsPrivacyOptOut: !hasUserConsent.boolValue];
-        }
+        // CCPA
+        [[Criteo sharedCriteo] setUsPrivacyOptOut: isDoNotSell.boolValue];
     }
 }
 
