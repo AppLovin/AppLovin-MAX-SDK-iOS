@@ -1,8 +1,8 @@
 //
-//  ALMAXManualNativeAdViewController.swift
+//  ALMAXManualNativeLateBindingAdViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
-//  Created by Billy Hu on 1/20/22.
+//  Created by Billy Hu on 3/8/22.
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
@@ -10,13 +10,12 @@ import UIKit
 import Adjust
 import AppLovinSDK
 
-class ALMAXManualNativeAdViewController: ALBaseAdViewController
+class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
     
     private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
     
-    private var nativeAdView: MANativeAdView!
     private var nativeAd: MAAd?
     
     // MARK: View Lifecycle
@@ -24,20 +23,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
-        nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView?
-        
-        let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
-            builder.titleLabelTag = 1001
-            builder.advertiserLabelTag = 1002
-            builder.bodyLabelTag = 1003
-            builder.iconImageViewTag = 1004
-            builder.optionsContentViewTag = 1005
-            builder.mediaContentViewTag = 1006
-            builder.callToActionButtonTag = 1007
-        })
-        nativeAdView.bindViews(with: adViewBinder)
 
         nativeAdLoader.nativeAdDelegate = self
         nativeAdLoader.revenueDelegate = self
@@ -58,11 +43,25 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
         {
             nativeAdLoader.destroy(currentNativeAd)
         }
-
-        if let currentNativeAdView = nativeAdView
-        {
-            currentNativeAdView.removeFromSuperview()
-        }
+    }
+    
+    func createNativeAdView(): MANativeAdView
+    {
+        let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
+        let nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView?
+        
+        let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
+            builder.titleLabelTag = 1001
+            builder.advertiserLabelTag = 1002
+            builder.bodyLabelTag = 1003
+            builder.iconImageViewTag = 1004
+            builder.optionsContentViewTag = 1005
+            builder.mediaContentViewTag = 1006
+            builder.callToActionButtonTag = 1007
+        })
+        nativeAdView.bindViews(with: adViewBinder)
+        
+        return nativeAdView
     }
     
     // MARK: IB Actions
@@ -71,7 +70,7 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
     {
         cleanUpAdIfNeeded()
 
-        nativeAdLoader.loadAd(into: nativeAdView)
+        nativeAdLoader.loadAd(into: createNativeAdView())
     }
 }
 

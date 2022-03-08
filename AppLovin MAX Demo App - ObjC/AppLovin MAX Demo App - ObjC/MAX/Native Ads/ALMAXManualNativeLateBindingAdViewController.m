@@ -1,21 +1,20 @@
 //
-//  ALMAXTemplateNativeAdViewController.m
+//  ALMAXManualNativeLateBindingAdViewController.m
 //  AppLovin MAX Demo App - ObjC
 //
-//  Created by Billy Hu on 1/20/22.
+//  Created by Billy Hu on 3/8/22.
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALMAXManualNativeAdViewController.h"
+#import "ALMAXManualNativeLateBindingAdViewController.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMAXManualNativeAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
+@interface ALMAXManualNativeLateBindingAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
-@property (nonatomic, strong) MANativeAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
 
 @end
@@ -27,20 +26,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UINib *nativeAdViewNib = [UINib nibWithNibName: @"NativeManualAdView" bundle: NSBundle.mainBundle];
-    self.nativeAdView = [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
-    
-    MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
-        builder.titleLabelTag = 1001;
-        builder.advertiserLabelTag = 1002;
-        builder.bodyLabelTag = 1003;
-        builder.iconImageViewTag = 1004;
-        builder.optionsContentViewTag = 1005;
-        builder.mediaContentViewTag = 1006;
-        builder.callToActionButtonTag = 1007;
-    }];
-    [self.nativeAdView bindViewsWithAdViewBinder: binder];
     
     self.nativeAdLoader = [[MANativeAdLoader alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT"];
     self.nativeAdLoader.nativeAdDelegate = self;
@@ -62,11 +47,25 @@
     {
         [self.nativeAdLoader destroyAd: self.nativeAd];
     }
+}
+
+- (MANativeAdView *)createNativeAdView
+{
+    UINib *nativeAdViewNib = [UINib nibWithNibName: @"NativeManualAdView" bundle: NSBundle.mainBundle];
+    MANativeAdView *nativeAdView = [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
     
-    if ( self.nativeAdView )
-    {
-        [self.nativeAdView removeFromSuperview];
-    }
+    MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
+        builder.titleLabelTag = 1001;
+        builder.advertiserLabelTag = 1002;
+        builder.bodyLabelTag = 1003;
+        builder.iconImageViewTag = 1004;
+        builder.optionsContentViewTag = 1005;
+        builder.mediaContentViewTag = 1006;
+        builder.callToActionButtonTag = 1007;
+    }];
+    [nativeAdView bindViewsWithAdViewBinder: binder];
+    
+    return nativeAdView;
 }
 
 #pragma mark - IB Actions
@@ -75,7 +74,7 @@
 {
     [self cleanUpAdIfNeeded];
     
-    [self.nativeAdLoader loadAdIntoAdView: self.nativeAdView];
+    [self.nativeAdLoader loadAdIntoAdView: [self createNativeAdView]];
 }
 
 #pragma mark - NativeAdDelegate Protocol
