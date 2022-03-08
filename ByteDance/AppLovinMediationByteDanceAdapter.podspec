@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationByteDanceAdapter'
-s.version = '4.3.0.2.2'
+s.version = '4.3.0.2.3'
 s.platform = :ios, '10.0'
 s.summary = 'ByteDance adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

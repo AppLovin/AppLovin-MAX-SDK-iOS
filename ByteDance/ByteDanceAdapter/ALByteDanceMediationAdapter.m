@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.3.0.2.2"
+#define ADAPTER_VERSION @"4.3.0.2.3"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -288,49 +288,51 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     [BUAdSDKManager setUserExtData: [self createUserExtData: parameters isInitializing: NO]];
     [self updateConsentWithParameters: parameters];
     
-    if ( isNative )
-    {
-        BUAdSlot *slot = [[BUAdSlot alloc] init];
-        slot.ID = slotId;
-        slot.AdType = BUAdSlotAdTypeFeed;
-        slot.position = BUAdSlotPositionTop;
-        slot.imgSize = [BUSize sizeBy: BUProposalSize_Banner600_400];
+    dispatchOnMainQueue(^{
         
-        self.nativeAdViewAdManager = [[BUNativeAdsManager alloc] initWithSlot: slot];
-        
-        self.nativeAdViewAdDelegate = [[ALByteDanceNativeAdViewAdDelegate alloc] initWithParentAdapter: self
-                                                                                            parameters: parameters
-                                                                                                format: adFormat
-                                                                                             andNotify: delegate];
-        self.nativeAdViewAdManager.delegate = self.nativeAdViewAdDelegate;
-        
-        if ( [bidResponse al_isValidString] )
+        if ( isNative )
         {
-            [self.nativeAdViewAdManager setMopubAdMarkUp: bidResponse];
+            BUAdSlot *slot = [[BUAdSlot alloc] init];
+            slot.ID = slotId;
+            slot.AdType = BUAdSlotAdTypeFeed;
+            slot.position = BUAdSlotPositionTop;
+            slot.imgSize = [BUSize sizeBy: BUProposalSize_Banner600_400];
+            
+            self.nativeAdViewAdManager = [[BUNativeAdsManager alloc] initWithSlot: slot];
+            self.nativeAdViewAdDelegate = [[ALByteDanceNativeAdViewAdDelegate alloc] initWithParentAdapter: self
+                                                                                                parameters: parameters
+                                                                                                    format: adFormat
+                                                                                                 andNotify: delegate];
+            self.nativeAdViewAdManager.delegate = self.nativeAdViewAdDelegate;
+            
+            if ( [bidResponse al_isValidString] )
+            {
+                [self.nativeAdViewAdManager setMopubAdMarkUp: bidResponse];
+            }
+            else
+            {
+                [self.nativeAdViewAdManager loadAdDataWithCount: 1];
+            }
+            
         }
         else
         {
-            [self.nativeAdViewAdManager loadAdDataWithCount: 1];
+            self.adViewAd = [[BUNativeExpressBannerView alloc] initWithSlotID: slotId
+                                                           rootViewController: [ALUtils topViewControllerFromKeyWindow]
+                                                                       adSize: [self sizeFromAdFormat: adFormat]];
+            self.adViewAdDelegate = [[ALByteDanceAdViewAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+            self.adViewAd.delegate = self.adViewAdDelegate;
+            
+            if ( [bidResponse al_isValidString] )
+            {
+                [self.adViewAd setMopubAdMarkUp: bidResponse];
+            }
+            else
+            {
+                [self.adViewAd loadAdData];
+            }
         }
-    }
-    else
-    {
-        self.adViewAd = [[BUNativeExpressBannerView alloc] initWithSlotID: slotId
-                                                       rootViewController: [ALUtils topViewControllerFromKeyWindow]
-                                                                   adSize: [self sizeFromAdFormat: adFormat]];
-        
-        self.adViewAdDelegate = [[ALByteDanceAdViewAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-        self.adViewAd.delegate = self.adViewAdDelegate;
-        
-        if ( [bidResponse al_isValidString] )
-        {
-            [self.adViewAd setMopubAdMarkUp: bidResponse];
-        }
-        else
-        {
-            [self.adViewAd loadAdData];
-        }
-    }
+    });
 }
 
 #pragma mark - Native Ad Methods
@@ -349,21 +351,23 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     slot.position = BUAdSlotPositionTop;
     slot.imgSize = [BUSize sizeBy: BUProposalSize_Banner600_400];
     
-    self.nativeAdManager = [[BUNativeAdsManager alloc] initWithSlot: slot];
-    
-    self.nativeAdDelegate = [[ALByteDanceNativeAdDelegate alloc] initWithParentAdapter: self
-                                                                            parameters: parameters
-                                                                             andNotify: delegate];
-    self.nativeAdManager.delegate = self.nativeAdDelegate;
-    
-    if ( [bidResponse al_isValidString] )
-    {
-        [self.nativeAdManager setMopubAdMarkUp: bidResponse];
-    }
-    else
-    {
-        [self.nativeAdManager loadAdDataWithCount: 1];
-    }
+    dispatchOnMainQueue(^{
+        
+        self.nativeAdManager = [[BUNativeAdsManager alloc] initWithSlot: slot];
+        self.nativeAdDelegate = [[ALByteDanceNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                parameters: parameters
+                                                                                 andNotify: delegate];
+        self.nativeAdManager.delegate = self.nativeAdDelegate;
+        
+        if ( [bidResponse al_isValidString] )
+        {
+            [self.nativeAdManager setMopubAdMarkUp: bidResponse];
+        }
+        else
+        {
+            [self.nativeAdManager loadAdDataWithCount: 1];
+        }
+    });
 }
 
 #pragma mark - Helper Methods

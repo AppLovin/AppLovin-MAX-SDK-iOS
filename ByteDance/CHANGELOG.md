@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.0.2.3
+* Fix UI thread assertion crashes by running ad view and native ad creation and loads on main thread.
+
 ## 4.3.0.2.2
 * Add support for passing in a presenting view controller.
 
