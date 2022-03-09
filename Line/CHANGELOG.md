@@ -1,7 +1,9 @@
 # Changelog
 
-## x.x.x.x
+## 2.4.20211004.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Fix UI thread warnings by running ad view and native ad creation and loads on main thread.
+* Fix potential media view resizing by setting content mode explicitly.
 
 ## 2.4.20211004.2
 * Fix icon view never getting registered for interaction.

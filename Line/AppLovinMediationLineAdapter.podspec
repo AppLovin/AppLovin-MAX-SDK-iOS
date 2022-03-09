@@ -5,10 +5,10 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationLineAdapter'
-s.version = '2.4.20211004.2'
+s.version = '2.4.20211004.3'
 s.platform = :ios, '9.0'
 s.summary = 'Line adapter used for mediation with the AppLovin MAX SDK'
-s.homepage = 'https://github.com/CocoaPods/Specs/search?o=desc&q=AppLovinMediationLineAdapter&s=indexed'
+s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license =
 {
   :type => 'Commercial License',
@@ -23,11 +23,11 @@ LICENSE
 
 s.source = 
 {
-  :http => 'https://artifacts.applovin.com/ios/com/applovin/mediation/line-adapter/AppLovinMediationLineAdapter-2.4.20211004.2.zip',
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/line-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
-s.vendored_frameworks = 'AppLovinMediationLineAdapter-2.4.20211004.2/AppLovinMediationLineAdapter.framework'
+s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
 s.dependency 'FiveAd', '= 2.4.20211004'
 s.dependency 'AppLovinSDK'

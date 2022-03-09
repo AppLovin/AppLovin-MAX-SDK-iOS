@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.4.20211004.2"
+#define ADAPTER_VERSION @"2.4.20211004.3"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -218,32 +218,37 @@ static ALAtomicBoolean *ALLineInitialized;
     
     [self log: @"Loading %@%@ ad for slot id: %@...", isNative ? @"native " : @"", adFormat.label, slotId];
     
-    if ( isNative )
-    {
-        self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                                     adFormat: adFormat
-                                                                                             serverParameters: parameters.serverParameters
-                                                                                                    andNotify: delegate];
-        self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-        self.nativeAd.delegate = self.nativeAdViewDelegate;
+    dispatchOnMainQueue(^{
         
-        // We always want to mute banners and MRECs
-        [self.nativeAd enableSound: NO];
-        
-        [self.nativeAd loadAdAsync];
-    }
-    else
-    {
-        self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormat: adFormat andNotify: delegate];
-        self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
-        self.adView.delegate = self.adViewDelegate;
-        self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
-        
-        // We always want to mute banners and MRECs
-        [self.adView enableSound: NO];
-        
-        [self.adView loadAdAsync];
-    }
+        if ( isNative )
+        {
+            self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                         adFormat: adFormat
+                                                                                                 serverParameters: parameters.serverParameters
+                                                                                                        andNotify: delegate];
+            self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
+            self.nativeAd.delegate = self.nativeAdViewDelegate;
+            
+            // We always want to mute banners and MRECs
+            [self.nativeAd enableSound: NO];
+            
+            [self.nativeAd loadAdAsync];
+        }
+        else
+        {
+            self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                             adFormat: adFormat
+                                                                                            andNotify: delegate];
+            self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
+            self.adView.delegate = self.adViewDelegate;
+            self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
+            
+            // We always want to mute banners and MRECs
+            [self.adView enableSound: NO];
+            
+            [self.adView loadAdAsync];
+        }
+    });
 }
 
 #pragma mark - MANativeAdAdapter Methods
@@ -256,13 +261,16 @@ static ALAtomicBoolean *ALLineInitialized;
     self.nativeAdDelegate = [[ALLineMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
                                                                                  serverParameters: parameters.serverParameters
                                                                                         andNotify: delegate];
-    self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-    self.nativeAd.delegate = self.nativeAdDelegate;
-    
-    // We always want to mute banners and MRECs
-    [self.nativeAd enableSound: NO];
-    
-    [self.nativeAd loadAdAsync];
+    dispatchOnMainQueue(^{
+        
+        self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
+        self.nativeAd.delegate = self.nativeAdDelegate;
+        
+        // We always want to mute banners and MRECs
+        [self.nativeAd enableSound: NO];
+        
+        [self.nativeAd loadAdAsync];
+    });
 }
 
 #pragma mark - Helper Methods
@@ -873,34 +881,37 @@ static ALAtomicBoolean *ALLineInitialized;
     }
     
     [loadedNativeAd loadIconImageAsyncWithBlock:^(UIImage *iconImage) {
-        
-        FADNative *nativeAd = self.parentAdapter.nativeAd;
-        if ( !nativeAd )
-        {
-            [self.parentAdapter log: @"Native ad destroyed before assets finished load for slot id: %@", ad.slotId];
-            [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.invalidLoadState];
+        // Ensure UI rendering is done on main queue
+        dispatchOnMainQueue(^{
             
-            return;
-        }
-        
-        MANativeAd *maxNativeAd = [[MALineNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = nativeAd.getAdTitle;
-            builder.body = nativeAd.getDescriptionText;
-            builder.callToAction = nativeAd.getButtonText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
-            builder.mediaView = nativeAd.getAdMainView;
+            FADNative *nativeAd = self.parentAdapter.nativeAd;
+            if ( !nativeAd )
+            {
+                [self.parentAdapter log: @"Native ad destroyed before assets finished load for slot id: %@", ad.slotId];
+                [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.invalidLoadState];
+                
+                return;
+            }
             
+            MANativeAd *maxNativeAd = [[MALineNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = nativeAd.getAdTitle;
+                builder.body = nativeAd.getDescriptionText;
+                builder.callToAction = nativeAd.getButtonText;
+                builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
+                builder.mediaView = nativeAd.getAdMainView;
+                
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.getAdvertiserName];
-            }
+                // Introduced in 10.4.0
+                if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+                {
+                    [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.getAdvertiserName];
+                }
 #pragma clang diagnostic pop
-        }];
-        
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+            }];
+            
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        });
     }];
 }
 
@@ -1041,7 +1052,13 @@ static ALAtomicBoolean *ALLineInitialized;
     }
 #pragma clang diagnostic pop
     
-    [nativeAd registerViewForInteraction: maxNativeAdView withInformationIconView: maxNativeAdView.iconImageView withClickableViews: clickableViews];
+    dispatchOnMainQueue(^{
+        
+        [nativeAd registerViewForInteraction: maxNativeAdView withInformationIconView: maxNativeAdView.iconImageView withClickableViews: clickableViews];
+        
+        // LINE media view can sometimes go outside the bounds of the view, so set the content mode to be safe.
+        self.mediaView.contentMode = UIViewContentModeScaleAspectFit;
+    });
 }
 
 @end
