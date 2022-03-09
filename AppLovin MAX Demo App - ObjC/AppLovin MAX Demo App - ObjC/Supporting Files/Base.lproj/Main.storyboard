@@ -1628,11 +1628,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0Z-mc-ffJ">
-                                <rect key="frame" x="0.0" y="744" width="414" height="30"/>
-                                <state key="normal" title="Show"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhA-NH-dzP" userLabel="Load">
+                                <rect key="frame" x="0.0" y="744" width="207" height="30"/>
+                                <state key="normal" title="Load"/>
                                 <connections>
-                                    <action selector="showAd" destination="oGS-Vh-k44" eventType="touchUpInside" id="JRv-iz-ImS"/>
+                                    <action selector="loadAd" destination="oGS-Vh-k44" eventType="touchUpInside" id="zOg-ap-Zow"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dZc-TU-KTu" userLabel="Native Ad Container">
@@ -1674,18 +1674,30 @@
                                     <outlet property="dataSource" destination="oGS-Vh-k44" id="xeG-a4-MfY"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0Z-mc-ffJ">
+                                <rect key="frame" x="207" y="744" width="207" height="30"/>
+                                <state key="normal" title="Show"/>
+                                <connections>
+                                    <action selector="showAd" destination="oGS-Vh-k44" eventType="touchUpInside" id="JRv-iz-ImS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4MJ-0L-KD0"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="dZc-TU-KTu" firstAttribute="centerX" secondItem="4MJ-0L-KD0" secondAttribute="centerX" id="0u0-ci-cfO"/>
                             <constraint firstItem="e0Z-mc-ffJ" firstAttribute="top" secondItem="TlK-if-ZSk" secondAttribute="bottom" constant="10" id="1Pu-Iw-nW5"/>
-                            <constraint firstItem="e0Z-mc-ffJ" firstAttribute="leading" secondItem="4MJ-0L-KD0" secondAttribute="leading" id="J4A-Iy-qdy"/>
+                            <constraint firstItem="fhA-NH-dzP" firstAttribute="leading" secondItem="4MJ-0L-KD0" secondAttribute="leading" id="7qq-oK-SLX"/>
+                            <constraint firstItem="e0Z-mc-ffJ" firstAttribute="leading" secondItem="fhA-NH-dzP" secondAttribute="trailing" id="J4A-Iy-qdy"/>
                             <constraint firstItem="TlK-if-ZSk" firstAttribute="trailing" secondItem="ydE-ZR-p0e" secondAttribute="trailing" id="Yq6-RP-BO0"/>
                             <constraint firstItem="e0Z-mc-ffJ" firstAttribute="bottom" secondItem="4MJ-0L-KD0" secondAttribute="bottom" id="bca-Jz-z53"/>
+                            <constraint firstItem="e0Z-mc-ffJ" firstAttribute="height" secondItem="fhA-NH-dzP" secondAttribute="height" id="bsT-6O-JDH"/>
+                            <constraint firstItem="e0Z-mc-ffJ" firstAttribute="width" secondItem="fhA-NH-dzP" secondAttribute="width" id="eQ9-9e-uPV"/>
                             <constraint firstItem="dZc-TU-KTu" firstAttribute="bottom" secondItem="TlK-if-ZSk" secondAttribute="top" id="gzp-Ax-3V1"/>
+                            <constraint firstItem="fhA-NH-dzP" firstAttribute="top" secondItem="TlK-if-ZSk" secondAttribute="bottom" constant="10" id="oc5-0e-CzE"/>
                             <constraint firstItem="TlK-if-ZSk" firstAttribute="leading" secondItem="ydE-ZR-p0e" secondAttribute="leading" id="viQ-ra-003"/>
                             <constraint firstItem="dZc-TU-KTu" firstAttribute="top" secondItem="4MJ-0L-KD0" secondAttribute="top" id="w1i-We-H6T"/>
+                            <constraint firstItem="fhA-NH-dzP" firstAttribute="bottom" secondItem="4MJ-0L-KD0" secondAttribute="bottom" id="wZP-3d-BYF"/>
                             <constraint firstItem="e0Z-mc-ffJ" firstAttribute="trailing" secondItem="4MJ-0L-KD0" secondAttribute="trailing" id="waq-db-e5h"/>
                         </constraints>
                     </view>
@@ -1697,7 +1709,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OtN-QD-NTp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="2218"/>
+            <point key="canvasLocation" x="1928.985507246377" y="2217.8571428571427"/>
         </scene>
     </scenes>
     <resources>

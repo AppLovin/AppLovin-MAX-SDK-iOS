@@ -1719,10 +1719,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NyU-AS-576">
-                                <rect key="frame" x="0.0" y="744" width="414" height="30"/>
+                                <rect key="frame" x="207" y="744" width="207" height="30"/>
                                 <state key="normal" title="Show"/>
                                 <connections>
                                     <action selector="showAd" destination="Qm7-sx-BRe" eventType="touchUpInside" id="NP7-t0-K6r"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YI9-ca-Wga" userLabel="Load">
+                                <rect key="frame" x="0.0" y="744" width="207" height="30"/>
+                                <state key="normal" title="Load"/>
+                                <connections>
+                                    <action selector="loadAd" destination="Qm7-sx-BRe" eventType="touchUpInside" id="bF6-DF-gCr"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2SI-RC-0Wt" userLabel="Native Ad Container">
@@ -1768,15 +1775,20 @@
                         <viewLayoutGuide key="safeArea" id="Q9J-A7-oRJ"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="NyU-AS-576" firstAttribute="width" secondItem="YI9-ca-Wga" secondAttribute="width" id="2ZD-xE-P73"/>
+                            <constraint firstItem="YI9-ca-Wga" firstAttribute="top" secondItem="6kK-JD-rxh" secondAttribute="bottom" constant="10" id="3oQ-bT-dd6"/>
                             <constraint firstItem="2SI-RC-0Wt" firstAttribute="bottom" secondItem="6kK-JD-rxh" secondAttribute="top" id="5jA-Fb-3XK"/>
                             <constraint firstItem="2SI-RC-0Wt" firstAttribute="centerX" secondItem="Q9J-A7-oRJ" secondAttribute="centerX" id="7HG-SA-L0r"/>
+                            <constraint firstItem="Q9J-A7-oRJ" firstAttribute="bottom" secondItem="YI9-ca-Wga" secondAttribute="bottom" id="ABU-Wl-weo"/>
                             <constraint firstItem="2SI-RC-0Wt" firstAttribute="top" secondItem="Q9J-A7-oRJ" secondAttribute="top" id="RbH-bB-8p4"/>
                             <constraint firstItem="6kK-JD-rxh" firstAttribute="trailing" secondItem="2jF-cb-5uE" secondAttribute="trailing" id="SoI-vZ-QJE"/>
                             <constraint firstItem="6kK-JD-rxh" firstAttribute="leading" secondItem="2jF-cb-5uE" secondAttribute="leading" id="V0E-BO-GPu"/>
                             <constraint firstItem="NyU-AS-576" firstAttribute="trailing" secondItem="Q9J-A7-oRJ" secondAttribute="trailing" id="e3b-Av-OXf"/>
                             <constraint firstItem="NyU-AS-576" firstAttribute="top" secondItem="6kK-JD-rxh" secondAttribute="bottom" constant="10" id="hHz-il-rcJ"/>
                             <constraint firstItem="NyU-AS-576" firstAttribute="bottom" secondItem="Q9J-A7-oRJ" secondAttribute="bottom" id="pLo-Qe-DnY"/>
-                            <constraint firstItem="NyU-AS-576" firstAttribute="leading" secondItem="Q9J-A7-oRJ" secondAttribute="leading" id="xeb-S3-1lh"/>
+                            <constraint firstItem="NyU-AS-576" firstAttribute="height" secondItem="YI9-ca-Wga" secondAttribute="height" id="pOb-KE-Ei6"/>
+                            <constraint firstItem="YI9-ca-Wga" firstAttribute="leading" secondItem="Q9J-A7-oRJ" secondAttribute="leading" id="vAA-re-vck"/>
+                            <constraint firstItem="NyU-AS-576" firstAttribute="leading" secondItem="YI9-ca-Wga" secondAttribute="trailing" id="xeb-S3-1lh"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Manual API" id="loj-iZ-qKN"/>

@@ -76,12 +76,18 @@
 
 #pragma mark - IB Actions
 
-- (IBAction)showAd
+- (IBAction)loadAd
 {
     [self cleanUpAdIfNeeded];
     
     [self.nativeAdLoader loadAd];
-    [self.nativeAdLoader renderNativeAdView: [self createNativeAdView] withAd: self.nativeAd];
+}
+
+- (IBAction)showAd
+{
+    self.nativeAdView = [self createNativeAdView];
+    [self.nativeAdLoader renderNativeAdView: self.nativeAdView withAd: self.nativeAd];
+    [self.nativeAdContainerView addSubview: self.nativeAdView];
 }
 
 #pragma mark - NativeAdDelegate Protocol
@@ -92,10 +98,6 @@
     
     // Save ad for cleanup
     self.nativeAd = ad;
-    
-    // Add ad view to view
-    self.nativeAdView = nativeAdView;
-    [self.nativeAdContainerView addSubview: nativeAdView];
     
     // Set to false if modifying constraints after adding the ad view to your layout
     self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;

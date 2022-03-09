@@ -72,14 +72,20 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     
     // MARK: IB Actions
     
-    @IBAction func showAd()
+    @IBAction func loadAd()
     {
         cleanUpAdIfNeeded()
-
+        
         nativeAdLoader.loadAd()
+    }
+    
+    @IBAction func showAd()
+    {
         if let nativeAd = nativeAd
         {
-            nativeAdLoader.renderNativeAdView(createNativeAdView(), with: nativeAd)
+            nativeAdView = createNativeAdView()
+            nativeAdLoader.renderNativeAdView(nativeAdView, with: nativeAd)
+            nativeAdContainerView.addSubview(nativeAdView)
         }
     }
 }
@@ -95,10 +101,6 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
         
         if let adView = maxNativeAdView
         {
-            // Add ad view to view
-            nativeAdView = adView
-            nativeAdContainerView.addSubview(adView)
-            
             // Set to false if modifying constraints after adding the ad view to your layout
             adView.translatesAutoresizingMaskIntoConstraints = false
             
