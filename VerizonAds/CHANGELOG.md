@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2.5
+* Remove support for `consent_string`.
+
 ## 1.14.2.4
 * Add support for passing in a presenting view controller.
 

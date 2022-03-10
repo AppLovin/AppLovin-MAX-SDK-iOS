@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationVerizonAdsAdapter'
-s.version = '1.14.2.4'
+s.version = '1.14.2.5'
 s.platform = :ios, '9.0'
 s.summary = 'Verizon Ads adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

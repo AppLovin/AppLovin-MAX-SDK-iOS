@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.4"
+#define ADAPTER_VERSION @"1.14.2.5"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -352,14 +352,6 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( isAgeRestrictedUser )
     {
         builder.coppa.applies = isAgeRestrictedUser.boolValue;
-    }
-    
-    //
-    // For more GDPR info please see: https://sdk.verizonmedia.com/gdpr-coppa.html
-    //
-    if ( [parameters.serverParameters al_containsValueForKey: @"consent_string"] )
-    {
-        builder.gdpr.consent = [parameters.serverParameters al_stringForKey: @"consent_string"];
     }
     
     if ( ALSdk.versionCode >= 61100 )
