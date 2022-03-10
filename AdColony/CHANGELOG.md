@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.8.0.0.0
+* Certified with AdColony SDK 4.8.0.
+
 ## 4.7.2.0.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Add support for passing in a presenting view controller.
