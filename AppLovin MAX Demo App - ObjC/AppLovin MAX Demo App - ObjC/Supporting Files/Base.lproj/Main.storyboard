@@ -1674,7 +1674,7 @@
                                     <outlet property="dataSource" destination="oGS-Vh-k44" id="xeG-a4-MfY"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0Z-mc-ffJ">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0Z-mc-ffJ">
                                 <rect key="frame" x="207" y="744" width="207" height="30"/>
                                 <state key="normal" title="Show"/>
                                 <connections>
@@ -1705,6 +1705,7 @@
                     <connections>
                         <outlet property="callbackTableView" destination="TlK-if-ZSk" id="GbD-6J-W6p"/>
                         <outlet property="nativeAdContainerView" destination="dZc-TU-KTu" id="9sO-0d-0HG"/>
+                        <outlet property="showAdButton" destination="e0Z-mc-ffJ" id="Vzc-NJ-hXm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OtN-QD-NTp" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -13,6 +13,7 @@
 @interface ALMAXManualNativeLateBindingAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
+@property (nonatomic, weak) IBOutlet UIButton *showAdButton;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) MANativeAdView *nativeAdView;
@@ -88,6 +89,8 @@
     self.nativeAdView = [self createNativeAdView];
     [self.nativeAdLoader renderNativeAdView: self.nativeAdView withAd: self.nativeAd];
     [self.nativeAdContainerView addSubview: self.nativeAdView];
+    
+    [self.showAdButton setEnabled: NO];
 }
 
 #pragma mark - NativeAdDelegate Protocol
@@ -96,8 +99,10 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    // Save ad for cleanup
+    // Save ad to be rendered later
     self.nativeAd = ad;
+    
+    [self.showAdButton setEnabled: YES];
     
     // Set to false if modifying constraints after adding the ad view to your layout
     self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;

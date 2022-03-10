@@ -13,6 +13,7 @@ import AppLovinSDK
 class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
+    @IBOutlet weak var showAdButton: UIButton!
     
     private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
     
@@ -86,6 +87,8 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
             nativeAdView = createNativeAdView()
             nativeAdLoader.renderNativeAdView(nativeAdView, with: nativeAd)
             nativeAdContainerView.addSubview(nativeAdView)
+            
+            showAdButton.isEnabled = false
         }
     }
 }
@@ -96,8 +99,10 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
     {
         logCallback()
         
-        // Save ad for clean up
+        // Save ad to be rendered later
         nativeAd = ad
+        
+        showAdButton.isEnabled = true
         
         if let adView = maxNativeAdView
         {
