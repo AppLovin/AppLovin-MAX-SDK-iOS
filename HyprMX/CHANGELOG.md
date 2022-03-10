@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.1.2
+* Add support for GDPR.
+
 ## 6.0.1.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Add support for passing in a presenting view controller.

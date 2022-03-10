@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.1"
+#define ADAPTER_VERSION @"6.0.1.2"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -110,7 +110,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
         
         self.initializationDelegate = [[ALHyprMXMediationAdapterInitializationDelegate alloc] initWithParentAdapter: self completionHandler: completionHandler];
         
-        // NOTE: HyprMX deals with user consent and CCPA via their UI and don't support GDPR
+        // NOTE: HyprMX deals with CCPA via their UI
         [HyprMX initializeWithDistributorId: distributorId
                                      userId: userId
                      initializationDelegate: self.initializationDelegate];
@@ -165,6 +165,8 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@ AdView ad for placement: %@...", adFormat.label, placementId];
     
+    [self updateConsentWithParameters: parameters];
+    
     self.adViewDelegate = [[ALHyprMXMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.adView = [[HyprMXBannerView alloc] initWithPlacementName: placementId adSize: [self adSizeForAdFormat: adFormat]];
     self.adView.placementDelegate = self.adViewDelegate;
@@ -178,6 +180,8 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading interstitial ad for placement: %@", placementId];
+    
+    [self updateConsentWithParameters: parameters];
     
     self.interstitialAdDelegate = [[ALHyprMXMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd = [self loadFullscreenAdForPlacementId: placementId
@@ -217,6 +221,8 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading rewarded ad for placement: %@", placementId];
     
+    [self updateConsentWithParameters: parameters];
+    
     self.rewardedAdDelegate = [[ALHyprMXMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd = [self loadFullscreenAdForPlacementId: placementId
                                                 parameters: parameters
@@ -248,6 +254,24 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     {
         [self log: @"Rewarded ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+    }
+}
+
+#pragma mark - Shared Methods
+
+- (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
+{
+    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    {
+        NSNumber *hasUserConsent = parameters.hasUserConsent;
+        if ( hasUserConsent )
+        {
+            [HyprMX setConsentStatus: hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED];
+        }
+        else
+        {
+            [HyprMX setConsentStatus: CONSENT_STATUS_UNKNOWN];
+        }
     }
 }
 
