@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.9.1.0
+* Certified with Tapjoy SDK 12.9.1.
+
 ## 12.9.0.2
 * Add support for passing in a presenting view controller.
 
