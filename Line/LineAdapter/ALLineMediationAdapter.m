@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.4.20211004.3"
+#define ADAPTER_VERSION @"2.4.20211004.4"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -987,9 +987,8 @@ static ALAtomicBoolean *ALLineInitialized;
     }
     else
     {
-        return [nativeAd.getAdTitle al_isValidString]
-        && [nativeAd.getButtonText al_isValidString]
-        && nativeAd.getAdMainView;
+        // LINE's SDK will non-deterministically improperly size their media view if its getter is called more than once, so we can't check its validity.
+        return [nativeAd.getAdTitle al_isValidString] && [nativeAd.getButtonText al_isValidString];
     }
 }
 
@@ -1055,9 +1054,6 @@ static ALAtomicBoolean *ALLineInitialized;
     dispatchOnMainQueue(^{
         
         [nativeAd registerViewForInteraction: maxNativeAdView withInformationIconView: maxNativeAdView.iconImageView withClickableViews: clickableViews];
-        
-        // LINE media view can sometimes go outside the bounds of the view, so set the content mode to be safe.
-        self.mediaView.contentMode = UIViewContentModeScaleAspectFit;
     });
 }
 

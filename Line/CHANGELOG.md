@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.20211004.4
+* Fix non-deterministic LINE media view behavior resulting from calling the getter more than once. 
+
 ## 2.4.20211004.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Fix UI thread warnings by running ad view and native ad creation and loads on main thread.
