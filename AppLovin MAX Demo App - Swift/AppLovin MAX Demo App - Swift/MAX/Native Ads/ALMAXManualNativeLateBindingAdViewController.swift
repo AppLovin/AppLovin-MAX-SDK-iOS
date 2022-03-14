@@ -1,8 +1,8 @@
 //
-//  ALMAXManualNativeAdViewController.swift
+//  ALMAXManualNativeLateBindingAdViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
-//  Created by Billy Hu on 1/20/22.
+//  Created by Billy Hu on 3/8/22.
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
@@ -10,9 +10,10 @@ import UIKit
 import Adjust
 import AppLovinSDK
 
-class ALMAXManualNativeAdViewController: ALBaseAdViewController
+class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
+    @IBOutlet weak var showAdButton: UIButton!
     
     private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
     
@@ -24,20 +25,6 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
-        nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView?
-        
-        let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
-            builder.titleLabelTag = 1001
-            builder.advertiserLabelTag = 1002
-            builder.bodyLabelTag = 1003
-            builder.iconImageViewTag = 1004
-            builder.optionsContentViewTag = 1005
-            builder.mediaContentViewTag = 1006
-            builder.callToActionButtonTag = 1007
-        })
-        nativeAdView.bindViews(with: adViewBinder)
 
         nativeAdLoader.nativeAdDelegate = self
         nativeAdLoader.revenueDelegate = self
@@ -58,38 +45,67 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
         {
             nativeAdLoader.destroy(currentNativeAd)
         }
-
+        
         if let currentNativeAdView = nativeAdView
         {
             currentNativeAdView.removeFromSuperview()
         }
     }
     
+    func createNativeAdView() -> MANativeAdView
+    {
+        let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
+        let nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView
+        
+        let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
+            builder.titleLabelTag = 1001
+            builder.advertiserLabelTag = 1002
+            builder.bodyLabelTag = 1003
+            builder.iconImageViewTag = 1004
+            builder.optionsContentViewTag = 1005
+            builder.mediaContentViewTag = 1006
+            builder.callToActionButtonTag = 1007
+        })
+        nativeAdView.bindViews(with: adViewBinder)
+        
+        return nativeAdView
+    }
+    
     // MARK: IB Actions
+    
+    @IBAction func loadAd()
+    {
+        cleanUpAdIfNeeded()
+        
+        nativeAdLoader.loadAd()
+    }
     
     @IBAction func showAd()
     {
-        cleanUpAdIfNeeded()
-
-        nativeAdLoader.loadAd(into: nativeAdView)
+        if let nativeAd = nativeAd
+        {
+            nativeAdView = createNativeAdView()
+            nativeAdLoader.renderNativeAdView(nativeAdView, with: nativeAd)
+            nativeAdContainerView.addSubview(nativeAdView)
+            
+            showAdButton.isEnabled = false
+        }
     }
 }
 
-extension ALMAXManualNativeAdViewController: MANativeAdDelegate
+extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
 {
     func didLoadNativeAd(_ maxNativeAdView: MANativeAdView?, for ad: MAAd)
     {
         logCallback()
         
-        // Save ad for clean up
+        // Save ad to be rendered later
         nativeAd = ad
-
+        
+        showAdButton.isEnabled = true
+        
         if let adView = maxNativeAdView
         {
-            // Add ad view to view
-            nativeAdView = adView
-            nativeAdContainerView.addSubview(adView)
-            
             // Set to false if modifying constraints after adding the ad view to your layout
             adView.translatesAutoresizingMaskIntoConstraints = false
             
@@ -112,7 +128,7 @@ extension ALMAXManualNativeAdViewController: MANativeAdDelegate
     }
 }
 
-extension ALMAXManualNativeAdViewController: MAAdRevenueDelegate
+extension ALMAXManualNativeLateBindingAdViewController: MAAdRevenueDelegate
 {
     // MARK: MAAdRevenueDelegate Protocol
     

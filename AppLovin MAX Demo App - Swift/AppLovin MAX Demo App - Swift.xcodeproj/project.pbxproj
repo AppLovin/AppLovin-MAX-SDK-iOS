@@ -24,9 +24,10 @@
 		5BCB21D227445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */; };
 		5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BCB21D327446691007218B2 /* MRecs.storyboard */; };
 		5BCB21D62745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */; };
+		77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */; };
 		77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */; };
 		77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */; };
-		77B6F441279B52050063F81D /* NativeCustomAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeCustomAdView.xib */; };
+		77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
 		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
@@ -66,9 +67,10 @@
 		5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoMRecProgrammaticViewController.swift; sourceTree = "<group>"; };
 		5BCB21D327446691007218B2 /* MRecs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MRecs.storyboard; sourceTree = "<group>"; };
 		5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRecViewController.swift; sourceTree = "<group>"; };
+		77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeLateBindingAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXTemplateNativeAdViewController.swift; sourceTree = "<group>"; };
-		77B6F440279B52050063F81D /* NativeCustomAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeCustomAdView.xib; sourceTree = "<group>"; };
+		77B6F440279B52050063F81D /* NativeManualAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeManualAdView.xib; sourceTree = "<group>"; };
 		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
@@ -177,7 +179,7 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				77B6F440279B52050063F81D /* NativeCustomAdView.xib */,
+				77B6F440279B52050063F81D /* NativeManualAdView.xib */,
 				E5EE50DA241C25B60032B659 /* Rewarded.storyboard */,
 				E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */,
 				E5EE50D6241C25AA0032B659 /* Leaders.storyboard */,
@@ -215,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */,
+				77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */,
 				77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */,
 			);
 			path = "Native Ads";
@@ -340,7 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */,
-				77B6F441279B52050063F81D /* NativeCustomAdView.xib in Resources */,
+				77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */,
 				5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */,
 				3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */,
 				E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */,
@@ -376,6 +379,7 @@
 				1DDCE5A0242AE564007EAC8D /* ALMAXRewardedAdViewController.swift in Sources */,
 				37C4D0E8233D834900096894 /* main.swift in Sources */,
 				37B6CECE246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift in Sources */,
+				77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */,
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
 				77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */,
 				1DDCE59D242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift in Sources */,

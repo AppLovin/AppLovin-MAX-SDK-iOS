@@ -63,25 +63,28 @@ class ALMAXTemplateNativeAdViewController: ALBaseAdViewController
 
 extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
 {
-    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView, for ad: MAAd)
+    func didLoadNativeAd(_ maxNativeAdView: MANativeAdView?, for ad: MAAd)
     {
         logCallback()
         
         // Save ad for clean up
         nativeAd = ad
         
-        // Add ad view to view
-        nativeAdView = maxNativeAdView
-        nativeAdContainerView.addSubview(maxNativeAdView)
-        
-        // Set to false if modifying constraints after adding the ad view to your layout
-        maxNativeAdView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Set ad view to span width and height of container and center the ad
-        nativeAdContainerView.widthAnchor.constraint(equalTo: maxNativeAdView.widthAnchor).isActive = true
-        nativeAdContainerView.heightAnchor.constraint(equalTo: maxNativeAdView.heightAnchor).isActive = true
-        nativeAdContainerView.centerXAnchor.constraint(equalTo: maxNativeAdView.centerXAnchor).isActive = true
-        nativeAdContainerView.centerYAnchor.constraint(equalTo: maxNativeAdView.centerYAnchor).isActive = true
+        if let adView = maxNativeAdView
+        {
+            // Add ad view to view
+            nativeAdView = adView
+            nativeAdContainerView.addSubview(adView)
+            
+            // Set to false if modifying constraints after adding the ad view to your layout
+            adView.translatesAutoresizingMaskIntoConstraints = false
+            
+            // Set ad view to span width and height of container and center the ad
+            nativeAdContainerView.widthAnchor.constraint(equalTo: adView.widthAnchor).isActive = true
+            nativeAdContainerView.heightAnchor.constraint(equalTo: adView.heightAnchor).isActive = true
+            nativeAdContainerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
+            nativeAdContainerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
+        }
     }
     
     func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
