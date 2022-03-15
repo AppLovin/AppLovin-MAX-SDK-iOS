@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.1.0
+* Certified with OguryPresage SDK 2.0.1.
+* Remove `OguryChoiceManager` dependency from podspec and Podfile as it is now part of `OgurySdk` pod.
+
 ## 2.6.0.1
 * Add support for passing in a presenting view controller.
 
