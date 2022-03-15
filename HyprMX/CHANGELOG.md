@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.1.3
+* Remove setting GDPR consent status to `CONSENT_STATUS_UNKNOWN`.
+
 ## 6.0.1.2
 * Add support for GDPR.
 

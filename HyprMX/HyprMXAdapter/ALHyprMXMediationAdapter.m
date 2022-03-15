@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.2"
+#define ADAPTER_VERSION @"6.0.1.3"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -267,10 +267,6 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
         if ( hasUserConsent )
         {
             [HyprMX setConsentStatus: hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED];
-        }
-        else
-        {
-            [HyprMX setConsentStatus: CONSENT_STATUS_UNKNOWN];
         }
     }
 }
