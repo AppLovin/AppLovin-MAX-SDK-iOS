@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.0.1.1"
+#define ADAPTER_VERSION @"4.0.1.2"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -421,6 +421,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         if ( hasUserConsent )
         {
             [privacyConsentMetaData set: @"gdpr.consent" value: @(hasUserConsent.boolValue)];
+            [privacyConsentMetaData commit];
         }
     }
     
@@ -431,10 +432,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         if ( isDoNotSell )
         {
             [privacyConsentMetaData set: @"privacy.consent" value: @(!isDoNotSell.boolValue)]; // isDoNotSell means user has opted out and is equivalent to NO.
+            [privacyConsentMetaData commit];
         }
     }
-    
-    [privacyConsentMetaData commit];
 }
 
 - (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters

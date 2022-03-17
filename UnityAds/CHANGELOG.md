@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1.2
+* Fix privacy consent by using `commit()` after each value is set to the metadata.
+
 ## 4.0.1.1
 * Add support for passing in a presenting view controller.
 
