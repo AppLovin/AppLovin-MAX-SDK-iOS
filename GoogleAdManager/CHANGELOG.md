@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.1.0.0
+* Certified with Google SDK 9.1.0.
+
 ## 8.13.0.8
 * Add support for passing in a presenting view controller.
 
