@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"8.13.0.11"
+#define ADAPTER_VERSION @"9.1.0.0"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -877,7 +877,7 @@ static NSString *ALGoogleSDKVersion;
     return self;
 }
 
-- (void)adDidPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
+- (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Interstitial ad shown: %@", self.placementIdentifier];
     [self.delegate didDisplayInterstitialAd];
@@ -925,7 +925,7 @@ static NSString *ALGoogleSDKVersion;
     return self;
 }
 
-- (void)adDidPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
+- (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded interstitial ad shown: %@", self.placementIdentifier];
     
@@ -984,7 +984,7 @@ static NSString *ALGoogleSDKVersion;
     return self;
 }
 
-- (void)adDidPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
+- (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", self.placementIdentifier];
     
