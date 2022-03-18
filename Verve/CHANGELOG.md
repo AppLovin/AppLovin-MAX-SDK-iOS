@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.11.1.4
+* Add check for SDK initialization before loading an ad.
+
 ## 2.11.1.3
 * Add support for passing in a presenting view controller.
 

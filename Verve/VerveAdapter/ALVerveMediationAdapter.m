@@ -9,7 +9,7 @@
 #import "ALVerveMediationAdapter.h"
 #import <HyBid.h>
 
-#define ADAPTER_VERSION @"2.11.1.3"
+#define ADAPTER_VERSION @"2.11.1.4"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject<HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -138,6 +138,14 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 {
     [self log: @"Loading interstitial ad"];
     
+    if ( ![HyBid isInitialized] )
+    {
+        [self log: @"Verve SDK is not initialized: failing interstitial ad load..."];
+        [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
+    
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
     [self updateMuteStateForParameters: parameters];
@@ -178,6 +186,14 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
     [self log: @"Loading rewarded ad"];
+    
+    if ( ![HyBid isInitialized] )
+    {
+        [self log: @"Verve SDK is not initialized: failing rewarded ad load..."];
+        [delegate didFailToLoadRewardedAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
     
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
@@ -221,6 +237,14 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 - (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     [self log: @"Loading %@ ad view ad...", adFormat.label];
+    
+    if ( ![HyBid isInitialized] )
+    {
+        [self log: @"Verve SDK is not initialized: failing %@ ad load...", adFormat.label];
+        [delegate didFailToLoadAdViewAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
     
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
