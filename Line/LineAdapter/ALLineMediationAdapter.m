@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.4.20211004.4"
+#define ADAPTER_VERSION @"2.4.20211028.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -103,7 +103,14 @@ static ALAtomicBoolean *ALLineInitialized;
         
         FADConfig *config = [[FADConfig alloc] initWithAppId: appId];
         [config setIsTest: [parameters isTesting]];
-        config.fiveAdFormat = [NSSet setWithObjects: @(kFADFormatVideoReward), @(kFADFormatCustomLayout), nil];
+        
+        NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
+        // Overwritten by `mute_state` setting, unless `mute_state` is disabled
+        if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+        {
+            BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
+            [config enableSoundByDefault: !muted];
+        }
         
         //
         // GDPR options
@@ -167,11 +174,10 @@ static ALAtomicBoolean *ALLineInitialized;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading interstitial ad for slot id: %@...", slotId];
     
-    [self updateMuteStateForParameters: parameters];
-    
     self.interstitialDelegate = [[ALLineMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd = [[FADInterstitial alloc] initWithSlotId: slotId];
-    self.interstitialAd.delegate = self.interstitialDelegate;
+    [self.interstitialAd setLoadDelegate: self.interstitialDelegate];
+    [self.interstitialAd setAdViewEventListener: self.interstitialDelegate];
     
     [self.interstitialAd loadAdAsync];
 }
@@ -191,11 +197,10 @@ static ALAtomicBoolean *ALLineInitialized;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading rewarded ad for slot id: %@...", slotId];
     
-    [self updateMuteStateForParameters: parameters];
-    
     self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd = [[FADVideoReward alloc] initWithSlotId: slotId];
-    self.rewardedAd.delegate = self.rewardedDelegate;
+    [self.rewardedAd setLoadDelegate: self.rewardedDelegate];
+    [self.rewardedAd setAdViewEventListener: self.rewardedDelegate];
     
     [self.rewardedAd loadAdAsync];
 }
@@ -219,35 +224,38 @@ static ALAtomicBoolean *ALLineInitialized;
     [self log: @"Loading %@%@ ad for slot id: %@...", isNative ? @"native " : @"", adFormat.label, slotId];
     
     dispatchOnMainQueue(^{
-        
-        if ( isNative )
-        {
-            self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                                         adFormat: adFormat
-                                                                                                 serverParameters: parameters.serverParameters
-                                                                                                        andNotify: delegate];
-            self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-            self.nativeAd.delegate = self.nativeAdViewDelegate;
-            
-            // We always want to mute banners and MRECs
-            [self.nativeAd enableSound: NO];
-            
-            [self.nativeAd loadAdAsync];
-        }
-        else
-        {
-            self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                             adFormat: adFormat
-                                                                                            andNotify: delegate];
-            self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
-            self.adView.delegate = self.adViewDelegate;
-            self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
-            
-            // We always want to mute banners and MRECs
-            [self.adView enableSound: NO];
-            
-            [self.adView loadAdAsync];
-        }
+    
+      if ( isNative )
+      {
+          self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                       adFormat: adFormat
+                                                                                               serverParameters: parameters.serverParameters
+                                                                                                      andNotify: delegate];
+          self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
+          [self.nativeAd setLoadDelegate: self.nativeAdViewDelegate];
+          [self.nativeAd setAdViewEventListener: self.nativeAdViewDelegate];
+
+          // We always want to mute banners and MRECs
+          [self.nativeAd enableSound: NO];
+
+          [self.nativeAd loadAdAsync];
+      }
+      else
+      {
+          self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormat: adFormat andNotify: delegate];
+          self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                           adFormat: adFormat
+                                                                                          andNotify: delegate];
+          self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
+          [self.adView setLoadDelegate: self.adViewDelegate];
+          [self.adView setAdViewEventListener: self.adViewDelegate];
+          self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
+
+          // We always want to mute banners and MRECs
+          [self.adView enableSound: NO];
+
+          [self.adView loadAdAsync];
+       }
     });
 }
 
@@ -264,7 +272,8 @@ static ALAtomicBoolean *ALLineInitialized;
     dispatchOnMainQueue(^{
         
         self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-        self.nativeAd.delegate = self.nativeAdDelegate;
+        [self.nativeAd setLoadDelegate: self.nativeAdDelegate];
+        [self.nativeAd setAdViewEventListener: self.nativeAdDelegate];
         
         // We always want to mute banners and MRECs
         [self.nativeAd enableSound: NO];
@@ -274,17 +283,6 @@ static ALAtomicBoolean *ALLineInitialized;
 }
 
 #pragma mark - Helper Methods
-
-- (void)updateMuteStateForParameters:(id<MAAdapterResponseParameters>)parameters
-{
-    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
-    {
-        BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
-        [FADSettings enableSound: !muted];
-    }
-}
 
 + (MAAdapterError *)toMaxError:(FADErrorCode)lineAdsErrorCode
 {
@@ -296,13 +294,9 @@ static ALAtomicBoolean *ALLineInitialized;
             adapterError = MAAdapterError.noConnection;
             thirdPartySdkErrorMessage = @"Please try again in a stable network environment.";
             break;
-        case kFADErrorNoCachedAd:
+        case kFADErrorCodeNoAd:
             adapterError = MAAdapterError.noFill;
-            thirdPartySdkErrorMessage = @"Please enable isTest and try again";
-            break;
-        case kFADErrorNoFill:
-            adapterError = MAAdapterError.noFill;
-            thirdPartySdkErrorMessage = @"Please enable isTest and try again";
+            thirdPartySdkErrorMessage = @"Ad was not ready at display time. Please try again.";
             break;
         case kFADErrorBadAppId:
             adapterError = MAAdapterError.invalidConfiguration;
@@ -316,10 +310,6 @@ static ALAtomicBoolean *ALLineInitialized;
             adapterError = MAAdapterError.internalError;
             thirdPartySdkErrorMessage = @"Please contact us.";
             break;
-        case kFADErrorUnsupportedOsVersion:
-            adapterError = MAAdapterError.invalidConfiguration;
-            thirdPartySdkErrorMessage = @"Please check on devices with iOS 8.0 or later.";
-            break;
         case kFADErrorInvalidState:
             adapterError = MAAdapterError.invalidLoadState;
             thirdPartySdkErrorMessage = @"There is a problem with the implementation. Please check the following. Whether the initialization process ([FADSettings registerConfig: config]) is executed before the creation of the ad object or loadAdAsync. Are you calling loadAdAsync multiple times for one ad object?";
@@ -329,7 +319,6 @@ static ALAtomicBoolean *ALLineInitialized;
             thirdPartySdkErrorMessage = @"Make sure you are using the SlotID issued on the FIVE Dashboard.";
             break;
         case kFADErrorSuppressed:
-        case kFADErrorContentUnavailable:
         case kFADErrorPlayerError:
         case kFADErrorNone:
             adapterError = MAAdapterError.unspecified;
@@ -408,11 +397,9 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayInterstitialAdWithError: error];
 }
 
-- (void)fiveAdDidImpressionImage:(id<FADAdInterface>)ad
+- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
 {
     [self.parentAdapter log: @"Interstitial ad impression tracked for slot id: %@...", ad.slotId];
-    
-    // NOTE: Called for graphic-only interstitial ads.
     [self.delegate didDisplayInterstitialAd];
 }
 
@@ -501,11 +488,9 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayRewardedAdWithError: error];
 }
 
-- (void)fiveAdDidImpressionImage:(id<FADAdInterface>)ad
+- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
 {
     [self.parentAdapter log: @"Rewarded ad impression tracked for slot id: %@...", ad.slotId];
-    
-    // NOTE: Called for graphic-only rewarded ads.
     [self.delegate didDisplayRewardedAd];
     [self.delegate didStartRewardedAdVideo];
 }
@@ -613,11 +598,9 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 
-- (void)fiveAdDidImpressionImage:(id<FADAdInterface>)ad
+- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
 {
     [self.parentAdapter log: @"%@ ad impression tracked for slot id: %@...", self.adFormat.label, ad.slotId];
-    
-    // NOTE: Called for graphic-only adview ads.
     [self.delegate didDisplayAdViewAd];
 }
 
@@ -708,11 +691,9 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 
-- (void)fiveAdDidImpressionImage:(id<FADAdInterface>)ad
+- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
 {
     [self.parentAdapter log: @"Native %@ ad impression tracked for slot id: %@...", self.adFormat.label, ad.slotId];
-    
-    // NOTE: Called for graphic-only native adview ads.
     [self.delegate didDisplayAdViewAd];
 }
 
@@ -922,11 +903,9 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToLoadNativeAdWithError: error];
 }
 
-- (void)fiveAdDidImpressionImage:(id<FADAdInterface>)ad
+- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
 {
     [self.parentAdapter log: @"Native ad impression tracked for slot id: %@...", ad.slotId];
-    
-    // NOTE: Called for graphic-only native adview ads.
     [self.delegate didDisplayNativeAdWithExtraInfo: nil];
 }
 

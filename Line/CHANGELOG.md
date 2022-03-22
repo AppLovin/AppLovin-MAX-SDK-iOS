@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.20211028.0
+* Certified with Line SDK 2.4.20211028.
+* Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
+* Update mute setting API to use `enableSoundByDefault()` instead of `enableSound()`. NOTE: The mute state can only be set at SDK initialization, hence, the mute state at time of ad display may not reflect the current mute state.
+* Update impression callback to `fiveAdDidImpression()` to replace `fiveAdDidImpressionImage()`.
+* Improve error handling.
+* Remove `FADConfig.fiveAdFormat` since it is deprecated.
+
 ## 2.4.20211004.4
 * Fix non-deterministic LINE media view behavior resulting from calling the getter more than once. 
 
