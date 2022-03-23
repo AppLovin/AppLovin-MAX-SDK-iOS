@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.1.0.2
+* Downgrade IronSource SDK to 7.2.0.0, because newer SDK versions break AppLovin SDK's initialization logic.
+
 ## 7.2.1.0.1
 * Add support for passing in a presenting view controller.
 
