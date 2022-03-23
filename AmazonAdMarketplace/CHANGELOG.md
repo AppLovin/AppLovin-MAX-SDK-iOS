@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.1.0
+* Certified with APS SDK 4.4.1 with interstitial video support.
+
 ## 4.3.1.5
 * Add support for passing in a presenting view controller.
 
