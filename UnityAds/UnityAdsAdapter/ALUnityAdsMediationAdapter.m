@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.0.1.2"
+#define ADAPTER_VERSION @"4.0.1.3"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -434,6 +434,16 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             [privacyConsentMetaData set: @"privacy.consent" value: @(!isDoNotSell.boolValue)]; // isDoNotSell means user has opted out and is equivalent to NO.
             [privacyConsentMetaData commit];
         }
+    }
+    
+    [privacyConsentMetaData set: @"privacy.mode" value: @"mixed"];
+    [privacyConsentMetaData commit];
+    
+    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    if ( isAgeRestrictedUser )
+    {
+        [privacyConsentMetaData set: @"user.nonbehavioral" value: @(isAgeRestrictedUser.boolValue)];
+        [privacyConsentMetaData commit];
     }
 }
 
