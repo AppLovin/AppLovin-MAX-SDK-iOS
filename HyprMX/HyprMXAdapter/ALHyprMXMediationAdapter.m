@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.3"
+#define ADAPTER_VERSION @"6.0.1.4"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -261,13 +261,15 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 
 - (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    // NOTE: HyprMX requested to always set GDPR regardless of region.
+    NSNumber *hasUserConsent = parameters.hasUserConsent;
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = parameters.hasUserConsent;
-        if ( hasUserConsent )
-        {
-            [HyprMX setConsentStatus: hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED];
-        }
+        [HyprMX setConsentStatus: hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED];
+    }
+    else
+    {
+        [HyprMX setConsentStatus: CONSENT_STATUS_UNKNOWN];
     }
 }
 
