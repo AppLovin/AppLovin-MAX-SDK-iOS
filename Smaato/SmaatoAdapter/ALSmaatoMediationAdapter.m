@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.1.3"
+#define ADAPTER_VERSION @"21.7.1.4"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -395,6 +395,7 @@
         NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
         if ( isLocationCollectionEnabled )
         {
+            [self log: @"Setting location collection enabled: %@", isLocationCollectionEnabled];
             // NOTE: According to docs - this is disabled by default
             SmaatoSDK.gpsEnabled = isLocationCollectionEnabled.boolValue;
         }
