@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.2.2
+* Add support for passing native ads.
+
 ## 10.0.2.1
 * Add support for passing in a presenting view controller.
 
