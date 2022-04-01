@@ -50,4 +50,11 @@
     return cell;
 }
 
+#pragma mark - MAAdPlacerDelegate
+
+- (void)didLoadAdAtIndexPath:(NSIndexPath *)indexPath {}
+- (void)didRemoveAdsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {}
+- (void)didClickAd:(MAAd *)ad {}
+- (void)didPayRevenueForAd:(MAAd *)ad {}
+
 @end

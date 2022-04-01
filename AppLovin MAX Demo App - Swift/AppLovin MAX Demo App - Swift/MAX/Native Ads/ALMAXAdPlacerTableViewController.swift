@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXAdPlacerTableViewController: UITableViewController, MAAdPlacerDelegate
+class ALMAXAdPlacerTableViewController: UITableViewController
 {
     private let data = UIFont.familyNames.sorted()
     
@@ -42,5 +42,15 @@ class ALMAXAdPlacerTableViewController: UITableViewController, MAAdPlacerDelegat
         cell.textLabel!.text = data[indexPath.row]
         return cell
     }
+}
+
+extension ALMAXAdPlacerTableViewController: MAAdPlacerDelegate
+{
+    func didLoadAd(at indexPath: IndexPath) {}
     
+    func didRemoveAds(at indexPaths: [IndexPath]) {}
+
+    func didClick(_ ad: MAAd) {}
+    
+    func didPayRevenue(for ad: MAAd) {}
 }

@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALMAXAdPlacerCollectionViewController: UICollectionViewController, MAAdPlacerDelegate
+class ALMAXAdPlacerCollectionViewController: UICollectionViewController
 {
     private let data = UIFont.familyNames.sorted()
     
@@ -28,6 +28,8 @@ class ALMAXAdPlacerCollectionViewController: UICollectionViewController, MAAdPla
         adPlacer.delegate = self
         adPlacer.loadAds()
     }
+    
+    // MARK: - UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
@@ -40,4 +42,15 @@ class ALMAXAdPlacerCollectionViewController: UICollectionViewController, MAAdPla
         cell.textLabel.text = data[indexPath.row]
         return cell
     }
+}
+
+extension ALMAXAdPlacerCollectionViewController: MAAdPlacerDelegate
+{
+    func didLoadAd(at indexPath: IndexPath) {}
+    
+    func didRemoveAds(at indexPaths: [IndexPath]) {}
+
+    func didClick(_ ad: MAAd) {}
+    
+    func didPayRevenue(for ad: MAAd) {}
 }
