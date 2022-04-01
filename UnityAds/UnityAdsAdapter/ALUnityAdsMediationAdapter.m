@@ -72,6 +72,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
         [mediationMetaData setName: @"MAX"];
         [mediationMetaData setVersion: [ALSdk version]];
+        [mediationMetaData setValue: ADAPTER_VERSION forKey:@"adapter_version"];
         [mediationMetaData commit];
         
         [UnityAds setDebugMode: [parameters isTesting]];
