@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.3.2"
+#define ADAPTER_VERSION @"8.1.4.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
