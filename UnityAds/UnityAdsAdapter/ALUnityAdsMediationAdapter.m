@@ -69,13 +69,10 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         NSString *gameId = [serverParameters al_stringForKey: kMAKeyGameID];
         [self log: @"Initializing UnityAds SDK with game id: %@...", gameId];
         
-        if ( [serverParameters al_numberForKey: kMAKeySetMediationIdentifier].boolValue )
-        {
-            UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-            [mediationMetaData setName: @"AppLovin"];
-            [mediationMetaData setVersion: [ALSdk version]];
-            [mediationMetaData commit];
-        }
+        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+        [mediationMetaData setName: @"MAX"];
+        [mediationMetaData setVersion: [ALSdk version]];
+        [mediationMetaData commit];
         
         [UnityAds setDebugMode: [parameters isTesting]];
         
