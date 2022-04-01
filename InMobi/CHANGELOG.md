@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.5.0
+* Certified with InMobi SDK 10.0.5.
+
 ## 10.0.2.2
 * Add support for passing native ads.
 
