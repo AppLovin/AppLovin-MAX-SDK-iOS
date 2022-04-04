@@ -24,6 +24,8 @@ class ALMAXAdPlacerTableViewController: UITableViewController
         settings.addFixedPosition(IndexPath(row: 8, section: 0))
         settings.repeatingInterval = 10;
         
+        // If using custom views, you must also set the `nativeAdViewNib` and `nativeAdViewBinder` properties on the ad placer
+        
         adPlacer = MATableViewAdPlacer(tableView: tableView, settings: settings)
         adPlacer.delegate = self;
         adPlacer.loadAds()

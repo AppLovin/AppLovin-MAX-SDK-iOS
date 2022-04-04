@@ -29,6 +29,8 @@
     [settings addFixedPosition: [NSIndexPath indexPathForRow: 8 inSection: 0]];
     settings.repeatingInterval = 10;
     
+    // If using custom views, you must also set the `nativeAdViewNib` and `nativeAdViewBinder` properties on the ad placer
+    
     self.adPlacer = [MATableViewAdPlacer placerWithTableView: self.tableView settings: settings];
     self.adPlacer.delegate = self;
     [self.adPlacer loadAds];

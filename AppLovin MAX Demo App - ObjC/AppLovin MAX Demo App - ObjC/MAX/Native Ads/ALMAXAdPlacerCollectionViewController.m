@@ -30,6 +30,8 @@
     [settings addFixedPosition: [NSIndexPath indexPathForItem: 8 inSection: 0]];
     settings.repeatingInterval = 5;
     
+    // If using custom views, you must also set the `nativeAdViewNib` and `nativeAdViewBinder` properties on the ad placer
+    
     self.adPlacer = [MACollectionViewAdPlacer placerWithCollectionView: self.collectionView settings: settings];
     self.adPlacer.delegate = self;
     [self.adPlacer loadAds];

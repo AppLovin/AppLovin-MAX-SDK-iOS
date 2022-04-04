@@ -24,6 +24,8 @@ class ALMAXAdPlacerCollectionViewController: UICollectionViewController
         settings.addFixedPosition(IndexPath(item: 8, section: 0))
         settings.repeatingInterval = 5
         
+        // If using custom views, you must also set the `nativeAdViewNib` and `nativeAdViewBinder` properties on the ad placer
+        
         adPlacer = MACollectionViewAdPlacer(collectionView: collectionView, settings: settings)
         adPlacer.delegate = self
         adPlacer.loadAds()
