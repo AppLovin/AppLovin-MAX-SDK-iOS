@@ -18,9 +18,9 @@ class ALBaseAdViewController: UIViewController
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
-    self.navigationController?.setToolbarHidden(self.hidesBottomBarWhenPushed, animated: true)
+        self.navigationController?.setToolbarHidden(self.hidesBottomBarWhenPushed, animated: true)
     }
-
+    
     override func viewWillDisappear(_ animated: Bool)
     {
         self.navigationController?.setToolbarHidden(true, animated: false)
