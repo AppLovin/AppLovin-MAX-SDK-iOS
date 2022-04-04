@@ -47,9 +47,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ALTextCollectionViewCell *cell = (ALTextCollectionViewCell *)[collectionView al_dequeueReusableCellWithReuseIdentifier: @"ALMAXAdPlacerCollectionViewCell" forIndexPath: indexPath];
-    
     cell.textLabel.text = self.data[indexPath.row];
-    
     return cell;
 }
 

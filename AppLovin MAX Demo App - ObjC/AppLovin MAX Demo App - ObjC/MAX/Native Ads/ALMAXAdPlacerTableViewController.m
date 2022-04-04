@@ -46,9 +46,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView al_dequeueReusableCellWithIdentifier: @"ALMAXAdPlacerTableViewCell" forIndexPath: indexPath];
-    
     cell.textLabel.text = self.data[indexPath.row];
-    
     return cell;
 }
 
