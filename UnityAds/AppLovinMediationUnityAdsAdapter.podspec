@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationUnityAdsAdapter'
-s.version = '4.0.1.3'
+s.version = '4.1.0.0'
 s.platform = :ios, '9.0'
 s.summary = 'Unity adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'UnityAds', '= 4.0.1'
+s.dependency 'UnityAds', '= 4.1.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
