@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.9.0.10
+* Update error code mapping for SDK error reports.
+
 ## 6.9.0.9
 * Add support for passing in a presenting view controller.
 

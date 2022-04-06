@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.9.0.9"
+#define ADAPTER_VERSION @"6.9.0.10"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -510,22 +510,24 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     switch ( facebookErrorCode )
     {
         case 1000: // Network Error
-            adapterError = MAAdapterError.noConnection; // -5003
+            adapterError = MAAdapterError.noConnection;
             break;
         case 1001: // No Fill
-            adapterError = MAAdapterError.noFill; // 204
+            adapterError = MAAdapterError.noFill;
             break;
         case 1002: // Ad Load Too Frequently
+        case 1203: // Not An App Admin, Developer or Tester
             adapterError = MAAdapterError.invalidLoadState;
             break;
         case 1011: // Display Format Mismatch
-            adapterError = MAAdapterError.invalidConfiguration; // -5202
+        case 1012: // Unsupported SDK Version for New Apps
+            adapterError = MAAdapterError.invalidConfiguration;
             break;
         case 2000: // Server Error
-            adapterError = MAAdapterError.serverError; // -5206
+            adapterError = MAAdapterError.serverError;
             break;
         case 2001: // Internal Error - actually a timeout error
-            adapterError = MAAdapterError.timeout; // -5206 (to be changed)
+            adapterError = MAAdapterError.timeout;
             break;
     }
     
