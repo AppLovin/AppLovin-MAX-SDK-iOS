@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'Verizon-Ads-StandardEdition', '= 1.14.2'
+s.dependency 'Yahoo-Mobile-SDK', '1.0.0-beta1'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
