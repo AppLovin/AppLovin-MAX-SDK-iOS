@@ -46,7 +46,6 @@
 @implementation ALUnityAdsMediationAdapter
 
 static NSString *const kMAKeyGameID = @"game_id";
-static NSString *const kMAKeySetMediationIdentifier = @"set_mediation_identifier";
 
 static ALAtomicBoolean *ALUnityAdsInitialized;
 static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerMin;
