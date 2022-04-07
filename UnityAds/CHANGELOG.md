@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.0.2
+* Set UnityAds "adapter_version" metadata correctly.
+
 ## 4.1.0.1
 * Fix init failure from `[mediationMetaData setValue: ADAPTER_VERSION forKey: @"adapter_version"];`.
 
