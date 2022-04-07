@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.0.1
+* Fix init failure from `[mediationMetaData setValue: ADAPTER_VERSION forKey: @"adapter_version"];`.
+
 ## 4.1.0.0
 * Certified with UnityAds SDK 4.1.0.
 * Remove checks for UnityAds SDK being initialized before loading ads.

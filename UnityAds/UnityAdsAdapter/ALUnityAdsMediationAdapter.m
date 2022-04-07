@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.1.0.0"
+#define ADAPTER_VERSION @"4.1.0.1"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -68,7 +68,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
         [mediationMetaData setName: @"MAX"];
         [mediationMetaData setVersion: [ALSdk version]];
-        [mediationMetaData setValue: ADAPTER_VERSION forKey: @"adapter_version"];
+        // [mediationMetaData setValue: ADAPTER_VERSION forKey: @"adapter_version"];
         [mediationMetaData commit];
         
         [UnityAds setDebugMode: [parameters isTesting]];
