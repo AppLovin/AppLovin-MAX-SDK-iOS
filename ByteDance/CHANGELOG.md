@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.0.5.0
+* Certified with ByteDance SDK 4.3.0.5.
+
 ## 4.3.0.2.3
 * Fix UI thread assertion crashes by running ad view and native ad creation and loads on main thread.
 

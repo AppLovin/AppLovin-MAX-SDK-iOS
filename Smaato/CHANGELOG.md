@@ -1,5 +1,14 @@
 # Changelog
 
+## 21.7.4.0
+* Certified with Smaato SDK 21.7.4.
+
+## 21.7.3.0
+* Certified with Smaato SDK 21.7.3.
+
+## 21.7.1.4
+* Add log for "is_location_collection_enabled" value.
+
 ## 21.7.1.3
 * Add support for passing in a presenting view controller.
 

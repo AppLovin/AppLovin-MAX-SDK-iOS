@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,9 @@
 		1DDCE5A1242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE59C242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift */; };
 		1DDCE5A5242AE5CE007EAC8D /* ALHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */; };
 		1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */; };
+		35C0C88227F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */; };
+		35C0C88427F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */; };
+		35C0C88627F79E090030B2F8 /* ALTextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */; };
 		3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B23623357C4B00E49783 /* ALAppDelegate.swift */; };
 		3763B23E23357C4D00E49783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23D23357C4D00E49783 /* Assets.xcassets */; };
 		3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */; };
@@ -54,6 +57,9 @@
 		1DDCE59C242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXInterstitialAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
+		35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerTableViewController.swift; sourceTree = "<group>"; };
+		35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerCollectionViewController.swift; sourceTree = "<group>"; };
+		35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALTextCollectionViewCell.swift; sourceTree = "<group>"; };
 		3763B23323357C4B00E49783 /* AppLovin MAX Demo App - Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppLovin MAX Demo App - Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3763B23623357C4B00E49783 /* ALAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAppDelegate.swift; sourceTree = "<group>"; };
 		3763B23B23357C4B00E49783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -131,6 +137,7 @@
 			children = (
 				1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */,
 				1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */,
+				35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */,
 			);
 			path = "Base Classes";
 			sourceTree = "<group>";
@@ -219,6 +226,8 @@
 				77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */,
 				77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */,
 				77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */,
+				35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */,
+				35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */,
 			);
 			path = "Native Ads";
 			sourceTree = "<group>";
@@ -364,6 +373,7 @@
 				E5BDBE852433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift in Sources */,
 				1DDCE5A1242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift in Sources */,
 				E5BDBE8C243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift in Sources */,
+				35C0C88627F79E090030B2F8 /* ALTextCollectionViewCell.swift in Sources */,
 				77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */,
 				5BCB21D227445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift in Sources */,
 				E5BDBE862433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift in Sources */,
@@ -379,6 +389,7 @@
 				1DDCE5A0242AE564007EAC8D /* ALMAXRewardedAdViewController.swift in Sources */,
 				37C4D0E8233D834900096894 /* main.swift in Sources */,
 				37B6CECE246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift in Sources */,
+				35C0C88227F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift in Sources */,
 				77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */,
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
 				77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */,
@@ -388,6 +399,7 @@
 				E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */,
 				E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */,
 				E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */,
+				35C0C88427F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift in Sources */,
 				E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

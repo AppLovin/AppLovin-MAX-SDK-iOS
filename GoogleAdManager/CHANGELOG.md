@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.2.0.1
+* Add ability to set [maximum ad content rating](https://support.google.com/admanager/answer/9467073) via local extra parameters by calling `setLocalExtraParameterForKey: "google_max_ad_content_rating" value: NSString`.
+
+## 9.2.0.0
+* Certified with GoogleAdManager SDK 9.2.0.
+
 ## 9.1.0.0
 * Certified with Google SDK 9.1.0.
 

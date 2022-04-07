@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.1.2.0
+* Certified with IronSource SDK 7.2.1.2.
+
 ## 7.2.1.0.2
 * Downgrade IronSource SDK to 7.2.0.0, because newer SDK versions break AppLovin SDK's initialization logic.
 
