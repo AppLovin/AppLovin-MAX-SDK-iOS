@@ -10,7 +10,7 @@
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
 
-#define ADAPTER_VERSION @"1.5.8.1"
+#define ADAPTER_VERSION @"1.6.1.0"
 
 @interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter<MaioDelegate>
 

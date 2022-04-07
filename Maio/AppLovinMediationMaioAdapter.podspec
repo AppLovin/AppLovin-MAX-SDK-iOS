@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationMaioAdapter'
-s.version = '1.5.8.1'
+s.version = '1.6.1.0'
 s.platform = :ios, '9.0'
 s.summary = 'Maio adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'MaioSDK', '= 1.5.8'
+s.dependency 'MaioSDK', '= 1.6.1'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
