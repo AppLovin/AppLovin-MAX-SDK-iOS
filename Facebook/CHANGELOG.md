@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.10.0.0
+* Certified with Facebook SDK 6.10.0.
+
 ## 6.9.0.10
 * Update error code mapping for SDK error reports.
 
