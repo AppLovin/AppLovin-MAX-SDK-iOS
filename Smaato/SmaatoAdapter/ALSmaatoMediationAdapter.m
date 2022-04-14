@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.4.0"
+#define ADAPTER_VERSION @"21.7.4.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -826,8 +826,7 @@
         SMANativeAdAssets *assets = renderer.nativeAssets;
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         BOOL isTemplateAd = [templateName al_isValidString];
-        
-        if ( ![self hasRequiredAssetsInNativeAd: isTemplateAd nativeAdAssets: assets] )
+        if ( isTemplateAd && ![assets.title al_isValidString] )
         {
             [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
             [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -898,21 +897,6 @@
 - (UIViewController *)presentingViewControllerForNativeAd:(SMANativeAd *)nativeAd
 {
     return [ALUtils topViewControllerFromKeyWindow];
-}
-
-- (BOOL)hasRequiredAssetsInNativeAd:(BOOL)isTemplateAd nativeAdAssets:(SMANativeAdAssets *)assets
-{
-    if ( isTemplateAd )
-    {
-        return [assets.title al_isValidString];
-    }
-    else
-    {
-        return [assets.title al_isValidString]
-        && [assets.cta al_isValidString]
-        && assets.images.count > 0
-        && assets.images.firstObject.image;
-    }
 }
 
 @end
