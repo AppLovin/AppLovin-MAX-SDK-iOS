@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.3.0.1
+* Remove check for manual native ad assets.
+
 ## 9.3.0.0
 * Certified with GoogleAdManager SDK 9.3.0.
 
