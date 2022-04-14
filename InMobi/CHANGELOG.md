@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.5.1
+* Remove check for manual native ad assets.
+
 ## 10.0.5.0
 * Certified with InMobi SDK 10.0.5.
 

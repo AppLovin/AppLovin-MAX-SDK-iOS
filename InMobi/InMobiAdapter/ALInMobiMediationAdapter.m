@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.5.0"
+#define ADAPTER_VERSION @"10.0.5.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -371,7 +371,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
     {
         consentDict[IM_PARTNER_GDPR_APPLIES] = @"1";
-
+        
         // Set user consent state. Note: this must be sent as true/false.
         NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
         if ( hasUserConsent )
@@ -460,7 +460,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             adapterError = MAAdapterError.serverError;
             break;
     }
-
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
@@ -767,7 +767,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    if ( ![self hasRequiredAssetsInAd: nativeAd isTemplateAd: isTemplateAd] )
+    if ( isTemplateAd && ![nativeAd.adTitle al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -776,7 +776,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
     
     [self.parentAdapter log: @"Native ad loaded: %@", self.placementId];
-
+    
     dispatchOnMainQueue(^{
         
         MANativeAd *maxNativeAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
@@ -852,19 +852,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)native:(IMNative *)native adAudioStateChanged:(BOOL)audioStateMuted
 {
     [self.parentAdapter log: @"Native ad audio state changed"];
-}
-
-- (BOOL)hasRequiredAssetsInAd:(IMNative *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [nativeAd.adTitle al_isValidString];
-    }
-    else
-    {
-        return [nativeAd.adTitle al_isValidString]
-        && [nativeAd.adCtaText al_isValidString];
-    }
 }
 
 @end
