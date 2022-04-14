@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.3.0.0"
+#define ADAPTER_VERSION @"9.3.0.1"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -833,11 +833,6 @@ static NSString *ALGoogleSDKVersion;
     return adSize.size;
 }
 
-- (BOOL)isValidNativeAd:(GADNativeAd *)nativeAd
-{
-    return nativeAd.headline != nil;
-}
-
 - (NSInteger)adChoicesPlacementFromParameters:(id<MAAdapterParameters>)parameters
 {
     // Publishers can set via nativeAdLoader.setLocalExtraParameterForKey("admob_ad_choices_placement", value: Int)
@@ -1134,7 +1129,7 @@ static NSString *ALGoogleSDKVersion;
 {
     [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat.label, adLoader.adUnitID];
     
-    if ( ![self.parentAdapter isValidNativeAd: nativeAd] )
+    if ( ![nativeAd.headline al_isValidString] )
     {
         [self.parentAdapter log: @"Native %@ ad failed to load: Google native ad is missing one or more required assets", self.adFormat.label];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
@@ -1272,19 +1267,11 @@ static NSString *ALGoogleSDKVersion;
 {
     [self.parentAdapter log: @"Native ad loaded: %@", adLoader.adUnitID];
     
-    if ( ![self.parentAdapter isValidNativeAd: nativeAd] )
-    {
-        [self.parentAdapter log: @"Native ad failed to load: Google native ad is missing one or more required assets"];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.invalidConfiguration];
-        
-        return;
-    }
-    
     self.parentAdapter.nativeAd = nativeAd;
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    if ( ![self hasRequiredAssetsInAd: nativeAd isTemplateAd: isTemplateAd] )
+    if ( isTemplateAd && ![nativeAd.headline al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -1304,15 +1291,6 @@ static NSString *ALGoogleSDKVersion;
         GADNativeAdImage *mainImage = nativeAd.images[0];
         UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: mainImage.image];
         mediaView = mediaImageView;
-    }
-    
-    // Media view is required for non-template native ads.
-    if ( !isTemplateAd && !mediaView )
-    {
-        [self.parentAdapter e: @"Media view asset is null for native custom ad view. Failing ad request."];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
-        
-        return;
     }
     
     nativeAd.delegate = self;
@@ -1382,20 +1360,6 @@ static NSString *ALGoogleSDKVersion;
 - (void)nativeAdDidDismissScreen:(GADNativeAd *)nativeAd
 {
     [self.parentAdapter log: @"Native ad did dismiss"];
-}
-
-- (BOOL)hasRequiredAssetsInAd:(GADNativeAd *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [nativeAd.headline al_isValidString];
-    }
-    else
-    {
-        // NOTE: Media view is required and is checked separately.
-        return [nativeAd.headline al_isValidString]
-        && [nativeAd.callToAction al_isValidString];
-    }
 }
 
 @end
