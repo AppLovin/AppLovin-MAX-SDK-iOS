@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.4.20211028.0"
+#define ADAPTER_VERSION @"2.4.20211028.1"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -853,7 +853,7 @@ static ALAtomicBoolean *ALLineInitialized;
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    if ( ![self hasRequiredAssetsInAd: loadedNativeAd isTemplateAd: isTemplateAd] )
+    if ( isTemplateAd && ![loadedNativeAd.getAdTitle al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", loadedNativeAd];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -956,19 +956,6 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)fiveAdDidRecover:(id<FADAdInterface>)ad
 {
     [self.parentAdapter log: @"Native ad did recover for slot id: %@...", ad.slotId];
-}
-
-- (BOOL)hasRequiredAssetsInAd:(FADNative *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [nativeAd.getAdTitle al_isValidString];
-    }
-    else
-    {
-        // LINE's SDK will non-deterministically improperly size their media view if its getter is called more than once, so we can't check its validity.
-        return [nativeAd.getAdTitle al_isValidString] && [nativeAd.getButtonText al_isValidString];
-    }
 }
 
 @end

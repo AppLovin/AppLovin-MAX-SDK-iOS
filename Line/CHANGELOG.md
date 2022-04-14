@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.20211028.1
+* Remove check for manual native ad assets.
+
 ## 2.4.20211028.0
 * Certified with Line SDK 2.4.20211028.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
