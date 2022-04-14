@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.2.0.1
+* Remove check for manual native ad assets.
+
 ## 7.1.2.0.0
 * Certified with Mintegral SDK 7.1.2.
 

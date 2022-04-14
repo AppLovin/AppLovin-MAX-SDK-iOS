@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.1.2.0.0"
+#define ADAPTER_VERSION @"7.1.2.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -853,21 +853,21 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     }
     
     MTGCampaign *campaign = nativeAds[0];
+    
     NSString *templateName = [self.serverParameters al_stringForKey: @"template"];
     BOOL isTemplateAd = [templateName al_isValidString];
-    
-    if ( [self hasRequiredAssets: campaign isTemplateAd: isTemplateAd] )
-    {
-        self.parentAdapter.nativeAdCampaign = campaign;
-        
-        [self.parentAdapter log: @"Native ad loaded for unit id: %@ placement id: %@", self.unitId, self.placementId];
-        [self processNativeAd: campaign unitId: self.unitId];
-    }
-    else
+    if ( isTemplateAd && ![campaign.appName al_isValidString] )
     {
         [self.parentAdapter log: @"Native ad failed to load for unit id: %@ placement id: %@ with error: missing required assets", self.unitId, self.placementId];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        
+        return;
     }
+    
+    self.parentAdapter.nativeAdCampaign = campaign;
+    
+    [self.parentAdapter log: @"Native ad loaded for unit id: %@ placement id: %@", self.unitId, self.placementId];
+    [self processNativeAd: campaign unitId: self.unitId];
 }
 
 - (void)nativeAdsFailedToLoadWithError:(NSError *)error bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
@@ -980,20 +980,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             dispatch_group_leave(group);
         }] resume];
     });
-}
-
-- (BOOL)hasRequiredAssets:(MTGCampaign *)campaign isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [campaign.appName al_isValidString];
-    }
-    else
-    {
-        return [campaign.appName al_isValidString] &&
-        [campaign.adCall al_isValidString] &&
-        [campaign.imageUrl al_isValidURL];
-    }
 }
 
 #pragma mark MTGMediaViewDelegate methods
