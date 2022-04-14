@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.3.0.5.0"
+#define ADAPTER_VERSION @"4.3.0.5.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -1019,7 +1019,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    if ( ![self hasRequiredAssetsInAd: nativeAd isTemplateAd: isTemplateAd] )
+    if ( isTemplateAd && ![nativeAd.data.AdTitle al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -1045,7 +1045,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     // Pangle's media view can be either a video or image (which they don't provide a view for)
     __block UIView *mediaView;
-        
+    
     // Pangle's native ad logo view
     __block UIView *optionsView;
     
@@ -1085,15 +1085,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
         dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
-        
-        // Media view is required for non-template native ads.
-        if ( !isTemplateAd && !mediaView )
-        {
-            [self.parentAdapter e: @"Media view asset is nil for native custom ad view. Failing ad request."];
-            [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
-            
-            return;
-        }
         
         // Create MANativeAd after images are loaded from remote URLs
         [self.parentAdapter log: @"Creating native ad with assets"];
@@ -1149,20 +1140,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)nativeAdDidCloseOtherController:(BUNativeAd *)nativeAd interactionType:(BUInteractionType)interactionType
 {
     [self.parentAdapter log: @"Native ad closed other controller: %@", self.slotId];
-}
-
-- (BOOL)hasRequiredAssetsInAd:(BUNativeAd *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [nativeAd.data.AdTitle al_isValidString];
-    }
-    else
-    {
-        // NOTE: Media view is required and is checked separately.
-        return [nativeAd.data.AdTitle al_isValidString]
-        && [nativeAd.data.buttonText al_isValidString];
-    }
 }
 
 @end

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.0.5.1
+* Remove check for manual native ad assets.
+
 ## 4.3.0.5.0
 * Certified with ByteDance SDK 4.3.0.5.
 
