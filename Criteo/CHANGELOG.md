@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.0.3
+* Remove check for manual native ad assets.
+
 ## 4.5.0.2
 * Fix CCPA logic.
 

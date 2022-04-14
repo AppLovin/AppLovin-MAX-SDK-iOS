@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.5.0.2"
+#define ADAPTER_VERSION @"4.5.0.3"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject<CRInterstitialDelegate>
@@ -404,8 +404,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    
-    if ( ![self hasRequiredAssetsInAd: ad isTemplateAd: isTemplateAd] )
+    if ( isTemplateAd && ![ad.title al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", ad];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError missingRequiredNativeAdAssets]];
@@ -444,14 +443,6 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
         dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         dispatchOnMainQueue(^{
-            // Media view is required for non-template native ads.
-            if ( !isTemplateAd && !mediaView )
-            {
-                [self.parentAdapter e: @"Media view asset is null for native custom ad view. Failing ad request."];
-                [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError missingRequiredNativeAdAssets]];
-                
-                return;
-            }
             
             MANativeAd *maxNativeAd = [[MACriteoNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
                 builder.icon = iconImage;
@@ -524,20 +515,6 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
             dispatch_group_leave(group);
         }] resume];
     });
-}
-
-- (BOOL)hasRequiredAssetsInAd:(CRNativeAd *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [nativeAd.title al_isValidString];
-    }
-    else
-    {
-        // NOTE: Media view is required and is checked separately.
-        return [nativeAd.title al_isValidString]
-        && [nativeAd.callToAction al_isValidString];
-    }
 }
 
 @end
