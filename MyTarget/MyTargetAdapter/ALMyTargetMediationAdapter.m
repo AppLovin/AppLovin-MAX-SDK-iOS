@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.15.1.0"
+#define ADAPTER_VERSION @"5.15.1.1"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -559,8 +559,8 @@
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    
-    if ( ![self hasRequiredAssetsInAd: nativeAd isTemplateAd: isTemplateAd] )
+    MTRGNativePromoBanner *banner = nativeAd.banner;
+    if ( isTemplateAd && ![banner.title al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
         [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -657,23 +657,6 @@
 - (void)onImageLoadWithNativeAd:(MTRGNativeAd *)nativeAd
 {
     [self.parentAdapter log: @"Native ad image loaded: %@", self.slotId];
-}
-
-#pragma mark - Helper Methods
-
-- (BOOL)hasRequiredAssetsInAd:(MTRGNativeAd *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    MTRGNativePromoBanner *banner = nativeAd.banner;
-    
-    if ( isTemplateAd )
-    {
-        return [banner.title al_isValidString];
-    }
-    else
-    {
-        // NOTE: Media view is created and will always be non-nil.
-        return [banner.title al_isValidString] && [banner.ctaText al_isValidString];
-    }
 }
 
 @end

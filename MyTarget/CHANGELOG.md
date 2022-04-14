@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.15.1.1
+* Remove check for manual native ad assets.
+
 ## 5.15.1.0
 * Certified with MyTarget SDK 5.15.1.
 
