@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.5"
+#define ADAPTER_VERSION @"1.14.2.6"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -828,19 +828,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         BOOL isTemplateAd = [templateName al_isValidString];
-        BOOL missingRequiredAssets = NO;
         if ( isTemplateAd && ![titleComponent.text al_isValidString] )
-        {
-            missingRequiredAssets = YES;
-        }
-        else if ( ![titleComponent.text al_isValidString]
-                 || ![ctaComponent.text al_isValidString]
-                 || !mediaView )
-        {
-            missingRequiredAssets = YES;
-        }
-        
-        if ( missingRequiredAssets )
         {
             [self.parentAdapter e: @"Custom native ad (%@) does not have required assets.", nativeAd];
             [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];

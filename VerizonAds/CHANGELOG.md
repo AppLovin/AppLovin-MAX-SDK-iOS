@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2.6
+* Remove check for manual native ad assets.
+
 ## 1.14.2.5
 * Remove support for `consent_string`.
 
