@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.10.0.0"
+#define ADAPTER_VERSION @"6.10.0.1"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -563,7 +563,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     
     NSString *templateName = [serverParameters al_stringForKey: @"template" defaultValue: @""];
     BOOL isTemplateAd = [templateName al_isValidString];
-    if ( ![self hasRequiredAssetsInAd: nativeAd isTemplateAd: isTemplateAd] )
+    if ( isTemplateAd && ![nativeAd.headline al_isValidString] )
     {
         [self e: @"Native ad (%@) does not have required assets.", nativeAd];
         [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
@@ -608,20 +608,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
     });
-}
-
-- (BOOL)hasRequiredAssetsInAd:(FBNativeAdBase *)nativeAd isTemplateAd:(BOOL)isTemplateAd
-{
-    if ( isTemplateAd )
-    {
-        return [nativeAd.headline al_isValidString];
-    }
-    else
-    {
-        // NOTE: Media view is created and will always be non-nil.
-        return [nativeAd.headline al_isValidString]
-        && [nativeAd.callToAction al_isValidString];
-    }
 }
 
 @end
