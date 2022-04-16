@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.1.2.0.1"
+#define ADAPTER_VERSION @"7.1.3.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -1029,6 +1029,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 - (void)nativeAdImpressionWithType:(MTGAdSourceType)type mediaView:(MTGMediaView *)mediaView;
 {
     [self.parentAdapter log: @"Media view impression did start"];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
 }
 
 @end

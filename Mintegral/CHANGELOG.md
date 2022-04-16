@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.1.3.0.0
+* Certified with Mintegral SDK 7.1.3.
+* Record native ad impression on callback `-[MTGMediaView nativeAdImpressionWithType:mediaView:]` as well.
+
 ## 7.1.2.0.1
 * Remove check for manual native ad assets.
 
