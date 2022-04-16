@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.5.1"
+#define ADAPTER_VERSION @"10.0.5.2"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -786,7 +786,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             builder.body = nativeAd.description;
             builder.callToAction = nativeAd.adCtaText;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
-            builder.mediaView = [nativeAd primaryViewOfWidth: CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds)];
+            builder.mediaView = [[UIView alloc] init];
         }];
         
         NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
@@ -879,8 +879,16 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         return;
     }
     
-    // InMobi is not providing a method to bind views with landing url, so we need to do it manually
+    // We don't provide the aspect ratio for InMobi's media view since the media view is rendered after the ad is rendered
+    UIView *mediaView = maxNativeAdView.mediaContentView;
+    UIView *primaryView = [self.parentAdapter.nativeAd primaryViewOfWidth: mediaView.frame.size.width];
+    primaryView.contentMode = UIViewContentModeScaleAspectFit;
+    primaryView.center = [mediaView convertPoint: mediaView.center fromView: mediaView.superview];
+    [mediaView addSubview: primaryView];
+    
+    // InMobi does not provide a method to bind views with landing url, so we need to do it manually
     dispatchOnMainQueue(^{
+        
         self.parentAdapter.titleGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
         self.parentAdapter.advertiserGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
         self.parentAdapter.bodyGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];

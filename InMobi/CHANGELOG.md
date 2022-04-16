@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.5.2
+* Fix native ad media content rendering.
+
 ## 10.0.5.1
 * Remove check for manual native ad assets.
 
