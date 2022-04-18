@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.3.0.5.1"
+#define ADAPTER_VERSION @"4.3.0.5.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -171,7 +171,16 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
-    
+
+    if ( ALByteDanceInitializationStatus != MAAdapterInitializationStatusInitializedSuccess )
+    {
+        NSString *errorMessage = @"Could not collect signal. SDK not initialized.";
+        [self log: errorMessage];
+        [delegate didFailToCollectSignalWithErrorMessage: errorMessage];
+
+        return;
+    }
+
     NSString *signal = [BUAdSDKManager mopubBiddingToken];
     [delegate didCollectSignal: signal];
 }
