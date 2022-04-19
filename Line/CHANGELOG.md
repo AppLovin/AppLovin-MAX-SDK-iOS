@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.20211028.2
+* Update SDK version retrieval API.
+
 ## 2.4.20211028.1
 * Remove check for manual native ad assets.
 
