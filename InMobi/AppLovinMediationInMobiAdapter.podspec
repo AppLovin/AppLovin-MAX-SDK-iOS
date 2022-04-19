@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationInMobiAdapter'
-s.version = '10.0.5.2'
+s.version = '10.0.5.3'
 s.platform = :ios, '9.0'
 s.summary = 'InMobi adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
