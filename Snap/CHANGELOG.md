@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0.2
+* Fix banners and MRECs not loading due to `ALSnapMediationAdapterAdViewDelegate` not fully conforming to the `SAKAdViewDelegate` protocol.
+
 ## 2.0.0.1
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Add support for passing in a presenting view controller.

@@ -8,7 +8,7 @@
 #import "ALSnapMediationAdapter.h"
 #import <SAKSDK/SAKSDK.h>
 
-#define ADAPTER_VERSION @"2.0.0.1"
+#define ADAPTER_VERSION @"2.0.0.2"
 
 @interface ALSnapMediationAdapterInterstitialAdDelegate : NSObject<SAKInterstitialDelegate>
 @property (nonatomic,   weak) ALSnapMediationAdapter *parentAdapter;
@@ -529,6 +529,11 @@ static MAAdapterInitializationStatus ALSnapSDKInitializationStatus = NSIntegerMi
 {
     [self.parentAdapter log: @"Ad View ad clicked for slot id: %@", self.parentAdapter.slotId];
     [self.delegate didClickAdViewAd];
+}
+
+- (UIViewController *)rootViewController
+{
+    return [ALUtils topViewControllerFromKeyWindow];
 }
 
 @end
