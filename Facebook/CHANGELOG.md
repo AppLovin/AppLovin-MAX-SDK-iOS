@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.10.0.2
+* Downgrade Facebook SDK to 6.9.0 due to instability in 6.10.0. (Issue: https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues/99)
+
 ## 6.10.0.1
 * Remove check for manual native ad assets.
 

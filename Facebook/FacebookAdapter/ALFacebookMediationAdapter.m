@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.10.0.1"
+#define ADAPTER_VERSION @"6.10.0.2"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -357,6 +357,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     
     [self updateAdSettingsWithParameters: parameters];
     
+    // NOTE: FB native is no longer supported in banners but is kept in for backwards compatibility for existing users.
     if ( isNative )
     {
         self.nativeAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
