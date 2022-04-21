@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.3.0.1"
+#define ADAPTER_VERSION @"9.3.0.2"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -759,10 +759,24 @@ static NSString *ALGoogleSDKVersion;
     
     if ( ALSdk.versionCode >= 11000000 )
     {
-        NSString *maxAdContentRating = [parameters.localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
+        NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+        
+        NSString *maxAdContentRating = [localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
         if ( [maxAdContentRating al_isValidString] )
         {
             extraParameters[@"max_ad_content_rating"] = maxAdContentRating;
+        }
+        
+        NSString *contentURL = [localExtraParameters al_stringForKey: @"google_content_url"];
+        if ( [contentURL al_isValidString] )
+        {
+            request.contentURL = contentURL;
+        }
+        
+        NSArray *neighbouringContentURLStrings = [localExtraParameters al_arrayForKey: @"google_neighbouring_content_url_strings"];
+        if ( neighbouringContentURLStrings )
+        {
+            request.neighboringContentURLStrings = neighbouringContentURLStrings;
         }
     }
     
