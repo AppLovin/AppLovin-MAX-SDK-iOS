@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.0.0
+* Certified with Yandex SDK 5.0.0.
+* Add click callback for ads.
+
 ## 4.4.2.2
 * Add support for passing in a presenting view controller.
 
