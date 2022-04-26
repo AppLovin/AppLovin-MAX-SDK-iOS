@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.4.0.0
+* Certified with Google SDK 9.4.0.
+
 ## 9.3.0.2
 * Add ability to set [content mapping URLs](https://support.google.com/admob/answer/11050896) via local extra parameters by calling `setLocalExtraParameterForKey: "google_content_url" value: NSString` or set multiple URLs by calling `setLocalExtraParameterForKey: "google_neighbouring_content_url_strings" value: NSArray<NSString *>`.
 
