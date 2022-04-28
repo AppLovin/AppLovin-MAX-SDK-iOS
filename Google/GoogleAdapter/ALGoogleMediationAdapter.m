@@ -706,7 +706,7 @@ static NSString *ALGoogleSDKVersion;
     if ( isBiddingAd )
     {
         // Requested by Google for signal collection
-        extraParameters[@"query_info_type"] = @"requester_type_2";
+        extraParameters[@"query_info_type"] = @"requester_type_3";
         
         if ( ALSdk.versionCode >= 11000000 && [adFormat isAdViewAd] && [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"] )
         {
@@ -727,8 +727,8 @@ static NSString *ALGoogleSDKVersion;
     
     if ( [serverParameters al_numberForKey: @"set_mediation_identifier" defaultValue: @(YES)].boolValue )
     {
-        // Use "applovin" instead of mediationTag for Google's specs
-        [request setRequestAgent: @"applovin"];
+        // Use "applovin_dv360" instead of mediationTag for Google's specs
+        [request setRequestAgent: @"applovin_dv360"];
     }
     
     // Use event id as AdMob's placement request id - https://app.asana.com/0/1126394401843426/1200682332716267
