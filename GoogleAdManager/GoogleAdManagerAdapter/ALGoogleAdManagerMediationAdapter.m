@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.4.0.0"
+#define ADAPTER_VERSION @"9.4.0.1"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -675,6 +675,12 @@ static NSString *ALGoogleSDKVersion;
         if ( neighbouringContentURLStrings )
         {
             request.neighboringContentURLStrings = neighbouringContentURLStrings;
+        }
+        
+        NSDictionary<NSString *, NSString *> *customTargetingData = [localExtraParameters al_dictionaryForKey: @"custom_targeting"];
+        if ( customTargetingData )
+        {
+            request.customTargeting = customTargetingData;
         }
     }
     

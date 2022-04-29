@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.4.0.1
+* Add ability to set custom targeting via local extra parameters by calling `setLocalExtraParameterForKey: "custom_targeting" value: NSDictionary<NSString *, NSString *>`.
+
 ## 9.4.0.0
 * Certified with GoogleAdManager SDK 9.4.0.
 
