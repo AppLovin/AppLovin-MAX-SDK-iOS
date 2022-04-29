@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.1.1
+* Fix memory leak with DTBAdLoader objects.
+
 ## 4.4.1.0
 * Certified with APS SDK 4.4.1 with interstitial video support.
 

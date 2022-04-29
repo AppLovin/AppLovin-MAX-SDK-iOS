@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.4.1.0"
+#define ADAPTER_VERSION @"4.4.1.1"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -76,8 +76,7 @@ static NSMutableDictionary<MAAdFormat *, DTBAdLoader *> *ALAmazonAdLoaders;
 static NSMutableDictionary<NSString *, ALTAMAmazonMediationHints *> *ALMediationHintsCache;
 static NSObject *ALMediationHintsCacheLock;
 
-// NOTE: Will remove for more space-efficient implementation
-static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
+static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
 
 + (void)initialize
 {
@@ -88,7 +87,7 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     ALMediationHintsCache = [NSMutableDictionary dictionary];
     ALMediationHintsCacheLock = [[NSObject alloc] init];
     
-    ALUsedAmazonAdLoaders = [NSMutableSet set];
+    ALUsedAmazonAdLoaderHashes = [NSMutableSet set];
 }
 
 - (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
@@ -135,7 +134,7 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
     {
         DTBAdLoader *retrievedAdLoader = ((DTBAdResponse *) adResponseObj).dtbAdLoader;
-        if ( ![ALUsedAmazonAdLoaders containsObject: retrievedAdLoader] )
+        if ( ![ALUsedAmazonAdLoaderHashes containsObject: @(retrievedAdLoader.hash)] )
         {
             [self d: @"Using ad loader from ad response object: %@", retrievedAdLoader];
             adLoader = retrievedAdLoader;
@@ -145,7 +144,7 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     if ( [adErrorObj isKindOfClass: [DTBAdErrorInfo class]] )
     {
         DTBAdLoader *retrievedAdLoader = ((DTBAdErrorInfo *) adErrorObj).dtbAdLoader;
-        if ( ![ALUsedAmazonAdLoaders containsObject: retrievedAdLoader] )
+        if ( ![ALUsedAmazonAdLoaderHashes containsObject: @(retrievedAdLoader.hash)] )
         {
             [self d: @"Using ad loader from ad error object: %@", retrievedAdLoader];
             adLoader = retrievedAdLoader;
@@ -171,7 +170,7 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
             [self d: @"New loader passed in for %@: %@, replacing current ad loader: %@", adFormat.label, adLoader, currentAdLoader];
             
             ALAmazonAdLoaders[adFormat] = adLoader;
-            [ALUsedAmazonAdLoaders addObject: adLoader];
+            [ALUsedAmazonAdLoaderHashes addObject: @(adLoader.hash)];
             
             if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
             {
@@ -475,7 +474,7 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     // Store ad loader for future ad refresh token collection
     ALAmazonAdLoaders[self.adFormat] = adResponse.dtbAdLoader;
     
-    [ALUsedAmazonAdLoaders addObject: adResponse.dtbAdLoader];
+    [ALUsedAmazonAdLoaderHashes addObject: @(adResponse.dtbAdLoader.hash)];
     
     [self.parentAdapter d: @"Signal collected for ad loader: %@", adResponse.dtbAdLoader];
     
@@ -489,7 +488,7 @@ static NSMutableSet<DTBAdLoader *> *ALUsedAmazonAdLoaders;
     // Store ad loader for future ad refresh token collection
     ALAmazonAdLoaders[self.adFormat] = dtbAdErrorInfo.dtbAdLoader;
     
-    [ALUsedAmazonAdLoaders addObject: dtbAdErrorInfo.dtbAdLoader];
+    [ALUsedAmazonAdLoaderHashes addObject: @(dtbAdErrorInfo.dtbAdLoader.hash)];
     
     [self.parentAdapter d: @"Signal failed to collect for ad loader: %@", dtbAdErrorInfo.dtbAdLoader];
     
