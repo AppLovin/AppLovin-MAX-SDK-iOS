@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.6"
+#define ADAPTER_VERSION @"1.14.2.7"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -791,6 +791,11 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 - (void)inlineAd:(VASInlineAdView *)inlineAd event:(NSString *)eventId source:(NSString *)source arguments:(NSDictionary<NSString *,id> *)arguments
 {
     [self.parentAdapter log: @"AdView event from source: %@ with event ID: %@ and arguments: %@", source, eventId, arguments];
+    
+    if ( [kMAAdImpressionEventId isEqualToString: eventId] )
+    {
+        [self.delegate didDisplayAdViewAd];
+    }
 }
 
 @end

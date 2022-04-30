@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2.7
+* Add support for tracking banner ad impressions.
+
 ## 1.14.2.6
 * Remove check for manual native ad assets.
 
