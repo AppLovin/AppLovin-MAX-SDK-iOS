@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.11.0.0
+* Certified with Vungle SDK 6.11.0.
+
 ## 6.10.6.2
 * Add support for passing in a presenting view controller.
 
