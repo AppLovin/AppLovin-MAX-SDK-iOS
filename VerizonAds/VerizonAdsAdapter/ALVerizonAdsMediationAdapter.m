@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.7"
+#define ADAPTER_VERSION @"1.14.2.8"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -610,6 +610,11 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 - (void)interstitialAdEvent:(VASInterstitialAd *)interstitialAd source:(NSString *)source eventId:(NSString *)eventId arguments:(NSDictionary<NSString *, id> *)arguments
 {
     [self.parentAdapter log: @"Interstitial ad event from source: %@ with event ID: %@ and arguments: %@", source, eventId, arguments];
+    
+    if ( [kMAAdImpressionEventId isEqualToString: eventId] )
+    {
+        [self.delegate didDisplayInterstitialAd];
+    }
 }
 
 @end
@@ -695,7 +700,11 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 {
     [self.parentAdapter log: @"Rewarded ad event from source: %@ with event ID: %@ and arguments: %@", source, eventId, arguments];
     
-    if ( [kMAVideoCompleteEventId isEqualToString: eventId] )
+    if ( [kMAAdImpressionEventId isEqualToString: eventId] )
+    {
+        [self.delegate didDisplayRewardedAd];
+    }
+    else if ( [kMAVideoCompleteEventId isEqualToString: eventId] )
     {
         self.grantedReward = YES;
     }

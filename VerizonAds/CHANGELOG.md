@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2.8
+* Add support for tracking impressions for all ad formats.
+
 ## 1.14.2.7
 * Add support for tracking banner ad impressions.
 
