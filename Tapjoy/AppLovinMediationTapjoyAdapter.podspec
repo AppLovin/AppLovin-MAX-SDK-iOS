@@ -2,15 +2,15 @@ Pod::Spec.new do |s|
 
 s.authors =
 {
-	'AppLovin Corporation' => 'devsupport@applovin.com'
+    'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationTapjoyAdapter'
-s.version = '12.9.1.0'
+s.version = '12.10.0.0'
 s.platform = :ios, '9.0'
 s.summary = 'Tapjoy adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
-s.license = 
-{ 
+s.license =
+{
   :type => 'Commercial License',
   :text => <<-LICENSE
 
@@ -21,15 +21,15 @@ The AppLovin MAX SDK is available under a commercial license (https://www.applov
 LICENSE
 }
 
-s.source = 
-{ 
-  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/tapjoy-adapter/#{s.name}-#{s.version}.zip",
-  	:type => 'zip'
+s.source =
+{
+      :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/tapjoy-adapter/#{s.name}-#{s.version}.zip",
+      :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.framework"
 
-s.dependency 'TapjoySDK', '= 12.9.1'
+s.dependency 'TapjoySDK', '= 12.10.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
