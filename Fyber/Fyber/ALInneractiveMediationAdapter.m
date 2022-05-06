@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.4.0"
+#define ADAPTER_VERSION @"8.1.4.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
@@ -500,7 +500,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
             adapterError = MAAdapterError.timeout;
             break;
         case 497: // config not ready / no valid config; it can occur for example if ad request happens early on app launch and SDK did not have enough time to download app config
-            adapterError = MAAdapterError.adNotReady;
+            adapterError = MAAdapterError.invalidConfiguration;
             break;
         case 499: // missing fetch completion block
         case 500: // internal error when got successful server ad response but status is neither 200 nor 204

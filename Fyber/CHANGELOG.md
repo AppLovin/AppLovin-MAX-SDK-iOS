@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.1.4.1
+* Correctly map Fyber error code `497` to `-5202` ("Invalid Configuration") instead of `-5205` ("Third-Party Adapter Not Ready To Show Ad") in SDK error reports.
+
 ## 8.1.4.0
 * Certified with Fyber SDK 8.1.4.
 

@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationFyberAdapter'
-s.version = '8.1.4.0'
+s.version = '8.1.4.1'
 s.platform = :ios, '9.0'
 s.summary = 'Fyber adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
