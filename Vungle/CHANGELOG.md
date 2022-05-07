@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.11.0.1
+* Update ad display failed error code.
+* Update error code mapping to include new error codes.
+
 ## 6.11.0.0
 * Certified with Vungle SDK 6.11.0.
 
