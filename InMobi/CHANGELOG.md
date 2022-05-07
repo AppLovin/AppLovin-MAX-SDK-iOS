@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.5.4
+* Update ad display failed error code.
+
 ## 10.0.5.3
 * Specify `MANativeAdAdapter` for adapter to enable it for test ads in Mediation Debugger.
 
