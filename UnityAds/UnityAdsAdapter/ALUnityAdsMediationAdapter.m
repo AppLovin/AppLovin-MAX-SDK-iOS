@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.1.0.2"
+#define ADAPTER_VERSION @"4.1.0.3"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -499,7 +499,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Interstitial placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
     
-    MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithShowError: error withMessage: message];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error thirdPartySdkErrorMessage: message];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -564,7 +564,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Rewarded ad placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
     
-    MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithShowError: error withMessage: message];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error thirdPartySdkErrorMessage: message];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 

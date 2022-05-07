@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.0.3
+* Update ad display failed error code.
+
 ## 4.1.0.2
 * Set UnityAds "adapter_version" metadata correctly.
 
