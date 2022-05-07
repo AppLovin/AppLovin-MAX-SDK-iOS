@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.4"
+#define ADAPTER_VERSION @"6.0.1.5"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -210,7 +210,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -253,7 +253,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -499,7 +499,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 {
     [self.parentAdapter log: @"Interstitial failed to display with error: %d for placement: %@", hyprMXError, placement.placementName];
     
-    MAAdapterError *adapterError = [ALHyprMXMediationAdapter toMaxError: hyprMXError message: nil];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: hyprMXError thirdPartySdkErrorMessage: @""];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -563,7 +563,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 {
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %d, for placement: %@", hyprMXError, placement.placementName];
     
-    MAAdapterError *adapterError = [ALHyprMXMediationAdapter toMaxError: hyprMXError message: nil];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: hyprMXError thirdPartySdkErrorMessage: @""];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 

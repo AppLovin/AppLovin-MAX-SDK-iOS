@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.1.5
+* Update ad display failed error code.
+
 ## 6.0.1.4
 * Set GDPR consent status regardless of users' region.
 
