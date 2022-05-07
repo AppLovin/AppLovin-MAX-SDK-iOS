@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2.9
+* Update ad display failed error code.
+
 ## 1.14.2.8
 * Add support for tracking impressions for all ad formats.
 

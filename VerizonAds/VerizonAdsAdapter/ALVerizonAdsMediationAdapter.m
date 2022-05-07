@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.8"
+#define ADAPTER_VERSION @"1.14.2.9"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -214,7 +214,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( !self.interstitialAd )
     {
         [self log: @"Unable to show interstitial - no ad loaded"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
@@ -258,7 +258,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( !self.rewardedAd )
     {
         [self log: @"Unable to show rewarded ad - no ad loaded"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
