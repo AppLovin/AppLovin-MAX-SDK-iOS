@@ -8,7 +8,7 @@
 #import "ALSnapMediationAdapter.h"
 #import <SAKSDK/SAKSDK.h>
 
-#define ADAPTER_VERSION @"2.0.0.2"
+#define ADAPTER_VERSION @"2.0.0.3"
 
 @interface ALSnapMediationAdapterInterstitialAdDelegate : NSObject<SAKInterstitialDelegate>
 @property (nonatomic,   weak) ALSnapMediationAdapter *parentAdapter;
@@ -198,7 +198,7 @@ static MAAdapterInitializationStatus ALSnapSDKInitializationStatus = NSIntegerMi
     else
     {
         [self log: @"Interstitial ad not ready for slot id: %@...", self.slotId];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -259,7 +259,7 @@ static MAAdapterInitializationStatus ALSnapSDKInitializationStatus = NSIntegerMi
     else
     {
         [self log: @"Rewarded ad not ready for slot id: %@...", self.slotId];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 

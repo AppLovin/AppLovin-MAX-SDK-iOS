@@ -5,7 +5,7 @@ s.authors =
     'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationSnapAdapter'
-s.version = '2.0.0.2'
+s.version = '2.0.0.3'
 s.platform = :ios, '10.0'
 s.summary = 'Snap adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

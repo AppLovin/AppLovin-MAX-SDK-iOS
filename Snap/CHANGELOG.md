@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0.3
+* Update ad display failed error code.
+
 ## 2.0.0.2
 * Fix banners and MRECs not loading due to `ALSnapMediationAdapterAdViewDelegate` not fully conforming to the `SAKAdViewDelegate` protocol.
 
