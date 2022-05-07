@@ -1,5 +1,8 @@
 # Changelog
 
+## 21.7.5.1
+* Update ad display failed error code.
+
 ## 21.7.5.0
 * Certified with Smaato SDK 21.7.5.
 

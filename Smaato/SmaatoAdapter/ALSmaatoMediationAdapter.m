@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.5.0"
+#define ADAPTER_VERSION @"21.7.5.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -249,7 +249,7 @@
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: MAAdapterError.adNotReady];
+        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -325,7 +325,7 @@
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: MAAdapterError.adNotReady];
+        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
