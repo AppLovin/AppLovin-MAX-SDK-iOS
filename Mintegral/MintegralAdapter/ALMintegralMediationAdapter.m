@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.1.3.0.0"
+#define ADAPTER_VERSION @"7.1.3.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -289,7 +289,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show interstitial - no ad loaded..."];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -402,7 +402,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show rewarded ad - no ad loaded..."];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -611,7 +611,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Interstitial failed to show: %@", error];
     
-    MAAdapterError *adapterError = [ALMintegralMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -703,7 +703,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Rewarded ad failed to show: %@", error];
     
-    MAAdapterError *adapterError = [ALMintegralMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
