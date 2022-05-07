@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.2.1.2.0"
+#define ADAPTER_VERSION @"7.2.1.2.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -139,7 +139,7 @@
     {
         [self log: @"Unable to show ironSource interstitial - no ad loaded for instance ID: %@", instanceID];
         [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceID]
-                                                        error: MAAdapterError.adNotReady];
+                                                        error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -197,7 +197,7 @@
     {
         [self log: @"Unable to show ironSource rewarded - no ad loaded for instance ID: %@", instanceID];
         [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID]
-                                                        error: MAAdapterError.adNotReady];
+                                                        error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -313,7 +313,7 @@
 {
     [self log: @"Interstitial failed to show for instance ID: %@ with error: %@", instanceId, error];
     [self didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceId]
-                                             error: [ALIronSourceMediationAdapterRouter toMaxError: error]];
+                                             error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription]];
 }
 
 - (void)didClickInterstitial:(NSString *)instanceId
@@ -388,7 +388,7 @@
 {
     [self log: @"Rewarded ad failed to show for instance ID: %@ with error: %@", instanceId, error];
     [self didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceId]
-                                             error: [ALIronSourceMediationAdapterRouter toMaxError: error]];
+                                             error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription]];
 }
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId
