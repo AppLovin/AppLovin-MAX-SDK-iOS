@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.0.4
+* Update ad display failed error code.
+
 ## 4.5.0.3
 * Remove check for manual native ad assets.
 
