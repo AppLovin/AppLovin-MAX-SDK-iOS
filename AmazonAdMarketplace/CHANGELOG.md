@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.1.2
+* Update ad display failed error code.
+
 ## 4.4.1.1
 * Fix memory leak with DTBAdLoader objects.
 

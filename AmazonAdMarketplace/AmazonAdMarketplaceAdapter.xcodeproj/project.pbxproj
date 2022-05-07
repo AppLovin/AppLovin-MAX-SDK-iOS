@@ -144,7 +144,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					1D97FB841FBCF38B00D6C309 = {
