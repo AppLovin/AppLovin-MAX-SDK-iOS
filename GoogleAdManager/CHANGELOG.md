@@ -1,7 +1,10 @@
 # Changelog
 
+## 9.4.0.2
+* Update ad display failed error code.
+
 ## 9.4.0.1
-* Add ability to set custom targeting via local extra parameters by calling `setLocalExtraParameterForKey: "custom_targeting" value: NSDictionary<NSString *, NSString *>`.
+* Add ability to set [custom targeting](https://developers.google.com/ad-manager/mobile-ads-sdk/android/targeting#custom_targeting) via local extra parameters by calling `setLocalExtraParameterForKey: "custom_targeting" value: NSDictionary<NSString *, NSString *>`.
 
 ## 9.4.0.0
 * Certified with GoogleAdManager SDK 9.4.0.

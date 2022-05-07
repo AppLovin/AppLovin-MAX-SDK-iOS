@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.4.0.1"
+#define ADAPTER_VERSION @"9.4.0.2"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -227,7 +227,7 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -312,7 +312,7 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -386,7 +386,7 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -797,7 +797,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -847,7 +847,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Rewarded interstitial ad (%@) failed to show: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayRewardedInterstitialAdWithError: adapterError];
 }
@@ -906,7 +906,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
