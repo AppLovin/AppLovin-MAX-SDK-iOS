@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.4.20211028.2"
+#define ADAPTER_VERSION @"2.4.20211028.3"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -393,7 +393,7 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Interstitial ad failed to show for slot id: %@ with error: %ld", ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
+    MAAdapterError *error = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: errorCode thirdPartySdkErrorMessage: @""];
     [self.delegate didFailToDisplayInterstitialAdWithError: error];
 }
 
@@ -484,7 +484,7 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Rewarded ad failed to show for slot id: %@ with error: %ld", ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
+    MAAdapterError *error = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: errorCode thirdPartySdkErrorMessage: @""];
     [self.delegate didFailToDisplayRewardedAdWithError: error];
 }
 
@@ -594,7 +594,7 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"%@ ad failed to show for slot id: %@ with error: %ld", self.adFormat.label, ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
+    MAAdapterError *error = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: errorCode thirdPartySdkErrorMessage: @""];
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 
@@ -687,7 +687,7 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Native %@ ad showed for slot id: %@... with error: %ld", self.adFormat.label, ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
+    MAAdapterError *error = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: errorCode thirdPartySdkErrorMessage: @""];
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 

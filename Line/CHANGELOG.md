@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.20211028.3
+* Update ad display failed error code.
+
 ## 2.4.20211028.2
 * Update SDK version retrieval API.
 
