@@ -9,7 +9,7 @@
 #import "ALVerveMediationAdapter.h"
 #import <HyBid.h>
 
-#define ADAPTER_VERSION @"2.12.1.0"
+#define ADAPTER_VERSION @"2.12.1.1"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject<HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -177,7 +177,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -228,7 +228,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
