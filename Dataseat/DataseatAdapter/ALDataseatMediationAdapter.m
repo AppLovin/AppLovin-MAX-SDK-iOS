@@ -10,7 +10,7 @@
 #import <DataseatSDK/Dataseat.h>
 #import <DataseatSDK/DSErrorCode.h>
 
-#define ADAPTER_VERSION @"1.0.9.1"
+#define ADAPTER_VERSION @"1.0.9.2"
 
 @interface ALDataseatMediationAdapterRouter : ALMediationAdapterRouter<DSSDKDelegate>
 @end
@@ -106,7 +106,7 @@
     else
     {
         [self log: @"Unable to show interstitial - ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.routerPlacementIdentifer error: MAAdapterError.adNotReady];
+        [self.router didFailToDisplayAdForPlacementIdentifier: self.routerPlacementIdentifer error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -167,7 +167,7 @@
     else
     {
         [self log: @"Unable to show rewarded ad with tag: %@", self.routerPlacementIdentifer];
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.routerPlacementIdentifer error: MAAdapterError.adNotReady];
+        [self.router didFailToDisplayAdForPlacementIdentifier: self.routerPlacementIdentifer error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
