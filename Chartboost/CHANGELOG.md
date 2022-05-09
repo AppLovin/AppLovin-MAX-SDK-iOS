@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.5.0.4
+* Update ad display failed error code.
+
 ## 8.5.0.3
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
 * Add support for passing in a presenting view controller.

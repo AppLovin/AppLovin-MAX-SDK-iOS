@@ -10,7 +10,7 @@
 #import <Chartboost/Chartboost.h>
 #import <Chartboost/Chartboost+Mediation.h>
 
-#define ADAPTER_VERSION @"8.5.0.3"
+#define ADAPTER_VERSION @"8.5.0.4"
 
 @interface ALChartboostInterstitialDelegate : NSObject<CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -169,7 +169,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -212,7 +212,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -446,7 +446,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [self.parentAdapter toMaxErrorFromCHBShowError: error];
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.description];
         
         [self.parentAdapter log: @"Interstitial failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -541,7 +541,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [self.parentAdapter toMaxErrorFromCHBShowError: error];
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.description];
         
         [self.parentAdapter log: @"Rewarded failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
@@ -663,7 +663,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [self.parentAdapter toMaxErrorFromCHBShowError: error];
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.description];
         
         [self.parentAdapter log: @"%@ ad failed \"%@\" to show with error: %@", self.adFormat.label, event.ad.location, error];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
