@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.12.4.4
+* Update ad display failed error code.
+
 ## 4.12.4.3
 * Update podspec to use `pod_target_xcconfig` over the deprecated `xcconfig`.
 * Update open source versions to allow compilation with AppLovin SDK v11.0.0+.
