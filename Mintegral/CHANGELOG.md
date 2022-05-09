@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.4.0.0
+* Certified with Mintegral SDK 7.1.4.0.
+
 ## 7.1.3.0.1
 * Update ad display failed error code.
 
