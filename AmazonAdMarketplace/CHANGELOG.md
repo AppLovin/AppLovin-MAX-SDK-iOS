@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.3.0
+* Certified with APS SDK 4.4.3.
+
 ## 4.4.1.2
 * Update ad display failed error code.
 
