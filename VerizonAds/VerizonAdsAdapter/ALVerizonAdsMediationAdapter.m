@@ -16,7 +16,7 @@
 #import <VerizonAdsVerizonNativeController/VASNativeImageComponent.h>
 #import <VerizonAdsVerizonNativeController/VASNativeVideoComponent.h>
 
-#define ADAPTER_VERSION @"1.14.2.9"
+#define ADAPTER_VERSION @"1.14.2.10"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -837,7 +837,20 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         id<VASNativeImageComponent> iconComponent = (id<VASNativeImageComponent>)[nativeAd component: @"iconImage"];
         id<VASNativeImageComponent> mediaImageComponent = (id<VASNativeImageComponent>)[nativeAd component: @"mainImage"];
         id<VASNativeVideoComponent> mediaVideoComponent = (id<VASNativeVideoComponent>)[nativeAd component: @"video"];
-        UIView *mediaView = mediaVideoComponent.view ?: mediaImageComponent.view;
+        
+        UIView *mediaView;
+        CGFloat mediaContentAspectRatio = 0.0f;
+        if ( mediaVideoComponent.view )
+        {
+            mediaView = mediaVideoComponent.view;
+            mediaContentAspectRatio = mediaVideoComponent.width / mediaVideoComponent.height;
+        }
+        else if ( mediaImageComponent.view )
+        {
+            mediaView = mediaImageComponent.view;
+            mediaContentAspectRatio = mediaImageComponent.width / mediaImageComponent.height;
+        }
+        
         mediaView.contentMode = UIViewContentModeScaleAspectFit;
         
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
@@ -876,6 +889,15 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
                 builder.callToAction = ctaComponent.text;
                 builder.icon = iconImage;
                 builder.mediaView = mediaView;
+                
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+                // Introduced in 11.4.0
+                if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+                {
+                    [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+                }
+#pragma clang diagnostic pop
             }];
             
             VASCreativeInfo *creativeInfo = nativeAd.creativeInfo;

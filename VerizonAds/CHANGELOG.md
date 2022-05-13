@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.2.10
+* Add support for providing native media content aspect ratio in `MANativeAdView`.
+* Distribute adapter as an XCFramework.
+
 ## 1.14.2.9
 * Update ad display failed error code.
 
