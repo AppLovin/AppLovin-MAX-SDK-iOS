@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.10.0.2"
+#define ADAPTER_VERSION @"6.10.0.3"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -590,16 +590,31 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             }
 #pragma clang diagnostic pop
             
+            CGFloat mediaContentAspectRatio = 0.0f;
             if ( self.nativeBannerAd )
             {
                 // Facebook true native banners do not provide media views so use icon asset in place of it
                 UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: nativeAd.iconImage];
                 builder.mediaView = mediaImageView;
+                
+                mediaContentAspectRatio = nativeAd.iconImage.size.width / nativeAd.iconImage.size.height;
             }
             else
             {
-                builder.mediaView = [[FBMediaView alloc] init];
+                FBMediaView *mediaView = [[FBMediaView alloc] init];
+                builder.mediaView = mediaView;
+                
+                mediaContentAspectRatio = mediaView.aspectRatio;
             }
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 11.4.0
+            if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+            {
+                [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+            }
+#pragma clang diagnostic pop
             
             FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
             adOptionsView.nativeAd = nativeAd;
