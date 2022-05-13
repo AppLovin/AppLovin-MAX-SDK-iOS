@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.15.1.1"
+#define ADAPTER_VERSION @"5.15.1.2"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -583,7 +583,8 @@
             builder.icon = [[MANativeAdImage alloc] initWithURL: [NSURL URLWithString: promoBanner.icon.url]];
         }
         
-        builder.mediaView = [MTRGNativeViewsFactory createMediaAdView];
+        MTRGMediaAdView *mediaView = [MTRGNativeViewsFactory createMediaAdView];
+        builder.mediaView = mediaView;
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
@@ -591,6 +592,15 @@
         if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
         {
             [builder performSelector: @selector(setAdvertiser:) withObject: promoBanner.advertisingLabel];
+        }
+#pragma clang diagnostic pop
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 11.4.0
+        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+        {
+            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaView.aspectRatio)];
         }
 #pragma clang diagnostic pop
     }];
