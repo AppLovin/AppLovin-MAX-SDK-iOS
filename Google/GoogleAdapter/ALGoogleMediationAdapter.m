@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.4.0.1"
+#define ADAPTER_VERSION @"9.4.0.2"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -1294,17 +1294,24 @@ static NSString *ALGoogleSDKVersion;
     }
     
     UIView *mediaView;
-    if ( nativeAd.mediaContent )
+    GADMediaContent *mediaContent = nativeAd.mediaContent;
+    CGFloat mediaContentAspectRatio = 0.0f;
+    
+    if ( mediaContent )
     {
         GADMediaView *gadMediaView = [[GADMediaView alloc] init];
-        [gadMediaView setMediaContent: nativeAd.mediaContent];
+        [gadMediaView setMediaContent: mediaContent];
         mediaView = gadMediaView;
+        
+        mediaContentAspectRatio = mediaContent.aspectRatio;
     }
     else if ( nativeAd.images.count > 0 )
     {
-        GADNativeAdImage *mainImage = nativeAd.images[0];
-        UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: mainImage.image];
+        GADNativeAdImage *mediaImage = nativeAd.images[0];
+        UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: mediaImage.image];
         mediaView = mediaImageView;
+        
+        mediaContentAspectRatio = mediaImage.image.size.width / mediaImage.image.size.height;
     }
     
     nativeAd.delegate = self;
@@ -1330,6 +1337,15 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
         
         builder.mediaView = mediaView;
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 11.4.0
+        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+        {
+            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+        }
+#pragma clang diagnostic pop
         
         if ( nativeAd.icon.image ) // Cached
         {
