@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.11.0.1"
+#define ADAPTER_VERSION @"6.11.0.2"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *creativeIdentifiers;
 
 - (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters consentDialogState:(ALConsentDialogState)consentDialogState;
+- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters;
 @end
 
 @interface ALVungleMediationAdapter()
@@ -56,6 +57,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing Vungle SDK with app id: %@...", appID];
+        
+        // NOTE: Vungle's SDK will log error if setting COPPA state after it initializes.
+        NSNumber *isAgeRestrictedUser = [self.router privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        if ( isAgeRestrictedUser )
+        {
+            [[VungleSDK sharedSDK] updateCOPPAStatus: isAgeRestrictedUser.boolValue];
+        }
         
         [VungleSDK sharedSDK].delegate = self.router;
         [VungleSDK sharedSDK].creativeTrackingDelegate = self.router;
