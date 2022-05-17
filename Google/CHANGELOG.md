@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.5.0.0
+* Certified with Google SDK 9.5.0.
+
 ## 9.4.0.2
 * Add support for providing native media content aspect ratio in `MANativeAdView`.
 * Distribute adapter as an XCFramework.
