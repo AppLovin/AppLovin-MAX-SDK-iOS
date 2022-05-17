@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.1.5.0.0
+* Certified with Mintegral SDK 7.1.5.0.
+* Distribute adapter as an XCFramework.
+
 ## 7.1.4.0.0
 * Certified with Mintegral SDK 7.1.4.0.
 
