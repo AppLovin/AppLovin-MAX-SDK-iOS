@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0.0
+* Certified with Yahoo Mobile SDK 1.0.0.
+* Remove arm64 simulator slice which the Yahoo-Ads SDK does not support.
+
 ## 1.14.2.10
 * Add support for providing native media content aspect ratio in `MANativeAdView`.
 * Distribute adapter as an XCFramework.
