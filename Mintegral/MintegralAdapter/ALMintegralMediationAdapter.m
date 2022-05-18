@@ -521,6 +521,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         case kMTGErrorCodeMaterialLoadFailed:
         case kMTGErrorCodeNoSupportPopupWindow:
         case kMTGErrorCodeFailedDiskIO:
+        case kMTGErrorCodeImageURLisEmpty:
             adapterError = MAAdapterError.internalError;
             break;
     }
