@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.5.1.3.0
+* Certified with ByteDance SDK 4.5.1.3.
+* Distribute adapter as an XCFramework.
+
 ## 4.3.1.9.1
 * Update ad display failed error code.
 
