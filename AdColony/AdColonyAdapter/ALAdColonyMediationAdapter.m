@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.8.0.0.1"
+#define ADAPTER_VERSION @"4.8.0.0.2"
 
 @interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
@@ -337,6 +337,9 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
             break;
         case AdColonyRequestErrorFeatureUnsupported:
             adapterError = MAAdapterError.internalError;
+            break;
+        case AdColonyRequestErrorUnexpected:
+            adapterError = MAAdapterError.unspecified;
             break;
     }
     

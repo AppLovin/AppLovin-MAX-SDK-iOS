@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.8.0.0.2
+* Distribute adapter as an XCFramework.
+* Map `AdColonyRequestErrorUnexpected` error to be an unspecified error (-5200).
+
 ## 4.8.0.0.1
 * Update ad display failed error code.
 
