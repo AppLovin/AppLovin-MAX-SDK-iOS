@@ -338,6 +338,9 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
         case AdColonyRequestErrorFeatureUnsupported:
             adapterError = MAAdapterError.internalError;
             break;
+        case AdColonyRequestErrorUnexpected:
+            adapterError = MAAdapterError.internalError;
+            break;
     }
     
 #pragma clang diagnostic push
