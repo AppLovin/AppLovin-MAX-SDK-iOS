@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.6.0.0
+* Certified with Mintegral SDK 7.1.6.0.
+
 ## 7.1.5.0.1
 * Map Mintegral image url empty error to MAX internal error.
 
