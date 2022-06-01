@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.15.2.0
+* Certified with MyTarget SDK 5.15.2.
+
 ## 5.15.1.2
 * Add support for providing native media content aspect ratio in `MANativeAdView`.
 * Distribute adapter as an XCFramework.
