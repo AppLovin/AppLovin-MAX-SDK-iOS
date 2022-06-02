@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.0.0.0"
+#define ADAPTER_VERSION @"2.0.0.1"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -880,6 +880,28 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     {
         [self.parentAdapter e: @"Failed to register native ad view for interaction: Native ad is nil."];
         return;
+    }
+    
+    id<YASNativeTextComponent> titleComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"title"];
+    id<YASNativeTextComponent> disclaimerComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"disclaimer"];
+    id<YASNativeTextComponent> bodyComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"body"];
+    id<YASNativeTextComponent> ctaComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"callToAction"];
+
+    if ( titleComponent && maxNativeAdView.titleLabel )
+    {
+        [titleComponent prepareLabel: maxNativeAdView.titleLabel];
+    }
+    if ( disclaimerComponent && maxNativeAdView.advertiserLabel )
+    {
+        [disclaimerComponent prepareLabel: maxNativeAdView.advertiserLabel];
+    }
+    if ( bodyComponent && maxNativeAdView.bodyLabel )
+    {
+        [bodyComponent prepareLabel: maxNativeAdView.bodyLabel];
+    }
+    if ( ctaComponent && maxNativeAdView.callToActionButton )
+    {
+        [ctaComponent prepareButton: maxNativeAdView.callToActionButton];
     }
     
     [self.parentAdapter.nativeAd registerContainerView: maxNativeAdView];

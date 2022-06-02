@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0.1
+* Fix native ads not tracking impressions properly.
+
 ## 2.0.0.0
 * Certified with Yahoo Mobile SDK 1.0.0.
 * Remove arm64 simulator slice which the Yahoo-Ads SDK does not support.
