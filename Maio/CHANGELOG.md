@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.2.0
+* Certified with Maio SDK 1.6.2.
+* Distribute adapter as an XCFramework.
+
 ## 1.6.1.1
 * Update ad display failed error code.
 
