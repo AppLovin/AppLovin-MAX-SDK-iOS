@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.8.0.0.2"
+#define ADAPTER_VERSION @"4.9.0.0.0"
 
 @interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
