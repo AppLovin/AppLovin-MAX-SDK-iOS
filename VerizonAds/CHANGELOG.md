@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0.2
+* Add support for clickability of video, image and icon components.
+* Do not explicitly destroy Yahoo native ads, as it will clear previously-registered `UILabel`s and `UIButton`s.
+
 ## 2.0.0.1
 * Fix native ads not tracking impressions properly.
 
