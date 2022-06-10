@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.2.0.0"
+#define ADAPTER_VERSION @"1.9.2.0.2"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -87,7 +87,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         ALBidMachineSDKInitializationStatus = MAAdapterInitializationStatusInitializing;
         
-        NSString *sourceId = [parameters.customParameters al_stringForKey: @"source_id"];
+        NSString *sourceId = [parameters.serverParameters al_stringForKey: @"source_id"];
         [self log: @"Initializing BidMachine SDK with source id: %@", sourceId];
 
         BDMSdkConfiguration *config = [[BDMSdkConfiguration alloc] init];
@@ -177,7 +177,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( ![self.interstitialAd canShow] )
     {
         [self log: @"Unable to show interstitial - ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
