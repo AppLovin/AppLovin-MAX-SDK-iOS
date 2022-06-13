@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.6.0.0
+* Certified with Google SDK 9.6.0.
+* Silence API deprecation warnings.
+
 ## 9.5.0.0
 * Certified with Google SDK 9.5.0.
 
