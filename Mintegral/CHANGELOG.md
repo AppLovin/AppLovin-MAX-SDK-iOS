@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.7.0.1
+* Add `kMTGErrorCodeSocketIO` error code to error mapping.
+
 ## 7.1.7.0.0
 * Certified with Mintegral SDK 7.1.7.0.
 * Silence API deprecation warnings.
