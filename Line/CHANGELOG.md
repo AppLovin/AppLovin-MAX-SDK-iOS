@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.4.20220607.0
+* Certified with Line SDK 2.4.20220607.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 2.4.20211028.3
 * Update ad display failed error code.
 
