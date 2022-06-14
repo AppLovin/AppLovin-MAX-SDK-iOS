@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.1.7.0.0
+* Certified with Mintegral SDK 7.1.7.0.
+* Silence API deprecation warnings.
+
 ## 7.1.6.0.0
 * Certified with Mintegral SDK 7.1.6.0.
 
