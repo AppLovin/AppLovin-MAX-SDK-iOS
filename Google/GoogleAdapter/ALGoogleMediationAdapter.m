@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.6.0.0"
+#define ADAPTER_VERSION @"9.6.0.1"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -909,7 +909,7 @@ static NSString *ALGoogleSDKVersion;
                                                      errorString: @"Ad Display Failed"
                                           thirdPartySdkErrorCode: error.code
                                        thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic ppop
+#pragma clang diagnostic pop
     
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];

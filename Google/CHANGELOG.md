@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.6.0.1
+* Fix usage of incorrect pre-processor macros for silencing deprecation warnings.
+
 ## 9.6.0.0
 * Certified with Google SDK 9.6.0.
 * Silence API deprecation warnings.
