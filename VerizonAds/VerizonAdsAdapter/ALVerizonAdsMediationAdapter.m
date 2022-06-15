@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.0.0.2"
+#define ADAPTER_VERSION @"2.0.0.3"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -318,6 +318,14 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 
 - (void)updatePrivacyStatesForParameters:(id<MAAdapterParameters>)parameters
 {
+    if ( ALSdk.versionCode >= 11040299 )
+    {
+        if ( parameters.consentString )
+        {
+            [[YASAds sharedInstance] addConsent: [[YASGdprConsent alloc] initWithConsentString: parameters.consentString]];
+        }
+    }
+    
     NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
     if ( isAgeRestrictedUser )
     {
