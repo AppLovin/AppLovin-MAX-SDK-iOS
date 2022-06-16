@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.2.0.2"
+#define ADAPTER_VERSION @"1.9.4.1.0"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -303,10 +303,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             break;
     }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.code
                              errorString: adapterError.message
                   thirdPartySdkErrorCode: bidmachineErrorCode
                thirdPartySdkErrorMessage: bidmachineError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (BDMBannerAdSize)sizeFromAdFormat:(MAAdFormat *)adFormat
