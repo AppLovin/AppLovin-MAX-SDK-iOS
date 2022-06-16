@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.2.3.0
+* Certified with ByteDance SDK 4.5.2.3.
+
 ## 4.5.1.3.0
 * Certified with ByteDance SDK 4.5.1.3.
 * Distribute adapter as an XCFramework.
