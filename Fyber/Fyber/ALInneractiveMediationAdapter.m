@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.5.0"
+#define ADAPTER_VERSION @"8.1.5.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
@@ -424,6 +424,14 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         [[IASDKCore sharedInstance] clearGDPRConsentData];
     }
     
+    if ( ALSdk.versionCode >= 11040299 )
+    {
+        if ( requestParameters.consentString )
+        {
+            [[IASDKCore sharedInstance] setGDPRConsentString: requestParameters.consentString];
+        }
+    }
+    
     if ( ALSdk.versionCode >= 61100 )
     {
         NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: requestParameters];
@@ -649,7 +657,14 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
 {
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
-    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription]];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                          errorString: @"Ad Display Failed"
+                                                               thirdPartySdkErrorCode: error.code
+                                                            thirdPartySdkErrorMessage: error.localizedDescription]];
+#pragma clang diagnostic pop
 }
 
 - (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
