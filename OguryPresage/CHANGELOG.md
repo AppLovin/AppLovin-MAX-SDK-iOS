@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.6.2.0
+* Certified with OguryPresage SDK 2.1.0.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 2.6.1.1
 * Update ad display failed error code.
 

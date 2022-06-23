@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"2.6.1.1"
+#define ADAPTER_VERSION @"2.6.2.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -390,7 +390,14 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     if ( [self.parentAdapter isShowing] )
     {
-        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+        
         [self.parentAdapter log: @"Interstitial (%@) failed to show with error: %@", self.adUnitIdentifier, maxError];
         [self.delegate didFailToDisplayInterstitialAdWithError: maxError];
     }
@@ -469,9 +476,16 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     if ( [self.parentAdapter isShowing] )
     {
-        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+        
         [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", self.adUnitIdentifier, maxError];
-        [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription]];
+        [self.delegate didFailToDisplayRewardedAdWithError: maxError];
     }
     else
     {
