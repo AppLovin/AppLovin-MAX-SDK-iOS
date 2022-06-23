@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.2.2.0.0
+* Certified with IronSource SDK 7.2.2.0.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 7.2.1.2.1
 * Update ad display failed error code.
 

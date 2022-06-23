@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.2.1.2.1"
+#define ADAPTER_VERSION @"7.2.2.0.0"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -312,8 +312,15 @@
 - (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId
 {
     [self log: @"Interstitial failed to show for instance ID: %@ with error: %@", instanceId, error];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceId]
-                                             error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription]];
+                                             error: [MAAdapterError errorWithCode: -4205
+                                                                      errorString: @"Ad Display Failed"
+                                                           thirdPartySdkErrorCode: error.code
+                                                        thirdPartySdkErrorMessage: error.localizedDescription]];
+#pragma clang diagnostic pop
 }
 
 - (void)didClickInterstitial:(NSString *)instanceId
@@ -387,8 +394,15 @@
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId
 {
     [self log: @"Rewarded ad failed to show for instance ID: %@ with error: %@", instanceId, error];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceId]
-                                             error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription]];
+                                             error: [MAAdapterError errorWithCode: -4205
+                                                                      errorString: @"Ad Display Failed"
+                                                           thirdPartySdkErrorCode: error.code
+                                                        thirdPartySdkErrorMessage: error.localizedDescription]];
+#pragma clang diagnostic pop
 }
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId
