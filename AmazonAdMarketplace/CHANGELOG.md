@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.4.3.1
+* Remove DTBAdResponse and DTBAdErrorInfo objects from local extra parameters after they've been used.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 4.4.3.0
 * Certified with APS SDK 4.4.3.
 

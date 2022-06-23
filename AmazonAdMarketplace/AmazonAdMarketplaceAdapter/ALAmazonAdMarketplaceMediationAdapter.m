@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.4.3.0"
+#define ADAPTER_VERSION @"4.4.3.1"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -139,6 +139,11 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
             [self d: @"Using ad loader from ad response object: %@", retrievedAdLoader];
             adLoader = retrievedAdLoader;
         }
+        else if ( [parameters.localExtraParameters isKindOfClass: [NSMutableDictionary class]] )
+        {
+            NSMutableDictionary *mutableLocalExtraParams = (NSMutableDictionary *) parameters.localExtraParameters;
+            mutableLocalExtraParams[@"amazon_ad_response"] = nil;
+        }
     }
     
     if ( [adErrorObj isKindOfClass: [DTBAdErrorInfo class]] )
@@ -148,6 +153,11 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
         {
             [self d: @"Using ad loader from ad error object: %@", retrievedAdLoader];
             adLoader = retrievedAdLoader;
+        }
+        else if ( [parameters.localExtraParameters isKindOfClass: [NSMutableDictionary class]] )
+        {
+            NSMutableDictionary *mutableLocalExtraParams = (NSMutableDictionary *) parameters.localExtraParameters;
+            mutableLocalExtraParams[@"amazon_ad_error"] = nil;
         }
     }
     
@@ -391,10 +401,13 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
             break;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.code
                              errorString: adapterError.message
                   thirdPartySdkErrorCode: amazonErrorCode
                thirdPartySdkErrorMessage: @""];
+#pragma clang diagnostic pop
 }
 
 @end
