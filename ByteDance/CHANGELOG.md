@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.2.4.1
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
 ## 4.5.2.4.0
 * Certified with ByteDance SDK 4.5.2.4.
 

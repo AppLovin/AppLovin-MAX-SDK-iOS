@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.5.2.4.0"
+#define ADAPTER_VERSION @"4.5.2.4.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -1055,6 +1055,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     // Pangle's media view can be either a video or image (which they don't provide a view for)
     __block UIView *mediaView;
+    __block MANativeAdImage *mainImage = nil;
     
     // Pangle's native ad logo view
     __block UIView *optionsView;
@@ -1083,6 +1084,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                 [self.parentAdapter loadImageForURLString: mediaImage.imageURL group: group successHandler:^(UIImage *image) {
                     mediaImageView = [[UIImageView alloc] initWithImage: image];
                     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+                    mainImage = [[MANativeAdImage alloc] initWithImage: image];
                     
                     mediaView = mediaImageView;
                 }];
@@ -1118,6 +1120,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             
             builder.callToAction = data.buttonText;
             builder.icon = iconImage;
+            if ( ALSdk.versionCode >= 11040299 )
+            {
+                [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+            }
             builder.mediaView = mediaView;
             builder.optionsView = optionsView;
         }];
