@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.6.0.1"
+#define ADAPTER_VERSION @"9.6.0.2"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -1316,6 +1316,7 @@ static NSString *ALGoogleSDKVersion;
     
     UIView *mediaView;
     GADMediaContent *mediaContent = nativeAd.mediaContent;
+    MANativeAdImage *mainImage = nil;
     CGFloat mediaContentAspectRatio = 0.0f;
     
     if ( mediaContent )
@@ -1323,6 +1324,7 @@ static NSString *ALGoogleSDKVersion;
         GADMediaView *gadMediaView = [[GADMediaView alloc] init];
         [gadMediaView setMediaContent: mediaContent];
         mediaView = gadMediaView;
+        mainImage = [[MANativeAdImage alloc] initWithImage: mediaContent.mainImage];
         
         mediaContentAspectRatio = mediaContent.aspectRatio;
     }
@@ -1331,6 +1333,7 @@ static NSString *ALGoogleSDKVersion;
         GADNativeAdImage *mediaImage = nativeAd.images[0];
         UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: mediaImage.image];
         mediaView = mediaImageView;
+        mainImage = [[MANativeAdImage alloc] initWithImage: mediaImage.image];
         
         mediaContentAspectRatio = mediaImage.image.size.width / mediaImage.image.size.height;
     }
@@ -1358,6 +1361,10 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
         
         builder.mediaView = mediaView;
+        if ( ALSdk.versionCode >= 11040299 )
+        {
+            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+        }
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
