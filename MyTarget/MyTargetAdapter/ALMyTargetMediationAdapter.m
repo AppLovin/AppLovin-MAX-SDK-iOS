@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.15.2.0"
+#define ADAPTER_VERSION @"5.15.2.1"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -581,6 +581,21 @@
         else // URL may require fetching
         {
             builder.icon = [[MANativeAdImage alloc] initWithURL: [NSURL URLWithString: promoBanner.icon.url]];
+        }
+        
+        MANativeAdImage *mainImage = nil;
+        if ( promoBanner.image.image )
+        {
+            mainImage = [[MANativeAdImage alloc] initWithImage: promoBanner.image.image];
+        }
+        else
+        {
+            mainImage = [[MANativeAdImage alloc] initWithURL: [NSURL URLWithString: promoBanner.image.url]];
+        }
+        
+        if ( ALSdk.versionCode >= 11040299 )
+        {
+            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
         }
         
         MTRGMediaAdView *mediaView = [MTRGNativeViewsFactory createMediaAdView];

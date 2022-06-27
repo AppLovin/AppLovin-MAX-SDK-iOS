@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.15.2.1
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
 ## 5.15.2.0
 * Certified with MyTarget SDK 5.15.2.
 
