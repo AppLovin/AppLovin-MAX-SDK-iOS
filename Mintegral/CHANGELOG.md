@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.7.0.2
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
 ## 7.1.7.0.1
 * Add `kMTGErrorCodeSocketIO` error code to error mapping.
 

@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.1.7.0.1"
+#define ADAPTER_VERSION @"7.1.7.0.2"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -924,12 +924,21 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     dispatch_group_t group = dispatch_group_create();
     
     __block MANativeAdImage *iconImage = nil;
+    __block MANativeAdImage *mainImage = nil;
     NSString *iconURL = campaign.iconUrl;
+    NSString *mainImageURL = campaign.imageUrl;
     if ( [iconURL al_isValidURL] )
     {
         [self.parentAdapter log: @"Fetching native ad icon: %@", iconURL];
         [self loadImageForURLString: iconURL group: group successHandler:^(UIImage *image) {
             iconImage = [[MANativeAdImage alloc] initWithImage: image];
+        }];
+    }
+    if ( [mainImageURL al_isValidString] )
+    {
+        [self.parentAdapter log: @"Fetching native ad main image: %@", mainImageURL];
+        [self loadImageForURLString: mainImageURL group: group successHandler:^(UIImage *image) {
+            mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }];
     }
     
@@ -952,6 +961,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
                 builder.icon = iconImage;
+                if ( ALSdk.versionCode >= 11040299 )
+                {
+                    [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+                }
                 builder.mediaView = mediaView;
                 builder.optionsView = adChoicesView;
             }];
