@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.4.1.1
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
 ## 1.9.4.1.0
 * Certified with BidMachine SDK 1.9.4.1.
 * Silence API deprecation warnings.

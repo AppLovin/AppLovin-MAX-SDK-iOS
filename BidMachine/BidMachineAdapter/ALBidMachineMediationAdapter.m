@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.4.1.0"
+#define ADAPTER_VERSION @"1.9.4.1.1"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -675,11 +675,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     }
     
     __block UIImageView *mainImageView = nil;
+    __block MANativeAdImage *mainImage = nil;
     if ( nativeAd.mainImageUrl && [nativeAd.mainImageUrl al_isValidURL] )
     {
         [self.parentAdapter log: @"Fetching native ad main image: %@", nativeAd.mainImageUrl];
         [self.parentAdapter loadImageForURLString: nativeAd.mainImageUrl group: group successHandler:^(UIImage *image) {
             mainImageView = [[UIImageView alloc] initWithImage: image];
+            mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }];
     }
 
@@ -695,6 +697,10 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             builder.body = nativeAd.body;
             builder.callToAction = nativeAd.CTAText;
             builder.icon = iconImage;
+            if ( ALSdk.versionCode >= 11040299 )
+            {
+                [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+            }
             builder.mediaView = mainImageView;
         }];
         [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
