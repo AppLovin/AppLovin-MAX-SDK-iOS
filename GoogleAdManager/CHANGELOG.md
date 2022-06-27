@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.6.0.1
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
 ## 9.6.0.0
 * Certified with GoogleAdManager SDK 9.6.0.
 * Silence API deprecation warnings.
