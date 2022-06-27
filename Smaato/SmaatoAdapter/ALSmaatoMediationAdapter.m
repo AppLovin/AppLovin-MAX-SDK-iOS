@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.6.0"
+#define ADAPTER_VERSION @"21.7.6.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -862,6 +862,11 @@
                     UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: image.image];
                     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
                     builder.mediaView = mediaImageView;
+                    if ( ALSdk.versionCode >= 11040299 )
+                    {
+                        MANativeAdImage *mainImage = [[MANativeAdImage alloc] initWithImage: image.image];
+                        [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+                    }
                 }
             }
         }];
