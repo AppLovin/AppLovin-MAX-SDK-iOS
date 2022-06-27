@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.0.0.3"
+#define ADAPTER_VERSION @"2.0.0.4"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -762,6 +762,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         
         UIView *mediaView;
         CGFloat mediaContentAspectRatio = 0.0f;
+        MANativeAdImage *mainImage = nil;
         id<YASNativeVideoComponent> videoComponent = (id<YASNativeVideoComponent>)[nativeAd component: @"video"];
         id<YASNativeImageComponent> mainImageComponent = (id<YASNativeImageComponent>)[nativeAd component: @"mainImage"];
         
@@ -780,6 +781,9 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
             mediaView = [[UIImageView alloc] init];
             mediaView.contentMode = UIViewContentModeScaleAspectFit;
             [mainImageComponent prepareView: (UIImageView *) mediaView];
+            
+            UIImage *image = ((UIImageView *) mediaView).image;
+            mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }
         
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
@@ -803,6 +807,10 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
             builder.advertiser = advertiser;
             builder.callToAction = callToAction;
             builder.icon = iconImage;
+            if ( ALSdk.versionCode >= 11040299 )
+            {
+                [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+            }
             builder.mediaView = mediaView;
             
 #pragma clang diagnostic push
