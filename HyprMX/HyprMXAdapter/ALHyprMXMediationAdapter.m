@@ -110,9 +110,13 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
         
         self.initializationDelegate = [[ALHyprMXMediationAdapterInitializationDelegate alloc] initWithParentAdapter: self completionHandler: completionHandler];
         
+        [HyprMX setMediationProvider:HyprMXMediationProviderApplovinMax
+                  mediatorSDKVersion:[ALSdk version]
+                      adapterVersion:[self adapterVersion]];
         // NOTE: HyprMX deals with CCPA via their UI
         [HyprMX initializeWithDistributorId: distributorId
                                      userId: userId
+                              consentStatus: [self consentValueForParams:parameters]
                      initializationDelegate: self.initializationDelegate];
     }
     else
@@ -262,15 +266,17 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 - (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
 {
     // NOTE: HyprMX requested to always set GDPR regardless of region.
+    [HyprMX setConsentStatus: [self consentValueForParams:parameters]];
+}
+
+-(HyprConsentStatus)consentValueForParams:(id<MAAdapterParameters>)parameters
+{
     NSNumber *hasUserConsent = parameters.hasUserConsent;
     if ( hasUserConsent )
     {
-        [HyprMX setConsentStatus: hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED];
+        return hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED;
     }
-    else
-    {
-        [HyprMX setConsentStatus: CONSENT_STATUS_UNKNOWN];
-    }
+    return CONSENT_STATUS_UNKNOWN;
 }
 
 #pragma mark - Helper Methods
