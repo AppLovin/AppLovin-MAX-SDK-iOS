@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0.5
+* Add support for passing local parameter "is_location_collection_enabled" to set `[[YASAds sharedInstance] setLocationAccessMode: ...]` 
+
 ## 2.0.0.4
 * Add support for returning the main image asset in `MANativeAd` for native ads.
 
