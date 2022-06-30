@@ -501,12 +501,15 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)adDisplayErrorForPlacement:(HyprMXPlacement *)placement error:(HyprMXError)hyprMXError
+-(void)adDisplayError:(NSError *)error placement:(HyprMXPlacement *)placement
 {
-    [self.parentAdapter log: @"Interstitial failed to display with error: %d for placement: %@", hyprMXError, placement.placementName];
+    [self.parentAdapter log: @"Interstitial failed to display with error: %d for placement: %@", error.localizedDescription, placement.placementName];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode:-4205
+                                                     errorString:@"Ad Display Failed"
+                                        mediatedNetworkErrorCode:error.code
+                                     mediatedNetworkErrorMessage:error.localizedDescription];
+    [self.delegate didFailToDisplayInterstitialAdWithError:adapterError];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: hyprMXError thirdPartySdkErrorMessage: @""];
-    [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
 @end
@@ -565,12 +568,15 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     [self.delegate didHideRewardedAd];
 }
 
-- (void)adDisplayErrorForPlacement:(HyprMXPlacement *)placement error:(HyprMXError)hyprMXError
+-(void)adDisplayError:(NSError *)error placement:(HyprMXPlacement *)placement
 {
-    [self.parentAdapter log: @"Rewarded ad failed to display with error: %d, for placement: %@", hyprMXError, placement.placementName];
+    [self.parentAdapter log: @"Interstitial failed to display with error: %d for placement: %@", error.localizedDescription, placement.placementName];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode:-4205
+                                                     errorString:@"Ad Display Failed"
+                                        mediatedNetworkErrorCode:error.code
+                                     mediatedNetworkErrorMessage:error.localizedDescription];
+    [self.delegate didFailToDisplayRewardedAdWithError:adapterError];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: hyprMXError thirdPartySdkErrorMessage: @""];
-    [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
 - (void)adDidRewardForPlacement:(HyprMXPlacement *)placement rewardName:(NSString *)rewardName rewardValue:(NSInteger)rewardValue
