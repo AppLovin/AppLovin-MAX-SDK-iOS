@@ -21,7 +21,7 @@ BOOL isAdViewRemovedFromSubview = NO;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    [super setSelected:selected animated:animated];
+    [super setSelected: selected animated: animated];
 
     // Configure the view for the selected state
 }
@@ -36,22 +36,22 @@ BOOL isAdViewRemovedFromSubview = NO;
     isAdViewRemovedFromSubview = YES;
 }
 
-- (void)configureWith:(MAAdView *)adView
+- (void)configure
 {
     // MREC width and height are 300 and 250 respectively, on iPhone and iPad
     CGFloat height = 250;
     CGFloat width = 300;
 
     // Center the MREC
-    adView.frame = CGRectMake(self.contentView.center.x - 150, self.contentView.frame.origin.y, width, height);
+    self.adView.frame = CGRectMake(self.contentView.center.x - 150, self.contentView.frame.origin.y, width, height);
 
     // Set background or background color for MREC ads to be fully functional
-    adView.backgroundColor = [UIColor whiteColor];
+    self.adView.backgroundColor = [UIColor whiteColor];
     
     // Avoid table view scrolling lag if adView hasn't been removed
     if (isAdViewRemovedFromSubview)
     {
-        [self.contentView addSubview:adView];
+        [self.contentView addSubview: self.adView];
     }
 }
 

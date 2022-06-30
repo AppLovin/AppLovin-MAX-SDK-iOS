@@ -13,7 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ALDemoMRecTableViewCell : UITableViewCell
 
-- (void)configureWith:(MAAdView *)adView;
+@property (nonatomic) MAAdView *adView;
+
+- (void)configure;
 
 @end
 

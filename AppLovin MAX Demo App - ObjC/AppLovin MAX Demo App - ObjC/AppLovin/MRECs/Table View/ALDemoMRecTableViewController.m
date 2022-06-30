@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic) NSMutableArray *adViews;
+@property (nonatomic) NSMutableArray *adViewQueue;
 @property (nonatomic) NSArray *sampleData;
 
 @end
@@ -25,7 +25,7 @@
 {
     [super viewDidLoad];
     
-    self.adViews = [NSMutableArray array];
+    self.adViewQueue = [NSMutableArray array];
     self.sampleData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L"];
     
     // Configure table view
@@ -34,14 +34,14 @@
     self.tableView.estimatedRowHeight = 250;
     self.tableView.rowHeight = 250;
     
-    [self configureAdViews:3];
+    [self configureAdViews: 5];
 }
 
-- (void) configureAdViews:(NSInteger)count
+- (void)configureAdViews:(NSInteger)count
 {
     for (int i = 0; i < count; i++)
     {
-        MAAdView *adView = [[MAAdView alloc] initWithAdUnitIdentifier:@"YOUR_AD_UNIT_ID" adFormat:MAAdFormat.mrec];
+        MAAdView *adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
         adView.delegate = self;
         
         // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
@@ -50,7 +50,7 @@
         
         // Load the ad
         [adView loadAd];
-        [self.adViews addObject:adView];
+        [self.adViewQueue addObject: adView];
     }
 }
 
@@ -66,24 +66,37 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    ALDemoMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ALDemoMRecTableViewCell" forIndexPath:indexPath];
+    ALDemoMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALDemoMRecTableViewCell" forIndexPath: indexPath];
     
-    switch (indexPath.section)
+    if (indexPath.section % 4 == 0 && self.adViewQueue.count)
     {
-        case 0:
-            [cell configureWith:self.adViews[0]]; // Configure cell with an ad
-            break;
-        case 4:
-            [cell configureWith:self.adViews[1]]; // Configure cell with different ad
-            break;
-        case 8:
-            [cell configureWith:self.adViews[2]]; // Configure cell with another different ad
-            break;
-        default:
-            cell.textLabel.text = self.sampleData[indexPath.section]; // Configure custom cells
+        MAAdView *adView = [self.adViewQueue objectAtIndex: 0];
+        [adView startAutoRefresh];
+        [self.adViewQueue removeObjectAtIndex: 0];
+        
+        cell.adView = adView;
+        [cell configure];
+        
+        [self.adViewQueue addObject: adView];
+    }
+    else
+    {
+        cell.textLabel.text = self.sampleData[indexPath.section]; // Configure custom cells
     }
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ALDemoMRecTableViewCell *adViewCell = (ALDemoMRecTableViewCell *) cell;
+    
+    if (adViewCell.adView != nil)
+    {
+        // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
+        [adViewCell.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
+        [adViewCell.adView stopAutoRefresh];
+    }
 }
 
 #pragma mark - MAAdDelegate Protocol
