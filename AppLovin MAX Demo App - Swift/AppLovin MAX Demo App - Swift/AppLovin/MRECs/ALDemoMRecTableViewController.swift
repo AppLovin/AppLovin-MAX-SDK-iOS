@@ -34,15 +34,14 @@ class ALDemoMRecTableViewController : UIViewController
         for _ in 0 ..< count
         {
             let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: .mrec)
-
             adView.delegate = self
             
             // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
             adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
             adView.stopAutoRefresh()
             
+            // Load the ad
             adView.loadAd()
-            
             adViews.append(adView)
         }
     }
