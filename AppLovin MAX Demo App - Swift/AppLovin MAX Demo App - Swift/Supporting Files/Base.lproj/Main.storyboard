@@ -829,53 +829,6 @@
             </objects>
             <point key="canvasLocation" x="1918.840579710145" y="1504.6875"/>
         </scene>
-        <!--Table View MREC Ads-->
-        <scene sceneID="VGw-PC-6Tr">
-            <objects>
-                <viewController title="Table View MREC Ads" id="lMd-Ky-yHX" customClass="ALDemoMRecTableViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MuL-ta-QTa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="S2X-wd-psp">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                                <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ALDemoMRecTableViewCell" rowHeight="250" id="DeQ-GK-vbe" customClass="ALDemoMRecTableViewCell" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="49.5" width="414" height="250"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DeQ-GK-vbe" id="qAR-pu-50B">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="knD-vF-n42"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="S2X-wd-psp" firstAttribute="leading" secondItem="MuL-ta-QTa" secondAttribute="leading" id="1ty-ne-SRm"/>
-                            <constraint firstAttribute="bottom" secondItem="S2X-wd-psp" secondAttribute="bottom" id="HkX-pC-6KM"/>
-                            <constraint firstItem="S2X-wd-psp" firstAttribute="top" secondItem="MuL-ta-QTa" secondAttribute="top" id="g77-cq-V3J"/>
-                            <constraint firstAttribute="trailing" secondItem="S2X-wd-psp" secondAttribute="trailing" id="iQw-2r-GkX"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="RYx-4h-c2d">
-                        <barButtonItem key="rightBarButtonItem" title="Load New Ads" id="YNa-Gg-Ffx">
-                            <connections>
-                                <action selector="loadNewAds:" destination="lMd-Ky-yHX" id="bt0-N0-Kaa"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="S2X-wd-psp" id="KOK-Ie-Kex"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jJo-jA-I7f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2666.666666666667" y="1504.6875"/>
-        </scene>
         <!--Interstitials-->
         <scene sceneID="DRO-0t-Z22">
             <objects>
@@ -1506,26 +1459,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="8Fa-WX-ib9" kind="show" id="1ED-Yf-rrh"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="3e7-9s-IgY" style="IBUITableViewCellStyleDefault" id="4Hz-8j-mYU">
-                                        <rect key="frame" x="0.0" y="142" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Hz-8j-mYU" id="gBG-To-F8X">
-                                            <rect key="frame" x="0.0" y="0.0" width="385.5" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Table View MRECs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3e7-9s-IgY">
-                                                    <rect key="frame" x="20" y="0.0" width="357.5" height="44"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="lMd-Ky-yHX" kind="show" id="o3u-vH-X4U"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

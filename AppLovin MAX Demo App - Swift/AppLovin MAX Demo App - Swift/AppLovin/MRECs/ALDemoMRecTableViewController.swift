@@ -29,11 +29,6 @@ class ALDemoMRecTableViewController : UIViewController
         configureAdViews(count: 3)
     }
     
-    @IBAction func loadNewAds(_ sender: Any)
-    {
-        adViews.forEach { $0.loadAd() }
-    }
-    
     private func configureAdViews(count: Int)
     {
         for _ in 0 ..< count

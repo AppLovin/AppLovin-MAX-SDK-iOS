@@ -11,7 +11,6 @@ import AppLovinSDK
 
 class ALDemoMRecTableViewCell: UITableViewCell
 {
-    private var adView: MAAdView!
     private var isAdViewRemovedFromSubview = false
     
     override func awakeFromNib()
@@ -46,6 +45,7 @@ class ALDemoMRecTableViewCell: UITableViewCell
         
         // Center the MREC
         adView.center.x = contentView.center.x
+        adView.center.y = contentView.center.y
     
         // Set background or background color for MREC ads to be fully functional
         adView.backgroundColor = .white
