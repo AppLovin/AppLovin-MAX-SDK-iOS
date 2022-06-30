@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0.6
+* Remove duplicate `prepareView` call.
+
 ## 2.0.0.5
 * Add support for passing local parameter "is_location_collection_enabled" to set `[[YASAds sharedInstance] setLocationAccessMode: ...]` 
 

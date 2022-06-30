@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.0.0.5"
+#define ADAPTER_VERSION @"2.0.0.6"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -922,8 +922,6 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     id<YASNativeTextComponent> bodyComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"body"];
     id<YASNativeTextComponent> ctaComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"callToAction"];
     id<YASNativeImageComponent> iconComponent = (id<YASNativeImageComponent>)[self.parentAdapter.nativeAd component: @"iconImage"];
-    id<YASNativeImageComponent> imageComponent = (id<YASNativeImageComponent>)[self.parentAdapter.nativeAd component: @"mainImage"];
-    id<YASNativeVideoComponent> videoComponent = (id<YASNativeVideoComponent>)[self.parentAdapter.nativeAd component: @"video"];
 
     if ( titleComponent && maxNativeAdView.titleLabel )
     {
@@ -944,14 +942,6 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( iconComponent && maxNativeAdView.iconImageView )
     {
         [iconComponent prepareView: maxNativeAdView.iconImageView];
-    }
-    if ( videoComponent && self.mediaView )
-    {
-        [videoComponent prepareView: (YASVideoPlayerView *)self.mediaView];
-    }
-    else if ( imageComponent && self.mediaView )
-    {
-        [imageComponent prepareView: (UIImageView *)self.mediaView];
     }
     
     [self.parentAdapter.nativeAd registerContainerView: maxNativeAdView];
