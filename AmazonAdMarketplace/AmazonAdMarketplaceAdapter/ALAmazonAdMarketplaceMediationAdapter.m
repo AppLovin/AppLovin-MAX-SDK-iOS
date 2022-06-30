@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.4.3.1"
+#define ADAPTER_VERSION @"4.5.0.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -43,6 +43,13 @@
 - (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
+@interface ALAmazonAdMarketplaceMediationAdapterRewardedAdDelegate : NSObject<DTBAdInterstitialDispatcherDelegate>
+@property (nonatomic,   weak) ALAmazonAdMarketplaceMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
+@property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
+- (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
+@end
+
 @interface ALAmazonSignalCollectionDelegate : NSObject<DTBAdCallback>
 @property (nonatomic, strong) ALAmazonAdMarketplaceMediationAdapter *parentAdapter; // Needs `strong`
 @property (nonatomic, strong) id<MAAdapterParameters> parameters;
@@ -64,6 +71,10 @@
 // Interstitial
 @property (nonatomic, strong) DTBAdInterstitialDispatcher *interstitialDispatcher;
 @property (nonatomic, strong) ALAmazonAdMarketplaceMediationAdapterInterstitialAdDelegate *interstitialAdapterDelegate;
+
+// Rewarded
+@property (nonatomic, strong) DTBAdInterstitialDispatcher *rewardedDispatcher;
+@property (nonatomic, strong) ALAmazonAdMarketplaceMediationAdapterRewardedAdDelegate *rewardedAdapterDelegate;
 
 @end
 
@@ -117,6 +128,8 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
     self.adViewAdapterDelegate = nil;
     self.interstitialDispatcher = nil;
     self.interstitialAdapterDelegate = nil;
+    self.rewardedDispatcher = nil;
+    self.rewardedAdapterDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -336,6 +349,67 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
     self.interstitialAdapterDelegate = [[ALAmazonAdMarketplaceMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialDispatcher = [[DTBAdInterstitialDispatcher alloc] initWithDelegate: self.interstitialAdapterDelegate];
     
+    BOOL success = [self loadFullscreenAd: encodedBidId withInterstitialDispatcher: self.interstitialDispatcher];
+    if ( !success )
+    {
+        [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.invalidLoadState];
+    }
+}
+
+- (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
+{
+    [self d: @"Showing interstitial ad..."];
+    
+    BOOL success = [self showFullscreenAd: self.interstitialDispatcher forParameters: parameters];
+    if ( !success )
+    {
+        [self e: @"Interstitial ad not ready"];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+    }
+}
+
+#pragma mark - MARewardedAdapter Adapter
+
+- (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
+{
+    NSString *encodedBidId = parameters.serverParameters[@"encoded_bid_id"];
+    [self d: @"Loading rewarded ad for encoded bid id: %@...", encodedBidId];
+    
+    if ( ![encodedBidId al_isValidString] )
+    {
+        [delegate didFailToLoadRewardedAdWithError: MAAdapterError.invalidConfiguration];
+        return;
+    }
+    
+    self.rewardedAdapterDelegate = [[ALAmazonAdMarketplaceMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    self.rewardedDispatcher = [[DTBAdInterstitialDispatcher alloc] initWithDelegate: self.rewardedAdapterDelegate];
+    
+    BOOL success = [self loadFullscreenAd: encodedBidId withInterstitialDispatcher: self.rewardedDispatcher];
+    if ( !success )
+    {
+        [delegate didFailToLoadRewardedAdWithError: MAAdapterError.invalidLoadState];
+    }
+}
+
+- (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
+{
+    [self d: @"Showing rewarded ad..."];
+    
+    // Configure reward from server.
+    [self configureRewardForParameters: parameters];
+    
+    BOOL success = [self showFullscreenAd: self.rewardedDispatcher forParameters: parameters];
+    if ( !success )
+    {
+        [self e: @"Rewarded ad not ready"];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+    }
+}
+
+#pragma mark - Utility Methods
+
+- (BOOL)loadFullscreenAd:(NSString *)encodedBidId withInterstitialDispatcher:(DTBAdInterstitialDispatcher *)interstitialDispatcher
+{
     ALTAMAmazonMediationHints *mediationHints;
     @synchronized ( ALMediationHintsCacheLock )
     {
@@ -344,43 +418,38 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
     }
     
     // Paranoia
-    if ( mediationHints )
-    {
-        [self.interstitialDispatcher fetchAdWithParameters: mediationHints.value];
-    }
-    else
+    if ( !mediationHints )
     {
         [self e: @"Unable to find mediation hints"];
-        [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.invalidLoadState];
+        return NO;
     }
+    
+    [interstitialDispatcher fetchAdWithParameters: mediationHints.value];
+    
+    return YES;
 }
 
-- (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
+- (BOOL)showFullscreenAd:(DTBAdInterstitialDispatcher *)interstitialDispatcher forParameters:(id<MAAdapterResponseParameters>)parameters
 {
-    [self log: @"Showing interstitial ad..."];
-    
-    if ( self.interstitialDispatcher.interstitialLoaded )
+    if ( !interstitialDispatcher.interstitialLoaded )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
-        [self.interstitialDispatcher showFromController: presentingViewController];
+        return NO;
+    }
+    
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     }
     else
     {
-        [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
     }
+    
+    [interstitialDispatcher showFromController: presentingViewController];
+    
+    return YES;
 }
-
-#pragma mark - Utility Methods
 
 + (MAAdapterError *)toMaxError:(DTBAdErrorCode)amazonErrorCode
 {
@@ -543,10 +612,15 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
     [self.delegate didDisplayAdViewAd];
 }
 
+- (void)adClicked
+{
+    [self.parentAdapter d: @"AdView clicked"];
+    [self.delegate didClickAdViewAd];
+}
+
 - (void)bannerWillLeaveApplication:(UIView *)adView
 {
     [self.parentAdapter d: @"AdView will leave application"];
-    [self.delegate didClickAdViewAd];
 }
 
 @end
@@ -566,53 +640,152 @@ static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
 
 - (void)interstitialDidLoad:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
-    [self.parentAdapter log: @"Interstitial loaded"];
+    [self.parentAdapter d: @"Interstitial loaded"];
     [self.delegate didLoadInterstitialAd];
 }
 
 - (void)interstitial:(nullable DTBAdInterstitialDispatcher *)interstitial didFailToLoadAdWithErrorCode:(DTBAdErrorCode)errorCode
 {
-    [self.parentAdapter log: @"Interstitial failed to load with error: %ld", errorCode];
+    [self.parentAdapter e: @"Interstitial failed to load with error: %ld", errorCode];
     
     MAAdapterError *adapterError = [ALAmazonAdMarketplaceMediationAdapter toMaxError: errorCode];
     [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
 }
 
+- (void)showFromRootViewController:(UIViewController *)controller
+{
+    [self.parentAdapter d: @"Show interstitial from root view controller: %@", controller];
+}
+
 - (void)interstitialWillPresentScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
-    [self.parentAdapter log: @"Interstitial will present screen"];
+    [self.parentAdapter d: @"Interstitial will present screen"];
 }
 
 - (void)interstitialDidPresentScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
-    [self.parentAdapter log: @"Interstitial did present screen"];
+    [self.parentAdapter d: @"Interstitial did present screen"];
 }
 
 - (void)impressionFired
 {
-    [self.parentAdapter log: @"Interstitial impression fired"];
+    [self.parentAdapter d: @"Interstitial impression fired"];
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)interstitialWillDismissScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+- (void)adClicked
 {
-    [self.parentAdapter log: @"Interstitial will dismiss screen"];
-}
-
-- (void)interstitialDidDismissScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
-{
-    [self.parentAdapter log: @"Interstitial did dismiss screen"];
-    [self.delegate didHideInterstitialAd];
+    [self.parentAdapter d: @"Interstitial ad clicked"];
+    [self.delegate didClickInterstitialAd];
 }
 
 - (void)interstitialWillLeaveApplication:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
-    [self.parentAdapter log: @"Interstitial will leave application"];
+    [self.parentAdapter d: @"Interstitial will leave application"];
+}
+
+- (void)videoPlaybackCompleted:(DTBAdInterstitialDispatcher *) interstitial
+{
+    [self.parentAdapter d: @"Interstitial ad video playback completed"];
+}
+
+- (void)interstitialWillDismissScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Interstitial will dismiss screen"];
+}
+
+- (void)interstitialDidDismissScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Interstitial did dismiss screen"];
+    [self.delegate didHideInterstitialAd];
+}
+
+@end
+
+@implementation ALAmazonAdMarketplaceMediationAdapterRewardedAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)interstitialDidLoad:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Rewarded ad loaded"];
+    [self.delegate didLoadRewardedAd];
+}
+
+- (void)interstitial:(nullable DTBAdInterstitialDispatcher *)interstitial didFailToLoadAdWithErrorCode:(DTBAdErrorCode)errorCode
+{
+    [self.parentAdapter e: @"Rewarded ad failed to load with error: %ld", errorCode];
+    
+    MAAdapterError *adapterError = [ALAmazonAdMarketplaceMediationAdapter toMaxError: errorCode];
+    [self.delegate didFailToLoadRewardedAdWithError: adapterError];
 }
 
 - (void)showFromRootViewController:(UIViewController *)controller
 {
-    [self.parentAdapter log: @"Show interstitial from root view controller: %@", controller];
+    [self.parentAdapter d: @"Show rewarded ad from root view controller: %@", controller];
+}
+
+- (void)interstitialWillPresentScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Rewarded ad will present screen"];
+}
+
+- (void)interstitialDidPresentScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Rewarded ad did present screen"];
+    [self.delegate didStartRewardedAdVideo];
+}
+
+- (void)impressionFired
+{
+    [self.parentAdapter d: @"Rewarded ad impression fired"];
+    [self.delegate didDisplayRewardedAd];
+}
+
+- (void)adClicked
+{
+    [self.parentAdapter d: @"Rewarded ad clicked"];
+    [self.delegate didClickRewardedAd];
+}
+
+- (void)interstitialWillLeaveApplication:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Rewarded ad will leave application"];
+}
+
+- (void)videoPlaybackCompleted:(DTBAdInterstitialDispatcher *) interstitial
+{
+    [self.parentAdapter d: @"Rewarded ad video playback completed"];
+    [self.delegate didCompleteRewardedAdVideo];
+    
+    self.grantedReward = YES;
+}
+
+- (void)interstitialWillDismissScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    [self.parentAdapter d: @"Rewarded ad will dismiss screen"];
+}
+
+- (void)interstitialDidDismissScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
+{
+    if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
+    {
+        MAReward *reward = [self.parentAdapter reward];
+        [self.parentAdapter d: @"Rewarded user with reward: %@", reward];
+        [self.delegate didRewardUserWithReward: reward];
+    }
+    
+    [self.parentAdapter d: @"Rewarded ad hidden"];
+    [self.delegate didHideRewardedAd];
 }
 
 @end
