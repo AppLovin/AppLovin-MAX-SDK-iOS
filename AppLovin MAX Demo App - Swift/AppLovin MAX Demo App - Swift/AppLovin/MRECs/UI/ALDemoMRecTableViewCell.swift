@@ -12,6 +12,7 @@ import AppLovinSDK
 class ALDemoMRecTableViewCell: UITableViewCell
 {
     private var adView: MAAdView!
+    private var isAdViewRemovedFromSubview = false
     
     override func awakeFromNib()
     {
@@ -32,11 +33,12 @@ class ALDemoMRecTableViewCell: UITableViewCell
         
         // Make sure ads aren't being configured to the wrong cells
         textLabel?.text = nil
-        contentView.subviews.forEach { $0.removeFromSuperview() }
+        (contentView.subviews.first as? MAAdView)?.removeFromSuperview()
+        isAdViewRemovedFromSubview = true
     }
     
     func configure(with adView: MAAdView)
-    {        
+    {
         // MREC width and height are 300 and 250 respectively, on iPhone and iPad
         let height: CGFloat = 250
         let width: CGFloat = 300
@@ -48,6 +50,10 @@ class ALDemoMRecTableViewCell: UITableViewCell
         // Set background or background color for MREC ads to be fully functional
         adView.backgroundColor = .white
         
-        contentView.addSubview(adView)
+        // Avoid table view scrolling lag if adView hasn't been removed
+        if isAdViewRemovedFromSubview
+        {
+            contentView.addSubview(adView)
+        }
     }
 }

@@ -862,9 +862,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="RYx-4h-c2d">
-                        <barButtonItem key="rightBarButtonItem" title="Load New Ad" id="YNa-Gg-Ffx">
+                        <barButtonItem key="rightBarButtonItem" title="Load New Ads" id="YNa-Gg-Ffx">
                             <connections>
-                                <action selector="loadNewAd:" destination="lMd-Ky-yHX" id="fzX-8j-7f3"/>
+                                <action selector="loadNewAds:" destination="lMd-Ky-yHX" id="bt0-N0-Kaa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

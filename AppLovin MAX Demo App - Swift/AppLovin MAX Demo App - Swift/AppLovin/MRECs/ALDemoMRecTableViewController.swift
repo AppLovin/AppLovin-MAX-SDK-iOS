@@ -11,8 +11,8 @@ import AppLovinSDK
 
 class ALDemoMRecTableViewController : UIViewController
 {
-    private var adView: MAAdView!
-    private var sampleData = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ").map { String($0) }
+    private var adViews: [MAAdView] = []
+    private var sampleData = Array("ABCDEFGHIJKL").map { String($0) }
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,19 +26,30 @@ class ALDemoMRecTableViewController : UIViewController
         tableView.estimatedRowHeight = 250
         tableView.rowHeight = 250
         
-        adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: .mrec)
-        adView.delegate = self
-        
-        // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
-        adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
-        adView.stopAutoRefresh()
-        
-        adView.loadAd()
+        configureAdViews(count: 3)
     }
     
-    @IBAction func loadNewAd(_ sender: Any)
+    @IBAction func loadNewAds(_ sender: Any)
     {
-        adView.loadAd()
+        adViews.forEach { $0.loadAd() }
+    }
+    
+    private func configureAdViews(count: Int)
+    {
+        for _ in 0 ..< count
+        {
+            let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: .mrec)
+
+            adView.delegate = self
+            
+            // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
+            adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
+            adView.stopAutoRefresh()
+            
+            adView.loadAd()
+            
+            adViews.append(adView)
+        }
     }
 }
 
@@ -60,8 +71,12 @@ extension ALDemoMRecTableViewController : UITableViewDelegate, UITableViewDataSo
         
         switch indexPath.section
         {
-        case 0, 5, 10, 15, 20, 25:
-            cell.configure(with: adView) // Configure ad view cell
+        case 0:
+            cell.configure(with: adViews[0]) // Configure cell with an ad
+        case 4:
+            cell.configure(with: adViews[1]) // Configure cell with different ad
+        case 8:
+            cell.configure(with: adViews[2]) // Configure cell with another different ad
         default:
             cell.textLabel!.text = sampleData[indexPath.section] // Configure custom cells
         }
