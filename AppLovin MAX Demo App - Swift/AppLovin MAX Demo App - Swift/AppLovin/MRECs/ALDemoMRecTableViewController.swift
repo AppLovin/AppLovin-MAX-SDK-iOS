@@ -11,7 +11,7 @@ import AppLovinSDK
 
 class ALDemoMRecTableViewController : UIViewController
 {
-    private var adViews: [MAAdView] = []
+    private var adViewQueue: [MAAdView] = []
     private var sampleData = Array("ABCDEFGHIJKL").map { String($0) }
     
     @IBOutlet weak var tableView: UITableView!
@@ -26,7 +26,7 @@ class ALDemoMRecTableViewController : UIViewController
         tableView.estimatedRowHeight = 250
         tableView.rowHeight = 250
         
-        configureAdViews(count: 3)
+        configureAdViews(count: 5)
     }
     
     private func configureAdViews(count: Int)
@@ -42,7 +42,7 @@ class ALDemoMRecTableViewController : UIViewController
             
             // Load the ad
             adView.loadAd()
-            adViews.append(adView)
+            adViewQueue.append(adView)
         }
     }
 }
@@ -63,19 +63,29 @@ extension ALDemoMRecTableViewController : UITableViewDelegate, UITableViewDataSo
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ALDemoMRecTableViewCell", for: indexPath) as! ALDemoMRecTableViewCell
         
-        switch indexPath.section
+        if indexPath.section % 4 == 0, !adViewQueue.isEmpty
         {
-        case 0:
-            cell.configure(with: adViews[0]) // Configure cell with an ad
-        case 4:
-            cell.configure(with: adViews[1]) // Configure cell with different ad
-        case 8:
-            cell.configure(with: adViews[2]) // Configure cell with another different ad
-        default:
+            let adView = adViewQueue.removeFirst()
+            adView.startAutoRefresh()
+            cell.adView = adView
+            cell.configure() // Configure cell with an ad
+            adViewQueue.append(adView)
+        }
+        else
+        {
             cell.textLabel!.text = sampleData[indexPath.section] // Configure custom cells
         }
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        guard let cell = cell as? ALDemoMRecTableViewCell, cell.adView != nil else { return }
+        
+        // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
+        cell.adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
+        cell.adView.stopAutoRefresh()
     }
 }
 

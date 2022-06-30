@@ -11,6 +11,8 @@ import AppLovinSDK
 
 class ALDemoMRecTableViewCell: UITableViewCell
 {
+    var adView: MAAdView!
+    
     private var isAdViewRemovedFromSubview = false
     
     override func awakeFromNib()
@@ -36,7 +38,7 @@ class ALDemoMRecTableViewCell: UITableViewCell
         isAdViewRemovedFromSubview = true
     }
     
-    func configure(with adView: MAAdView)
+    func configure()
     {
         // MREC width and height are 300 and 250 respectively, on iPhone and iPad
         let height: CGFloat = 250
