@@ -643,4 +643,10 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     [self.delegate didClickAdViewAd];
 }
 
+- (void)adColonyAdViewDidShow:(AdColonyAdView * _Nonnull)adView
+{
+    [self.parentAdapter log: @"Ad View ad shown"];
+    [self.delegate didDisplayAdViewAd];
+}
+
 @end
