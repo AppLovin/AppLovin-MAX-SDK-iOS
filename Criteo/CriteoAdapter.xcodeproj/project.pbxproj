@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1D5748D821C79E13004C8981 /* ALCriteoMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALCriteoMediationAdapter.m */; };
+		25B5F4892874E7FE0022A1BA /* CriteoPublisherSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5F4882874E7FE0022A1BA /* CriteoPublisherSdk.xcframework */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		9F82E65027D017E70079FB1C /* CriteoPublisherSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F82E64F27D017E70079FB1C /* CriteoPublisherSdk.xcframework */; };
+		A434F120125CD2A5E666E982 /* Pods_CriteoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F292B343F677841329E839C6 /* Pods_CriteoAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		031D9BFE1D3250809EB4678D /* Pods-CriteoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoAdapter.release.xcconfig"; path = "Target Support Files/Pods-CriteoAdapter/Pods-CriteoAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D9AE8E221423C7D00080475 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1D9AE8E321423C7D00080475 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -42,11 +44,13 @@
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D9C1065270EA081006CA163 /* AppLovinMediationCriteoAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationCriteoAdapter.podspec; sourceTree = "<group>"; };
+		25B5F4882874E7FE0022A1BA /* CriteoPublisherSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = CriteoPublisherSdk.xcframework; sourceTree = "<group>"; };
 		6A561CD5219BB58300E3749A /* ALCriteoMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCriteoMediationAdapter.m; sourceTree = "<group>"; };
 		6A561CD6219BB58300E3749A /* ALCriteoMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCriteoMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CEF219BB5D400E3749A /* libCriteoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCriteoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A632E21C0872C00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
-		9F82E64F27D017E70079FB1C /* CriteoPublisherSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = CriteoPublisherSdk.xcframework; sourceTree = "<group>"; };
+		B564775898CCF62ED3C24A0B /* Pods-CriteoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoAdapter/Pods-CriteoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		F292B343F677841329E839C6 /* Pods_CriteoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CriteoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,8 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B5F4892874E7FE0022A1BA /* CriteoPublisherSdk.xcframework in Frameworks */,
 				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
-				9F82E65027D017E70079FB1C /* CriteoPublisherSdk.xcframework in Frameworks */,
+				A434F120125CD2A5E666E982 /* Pods_CriteoAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 		1D2303A61FBCF4C7001939D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				25B5F4882874E7FE0022A1BA /* CriteoPublisherSdk.xcframework */,
 				1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */,
 				1D9AE8FC21423C9200080475 /* QuartzCore.framework */,
 				1D9AE8EB21423C7E00080475 /* AdSupport.framework */,
@@ -80,6 +86,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				F292B343F677841329E839C6 /* Pods_CriteoAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,11 +94,11 @@
 		1D97FB7C1FBCF38B00D6C309 = {
 			isa = PBXGroup;
 			children = (
-				9F82E64F27D017E70079FB1C /* CriteoPublisherSdk.xcframework */,
 				6A561CD4219BB58300E3749A /* CriteoAdapter */,
 				6A12947F21C086760052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				75D51F71DB8C563BF7BC9586 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +128,16 @@
 			path = CriteoAdapter;
 			sourceTree = "<group>";
 		};
+		75D51F71DB8C563BF7BC9586 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B564775898CCF62ED3C24A0B /* Pods-CriteoAdapter.debug.xcconfig */,
+				031D9BFE1D3250809EB4678D /* Pods-CriteoAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -128,6 +145,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CEC219BB5D400E3749A /* Build configuration list for PBXNativeTarget "CriteoAdapter" */;
 			buildPhases = (
+				57782274C105C8F3A2DAD54F /* [CP] Check Pods Manifest.lock */,
 				6A561CE7219BB5D400E3749A /* Sources */,
 				6A561CE9219BB5D400E3749A /* Frameworks */,
 				6A561CEB219BB5D400E3749A /* Copy Files */,
@@ -172,6 +190,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		57782274C105C8F3A2DAD54F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CriteoAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561CE7219BB5D400E3749A /* Sources */ = {
@@ -304,20 +347,19 @@
 		};
 		6A561CED219BB5D400E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B564775898CCF62ED3C24A0B /* Pods-CriteoAdapter.debug.xcconfig */;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = "i386 $(inherited)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$PROJECT_DIR/../../iOS-Workspace/Pods/**",
-					"$PROJECT_DIR/../../Library/Developer/Xcode/DerivedData/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-fembed-bitcode-marker";
+				OTHER_CFLAGS = "${inherited}";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -328,20 +370,19 @@
 		};
 		6A561CEE219BB5D400E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 031D9BFE1D3250809EB4678D /* Pods-CriteoAdapter.release.xcconfig */;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = "i386 $(inherited)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$PROJECT_DIR/../../iOS-Workspace/Pods/**",
-					"$PROJECT_DIR/../../Library/Developer/Xcode/DerivedData/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_CFLAGS = "${inherited}";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
