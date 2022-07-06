@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.2.1
+* Prevent crashes while retrieving APS SDK version.
+
 ## 4.5.2.0
 * Certified with APS SDK 4.5.2.
 
