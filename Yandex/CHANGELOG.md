@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.0.0
+* Certified with Yandex SDK 5.1.0.
+* Add support for adaptive banners.
+
 ## 5.0.0.0
 * Certified with Yandex SDK 5.0.0.
 * Update click callback for ads.
