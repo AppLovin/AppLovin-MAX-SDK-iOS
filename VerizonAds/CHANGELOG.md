@@ -1,5 +1,41 @@
 # Changelog
 
+## 2.0.0.6
+* Remove duplicate `prepareView` call.
+
+## 2.0.0.5
+* Add support for passing local parameter "is_location_collection_enabled" to set `[[YASAds sharedInstance] setLocationAccessMode: ...]` 
+
+## 2.0.0.4
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
+## 2.0.0.3
+* Add support for IAB's TCFv2 GDPR consent string. Note that you must be on the AppLovin MAX SDK v11.4.2+ and use a TCFv2-compliant framework which stores the consent string in User Defaults via the `IABTCF_TCString` key to use this feature.
+
+## 2.0.0.2
+* Add support for clickability of video, image and icon components.
+* Do not explicitly destroy Yahoo native ads, as it will clear previously-registered `UILabel`s and `UIButton`s.
+
+## 2.0.0.1
+* Fix native ads not tracking impressions properly.
+
+## 2.0.0.0
+* Certified with Yahoo Mobile SDK 1.0.0.
+* Remove arm64 simulator slice which the Yahoo-Ads SDK does not support.
+
+## 1.14.2.10
+* Add support for providing native media content aspect ratio in `MANativeAdView`.
+* Distribute adapter as an XCFramework.
+
+## 1.14.2.9
+* Update ad display failed error code.
+
+## 1.14.2.8
+* Add support for tracking impressions for all ad formats.
+
+## 1.14.2.7
+* Add support for tracking banner ad impressions.
+
 ## 1.14.2.6
 * Remove check for manual native ad assets.
 

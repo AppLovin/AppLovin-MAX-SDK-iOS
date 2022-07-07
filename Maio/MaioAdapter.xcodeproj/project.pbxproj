@@ -146,7 +146,7 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					6A561CDC219BB5A600E3749A = {
@@ -304,10 +304,12 @@
 		6A561CE3219BB5A600E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -324,10 +326,12 @@
 		6A561CE4219BB5A600E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";

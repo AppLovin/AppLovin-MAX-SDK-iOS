@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.1.3.0.0"
+#define ADAPTER_VERSION @"7.1.8.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -289,7 +289,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show interstitial - no ad loaded..."];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -402,7 +402,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show rewarded ad - no ad loaded..."];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -487,6 +487,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             adapterError = MAAdapterError.noFill;
             break;
         case kMTGErrorCodeConnectionLost:
+        case kMTGErrorCodeSocketIO:
             adapterError = MAAdapterError.noConnection;
             break;
         case kMTGErrorCodeDailyLimit:
@@ -521,6 +522,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         case kMTGErrorCodeMaterialLoadFailed:
         case kMTGErrorCodeNoSupportPopupWindow:
         case kMTGErrorCodeFailedDiskIO:
+        case kMTGErrorCodeImageURLisEmpty:
             adapterError = MAAdapterError.internalError;
             break;
     }
@@ -611,7 +613,13 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Interstitial failed to show: %@", error];
     
-    MAAdapterError *adapterError = [ALMintegralMediationAdapter toMaxError: error];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -703,7 +711,13 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Rewarded ad failed to show: %@", error];
     
-    MAAdapterError *adapterError = [ALMintegralMediationAdapter toMaxError: error];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
@@ -910,12 +924,21 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     dispatch_group_t group = dispatch_group_create();
     
     __block MANativeAdImage *iconImage = nil;
+    __block MANativeAdImage *mainImage = nil;
     NSString *iconURL = campaign.iconUrl;
+    NSString *mainImageURL = campaign.imageUrl;
     if ( [iconURL al_isValidURL] )
     {
         [self.parentAdapter log: @"Fetching native ad icon: %@", iconURL];
         [self loadImageForURLString: iconURL group: group successHandler:^(UIImage *image) {
             iconImage = [[MANativeAdImage alloc] initWithImage: image];
+        }];
+    }
+    if ( [mainImageURL al_isValidString] )
+    {
+        [self.parentAdapter log: @"Fetching native ad main image: %@", mainImageURL];
+        [self loadImageForURLString: mainImageURL group: group successHandler:^(UIImage *image) {
+            mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }];
     }
     
@@ -938,6 +961,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
                 builder.icon = iconImage;
+                if ( ALSdk.versionCode >= 11040299 )
+                {
+                    [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+                }
                 builder.mediaView = mediaView;
                 builder.optionsView = adChoicesView;
             }];

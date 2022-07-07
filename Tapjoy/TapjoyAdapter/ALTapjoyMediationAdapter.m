@@ -9,7 +9,7 @@
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
 
-#define ADAPTER_VERSION @"12.9.1.0"
+#define ADAPTER_VERSION @"12.10.0.1"
 
 @interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject<TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
@@ -193,7 +193,7 @@
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -251,7 +251,7 @@
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -458,8 +458,8 @@
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.unspecified.errorCode
-                                                     errorString: MAAdapterError.unspecified.errorMessage
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
                                           thirdPartySdkErrorCode: 0
                                        thirdPartySdkErrorMessage: errorMessage];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -553,8 +553,8 @@
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.unspecified.errorCode
-                                                     errorString: MAAdapterError.unspecified.errorMessage
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
                                           thirdPartySdkErrorCode: 0
                                        thirdPartySdkErrorMessage: errorMessage];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];

@@ -90,6 +90,15 @@
     [self.nativeAdLoader renderNativeAdView: self.nativeAdView withAd: self.nativeAd];
     [self.nativeAdContainerView addSubview: self.nativeAdView];
     
+    // Set to false if modifying constraints after adding the ad view to your layout
+    self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    // Set ad view to span width and height of container and center the ad
+    [self.nativeAdContainerView.widthAnchor constraintEqualToAnchor: self.nativeAdView.widthAnchor].active = YES;
+    [self.nativeAdContainerView.heightAnchor constraintEqualToAnchor: self.nativeAdView.heightAnchor].active = YES;
+    [self.nativeAdContainerView.centerXAnchor constraintEqualToAnchor: self.nativeAdView.centerXAnchor].active = YES;
+    [self.nativeAdContainerView.centerYAnchor constraintEqualToAnchor: self.nativeAdView.centerYAnchor].active = YES;
+    
     [self.showAdButton setEnabled: NO];
 }
 
@@ -103,15 +112,6 @@
     self.nativeAd = ad;
     
     [self.showAdButton setEnabled: YES];
-    
-    // Set to false if modifying constraints after adding the ad view to your layout
-    self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    // Set ad view to span width and height of container and center the ad
-    [self.nativeAdContainerView.widthAnchor constraintEqualToAnchor: nativeAdView.widthAnchor].active = YES;
-    [self.nativeAdContainerView.heightAnchor constraintEqualToAnchor: nativeAdView.heightAnchor].active = YES;
-    [self.nativeAdContainerView.centerXAnchor constraintEqualToAnchor: nativeAdView.centerXAnchor].active = YES;
-    [self.nativeAdContainerView.centerYAnchor constraintEqualToAnchor: nativeAdView.centerYAnchor].active = YES;
 }
 
 - (void)didFailToLoadNativeAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error

@@ -143,7 +143,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					1D97FB841FBCF38B00D6C309 = {
@@ -302,9 +302,11 @@
 		1D97FB8F1FBCF38B00D6C309 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -322,9 +324,11 @@
 		1D97FB901FBCF38B00D6C309 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

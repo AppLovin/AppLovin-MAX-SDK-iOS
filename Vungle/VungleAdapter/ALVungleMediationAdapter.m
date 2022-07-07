@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.10.6.2"
+#define ADAPTER_VERSION @"6.11.0.2"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *creativeIdentifiers;
 
 - (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters consentDialogState:(ALConsentDialogState)consentDialogState;
+- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters;
 @end
 
 @interface ALVungleMediationAdapter()
@@ -56,6 +57,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing Vungle SDK with app id: %@...", appID];
+        
+        // NOTE: Vungle's SDK will log error if setting COPPA state after it initializes.
+        NSNumber *isAgeRestrictedUser = [self.router privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        if ( isAgeRestrictedUser )
+        {
+            [[VungleSDK sharedSDK] updateCOPPAStatus: isAgeRestrictedUser.boolValue];
+        }
         
         [VungleSDK sharedSDK].delegate = self.router;
         [VungleSDK sharedSDK].creativeTrackingDelegate = self.router;
@@ -199,7 +207,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     if ( !willShow || error )
     {
-        MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
         [self log: @"Interstitial ad failed to display with error: %@", adapterError];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: adapterError];
     }
@@ -285,7 +293,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     if ( !willShow || error )
     {
-        MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
         [self log: @"Rewarded ad failed to display with error: %@", adapterError];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: adapterError];
     }
@@ -407,7 +415,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     if ( !willShow || error )
     {
-        MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
         [self log: @"%@ ad failed to display with error: %@", adFormatLabel, adapterError];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: adapterError];
     }
@@ -563,12 +571,18 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         case VungleSDKErrorUnknownPlacementID:
         case InvalidPlacementsArray:
         case VungleSDKErrorNoAppID:
+        case VungleSDKErrorIllegalAdRequest:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
         case VungleSDKErrorCannotPlayAd:
         case VungleSDKErrorCannotPlayAdAlreadyPlaying:
         case VungleSDKErrorInvalidiOSVersion:
         case VungleSDKErrorTopMostViewControllerMismatch:
+        case VungleSDKErrorInvalidAdTypeForNativeAdExperience:
+        case VungleSDKErrorSetNativeAdLoadCompletionBlock:
+        case VungleSDKErrorNativeAdLoad:
+        case VungleSDKErrorMissingAdMarkupForPlacement:
+        case VungleSDKErrorInvalidAdMarkupForPlacement:
             adapterError = MAAdapterError.internalError;
             break;
         case VungleSDKErrorCannotPlayAdWaiting:

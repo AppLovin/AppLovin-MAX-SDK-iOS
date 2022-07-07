@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.3.1.9.0"
+#define ADAPTER_VERSION @"4.5.2.4.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -592,6 +592,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         case BUErrorCodeUndefined:
         case BUErrorSlotAB_Disable:
         case BUErrorSlotAB_EmptyResult:
+        case BUErrorCodeResource:
             adapterError = MAAdapterError.internalError;
             break;
     }
@@ -673,7 +674,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( error )
     {
         [self.parentAdapter log: @"Interstitial finished with error: %@", error];
-        [self.delegate didFailToDisplayInterstitialAdWithError: [ALByteDanceMediationAdapter toMaxError: error]];
+        [self.delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
@@ -757,7 +758,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( error )
     {
         [self.parentAdapter log: @"Rewarded ad finished with error: %@", error];
-        [self.delegate didFailToDisplayRewardedAdWithError: [ALByteDanceMediationAdapter toMaxError: error]];
+        [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
@@ -826,7 +827,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)nativeExpressBannerAdViewRenderFail:(BUNativeExpressBannerView *)bannerAdView error:(nullable NSError *)error
 {
     [self.parentAdapter log: @"AdView failed to show with error: %@", error];
-    [self.delegate didFailToDisplayAdViewAdWithError: [ALByteDanceMediationAdapter toMaxError: error]];
+    [self.delegate didFailToDisplayAdViewAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
 }
 
 - (void)nativeExpressBannerAdViewDidClick:(BUNativeExpressBannerView *)bannerAdView
@@ -1054,6 +1055,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     // Pangle's media view can be either a video or image (which they don't provide a view for)
     __block UIView *mediaView;
+    __block MANativeAdImage *mainImage = nil;
     
     // Pangle's native ad logo view
     __block UIView *optionsView;
@@ -1082,6 +1084,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                 [self.parentAdapter loadImageForURLString: mediaImage.imageURL group: group successHandler:^(UIImage *image) {
                     mediaImageView = [[UIImageView alloc] initWithImage: image];
                     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+                    mainImage = [[MANativeAdImage alloc] initWithImage: image];
                     
                     mediaView = mediaImageView;
                 }];
@@ -1117,6 +1120,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             
             builder.callToAction = data.buttonText;
             builder.icon = iconImage;
+            if ( ALSdk.versionCode >= 11040299 )
+            {
+                [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+            }
             builder.mediaView = mediaView;
             builder.optionsView = optionsView;
         }];
@@ -1167,7 +1174,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    BUNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
         return;

@@ -10,7 +10,7 @@
 #import <NendAd/NendAd.h>
 #import <NendAd/NADLogger.h>
 
-#define ADAPTER_VERSION @"7.3.0.0"
+#define ADAPTER_VERSION @"7.3.0.1"
 #define NSSTRING(_X) ( (_X != NULL) ? [NSString stringWithCString: _X encoding: NSStringEncodingConversionAllowLossy] : nil)
 
 @interface ALNendMediationAdapterInterstitialAdDelegate : NSObject<NADInterstitialVideoDelegate>
@@ -153,7 +153,7 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -206,7 +206,7 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -351,7 +351,7 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
 - (void)nadInterstitialVideoAdDidFailedToPlay:(NADInterstitialVideo *)nadInterstitialVideoAd
 {
     [self.parentAdapter log: @"Interstitial video failed to play"];
-    [self.delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.unspecified];
+    [self.delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
 }
 
 - (void)nadInterstitialVideoAdDidOpen:(NADInterstitialVideo *)nadInterstitialVideoAd
@@ -430,7 +430,7 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
 - (void)nadRewardVideoAdDidFailedToPlay:(NADRewardedVideo *)nadRewardedVideoAd
 {
     [self.parentAdapter log: @"Rewarded video failed to play"];
-    [self.delegate didFailToDisplayRewardedAdWithError: MAAdapterError.unspecified];
+    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
 }
 
 - (void)nadRewardVideoAdDidOpen:(NADRewardedVideo *)nadRewardedVideoAd

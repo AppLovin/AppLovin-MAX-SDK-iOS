@@ -177,7 +177,8 @@
     if ( !self.interstitialAd || ![self.interstitialAd loaded] )
     {
         [self log: @"Interstitial ad failed to show - ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
         return;
     }
 
@@ -227,7 +228,8 @@
     if ( !self.rewardedAd || ![self.rewardedAd loaded] )
     {
         [self log: @"Rewarded ad failed to show - ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
         return;
     }
 
@@ -424,9 +426,8 @@
 
 - (void)interstitialAdDidFailToPresent:(YMAInterstitialAd *)interstitial error:(NSError *)error
 {
-    [self.parentAdapter log: @"Interstitial ad failed to display with error code %ld and description: %@", error.code, error.description];
-
-    MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+    [self.parentAdapter log: @"Interstitial ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -521,9 +522,8 @@
 
 - (void)rewardedAdDidFailToPresent:(YMARewardedAd *)rewardedAd error:(NSError *)error
 {
-    [self.parentAdapter log: @"Rewarded ad failed to display with error code %ld and description: %@", error.code, error.description];
-
-    MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+    [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
