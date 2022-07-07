@@ -20,7 +20,7 @@
                         <view contentMode="scaleToFill" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Bx-pQ-scb" userLabel="Icon View">
                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" tag="1004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="upk-5K-x2A" userLabel="Icon Image View">
+                                <imageView tag="1004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="upk-5K-x2A" userLabel="Icon Image View">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 </imageView>
                             </subviews>
@@ -49,7 +49,7 @@
                                     <color key="textColor" systemColor="systemOrangeColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TITLE_LABEL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyL-zc-IbE" userLabel="Title Label">
+                                <label opaque="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TITLE_LABEL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyL-zc-IbE" userLabel="Title Label">
                                     <rect key="frame" x="45.999999999999993" y="0.0" width="98.333333333333314" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="25" id="nX3-8M-dNm"/>
@@ -66,7 +66,7 @@
                                         <constraint firstAttribute="width" priority="999" constant="50" id="zrG-nl-tUR"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADVERTISER_LABEL" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLN-sc-RCW" userLabel="Advertiser Label">
+                                <label opaque="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADVERTISER_LABEL" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLN-sc-RCW" userLabel="Advertiser Label">
                                     <rect key="frame" x="8" y="25" width="226" height="25"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -96,7 +96,7 @@
                         <constraint firstItem="cLN-sc-RCW" firstAttribute="leading" secondItem="6Bx-pQ-scb" secondAttribute="trailing" constant="8" id="rh3-fp-mzy"/>
                     </constraints>
                 </stackView>
-                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="BODY_LABEL" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8B-t8-nTD" userLabel="Body Label">
+                <label opaque="NO" tag="1003" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="BODY_LABEL" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8B-t8-nTD" userLabel="Body Label">
                     <rect key="frame" x="8" y="66" width="284" height="14.333333333333329"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

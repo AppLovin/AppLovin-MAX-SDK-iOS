@@ -1,5 +1,15 @@
 # Changelog
 
+## 10.0.7.0
+* Certified with InMobi SDK 10.0.7.
+
+## 10.0.6.0
+* Certified with InMobi SDK 10.0.6.
+* Distribute adapter as an XCFramework.
+
+## 10.0.5.4
+* Update ad display failed error code.
+
 ## 10.0.5.3
 * Specify `MANativeAdAdapter` for adapter to enable it for test ads in Mediation Debugger.
 

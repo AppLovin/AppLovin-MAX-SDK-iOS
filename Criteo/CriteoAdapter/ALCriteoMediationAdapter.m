@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.5.0.3"
+#define ADAPTER_VERSION @"4.5.0.5"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject<CRInterstitialDelegate>
@@ -136,8 +136,6 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
-    [self updatePrivacySettings: parameters];
-    
     [delegate didCollectSignal: @""]; // No-op since Criteo does not need the buyeruid to bid
 }
 
@@ -145,6 +143,13 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
+    if ( ![ALCriteoInitialized get] )
+    {
+        [self log: @"Interstitial ad failed to load. Criteo SDK not initialized."];
+        [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.notInitialized];
+        return;
+    }
+    
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     
@@ -181,7 +186,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     else
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -191,6 +196,13 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
                          adFormat:(MAAdFormat *)adFormat
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
+    if ( ![ALCriteoInitialized get] )
+    {
+        [self log: @"%@ ad failed to load. Criteo SDK not initialized.", adFormat.label];
+        [delegate didFailToLoadAdViewAdWithError: MAAdapterError.notInitialized];
+        return;
+    }
+    
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     
@@ -209,6 +221,13 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
+    if ( ![ALCriteoInitialized get] )
+    {
+        [self log: @"Native ad failed to load. Criteo SDK not initialized."];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.notInitialized];
+        return;
+    }
+    
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading native ad: %@...", placementIdentifier];
     
@@ -260,10 +279,13 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
             adapterError = MAAdapterError.unspecified;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.code
                              errorString: adapterError.message
                   thirdPartySdkErrorCode: criteoErrorCode
                thirdPartySdkErrorMessage: criteoError.localizedDescription];
+#pragma clang diagnostic pop
 }
 
 - (void)updatePrivacySettings:(id<MAAdapterParameters>)parameters
@@ -533,7 +555,8 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    CRNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad view: native ad is nil."];
         return;

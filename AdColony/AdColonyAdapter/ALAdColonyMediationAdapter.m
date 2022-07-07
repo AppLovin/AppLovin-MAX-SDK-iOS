@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.8.0.0.0"
+#define ADAPTER_VERSION @"4.9.0.0.0"
 
 @interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
@@ -166,7 +166,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     if ( !self.loadedInterstitialAd )
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
@@ -193,7 +193,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     if ( !success )
     {
         [self log: @"Interstitial ad failed to display"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.unspecified];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -218,7 +218,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     if ( !self.loadedRewardedAd )
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
         
         return;
     }
@@ -260,7 +260,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     if ( !success )
     {
         [self log: @"Rewarded ad failed to display"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.unspecified];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -337,6 +337,9 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
             break;
         case AdColonyRequestErrorFeatureUnsupported:
             adapterError = MAAdapterError.internalError;
+            break;
+        case AdColonyRequestErrorUnexpected:
+            adapterError = MAAdapterError.unspecified;
             break;
     }
     

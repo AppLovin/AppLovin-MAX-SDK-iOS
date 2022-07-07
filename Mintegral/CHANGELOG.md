@@ -1,5 +1,34 @@
 # Changelog
 
+## 7.1.8.0.0
+* Certified with Mintegral SDK 7.1.8.0.
+
+## 7.1.7.0.2
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
+## 7.1.7.0.1
+* Add `kMTGErrorCodeSocketIO` error code to error mapping.
+
+## 7.1.7.0.0
+* Certified with Mintegral SDK 7.1.7.0.
+* Silence API deprecation warnings.
+
+## 7.1.6.0.0
+* Certified with Mintegral SDK 7.1.6.0.
+
+## 7.1.5.0.1
+* Map Mintegral image url empty error to MAX internal error.
+
+## 7.1.5.0.0
+* Certified with Mintegral SDK 7.1.5.0.
+* Distribute adapter as an XCFramework.
+
+## 7.1.4.0.0
+* Certified with Mintegral SDK 7.1.4.0.
+
+## 7.1.3.0.1
+* Update ad display failed error code.
+
 ## 7.1.3.0.0
 * Certified with Mintegral SDK 7.1.3.
 * Record native ad impression on callback `-[MTGMediaView nativeAdImpressionWithType:mediaView:]` as well.

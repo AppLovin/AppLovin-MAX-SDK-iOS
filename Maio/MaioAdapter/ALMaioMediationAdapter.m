@@ -10,7 +10,7 @@
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
 
-#define ADAPTER_VERSION @"1.6.1.0"
+#define ADAPTER_VERSION @"1.6.2.0"
 
 @interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter<MaioDelegate>
 
@@ -155,7 +155,7 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Interstitial not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: MAAdapterError.adNotReady];
+        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -207,7 +207,7 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: MAAdapterError.adNotReady];
+        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -326,7 +326,7 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     if ( [self.isShowingAd compareAndSet: YES update: NO] )
     {
         [self log: @"Ad failed to display with Maio reason: %@ and MAX error: %@", [self reasonToString: reason], error];
-        [self didFailToDisplayAdForPlacementIdentifier: zoneId error: error];
+        [self didFailToDisplayAdForPlacementIdentifier: zoneId error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: reason thirdPartySdkErrorMessage: [self reasonToString: reason]]];
     }
     else
     {

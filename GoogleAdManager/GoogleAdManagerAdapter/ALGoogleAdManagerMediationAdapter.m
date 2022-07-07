@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.3.0.2"
+#define ADAPTER_VERSION @"9.6.0.1"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -227,7 +227,7 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -312,7 +312,7 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -386,7 +386,7 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -676,6 +676,12 @@ static NSString *ALGoogleSDKVersion;
         {
             request.neighboringContentURLStrings = neighbouringContentURLStrings;
         }
+        
+        NSDictionary<NSString *, NSString *> *customTargetingData = [localExtraParameters al_dictionaryForKey: @"custom_targeting"];
+        if ( customTargetingData )
+        {
+            request.customTargeting = customTargetingData;
+        }
     }
     
     extras.additionalParameters = extraParameters;
@@ -791,7 +797,14 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -841,7 +854,14 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.parentAdapter log: @"Rewarded interstitial ad (%@) failed to show: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayRewardedInterstitialAdWithError: adapterError];
 }
@@ -900,7 +920,14 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -1182,17 +1209,27 @@ static NSString *ALGoogleSDKVersion;
     }
     
     UIView *mediaView;
-    if ( nativeAd.mediaContent )
+    GADMediaContent *mediaContent = nativeAd.mediaContent;
+    MANativeAdImage *mainImage = nil;
+    CGFloat mediaContentAspectRatio = 0.0f;
+    
+    if ( mediaContent )
     {
         GADMediaView *gadMediaView = [[GADMediaView alloc] init];
-        [gadMediaView setMediaContent: nativeAd.mediaContent];
+        [gadMediaView setMediaContent: mediaContent];
         mediaView = gadMediaView;
+        mainImage = [[MANativeAdImage alloc] initWithImage: mediaContent.mainImage];
+        
+        mediaContentAspectRatio = mediaContent.aspectRatio;
     }
     else if ( nativeAd.images.count > 0 )
     {
-        GADNativeAdImage *mainImage = nativeAd.images[0];
-        UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: mainImage.image];
+        GADNativeAdImage *mediaImage = nativeAd.images[0];
+        UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: mediaImage.image];
         mediaView = mediaImageView;
+        mainImage = [[MANativeAdImage alloc] initWithImage: mediaImage.image];
+        
+        mediaContentAspectRatio = mediaImage.image.size.width / mediaImage.image.size.height;
     }
     
     nativeAd.delegate = self;
@@ -1218,6 +1255,19 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
         
         builder.mediaView = mediaView;
+        if ( ALSdk.versionCode >= 11040299 )
+        {
+            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+        }
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 11.4.0
+        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+        {
+            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+        }
+#pragma clang diagnostic pop
         
         if ( nativeAd.icon.image ) // Cached
         {

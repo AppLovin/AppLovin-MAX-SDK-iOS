@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.15.2.1
+* Add support for returning the main image asset in `MANativeAd` for native ads.
+
+## 5.15.2.0
+* Certified with MyTarget SDK 5.15.2.
+
+## 5.15.1.2
+* Add support for providing native media content aspect ratio in `MANativeAdView`.
+* Distribute adapter as an XCFramework.
+
 ## 5.15.1.1
 * Remove check for manual native ad assets.
 

@@ -471,7 +471,7 @@
 		1D992FD3231FA1C300C472F8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "AppLovin Corporation";
 				TargetAttributes = {
 					1D992FDA231FA1C300C472F8 = {

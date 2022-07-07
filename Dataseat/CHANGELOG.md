@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.9.2
+* Update ad display failed error code.
+
 ## 1.0.9.1
 * Add support for passing in a presenting view controller.
 

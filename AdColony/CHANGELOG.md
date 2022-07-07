@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.9.0.0.0
+* Certified with AdColony SDK 4.9.0.
+
+## 4.8.0.0.2
+* Distribute adapter as an XCFramework.
+* Map `AdColonyRequestErrorUnexpected` error to be an unspecified error (-5200).
+
+## 4.8.0.0.1
+* Update ad display failed error code.
+
 ## 4.8.0.0.0
 * Certified with AdColony SDK 4.8.0.
 

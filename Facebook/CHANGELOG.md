@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.11.1.0
+* Certified with Facebook SDK 6.11.1.
+
+## 6.10.0.3
+* Add support for providing native media content aspect ratio in `MANativeAdView`.
+* Distribute adapter as an XCFramework.
+
 ## 6.10.0.2
 * Downgrade Facebook SDK to 6.9.0 due to instability in 6.10.0. (Issue: https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues/99)
 

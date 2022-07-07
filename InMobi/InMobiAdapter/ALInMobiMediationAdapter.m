@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.5.3"
+#define ADAPTER_VERSION @"10.0.7.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -240,7 +240,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( !success )
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -268,7 +268,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( !success )
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -607,7 +607,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Interstitial failed to display with error: %@", error];
     
-    MAAdapterError *adapterError = [ALInMobiMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -688,7 +688,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
     
-    MAAdapterError *adapterError = [ALInMobiMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
@@ -881,10 +881,10 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // We don't provide the aspect ratio for InMobi's media view since the media view is rendered after the ad is rendered
     UIView *mediaView = maxNativeAdView.mediaContentView;
-    UIView *primaryView = [self.parentAdapter.nativeAd primaryViewOfWidth: mediaView.frame.size.width];
+    UIView *primaryView = [self.parentAdapter.nativeAd primaryViewOfWidth: CGRectGetWidth(mediaView.frame)];
     primaryView.contentMode = UIViewContentModeScaleAspectFit;
-    primaryView.center = [mediaView convertPoint: mediaView.center fromView: mediaView.superview];
     [mediaView addSubview: primaryView];
+    [primaryView al_pinToSuperview];
     
     // InMobi does not provide a method to bind views with landing url, so we need to do it manually
     dispatchOnMainQueue(^{

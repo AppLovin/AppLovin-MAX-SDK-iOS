@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.4.0"
+#define ADAPTER_VERSION @"8.1.5.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
@@ -259,7 +259,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -342,7 +342,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -424,6 +424,14 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         [[IASDKCore sharedInstance] clearGDPRConsentData];
     }
     
+    if ( ALSdk.versionCode >= 11040299 )
+    {
+        if ( requestParameters.consentString )
+        {
+            [[IASDKCore sharedInstance] setGDPRConsentString: requestParameters.consentString];
+        }
+    }
+    
     if ( ALSdk.versionCode >= 61100 )
     {
         NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: requestParameters];
@@ -500,7 +508,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
             adapterError = MAAdapterError.timeout;
             break;
         case 497: // config not ready / no valid config; it can occur for example if ad request happens early on app launch and SDK did not have enough time to download app config
-            adapterError = MAAdapterError.adNotReady;
+            adapterError = MAAdapterError.invalidConfiguration;
             break;
         case 499: // missing fetch completion block
         case 500: // internal error when got successful server ad response but status is neither 200 nor 204
@@ -649,7 +657,14 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
 {
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
-    [self.delegate didFailToDisplayRewardedAdWithError: [ALInneractiveMediationAdapter toMaxError: error]];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                          errorString: @"Ad Display Failed"
+                                                               thirdPartySdkErrorCode: error.code
+                                                            thirdPartySdkErrorMessage: error.localizedDescription]];
+#pragma clang diagnostic pop
 }
 
 - (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController

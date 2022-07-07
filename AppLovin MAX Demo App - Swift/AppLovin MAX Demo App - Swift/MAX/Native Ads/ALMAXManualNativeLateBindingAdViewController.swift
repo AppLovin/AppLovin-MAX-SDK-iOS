@@ -88,6 +88,15 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
             nativeAdLoader.renderNativeAdView(nativeAdView, with: nativeAd)
             nativeAdContainerView.addSubview(nativeAdView)
             
+            // Set to false if modifying constraints after adding the ad view to your layout
+            nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = false
+            
+            // Set ad view to span width and height of container and center the ad
+            nativeAdContainerView.widthAnchor.constraint(equalTo: nativeAdView.widthAnchor).isActive = true
+            nativeAdContainerView.heightAnchor.constraint(equalTo: nativeAdView.heightAnchor).isActive = true
+            nativeAdContainerView.centerXAnchor.constraint(equalTo: nativeAdView.centerXAnchor).isActive = true
+            nativeAdContainerView.centerYAnchor.constraint(equalTo: nativeAdView.centerYAnchor).isActive = true
+            
             showAdButton.isEnabled = false
         }
     }
@@ -103,18 +112,6 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
         nativeAd = ad
         
         showAdButton.isEnabled = true
-        
-        if let adView = maxNativeAdView
-        {
-            // Set to false if modifying constraints after adding the ad view to your layout
-            adView.translatesAutoresizingMaskIntoConstraints = false
-            
-            // Set ad view to span width and height of container and center the ad
-            nativeAdContainerView.widthAnchor.constraint(equalTo: adView.widthAnchor).isActive = true
-            nativeAdContainerView.heightAnchor.constraint(equalTo: adView.heightAnchor).isActive = true
-            nativeAdContainerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
-            nativeAdContainerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
-        }
     }
     
     func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
