@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.7.0.0
+* Certified with Google SDK 9.7.0.
+* Use local scope copy of native ad while preparing view.
+
 ## 9.6.0.2
 * Add support for returning the main image asset in `MANativeAd` for native ads.
 

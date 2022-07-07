@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.6.0.2"
+#define ADAPTER_VERSION @"9.7.0.0"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -1436,7 +1436,8 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    GADNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
         return;
