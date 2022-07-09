@@ -9,9 +9,14 @@
 #import "ALDemoMRecTableViewCell.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
+@interface ALDemoMRecTableViewCell()
+
+@property (nonatomic, strong, nullable) MAAdView *adView;
+
+@end
+
 @implementation ALDemoMRecTableViewCell
 
-MAAdView *cellAdView;
 /*
  TODO: There's a bug
  When: Loading an adView into an appearing cell 5x while keeping another adView cell in view
@@ -22,8 +27,8 @@ MAAdView *cellAdView;
 {
     [super prepareForReuse];
     
-    [cellAdView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
-    [cellAdView stopAutoRefresh];
+    [self.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
+    [self.adView stopAutoRefresh];
     
     for ( UIView *subview in self.contentView.subviews )
     {
@@ -36,18 +41,18 @@ MAAdView *cellAdView;
 
 - (void)configureWith:(MAAdView *)adView
 {
-    cellAdView = adView;
-    cellAdView.backgroundColor = [UIColor blackColor];
-    cellAdView.translatesAutoresizingMaskIntoConstraints = false;
-    [cellAdView startAutoRefresh];
+    self.adView = adView;
+    self.adView.backgroundColor = [UIColor blackColor];
+    self.adView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.adView startAutoRefresh];
     
-    [self.contentView addSubview: cellAdView];
+    [self.contentView addSubview: self.adView];
     [NSLayoutConstraint activateConstraints: @[
-        [cellAdView.widthAnchor constraintEqualToConstant: 300],
-        [cellAdView.heightAnchor constraintEqualToConstant: 250],
-        [cellAdView.centerXAnchor constraintEqualToAnchor: self.contentView.centerXAnchor],
-        [cellAdView.centerYAnchor constraintEqualToAnchor: self.contentView.centerYAnchor],
-        [cellAdView.bottomAnchor constraintLessThanOrEqualToAnchor: self.contentView.bottomAnchor]
+        [self.adView.widthAnchor constraintEqualToConstant: 300],
+        [self.adView.heightAnchor constraintEqualToConstant: 250],
+        [self.adView.centerXAnchor constraintEqualToAnchor: self.contentView.centerXAnchor],
+        [self.adView.centerYAnchor constraintEqualToAnchor: self.contentView.centerYAnchor],
+        [self.adView.bottomAnchor constraintLessThanOrEqualToAnchor: self.contentView.bottomAnchor]
     ]];
 }
 
