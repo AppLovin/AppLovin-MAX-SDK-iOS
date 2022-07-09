@@ -10,49 +10,43 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @implementation ALDemoMRecTableViewCell
-
-BOOL isAdViewRemovedFromSubview = NO;
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected: selected animated: animated];
-
-    // Configure the view for the selected state
-}
+/*
+ TODO: There's a bug
+ When: Loading an adView into an appearing cell 5x while keeping another adView cell in view
+ What: The adView cell that's fully in view disappears
+ */
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     
-    self.textLabel.text = nil;
-    MAAdView *adView = self.contentView.subviews.firstObject;
-    [adView removeFromSuperview];
-    isAdViewRemovedFromSubview = YES;
+    [self.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
+    [self.adView stopAutoRefresh];
+    
+    for ( UIView *subview in self.contentView.subviews )
+    {
+        if ( [subview isKindOfClass: [MAAdView class]] )
+        {
+            [subview removeFromSuperview];
+        }
+    }
 }
 
-- (void)configure
+- (void)configureWith:(MAAdView *)adView
 {
-    // MREC width and height are 300 and 250 respectively, on iPhone and iPad
-    CGFloat height = 250;
-    CGFloat width = 300;
-
-    // Center the MREC
-    self.adView.frame = CGRectMake(self.contentView.center.x - 150, self.contentView.frame.origin.y, width, height);
-
-    // Set background or background color for MREC ads to be fully functional
-    self.adView.backgroundColor = [UIColor whiteColor];
+    [self setAdView: adView];
+    [self.adView startAutoRefresh];
+    self.adView.backgroundColor = [UIColor blackColor];
+    self.adView.translatesAutoresizingMaskIntoConstraints = false;
     
-    // Avoid table view scrolling lag if adView hasn't been removed
-    if (isAdViewRemovedFromSubview)
-    {
-        [self.contentView addSubview: self.adView];
-    }
+    [self.contentView addSubview: self.adView];
+    [NSLayoutConstraint activateConstraints: @[
+        [self.adView.widthAnchor constraintEqualToConstant: 300],
+        [self.adView.heightAnchor constraintEqualToConstant: 250],
+        [self.adView.centerXAnchor constraintEqualToAnchor: self.contentView.centerXAnchor],
+        [self.adView.centerYAnchor constraintEqualToAnchor: self.contentView.centerYAnchor],
+        [self.adView.bottomAnchor constraintLessThanOrEqualToAnchor: self.contentView.bottomAnchor]
+    ]];
 }
 
 @end

@@ -12,34 +12,46 @@
 
 @interface ALDemoMRecTableViewController () <UITableViewDelegate, UITableViewDataSource, MAAdViewAdDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 
-@property (nonatomic) NSMutableArray *adViewQueue;
-@property (nonatomic) NSArray *sampleData;
+@property (nonatomic, strong) NSMutableArray<MAAdView *> *adViews;
+@property (nonatomic, strong) NSMutableArray<NSString *> *sampleData;
+@property (nonatomic, assign) NSInteger adViewIndex;
 
 @end
 
 @implementation ALDemoMRecTableViewController
+static const NSInteger kAdViewCount = 5;
+static const NSInteger kAdInterval = 10;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.adViewQueue = [NSMutableArray array];
-    self.sampleData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L"];
+    self.adViews = [NSMutableArray array];
+    self.sampleData = [NSMutableArray arrayWithArray: [UIFont familyNames]];
+    self.adViewIndex = 0;
     
     // Configure table view
-    self.tableView.al_delegate = self;
-    self.tableView.al_dataSource = self;
-    self.tableView.estimatedRowHeight = 250;
-    self.tableView.rowHeight = 250;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
-    [self configureAdViews: 5];
+    [self configureAdViews: kAdViewCount];
 }
 
 - (void)configureAdViews:(NSInteger)count
 {
-    for (int i = 0; i < count; i++)
+    [self.tableView beginUpdates];
+    
+    for ( int i = 0; i < self.sampleData.count; i += kAdInterval )
+    {
+        [self.sampleData insertObject: @"" atIndex: i]; // TODO: Unsure if this is the best way to insert rows
+        [self.tableView insertRowsAtIndexPaths: @[[NSIndexPath indexPathForRow: i inSection: 0]] withRowAnimation: UITableViewRowAnimationAutomatic];
+    }
+    
+    [self.tableView endUpdates];
+    
+    for ( int i = 0; i < count; i++ )
     {
         MAAdView *adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
         adView.delegate = self;
@@ -50,69 +62,50 @@
         
         // Load the ad
         [adView loadAd];
-        [self.adViewQueue addObject: adView];
+        [self.adViews addObject: adView];
     }
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.sampleData.count;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    ALDemoMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALDemoMRecTableViewCell" forIndexPath: indexPath];
-    
-    if (indexPath.section % 4 == 0 && self.adViewQueue.count)
+    if ( indexPath.row % kAdInterval == 0 )
     {
-        MAAdView *adView = [self.adViewQueue objectAtIndex: 0];
-        [adView startAutoRefresh];
-        [self.adViewQueue removeObjectAtIndex: 0];
+        ALDemoMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALDemoMRecTableViewCell" forIndexPath: indexPath];
         
-        cell.adView = adView;
-        [cell configure];
+        // Select an ad view to display
+        MAAdView *adView = [self.adViews objectAtIndex: self.adViewIndex % kAdViewCount];
+        self.adViewIndex = (self.adViewIndex + 1) % kAdViewCount; // TODO: Unsure if this is the best way to access adViews
         
-        [self.adViewQueue addObject: adView];
+        // Configure cell with an ad
+        [cell configureWith: adView];
+        
+        return cell;
     }
     else
     {
-        cell.textLabel.text = self.sampleData[indexPath.section]; // Configure custom cells
-    }
-
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ALDemoMRecTableViewCell *adViewCell = (ALDemoMRecTableViewCell *) cell;
-    
-    if (adViewCell.adView != nil)
-    {
-        // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
-        [adViewCell.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
-        [adViewCell.adView stopAutoRefresh];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"customCell"];
+        cell.textLabel.text = self.sampleData[indexPath.row];
+        
+        return cell;
     }
 }
 
-#pragma mark - MAAdDelegate Protocol
+#pragma mark - MAAdViewAdDelegate Protocol
 
-- (void)didLoadAd:(MAAd *)ad
-{
-    [self.tableView al_reloadData];
-}
+- (void)didLoadAd:(MAAd *)ad {}
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error {}
 
 - (void)didClickAd:(MAAd *)ad {}
 
 - (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error {}
-
-#pragma mark - MAAdViewAdDelegate Protocol
 
 - (void)didExpandAd:(MAAd *)ad {}
 

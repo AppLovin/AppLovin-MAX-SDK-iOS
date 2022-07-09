@@ -263,16 +263,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="EcD-5u-1Js">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="never" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="EcD-5u-1Js">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ALDemoMRecTableViewCell" rowHeight="250" id="qRl-4o-FyF" customClass="ALDemoMRecTableViewCell">
-                                        <rect key="frame" x="0.0" y="49.5" width="414" height="250"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ALDemoMRecTableViewCell" id="qRl-4o-FyF" customClass="ALDemoMRecTableViewCell">
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qRl-4o-FyF" id="d7f-j7-OTy">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" textLabel="VxX-9R-t76" style="IBUITableViewCellStyleDefault" id="dec-8e-wRp">
+                                        <rect key="frame" x="0.0" y="93" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dec-8e-wRp" id="Bep-mG-ybw">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VxX-9R-t76">
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -281,10 +298,10 @@
                         <viewLayoutGuide key="safeArea" id="9Dw-eQ-AKb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="EcD-5u-1Js" secondAttribute="bottom" id="8xF-2w-QwQ"/>
-                            <constraint firstAttribute="trailing" secondItem="EcD-5u-1Js" secondAttribute="trailing" id="nzu-ur-9es"/>
-                            <constraint firstItem="EcD-5u-1Js" firstAttribute="leading" secondItem="Jhu-qB-aQm" secondAttribute="leading" id="oF5-dr-sGN"/>
-                            <constraint firstItem="EcD-5u-1Js" firstAttribute="top" secondItem="Jhu-qB-aQm" secondAttribute="top" id="xKL-VQ-vam"/>
+                            <constraint firstItem="EcD-5u-1Js" firstAttribute="leading" secondItem="Jhu-qB-aQm" secondAttribute="leading" id="Buj-JG-6yv"/>
+                            <constraint firstItem="EcD-5u-1Js" firstAttribute="top" secondItem="Jhu-qB-aQm" secondAttribute="top" id="fSe-s8-XRC"/>
+                            <constraint firstAttribute="bottom" secondItem="EcD-5u-1Js" secondAttribute="bottom" id="iDb-6L-UmM"/>
+                            <constraint firstAttribute="trailing" secondItem="EcD-5u-1Js" secondAttribute="trailing" id="vJa-Hp-nJH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aso-rT-n4w"/>
