@@ -27,9 +27,6 @@
 {
     [super prepareForReuse];
     
-    [self.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
-    [self.adView stopAutoRefresh];
-    
     for ( UIView *subview in self.contentView.subviews )
     {
         if ( [subview isKindOfClass: [MAAdView class]] )
@@ -54,6 +51,12 @@
         [self.adView.centerYAnchor constraintEqualToAnchor: self.contentView.centerYAnchor],
         [self.adView.bottomAnchor constraintLessThanOrEqualToAnchor: self.contentView.bottomAnchor]
     ]];
+}
+
+- (void)stopAutoRefresh
+{
+    [self.adView setExtraParameterForKey: @"allow_pause_auto_refresh_immediately" value: @"true"];
+    [self.adView stopAutoRefresh];
 }
 
 @end

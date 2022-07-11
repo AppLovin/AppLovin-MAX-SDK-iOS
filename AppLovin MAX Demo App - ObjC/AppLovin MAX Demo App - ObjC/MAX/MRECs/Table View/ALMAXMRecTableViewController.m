@@ -66,7 +66,7 @@ static const NSInteger kAdInterval = 10;
     }
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableView
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -94,6 +94,14 @@ static const NSInteger kAdInterval = 10;
         cell.textLabel.text = self.sampleData[indexPath.row];
         
         return cell;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell isKindOfClass: ALMAXMRecTableViewCell.class])
+    {
+        [(ALMAXMRecTableViewCell *) cell stopAutoRefresh];
     }
 }
 
