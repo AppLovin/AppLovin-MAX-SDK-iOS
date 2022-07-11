@@ -1,5 +1,5 @@
 //
-//  ALDemoMRecTableViewController.swift
+//  ALMAXMRecTableViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
 //  Created by Alan Cao on 6/27/22.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALDemoMRecTableViewController : UIViewController
+class ALMAXMRecTableViewController: UIViewController
 {
     private var adViewQueue: [MAAdView] = []
     private var sampleData = Array("ABCDEFGHIJKL").map { String($0) }
@@ -47,7 +47,7 @@ class ALDemoMRecTableViewController : UIViewController
     }
 }
 
-extension ALDemoMRecTableViewController : UITableViewDelegate, UITableViewDataSource
+extension ALMAXMRecTableViewController : UITableViewDelegate, UITableViewDataSource
 {
     func numberOfSections(in tableView: UITableView) -> Int
     {
@@ -61,7 +61,7 @@ extension ALDemoMRecTableViewController : UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ALDemoMRecTableViewCell", for: indexPath) as! ALDemoMRecTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ALMAXMRecTableViewCell", for: indexPath) as! ALMAXMRecTableViewCell
         
         if indexPath.section % 4 == 0, !adViewQueue.isEmpty
         {
@@ -89,7 +89,7 @@ extension ALDemoMRecTableViewController : UITableViewDelegate, UITableViewDataSo
     }
 }
 
-extension ALDemoMRecTableViewController : MAAdViewAdDelegate
+extension ALMAXMRecTableViewController : MAAdViewAdDelegate
 {
     func didLoad(_ ad: MAAd)
     {

@@ -1,5 +1,5 @@
 //
-//  ALDemoMRecTableViewCell.swift
+//  ALMAXMRecTableViewCell.swift
 //  AppLovin MAX Demo App - Swift
 //
 //  Created by Alan Cao on 6/27/22.
@@ -9,7 +9,7 @@
 import UIKit
 import AppLovinSDK
 
-class ALDemoMRecTableViewCell: UITableViewCell
+class ALMAXMRecTableViewCell: UITableViewCell
 {
     var adView: MAAdView!
     
