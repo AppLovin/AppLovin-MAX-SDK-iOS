@@ -17,12 +17,6 @@
 
 @implementation ALMAXMRecTableViewCell
 
-/*
- TODO: There's a bug
- When: Loading an adView into an appearing cell 5x while keeping another adView cell in view
- What: The adView cell that's fully in view disappears
- */
-
 - (void)prepareForReuse
 {
     [super prepareForReuse];

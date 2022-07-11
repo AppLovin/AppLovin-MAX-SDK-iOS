@@ -16,7 +16,6 @@
 
 @property (nonatomic, strong) NSMutableArray<MAAdView *> *adViews;
 @property (nonatomic, strong) NSMutableArray<NSString *> *sampleData;
-@property (nonatomic, assign) NSInteger adViewIndex;
 
 @end
 
@@ -30,7 +29,6 @@ static const NSInteger kAdInterval = 10;
     
     self.adViews = [NSMutableArray array];
     self.sampleData = [NSMutableArray arrayWithArray: [UIFont familyNames]];
-    self.adViewIndex = 0;
     
     // Configure table view
     self.tableView.delegate = self;
@@ -45,7 +43,7 @@ static const NSInteger kAdInterval = 10;
     
     for ( int i = 0; i < self.sampleData.count; i += kAdInterval )
     {
-        [self.sampleData insertObject: @"" atIndex: i]; // TODO: Unsure if this is the best way to insert rows
+        [self.sampleData insertObject: @"" atIndex: i];
         [self.tableView insertRowsAtIndexPaths: @[[NSIndexPath indexPathForRow: i inSection: 0]] withRowAnimation: UITableViewRowAnimationAutomatic];
     }
     
@@ -80,8 +78,7 @@ static const NSInteger kAdInterval = 10;
         ALMAXMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALMAXMRecTableViewCell" forIndexPath: indexPath];
         
         // Select an ad view to display
-        MAAdView *adView = [self.adViews objectAtIndex: self.adViewIndex % kAdViewCount];
-        self.adViewIndex = (self.adViewIndex + 1) % kAdViewCount; // TODO: Unsure if this is the best way to access adViews
+        MAAdView *adView = [self.adViews objectAtIndex: (indexPath.row / kAdInterval) % kAdViewCount];
         
         // Configure cell with an ad
         [cell configureWith: adView];
