@@ -11,51 +11,41 @@ import AppLovinSDK
 
 class ALMAXMRecTableViewCell: UITableViewCell
 {
-    var adView: MAAdView!
-    
-    private var isAdViewRemovedFromSubview = false
-    
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool)
-    {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
+    private var adView: MAAdView!
     
     override func prepareForReuse()
     {
         super.prepareForReuse()
         
-        // Make sure ads aren't being configured to the wrong cells
-        textLabel?.text = nil
-        (contentView.subviews.first as? MAAdView)?.removeFromSuperview()
-        isAdViewRemovedFromSubview = true
+        for subview in contentView.subviews
+        {
+            if let subview = subview as? MAAdView
+            {
+                subview.removeFromSuperview()
+            }
+        }
     }
     
-    func configure()
+    func configure(with adView: MAAdView)
     {
-        // MREC width and height are 300 and 250 respectively, on iPhone and iPad
-        let height: CGFloat = 250
-        let width: CGFloat = 300
-        adView.frame = CGRect(x: contentView.frame.origin.x, y: contentView.frame.origin.y, width: width, height: height)
+        self.adView = adView
+        self.adView.backgroundColor = .black
+        self.adView.translatesAutoresizingMaskIntoConstraints = false
+        self.adView.startAutoRefresh()
         
-        // Center the MREC
-        adView.center.x = contentView.center.x
-        adView.center.y = contentView.center.y
+        contentView.addSubview(self.adView)
+        NSLayoutConstraint.activate([
+            self.adView.widthAnchor.constraint(equalToConstant: 300),
+            self.adView.heightAnchor.constraint(equalToConstant: 250),
+            self.adView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            self.adView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            self.adView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+        ])
+    }
     
-        // Set background or background color for MREC ads to be fully functional
-        adView.backgroundColor = .white
-        
-        // Avoid table view scrolling lag if adView hasn't been removed
-        if isAdViewRemovedFromSubview
-        {
-            contentView.addSubview(adView)
-        }
+    func stopAutoRefresh()
+    {
+        adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
+        adView.stopAutoRefresh()
     }
 }

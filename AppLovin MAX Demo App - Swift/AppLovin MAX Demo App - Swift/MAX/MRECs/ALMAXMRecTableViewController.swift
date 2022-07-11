@@ -11,26 +11,36 @@ import AppLovinSDK
 
 class ALMAXMRecTableViewController: UIViewController
 {
-    private var adViewQueue: [MAAdView] = []
-    private var sampleData = Array("ABCDEFGHIJKL").map { String($0) }
+    private let kAdViewCount = 5
+    private let kAdInterval = 10
+    private var adViews: [MAAdView] = []
+    private var sampleData: [String] = UIFont.familyNames
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
- 
-        // Configure table view
-        tableView.al_delegate = self
-        tableView.al_dataSource = self
-        tableView.estimatedRowHeight = 250
-        tableView.rowHeight = 250
         
-        configureAdViews(count: 5)
+        // Configure table view
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        configureAdViews(count: kAdViewCount)
     }
     
     private func configureAdViews(count: Int)
     {
+        tableView.beginUpdates()
+        
+        for i in stride(from: 0, to: sampleData.count, by: kAdInterval)
+        {
+            sampleData.insert("", at: i)
+            tableView.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+        }
+        
+        tableView.endUpdates()
+        
         for _ in 0 ..< count
         {
             let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: .mrec)
@@ -42,74 +52,71 @@ class ALMAXMRecTableViewController: UIViewController
             
             // Load the ad
             adView.loadAd()
-            adViewQueue.append(adView)
+            adViews.append(adView)
         }
     }
 }
 
+// MARK: UITableView
+
 extension ALMAXMRecTableViewController : UITableViewDelegate, UITableViewDataSource
 {
-    func numberOfSections(in tableView: UITableView) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return sampleData.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ALMAXMRecTableViewCell", for: indexPath) as! ALMAXMRecTableViewCell
         
-        if indexPath.section % 4 == 0, !adViewQueue.isEmpty
+        if indexPath.row % kAdInterval == 0
         {
-            let adView = adViewQueue.removeFirst()
-            adView.startAutoRefresh()
-            cell.adView = adView
-            cell.configure() // Configure cell with an ad
-            adViewQueue.append(adView)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ALMAXMRecTableViewCell", for: indexPath) as! ALMAXMRecTableViewCell
+            
+            // Select an ad view to display
+            let adView = adViews[(indexPath.row / kAdInterval) % kAdViewCount]
+            
+            // Configure cell with an ad
+            cell.configure(with: adView)
+            
+            return cell
         }
         else
         {
-            cell.textLabel!.text = sampleData[indexPath.section] // Configure custom cells
+            let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath)
+            cell.textLabel!.text = sampleData[indexPath.row]
+            
+            return cell
         }
-
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        guard let cell = cell as? ALDemoMRecTableViewCell, cell.adView != nil else { return }
-        
-        // Set this extra parameter to work around SDK bug that ignores calls to stopAutoRefresh()
-        cell.adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
-        cell.adView.stopAutoRefresh()
+        if let cell = cell as? ALMAXMRecTableViewCell
+        {
+            cell.stopAutoRefresh()
+        }
     }
 }
 
-extension ALMAXMRecTableViewController : MAAdViewAdDelegate
+// MARK: MAAdViewAdDelegate Protocol
+
+extension ALMAXMRecTableViewController: MAAdViewAdDelegate
 {
-    func didLoad(_ ad: MAAd)
-    {
-        tableView.al_reloadData()
-    }
-
+    func didLoad(_ ad: MAAd) {}
+    
     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {}
-
+    
     func didClick(_ ad: MAAd) {}
-
+    
     func didFail(toDisplay ad: MAAd, withError error: MAError) {}
-
-    // MARK: MAAdViewAdDelegate Protocol
-
+    
     func didExpand(_ ad: MAAd) {}
-
+    
     func didCollapse(_ ad: MAAd) {}
-
+    
     // MARK: Deprecated Callbacks
-
+    
     func didDisplay(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
     func didHide(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
 }
