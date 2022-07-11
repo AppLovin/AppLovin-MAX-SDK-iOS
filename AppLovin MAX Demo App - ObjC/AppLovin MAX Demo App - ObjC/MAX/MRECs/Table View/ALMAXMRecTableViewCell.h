@@ -1,5 +1,5 @@
 //
-//  ALDemoMRecTableViewCell.h
+//  ALMAXMRecTableViewCell.h
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Alan Cao on 6/30/22.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALDemoMRecTableViewCell : UITableViewCell
+@interface ALMAXMRecTableViewCell : UITableViewCell
 
 - (void)configureWith:(MAAdView *)adView;
 

@@ -1,21 +1,21 @@
 //
-//  ALDemoMRecTableViewCell.m
+//  ALMAXMRecTableViewCell.m
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Alan Cao on 6/30/22.
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALDemoMRecTableViewCell.h"
+#import "ALMAXMRecTableViewCell.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALDemoMRecTableViewCell()
+@interface ALMAXMRecTableViewCell()
 
 @property (nonatomic, strong, nullable) MAAdView *adView;
 
 @end
 
-@implementation ALDemoMRecTableViewCell
+@implementation ALMAXMRecTableViewCell
 
 /*
  TODO: There's a bug

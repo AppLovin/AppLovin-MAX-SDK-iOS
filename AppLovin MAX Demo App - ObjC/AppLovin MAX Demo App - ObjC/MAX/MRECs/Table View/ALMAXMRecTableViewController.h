@@ -1,5 +1,5 @@
 //
-//  ALDemoMRecTableViewController.h
+//  ALMAXMRecTableViewController.h
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Alan Cao on 6/30/22.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ALDemoMRecTableViewController : UIViewController
+@interface ALMAXMRecTableViewController : UIViewController
 
 @end

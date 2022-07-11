@@ -1,16 +1,16 @@
 //
-//  ALDemoMRecTableViewController.m
+//  ALMAXMRecTableViewController.m
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Alan Cao on 6/30/22.
 //  Copyright © 2022 AppLovin Corporation. All rights reserved.
 //
 
-#import "ALDemoMRecTableViewController.h"
-#import "ALDemoMRecTableViewCell.h"
+#import "ALMAXMRecTableViewController.h"
+#import "ALMAXMRecTableViewCell.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALDemoMRecTableViewController () <UITableViewDelegate, UITableViewDataSource, MAAdViewAdDelegate>
+@interface ALMAXMRecTableViewController () <UITableViewDelegate, UITableViewDataSource, MAAdViewAdDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation ALDemoMRecTableViewController
+@implementation ALMAXMRecTableViewController
 static const NSInteger kAdViewCount = 5;
 static const NSInteger kAdInterval = 10;
 
@@ -77,7 +77,7 @@ static const NSInteger kAdInterval = 10;
 {
     if ( indexPath.row % kAdInterval == 0 )
     {
-        ALDemoMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALDemoMRecTableViewCell" forIndexPath: indexPath];
+        ALMAXMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALMAXMRecTableViewCell" forIndexPath: indexPath];
         
         // Select an ad view to display
         MAAdView *adView = [self.adViews objectAtIndex: self.adViewIndex % kAdViewCount];
