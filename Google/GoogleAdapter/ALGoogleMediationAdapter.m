@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.7.0.0"
+#define ADAPTER_VERSION @"9.7.0.1"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -700,13 +700,20 @@ static NSString *ALGoogleSDKVersion;
                              withParameters:(id<MAAdapterParameters>)parameters
 {
     GADRequest *request = [GADRequest request];
-    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 5];
-    
     NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
+    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 5];
+    BOOL isDv360Bidding = NO;
+    
     if ( isBiddingAd )
     {
+        NSString *bidderType = [serverParameters al_stringForKey: @"bidder" defaultValue: @""];
+        if ( [@"dv360" al_isEqualToStringIgnoringCase: bidderType] )
+        {
+            isDv360Bidding = YES;
+        }
+        
         // Requested by Google for signal collection
-        extraParameters[@"query_info_type"] = @"requester_type_2";
+        extraParameters[@"query_info_type"] = isDv360Bidding ? @"requester_type_3" : @"requester_type_2";
         
         if ( ALSdk.versionCode >= 11000000 && [adFormat isAdViewAd] && [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"] )
         {
@@ -728,7 +735,8 @@ static NSString *ALGoogleSDKVersion;
     if ( [serverParameters al_numberForKey: @"set_mediation_identifier" defaultValue: @(YES)].boolValue )
     {
         // Use "applovin" instead of mediationTag for Google's specs
-        [request setRequestAgent: @"applovin"];
+        // "applovin_dv360" is for DV360_BIDDING, which is a separate bidder from regular ADMOB_BIDDING
+        [request setRequestAgent: isDv360Bidding ? @"applovin_dv360" : @"applovin"];
     }
     
     // Use event id as AdMob's placement request id - https://app.asana.com/0/1126394401843426/1200682332716267
