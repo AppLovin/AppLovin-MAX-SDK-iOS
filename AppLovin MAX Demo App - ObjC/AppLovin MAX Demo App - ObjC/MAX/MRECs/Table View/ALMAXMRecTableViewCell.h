@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ALMAXMRecTableViewCell : UITableViewCell
 
-- (void)configureWith:(MAAdView *)adView;
+- (void)configureWithAdView:(MAAdView *)adView;
 - (void)stopAutoRefresh;
 
 @end

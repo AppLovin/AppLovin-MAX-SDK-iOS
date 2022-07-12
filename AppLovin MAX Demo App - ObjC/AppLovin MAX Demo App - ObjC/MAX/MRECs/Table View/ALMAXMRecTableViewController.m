@@ -27,20 +27,21 @@ static const NSInteger kAdInterval = 10;
 {
     [super viewDidLoad];
     
-    self.adViews = [NSMutableArray array];
+    self.adViews = [NSMutableArray arrayWithCapacity: kAdViewCount];
     self.sampleData = [NSMutableArray arrayWithArray: [UIFont familyNames]];
     
     // Configure table view
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    [self configureAdViews: kAdViewCount];
+    [self configureAdViews];
 }
 
-- (void)configureAdViews:(NSInteger)count
+- (void)configureAdViews
 {
     [self.tableView beginUpdates];
     
+    // Insert rows at each interval to be used to display an ad
     for ( int i = 0; i < self.sampleData.count; i += kAdInterval )
     {
         [self.sampleData insertObject: @"" atIndex: i];
@@ -49,7 +50,7 @@ static const NSInteger kAdInterval = 10;
     
     [self.tableView endUpdates];
     
-    for ( int i = 0; i < count; i++ )
+    for ( int i = 0; i < kAdViewCount; i++ )
     {
         MAAdView *adView = [[MAAdView alloc] initWithAdUnitIdentifier: @"YOUR_AD_UNIT_ID" adFormat: MAAdFormat.mrec];
         adView.delegate = self;
@@ -78,16 +79,16 @@ static const NSInteger kAdInterval = 10;
         ALMAXMRecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"ALMAXMRecTableViewCell" forIndexPath: indexPath];
         
         // Select an ad view to display
-        MAAdView *adView = [self.adViews objectAtIndex: (indexPath.row / kAdInterval) % kAdViewCount];
+        MAAdView *adView = self.adViews[(indexPath.row / kAdInterval) % kAdViewCount];
         
         // Configure cell with an ad
-        [cell configureWith: adView];
+        [cell configureWithAdView: adView];
         
         return cell;
     }
     else
     {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"customCell"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: @"CustomCell" forIndexPath: indexPath];
         cell.textLabel.text = self.sampleData[indexPath.row];
         
         return cell;
@@ -96,9 +97,9 @@ static const NSInteger kAdInterval = 10;
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell isKindOfClass: ALMAXMRecTableViewCell.class])
+    if ( [cell isKindOfClass: ALMAXMRecTableViewCell.class] )
     {
-        [(ALMAXMRecTableViewCell *) cell stopAutoRefresh];
+        [(ALMAXMRecTableViewCell *)cell stopAutoRefresh];
     }
 }
 

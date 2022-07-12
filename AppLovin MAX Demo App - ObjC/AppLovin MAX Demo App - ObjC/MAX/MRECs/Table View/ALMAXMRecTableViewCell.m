@@ -28,9 +28,11 @@
             [subview removeFromSuperview];
         }
     }
+    
+    self.adView = nil;
 }
 
-- (void)configureWith:(MAAdView *)adView
+- (void)configureWithAdView:(MAAdView *)adView
 {
     self.adView = adView;
     self.adView.backgroundColor = [UIColor blackColor];
