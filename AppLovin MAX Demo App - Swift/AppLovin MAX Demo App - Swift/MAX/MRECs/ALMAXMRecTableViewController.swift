@@ -13,6 +13,7 @@ class ALMAXMRecTableViewController: UIViewController
 {
     private let kAdViewCount = 5
     private let kAdInterval = 10
+    
     private var adViews: [MAAdView] = []
     private var sampleData: [String] = UIFont.familyNames
     
@@ -26,13 +27,14 @@ class ALMAXMRecTableViewController: UIViewController
         tableView.delegate = self
         tableView.dataSource = self
         
-        configureAdViews(count: kAdViewCount)
+        configureAdViews()
     }
     
-    private func configureAdViews(count: Int)
+    private func configureAdViews()
     {
         tableView.beginUpdates()
         
+        // Insert rows at each interval to be used to display an ad
         for i in stride(from: 0, to: sampleData.count, by: kAdInterval)
         {
             sampleData.insert("", at: i)
@@ -41,7 +43,7 @@ class ALMAXMRecTableViewController: UIViewController
         
         tableView.endUpdates()
         
-        for _ in 0 ..< count
+        for _ in 0 ..< kAdViewCount
         {
             let adView = MAAdView(adUnitIdentifier: "YOUR_AD_UNIT_ID", adFormat: .mrec)
             adView.delegate = self
@@ -68,7 +70,6 @@ extension ALMAXMRecTableViewController : UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        
         if indexPath.row % kAdInterval == 0
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ALMAXMRecTableViewCell", for: indexPath) as! ALMAXMRecTableViewCell
@@ -83,7 +84,7 @@ extension ALMAXMRecTableViewController : UITableViewDelegate, UITableViewDataSou
         }
         else
         {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
             cell.textLabel!.text = sampleData[indexPath.row]
             
             return cell
