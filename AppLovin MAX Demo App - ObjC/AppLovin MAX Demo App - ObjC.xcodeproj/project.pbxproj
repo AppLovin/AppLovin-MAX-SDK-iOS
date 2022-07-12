@@ -247,13 +247,15 @@
 		37B6CED3246E04D30068A6A4 /* MRECs */ = {
 			isa = PBXGroup;
 			children = (
+				62CD0EE1286E161700BD03CE /* UI */,
 				37B6CED6246E05330068A6A4 /* ALMAXAutoLayoutMRecAdViewController.h */,
 				37B6CED4246E04FC0068A6A4 /* ALMAXAutoLayoutMRecAdViewController.m */,
 				37B6CED9246E05870068A6A4 /* ALMAXFrameLayoutMRecAdViewController.h */,
 				37B6CED7246E05770068A6A4 /* ALMAXFrameLayoutMRecAdViewController.m */,
 				37B6CEDC246E062F0068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.h */,
 				37B6CEDA246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m */,
-				62CD0EE1286E161700BD03CE /* Table View */,
+				62CD0EE3286E168E00BD03CE /* ALMAXMRecTableViewController.h */,
+				62CD0EE4286E168E00BD03CE /* ALMAXMRecTableViewController.m */,
 			);
 			path = MRECs;
 			sourceTree = "<group>";
@@ -285,15 +287,13 @@
 			path = "Interface Builder";
 			sourceTree = "<group>";
 		};
-		62CD0EE1286E161700BD03CE /* Table View */ = {
+		62CD0EE1286E161700BD03CE /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				62CD0EE3286E168E00BD03CE /* ALMAXMRecTableViewController.h */,
-				62CD0EE4286E168E00BD03CE /* ALMAXMRecTableViewController.m */,
 				62CD0EE6286E1C7400BD03CE /* ALMAXMRecTableViewCell.h */,
 				62CD0EE7286E1C7400BD03CE /* ALMAXMRecTableViewCell.m */,
 			);
-			path = "Table View";
+			path = UI;
 			sourceTree = "<group>";
 		};
 		77B6F432279B51AB0063F81D /* Native Ads */ = {
