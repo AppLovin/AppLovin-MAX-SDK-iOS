@@ -97,7 +97,7 @@ static const NSInteger kAdInterval = 10;
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ( [cell isKindOfClass: ALMAXMRecTableViewCell.class] )
+    if ( [cell isKindOfClass: [ALMAXMRecTableViewCell class]] )
     {
         [(ALMAXMRecTableViewCell *)cell stopAutoRefresh];
     }
