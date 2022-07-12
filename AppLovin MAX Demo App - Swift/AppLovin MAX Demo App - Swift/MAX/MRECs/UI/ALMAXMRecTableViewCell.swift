@@ -17,14 +17,7 @@ class ALMAXMRecTableViewCell: UITableViewCell
     {
         super.prepareForReuse()
         
-        for subview in contentView.subviews
-        {
-            if let subview = subview as? MAAdView
-            {
-                subview.removeFromSuperview()
-            }
-        }
-        
+        adView?.removeFromSuperview()
         adView = nil
     }
     
@@ -47,10 +40,7 @@ class ALMAXMRecTableViewCell: UITableViewCell
     
     func stopAutoRefresh()
     {
-        if let adView = adView
-        {
-            adView.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
-            adView.stopAutoRefresh()
-        }
+        adView?.setExtraParameterForKey("allow_pause_auto_refresh_immediately", value: "true")
+        adView?.stopAutoRefresh()
     }
 }

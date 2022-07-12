@@ -21,14 +21,7 @@
 {
     [super prepareForReuse];
     
-    for ( UIView *subview in self.contentView.subviews )
-    {
-        if ( [subview isKindOfClass: [MAAdView class]] )
-        {
-            [subview removeFromSuperview];
-        }
-    }
-    
+    [self.adView removeFromSuperview];
     self.adView = nil;
 }
 
