@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.0.1.6
+* Add support to set `hasUserConsent` on initialization.
+* Pass HyprMX error message for ad display errors.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 6.0.1.5
 * Update ad display failed error code.
 

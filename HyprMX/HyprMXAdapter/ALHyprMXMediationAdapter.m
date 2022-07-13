@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.5"
+#define ADAPTER_VERSION @"6.0.1.6"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -110,9 +110,14 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
         
         self.initializationDelegate = [[ALHyprMXMediationAdapterInitializationDelegate alloc] initWithParentAdapter: self completionHandler: completionHandler];
         
+        [HyprMX setMediationProvider: HyprMXMediationProviderApplovinMax
+                  mediatorSDKVersion: ALSdk.version
+                      adapterVersion: self.adapterVersion];
+        
         // NOTE: HyprMX deals with CCPA via their UI
         [HyprMX initializeWithDistributorId: distributorId
                                      userId: userId
+                              consentStatus: [self consentStatusWithParameters: parameters]
                      initializationDelegate: self.initializationDelegate];
     }
     else
@@ -259,18 +264,23 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 
 #pragma mark - Shared Methods
 
-- (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
+- (HyprConsentStatus)consentStatusWithParameters:(id<MAAdapterParameters>)parameters
 {
-    // NOTE: HyprMX requested to always set GDPR regardless of region.
     NSNumber *hasUserConsent = parameters.hasUserConsent;
     if ( hasUserConsent )
     {
-        [HyprMX setConsentStatus: hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED];
+        return hasUserConsent.boolValue ? CONSENT_GIVEN : CONSENT_DECLINED;
     }
     else
     {
-        [HyprMX setConsentStatus: CONSENT_STATUS_UNKNOWN];
+        return CONSENT_STATUS_UNKNOWN;
     }
+}
+
+- (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
+{
+    // NOTE: HyprMX requested to always set GDPR regardless of region.
+    [HyprMX setConsentStatus: [self consentStatusWithParameters: parameters]];
 }
 
 #pragma mark - Helper Methods
@@ -495,11 +505,18 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)adDisplayErrorForPlacement:(HyprMXPlacement *)placement error:(HyprMXError)hyprMXError
+- (void)adDisplayError:(NSError *)error placement:(HyprMXPlacement *)placement
 {
-    [self.parentAdapter log: @"Interstitial failed to display with error: %d for placement: %@", hyprMXError, placement.placementName];
+    [self.parentAdapter log: @"Interstitial failed to display with error: %d for placement: %@", error.localizedDescription, placement.placementName];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: hyprMXError thirdPartySdkErrorMessage: @""];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -559,11 +576,18 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     [self.delegate didHideRewardedAd];
 }
 
-- (void)adDisplayErrorForPlacement:(HyprMXPlacement *)placement error:(HyprMXError)hyprMXError
+- (void)adDisplayError:(NSError *)error placement:(HyprMXPlacement *)placement
 {
-    [self.parentAdapter log: @"Rewarded ad failed to display with error: %d, for placement: %@", hyprMXError, placement.placementName];
+    [self.parentAdapter log: @"Rewarded ad failed to display with error: %d, for placement: %@", error.localizedDescription, placement.placementName];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: hyprMXError thirdPartySdkErrorMessage: @""];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
