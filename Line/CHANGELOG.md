@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.20220630.0
+* Certified with Line SDK 2.4.20220630.
+
 ## 2.4.20220607.0
 * Certified with Line SDK 2.4.20220607.
 * Distribute adapter as an XCFramework.
