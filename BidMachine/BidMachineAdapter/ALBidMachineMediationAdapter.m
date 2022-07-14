@@ -452,7 +452,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)interstitialReadyToPresent:(BDMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Interstitial ad loaded"];
-    [self.delegate didLoadInterstitialAd];
+    
+    NSString *creativeId = interstitial.adObject.auctionInfo.creativeID;
+    if (creativeId != nil) {
+        [self.delegate didLoadInterstitialAdWithExtraInfo:@{@"creative_id" : creativeId}];
+    } else {
+        [self.delegate didLoadInterstitialAd];
+    }
 }
 
 - (void)interstitial:(BDMInterstitial *)interstitial failedWithError:(NSError *)error
@@ -505,7 +511,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)rewardedReadyToPresent:(BDMRewarded *)rewarded
 {
     [self.parentAdapter log: @"Rewarded ad loaded"];
-    [self.delegate didLoadRewardedAd];
+    
+    NSString *creativeId = rewarded.adObject.auctionInfo.creativeID;
+    if (creativeId != nil) {
+        [self.delegate didLoadRewardedAdWithExtraInfo:@{@"creative_id" : creativeId}];
+    } else {
+        [self.delegate didLoadRewardedAd];
+    }
 }
 
 - (void)rewarded:(BDMRewarded *)rewarded failedWithError:(NSError *)error
@@ -575,7 +587,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)bannerViewReadyToPresent:(BDMBannerView *)bannerView
 {
     [self.parentAdapter log: @"AdView loaded"];
-    [self.delegate didLoadAdForAdView: bannerView];
+    
+    NSString *creativeId = bannerView.adObject.auctionInfo.creativeID;
+    if (creativeId != nil) {
+        [self.delegate didLoadAdForAdView:bannerView withExtraInfo:@{@"creative_id" : creativeId}];
+    } else {
+        [self.delegate didLoadAdForAdView:bannerView];
+    }
 }
 
 - (void)bannerView:(BDMBannerView *)bannerView failedWithError:(NSError *)error
@@ -703,7 +721,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             }
             builder.mediaView = mainImageView;
         }];
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        
+        NSString *creativeId = auctionInfo.creativeID;
+        if (creativeId != nil) {
+            [self.delegate didLoadAdForNativeAd:maxNativeAd withExtraInfo: @{@"creative_id" : creativeId}];
+        } else {
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        }
     });
 }
 
