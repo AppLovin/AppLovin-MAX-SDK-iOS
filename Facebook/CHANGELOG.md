@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.11.2.0
+* Certified with Facebook SDK 6.11.2.
+* Use local scope copy of native ad while preparing view.
+
 ## 6.11.1.0
 * Certified with Facebook SDK 6.11.1.
 
