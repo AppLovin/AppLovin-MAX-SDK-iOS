@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.2.7.0
+* Certified with ByteDance SDK 4.5.2.7.
+
 ## 4.5.2.4.2
 * Downgrade ByteDance SDK to 4.3.1.9 due to discontinued support for `-all_load` linker flag resulting in duplicate symbol warnings.
 * Use local scope copy of native ad while preparing view.
