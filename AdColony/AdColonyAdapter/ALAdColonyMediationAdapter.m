@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.9.0.0.0"
+#define ADAPTER_VERSION @"4.9.0.0.1"
 
 @interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
@@ -630,6 +630,12 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     
     MAAdapterError *adapterError = [ALAdColonyMediationAdapter toMaxError: error];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)adColonyAdViewDidShow:(AdColonyAdView *)adView
+{
+    [self.parentAdapter log: @"Ad View ad shown"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)adColonyAdViewWillLeaveApplication:(AdColonyAdView *)adView

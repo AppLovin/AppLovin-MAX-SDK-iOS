@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.0.0.1
+* Add impression callback, `adColonyAdViewDidShow()`, for banners and MRECs.
+
 ## 4.9.0.0.0
 * Certified with AdColony SDK 4.9.0.
 
