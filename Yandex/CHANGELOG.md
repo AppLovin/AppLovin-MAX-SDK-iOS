@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.0.0
+* Certified with Yandex SDK 5.1.0.
+* Add bidding support.
+* Update click callback for ads.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 4.4.2.3
 * Update ad display failed error code.
 
