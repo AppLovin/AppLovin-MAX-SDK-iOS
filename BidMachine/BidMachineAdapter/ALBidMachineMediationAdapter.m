@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.4.1.1"
+#define ADAPTER_VERSION @"1.9.4.1.2"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -336,7 +336,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)updateSettings:(id<MAAdapterParameters>)parameters
 {
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser  )
+    if ( isAgeRestrictedUser )
     {
         BDMSdk.sharedSdk.restrictions.coppa = isAgeRestrictedUser.boolValue;
     }
@@ -452,7 +452,16 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)interstitialReadyToPresent:(BDMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Interstitial ad loaded"];
-    [self.delegate didLoadInterstitialAd];
+    
+    NSString *creativeId = interstitial.adObject.auctionInfo.creativeID;
+    NSDictionary *extraInfo;
+    
+    if ( [creativeId al_isValidString] )
+    {
+        extraInfo = @{@"creative_id" : creativeId};
+    }
+    
+    [self.delegate didLoadInterstitialAdWithExtraInfo: extraInfo];
 }
 
 - (void)interstitial:(BDMInterstitial *)interstitial failedWithError:(NSError *)error
@@ -505,7 +514,16 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)rewardedReadyToPresent:(BDMRewarded *)rewarded
 {
     [self.parentAdapter log: @"Rewarded ad loaded"];
-    [self.delegate didLoadRewardedAd];
+
+    NSString *creativeId = rewarded.adObject.auctionInfo.creativeID;
+    NSDictionary *extraInfo;
+    
+    if ( [creativeId al_isValidString] )
+    {
+        extraInfo = @{@"creative_id" : creativeId};
+    }
+    
+    [self.delegate didLoadRewardedAdWithExtraInfo: extraInfo];
 }
 
 - (void)rewarded:(BDMRewarded *)rewarded failedWithError:(NSError *)error
@@ -575,7 +593,16 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (void)bannerViewReadyToPresent:(BDMBannerView *)bannerView
 {
     [self.parentAdapter log: @"AdView loaded"];
-    [self.delegate didLoadAdForAdView: bannerView];
+
+    NSString *creativeId = bannerView.adObject.auctionInfo.creativeID;
+    NSDictionary *extraInfo;
+    
+    if ( [creativeId al_isValidString] )
+    {
+        extraInfo = @{@"creative_id" : creativeId};
+    }
+    
+    [self.delegate didLoadAdForAdView: bannerView withExtraInfo: extraInfo];
 }
 
 - (void)bannerView:(BDMBannerView *)bannerView failedWithError:(NSError *)error
@@ -703,7 +730,16 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             }
             builder.mediaView = mainImageView;
         }];
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        
+        NSString *creativeId = auctionInfo.creativeID;
+        NSDictionary *extraInfo;
+        
+        if ( [creativeId al_isValidString] )
+        {
+            extraInfo = @{@"creative_id" : creativeId};
+        }
+
+        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
     });
 }
 
