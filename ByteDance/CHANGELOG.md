@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.2.8.1
+* Update privacy settings before collecting signal. 
+
 ## 4.5.2.8.0
 * Certified with ByteDance SDK 4.5.2.8.
 
