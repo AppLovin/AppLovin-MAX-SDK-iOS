@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.6"
+#define ADAPTER_VERSION @"6.0.1.7"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -159,6 +159,10 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
+    [self log: @"Collecting signal..."];
+    
+    [self updateConsentWithParameters: parameters];
+    
     NSString *signal = [HyprMX sessionToken];
     [delegate didCollectSignal: signal];
 }
