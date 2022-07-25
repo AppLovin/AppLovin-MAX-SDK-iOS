@@ -1,9 +1,12 @@
 # Changelog
 
-## 10.0.8.0
-* Certified with InMobi SDK 10.0.8.
+## 10.0.8.1
 * Silence API deprecation warnings.
 * Use local scope copy of native ad while preparing view.
+* Update consent status before collecting signal. 
+
+## 10.0.8.0
+* Certified with InMobi SDK 10.0.8.
 
 ## 10.0.7.0
 * Certified with InMobi SDK 10.0.7.

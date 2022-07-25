@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.8.0"
+#define ADAPTER_VERSION @"10.0.8.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -179,11 +179,15 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
+    [self log: @"Collecting signal..."];
+    
     if ( MAAdapterInitializationStatusInitializedFailure == ALInMobiInitializationStatus )
     {
         [delegate didFailToCollectSignalWithErrorMessage: @"InMobi SDK initialization failed."];
         return;
     }
+
+    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
     
     NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
     [delegate didCollectSignal: signal];
