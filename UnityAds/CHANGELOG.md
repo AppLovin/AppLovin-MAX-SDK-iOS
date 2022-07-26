@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.1.1
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+* Update consent status before collecting signal. 
+
 ## 4.2.1.0
 * Certified with UnityAds SDK 4.2.1.
 
