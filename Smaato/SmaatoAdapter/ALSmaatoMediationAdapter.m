@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.6.1"
+#define ADAPTER_VERSION @"21.7.6.2"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -133,7 +133,7 @@
 {
     [self log: @"Collecting signal..."];
     
-    // Update local params, since not available on init
+    [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
     NSString *signal = [SmaatoSDK collectSignals];
@@ -920,7 +920,8 @@
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAdRenderer )
+    SMANativeAdRenderer *nativeAdRenderer = self.parentAdapter.nativeAdRenderer;
+    if ( !nativeAdRenderer )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad renderer is nil."];
         return;
