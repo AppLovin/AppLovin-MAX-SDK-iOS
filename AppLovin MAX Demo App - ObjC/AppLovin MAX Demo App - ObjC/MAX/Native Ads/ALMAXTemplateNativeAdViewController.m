@@ -66,7 +66,7 @@
 
 #pragma mark - NativeAdDelegate Protocol
 
-- (void)didLoadNativeAd:(MANativeAdView *)nativeAdView forAd:(MAAd *)ad
+- (void)didLoadNativeAd:(nullable MANativeAdView *)nativeAdView forAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
