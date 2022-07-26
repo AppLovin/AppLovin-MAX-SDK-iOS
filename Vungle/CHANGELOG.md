@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.11.0.3
+* Silence API deprecation warnings.
+* Update privacy settings before collecting signal. 
+
 ## 6.11.0.2
 * Distribute adapter as an XCFramework.
 * Add support for COPPA.
