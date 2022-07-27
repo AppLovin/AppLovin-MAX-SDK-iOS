@@ -1,5 +1,10 @@
 # Changelog
 
+## 9.0.0.0
+* Certified with Chartboost SDK 9.0.0.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 8.5.0.4
 * Update ad display failed error code.
 

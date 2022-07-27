@@ -7,10 +7,9 @@
 //
 
 #import "ALChartboostMediationAdapter.h"
-#import <Chartboost/Chartboost.h>
-#import <Chartboost/Chartboost+Mediation.h>
+#import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"8.5.0.4"
+#define ADAPTER_VERSION @"9.0.0.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject<CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -74,8 +73,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         
         NSString *appSignature = [serverParameters al_stringForKey: @"app_signature"];
         
-        [Chartboost startWithAppId: appID appSignature: appSignature completion:^(BOOL success) {
-            if ( success )
+        [Chartboost startWithAppID: appID appSignature: appSignature completion:^(CHBStartError *error) {
+            if ( !error )
             {
                 [self log: @"Chartboost SDK initialized"];
                 ALChartboostInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
@@ -89,18 +88,12 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             completionHandler(ALChartboostInitializationStatus, nil);
         }];
         
-        self.mediationInfo = [[CHBMediation alloc] initWithType: CBMediationMAX libraryVersion: ALSdk.version adapterVersion: ADAPTER_VERSION];
+        self.mediationInfo = [[CHBMediation alloc] initWithName: @"MAX" libraryVersion: ALSdk.version adapterVersion: ADAPTER_VERSION];
         
         // Real test mode should be enabled from UI (https://answers.chartboost.com/en-us/articles/200780549)
         if ( [parameters isTesting] )
         {
             [Chartboost setLoggingLevel: CBLoggingLevelVerbose];
-        }
-        
-        if ( [serverParameters al_containsValueForKey: @"prefetch_video_content"] )
-        {
-            BOOL prefetchVideoContent = [serverParameters al_numberForKey: @"prefetch_video_content"].boolValue;
-            [Chartboost setShouldPrefetchVideoContent: prefetchVideoContent];
         }
     }
     else
@@ -232,7 +225,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
                                          location: location
                                         mediation: self.mediationInfo
                                          delegate: self.adViewDelegate];
-    self.adView.automaticallyRefreshesContent = NO;
     
     [self.adView cache];
 }
@@ -299,7 +291,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     }
     else
     {
-        return CBLocationDefault;
+        return @"Default";
     }
 }
 
@@ -328,6 +320,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         case CHBCacheErrorCodePublisherDisabled:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
+        case CHBCacheErrorCodeServerError:
+            adapterError = MAAdapterError.serverError;
+            break;
     }
     
 #pragma clang diagnostic push
@@ -350,9 +345,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         case CHBShowErrorCodePresentationFailure:
             adapterError = MAAdapterError.internalError;
             break;
-        case CHBShowErrorCodeAdAlreadyVisible:
-            adapterError = MAAdapterError.invalidLoadState;
-            break;
         case CHBShowErrorCodeSessionNotStarted:
             adapterError = MAAdapterError.notInitialized;
             break;
@@ -361,6 +353,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
         case CHBShowErrorCodeNoCachedAd:
             adapterError = MAAdapterError.adNotReady;
+            break;
+        case CHBShowErrorCodeNoViewController:
+            adapterError = MAAdapterError.missingViewController;
             break;
     }
     
@@ -446,7 +441,13 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.description];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                         errorString: @"Ad Display Failed"
+                                              thirdPartySdkErrorCode: error.code
+                                           thirdPartySdkErrorMessage: error.description];
+#pragma clang diagnostic pop
         
         [self.parentAdapter log: @"Interstitial failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -456,13 +457,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"Interstitial shown: %@", event.ad.location];
         [self.delegate didDisplayInterstitialAd];
     }
-}
-
-// This is a way to add custom handling for clicks. We return NO to indicate the click isn't handled.
-- (BOOL)shouldConfirmClick:(CHBClickEvent *)event confirmationHandler:(void(^)(BOOL))confirmationHandler
-{
-    [self.parentAdapter log: @"Interstitial should confirm click: %@", event.ad.location];
-    return NO;
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error
@@ -476,11 +470,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"Interstitial clicked: %@", event.ad.location];
         [self.delegate didClickInterstitialAd];
     }
-}
-
-- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error
-{
-    [self.parentAdapter log: @"Interstitial did finish handling click: %@", event.ad.location];
 }
 
 - (void)didDismissAd:(CHBDismissEvent *)event
@@ -541,7 +530,13 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.description];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                         errorString: @"Ad Display Failed"
+                                              thirdPartySdkErrorCode: error.code
+                                           thirdPartySdkErrorMessage: error.description];
+#pragma clang diagnostic pop
         
         [self.parentAdapter log: @"Rewarded failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
@@ -555,13 +550,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     }
 }
 
-// This is a way to add custom handling for clicks. We return NO to indicate the click isn't handled.
-- (BOOL)shouldConfirmClick:(CHBClickEvent *)event confirmationHandler:(void(^)(BOOL))confirmationHandler
-{
-    [self.parentAdapter log: @"Rewarded should confirm click: %@", event.ad.location];
-    return NO;
-}
-
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error
 {
     if ( error )
@@ -573,11 +561,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"Rewarded clicked: %@", event.ad.location];
         [self.delegate didClickRewardedAd];
     }
-}
-
-- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error
-{
-    [self.parentAdapter log: @"Rewarded did finish handling click: %@", event.ad.location];
 }
 
 // This is called when the video has completed and has earned the reward.
@@ -608,7 +591,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 @end
 
-#pragma mark - CHBRewardedDelegate
+#pragma mark - CHBBannerDelegate
 
 @implementation ALChartboostAdViewDelegate
 
@@ -663,7 +646,13 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.description];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                         errorString: @"Ad Display Failed"
+                                              thirdPartySdkErrorCode: error.code
+                                           thirdPartySdkErrorMessage: error.description];
+#pragma clang diagnostic pop
         
         [self.parentAdapter log: @"%@ ad failed \"%@\" to show with error: %@", self.adFormat.label, event.ad.location, error];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
@@ -673,13 +662,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"%@ ad shown: %@", self.adFormat.label, event.ad.location];
         [self.delegate didDisplayAdViewAd];
     }
-}
-
-// This is a way to add custom handling for clicks. We return NO to indicate the click isn't handled.
-- (BOOL)shouldConfirmClick:(CHBClickEvent *)event confirmationHandler:(void (^)(BOOL))confirmationHandler
-{
-    [self.parentAdapter log: @"%@ ad should confirm click: %@", self.adFormat.label, event.ad.location];
-    return NO;
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error
