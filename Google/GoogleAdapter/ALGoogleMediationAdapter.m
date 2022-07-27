@@ -9,7 +9,7 @@
 #import "ALGoogleMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.7.0.1"
+#define ADAPTER_VERSION @"9.8.0.0"
 
 @interface ALGoogleMediationAdapterInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
@@ -121,6 +121,7 @@ static NSString *ALGoogleSDKVersion;
         [self updateAgeRestrictedUser: parameters];
         
         // Prevent AdMob SDK from auto-initing its adapters in AB testing environments.
+        // NOTE: If MAX makes an ad request to AdMob, and the AdMob account has AL enabled (e.g. AppLovin Bidding) _and_ detects the AdMob<->AppLovin adapter, AdMob will still attempt to initialize AppLovin
         [GADMobileAds.sharedInstance disableMediationInitialization];
         
         [[GADMobileAds sharedInstance] startWithCompletionHandler:^(GADInitializationStatus *status) {
