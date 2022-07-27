@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.8.0.0
+* Certified with GoogleAdManager SDK 9.8.0.
+
 ## 9.7.0.0
 * Certified with GoogleAdManager SDK 9.7.0.
 * Use local scope copy of native ad while preparing view.
