@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationByteDanceAdapter'
-s.version = '4.5.2.8.1'
+s.version = '4.6.1.3.0'
 s.platform = :ios, '10.0'
 s.summary = 'ByteDance adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -29,8 +29,8 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'Ads-Global/BUAdSDK', '= 4.5.2.8'
-s.dependency 'Ads-Global/Domestic', '= 4.5.2.8'
+s.dependency 'Ads-Global/BUAdSDK', '= 4.6.1.3'
+s.dependency 'Ads-Global/Domestic', '= 4.6.1.3'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
