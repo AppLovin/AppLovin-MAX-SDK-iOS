@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.1.7"
+#define ADAPTER_VERSION @"6.0.3.0"
 
 /**
  * Dedicated delegate object for HyprMX initialization.

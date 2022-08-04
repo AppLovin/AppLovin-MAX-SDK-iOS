@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.3.0
+* Certified with HyprMX SDK 6.0.3.
+
 ## 6.0.1.7
 * Update consent status before collecting signal. 
 
