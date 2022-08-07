@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D4063E0288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063DF288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m */; };
+		1D4063E4288A167100AAF8C7 /* ALGoogleRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063E3288A167100AAF8C7 /* ALGoogleRewardedDelegate.m */; };
+		1D4063E7288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063E6288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.m */; };
+		1D4063EA288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063E9288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m */; };
+		1D4063ED288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063EC288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.m */; };
+		1D4063F0288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063EF288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m */; };
+		1D4063F3288A1D3600AAF8C7 /* ALGoogleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063F2288A1D3600AAF8C7 /* ALGoogleNativeAd.m */; };
 		1D5748D821C79E13004C8981 /* ALGoogleMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALGoogleMediationAdapter.m */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 /* End PBXBuildFile section */
@@ -26,6 +33,20 @@
 
 /* Begin PBXFileReference section */
 		1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D4063DE288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleInterstitialDelegate.h; sourceTree = "<group>"; };
+		1D4063DF288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleInterstitialDelegate.m; sourceTree = "<group>"; };
+		1D4063E2288A167100AAF8C7 /* ALGoogleRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleRewardedDelegate.h; sourceTree = "<group>"; };
+		1D4063E3288A167100AAF8C7 /* ALGoogleRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleRewardedDelegate.m; sourceTree = "<group>"; };
+		1D4063E5288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleRewardedInterstitialDelegate.h; sourceTree = "<group>"; };
+		1D4063E6288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleRewardedInterstitialDelegate.m; sourceTree = "<group>"; };
+		1D4063E8288A17B600AAF8C7 /* ALGoogleAdViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleAdViewDelegate.h; sourceTree = "<group>"; };
+		1D4063E9288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleAdViewDelegate.m; sourceTree = "<group>"; };
+		1D4063EB288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleNativeAdViewDelegate.h; sourceTree = "<group>"; };
+		1D4063EC288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleNativeAdViewDelegate.m; sourceTree = "<group>"; };
+		1D4063EE288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleNativeAdDelegate.h; sourceTree = "<group>"; };
+		1D4063EF288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleNativeAdDelegate.m; sourceTree = "<group>"; };
+		1D4063F1288A1D3600AAF8C7 /* ALGoogleNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleNativeAd.h; sourceTree = "<group>"; };
+		1D4063F2288A1D3600AAF8C7 /* ALGoogleNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleNativeAd.m; sourceTree = "<group>"; };
 		1D9AE8E221423C7D00080475 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1D9AE8E321423C7D00080475 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		1D9AE8E421423C7D00080475 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -113,6 +134,20 @@
 			children = (
 				6A561CD6219BB58300E3749A /* ALGoogleMediationAdapter.h */,
 				6A561CD5219BB58300E3749A /* ALGoogleMediationAdapter.m */,
+				1D4063E8288A17B600AAF8C7 /* ALGoogleAdViewDelegate.h */,
+				1D4063E9288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m */,
+				1D4063DE288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.h */,
+				1D4063DF288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m */,
+				1D4063EE288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.h */,
+				1D4063EF288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m */,
+				1D4063EB288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.h */,
+				1D4063EC288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.m */,
+				1D4063E2288A167100AAF8C7 /* ALGoogleRewardedDelegate.h */,
+				1D4063E3288A167100AAF8C7 /* ALGoogleRewardedDelegate.m */,
+				1D4063E5288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.h */,
+				1D4063E6288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.m */,
+				1D4063F1288A1D3600AAF8C7 /* ALGoogleNativeAd.h */,
+				1D4063F2288A1D3600AAF8C7 /* ALGoogleNativeAd.m */,
 			);
 			path = GoogleAdapter;
 			sourceTree = "<group>";
@@ -195,6 +230,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D4063E7288A16D300AAF8C7 /* ALGoogleRewardedInterstitialDelegate.m in Sources */,
+				1D4063F0288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m in Sources */,
+				1D4063E0288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m in Sources */,
+				1D4063E4288A167100AAF8C7 /* ALGoogleRewardedDelegate.m in Sources */,
+				1D4063F3288A1D3600AAF8C7 /* ALGoogleNativeAd.m in Sources */,
+				1D4063ED288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.m in Sources */,
+				1D4063EA288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m in Sources */,
 				1D5748D821C79E13004C8981 /* ALGoogleMediationAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
