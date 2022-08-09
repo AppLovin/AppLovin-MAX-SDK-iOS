@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.5.2.1"
+#define ADAPTER_VERSION @"4.5.2.2"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -263,19 +263,20 @@ static NSString *ALAPSSDKVersion;
         }
         
         // In the case that Amazon loses the auction - clean up the mediation hints
-        
         NSTimeInterval mediationHintsCacheCleanupDelaySec = [parameters.serverParameters al_numberForKey: @"mediation_hints_cleanup_delay_sec"
                                                                                             defaultValue: @(5 * 60)].al_timeIntervalValue;
         
         if ( mediationHintsCacheCleanupDelaySec > 0 )
         {
+            NSString *mediationHintsId = mediationHints.identifier;
+            
             dispatchOnMainQueueAfter(mediationHintsCacheCleanupDelaySec, ^{
                 
                 @synchronized ( ALMediationHintsCacheLock )
                 {
                     // Check if this is the same mediation hints / bid info as when the cleanup was scheduled
                     ALTAMAmazonMediationHints *currentMediationHints = ALMediationHintsCache[encodedBidId];
-                    if ( [currentMediationHints.identifier isEqual: mediationHints.identifier] )
+                    if ( [currentMediationHints.identifier isEqual: mediationHintsId] )
                     {
                         [ALMediationHintsCache removeObjectForKey: encodedBidId];
                     }
