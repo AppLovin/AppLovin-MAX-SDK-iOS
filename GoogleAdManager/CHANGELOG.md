@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.9.0.0
+* Certified with GoogleAdManager SDK 9.9.0.
+
 ## 9.8.0.1
 * Fix impression tracking for fullscreen ads.
 
