@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.6.0.1"
+#define ADAPTER_VERSION @"9.8.0.1"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -792,7 +792,6 @@ static NSString *ALGoogleSDKVersion;
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Interstitial ad shown: %@", self.placementIdentifier];
-    [self.delegate didDisplayInterstitialAd];
 }
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
@@ -812,6 +811,7 @@ static NSString *ALGoogleSDKVersion;
 - (void)adDidRecordImpression:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Interstitial ad impression recorded: %@", self.placementIdentifier];
+    [self.delegate didDisplayInterstitialAd];
 }
 
 - (void)adDidRecordClick:(id<GADFullScreenPresentingAd>)ad
@@ -847,8 +847,6 @@ static NSString *ALGoogleSDKVersion;
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded interstitial ad shown: %@", self.placementIdentifier];
-    
-    [self.delegate didDisplayRewardedInterstitialAd];
     [self.delegate didStartRewardedInterstitialAdVideo];
 }
 
@@ -869,6 +867,7 @@ static NSString *ALGoogleSDKVersion;
 - (void)adDidRecordImpression:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded interstitial ad impression recorded: %@", self.placementIdentifier];
+    [self.delegate didDisplayRewardedInterstitialAd];
 }
 
 - (void)adDidRecordClick:(id<GADFullScreenPresentingAd>)ad
@@ -913,8 +912,6 @@ static NSString *ALGoogleSDKVersion;
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", self.placementIdentifier];
-    
-    [self.delegate didDisplayRewardedAd];
     [self.delegate didStartRewardedAdVideo];
 }
 
@@ -935,6 +932,7 @@ static NSString *ALGoogleSDKVersion;
 - (void)adDidRecordImpression:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded ad impression recorded: %@", self.placementIdentifier];
+    [self.delegate didDisplayRewardedAd];
 }
 
 - (void)adDidRecordClick:(id<GADFullScreenPresentingAd>)ad
@@ -1330,7 +1328,8 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    GADNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
         return;

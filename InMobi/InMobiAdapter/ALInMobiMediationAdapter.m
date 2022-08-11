@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.7.0"
+#define ADAPTER_VERSION @"10.0.8.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -179,11 +179,15 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
+    [self log: @"Collecting signal..."];
+    
     if ( MAAdapterInitializationStatusInitializedFailure == ALInMobiInitializationStatus )
     {
         [delegate didFailToCollectSignalWithErrorMessage: @"InMobi SDK initialization failed."];
         return;
     }
+
+    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
     
     NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
     [delegate didCollectSignal: signal];
@@ -607,7 +611,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Interstitial failed to display with error: %@", error];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -688,7 +698,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
@@ -873,7 +889,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    IMNative *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
         return;

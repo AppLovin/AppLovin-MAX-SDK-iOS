@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.15.2.2
+* Update privacy settings before collecting signal. 
+
 ## 5.15.2.1
 * Add support for returning the main image asset in `MANativeAd` for native ads.
 

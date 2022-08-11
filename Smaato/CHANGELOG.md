@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.7.6.2
+* Use local scope copy of native ad while preparing view.
+* Update privacy settings before collecting signal. 
+
 ## 21.7.6.1
 * Add support for returning the main image asset in `MANativeAd` for native ads.
 

@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.6.1.3.0
+* Certified with ByteDance SDK 4.6.1.3.
+
+## 4.5.2.8.1
+* Update privacy settings before collecting signal. 
+
+## 4.5.2.8.0
+* Certified with ByteDance SDK 4.5.2.8.
+
+## 4.5.2.7.0
+* Certified with ByteDance SDK 4.5.2.7.
+
+## 4.5.2.4.2
+* Downgrade ByteDance SDK to 4.3.1.9 due to discontinued support for `-all_load` linker flag resulting in duplicate symbol warnings.
+* Use local scope copy of native ad while preparing view.
+
 ## 4.5.2.4.1
 * Add support for returning the main image asset in `MANativeAd` for native ads.
 

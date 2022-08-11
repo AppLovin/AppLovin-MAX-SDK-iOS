@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"2.6.2.0"
+#define ADAPTER_VERSION @"2.6.2.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -104,6 +104,8 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
+    
+    [self updateUserConsent: parameters];
     
     NSString *signal = [OguryTokenService getBidderToken];
     [delegate didCollectSignal: signal];

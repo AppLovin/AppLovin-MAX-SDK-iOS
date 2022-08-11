@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.5.2.4.1"
+#define ADAPTER_VERSION @"4.6.1.3.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -180,6 +180,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
         return;
     }
+    
+    [self updateConsentWithParameters: parameters];
 
     NSString *signal = [BUAdSDKManager mopubBiddingToken];
     [delegate didCollectSignal: signal];
@@ -1174,7 +1176,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    BUNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
         return;

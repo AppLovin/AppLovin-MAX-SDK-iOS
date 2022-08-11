@@ -47,8 +47,8 @@
 		5B7A01E327D722E3006A819A /* ALTappxMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALTappxMediationAdapter.h; sourceTree = SOURCE_ROOT; };
 		5B7A01E427D7D986006A819A /* ALTappxMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALTappxMediationAdapter.m; sourceTree = SOURCE_ROOT; };
 		6A561D22219BED2600E3749A /* libTappxAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTappxAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A7E086E27D71EE40051D090 /* AppLovinMediationTappxAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationTappxAdapter.podspec; sourceTree = "<group>"; };
-		6A7E086F27D71EE40051D090 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		6A7E086E27D71EE40051D090 /* AppLovinMediationTappxAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = AppLovinMediationTappxAdapter.podspec; path = ../AppLovinMediationTappxAdapter.podspec; sourceTree = "<group>"; };
+		6A7E086F27D71EE40051D090 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,7 +151,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					6A561D1A219BED2600E3749A = {
@@ -309,10 +309,12 @@
 		6A561D20219BED2600E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = "$(inherited)";
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -329,10 +331,12 @@
 		6A561D21219BED2600E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = "$(inherited)";
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
+				EXCLUDED_ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";

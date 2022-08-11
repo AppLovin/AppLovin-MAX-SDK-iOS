@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.2.1
+* Update privacy settings before collecting signal. 
+
 ## 2.6.2.0
 * Certified with OguryPresage SDK 2.1.0.
 * Distribute adapter as an XCFramework.

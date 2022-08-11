@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.1.5.2
+* Update privacy settings before collecting signal. 
+
 ## 8.1.5.1
 * Add support for IAB's TCFv2 GDPR consent string. Note that you must be on the AppLovin MAX SDK v11.4.2+ and use a TCFv2-compliant framework which stores the consent string in User Defaults via the `IABTCF_TCString` key to use this feature. Fyber will still be filtered out of the waterfall in GDPR regions if the string is not available or one of the criteria is not met.
 * Silence API deprecation warnings.

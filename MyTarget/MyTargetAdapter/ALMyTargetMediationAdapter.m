@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.15.2.1"
+#define ADAPTER_VERSION @"5.15.2.2"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject<MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -116,6 +116,8 @@
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
+    
+    [self updatePrivacyStates: parameters];
     
     NSString *signal = [MTRGManager getBidderToken];
     [delegate didCollectSignal: signal];
@@ -265,7 +267,7 @@
 
 #pragma mark - Helper Methods
 
-- (void)updatePrivacyStates:(id<MAAdapterResponseParameters>)parameters
+- (void)updatePrivacyStates:(id<MAAdapterParameters>)parameters
 {
     if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
     {

@@ -133,6 +133,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 {
     [self log: @"Collecting signal..."];
     
+    [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     NSString *signal = [[VungleSDK sharedSDK] currentSuperTokenForPlacementID: nil forSize: 0];
     [delegate didCollectSignal: signal];
 }
@@ -215,7 +216,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     if ( !willShow || error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" mediatedNetworkErrorCode: error.code mediatedNetworkErrorMessage: error.localizedDescription];;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                         errorString: @"Ad Display Failed"
+                                              thirdPartySdkErrorCode: error.code
+                                           thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
         [self log: @"Interstitial ad failed to display with error: %@", adapterError];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: adapterError];
     }
@@ -301,7 +308,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     if ( !willShow || error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" mediatedNetworkErrorCode: error.code mediatedNetworkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                         errorString: @"Ad Display Failed"
+                                              thirdPartySdkErrorCode: error.code
+                                           thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
         [self log: @"Rewarded ad failed to display with error: %@", adapterError];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: adapterError];
     }
@@ -423,7 +436,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     if ( !willShow || error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" mediatedNetworkErrorCode: error.code mediatedNetworkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                         errorString: @"Ad Display Failed"
+                                              thirdPartySdkErrorCode: error.code
+                                           thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
         [self log: @"%@ ad failed to display with error: %@", adFormatLabel, adapterError];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: adapterError];
     }

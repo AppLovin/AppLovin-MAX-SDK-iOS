@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.0.0.6"
+#define ADAPTER_VERSION @"2.0.0.7"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -163,8 +163,9 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 {
     [self log: @"Collecting signal..."];
     
+    [self updatePrivacyStatesForParameters: parameters];
     [self updateLocationCollectionEnabled: parameters];
-    
+
     NSString *token = [[YASAds sharedInstance] biddingTokenTrimmedToSize: 4000];
     if ( !token )
     {
@@ -911,7 +912,8 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd )
+    YASNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad view for interaction: Native ad is nil."];
         return;

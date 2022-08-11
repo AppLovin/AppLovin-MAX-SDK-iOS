@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.4.1.2
+* Add support for passing creative id to SDK.
+
 ## 1.9.4.1.1
 * Add support for returning the main image asset in `MANativeAd` for native ads.
 

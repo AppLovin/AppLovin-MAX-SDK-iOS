@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.2.1.0"
+#define ADAPTER_VERSION @"4.3.0.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -114,6 +114,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
+    
+    [self updatePrivacyConsent: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     
     [UnityAds getToken:^(NSString *signal) {
         [self log: @"Signal collected"];
@@ -499,7 +501,13 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Interstitial placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error thirdPartySdkErrorMessage: message];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error
+                                       thirdPartySdkErrorMessage: message];
+#pragma clang diagnostic pop
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -564,7 +572,13 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Rewarded ad placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error thirdPartySdkErrorMessage: message];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error
+                                       thirdPartySdkErrorMessage: message];
+#pragma clang diagnostic pop
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 

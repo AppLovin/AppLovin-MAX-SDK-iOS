@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.5.1"
+#define ADAPTER_VERSION @"8.1.5.2"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
 @end
@@ -171,6 +171,8 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
+    
+    [self updateUserInfoWithRequestParameters: parameters];
     
     NSString *signal = [FMPBiddingManager sharedInstance].biddingToken;
     if ( [signal al_isValidString] )
@@ -407,7 +409,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 
 #pragma mark - Shared Methods
 
-- (void)updateUserInfoWithRequestParameters:(id<MAAdapterResponseParameters>)requestParameters
+- (void)updateUserInfoWithRequestParameters:(id<MAAdapterParameters>)requestParameters
 {
     [IASDKCore sharedInstance].userID = self.sdk.userIdentifier;
     

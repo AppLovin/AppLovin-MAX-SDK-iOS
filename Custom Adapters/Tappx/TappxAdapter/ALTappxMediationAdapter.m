@@ -9,7 +9,7 @@
 #import "ALTappxMediationAdapter.h"
 #import "TappxFramework/TappxAds.h"
 
-#define ADAPTER_VERSION @"4.0.10.0"
+#define ADAPTER_VERSION @"4.0.10.1"
 
 /**
  * Interstitial Delegate
@@ -82,6 +82,7 @@
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     [self log: @"Loading interstitial ad..."];
+    [self createAdRequestWithParameters: parameters];
     
     self.interstitialAdDelegate = [[ALTappxInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd = [[TappxInterstitialViewController alloc] initWithDelegate: self.interstitialAdDelegate];
@@ -106,7 +107,7 @@
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -115,6 +116,7 @@
 - (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     [self log: @"Loading %@ ad view ad...", adFormat.label];
+    [self createAdRequestWithParameters: parameters];
     
     self.adViewAdDelegate = [[ALTappxAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     
@@ -126,6 +128,31 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)createAdRequestWithParameters:(id<MAAdapterResponseParameters>)parameters
+{
+    NSString *appKey = [parameters.serverParameters al_stringForKey: @"app_id"];
+    NSDictionary *customParameters = parameters.customParameters;
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    
+    BOOL isTesting = [parameters isTesting] || [customParameters al_boolForKey: @"is_testing"] ||
+    [customParameters al_boolForKey: @"test"] || [localExtraParameters al_boolForKey: @"test"];
+    
+    if ( isTesting )
+    {
+        [TappxFramework addTappxKey: appKey testMode: YES];
+    }
+    else
+    {
+        [TappxFramework addTappxKey: appKey fromNonNative: @"applovin"];
+    }
+    
+    NSString *endpoint = [customParameters al_stringForKey: @"endpoint"];
+    if ( [endpoint al_isValidString] )
+    {
+        [TappxFramework setEndpoint: endpoint];
+    }
+}
 
 + (MAAdapterError *)toMaxError:(TappxErrorAd *)tappxAdError
 {
@@ -152,8 +179,8 @@
     
     return [MAAdapterError errorWithCode: adapterError.code
                              errorString: adapterError.message
-                  thirdPartySdkErrorCode: tappxErrorCode
-               thirdPartySdkErrorMessage: tappxAdError.description];
+                mediatedNetworkErrorCode: tappxErrorCode
+             mediatedNetworkErrorMessage: tappxAdError.description];
 }
 
 - (TappxBannerSize)sizeFromAdFormat:(MAAdFormat *)adFormat

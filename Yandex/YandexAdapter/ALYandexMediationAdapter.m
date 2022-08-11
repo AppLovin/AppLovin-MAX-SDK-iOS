@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"4.4.2.3"
+#define ADAPTER_VERSION @"5.1.0.0"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -71,6 +71,15 @@
 
 @implementation ALYandexMediationAdapter
 
+static YMABidderTokenLoader *ALYandexBidderTokenLoader;
+
++ (void)initialize
+{
+    [super initialize];
+    
+    ALYandexBidderTokenLoader = [[YMABidderTokenLoader alloc] init];
+}
+
 #pragma mark - MAAdapter Methods
 
 - (NSString *)SDKVersion
@@ -109,16 +118,28 @@
     self.adView = nil;
 }
 
+#pragma mark - Signal Collection
+
+- (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    [self log: @"Collecting signal..."];
+
+    [ALYandexBidderTokenLoader loadBidderTokenWithCompletionHandler:^(NSString *bidderToken) {
+        [self log: @"Collected signal"];
+        [delegate didCollectSignal: bidderToken];
+    }];
+}
+
 #pragma mark - MAInterstitialAdapter Methods
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading interstitial ad for placement id: %@...", placementId];
+    [self log: @"Loading %@interstitial ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementId];
     
     [self updateUserConsent: parameters];
     
-    self.interstitialAd = [[YMAInterstitialAd alloc] initWithBlockID: placementId];
+    self.interstitialAd = [[YMAInterstitialAd alloc] initWithAdUnitID: placementId];
     self.interstitialAdapterDelegate = [[ALYandexMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self
                                                                                                       withParameters: parameters
                                                                                                            andNotify: delegate];
@@ -132,7 +153,7 @@
         self.interstitialAd.shouldOpenLinksInApp = [serverParameters al_numberForKey: @"should_open_links_in_app"].boolValue;
     }
     
-    [self.interstitialAd loadWithRequest: [self createAdRequest]];
+    [self.interstitialAd loadWithRequest: [self createAdRequestWithParameters: parameters]];
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -165,11 +186,11 @@
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading rewarded ad for placement id: %@...", placementId];
+    [self log: @"Loading %@rewarded ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementId];
     
     [self updateUserConsent: parameters];
     
-    self.rewardedAd = [[YMARewardedAd alloc] initWithBlockID: placementId];
+    self.rewardedAd = [[YMARewardedAd alloc] initWithAdUnitID: placementId];
     self.rewardedAdapterDelegate = [[ALYandexMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self
                                                                                               withParameters: parameters
                                                                                                    andNotify: delegate];
@@ -183,7 +204,7 @@
         self.rewardedAd.shouldOpenLinksInApp = [serverParameters al_numberForKey: @"should_open_links_in_app"].boolValue;
     }
     
-    [self.rewardedAd loadWithRequest: [self createAdRequest]];
+    [self.rewardedAd loadWithRequest: [self createAdRequestWithParameters: parameters]];
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -219,16 +240,16 @@
 - (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@ ad for placement id: %@...", adFormat.label, placementId];
+    [self log: @"Loading %@%@ ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), adFormat.label, placementId];
     
     [self updateUserConsent: parameters];
 
     self.adViewAdapterDelegate = [[ALYandexMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormatLabel: adFormat.label andNotify: delegate];
     // NOTE: iOS banner ads do not auto-refresh by default
-    self.adView = [[YMAAdView alloc] initWithBlockID: placementId
+    self.adView = [[YMAAdView alloc] initWithAdUnitID: placementId
                                               adSize: [self adSizeFromAdFormat: adFormat]];
     self.adView.delegate = self.adViewAdapterDelegate;
-    [self.adView loadAdWithRequest: [self createAdRequest]];
+    [self.adView loadAdWithRequest: [self createAdRequestWithParameters: parameters]];
 }
 
 #pragma mark - Helper Methods
@@ -272,7 +293,7 @@
     }
 }
 
-- (YMAMutableAdRequest *)createAdRequest
+- (YMAMutableAdRequest *)createAdRequestWithParameters:(id<MAAdapterResponseParameters>)parameters
 {
     // MAX specific
     NSDictionary *adRequestParameters = @{@"adapter_network_name" : @"applovin",
@@ -282,28 +303,14 @@
     YMAMutableAdRequest *adRequest = [[YMAMutableAdRequest alloc] init];
     adRequest.parameters = adRequestParameters;
     
+    adRequest.biddingData = parameters.bidResponse;
+    
     return adRequest;
 }
 
 - (YMAAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
 {
-    if ( adFormat == MAAdFormat.banner )
-    {
-        return [YMAAdSize fixedSizeWithCGSize: YMAAdSizeBanner_320x50];
-    }
-    else if ( adFormat == MAAdFormat.mrec )
-    {
-        return [YMAAdSize fixedSizeWithCGSize: YMAAdSizeBanner_300x250];
-    }
-    else if ( adFormat == MAAdFormat.leader )
-    {
-        return [YMAAdSize fixedSizeWithCGSize: YMAAdSizeBanner_728x90];
-    }
-    else
-    {
-        [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
-        return [YMAAdSize fixedSizeWithCGSize: YMAAdSizeBanner_320x50];
-    }
+    return [YMAAdSize flexibleSizeWithCGSize: adFormat.size];
 }
 
 + (MAAdapterError *)toMaxError:(NSError *)yandexError
@@ -312,9 +319,9 @@
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( yandexErrorCode )
     {
-        case YMAAdErrorCodeEmptyBlockID:
+        case YMAAdErrorCodeEmptyAdUnitID:
         case YMAAdErrorCodeInvalidUUID:
-        case YMAAdErrorCodeNoSuchBlockID:
+        case YMAAdErrorCodeNoSuchAdUnitID:
         case YMAAdErrorCodeAdTypeMismatch:
         case YMAAdErrorCodeAdSizeMismatch:
             adapterError = MAAdapterError.invalidConfiguration;
@@ -404,9 +411,22 @@
 
 - (void)interstitialAdDidFailToPresent:(YMAInterstitialAd *)interstitial error:(NSError *)error
 {
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.parentAdapter log: @"Interstitial ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
+}
+
+- (void)interstitialAdDidClick:(YMAInterstitialAd *)interstitialAd
+{
+    [self.parentAdapter log: @"Interstitial ad clicked"];
+    [self.delegate didClickInterstitialAd];
 }
 
 - (void)interstitialAd:(YMAInterstitialAd *)interstitialAd willPresentScreen:(nullable UIViewController *)webBrowser
@@ -414,7 +434,6 @@
     // This callback and interstitialWillLeaveApplication are mutually exclusive
     // Ad either opens in-app or redirects to another app
     [self.parentAdapter log: @"Interstitial ad clicked and in-app browser opened"];
-    [self.delegate didClickInterstitialAd];
 }
 
 - (void)interstitialAdWillLeaveApplication:(YMAInterstitialAd *)interstitial
@@ -422,7 +441,6 @@
     // This callback and interstitialWillPresentScreen are mutually exclusive
     // Ad either opens in-app or redirects to another app
     [self.parentAdapter log: @"Interstitial ad clicked and left application"];
-    [self.delegate didClickInterstitialAd];
 }
 
 - (void)interstitialAdWillDisappear:(YMAInterstitialAd *)interstitial
@@ -496,9 +514,22 @@
 
 - (void)rewardedAdDidFailToPresent:(YMARewardedAd *)rewardedAd error:(NSError *)error
 {
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
+}
+
+- (void)rewardedAdDidClick:(YMARewardedAd *)rewardedAd
+{
+    [self.parentAdapter log: @"Rewarded ad clicked"];
+    [self.delegate didClickRewardedAd];
 }
 
 - (void)rewardedAd:(YMARewardedAd *)rewardedAd willPresentScreen:(UIViewController *)viewController
@@ -506,7 +537,6 @@
     // This callback and rewardedAdWillLeaveApplication are mutually exclusive
     // Ad either opens in-app or redirects to another app
     [self.parentAdapter log: @"Rewarded ad clicked and in-app browser opened"];
-    [self.delegate didClickRewardedAd];
 }
 
 - (void)rewardedAdWillLeaveApplication:(YMARewardedAd *)rewardedAd
@@ -514,7 +544,6 @@
     // This callback and willPresentScreen are mutually exclusive
     // Ad either opens in-app or redirects to another app
     [self.parentAdapter log: @"Rewarded ad clicked and left application"];
-    [self.delegate didClickRewardedAd];
 }
 
 - (void)rewardedAd:(YMARewardedAd *)rewardedAd didReward:(id<YMAReward>)reward
@@ -577,12 +606,17 @@
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
 }
 
+- (void)adViewDidClick:(YMAAdView *)adView
+{
+    [self.parentAdapter log: @"%@ ad clicked", self.adFormatLabel];
+    [self.delegate didClickAdViewAd];
+}
+
 - (void)adView:(YMAAdView *)adView willPresentScreen:(nullable UIViewController *)viewController
 {
     // This callback and adViewWillLeaveApplication are mutually exclusive
     // Ad either opens in-app or redirects to another app
     [self.parentAdapter log: @"%@ ad clicked and in-app browser opened", self.adFormatLabel];
-    [self.delegate didClickAdViewAd];
     [self.delegate didExpandAdViewAd];
 }
 
@@ -591,7 +625,6 @@
     // This callback and adViewWillPresentScreen are mutually exclusive
     // Ad either opens in-app or redirects to another app
     [self.parentAdapter log: @"%@ ad clicked and left application", self.adFormatLabel];
-    [self.delegate didClickAdViewAd];
 }
 
 - (void)adView:(YMAAdView *)adView didDismissScreen:(nullable UIViewController *)viewController

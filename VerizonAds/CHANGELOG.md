@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0.7
+* Use local scope copy of native ad while preparing view.
+* Update privacy settings before collecting signal. 
+
 ## 2.0.0.6
 * Remove duplicate `prepareView` call.
 

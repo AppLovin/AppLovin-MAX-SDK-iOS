@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.11.1.0"
+#define ADAPTER_VERSION @"6.11.2.1"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -198,6 +198,8 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
+    
+    [self updateAdSettingsWithParameters: parameters];
     
     NSString *signal = FBAdSettings.bidderToken;
     [delegate didCollectSignal: signal];
@@ -1172,7 +1174,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    if ( !self.parentAdapter.nativeAd && !self.parentAdapter.nativeBannerAd )
+    FBNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    FBNativeBannerAd *nativeBannerAd = self.parentAdapter.nativeBannerAd;
+    if ( !nativeAd && !nativeBannerAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
         return;

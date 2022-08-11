@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.9.0.0.0"
+#define ADAPTER_VERSION @"4.9.0.0.2"
 
 @interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
@@ -130,7 +130,9 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
-    
+
+    [AdColony setAppOptions: [self optionsFromParameters: parameters]];
+
     [AdColony collectSignals:^(NSString *token, NSError *error) {
         if ( error )
         {
@@ -630,6 +632,12 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     
     MAAdapterError *adapterError = [ALAdColonyMediationAdapter toMaxError: error];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)adColonyAdViewDidShow:(AdColonyAdView *)adView
+{
+    [self.parentAdapter log: @"Ad View ad shown"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)adColonyAdViewWillLeaveApplication:(AdColonyAdView *)adView
