@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.6.1.8.0"
+#define ADAPTER_VERSION @"4.6.1.8.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -330,7 +330,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         {
             self.adViewAd = [[BUNativeExpressBannerView alloc] initWithSlotID: slotId
                                                            rootViewController: [ALUtils topViewControllerFromKeyWindow]
-                                                                       adSize: [self sizeFromAdFormat: adFormat]];
+                                                                       adSize: adFormat.size];
             self.adViewAdDelegate = [[ALByteDanceAdViewAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
             self.adViewAd.delegate = self.adViewAdDelegate;
             
@@ -382,23 +382,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 }
 
 #pragma mark - Helper Methods
-
-- (CGSize)sizeFromAdFormat:(MAAdFormat *)adFormat
-{
-    if ( adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader )
-    {
-        return CGSizeMake(320, 50);
-    }
-    else if ( adFormat == MAAdFormat.mrec )
-    {
-        return CGSizeMake(300, 250);
-    }
-    else
-    {
-        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
-        return CGSizeZero;
-    }
-}
 
 - (NSString *)createUserExtData:(id<MAAdapterParameters>)parameters isInitializing:(BOOL)isInitializing
 {
