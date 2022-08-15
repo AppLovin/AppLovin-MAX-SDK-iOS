@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.11.0.3"
+#define ADAPTER_VERSION @"6.12.0.0"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -127,7 +127,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
     
-    NSString *signal = [[VungleSDK sharedSDK] currentSuperToken];
+    NSString *signal = [[VungleSDK sharedSDK] currentSuperTokenForPlacementID: nil forSize: 0];
     [delegate didCollectSignal: signal];
 }
 
@@ -408,7 +408,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.router updateAdView: self.adView forPlacementIdentifier: placementIdentifier];
     [self.router addShowingAdapter: self];
     
-    NSMutableDictionary *adOptions = [self adOptionsForServerParameters: parameters.serverParameters isFullscreenAd: NO];
+    NSMutableDictionary *adOptions = [self adOptionsForParameters: parameters isFullscreenAd: NO];
     NSError *error;
     
     // Note: Vungle ad view ads require an additional step to load. A failed [addAdViewToView:] would be considered a failed load.
@@ -495,7 +495,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (BOOL)showFullscreenAdForParameters:(id<MAAdapterResponseParameters>)parameters error:(NSError **)error
 {
-    NSMutableDictionary *adOptions = [self adOptionsForServerParameters: parameters.serverParameters isFullscreenAd: YES];
+    NSMutableDictionary *adOptions = [self adOptionsForParameters: parameters isFullscreenAd: YES];
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     
@@ -526,12 +526,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
-- (NSMutableDictionary *)adOptionsForServerParameters:(NSDictionary<NSString *, id> *)serverParameters isFullscreenAd:(BOOL)isFullscreenAd
+- (NSMutableDictionary *)adOptionsForParameters:(id<MAAdapterResponseParameters>)parameters isFullscreenAd:(BOOL)isFullscreenAd
 {
+    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
     // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] ) // Introduced in 6.10.0
+    if ( ![parameters.localExtraParameters al_boolForKey: @"ignore_mute_state"] && [serverParameters al_containsValueForKey: @"is_muted"] ) // Introduced in 6.10.0
     {
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         [VungleSDK sharedSDK].muted = muted;
@@ -543,12 +544,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     {
         options[VunglePlayAdOptionKeyUser] = [serverParameters al_stringForKey: @"user_id"];
     }
-    
-    if ( [serverParameters al_containsValueForKey: @"ordinal"] )
-    {
-        options[VunglePlayAdOptionKeyOrdinal] = [serverParameters al_numberForKey: @"ordinal"];
-    }
-    
+
     if ( [serverParameters al_containsValueForKey: @"flex_view_auto_dismiss_seconds"] )
     {
         options[VunglePlayAdOptionKeyFlexViewAutoDismissSeconds] = [serverParameters al_numberForKey: @"flex_view_auto_dismiss_seconds"];
