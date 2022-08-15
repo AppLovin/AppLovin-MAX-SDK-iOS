@@ -15,6 +15,7 @@
 		1D4063F0288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063EF288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m */; };
 		1D4063F3288A1D3600AAF8C7 /* ALGoogleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063F2288A1D3600AAF8C7 /* ALGoogleNativeAd.m */; };
 		1D5748D821C79E13004C8981 /* ALGoogleMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALGoogleMediationAdapter.m */; };
+		6078AADF28A580F800631E46 /* ALGoogleAppOpenDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6078AADE28A580F800631E46 /* ALGoogleAppOpenDelegate.m */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,8 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6078AADB28A57ADE00631E46 /* ALGoogleAppOpenDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALGoogleAppOpenDelegate.h; sourceTree = "<group>"; };
+		6078AADE28A580F800631E46 /* ALGoogleAppOpenDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALGoogleAppOpenDelegate.m; sourceTree = "<group>"; };
 		6A561CD5219BB58300E3749A /* ALGoogleMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGoogleMediationAdapter.m; sourceTree = "<group>"; };
 		6A561CD6219BB58300E3749A /* ALGoogleMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGoogleMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CEF219BB5D400E3749A /* libGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +139,8 @@
 				6A561CD5219BB58300E3749A /* ALGoogleMediationAdapter.m */,
 				1D4063E8288A17B600AAF8C7 /* ALGoogleAdViewDelegate.h */,
 				1D4063E9288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m */,
+				6078AADB28A57ADE00631E46 /* ALGoogleAppOpenDelegate.h */,
+				6078AADE28A580F800631E46 /* ALGoogleAppOpenDelegate.m */,
 				1D4063DE288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.h */,
 				1D4063DF288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m */,
 				1D4063EE288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.h */,
@@ -234,6 +239,7 @@
 				1D4063F0288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m in Sources */,
 				1D4063E0288A15E200AAF8C7 /* ALGoogleInterstitialDelegate.m in Sources */,
 				1D4063E4288A167100AAF8C7 /* ALGoogleRewardedDelegate.m in Sources */,
+				6078AADF28A580F800631E46 /* ALGoogleAppOpenDelegate.m in Sources */,
 				1D4063F3288A1D3600AAF8C7 /* ALGoogleNativeAd.m in Sources */,
 				1D4063ED288A17F700AAF8C7 /* ALGoogleNativeAdViewDelegate.m in Sources */,
 				1D4063EA288A17B600AAF8C7 /* ALGoogleAdViewDelegate.m in Sources */,
