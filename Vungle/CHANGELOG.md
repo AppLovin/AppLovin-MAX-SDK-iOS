@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.12.0.1
+* Update mute logic to only call `[VungleSDK sharedSDK].muted` and `options[VunglePlayAdOptionKeyStartMuted]` if publisher explicitly requested ads to be muted.
+
 ## 6.12.0.0
 * Certified with Vungle SDK 6.12.0.
 * Update deprecated API usage of `[[VungleSDK sharedSDK] currentSuperToken]` to `[[VungleSDK sharedSDK] currentSuperTokenForPlacementID:forSize:] `.
