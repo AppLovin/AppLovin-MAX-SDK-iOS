@@ -1,5 +1,13 @@
 # Changelog
 
+## 6.12.0.1
+* Update mute logic to only call `[VungleSDK sharedSDK].muted` and `options[VunglePlayAdOptionKeyStartMuted]` if publisher explicitly requested ads to be muted.
+
+## 6.12.0.0
+* Certified with Vungle SDK 6.12.0.
+* Update deprecated API usage of `[[VungleSDK sharedSDK] currentSuperToken]` to `[[VungleSDK sharedSDK] currentSuperTokenForPlacementID:forSize:] `.
+* Add local extra parameter 'ignore_mute_state' to ignore mute settings.
+
 ## 6.11.0.3
 * Silence API deprecation warnings.
 * Update privacy settings before collecting signal. 
@@ -14,6 +22,9 @@
 
 ## 6.11.0.0
 * Certified with Vungle SDK 6.11.0.
+
+## 6.10.6.3
+* Add local extra parameter 'ignore_mute_state' to ignore mute settings. (for this version only)
 
 ## 6.10.6.2
 * Add support for passing in a presenting view controller.

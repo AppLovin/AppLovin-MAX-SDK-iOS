@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.8.0.1"
+#define ADAPTER_VERSION @"9.9.0.1"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -18,6 +18,15 @@
 - (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
                   placementIdentifier:(NSString *)placementIdentifier
                             andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
+@end
+
+@interface ALGoogleAdManagerAppOpenDelegate : NSObject<GADFullScreenContentDelegate>
+@property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
+@property (nonatomic, strong) NSString *placementIdentifier;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
+                  placementIdentifier:(NSString *)placementIdentifier
+                            andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
 @interface ALGoogleAdManagerRewardedInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
@@ -78,6 +87,7 @@
 @interface ALGoogleAdManagerMediationAdapter()
 
 @property (nonatomic, strong) GAMInterstitialAd *interstitialAd;
+@property (nonatomic, strong) GADAppOpenAd *appOpenAd;
 @property (nonatomic, strong) GADRewardedInterstitialAd *rewardedInterstitialAd;
 @property (nonatomic, strong) GADRewardedAd *rewardedAd;
 @property (nonatomic, strong) GAMBannerView *adView;
@@ -86,6 +96,7 @@
 @property (nonatomic, strong) GADNativeAd *nativeAd;
 
 @property (nonatomic, strong) ALGoogleAdManagerInterstitialDelegate *interstitialAdapterDelegate;
+@property (nonatomic, strong) ALGoogleAdManagerAppOpenDelegate *appOpenAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerRewardedInterstitialDelegate *rewardedInterstitialAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerRewardedDelegate *rewardedAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerAdViewDelegate *adViewAdapterDelegate;
@@ -128,6 +139,10 @@ static NSString *ALGoogleSDKVersion;
     self.interstitialAd.fullScreenContentDelegate = nil;
     self.interstitialAd = nil;
     self.interstitialAdapterDelegate = nil;
+    
+    self.appOpenAd.fullScreenContentDelegate = nil;
+    self.appOpenAd = nil;
+    self.appOpenAdapterDelegate = nil;
     
     self.rewardedInterstitialAd.fullScreenContentDelegate = nil;
     self.rewardedInterstitialAd = nil;
@@ -228,6 +243,85 @@ static NSString *ALGoogleSDKVersion;
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+    }
+}
+
+#pragma mark - MAAppOpenAdapter Methods
+
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading app open ad: %@...", placementIdentifier];
+
+    [self updateMuteStateFromResponseParameters: parameters];
+    [self setRequestConfigurationWithParameters: parameters];
+    GADRequest *request = [self createAdRequestWithParameters: parameters];
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    [GADAppOpenAd loadWithAdUnitID: placementIdentifier
+                           request: request
+                       orientation: orientation
+                 completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
+        
+        if ( error )
+        {
+            MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
+            [self log: @"App open ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
+            [delegate didFailToLoadAppOpenAdWithError: adapterError];
+            
+            return;
+        }
+        
+        if ( !appOpenAd )
+        {
+            [self log: @"App open ad (%@) failed to load: ad is nil", placementIdentifier];
+            [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.adNotReady];
+            
+            return;
+        }
+        
+        [self log: @"App open ad loaded: %@", placementIdentifier];
+        
+        self.appOpenAd = appOpenAd;
+        self.appOpenAdapterDelegate = [[ALGoogleAdManagerAppOpenDelegate alloc] initWithParentAdapter: self
+                                                                                  placementIdentifier: placementIdentifier
+                                                                                            andNotify: delegate];
+        self.appOpenAd.fullScreenContentDelegate = self.appOpenAdapterDelegate;
+        
+        NSString *responseId = self.appOpenAd.responseInfo.responseIdentifier;
+        if ( [responseId al_isValidString] )
+        {
+            [delegate didLoadAppOpenAdWithExtraInfo: @{@"creative_id" : responseId}];
+        }
+        else
+        {
+            [delegate didLoadAppOpenAd];
+        }
+    }];
+}
+
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing app open ad: %@...", placementIdentifier];
+    
+    if ( self.appOpenAd )
+    {
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        [self.appOpenAd presentFromRootViewController: presentingViewController];
+    }
+    else
+    {
+        [self log: @"App open ad failed to show: %@", placementIdentifier];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
 }
 
@@ -824,6 +918,62 @@ static NSString *ALGoogleSDKVersion;
 {
     [self.parentAdapter log: @"Interstitial ad hidden: %@", self.placementIdentifier];
     [self.delegate didHideInterstitialAd];
+}
+
+@end
+
+@implementation ALGoogleAdManagerAppOpenDelegate
+
+- (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
+                  placementIdentifier:(NSString *)placementIdentifier
+                            andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.placementIdentifier = placementIdentifier;
+        self.delegate = delegate;
+    }
+    
+    return self;
+}
+
+- (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
+{
+    [self.parentAdapter log: @"App open ad shown: %@", self.placementIdentifier];
+}
+
+- (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
+    [self.parentAdapter log: @"App open ad (%@) failed to show with error: %@", self.placementIdentifier, adapterError];
+    [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
+}
+
+- (void)adDidRecordImpression:(id<GADFullScreenPresentingAd>)ad
+{
+    [self.parentAdapter log: @"App open ad impression recorded: %@", self.placementIdentifier];
+    [self.delegate didDisplayAppOpenAd];
+}
+
+- (void)adDidRecordClick:(id<GADFullScreenPresentingAd>)ad
+{
+    [self.parentAdapter log: @"App open ad click recorded: %@", self.placementIdentifier];
+    [self.delegate didClickAppOpenAd];
+}
+
+- (void)adDidDismissFullScreenContent:(id<GADFullScreenPresentingAd>)ad
+{
+    [self.parentAdapter log: @"App open ad hidden: %@", self.placementIdentifier];
+    [self.delegate didHideAppOpenAd];
 }
 
 @end

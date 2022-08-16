@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.9.0.1
+* Add support for app open ads.
+
+## 9.9.0.0
+* Certified with Google SDK 9.9.0.
+
 ## 9.8.0.1
 * Fix impression tracking for fullscreen ads.
 * Break out listeners into different files.

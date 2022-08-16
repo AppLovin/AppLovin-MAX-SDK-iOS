@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.12.0.0"
+#define ADAPTER_VERSION @"6.12.0.1"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -134,6 +134,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self log: @"Collecting signal..."];
     
     [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
+    
     NSString *signal = [[VungleSDK sharedSDK] currentSuperTokenForPlacementID: nil forSize: 0];
     [delegate didCollectSignal: signal];
 }
@@ -413,7 +414,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.router updateAdView: self.adView forPlacementIdentifier: placementIdentifier];
     [self.router addShowingAdapter: self];
     
-    NSMutableDictionary *adOptions = [self adOptionsForServerParameters: parameters.serverParameters isFullscreenAd: NO];
+    NSMutableDictionary *adOptions = [self adOptionsForParameters: parameters isFullscreenAd: NO];
     NSError *error;
     
     // Note: Vungle ad view ads require an additional step to load. A failed [addAdViewToView:] would be considered a failed load.
@@ -518,7 +519,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (BOOL)showFullscreenAdForParameters:(id<MAAdapterResponseParameters>)parameters error:(NSError **)error
 {
-    NSMutableDictionary *adOptions = [self adOptionsForServerParameters: parameters.serverParameters isFullscreenAd: YES];
+    NSMutableDictionary *adOptions = [self adOptionsForParameters: parameters isFullscreenAd: YES];
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     
@@ -549,36 +550,19 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
-- (NSMutableDictionary *)adOptionsForServerParameters:(NSDictionary<NSString *, id> *)serverParameters isFullscreenAd:(BOOL)isFullscreenAd
+- (NSMutableDictionary *)adOptionsForParameters:(id<MAAdapterResponseParameters>)parameters isFullscreenAd:(BOOL)isFullscreenAd
 {
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] ) // Introduced in 6.10.0
+    // Vungle requested for mute state to only be updated if publisher explicitly muted
+    if ( [parameters.serverParameters al_boolForKey: @"is_muted"] )
     {
-        BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
-        // The mute status for Vungle will only be overwritten if YES.
-        // If the publisher wants the ad to play with sound, the publisher should not set this property.
-        if ( muted )
-        {
-            [VungleSDK sharedSDK].muted = muted;
-            options[VunglePlayAdOptionKeyStartMuted] = @(muted);
-        }
-    }
-    
-    if ( [serverParameters al_containsValueForKey: @"user_id"] )
-    {
-        options[VunglePlayAdOptionKeyUser] = [serverParameters al_stringForKey: @"user_id"];
-    }
-    
-    if ( [serverParameters al_containsValueForKey: @"flex_view_auto_dismiss_seconds"] )
-    {
-        options[VunglePlayAdOptionKeyFlexViewAutoDismissSeconds] = [serverParameters al_numberForKey: @"flex_view_auto_dismiss_seconds"];
+        [VungleSDK sharedSDK].muted = YES;
+        options[VunglePlayAdOptionKeyStartMuted] = @(YES);
     }
     
     // If the app is currently in landscape, lock the ad to landscape. This was an iOS-only bug where Vungle would quickly show an ad in portrait, then
     // landscape which is poor UX and caused issues in a pub app. Note that we can't set it for AdView ads as Vungle's SDK will rotate the publisher's app.
-    // https://app.asana.com/0/inbox/20387143076904
     if ( isFullscreenAd && ([ALUtils currentOrientationMask] & UIInterfaceOrientationMaskLandscape) )
     {
         options[VunglePlayAdOptionKeyOrientations] = @(UIInterfaceOrientationMaskLandscape);
