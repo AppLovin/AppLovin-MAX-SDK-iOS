@@ -722,6 +722,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Rewarded ad did show"];
+    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params
@@ -759,7 +760,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 -(void)interstitialAdImpressed:(IMInterstitial *)interstitial {
     [self.parentAdapter log: @"Rewarded ad impressed"];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 @end
