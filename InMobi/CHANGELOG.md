@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.8.2
+* Added support for banner, interstitial and rewarded adImpressed callback.
+
 ## 10.0.8.1
 * Silence API deprecation warnings.
 * Use local scope copy of native ad while preparing view.
