@@ -526,9 +526,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [self.delegate didLoadAdForAdView: banner];
     }
-    
-    // InMobi track impressions in the `bannerDidFinishLoading:` callback
-    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
@@ -560,6 +557,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)userWillLeaveApplicationFromBanner:(IMBanner *)banner
 {
     [self.parentAdapter log: @"AdView will leave application"];
+}
+
+-(void)bannerAdImpressed:(IMBanner *)banner {
+    [self.parentAdapter log: @"AdView impressed"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 @end
@@ -629,7 +631,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Interstitial did show"];
-    [self.delegate didDisplayInterstitialAd];
 }
 
 - (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params
@@ -647,6 +648,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)userWillLeaveApplicationFromInterstitial:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Interstitial will leave application"];
+}
+
+-(void)interstitialAdImpressed:(IMInterstitial *)interstitial {
+    [self.parentAdapter log: @"Interstitial impressed"];
+    [self.delegate didDisplayInterstitialAd];
 }
 
 @end
@@ -716,8 +722,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Rewarded ad did show"];
-    [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params
@@ -750,6 +754,12 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Rewarded ad granted reward"];
     self.grantedReward = YES;
+}
+
+-(void)interstitialAdImpressed:(IMInterstitial *)interstitial {
+    [self.parentAdapter log: @"Rewarded ad impressed"];
+    [self.delegate didDisplayRewardedAd];
+    [self.delegate didStartRewardedAdVideo];
 }
 
 @end
