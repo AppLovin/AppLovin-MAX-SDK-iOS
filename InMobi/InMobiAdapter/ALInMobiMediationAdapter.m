@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.8.1"
+#define ADAPTER_VERSION @"10.0.8.2"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -526,9 +526,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [self.delegate didLoadAdForAdView: banner];
     }
-    
-    // InMobi track impressions in the `bannerDidFinishLoading:` callback
-    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
@@ -537,6 +534,12 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     MAAdapterError *adapterError = [ALInMobiMediationAdapter toMaxError: error];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)bannerAdImpressed:(IMBanner *)banner
+{
+    [self.parentAdapter log: @"AdView impression tracked"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params
@@ -629,6 +632,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Interstitial did show"];
+}
+
+- (void)interstitialAdImpressed:(IMInterstitial *)interstitial
+{
+    [self.parentAdapter log: @"Interstitial impression tracked"];
     [self.delegate didDisplayInterstitialAd];
 }
 
@@ -716,8 +724,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Rewarded ad did show"];
-    [self.delegate didDisplayRewardedAd];
     [self.delegate didStartRewardedAdVideo];
+}
+
+- (void)interstitialAdImpressed:(IMInterstitial *)interstitial
+{
+    [self.parentAdapter log: @"Rewarded ad impression tracked"];
+    [self.delegate didDisplayRewardedAd];
 }
 
 - (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params

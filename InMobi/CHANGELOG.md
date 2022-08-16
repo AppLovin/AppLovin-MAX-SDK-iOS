@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.0.8.2
+* Add impression callbacks for banners, MRECs, interstitials and rewarded ads.
+
 ## 10.0.8.1
 * Silence API deprecation warnings.
 * Use local scope copy of native ad while preparing view.
