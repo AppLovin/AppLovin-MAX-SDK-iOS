@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.1.9.0
+* Certified with ByteDance SDK 4.6.1.9.
+
 ## 4.6.1.8.1
 * Request for leader size (728x90) on tablets.
 
