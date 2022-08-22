@@ -74,11 +74,15 @@
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView
+- (void)bannerViewDidRecordClick:(GADBannerView *)bannerView
 {
     [self.parentAdapter log: @"%@ ad clicked: %@", self.adFormat.label, bannerView.adUnitID];
-    
     [self.delegate didClickAdViewAd];
+}
+
+- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView
+{
+    [self.parentAdapter log: @"%@ ad will present: %@", self.adFormat.label, bannerView.adUnitID];
     [self.delegate didExpandAdViewAd];
 }
 

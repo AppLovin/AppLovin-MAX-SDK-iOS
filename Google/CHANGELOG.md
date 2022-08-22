@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.9.0.2
+* Add support for `bannerViewDidRecordClick` callback.
+
 ## 9.9.0.1
 * Add support for app open ads.
 
