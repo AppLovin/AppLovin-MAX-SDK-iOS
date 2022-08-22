@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.9.0.1"
+#define ADAPTER_VERSION @"9.9.0.2"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -1168,11 +1168,15 @@ static NSString *ALGoogleSDKVersion;
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView
+- (void)bannerViewDidRecordClick:(GADBannerView *)bannerView
 {
     [self.parentAdapter log: @"%@ ad clicked: %@", self.adFormat.label, bannerView.adUnitID];
-    
     [self.delegate didClickAdViewAd];
+}
+
+- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView
+{
+    [self.parentAdapter log: @"%@ ad will present: %@", self.adFormat.label, bannerView.adUnitID];
     [self.delegate didExpandAdViewAd];
 }
 
