@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.15.0.0
+* Certified with Verve SDK 2.15.0.
+
+## 2.14.0.1
+* Update consent status before collecting signal.
+
 ## 2.14.0.0
 * Certified with Verve SDK 2.14.0.
 
