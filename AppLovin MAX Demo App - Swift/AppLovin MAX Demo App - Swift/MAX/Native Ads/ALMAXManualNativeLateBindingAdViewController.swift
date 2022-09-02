@@ -84,6 +84,15 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     {
         if let nativeAd = nativeAd
         {
+            if nativeAd.nativeAd!.isExpired
+            {
+                nativeAdLoader.destroy(nativeAd)
+                nativeAdLoader.loadAd()
+                
+                showAdButton.isEnabled = false
+                return
+            }
+            
             nativeAdView = createNativeAdView()
             nativeAdLoader.renderNativeAdView(nativeAdView, with: nativeAd)
             nativeAdContainerView.addSubview(nativeAdView)
@@ -120,6 +129,11 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
     }
     
     func didClickNativeAd(_ ad: MAAd)
+    {
+        logCallback()
+    }
+    
+    func didExpireNativeAd(_ ad: MAAd)
     {
         logCallback()
     }

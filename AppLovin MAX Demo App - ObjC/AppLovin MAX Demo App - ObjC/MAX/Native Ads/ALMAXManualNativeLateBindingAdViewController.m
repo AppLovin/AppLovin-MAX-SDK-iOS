@@ -86,6 +86,15 @@
 
 - (IBAction)showAd
 {
+    if ( [self.nativeAd.nativeAd isExpired] )
+    {
+        [self.nativeAdLoader destroyAd: self.nativeAd];
+        [self.nativeAdLoader loadAd];
+        
+        [self.showAdButton setEnabled: NO];
+        return;
+    }
+    
     self.nativeAdView = [self createNativeAdView];
     [self.nativeAdLoader renderNativeAdView: self.nativeAdView withAd: self.nativeAd];
     [self.nativeAdContainerView addSubview: self.nativeAdView];
@@ -120,6 +129,11 @@
 }
 
 - (void)didClickNativeAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
+- (void)didExpireNativeAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
 }

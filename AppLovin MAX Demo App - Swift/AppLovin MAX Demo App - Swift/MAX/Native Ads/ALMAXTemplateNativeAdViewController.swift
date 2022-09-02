@@ -96,6 +96,11 @@ extension ALMAXTemplateNativeAdViewController: MANativeAdDelegate
     {
         logCallback()
     }
+    
+    func didExpireNativeAd(_ ad: MAAd)
+    {
+        logCallback()
+    }
 }
 
 extension ALMAXTemplateNativeAdViewController: MAAdRevenueDelegate
