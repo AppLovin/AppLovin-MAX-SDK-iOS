@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.12.0.1"
+#define ADAPTER_VERSION @"6.12.0.2"
 
 @interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
@@ -23,10 +23,30 @@
 - (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters;
 @end
 
+@interface ALVungleMediationAdapterNativeAdDelegate : NSObject<VungleNativeAdDelegate>
+@property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
+@property (nonatomic, strong) NSString *placementIdentifier;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+@end
+
+@interface MAVungleNativeAd : MANativeAd
+@property (nonatomic, weak) ALVungleMediationAdapter *parentAdapter;
+- (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
+@end
+
 @interface ALVungleMediationAdapter()
 @property (nonatomic, strong, readonly) ALVungleMediationAdapterRouter *router;
 @property (nonatomic, copy) NSString *placementIdentifier;
 @property (nonatomic, strong) UIView *adView;
+
+// Native Ad Properties
+@property (nonatomic, strong) VungleNativeAd *nativeAd;
+@property (nonatomic, strong) ALVungleMediationAdapterNativeAdDelegate *nativeAdDelegate;
 @end
 
 @implementation ALVungleMediationAdapter
@@ -57,14 +77,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing Vungle SDK with app id: %@...", appID];
-        
-        // NOTE: Vungle's SDK will log error if setting COPPA state after it initializes.
-        NSNumber *isAgeRestrictedUser = [self.router privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
-        if ( isAgeRestrictedUser )
-        {
-            [[VungleSDK sharedSDK] updateCOPPAStatus: isAgeRestrictedUser.boolValue];
-        }
-        
+                
         [VungleSDK sharedSDK].delegate = self.router;
         [VungleSDK sharedSDK].creativeTrackingDelegate = self.router;
         [VungleSDK sharedSDK].sdkHBDelegate = self.router;
@@ -117,6 +130,11 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
     
     [self.router removeAdapter: self forPlacementIdentifier: self.placementIdentifier];
+    
+    [self.nativeAd unregisterView];
+    self.nativeAd.delegate = nil;
+    self.nativeAd = nil;
+    self.nativeAdDelegate = nil;
 }
 
 #pragma mark - Signal Collection
@@ -448,6 +466,42 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBiddingAd = [bidResponse al_isValidString];
+    self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    
+    if ( ![[VungleSDK sharedSDK] isInitialized] )
+    {
+        [self log: @"Vungle SDK not successfully initialized: failing native ad load..."];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.notInitialized];
+        
+        return;
+    }
+    
+    [self log: @"Loading %@native ad for placement: %@...", ( isBiddingAd ? @"bidding " : @"" ), self.placementIdentifier];
+    
+    [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
+
+    self.nativeAd = [[VungleNativeAd alloc] initWithPlacementID: self.placementIdentifier];
+    self.nativeAdDelegate = [[ALVungleMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                         parameters: parameters
+                                                                                          andNotify: delegate];
+    self.nativeAd.delegate = self.nativeAdDelegate;
+    
+    if ( isBiddingAd )
+    {
+        [self.nativeAd loadAdWithAdMarkup: bidResponse];
+    }
+    else
+    {
+        [self.nativeAd loadAd];
+    }
+}
+
 #pragma mark - Shared Methods
 
 - (BOOL)loadAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat error:(NSError **)error
@@ -648,6 +702,12 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         }
     }
     
+    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    if ( isAgeRestrictedUser )
+    {
+        [[VungleSDK sharedSDK] updateCOPPAStatus: isAgeRestrictedUser.boolValue];
+    }
+
     if ( ALSdk.versionCode >= 61100 )
     {
         NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
@@ -879,6 +939,156 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     {
         self.creativeIdentifiers[placementID] = creativeID;
     }
+}
+
+@end
+
+@implementation ALVungleMediationAdapterNativeAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+        self.serverParameters = parameters.serverParameters;
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeAdDidLoad:(VungleNativeAd *)nativeAd
+{    
+    if ( !nativeAd )
+    {
+        [self.parentAdapter log: @"Native ad failed to load: no fill"];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
+        
+        return;
+    }
+    
+    NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+    BOOL isTemplateAd = [templateName al_isValidString];
+    if ( isTemplateAd && ![nativeAd.title al_isValidString] )
+    {
+        [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
+        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        
+        return;
+    }
+    
+    [self.parentAdapter log: @"Native ad loaded: %@", self.placementIdentifier];
+    
+    dispatchOnMainQueue(^{
+        VungleMediaView *mediaView = [[VungleMediaView alloc] init];
+        
+        MANativeAd *maxNativeAd = [[MAVungleNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+            builder.title = nativeAd.title;
+            builder.body = nativeAd.bodyText;
+            builder.callToAction = nativeAd.callToAction;
+            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
+            builder.mediaView = mediaView;
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+                // Introduced in 10.4.0
+                if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+                {
+                    [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.sponsoredText];
+                }
+#pragma clang diagnostic pop
+        }];
+        
+        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+    });
+}
+
+- (void)nativeAd:(VungleNativeAd *)nativeAd didFailWithError:(NSError *)error
+{
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Native ad failed to load with error: %@", adapterError];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)nativeAdDidTrackImpression:(VungleNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad shown: %@", self.placementIdentifier];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)nativeAdDidClick:(VungleNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad clicked: %@", self.placementIdentifier];
+    [self.delegate didClickNativeAd];
+}
+
+@end
+
+@implementation MAVungleNativeAd
+
+- (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+{
+    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+    }
+    return self;
+}
+
+- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
+{
+    VungleNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return;
+    }
+    
+    NSMutableArray *clickableViews = [NSMutableArray array];
+    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.titleLabel];
+    }
+    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.bodyLabel];
+    }
+    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+    }
+    if ( self.icon && maxNativeAdView.iconImageView )
+    {
+        [clickableViews addObject: maxNativeAdView.iconImageView];
+    }
+    if ( self.mediaView && maxNativeAdView.mediaContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.mediaContentView];
+    }
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    // Introduced in 10.4.0
+    if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
+    {
+        id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
+        id advertiser = [self performSelector: @selector(advertiser)];
+        if ( [advertiser al_isValidString] && advertiserLabel )
+        {
+            [clickableViews addObject: advertiserLabel];
+        }
+    }
+#pragma clang diagnostic pop
+
+    [nativeAd registerViewForInteraction: maxNativeAdView
+                               mediaView: (VungleMediaView *) self.mediaView
+                           iconImageView: maxNativeAdView.iconImageView
+                          viewController: [ALUtils topViewControllerFromKeyWindow]
+                          clickableViews: clickableViews];
 }
 
 @end

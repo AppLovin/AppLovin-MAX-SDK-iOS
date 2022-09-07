@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationVerveAdapter'
-s.version = '2.14.0.0'
+s.version = '2.15.0.0'
 s.platform = :ios, '9.0'
 s.summary = 'Verve adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.12.0.2
+* Add support for native ads. Note: Contact your Vungle team for access to native format.
+* Update COPPA with other privacy settings instead of setting before Vungle SDK initialization.
+
 ## 6.12.0.1
 * Update mute logic to only call `[VungleSDK sharedSDK].muted` and `options[VunglePlayAdOptionKeyStartMuted]` if publisher explicitly requested ads to be muted.
 
