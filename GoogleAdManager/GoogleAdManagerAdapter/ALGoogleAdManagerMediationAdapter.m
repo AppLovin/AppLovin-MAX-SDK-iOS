@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.9.0.2"
+#define ADAPTER_VERSION @"9.10.0.0"
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;

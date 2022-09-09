@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.10.0.0
+* Certified with GoogleAdManager SDK 9.10.0.
+
 ## 9.9.0.2
 * Add support for `bannerViewDidRecordClick` callback.
 
