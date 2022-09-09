@@ -3,6 +3,7 @@
 ## 4.6.2.2.1
 * Update to use new APIs introduced in ByteDance SDK 4.6.2.2. 
 * Add support for app open ads.
+* Remove setting `BUAdSDKTerritory` to China or not China.
 
 ## 4.6.2.2.0
 * Certified with ByteDance SDK 4.6.2.2.
