@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.6.2.2.1
+* Update to use new APIs introduced in ByteDance SDK 4.6.2.2. 
+* Add support for app open ads.
+
 ## 4.6.2.2.0
 * Certified with ByteDance SDK 4.6.2.2.
 
