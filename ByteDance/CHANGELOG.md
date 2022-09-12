@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.2.2.2
+* Fix adapter open source compilation.
+
 ## 4.6.2.2.1
 * Update to use new APIs introduced in ByteDance SDK 4.6.2.2. 
 * Add support for app open ads.

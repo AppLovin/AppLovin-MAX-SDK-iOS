@@ -9,7 +9,21 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"4.6.2.2.1"
+#define ADAPTER_VERSION @"4.6.2.2.2"
+
+// TODO: Remove when SDK with App Open APIs is released
+@protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
+- (void)didLoadAppOpenAd;
+- (void)didLoadAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didFailToLoadAppOpenAdWithError:(MAAdapterError *)adapterError;
+- (void)didDisplayAppOpenAd;
+- (void)didDisplayAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didClickAppOpenAd;
+- (void)didClickAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didHideAppOpenAd;
+- (void)didHideAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didFailToDisplayAppOpenAdWithError:(MAAdapterError *)adapterError;
+@end
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -19,8 +33,8 @@
 
 @interface ALByteDanceAppOpenAdDelegate : NSObject<PAGLAppOpenAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
-@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
-- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegateTemp> delegate;
+- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate;
 @end
 
 @interface ALByteDanceRewardedVideoAdDelegate : NSObject<PAGRewardedAdDelegate>
@@ -255,7 +269,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 #pragma mark - App Open Ad Methods
 
-- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
@@ -315,7 +329,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }];
 }
 
-- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     [self log: @"Showing app open ad..."];
     
@@ -957,8 +971,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 @implementation ALByteDanceAppOpenAdDelegate
 
-- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate
-
+- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     self = [super init];
     if ( self )
