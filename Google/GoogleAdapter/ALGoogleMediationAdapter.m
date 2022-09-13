@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.10.0.0"
+#define ADAPTER_VERSION @"9.10.0.1"
 
 @interface ALGoogleMediationAdapter()
 
@@ -245,7 +245,7 @@ static NSString *ALGoogleSDKVersion;
 
 #pragma mark - MAAppOpenAdapter Methods
 
-- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
@@ -300,7 +300,7 @@ static NSString *ALGoogleSDKVersion;
     }];
 }
 
-- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing app open ad: %@...", placementIdentifier];
