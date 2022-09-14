@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.0.8.2"
+#define ADAPTER_VERSION @"10.1.0.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
