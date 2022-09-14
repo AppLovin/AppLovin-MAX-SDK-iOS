@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.10.0.1"
+#define ADAPTER_VERSION @"9.10.0.2"
 
 @interface ALGoogleMediationAdapter()
 
@@ -254,7 +254,7 @@ static NSString *ALGoogleSDKVersion;
     [self updateMuteStateFromResponseParameters: parameters];
     [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                   adFormat: MAAdFormat.appOpen
+                                                   adFormat: nil // MAAdFormat.appOpen
                                              withParameters: parameters];
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
