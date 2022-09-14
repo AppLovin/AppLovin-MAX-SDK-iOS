@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.0.0
+* Certified with Nend SDK 7.4.0.
+* Distribute adapter as an XCFramework.
+
 ## 7.3.0.1
 * Update ad display failed error code.
 
