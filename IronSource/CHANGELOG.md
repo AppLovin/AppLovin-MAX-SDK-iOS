@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.5.0.0
+* Certified with IronSource SDK 7.2.5.0.
+
 ## 7.2.4.0.0
 * Certified with IronSource SDK 7.2.4.0.
 
