@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.16.0.0
+* Certified with MyTarget SDK 5.16.0.
+
 ## 5.15.2.2
 * Update privacy settings before collecting signal. 
 
