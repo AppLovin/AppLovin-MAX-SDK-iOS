@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.12.0.3
+* Add support for app open ads.
+
 ## 6.12.0.2
 * Add support for native ads. Note: Contact your Vungle team for access to native format.
 * Update COPPA with other privacy settings instead of setting before Vungle SDK initialization.
