@@ -14,7 +14,7 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
-#define ADAPTER_VERSION @"7.2.1.0.0"
+#define ADAPTER_VERSION @"7.2.1.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -213,18 +213,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                                                                                                   unitId: unitId
                                                                                                 delegate: self.interstitialDelegate];
         
-        if ( [self.bidInterstitialVideoManager isVideoReadyToPlayWithPlacementId: placementId unitId: unitId] )
-        {
-            [self log: @"A bidding interstitial ad is ready already"];
-            [delegate didLoadInterstitialAd];
-        }
-        else
-        {
-            // Update mute state if configured by backend
-            if ( shouldUpdateMuteState ) self.bidInterstitialVideoManager.playVideoMute = muted;
-            
-            [self.bidInterstitialVideoManager loadAdWithBidToken: parameters.bidResponse];
-        }
+        // Update mute state if configured by backend
+        if ( shouldUpdateMuteState ) self.bidInterstitialVideoManager.playVideoMute = muted;
+        
+        [self.bidInterstitialVideoManager loadAdWithBidToken: parameters.bidResponse];
     }
     else
     {
@@ -310,20 +302,12 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Loading bidding rewarded ad for unit id: %@ and placement id: %@...", unitId, placementId];
         
-        if ( [[MTGBidRewardAdManager sharedInstance] isVideoReadyToPlayWithPlacementId: placementId unitId: unitId] )
-        {
-            [self log: @"A bidding rewarded ad is ready already"];
-            [delegate didLoadRewardedAd];
-        }
-        else
-        {
-            if ( shouldUpdateMuteState ) [MTGBidRewardAdManager sharedInstance].playVideoMute = muted;
-            
-            [[MTGBidRewardAdManager sharedInstance] loadVideoWithBidToken: parameters.bidResponse
-                                                              placementId: placementId
-                                                                   unitId: unitId
-                                                                 delegate: self.rewardedDelegate];
-        }
+        if ( shouldUpdateMuteState ) [MTGBidRewardAdManager sharedInstance].playVideoMute = muted;
+        
+        [[MTGBidRewardAdManager sharedInstance] loadVideoWithBidToken: parameters.bidResponse
+                                                          placementId: placementId
+                                                               unitId: unitId
+                                                             delegate: self.rewardedDelegate];
     }
     else
     {
