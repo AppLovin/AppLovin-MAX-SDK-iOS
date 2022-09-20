@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.2.2.3
+* Revert back to depending on older `BUASDK` since newer `PAGSDK` is missing `@property (nonatomic, assign) BUAdSDKTerritory territory`, which is essential.
+
 ## 4.6.2.2.2
 * Fix adapter open source compilation.
 
