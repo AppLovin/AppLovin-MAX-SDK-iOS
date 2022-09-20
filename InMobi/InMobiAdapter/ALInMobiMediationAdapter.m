@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.0.0"
+#define ADAPTER_VERSION @"10.1.0.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -812,7 +812,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                         andNotify: self.delegate
                                                                      builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
-            builder.body = nativeAd.description;
+            builder.body = nativeAd.adDescription;
             builder.callToAction = nativeAd.adCtaText;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
             builder.mediaView = [[UIView alloc] init];

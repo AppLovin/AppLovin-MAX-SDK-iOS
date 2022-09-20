@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.0.1
+* Fix wrong property used for InMobi native ad description.
+
 ## 10.1.0.0
 * Certified with InMobi SDK 10.1.0.
 
