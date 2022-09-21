@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.12.4.4"
+#define ADAPTER_VERSION @"4.13.84.0"
 
 /**
  * Interstitial Delegate
@@ -330,7 +330,14 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
 {
     [self.parentAdapter log: @"Interstitial ad failed to show with error: %@", error];
     
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed" thirdPartySdkErrorCode: error.code thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
