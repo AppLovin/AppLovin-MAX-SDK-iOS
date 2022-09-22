@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.11.0.0
+* Certified with Google SDK 9.11.0.
+
 ## 9.10.0.2
 * Fix adapter open source compilation.
 
