@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.1.0.0
+* Certified with Chartboost SDK 9.1.0.
+
 ## 9.0.0.0
 * Certified with Chartboost SDK 9.0.0.
 * Distribute adapter as an XCFramework.
