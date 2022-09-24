@@ -44,7 +44,7 @@ typedef void (^GADQueryInfoCreationCompletionHandler)(GADQueryInfo *_Nullable qu
 
 @end
 
-@interface ALGoogleMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALGoogleMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MAAppOpenAdapter, MARewardedInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 /**
  * Maps the provided ad network's error to an instance of @c MAAdapterError.
