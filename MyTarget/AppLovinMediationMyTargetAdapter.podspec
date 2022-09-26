@@ -5,8 +5,8 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationMyTargetAdapter'
-s.version = '5.15.2.2'
-s.platform = :ios, '9.0'
+s.version = '5.16.0.0'
+s.platform = :ios, '10.0'
 s.summary = 'MyTarget adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'myTargetSDK', '= 5.15.2'
+s.dependency 'myTargetSDK', '= 5.16.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =

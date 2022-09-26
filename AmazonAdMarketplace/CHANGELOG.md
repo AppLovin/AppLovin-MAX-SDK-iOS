@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.4.0
+* Certified with APS SDK 4.5.4.
+
 ## 4.5.2.2
 * Fix `ALTAmazonMediationHints` memory leaks.
 

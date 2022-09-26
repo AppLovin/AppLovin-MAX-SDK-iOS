@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.1.0.1
+* Remove `-[MTGBidInterstitialVideoAdManager isVideoReadyToPlayWithPlacementId:unitId:]` and `-[MTGBidRewardAdManager isVideoReadyToPlayWithPlacementId:unitId:]` checks for interstitial and rewarded bidding ads.
+
 ## 7.2.1.0.0
 * Certified with Mintegral SDK 7.2.1.
 

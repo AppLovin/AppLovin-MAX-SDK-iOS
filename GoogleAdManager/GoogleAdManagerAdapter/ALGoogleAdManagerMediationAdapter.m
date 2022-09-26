@@ -9,7 +9,21 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.9.0.2"
+#define ADAPTER_VERSION @"9.11.0.0"
+
+// TODO: Remove when SDK with App Open APIs is released
+@protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
+- (void)didLoadAppOpenAd;
+- (void)didLoadAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didFailToLoadAppOpenAdWithError:(MAAdapterError *)adapterError;
+- (void)didDisplayAppOpenAd;
+- (void)didDisplayAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didClickAppOpenAd;
+- (void)didClickAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didHideAppOpenAd;
+- (void)didHideAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
+- (void)didFailToDisplayAppOpenAdWithError:(MAAdapterError *)adapterError;
+@end
 
 @interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
@@ -23,10 +37,10 @@
 @interface ALGoogleAdManagerAppOpenDelegate : NSObject<GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
-@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegateTemp> delegate;
 - (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
                   placementIdentifier:(NSString *)placementIdentifier
-                            andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
+                            andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate;
 @end
 
 @interface ALGoogleAdManagerRewardedInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
@@ -248,7 +262,7 @@ static NSString *ALGoogleSDKVersion;
 
 #pragma mark - MAAppOpenAdapter Methods
 
-- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading app open ad: %@...", placementIdentifier];
@@ -300,7 +314,7 @@ static NSString *ALGoogleSDKVersion;
     }];
 }
 
-- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing app open ad: %@...", placementIdentifier];
@@ -926,7 +940,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
                   placementIdentifier:(NSString *)placementIdentifier
-                            andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+                            andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     self = [super init];
     if ( self )

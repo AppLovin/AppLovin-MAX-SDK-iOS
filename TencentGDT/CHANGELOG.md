@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.13.84.0
+* Certified with TencentGDT SDK 4.13.84.
+* Distribute adapter as an XCFramework.
+* Silence API deprecation warnings.
+
 ## 4.12.4.4
 * Update ad display failed error code.
 

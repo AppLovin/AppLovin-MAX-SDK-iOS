@@ -9,12 +9,18 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.6.2.2.0"
+#define ADAPTER_VERSION @"4.6.2.2.3"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
+@end
+
+@interface ALByteDanceAppOpenAdDelegate : NSObject<BUAppOpenAdDelegate>
+@property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
 @interface ALByteDanceRewardedVideoAdDelegate : NSObject<BURewardedVideoAdDelegate>
@@ -58,6 +64,9 @@
 @property (nonatomic, strong) BUFullscreenVideoAd *interstitialAd;
 @property (nonatomic, strong) ALByteDanceInterstitialAdDelegate *interstitialAdDelegate;
 
+@property (nonatomic, strong) BUAppOpenAd *appOpenAd;
+@property (nonatomic, strong) ALByteDanceAppOpenAdDelegate *appOpenAdDelegate;
+
 @property (nonatomic, strong) BURewardedVideoAd *rewardedVideoAd;
 @property (nonatomic, strong) ALByteDanceRewardedVideoAdDelegate *rewardedVideoAdDelegate;
 
@@ -77,6 +86,7 @@
 
 @implementation ALByteDanceMediationAdapter
 static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 10.0;
+static NSTimeInterval const kDefaultAppOpenAdLoadingTimeoutSeconds = 3.0;
 static ALAtomicBoolean              *ALByteDanceInitialized;
 static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSIntegerMin;
 
@@ -102,6 +112,16 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing ByteDance SDK with app id: %@...", appID];
         configuration.appID = appID;
+        
+        UIImage *appIconImage = [self appIconImage];
+        if ( !appIconImage )
+        {
+            [self log: @"App icon could not be found"];
+        }
+        else
+        {
+            configuration.appLogoImage = appIconImage;
+        }
         
         if ( [parameters isTesting] )
         {
@@ -152,6 +172,9 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     self.interstitialAd = nil;
     self.interstitialAdDelegate = nil;
     
+    self.appOpenAd = nil;
+    self.appOpenAdDelegate = nil;
+    
     self.rewardedVideoAd = nil;
     self.rewardedVideoAdDelegate = nil;
     
@@ -171,18 +194,18 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
-
+    
     if ( ALByteDanceInitializationStatus != MAAdapterInitializationStatusInitializedSuccess )
     {
         NSString *errorMessage = @"Could not collect signal. SDK not initialized.";
         [self log: errorMessage];
         [delegate didFailToCollectSignalWithErrorMessage: errorMessage];
-
+        
         return;
     }
     
     [self updateConsentWithParameters: parameters];
-
+    
     NSString *signal = [BUAdSDKManager mopubBiddingToken];
     [delegate didCollectSignal: signal];
 }
@@ -230,6 +253,70 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     
     [self.interstitialAd showAdFromRootViewController: presentingViewController];
+}
+
+#pragma mark - App Open Methods
+
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    BUAdSlot *slot = BUAdSlot.new;
+    slot.ID = parameters.thirdPartyAdPlacementIdentifier;
+    // Bidding is not supported for app open yet, so we don't use the bidResponse
+    NSString *bidResponse = parameters.bidResponse;
+    [self log: @"Loading %@app open ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slot.ID];
+    
+    [BUAdSDKManager setUserExtData: [self createUserExtData: parameters isInitializing: NO]];
+    [self updateConsentWithParameters: parameters];
+    
+    self.appOpenAd = [[BUAppOpenAd alloc] initWithSlot: slot];
+    
+    [self.appOpenAd loadOpenAdWithTimeout: kDefaultAppOpenAdLoadingTimeoutSeconds
+                        completionHandler:^(BUAppOpenAd *_Nullable ad, NSError *_Nullable error) {
+        
+        if ( error )
+        {
+            MAAdapterError *adapterError = [ALByteDanceMediationAdapter toMaxError: error];
+            [self log: @"App open ad failed to load with error: %@", adapterError];
+            
+            [delegate didFailToLoadAppOpenAdWithError: adapterError];
+            
+            return;
+        }
+        
+        if ( !ad )
+        {
+            [self log: @"App open ad (%@) NO FILL'd", slot.ID];
+            [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.noFill];
+            
+            return;
+        }
+        
+        [self log: @"App open ad loaded: %@", slot.ID];
+        
+        self.appOpenAd = ad;
+        
+        self.appOpenAdDelegate = [[ALByteDanceAppOpenAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.appOpenAd.delegate = self.appOpenAdDelegate;
+        
+        [delegate didLoadAppOpenAd];
+    }];
+}
+
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    [self log: @"Showing app open..."];
+    
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+    
+    [self.appOpenAd presentFromRootViewController: presentingViewController];
 }
 
 #pragma mark - Rewarded Ad Methods
@@ -489,6 +576,14 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             imageMode == BUFeedADModeSquareVideo );
 }
 
+-(nullable UIImage *)appIconImage
+{
+    NSDictionary *icons = [[NSBundle mainBundle] infoDictionary][@"CFBundleIcons"];
+    NSDictionary *primary = icons[@"CFBundlePrimaryIcon"];
+    NSArray *files = primary[@"CFBundleIconFiles"];
+    return [UIImage imageNamed: files.lastObject];
+}
+
 + (MAAdapterError *)toMaxError:(NSError *)byteDanceError
 {
     BUErrorCode byteDanceErrorCode = byteDanceError.code;
@@ -665,6 +760,45 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     
     [self.parentAdapter log: @"Interstitial finished without error"];
+}
+
+@end
+
+@implementation ALByteDanceAppOpenAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)didPresentForAppOpenAd:(BUAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open shown"];
+    [self.delegate didDisplayAppOpenAd];
+}
+
+- (void)didClickForAppOpenAd:(BUAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open clicked"];
+    [self.delegate didClickAppOpenAd];
+}
+
+- (void)didClickSkipForAppOpenAd:(BUAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open hidden"];
+    [self.delegate didHideAppOpenAd];
+}
+
+- (void)countdownToZeroForAppOpenAd:(BUAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open countdown ended"];
+    [self.delegate didHideAppOpenAd];
 }
 
 @end

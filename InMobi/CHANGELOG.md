@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.1.0.1
+* Fix wrong property used for InMobi native ad description.
+
+## 10.1.0.0
+* Certified with InMobi SDK 10.1.0.
+
 ## 10.0.8.2
 * Add impression callbacks for banners, MRECs, interstitials and rewarded ads.
 

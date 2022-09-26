@@ -11,14 +11,14 @@
 @interface ALGoogleAppOpenDelegate()
 @property (nonatomic, weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, copy) NSString *placementIdentifier;
-@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegateTemp> delegate;
 @end
 
 @implementation ALGoogleAppOpenDelegate
 
 - (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter
                   placementIdentifier:(NSString *)placementIdentifier
-                            andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+                            andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
     self = [super init];
     if ( self )
