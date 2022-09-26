@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'HyBid', '= 2.16.0-beta1'
+s.dependency 'HyBid', '= 2.16.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
