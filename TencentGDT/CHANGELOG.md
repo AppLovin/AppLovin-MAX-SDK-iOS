@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.13.90.0
+* Certified with TencentGDT SDK 4.13.90.
+
 ## 4.13.84.0
 * Certified with TencentGDT SDK 4.13.84.
 * Distribute adapter as an XCFramework.
