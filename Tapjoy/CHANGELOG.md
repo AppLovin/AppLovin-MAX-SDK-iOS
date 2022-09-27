@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.10.0.2
+* Distribute adapter as an XCFramework.
+
 ## 12.10.0.1
 * Update ad display failed error code.
 
