@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.0.4.0
+* Certified with ByteDance Global SDK 4.7.0.4.
+* Certified with ByteDance China SDK 4.7.1.1.
+
 ## 4.6.2.2.3
 * Revert back to depending on older `BUASDK` since newer `PAGSDK` is missing `@property (nonatomic, assign) BUAdSDKTerritory territory`, which is essential.
 

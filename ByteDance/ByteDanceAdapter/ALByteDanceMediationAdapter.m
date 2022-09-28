@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.6.2.2.3"
+#define ADAPTER_VERSION @"4.7.0.4.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -18,6 +18,12 @@
 @end
 
 @interface ALByteDanceAppOpenAdDelegate : NSObject<BUAppOpenAdDelegate>
+@property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
+@end
+
+@interface ALByteDanceAppOpenSplashAdDelegate : NSObject<BUSplashAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
@@ -64,8 +70,11 @@
 @property (nonatomic, strong) BUFullscreenVideoAd *interstitialAd;
 @property (nonatomic, strong) ALByteDanceInterstitialAdDelegate *interstitialAdDelegate;
 
-@property (nonatomic, strong) BUAppOpenAd *appOpenAd;
-@property (nonatomic, strong) ALByteDanceAppOpenAdDelegate *appOpenAdDelegate;
+@property (nonatomic, strong) BUAppOpenAd *appOpenAdGlobal;
+@property (nonatomic, strong) ALByteDanceAppOpenAdDelegate *appOpenAdGlobalDelegate;
+
+@property (nonatomic, strong) BUSplashAd *appOpenAdChina;
+@property (nonatomic, strong) ALByteDanceAppOpenSplashAdDelegate *appOpenAdChinaDelegate;
 
 @property (nonatomic, strong) BURewardedVideoAd *rewardedVideoAd;
 @property (nonatomic, strong) ALByteDanceRewardedVideoAdDelegate *rewardedVideoAdDelegate;
@@ -86,7 +95,7 @@
 
 @implementation ALByteDanceMediationAdapter
 static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 10.0;
-static NSTimeInterval const kDefaultAppOpenAdLoadingTimeoutSeconds = 3.0;
+static NSTimeInterval const kDefaultAppOpenAdLoadingTimeoutSeconds = 15.0;
 static ALAtomicBoolean              *ALByteDanceInitialized;
 static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSIntegerMin;
 
@@ -172,8 +181,11 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     self.interstitialAd = nil;
     self.interstitialAdDelegate = nil;
     
-    self.appOpenAd = nil;
-    self.appOpenAdDelegate = nil;
+    self.appOpenAdGlobal = nil;
+    self.appOpenAdGlobalDelegate = nil;
+    
+    self.appOpenAdChina = nil;
+    self.appOpenAdChinaDelegate = nil;
     
     self.rewardedVideoAd = nil;
     self.rewardedVideoAdDelegate = nil;
@@ -261,45 +273,62 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 {
     BUAdSlot *slot = BUAdSlot.new;
     slot.ID = parameters.thirdPartyAdPlacementIdentifier;
-    // Bidding is not supported for app open yet, so we don't use the bidResponse
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@app open ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slot.ID];
     
     [BUAdSDKManager setUserExtData: [self createUserExtData: parameters isInitializing: NO]];
     [self updateConsentWithParameters: parameters];
     
-    self.appOpenAd = [[BUAppOpenAd alloc] initWithSlot: slot];
-    
-    [self.appOpenAd loadOpenAdWithTimeout: kDefaultAppOpenAdLoadingTimeoutSeconds
-                        completionHandler:^(BUAppOpenAd *_Nullable ad, NSError *_Nullable error) {
+    if ( [BUAdSDKConfiguration configuration].territory == BUAdSDKTerritory_NO_CN )
+    {
+        self.appOpenAdGlobal = [[BUAppOpenAd alloc] initWithSlot: slot];
         
-        if ( error )
+        [self.appOpenAdGlobal loadOpenAdWithTimeout: kDefaultAppOpenAdLoadingTimeoutSeconds
+                                  completionHandler:^(BUAppOpenAd *_Nullable ad, NSError *_Nullable error) {
+            
+            if ( error )
+            {
+                MAAdapterError *adapterError = [ALByteDanceMediationAdapter toMaxError: error];
+                [self log: @"App open ad failed to load with error: %@", adapterError];
+                
+                [delegate didFailToLoadAppOpenAdWithError: adapterError];
+                
+                return;
+            }
+            
+            if ( !ad )
+            {
+                [self log: @"App open ad (%@) NO FILL'd", slot.ID];
+                [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.noFill];
+                
+                return;
+            }
+            
+            [self log: @"App open ad loaded: %@", slot.ID];
+            
+            self.appOpenAdGlobal = ad;
+            
+            self.appOpenAdGlobalDelegate = [[ALByteDanceAppOpenAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+            self.appOpenAdGlobal.delegate = self.appOpenAdGlobalDelegate;
+            
+            [delegate didLoadAppOpenAd];
+        }];
+    }
+    else
+    {
+        self.appOpenAdChina = [[BUSplashAd alloc] initWithSlot: slot adSize: [UIScreen mainScreen].bounds.size];
+        self.appOpenAdChinaDelegate = [[ALByteDanceAppOpenSplashAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.appOpenAdChina.delegate = self.appOpenAdChinaDelegate;
+        
+        if ( [bidResponse al_isValidString] )
         {
-            MAAdapterError *adapterError = [ALByteDanceMediationAdapter toMaxError: error];
-            [self log: @"App open ad failed to load with error: %@", adapterError];
-            
-            [delegate didFailToLoadAppOpenAdWithError: adapterError];
-            
-            return;
+            [self.appOpenAdChina setMopubAdMarkUp: bidResponse];
         }
-        
-        if ( !ad )
+        else
         {
-            [self log: @"App open ad (%@) NO FILL'd", slot.ID];
-            [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.noFill];
-            
-            return;
+            [self.appOpenAdChina loadAdData];
         }
-        
-        [self log: @"App open ad loaded: %@", slot.ID];
-        
-        self.appOpenAd = ad;
-        
-        self.appOpenAdDelegate = [[ALByteDanceAppOpenAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-        self.appOpenAd.delegate = self.appOpenAdDelegate;
-        
-        [delegate didLoadAppOpenAd];
-    }];
+    }
 }
 
 - (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
@@ -316,7 +345,19 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         presentingViewController = [ALUtils topViewControllerFromKeyWindow];
     }
     
-    [self.appOpenAd presentFromRootViewController: presentingViewController];
+    if ( self.appOpenAdGlobal )
+    {
+        [self.appOpenAdGlobal presentFromRootViewController: presentingViewController];
+    }
+    else if ( self.appOpenAdChina )
+    {
+        [self.appOpenAdChina showSplashViewInRootViewController: presentingViewController];
+    }
+    else
+    {
+        [self log: @"App open ad failed to show: %@", parameters.thirdPartyAdPlacementIdentifier];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+    }
 }
 
 #pragma mark - Rewarded Ad Methods
@@ -799,6 +840,97 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 {
     [self.parentAdapter log: @"App open countdown ended"];
     [self.delegate didHideAppOpenAd];
+}
+
+@end
+
+@implementation ALByteDanceAppOpenSplashAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)splashAdLoadSuccess:(BUSplashAd *)splashAd
+{
+    [self.parentAdapter log: @"App open ad loaded: %@", splashAd.slotID];
+    [self.delegate didLoadAppOpenAd];
+}
+
+- (void)splashAdLoadFail:(BUSplashAd *)splashAd error:(nullable BUAdError *)error
+{
+    MAAdapterError *adapterError = [ALByteDanceMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"App open ad failed to load with error: %@", adapterError];
+    [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
+}
+
+- (void)splashAdRenderSuccess:(BUSplashAd *)splashAd
+{
+    [self.parentAdapter log: @"App open ad rendered succesfully"];
+}
+
+- (void)splashAdRenderFail:(BUSplashAd *)splashAd error:(nullable BUAdError *)error
+{
+    MAAdapterError *adapterError = [ALByteDanceMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"App open ad render failed with error: %@", adapterError];
+    [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
+}
+
+- (void)splashAdWillShow:(BUSplashAd *)splashAd
+{
+    [self.parentAdapter log: @"App open ad will show"];
+}
+
+- (void)splashAdDidShow:(BUSplashAd *)splashAd
+{
+    [self.parentAdapter log: @"App open shown"];
+    [self.delegate didDisplayAppOpenAd];
+}
+
+- (void)splashAdDidClick:(BUSplashAd *)splashAd
+{
+    [self.parentAdapter log: @"App open clicked"];
+    [self.delegate didClickAppOpenAd];
+}
+
+- (void)splashAdDidClose:(BUSplashAd *)splashAd closeType:(BUSplashAdCloseType)closeType
+{
+    if ( closeType == BUSplashAdCloseType_ClickAd )
+    {
+        [self.parentAdapter log: @"App open clicked"];
+        [self.delegate didClickAppOpenAd];
+    }
+    
+    [self.parentAdapter log: @"App open ad hidden"];
+    [self.delegate didHideAppOpenAd];
+}
+
+- (void)splashVideoAdDidPlayFinish:(BUSplashAd *)splashAd didFailWithError:(NSError *)error
+{
+    if ( error )
+    {
+        [self.parentAdapter log: @"Video ad failed to play with an error: %@", error];
+    }
+    else
+    {
+        [self.parentAdapter log: @"Video ad finished playing"];
+    }
+}
+
+- (void)splashAdViewControllerDidClose:(BUSplashAd *)splashAd
+{
+    [self.parentAdapter log: @"App open ad controller closed"];
+}
+
+- (void)splashDidCloseOtherController:(BUSplashAd *)splashAd interactionType:(BUInteractionType)interactionType
+{
+    [self.parentAdapter log: @"Another controller closed"];
 }
 
 @end
