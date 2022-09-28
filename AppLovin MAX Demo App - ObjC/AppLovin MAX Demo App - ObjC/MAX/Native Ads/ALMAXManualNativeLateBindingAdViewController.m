@@ -136,6 +136,7 @@
 - (void)didExpireNativeAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
+    [self loadAd];
 }
 
 #pragma mark - MAAdRevenueDelegate Protocol

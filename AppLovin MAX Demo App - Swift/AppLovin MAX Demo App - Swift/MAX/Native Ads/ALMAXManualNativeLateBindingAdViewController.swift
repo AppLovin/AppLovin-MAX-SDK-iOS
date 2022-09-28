@@ -136,6 +136,7 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
     func didExpireNativeAd(_ ad: MAAd)
     {
         logCallback()
+        loadAd()
     }
 }
 
