@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.11.0.2
+* Certified with Google SDK 9.11.0.1.
+
 ## 9.11.0.1
 * App open updates.
 
