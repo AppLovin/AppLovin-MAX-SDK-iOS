@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0.0
+* Certified with Yahoo Mobile SDK 1.2.0.
+
 ## 2.1.0.0
 * Fix issue with calling Yahoo Mobile SDK's `applyCoppa` for false `isAgeRestrictedUser` values.  
 * Certified with Yahoo Mobile SDK 1.1.0.

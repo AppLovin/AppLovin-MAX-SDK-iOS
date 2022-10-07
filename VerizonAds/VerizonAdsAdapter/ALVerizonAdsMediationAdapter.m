@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.1.0.0"
+#define ADAPTER_VERSION @"2.2.0.0"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
