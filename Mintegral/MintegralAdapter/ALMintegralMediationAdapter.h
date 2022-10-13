@@ -5,6 +5,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALMintegralMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter, MASignalProvider>
+@interface ALMintegralMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MAAppOpenAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter, MASignalProvider>
 
 @end

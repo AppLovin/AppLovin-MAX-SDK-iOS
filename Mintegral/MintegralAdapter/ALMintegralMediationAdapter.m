@@ -13,8 +13,9 @@
 #import <MTGSDKReward/MTGBidRewardAdManager.h>
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
+#import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.2.3.0.0"
+#define ADAPTER_VERSION @"7.2.3.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -35,6 +36,12 @@
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
+@end
+
+@interface ALMintegralMediationAdapterAppOpenAdDelegate : NSObject<MTGSplashADDelegate>
+@property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
 @interface ALMintegralMediationAdapterRewardedDelegate : NSObject<MTGRewardAdLoadDelegate, MTGRewardAdShowDelegate>
@@ -69,6 +76,7 @@
 
 @property (nonatomic, strong) MTGBidInterstitialVideoAdManager *bidInterstitialVideoManager;
 @property (nonatomic, strong) MTGInterstitialVideoAdManager *interstitialVideoManager;
+@property (nonatomic, strong) MTGSplashAD *appOpenAd;
 @property (nonatomic, strong) MTGBannerAdView *bannerAdView;
 @property (nonatomic, strong) MTGBidNativeAdManager *bidNativeAdManager;
 @property (nonatomic, strong) MTGCampaign *nativeAdCampaign;
@@ -76,6 +84,7 @@
 @property (nonatomic, strong) NSArray<UIView *> *clickableViews;
 
 @property (nonatomic, strong) ALMintegralMediationAdapterInterstitialDelegate *interstitialDelegate;
+@property (nonatomic, strong) ALMintegralMediationAdapterAppOpenAdDelegate *appOpenAdDelegate;
 @property (nonatomic, strong) ALMintegralMediationAdapterRewardedDelegate *rewardedDelegate;
 @property (nonatomic, strong) ALMintegralMediationAdapterBannerViewDelegate *bannerDelegate;
 @property (nonatomic, strong) ALMintegralMediationAdapterNativeAdDelegate *nativeAdDelegate;
@@ -166,6 +175,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     self.interstitialVideoManager.delegate = nil;
     self.interstitialVideoManager = nil;
     
+    self.appOpenAd.delegate = nil;
+    self.appOpenAd = nil;
+    
     [self.bannerAdView destroyBannerAdView];
     self.bannerAdView.delegate = nil;
     self.bannerAdView = nil;
@@ -177,6 +189,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     self.nativeAdCampaign = nil;
     
     self.interstitialDelegate = nil;
+    self.appOpenAdDelegate = nil;
     self.rewardedDelegate = nil;
     self.bannerDelegate = nil;
     self.nativeAdDelegate = nil;
@@ -283,6 +296,39 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         [self log: @"Unable to show interstitial - no ad loaded..."];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
     }
+}
+
+#pragma mark - MAAppOpenAdapter Methods
+
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    NSString *unitId = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = [parameters.serverParameters al_stringForKey: @"placement_id"];
+    
+    [self log: @"Loading app open ad for unit id: %@ and placement id: %@...", unitId, placementId];
+    
+    self.appOpenAd = [[MTGSplashAD alloc] initWithPlacementID: placementId
+                                                       unitID: unitId
+                                                    countdown: 5 // Default value on Android
+                                                    allowSkip: YES]; // Default value on Android
+    self.appOpenAdDelegate = [[ALMintegralMediationAdapterAppOpenAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    self.appOpenAd.delegate = self.appOpenAdDelegate;
+    
+    [self.appOpenAd preloadWithBidToken: parameters.bidResponse];
+}
+
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    if ( ![self.appOpenAd isBiddingADReadyToShow] )
+    {
+        [self log: @"Unable to show app open ad - no ad loaded..."];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+        return;
+    }
+    
+    [self log: @"Showing app open ad..."];
+    [self.appOpenAd showBiddingADInKeyWindow: [UIApplication sharedApplication].keyWindow customView: nil];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -628,6 +674,95 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Interstitial endcard shown"];
 }
+
+@end
+
+@implementation ALMintegralMediationAdapterAppOpenAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)splashADPreloadSuccess:(MTGSplashAD *)splashAD
+{
+    [self.parentAdapter log: @"App open ad loaded"];
+    
+    NSDictionary *extraInfo;
+    if ( [splashAD.requestID al_isValidString] )
+    {
+        extraInfo = @{@"creative_id" : splashAD.requestID};
+    }
+    
+    [self.delegate didLoadAppOpenAdWithExtraInfo: extraInfo];
+}
+
+- (void)splashADPreloadFail:(MTGSplashAD *)splashAD error:(NSError *)error
+{
+    MAAdapterError *adapterError = [ALMintegralMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"App open ad failed to load: %@", adapterError];
+    [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
+}
+
+- (void)splashADShowSuccess:(MTGSplashAD *)splashAD
+{
+    [self.parentAdapter log: @"App open ad displayed"];
+    [self.delegate didDisplayAppOpenAd];
+}
+
+- (void)splashADShowFail:(MTGSplashAD *)splashAD error:(NSError *)error
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
+                                                     errorString: @"Ad Display Failed"
+                                          thirdPartySdkErrorCode: error.code
+                                       thirdPartySdkErrorMessage: error.localizedDescription];
+#pragma clang diagnostic pop
+    
+    [self.parentAdapter log: @"App open ad failed to show: %@", adapterError];
+    [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
+}
+
+- (void)splashADDidClick:(MTGSplashAD *)splashAD
+{
+    [self.parentAdapter log: @"App open ad clicked"];
+    [self.delegate didClickAppOpenAd];
+}
+
+- (void)splashADDidLeaveApplication:(MTGSplashAD *)splashAD
+{
+    [self.parentAdapter log: @"App open ad left application"];
+}
+
+- (void)splashADWillClose:(MTGSplashAD *)splashAD
+{
+    [self.parentAdapter log: @"App open ad will hide"];
+}
+
+- (void)splashADDidClose:(MTGSplashAD *)splashAD
+{
+    [self.parentAdapter log: @"App open ad hidden"];
+    [self.delegate didHideAppOpenAd];
+}
+
+//
+// Un-used callbacks, but `MTGSplashADDelegate` declared all callbacks as non-optional
+//
+
+- (void)splashADLoadSuccess:(MTGSplashAD *)splashAD {}
+- (void)splashADLoadFail:(MTGSplashAD *)splashAD error:(NSError *)error {}
+- (CGPoint)pointForSplashZoomOutADViewToAddOn:(MTGSplashAD *)splashAD { return CGPointZero; }
+- (void)splashAD:(MTGSplashAD *)splashAD timeLeft:(NSUInteger)time {}
+- (void)splashZoomOutADViewClosed:(MTGSplashAD *)splashAD {}
+- (void)splashZoomOutADViewDidShow:(MTGSplashAD *)splashAD {}
+- (UIView *)superViewForSplashZoomOutADViewToAddOn:(MTGSplashAD *)splashAD { return [UIApplication sharedApplication].keyWindow; }
 
 @end
 
@@ -1085,7 +1220,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     [self.parentAdapter.bidNativeAdManager registerViewForInteraction: maxNativeAdView
                                                    withClickableViews: clickableViews
                                                          withCampaign: self.parentAdapter.nativeAdCampaign];
-
+    
     self.parentAdapter.maxNativeAdView = maxNativeAdView;
     self.parentAdapter.clickableViews = clickableViews;
 }
