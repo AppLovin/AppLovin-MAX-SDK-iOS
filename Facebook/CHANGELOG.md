@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.12.0.0
+* Certified with Facebook SDK 6.12.0
+
 ## 6.11.2.1
 * Use local scope copy of native ad while preparing view.
 * Update privacy settings before collecting signal. 

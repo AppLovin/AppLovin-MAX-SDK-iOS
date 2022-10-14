@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.11.2.1"
+#define ADAPTER_VERSION @"6.12.0.0"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -1003,10 +1003,13 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         NSMutableArray *clickableViews = [NSMutableArray array];
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ( maxNativeAd.iconView && maxNativeAdView.iconContentView )
         {
             [clickableViews addObject: maxNativeAdView.iconContentView];
         }
+#pragma clang diagnostic pop
         if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
         {
             [clickableViews addObject: maxNativeAdView.mediaContentView];
