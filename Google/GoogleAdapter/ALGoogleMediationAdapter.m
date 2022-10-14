@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.11.0.2"
+#define ADAPTER_VERSION @"9.11.0.3"
 
 @interface ALGoogleMediationAdapter()
 
@@ -690,18 +690,24 @@ static NSString *ALGoogleSDKVersion;
     {
         if ( isAdaptiveBanner )
         {
-            UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
-            UIWindow *window = viewController.view.window;
-            CGRect frame = window.frame;
+            __block GADAdSize adSize;
             
-            // Use safe area insents when available.
-            if ( @available(iOS 11.0, *) )
-            {
-                frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
-            }
-            
-            CGFloat viewWidth = CGRectGetWidth(frame);
-            return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
+            dispatchSyncOnMainQueue(^{
+                UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
+                UIWindow *window = viewController.view.window;
+                CGRect frame = window.frame;
+                
+                // Use safe area insets when available.
+                if ( @available(iOS 11.0, *) )
+                {
+                    frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
+                }
+                
+                CGFloat viewWidth = CGRectGetWidth(frame);
+                adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
+            });
+
+            return adSize;
         }
         else
         {
