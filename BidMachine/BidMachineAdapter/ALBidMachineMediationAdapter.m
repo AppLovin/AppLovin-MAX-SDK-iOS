@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.4.8.0"
+#define ADAPTER_VERSION @"1.9.5.0.0"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -354,6 +354,16 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     else if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateDoesNotApply )
     {
         BDMSdk.sharedSdk.restrictions.subjectToGDPR = NO;
+    }
+    
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
+    {
+        BDMSdk.sharedSdk.restrictions.USPrivacyString = isDoNotSell.boolValue ? @"1YY-" : @"1YN-";
+    }
+    else
+    {
+        BDMSdk.sharedSdk.restrictions.USPrivacyString = @"1---";
     }
 }
 
