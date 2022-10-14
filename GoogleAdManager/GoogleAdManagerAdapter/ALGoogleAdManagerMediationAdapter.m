@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.11.0.1"
+#define ADAPTER_VERSION @"9.11.0.2"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
@@ -645,18 +645,24 @@ static NSString *ALGoogleSDKVersion;
         // Check if adaptive banner sizes should be used
         if ( [serverParameters al_boolForKey: @"adaptive_banner" defaultValue: NO] )
         {
-            UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
-            UIWindow *window = viewController.view.window;
-            CGRect frame = window.frame;
+            __block GADAdSize adSize;
             
-            // Use safe area insents when available.
-            if ( @available(iOS 11.0, *) )
-            {
-                frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
-            }
+            dispatchSyncOnMainQueue(^{
+                UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
+                UIWindow *window = viewController.view.window;
+                CGRect frame = window.frame;
+                
+                // Use safe area insets when available.
+                if ( @available(iOS 11.0, *) )
+                {
+                    frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
+                }
+                
+                CGFloat viewWidth = CGRectGetWidth(frame);
+                adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
+            });
             
-            CGFloat viewWidth = CGRectGetWidth(frame);
-            return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
+            return adSize;
         }
         else
         {
