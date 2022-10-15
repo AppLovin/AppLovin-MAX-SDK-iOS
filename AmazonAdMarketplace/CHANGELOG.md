@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.5.0
+* Certified with APS SDK 4.5.5.
+
 ## 4.5.4.0
 * Certified with APS SDK 4.5.4.
 
