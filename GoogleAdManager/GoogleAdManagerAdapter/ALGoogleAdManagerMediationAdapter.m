@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.11.0.2"
+#define ADAPTER_VERSION @"9.11.0.3"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
@@ -789,6 +789,12 @@ static NSString *ALGoogleSDKVersion;
         if ( neighbouringContentURLStrings )
         {
             request.neighboringContentURLStrings = neighbouringContentURLStrings;
+        }
+        
+        NSString *publisherProvidedID = [localExtraParameters al_stringForKey: @"ppid"];
+        if ( [publisherProvidedID al_isValidString] )
+        {
+            request.publisherProvidedID = publisherProvidedID;
         }
         
         NSDictionary<NSString *, NSString *> *customTargetingData = [localExtraParameters al_dictionaryForKey: @"custom_targeting"];

@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.11.0.3
+* Add ability to set [publisher provided id](https://support.google.com/admanager/answer/2880055) via local extra parameters by calling `setLocalExtraParameterForKey: @"ppid" value: NSString`.
+
 ## 9.11.0.2
 * Fix UI methods being called on background thread.
 
