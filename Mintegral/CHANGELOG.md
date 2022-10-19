@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.4.0.0
+* Certified with Mintegral SDK 7.2.4.
+
 ## 7.2.3.0.1
 * Add support for app open ads.
 
