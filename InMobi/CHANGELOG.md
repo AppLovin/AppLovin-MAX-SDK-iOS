@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.0.2
+* Add support for native ad view ads.
+
 ## 10.1.0.1
 * Fix wrong property used for InMobi native ad description.
 
