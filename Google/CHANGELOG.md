@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.11.0.4
+* Remove redundant client side check for setting user consent.
+
 ## 9.11.0.3
 * Fix UI methods being called on background thread.
 

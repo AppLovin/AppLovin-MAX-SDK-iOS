@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.11.0.3"
+#define ADAPTER_VERSION @"9.11.0.4"
 
 @interface ALGoogleMediationAdapter()
 
@@ -706,7 +706,7 @@ static NSString *ALGoogleSDKVersion;
                 CGFloat viewWidth = CGRectGetWidth(frame);
                 adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
             });
-
+            
             return adSize;
         }
         else
@@ -822,13 +822,10 @@ static NSString *ALGoogleSDKVersion;
         extraParameters[@"placement_req_id"] = eventIdentifier;
     }
     
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent && !hasUserConsent.boolValue )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent && !hasUserConsent.boolValue )
-        {
-            extraParameters[@"npa"] = @"1"; // Non-personalized ads
-        }
+        extraParameters[@"npa"] = @"1"; // Non-personalized ads
     }
     
     if ( ALSdk.versionCode >= 61100 ) // Pre-beta versioning (6.14.0)
