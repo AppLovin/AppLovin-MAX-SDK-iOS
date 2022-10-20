@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.11.0.3"
+#define ADAPTER_VERSION @"9.11.0.4"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
@@ -266,7 +266,7 @@ static NSString *ALGoogleSDKVersion;
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading app open ad: %@...", placementIdentifier];
-
+    
     [self updateMuteStateFromResponseParameters: parameters];
     [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
@@ -750,13 +750,10 @@ static NSString *ALGoogleSDKVersion;
         extraParameters[@"placement_req_id"] = eventIdentifier;
     }
     
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent && !hasUserConsent.boolValue )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent && !hasUserConsent.boolValue )
-        {
-            extraParameters[@"npa"] = @"1"; // Non-personalized ads
-        }
+        extraParameters[@"npa"] = @"1"; // Non-personalized ads
     }
     
     if ( ALSdk.versionCode >= 61100 ) // Pre-beta versioning (6.14.0)
@@ -791,10 +788,10 @@ static NSString *ALGoogleSDKVersion;
             request.neighboringContentURLStrings = neighbouringContentURLStrings;
         }
         
-        NSString *publisherProvidedID = [localExtraParameters al_stringForKey: @"ppid"];
-        if ( [publisherProvidedID al_isValidString] )
+        NSString *publisherProvidedId = [localExtraParameters al_stringForKey: @"ppid"];
+        if ( [publisherProvidedId al_isValidString] )
         {
-            request.publisherProvidedID = publisherProvidedID;
+            request.publisherProvidedID = publisherProvidedId;
         }
         
         NSDictionary<NSString *, NSString *> *customTargetingData = [localExtraParameters al_dictionaryForKey: @"custom_targeting"];
