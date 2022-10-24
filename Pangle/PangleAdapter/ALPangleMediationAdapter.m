@@ -9,7 +9,7 @@
 #import "ALPangleMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.0.4.0"
+#define ADAPTER_VERSION @"4.7.0.4.1"
 
 @interface ALPangleInterstitialAdDelegate : NSObject<PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALPangleMediationAdapter *parentAdapter;
