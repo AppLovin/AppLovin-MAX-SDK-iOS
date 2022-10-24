@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.1.1.0"
+#define ADAPTER_VERSION @"4.7.1.1.1"
 
 @interface ALCSJInterstitialAdDelegate : NSObject<BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
