@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.11.0.4"
+#define ADAPTER_VERSION @"9.11.0.5"
 
 @interface ALGoogleMediationAdapter()
 
@@ -752,9 +752,7 @@ static NSString *ALGoogleSDKVersion;
     }
     else
     {
-        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
-        
-        return GADAdFormatBanner;
+        return GADAdFormatUnknown;
     }
 }
 

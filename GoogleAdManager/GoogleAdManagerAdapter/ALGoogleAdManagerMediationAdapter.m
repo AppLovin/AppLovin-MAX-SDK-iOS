@@ -681,38 +681,6 @@ static NSString *ALGoogleSDKVersion;
     }
 }
 
-- (GADAdFormat)adFormatFromParameters:(id<MASignalCollectionParameters>)parameters
-{
-    MAAdFormat *adFormat = parameters.adFormat;
-    BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"] || adFormat == MAAdFormat.native;
-    if ( isNative )
-    {
-        return GADAdFormatNative;
-    }
-    else if ( [adFormat isAdViewAd] )
-    {
-        return GADAdFormatBanner;
-    }
-    else if ( adFormat == MAAdFormat.interstitial )
-    {
-        return GADAdFormatInterstitial;
-    }
-    else if ( adFormat == MAAdFormat.rewarded )
-    {
-        return GADAdFormatRewarded;
-    }
-    else if ( adFormat == MAAdFormat.rewardedInterstitial )
-    {
-        return GADAdFormatRewardedInterstitial;
-    }
-    else
-    {
-        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
-        
-        return GADAdFormatBanner;
-    }
-}
-
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
 {
     NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];

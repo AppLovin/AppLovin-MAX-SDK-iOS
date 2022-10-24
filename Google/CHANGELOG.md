@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.11.0.5
+* Fix silent exception thrown during signal collection for app open ads.
+
 ## 9.11.0.4
 * Remove redundant client side check for setting user consent.
 
