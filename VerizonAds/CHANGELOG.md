@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0.1
+* Add support for native ad view ads.
+* Call `-[YASNativeAd clear]` and `-[YASNativeAd destroy]` when destroying adapter instance.
+
 ## 2.2.0.0
 * Certified with Yahoo Mobile SDK 1.2.0.
 

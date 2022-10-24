@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.2.0.0"
+#define ADAPTER_VERSION @"2.2.0.1"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -44,6 +44,21 @@
 @end
 
 /**
+ * Dedicated delegate object for Verizon Ads native ad view ads.
+ */
+@interface ALVerizonAdsMediationAdapterNativeAdViewAdDelegate : NSObject<YASNativeAdDelegate>
+@property (nonatomic,   weak) ALVerizonAdsMediationAdapter *parentAdapter;
+@property (nonatomic,   weak) MAAdFormat *adFormat;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
+                             adFormat:(MAAdFormat *)adFormat
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+- (instancetype)init NS_UNAVAILABLE;
+@end
+
+/**
  * Dedicated delegate object for Verizon Ads native ads.
  */
 @interface ALVerizonAdsMediationAdapterNativeAdDelegate : NSObject<YASNativeAdDelegate>
@@ -58,7 +73,7 @@
 
 @interface MAVerizonNativeAd : MANativeAd
 @property (nonatomic, weak) ALVerizonAdsMediationAdapter *parentAdapter;
-- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)adFormat builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
@@ -75,11 +90,12 @@
 // AdView
 @property (nonatomic, strong) YASInlineAdView *inlineAdView;
 @property (nonatomic, strong) ALVerizonAdsMediationAdapterInlineAdViewDelegate *inlineAdViewDelegate;
+@property (nonatomic, strong) YASNativeAd *nativeAdViewAd;
+@property (nonatomic, strong) ALVerizonAdsMediationAdapterNativeAdViewAdDelegate *nativeAdViewAdDelegate;
 
 // Native
 @property (nonatomic, strong) YASNativeAd *nativeAd;
 @property (nonatomic, strong) ALVerizonAdsMediationAdapterNativeAdDelegate *nativeAdDelegate;
-@property (nonatomic,   weak) MANativeAdView *nativeAdView;
 
 @end
 
@@ -151,10 +167,15 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     self.inlineAdView = nil;
     self.inlineAdViewDelegate = nil;
     
+    [self.nativeAd clear];
+    [self.nativeAd destroy];
     self.nativeAd = nil;
     self.nativeAdDelegate = nil;
     
-    self.nativeAdView = nil;
+    [self.nativeAdViewAd clear];
+    [self.nativeAdViewAd destroy];
+    self.nativeAdViewAd = nil;
+    self.nativeAdViewAdDelegate = nil;
 }
 
 #pragma mark - MASignalProvider
@@ -165,7 +186,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     
     [self updatePrivacyStatesForParameters: parameters];
     [self updateLocationCollectionEnabled: parameters];
-
+    
     NSString *token = [[YASAds sharedInstance] biddingTokenTrimmedToSize: 4000];
     if ( !token )
     {
@@ -280,21 +301,42 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 {
     NSString *bidResponse = parameters.bidResponse;
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@%@ for placement: %@...", ([bidResponse al_isValidString] ? @"bidding " : @""), adFormat.label, placementId];
+    BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
+    
+    [self log: @"Loading %@%@%@ for placement: %@...", isNative ? @"native " : @"", ([bidResponse al_isValidString] ? @"bidding " : @""), adFormat.label, placementId];
     
     [self updatePrivacyStatesForParameters: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
-    self.inlineAdViewDelegate = [[ALVerizonAdsMediationAdapterInlineAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.inlineAdView = [[YASInlineAdView alloc] initWithPlacementId: placementId];
-    self.inlineAdView.delegate = self.inlineAdViewDelegate;
-    
     YASRequestMetadata *requestMetadata = [self createRequestMetadataForBidResponse: bidResponse];
-    YASInlineAdSize *adSize = [self adSizeFromAdFormat: adFormat];
-    YASInlinePlacementConfig *placementConfig = [[YASInlinePlacementConfig alloc] initWithPlacementId: placementId
-                                                                                      requestMetadata: requestMetadata
-                                                                                              adSizes: @[adSize]];
-    [self.inlineAdView loadWithPlacementConfig: placementConfig];
+    
+    if ( isNative )
+    {
+        self.nativeAdViewAdDelegate = [[ALVerizonAdsMediationAdapterNativeAdViewAdDelegate alloc] initWithParentAdapter: self
+                                                                                                               adFormat: adFormat
+                                                                                                       serverParameters: parameters.serverParameters
+                                                                                                              andNotify: delegate];
+        
+        self.nativeAdViewAd = [[YASNativeAd alloc] initWithPlacementId: placementId];
+        self.nativeAdViewAd.delegate = self.nativeAdViewAdDelegate;
+        
+        YASNativePlacementConfig *placementConfig = [[YASNativePlacementConfig alloc] initWithPlacementId: placementId
+                                                                                          requestMetadata: requestMetadata
+                                                                                            nativeAdTypes: kNativeAdAdTypes];
+        [self.nativeAdViewAd loadWithPlacementConfig: placementConfig];
+    }
+    else
+    {
+        self.inlineAdViewDelegate = [[ALVerizonAdsMediationAdapterInlineAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.inlineAdView = [[YASInlineAdView alloc] initWithPlacementId: placementId];
+        self.inlineAdView.delegate = self.inlineAdViewDelegate;
+        
+        YASInlineAdSize *adSize = [self adSizeFromAdFormat: adFormat];
+        YASInlinePlacementConfig *placementConfig = [[YASInlinePlacementConfig alloc] initWithPlacementId: placementId
+                                                                                          requestMetadata: requestMetadata
+                                                                                                  adSizes: @[adSize]];
+        [self.inlineAdView loadWithPlacementConfig: placementConfig];
+    }
 }
 
 #pragma mark - MANativeAdAdapter Methods
@@ -473,6 +515,29 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         
         return [[YASInlineAdSize alloc] initWithWidth: 320 height: 50];
     }
+}
+
+- (MANativeAdView *)createMaxNativeAdViewWithNativeAd:(MANativeAd *)maxNativeAd templateName:(NSString *)templateName
+{
+    if ( ALSdk.versionCode < 6140000 )
+    {
+        [self log: @"Native ads with media views are only supported on MAX SDK version 6.14.0 and above. Default native template will be used."];
+        return [MANativeAdView nativeAdViewFromAd: maxNativeAd];
+    }
+    
+    if ( ALSdk.versionCode < 6140500 && [templateName containsString: @"vertical"] )
+    {
+        [self log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
+    }
+    
+    return [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
+}
+
+- (NSString *)validTemplateUsingTemplateName:(NSString *)templateName
+{
+    if ( [templateName al_isValidString] ) return templateName;
+    
+    return ALSdk.versionCode < 6140500 ? @"no_body_banner_template" : @"media_banner_template";
 }
 
 @end
@@ -742,6 +807,152 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 
 @end
 
+@implementation ALVerizonAdsMediationAdapterNativeAdViewAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
+                             adFormat:(MAAdFormat *)adFormat
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.adFormat = adFormat;
+        self.serverParameters = serverParameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeAdDidLoad:(YASNativeAd *)nativeAdViewAd
+{
+    dispatchOnMainQueue(^{
+        [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat.label, nativeAdViewAd.placementId];
+        
+        NSString *title = ((id<YASNativeTextComponent>)[nativeAdViewAd component: @"title"]).text;
+        if ( ![title al_isValidString] )
+        {
+            [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.adFormat.label, nativeAdViewAd];
+            [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+            
+            return;
+        }
+        
+        NSString *body = ((id<YASNativeTextComponent>)[nativeAdViewAd component: @"body"]).text;
+        NSString *advertiser = ((id<YASNativeTextComponent>)[nativeAdViewAd component: @"disclaimer"]).text;
+        NSString *callToAction = ((id<YASNativeTextComponent>)[nativeAdViewAd component: @"callToAction"]).text;
+        
+        MANativeAdImage *iconImage;
+        id<YASNativeImageComponent> iconImageComponent = (id<YASNativeImageComponent>)[nativeAdViewAd component: @"iconImage"];
+        if ( iconImageComponent )
+        {
+            UIImageView *iconImageView = [[UIImageView alloc] init];
+            iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+            [iconImageComponent prepareView: iconImageView];
+            
+            // NOTE: Yahoo's SDK only returns UIImageView with the image pre-cached, we cannot use the 'URL' property
+            // since it is un-cached and our SDK will attempt to re-cache it, and we do not support passing UIImageView for custom native
+            iconImage = [[MANativeAdImage alloc] initWithImage: iconImageView.image];
+        }
+        
+        UIView *mediaView;
+        id<YASNativeVideoComponent> videoComponent = (id<YASNativeVideoComponent>)[nativeAdViewAd component: @"video"];
+        id<YASNativeImageComponent> mainImageComponent = (id<YASNativeImageComponent>)[nativeAdViewAd component: @"mainImage"];
+        
+        // If video is available, use that
+        if ( videoComponent )
+        {
+            mediaView = [[YASYahooVideoPlayerView alloc] init];
+            [videoComponent prepareView: (YASVideoPlayerView *) mediaView];
+        }
+        else if ( mainImageComponent )
+        {
+            mediaView = [[UIImageView alloc] init];
+            mediaView.contentMode = UIViewContentModeScaleAspectFit;
+            [mainImageComponent prepareView: (UIImageView *) mediaView];
+        }
+        
+        self.parentAdapter.nativeAdViewAd = nativeAdViewAd;
+        
+        MANativeAd *maxNativeAd = [[MAVerizonNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                          adFormat: self.adFormat
+                                                                      builderBlock:^(MANativeAdBuilder *builder) {
+            builder.title = title;
+            builder.body = body;
+            builder.advertiser = advertiser;
+            builder.callToAction = callToAction;
+            builder.icon = iconImage;
+            builder.mediaView = mediaView;
+        }];
+        
+        NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        NSString *validTemplateName = [self.parentAdapter validTemplateUsingTemplateName: templateName];
+        MANativeAdView *maxNativeAdView = [self.parentAdapter createMaxNativeAdViewWithNativeAd: maxNativeAd templateName: validTemplateName];
+        
+        [maxNativeAd prepareViewForInteraction: maxNativeAdView];
+        
+        NSString *creativeId = nativeAdViewAd.creativeInfo.creativeId;
+        if ( ALSdk.versionCode >= 6150000 && [creativeId al_isValidString] )
+        {
+            [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
+                                withObject: maxNativeAdView
+                                withObject: @{@"creative_id" : creativeId}];
+        }
+        else
+        {
+            [self.delegate didLoadAdForAdView: maxNativeAdView];
+        }
+    });
+}
+
+- (void)nativeAdLoadDidFail:(YASNativeAd *)nativeAd withError:(YASErrorInfo *)errorInfo
+{
+    MAAdapterError *adapterError = [ALVerizonAdsMediationAdapter toMaxError: errorInfo];
+    [self.parentAdapter log: @"Native %@ ad (%@) failed to load with error: %@", self.adFormat.label, nativeAd.placementId, adapterError];
+    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)nativeAdDidFail:(YASNativeAd *)nativeAd withError:(YASErrorInfo *)errorInfo
+{
+    MAAdapterError *adapterError = [ALVerizonAdsMediationAdapter toMaxError: errorInfo];
+    [self.parentAdapter log: @"Native %@ ad (%@) failed to load with error: %@", self.adFormat.label, nativeAd.placementId, adapterError];
+    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)nativeAdClicked:(YASNativeAd *)nativeAd withComponent:(id<YASNativeComponent>)component
+{
+    [self.parentAdapter log: @"Native %@ ad clicked", self.adFormat.label];
+    [self.delegate didClickAdViewAd];
+}
+
+- (void)nativeAdDidLeaveApplication:(YASNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native %@ ad left application", self.adFormat.label];
+}
+
+- (void)nativeAdDidClose:(YASNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native %@ ad closed", self.adFormat.label];
+}
+
+- (void)nativeAd:(YASNativeAd *)nativeAd event:(NSString *)eventId source:(NSString *)source arguments:(NSDictionary<NSString *, id> *)arguments
+{
+    [self.parentAdapter log: @"Native event from source: %@ with event ID: %@ and arguments: %@", source, eventId, arguments];
+    
+    if ( [kMAAdImpressionEventId isEqualToString: eventId] )
+    {
+        [self.delegate didDisplayAdViewAdWithExtraInfo: nil];
+    }
+}
+
+- (UIViewController *)nativeAdPresentingViewController
+{
+    return [ALUtils topViewControllerFromKeyWindow];
+}
+
+@end
+
 @implementation ALVerizonAdsMediationAdapterNativeAdDelegate
 
 - (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter
@@ -812,9 +1023,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         if ( isTemplateAd && ![title al_isValidString] )
         {
             [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
-            [self.delegate didFailToLoadNativeAdWithError:
-             [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]
-            ];
+            [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
             
             return;
         }
@@ -822,6 +1031,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         self.parentAdapter.nativeAd = nativeAd;
         
         MANativeAd *maxNativeAd = [[MAVerizonNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                          adFormat: MAAdFormat.native
                                                                       builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = title;
             builder.body = body;
@@ -900,9 +1110,9 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 
 @implementation MAVerizonNativeAd
 
-- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALVerizonAdsMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)adFormat builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
-    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    self = [super initWithFormat: adFormat  builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
@@ -912,19 +1122,19 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    YASNativeAd *nativeAd = self.parentAdapter.nativeAd;
-    if ( !nativeAd )
+    YASNativeAd *ad = self.format == MAAdFormat.native ? self.parentAdapter.nativeAd : self.parentAdapter.nativeAdViewAd;
+    if ( !ad )
     {
         [self.parentAdapter e: @"Failed to register native ad view for interaction: Native ad is nil."];
         return;
     }
     
-    id<YASNativeTextComponent> titleComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"title"];
-    id<YASNativeTextComponent> disclaimerComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"disclaimer"];
-    id<YASNativeTextComponent> bodyComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"body"];
-    id<YASNativeTextComponent> ctaComponent = (id<YASNativeTextComponent>)[self.parentAdapter.nativeAd component: @"callToAction"];
-    id<YASNativeImageComponent> iconComponent = (id<YASNativeImageComponent>)[self.parentAdapter.nativeAd component: @"iconImage"];
-
+    id<YASNativeTextComponent> titleComponent = (id<YASNativeTextComponent>)[ad component: @"title"];
+    id<YASNativeTextComponent> disclaimerComponent = (id<YASNativeTextComponent>)[ad component: @"disclaimer"];
+    id<YASNativeTextComponent> bodyComponent = (id<YASNativeTextComponent>)[ad component: @"body"];
+    id<YASNativeTextComponent> ctaComponent = (id<YASNativeTextComponent>)[ad component: @"callToAction"];
+    id<YASNativeImageComponent> iconComponent = (id<YASNativeImageComponent>)[ad component: @"iconImage"];
+    
     if ( titleComponent && maxNativeAdView.titleLabel )
     {
         [titleComponent prepareLabel: maxNativeAdView.titleLabel];
@@ -946,7 +1156,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         [iconComponent prepareView: maxNativeAdView.iconImageView];
     }
     
-    [self.parentAdapter.nativeAd registerContainerView: maxNativeAdView];
+    [ad registerContainerView: maxNativeAdView];
 }
 
 @end
