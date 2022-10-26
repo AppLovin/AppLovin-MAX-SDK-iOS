@@ -15,7 +15,7 @@
 #import <MobileFuseSDK/MFBannerAd.h>
 #import <MobileFuseSDK/MFRewardedAd.h>
 
-#define ADAPTER_VERSION @"1.3.0.0"
+#define ADAPTER_VERSION @"1.3.1.0"
 
 @interface ALMobileFuseInterstitialDelegate : NSObject<IMFAdCallbackReceiver>
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
