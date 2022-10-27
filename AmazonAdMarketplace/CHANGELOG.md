@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.5.6.0
+* Certified with APS SDK 4.5.6. 
+* Add try/catch to signal collection to avoid crashes.
+
 ## 4.5.5.0
 * Certified with APS SDK 4.5.5.
 

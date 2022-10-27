@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.5.5.0"
+#define ADAPTER_VERSION @"4.5.6.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -251,46 +251,54 @@ static NSString *ALAPSSDKVersion;
 {
     [self d: @"Processing ad response..."];
     
-    NSString *encodedBidId = [adResponse amznSlots];
-    if ( [encodedBidId al_isValidString] )
+    @try
     {
-        ALTAMAmazonMediationHints *mediationHints = [[ALTAMAmazonMediationHints alloc] initWithValue: [adResponse mediationHints]];
-        
-        @synchronized ( ALMediationHintsCacheLock )
+        NSString *encodedBidId = [adResponse amznSlots];
+        if ( [encodedBidId al_isValidString] )
         {
-            // Store mediation hints for the actual ad request
-            ALMediationHintsCache[encodedBidId] = mediationHints;
-        }
-        
-        // In the case that Amazon loses the auction - clean up the mediation hints
-        NSTimeInterval mediationHintsCacheCleanupDelaySec = [parameters.serverParameters al_numberForKey: @"mediation_hints_cleanup_delay_sec"
-                                                                                            defaultValue: @(5 * 60)].al_timeIntervalValue;
-        
-        if ( mediationHintsCacheCleanupDelaySec > 0 )
-        {
-            NSString *mediationHintsId = mediationHints.identifier;
+            ALTAMAmazonMediationHints *mediationHints = [[ALTAMAmazonMediationHints alloc] initWithValue: [adResponse mediationHints]];
             
-            dispatchOnMainQueueAfter(mediationHintsCacheCleanupDelaySec, ^{
+            @synchronized ( ALMediationHintsCacheLock )
+            {
+                // Store mediation hints for the actual ad request
+                ALMediationHintsCache[encodedBidId] = mediationHints;
+            }
+            
+            // In the case that Amazon loses the auction - clean up the mediation hints
+            NSTimeInterval mediationHintsCacheCleanupDelaySec = [parameters.serverParameters al_numberForKey: @"mediation_hints_cleanup_delay_sec"
+                                                                                                defaultValue: @(5 * 60)].al_timeIntervalValue;
+            
+            if ( mediationHintsCacheCleanupDelaySec > 0 )
+            {
+                NSString *mediationHintsId = mediationHints.identifier;
                 
-                @synchronized ( ALMediationHintsCacheLock )
-                {
-                    // Check if this is the same mediation hints / bid info as when the cleanup was scheduled
-                    ALTAMAmazonMediationHints *currentMediationHints = ALMediationHintsCache[encodedBidId];
-                    if ( [currentMediationHints.identifier isEqual: mediationHintsId] )
+                dispatchOnMainQueueAfter(mediationHintsCacheCleanupDelaySec, ^{
+                    
+                    @synchronized ( ALMediationHintsCacheLock )
                     {
-                        [ALMediationHintsCache removeObjectForKey: encodedBidId];
+                        // Check if this is the same mediation hints / bid info as when the cleanup was scheduled
+                        ALTAMAmazonMediationHints *currentMediationHints = ALMediationHintsCache[encodedBidId];
+                        if ( [currentMediationHints.identifier isEqual: mediationHintsId] )
+                        {
+                            [ALMediationHintsCache removeObjectForKey: encodedBidId];
+                        }
                     }
-                }
-            });
+                });
+            }
+            
+            [self d: @"Successfully loaded encoded bid id: %@", encodedBidId];
+            
+            [delegate didCollectSignal: encodedBidId];
         }
-        
-        [self d: @"Successfully loaded encoded bid id: %@", encodedBidId];
-        
-        [delegate didCollectSignal: encodedBidId];
+        else
+        {
+            [self failSignalCollectionWithErrorMessage: @"Received empty bid id" andNotify: delegate];
+        }
     }
-    else
+    @catch ( NSException *exception )
     {
-        [self failSignalCollectionWithErrorMessage: @"Received empty bid id" andNotify: delegate];
+        [self e: @"Ad response processing failed" becauseOf: exception];
+        [self failSignalCollectionWithErrorMessage: @"Exception thrown while processing ad response" andNotify: delegate];
     }
 }
 
