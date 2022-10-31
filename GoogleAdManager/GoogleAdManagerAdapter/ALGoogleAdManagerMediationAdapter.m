@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.11.0.4"
+#define ADAPTER_VERSION @"9.11.0.5"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
@@ -87,14 +87,18 @@
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+@property (nonatomic, assign) NSInteger gadNativeAdViewTag;
 - (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
-                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                           parameters:(id<MAAdapterResponseParameters>)parameters
                             andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 @end
 
 @interface MAGoogleAdManagerNativeAd : MANativeAd
-@property (nonatomic, weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
-- (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+@property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
+@property (nonatomic, assign) NSInteger gadNativeAdViewTag;
+- (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
+                   gadNativeAdViewTag:(NSInteger)gadNativeAdViewTag
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
@@ -116,6 +120,7 @@
 @property (nonatomic, strong) ALGoogleAdManagerAdViewDelegate *adViewAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerNativeAdViewAdDelegate *nativeAdViewAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerNativeAdDelegate *nativeAdAdapterDelegate;
+@property (nonatomic, assign, getter=isNativeCustomTagValid) BOOL nativeCustomTagValid;
 
 @end
 
@@ -175,10 +180,16 @@ static NSString *ALGoogleSDKVersion;
     [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
-    // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
-    [self.nativeAdView removeFromSuperview];
+    // Only remove the view when the tag is invalid and hence is not the publisher's own view
+    if ( ![self isNativeCustomTagValid] )
+    {
+        // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
+        [self.nativeAdView removeFromSuperview];
+    }
+    
     self.nativeAdView = nil;
     self.nativeAdViewAdapterDelegate = nil;
+    self.nativeAdAdapterDelegate = nil;
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -571,7 +582,7 @@ static NSString *ALGoogleSDKVersion;
     nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = [templateName containsString: @"medium"];
     
     self.nativeAdAdapterDelegate = [[ALGoogleAdManagerNativeAdDelegate alloc] initWithParentAdapter: self
-                                                                                   serverParameters: parameters.serverParameters
+                                                                                         parameters: parameters
                                                                                           andNotify: delegate];
     
     // Fetching the top view controller needs to be on the main queue
@@ -1322,15 +1333,25 @@ static NSString *ALGoogleSDKVersion;
 @implementation ALGoogleAdManagerNativeAdDelegate
 
 - (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
-                     serverParameters:(NSDictionary<NSString *,id> *)serverParameters
-                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 {
     self = [super init];
     if ( self )
     {
-        self.serverParameters = serverParameters;
         self.parentAdapter = parentAdapter;
+        self.serverParameters = parameters.serverParameters;
         self.delegate = delegate;
+        
+        id gadNativeAdViewTagObj = parameters.localExtraParameters[@"google_native_ad_view_tag"];
+        if ( [gadNativeAdViewTagObj isKindOfClass: [NSNumber class]] )
+        {
+            self.gadNativeAdViewTag = ((NSNumber *) gadNativeAdViewTagObj).integerValue;
+        }
+        else
+        {
+            self.gadNativeAdViewTag = -1;
+        }
     }
     return self;
 }
@@ -1382,7 +1403,9 @@ static NSString *ALGoogleSDKVersion;
         nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
     });
     
-    MANativeAd *maxNativeAd = [[MAGoogleAdManagerNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+    MANativeAd *maxNativeAd = [[MAGoogleAdManagerNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                    gadNativeAdViewTag: self.gadNativeAdViewTag
+                                                                          builderBlock:^(MANativeAdBuilder *builder) {
         
         builder.title = nativeAd.headline;
         builder.body = nativeAd.body;
@@ -1461,12 +1484,15 @@ static NSString *ALGoogleSDKVersion;
 
 @implementation MAGoogleAdManagerNativeAd
 
-- (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALGoogleAdManagerMediationAdapter *)parentAdapter
+                   gadNativeAdViewTag:(NSInteger)gadNativeAdViewTag
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
     self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
+        self.gadNativeAdViewTag = gadNativeAdViewTag;
     }
     return self;
 }
@@ -1480,7 +1506,24 @@ static NSString *ALGoogleSDKVersion;
         return;
     }
     
-    GADNativeAdView *gadNativeAdView = [[GADNativeAdView alloc] init];
+    // Check if the publisher included Google's `GADNativeAdView`. If we can use an integrated view, Google
+    // won't need to overlay the view on top of the pub view, causing unrelated buttons to be unclickable
+    GADNativeAdView *gadNativeAdView = [maxNativeAdView viewWithTag: self.gadNativeAdViewTag];
+    if ( [gadNativeAdView isKindOfClass: [GADNativeAdView class]] )
+    {
+        self.parentAdapter.nativeCustomTagValid = YES;
+    }
+    else
+    {
+        gadNativeAdView = [[GADNativeAdView alloc] init];
+        
+        // NOTE: iOS needs order to be maxNativeAdView -> gadNativeAdView in order for assets to be sized correctly
+        [maxNativeAdView addSubview: gadNativeAdView];
+        
+        // Pin view in order to make it clickable - this makes views not registered with the native ad view unclickable
+        [gadNativeAdView al_pinToSuperview];
+    }
+    
     gadNativeAdView.iconView = maxNativeAdView.iconImageView;
     gadNativeAdView.headlineView = maxNativeAdView.titleLabel;
     gadNativeAdView.bodyView = maxNativeAdView.bodyLabel;
@@ -1507,12 +1550,6 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
     
     gadNativeAdView.nativeAd = self.parentAdapter.nativeAd;
-    
-    // NOTE: iOS needs order to be maxNativeAdView -> gadNativeAdView in order for assets to be sized correctly
-    [maxNativeAdView addSubview: gadNativeAdView];
-    
-    // Pin view in order to make it clickable
-    [gadNativeAdView al_pinToSuperview];
     
     self.parentAdapter.nativeAdView = gadNativeAdView;
 }

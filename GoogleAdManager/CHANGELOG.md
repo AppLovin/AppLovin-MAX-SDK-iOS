@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.11.0.5
+* Fix non-native ad view related buttons becoming unclickable under custom native ad view. Please visit our updated [integration steps](https://dash.applovin.com/documentation/mediation/ios/ad-formats/native-manual#bind-ui-components) for further details.
+
 ## 9.11.0.4
 * Remove redundant client side check for setting user consent.
 
