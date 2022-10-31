@@ -13,7 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ALGoogleNativeAd : MANativeAd
 
-- (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter
+                   gadNativeAdViewTag:(NSInteger)gadNativeAdViewTag
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 
 @end

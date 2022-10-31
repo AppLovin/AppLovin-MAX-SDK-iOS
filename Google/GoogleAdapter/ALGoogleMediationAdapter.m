@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.11.0.5"
+#define ADAPTER_VERSION @"9.11.0.6"
 
 @interface ALGoogleMediationAdapter()
 
@@ -38,6 +38,7 @@
 @property (nonatomic, strong) ALGoogleAdViewDelegate *adViewDelegate;
 @property (nonatomic, strong) ALGoogleNativeAdViewDelegate *nativeAdViewDelegate;
 @property (nonatomic, strong) ALGoogleNativeAdDelegate *nativeAdDelegate;
+@property (nonatomic, assign, getter=isNativeCustomTagValid) BOOL nativeCustomTagValid;
 
 @end
 
@@ -135,10 +136,16 @@ static NSString *ALGoogleSDKVersion;
     [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
-    // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
-    [self.nativeAdView removeFromSuperview];
+    // Only remove the view when the tag is invalid and hence is not the publisher's own view
+    if ( ![self isNativeCustomTagValid] )
+    {
+        // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
+        [self.nativeAdView removeFromSuperview];
+    }
+    
     self.nativeAdView = nil;
     self.nativeAdViewDelegate = nil;
+    self.nativeAdDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -617,7 +624,7 @@ static NSString *ALGoogleSDKVersion;
     nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = [templateName containsString: @"medium"];
     
     self.nativeAdDelegate = [[ALGoogleNativeAdDelegate alloc] initWithParentAdapter: self
-                                                                   serverParameters: parameters.serverParameters
+                                                                         parameters: parameters
                                                                           andNotify: delegate];
     
     // Fetching the top view controller needs to be on the main queue
