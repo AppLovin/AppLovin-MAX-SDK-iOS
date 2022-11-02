@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.2.4.0.0"
+#define ADAPTER_VERSION @"7.2.4.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -66,9 +66,19 @@
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter parameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 @end
 
+@interface ALMintegralMediationAdapterNativeAdViewDelegate: NSObject<MTGNativeAdManagerDelegate, MTGBidNativeAdManagerDelegate, MTGMediaViewDelegate>
+@property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
+@property (nonatomic,   weak) MAAdFormat *format;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+@property (nonatomic, strong) NSString *unitId;
+@property (nonatomic, strong) NSString *placementId;
+- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter format:(MAAdFormat *)format parameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+@end
+
 @interface MAMintegralNativeAd : MANativeAd
 @property (nonatomic, weak) ALMintegralMediationAdapter *parentAdapter;
-- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
@@ -79,6 +89,7 @@
 @property (nonatomic, strong) MTGSplashAD *appOpenAd;
 @property (nonatomic, strong) MTGBannerAdView *bannerAdView;
 @property (nonatomic, strong) MTGBidNativeAdManager *bidNativeAdManager;
+@property (nonatomic, strong) MTGBidNativeAdManager *bidNativeAdViewManager;
 @property (nonatomic, strong) MTGCampaign *nativeAdCampaign;
 @property (nonatomic,   weak) MANativeAdView *maxNativeAdView;
 @property (nonatomic, strong) NSArray<UIView *> *clickableViews;
@@ -88,6 +99,7 @@
 @property (nonatomic, strong) ALMintegralMediationAdapterRewardedDelegate *rewardedDelegate;
 @property (nonatomic, strong) ALMintegralMediationAdapterBannerViewDelegate *bannerDelegate;
 @property (nonatomic, strong) ALMintegralMediationAdapterNativeAdDelegate *nativeAdDelegate;
+@property (nonatomic, strong) ALMintegralMediationAdapterNativeAdViewDelegate *nativeAdViewDelegate;
 
 @end
 
@@ -186,6 +198,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     self.bidNativeAdManager.delegate = nil;
     self.bidNativeAdManager = nil;
     
+    [self.bidNativeAdViewManager unregisterView: self.maxNativeAdView clickableViews: self.clickableViews];
+    self.bidNativeAdViewManager.delegate = nil;
+    self.bidNativeAdViewManager = nil;
+    
     self.nativeAdCampaign = nil;
     
     self.interstitialDelegate = nil;
@@ -193,6 +209,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     self.rewardedDelegate = nil;
     self.bannerDelegate = nil;
     self.nativeAdDelegate = nil;
+    self.nativeAdViewDelegate = nil;
 }
 
 #pragma mark - Signal Collection
@@ -294,7 +311,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show interstitial - no ad loaded..."];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -322,7 +342,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     if ( ![self.appOpenAd isBiddingADReadyToShow] )
     {
         [self log: @"Unable to show app open ad - no ad loaded..."];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                        errorString: @"Ad Display Failed"
+                                                           mediatedNetworkErrorCode: 0
+                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
         
         return;
     }
@@ -432,7 +455,10 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show rewarded ad - no ad loaded..."];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -447,26 +473,46 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     NSString *unitId = parameters.thirdPartyAdPlacementIdentifier;
     NSString *placementId = [parameters.serverParameters al_stringForKey: @"placement_id"];
     
-    self.bannerAdView = [[MTGBannerAdView alloc] initBannerAdViewWithBannerSizeType: sizeType
-                                                                        placementId: placementId
-                                                                             unitId: unitId
-                                                                 rootViewController: [ALUtils topViewControllerFromKeyWindow]];
+    BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
+    [self log: @"Loading%@%@ AdView ad for placement: %lld...", isNative ? @" native " : @" ", adFormat.label, placementId];
     
-    self.bannerDelegate = [[ALMintegralMediationAdapterBannerViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.bannerAdView.delegate = self.bannerDelegate;
-    
-    self.bannerAdView.autoRefreshTime = 0;
-    self.bannerAdView.showCloseButton = MTGBoolNo;
-    
-    if ( [parameters.bidResponse al_isValidString] )
+    if ( isNative )
     {
-        [self log: @"Loading bidding banner ad for unit id: %@ and placement id: %@...", unitId, placementId];
-        [self.bannerAdView loadBannerAdWithBidToken: parameters.bidResponse];
+        self.nativeAdViewDelegate = [[ALMintegralMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                            format: adFormat
+                                                                                                        parameters: parameters
+                                                                                                         andNotify: delegate];
+        
+        // NOTE: Mintegral's demo and MoPub's adapter does not enable `autoCacheImage` - may not guarantee that the image is cached
+        self.bidNativeAdViewManager = [[MTGBidNativeAdManager alloc] initWithPlacementId: placementId
+                                                                                  unitID: unitId
+                                                                          autoCacheImage: NO
+                                                                presentingViewController: nil];
+        
+        self.bidNativeAdViewManager.delegate = self.nativeAdViewDelegate;
+        [self.bidNativeAdViewManager loadWithBidToken: parameters.bidResponse];
     }
     else
     {
-        [self log: @"Loading mediated banner ad for unit id: %@ and placement id: %@...", unitId, placementId];
-        [self.bannerAdView loadBannerAd];
+        self.bannerAdView = [[MTGBannerAdView alloc] initBannerAdViewWithBannerSizeType: sizeType
+                                                                            placementId: placementId
+                                                                                 unitId: unitId
+                                                                     rootViewController: [ALUtils topViewControllerFromKeyWindow]];
+        
+        self.bannerDelegate = [[ALMintegralMediationAdapterBannerViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.bannerAdView.delegate = self.bannerDelegate;
+        
+        self.bannerAdView.autoRefreshTime = 0;
+        self.bannerAdView.showCloseButton = MTGBoolNo;
+        
+        if ( [parameters.bidResponse al_isValidString] )
+        {
+            [self.bannerAdView loadBannerAdWithBidToken: parameters.bidResponse];
+        }
+        else
+        {
+            [self.bannerAdView loadBannerAd];
+        }
     }
 }
 
@@ -564,6 +610,65 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                   thirdPartySdkErrorCode: mintegralErrorCode
                thirdPartySdkErrorMessage: mintegralError.localizedDescription];
 #pragma clang diagnostic pop
+}
+
+- (void)loadImageForURLString:(NSString *)urlString group:(dispatch_group_t)group successHandler:(void (^)(UIImage *image))successHandler;
+{
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        dispatch_group_enter(group);
+        
+        [[[NSURLSession sharedSession] dataTaskWithURL: [NSURL URLWithString: urlString]
+                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if ( error )
+            {
+                [self log: @"Failed to fetch native ad image with error: %@", error];
+            }
+            else if ( data )
+            {
+                [self log: @"Native ad image data retrieved"];
+                
+                UIImage *image = [UIImage imageWithData: data];
+                if ( image )
+                {
+                    successHandler(image);
+                }
+            }
+            
+            // Don't consider the block done until this task is complete
+            dispatch_group_leave(group);
+        }] resume];
+    });
+}
+
+- (MANativeAdView *)createMaxNativeAdViewWithNativeAd:(MANativeAd *)maxNativeAd templateName:(NSString *)templateName
+{
+    // Backend will pass down `vertical` as the template to indicate using a vertical native template
+    if ( [templateName containsString: @"vertical"] )
+    {
+        if ( ALSdk.versionCode < 6140500 )
+        {
+            [self log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
+        }
+        
+        if ( [templateName isEqualToString: @"vertical"] )
+        {
+            NSString *verticalTemplateName = ( maxNativeAd.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
+            return [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: verticalTemplateName];
+        }
+        else
+        {
+            return [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
+        }
+    }
+    else if ( ALSdk.versionCode < 6140500 )
+    {
+        return [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: [templateName al_isValidString] ? templateName : @"no_body_banner_template"];
+    }
+    else
+    {
+        return [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
+    }
 }
 
 - (MTGBannerSizeType)sizeTypeFromAdFormat:(MAAdFormat *)adFormat
@@ -957,6 +1062,190 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 @end
 
+#pragma mark MTGNativeAdViewDelegate Methods
+
+@implementation ALMintegralMediationAdapterNativeAdViewDelegate
+
+- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter format:(MAAdFormat *)format parameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAdViewAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.format = format;
+        self.serverParameters = parameters.serverParameters;
+        self.delegate = delegate;
+        
+        self.unitId = parameters.thirdPartyAdPlacementIdentifier;
+        self.placementId = [self.serverParameters al_stringForKey: @"placement_id"];
+    }
+    return self;
+}
+
+- (void)nativeAdsLoaded:(NSArray *)nativeAds bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    if ( !nativeAds || nativeAds.count == 0 )
+    {
+        [self.parentAdapter log: @"Native %@ ad failed to load for unit id: %@ placement id: %@ with error: no fill", self.format.label, self.unitId, self.placementId];
+        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
+        return;
+    }
+    
+    MTGCampaign *campaign = nativeAds[0];
+    if ( ![campaign.appName al_isValidString] )
+    {
+        [self.parentAdapter log: @"Native %@ ad failed to load for unit id: %@ placement id: %@ with error: missing required assets", self.format.label, self.unitId, self.placementId];
+        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        
+        return;
+    }
+    
+    self.parentAdapter.nativeAdCampaign = campaign;
+    
+    [self.parentAdapter log: @"Native %@ ad loaded for unit id: %@ placement id: %@", self.format.label, self.unitId, self.placementId];
+    
+    // Run image fetching tasks asynchronously in the background
+    dispatch_group_t group = dispatch_group_create();
+    
+    __block MANativeAdImage *iconImage = nil;
+    __block MANativeAdImage *mainImage = nil;
+    NSString *iconURL = campaign.iconUrl;
+    NSString *mainImageURL = campaign.imageUrl;
+    if ( [iconURL al_isValidURL] )
+    {
+        [self.parentAdapter log: @"Fetching native ad icon: %@", iconURL];
+        [self.parentAdapter loadImageForURLString: iconURL group: group successHandler:^(UIImage *image) {
+            iconImage = [[MANativeAdImage alloc] initWithImage: image];
+        }];
+    }
+    if ( [mainImageURL al_isValidString] )
+    {
+        [self.parentAdapter log: @"Fetching native ad main image: %@", mainImageURL];
+        [self.parentAdapter loadImageForURLString: mainImageURL group: group successHandler:^(UIImage *image) {
+            mainImage = [[MANativeAdImage alloc] initWithImage: image];
+        }];
+    }
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        // Timeout tasks if incomplete within the given time
+        NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        
+        dispatchOnMainQueue(^{
+            MTGMediaView *mediaView = [[MTGMediaView alloc] initWithFrame: CGRectZero];
+            [mediaView setMediaSourceWithCampaign: campaign unitId: self.unitId];
+            mediaView.delegate = self;
+            
+            MTGAdChoicesView *adChoicesView = [[MTGAdChoicesView alloc] initWithFrame: CGRectZero];
+            adChoicesView.campaign = campaign;
+            
+            MANativeAd *maxNativeAdViewAd = [[MAMintegralNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = campaign.appName;
+                builder.body = campaign.appDesc;
+                builder.callToAction = campaign.adCall;
+                builder.icon = iconImage;
+                builder.mediaView = mediaView;
+                builder.optionsView = adChoicesView;
+            }];
+            
+            NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+            MANativeAdView *maxNativeAdView = [self.parentAdapter createMaxNativeAdViewWithNativeAd: maxNativeAdViewAd templateName: templateName];
+            
+            [maxNativeAdViewAd prepareViewForInteraction: maxNativeAdView];
+            
+            // Mintegral is not providing creative id for native ads
+            [self.delegate didLoadAdForAdView: maxNativeAdView];
+        });
+    });
+}
+
+- (void)nativeAdsFailedToLoadWithError:(NSError *)error bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    MAAdapterError *adapterError = [ALMintegralMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Native %@ ad failed to load for unit id: %@ placement id: %@ with error: %@", self.format.label, self.unitId, self.placementId, adapterError];
+    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)nativeAdImpressionWithType:(MTGAdSourceType)type bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    [self.parentAdapter log: @"Native %@ ad shown for unit id: %@ placement id: %@", self.format.label, self.unitId, self.placementId];
+    [self.delegate didDisplayAdViewAd];
+}
+
+- (void)nativeAdDidClick:(MTGCampaign *)nativeAd bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    [self.parentAdapter log: @"Native %@ ad clicked for unit id: %@ placement id: %@", self.format.label, self.unitId, self.placementId];
+    [self.delegate didClickAdViewAd];
+}
+
+- (void)nativeAdClickUrlWillStartToJump:(NSURL *)clickUrl bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    [self.parentAdapter log: @"Native %@ ad click will start jump for unit id: %@ placement id: %@", self.format.label, self.unitId, self.placementId];
+}
+
+- (void)nativeAdClickUrlDidJumpToUrl:(NSURL *)jumpUrl bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    [self.parentAdapter log: @"Native %@ ad click did jump for unit id: %@ placement id: %@", self.format.label, self.unitId, self.placementId];
+}
+
+- (void)nativeAdClickUrlDidEndJump:(NSURL *)finalUrl error:(NSError *)error bidNativeManager:(MTGBidNativeAdManager *)bidNativeManager
+{
+    [self.parentAdapter log: @"Native %@ ad click did end jump for unit id: %@ placement id: %@", self.format.label, self.unitId, self.placementId];
+}
+
+#pragma mark MTGMediaViewDelegate methods
+
+- (void)MTGMediaViewWillEnterFullscreen:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view will enter fullscreen"];
+}
+
+- (void)MTGMediaViewDidExitFullscreen:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view did exit fullscreen"];
+}
+
+- (void)MTGMediaViewVideoDidStart:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view video did start"];
+}
+
+- (void)MTGMediaViewVideoPlayCompleted:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view video did complete"];
+}
+
+- (void)nativeAdDidClick:(MTGCampaign *)nativeAd mediaView:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view clicked for unit id: %@ placement id: %@", self.unitId, self.placementId];
+    [self.delegate didClickAdViewAd];
+}
+
+- (void)nativeAdClickUrlWillStartToJump:(NSURL *)clickURL mediaView:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view click will start jump to: %@", clickURL];
+}
+
+- (void)nativeAdClickUrlDidJumpToUrl:(NSURL *)jumpURL mediaView:(MTGMediaView *)mediaView
+{
+    [self.parentAdapter log: @"Media view click did jump to: %@", jumpURL];
+}
+
+- (void)nativeAdClickUrlDidEndJump:(nullable NSURL *)finalURL error:(nullable NSError *)error mediaView:(MTGMediaView *)mediaView
+{
+    NSString *errorString = [NSString stringWithFormat: @" with error: %@", error.localizedDescription];
+    [self.parentAdapter log: @"Media view click did end jump to: %@%@", finalURL, error ? errorString: @""];
+}
+
+- (void)nativeAdImpressionWithType:(MTGAdSourceType)type mediaView:(MTGMediaView *)mediaView;
+{
+    [self.parentAdapter log: @"Media view impression did start"];
+    [self.delegate didDisplayAdViewAd];
+}
+
+@end
+
 #pragma mark MTGNativeAdDelegate Methods
 
 @implementation ALMintegralMediationAdapterNativeAdDelegate
@@ -1049,14 +1338,14 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     if ( [iconURL al_isValidURL] )
     {
         [self.parentAdapter log: @"Fetching native ad icon: %@", iconURL];
-        [self loadImageForURLString: iconURL group: group successHandler:^(UIImage *image) {
+        [self.parentAdapter loadImageForURLString: iconURL group: group successHandler:^(UIImage *image) {
             iconImage = [[MANativeAdImage alloc] initWithImage: image];
         }];
     }
     if ( [mainImageURL al_isValidString] )
     {
         [self.parentAdapter log: @"Fetching native ad main image: %@", mainImageURL];
-        [self loadImageForURLString: mainImageURL group: group successHandler:^(UIImage *image) {
+        [self.parentAdapter loadImageForURLString: mainImageURL group: group successHandler:^(UIImage *image) {
             mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }];
     }
@@ -1075,7 +1364,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             MTGAdChoicesView *adChoicesView = [[MTGAdChoicesView alloc] initWithFrame: CGRectZero];
             adChoicesView.campaign = campaign;
             
-            MANativeAd *maxNativeAd = [[MAMintegralNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+            MANativeAd *maxNativeAd = [[MAMintegralNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
                 builder.title = campaign.appName;
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
@@ -1096,35 +1385,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                                     withObject: @{}];
             }
         });
-    });
-}
-
-- (void)loadImageForURLString:(NSString *)urlString group:(dispatch_group_t)group successHandler:(void (^)(UIImage *image))successHandler;
-{
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
-        dispatch_group_enter(group);
-        
-        [[[NSURLSession sharedSession] dataTaskWithURL: [NSURL URLWithString: urlString]
-                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if ( error )
-            {
-                [self.parentAdapter log: @"Failed to fetch native ad image with error: %@", error];
-            }
-            else if ( data )
-            {
-                [self.parentAdapter log: @"Native ad image data retrieved"];
-                
-                UIImage *image = [UIImage imageWithData: data];
-                if ( image )
-                {
-                    successHandler(image);
-                }
-            }
-            
-            // Don't consider the block done until this task is complete
-            dispatch_group_leave(group);
-        }] resume];
     });
 }
 
@@ -1182,9 +1442,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 @implementation MAMintegralNativeAd
 
-- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
-    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    self = [super initWithFormat: format builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
@@ -1217,9 +1477,18 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         [clickableViews addObject: maxNativeAdView.mediaContentView];
     }
     
-    [self.parentAdapter.bidNativeAdManager registerViewForInteraction: maxNativeAdView
-                                                   withClickableViews: clickableViews
-                                                         withCampaign: self.parentAdapter.nativeAdCampaign];
+    if ( self.format == MAAdFormat.native )
+    {
+        [self.parentAdapter.bidNativeAdManager registerViewForInteraction: maxNativeAdView
+                                                       withClickableViews: clickableViews
+                                                             withCampaign: self.parentAdapter.nativeAdCampaign];
+    }
+    else
+    {
+        [self.parentAdapter.bidNativeAdViewManager registerViewForInteraction: maxNativeAdView
+                                                           withClickableViews: clickableViews
+                                                                 withCampaign: self.parentAdapter.nativeAdCampaign];
+    }
     
     self.parentAdapter.maxNativeAdView = maxNativeAdView;
     self.parentAdapter.clickableViews = clickableViews;
