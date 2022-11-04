@@ -361,6 +361,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)RENDER_ERROR SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull COMPANION_VIEW;)
 + (NSString * _Nonnull)COMPANION_VIEW SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull REWARD;)
++ (NSString * _Nonnull)REWARD SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -553,6 +555,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSetting
 @end
 
 
+
 SWIFT_CLASS("_TtC5HyBid15HyBidSkipOffset")
 @interface HyBidSkipOffset : NSObject
 @property (nonatomic, strong) NSNumber * _Nullable offset;
@@ -576,5 +579,3 @@ SWIFT_CLASS("_TtC5HyBid19HyBidTargetingModel")
 #endif
 #pragma clang diagnostic pop
 #endif
-
-
