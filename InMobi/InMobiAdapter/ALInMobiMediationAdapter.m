@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.0.2"
+#define ADAPTER_VERSION @"10.1.1.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -296,7 +296,10 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( !success )
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -324,7 +327,10 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( !success )
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
