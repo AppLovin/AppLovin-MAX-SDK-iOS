@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.1.7.0
+* Certified with Fyber SDK 8.1.7.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 8.1.6.0
 * Certified with Fyber SDK 8.1.6.
 
