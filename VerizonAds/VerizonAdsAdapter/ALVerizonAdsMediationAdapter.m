@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.2.0.1"
+#define ADAPTER_VERSION @"2.2.0.2"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -227,7 +227,10 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( !self.interstitialAd )
     {
         [self log: @"Unable to show interstitial - no ad loaded"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         
         return;
     }
@@ -274,7 +277,10 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( !self.rewardedAd )
     {
         [self log: @"Unable to show rewarded ad - no ad loaded"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         
         return;
     }
@@ -312,6 +318,14 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     
     if ( isNative )
     {
+        if ( ALSdk.versionCode < 11050500 )
+        {
+            [self log: @"Failing ad load for AppLovin SDK < 11.5.5 since native ad view ad templates don't have some assets required by Yahoo SDK on older AppLovin SDKs."];
+            [delegate didFailToLoadAdViewAdWithError: MAAdapterError.unspecified];
+            
+            return;
+        }
+        
         self.nativeAdViewAdDelegate = [[ALVerizonAdsMediationAdapterNativeAdViewAdDelegate alloc] initWithParentAdapter: self
                                                                                                                adFormat: adFormat
                                                                                                        serverParameters: parameters.serverParameters
@@ -517,27 +531,20 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     }
 }
 
-- (MANativeAdView *)createMaxNativeAdViewWithNativeAd:(MANativeAd *)maxNativeAd templateName:(NSString *)templateName
-{
-    if ( ALSdk.versionCode < 6140000 )
-    {
-        [self log: @"Native ads with media views are only supported on MAX SDK version 6.14.0 and above. Default native template will be used."];
-        return [MANativeAdView nativeAdViewFromAd: maxNativeAd];
-    }
-    
-    if ( ALSdk.versionCode < 6140500 && [templateName containsString: @"vertical"] )
-    {
-        [self log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-    }
-    
-    return [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
-}
-
 - (NSString *)validTemplateUsingTemplateName:(NSString *)templateName
 {
-    if ( [templateName al_isValidString] ) return templateName;
+    if ( [templateName al_isValidString] )
+    {
+        // Since all of the leader templates and the templates containing "media", have the
+        // requisite assets, we can just use the same templateName.
+        if ( [templateName containsString: @"media"] || [templateName containsString: @"leader"] ) return templateName;
+        
+        return [templateName containsString: @"vertical"] ? @"vertical_media_banner_template" : @"media_banner_template";
+    }
     
-    return ALSdk.versionCode < 6140500 ? @"no_body_banner_template" : @"media_banner_template";
+    // We can just return the banner template, because for an mrec
+    // it would by default use the mrec template which is compatible
+    return @"media_banner_template";
 }
 
 @end
@@ -888,7 +895,7 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
         
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         NSString *validTemplateName = [self.parentAdapter validTemplateUsingTemplateName: templateName];
-        MANativeAdView *maxNativeAdView = [self.parentAdapter createMaxNativeAdViewWithNativeAd: maxNativeAd templateName: validTemplateName];
+        MANativeAdView *maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: validTemplateName];
         
         [maxNativeAd prepareViewForInteraction: maxNativeAdView];
         
