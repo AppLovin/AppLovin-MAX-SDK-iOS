@@ -5,7 +5,7 @@ s.authors =
 	'AppLovin Corporation' => 'devsupport@applovin.com'
 }
 s.name = 'AppLovinMediationVungleAdapter'
-s.version = '6.12.0.3'
+s.version = '6.12.1.0'
 s.platform = :ios, '10.0'
 s.summary = 'Vungle adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -29,7 +29,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'VungleSDK-iOS', '= 6.12.0'
+s.dependency 'VungleSDK-iOS', '= 6.12.1'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
