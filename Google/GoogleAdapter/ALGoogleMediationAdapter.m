@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.11.0.6"
+#define ADAPTER_VERSION @"9.13.0.0"
 
 @interface ALGoogleMediationAdapter()
 
@@ -38,7 +38,6 @@
 @property (nonatomic, strong) ALGoogleAdViewDelegate *adViewDelegate;
 @property (nonatomic, strong) ALGoogleNativeAdViewDelegate *nativeAdViewDelegate;
 @property (nonatomic, strong) ALGoogleNativeAdDelegate *nativeAdDelegate;
-@property (nonatomic, assign, getter=isNativeCustomTagValid) BOOL nativeCustomTagValid;
 
 @end
 
@@ -136,14 +135,10 @@ static NSString *ALGoogleSDKVersion;
     [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
-    // Only remove the view when the tag is invalid and hence is not the publisher's own view
-    if ( ![self isNativeCustomTagValid] )
-    {
-        // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
-        [self.nativeAdView removeFromSuperview];
-    }
-    
+    // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
+    [self.nativeAdView removeFromSuperview];
     self.nativeAdView = nil;
+    
     self.nativeAdViewDelegate = nil;
     self.nativeAdDelegate = nil;
 }
@@ -252,7 +247,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -384,7 +382,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"App open ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                        errorString: @"Ad Display Failed"
+                                                           mediatedNetworkErrorCode: 0
+                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
     }
 }
 
@@ -462,7 +463,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                                     errorString: @"Ad Display Failed"
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Rewarded Interstitial ad not ready"]];
     }
 }
 
@@ -540,7 +544,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 

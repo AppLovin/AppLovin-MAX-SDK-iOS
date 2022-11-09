@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.13.0.0
+* Certified with Google SDK 9.13.0.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures.
+* Remove SCAR APIs from adapter header file since classes are now included in the Google SDK.
+
 ## 9.11.0.6
 * Fix non-native ad view related buttons becoming unclickable under custom native ad view. Please visit our updated [integration steps](https://dash.applovin.com/documentation/mediation/ios/ad-formats/native-manual#bind-ui-components) for further details.
 

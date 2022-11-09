@@ -11,7 +11,6 @@
 @interface ALGoogleMediationAdapter()
 @property (nonatomic, strong) GADNativeAd *nativeAd;
 @property (nonatomic, strong) GADNativeAdView *nativeAdView;
-@property (nonatomic, assign, getter=isNativeCustomTagValid) BOOL nativeCustomTagValid;
 @end
 
 @interface ALGoogleNativeAd()
@@ -46,13 +45,12 @@
     // Check if the publisher included Google's `GADNativeAdView`. If we can use an integrated view, Google
     // won't need to overlay the view on top of the pub view, causing unrelated buttons to be unclickable
     GADNativeAdView *gadNativeAdView = [maxNativeAdView viewWithTag: self.gadNativeAdViewTag];
-    if ( [gadNativeAdView isKindOfClass: [GADNativeAdView class]] )
-    {
-        self.parentAdapter.nativeCustomTagValid = YES;
-    }
-    else
+    if ( ![gadNativeAdView isKindOfClass: [GADNativeAdView class]] )
     {
         gadNativeAdView = [[GADNativeAdView alloc] init];
+        
+        // Save the manually created view to be removed later
+        self.parentAdapter.nativeAdView = gadNativeAdView;
         
         // NOTE: iOS needs order to be maxNativeAdView -> gadNativeAdView in order for assets to be sized correctly
         [maxNativeAdView addSubview: gadNativeAdView];
@@ -87,8 +85,6 @@
 #pragma clang diagnostic pop
     
     gadNativeAdView.nativeAd = self.parentAdapter.nativeAd;
-    
-    self.parentAdapter.nativeAdView = gadNativeAdView;
 }
 
 @end
