@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.11.0.5"
+#define ADAPTER_VERSION @"9.13.0.0"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
@@ -120,7 +120,6 @@
 @property (nonatomic, strong) ALGoogleAdManagerAdViewDelegate *adViewAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerNativeAdViewAdDelegate *nativeAdViewAdapterDelegate;
 @property (nonatomic, strong) ALGoogleAdManagerNativeAdDelegate *nativeAdAdapterDelegate;
-@property (nonatomic, assign, getter=isNativeCustomTagValid) BOOL nativeCustomTagValid;
 
 @end
 
@@ -180,14 +179,10 @@ static NSString *ALGoogleSDKVersion;
     [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
-    // Only remove the view when the tag is invalid and hence is not the publisher's own view
-    if ( ![self isNativeCustomTagValid] )
-    {
-        // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
-        [self.nativeAdView removeFromSuperview];
-    }
-    
+    // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
+    [self.nativeAdView removeFromSuperview];
     self.nativeAdView = nil;
+    
     self.nativeAdViewAdapterDelegate = nil;
     self.nativeAdAdapterDelegate = nil;
 }
@@ -267,7 +262,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -346,7 +344,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"App open ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                        errorString: @"Ad Display Failed"
+                                                           mediatedNetworkErrorCode: 0
+                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
     }
 }
 
@@ -431,7 +432,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded interstitial ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                                     errorString: @"Ad Display Failed"
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Rewarded Interstitial not ready"]];
     }
 }
 
@@ -505,7 +509,10 @@ static NSString *ALGoogleSDKVersion;
     else
     {
         [self log: @"Rewarded ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -1509,13 +1516,12 @@ static NSString *ALGoogleSDKVersion;
     // Check if the publisher included Google's `GADNativeAdView`. If we can use an integrated view, Google
     // won't need to overlay the view on top of the pub view, causing unrelated buttons to be unclickable
     GADNativeAdView *gadNativeAdView = [maxNativeAdView viewWithTag: self.gadNativeAdViewTag];
-    if ( [gadNativeAdView isKindOfClass: [GADNativeAdView class]] )
-    {
-        self.parentAdapter.nativeCustomTagValid = YES;
-    }
-    else
+    if ( ![gadNativeAdView isKindOfClass: [GADNativeAdView class]] )
     {
         gadNativeAdView = [[GADNativeAdView alloc] init];
+        
+        // Save the manually created view to be removed later
+        self.parentAdapter.nativeAdView = gadNativeAdView;
         
         // NOTE: iOS needs order to be maxNativeAdView -> gadNativeAdView in order for assets to be sized correctly
         [maxNativeAdView addSubview: gadNativeAdView];
@@ -1550,8 +1556,6 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
     
     gadNativeAdView.nativeAd = self.parentAdapter.nativeAd;
-    
-    self.parentAdapter.nativeAdView = gadNativeAdView;
 }
 
 @end
