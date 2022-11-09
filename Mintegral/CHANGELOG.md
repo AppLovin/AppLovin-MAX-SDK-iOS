@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.2.5.0.0
+* Certified with Mintegral SDK 7.2.5.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+
 ## 7.2.4.0.1
 * Add support for native ad view ads.
 * Add additional details for ad display failures. 
