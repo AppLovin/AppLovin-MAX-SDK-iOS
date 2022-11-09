@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.0.4.0"
+#define ADAPTER_VERSION @"4.7.0.8.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -356,7 +356,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     else
     {
         [self log: @"App open ad failed to show: %@", parameters.thirdPartyAdPlacementIdentifier];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                        errorString: @"Ad Display Failed"
+                                                           mediatedNetworkErrorCode: 0
+                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
     }
 }
 
@@ -795,7 +798,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( error )
     {
         [self.parentAdapter log: @"Interstitial finished with error: %@", error];
-        [self.delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [self.delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                                  errorString: @"Ad Display Failed"
+                                                                     mediatedNetworkErrorCode: error.code
+                                                                  mediatedNetworkErrorMessage: error.localizedDescription]];
         
         return;
     }
@@ -1009,7 +1015,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( error )
     {
         [self.parentAdapter log: @"Rewarded ad finished with error: %@", error];
-        [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                              errorString: @"Ad Display Failed"
+                                                                 mediatedNetworkErrorCode: error.code
+                                                              mediatedNetworkErrorMessage: error.localizedDescription]];
         
         return;
     }
@@ -1078,7 +1087,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)nativeExpressBannerAdViewRenderFail:(BUNativeExpressBannerView *)bannerAdView error:(nullable NSError *)error
 {
     [self.parentAdapter log: @"AdView failed to show with error: %@", error];
-    [self.delegate didFailToDisplayAdViewAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+    [self.delegate didFailToDisplayAdViewAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                        errorString: @"Ad Display Failed"
+                                                           mediatedNetworkErrorCode: error.code
+                                                        mediatedNetworkErrorMessage: error.localizedDescription]];
 }
 
 - (void)nativeExpressBannerAdViewDidClick:(BUNativeExpressBannerView *)bannerAdView

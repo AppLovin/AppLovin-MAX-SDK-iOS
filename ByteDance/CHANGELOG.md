@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.7.0.8.0
+* Certified with ByteDance Global SDK 4.7.0.8.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 4.7.0.4.0
 * Certified with ByteDance Global SDK 4.7.0.4.
 * Certified with ByteDance China SDK 4.7.1.1.
