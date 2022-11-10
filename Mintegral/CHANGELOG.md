@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.6.0.0
+* Certified with Mintegral SDK 7.2.6.
+
 ## 7.2.5.0.0
 * Certified with Mintegral SDK 7.2.5.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
