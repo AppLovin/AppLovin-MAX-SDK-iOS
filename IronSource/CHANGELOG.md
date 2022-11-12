@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.2.5.1.1
+* Add support for banners and MRECs.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 7.2.5.1.0
 * Certified with IronSource SDK 7.2.5.1.
 

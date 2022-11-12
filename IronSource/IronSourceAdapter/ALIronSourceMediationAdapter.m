@@ -8,12 +8,13 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.2.5.1.0"
+#define ADAPTER_VERSION @"7.2.5.1.1"
 
-@interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
+@interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyBannerDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 + (NSString *)interstitialRouterIdentifierForInstanceID:(NSString *)instanceID;
 + (NSString *)rewardedVideoRouterIdentifierForInstanceID:(NSString *)instanceID;
++ (NSString *)adViewRouterIdentifierForInstanceID:(NSString *)instanceID;
 @end
 
 @interface ALIronSourceMediationAdapter()
@@ -92,7 +93,7 @@
 {
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading ironSource interstitial for instance ID: %@", instanceID];
- 
+    
     [self updateIronSourceDelegates];
     [self setPrivacySettingsWithParameters: parameters];
     
@@ -117,7 +118,7 @@
 {
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing ironSource interstitial for instance ID: %@", instanceID];
- 
+    
     [self updateIronSourceDelegates];
     [self.router addShowingAdapter: self];
     
@@ -139,7 +140,10 @@
     {
         [self log: @"Unable to show ironSource interstitial - no ad loaded for instance ID: %@", instanceID];
         [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceID]
-                                                        error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+                                                        error: [MAAdapterError errorWithCode: -4205
+                                                                                 errorString: @"Ad Display Failed"
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -149,7 +153,7 @@
 {
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading ironSource rewarded for instance ID: %@", instanceID];
- 
+    
     [self updateIronSourceDelegates];
     [self setPrivacySettingsWithParameters: parameters];
     
@@ -172,7 +176,7 @@
 {
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing ironSource rewarded for instance ID: %@", instanceID];
- 
+    
     [self updateIronSourceDelegates];
     [self.router addShowingAdapter: self];
     
@@ -197,8 +201,36 @@
     {
         [self log: @"Unable to show ironSource rewarded - no ad loaded for instance ID: %@", instanceID];
         [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID]
-                                                        error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+                                                        error: [MAAdapterError errorWithCode: -4205
+                                                                                 errorString: @"Ad Display Failed"
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
+}
+
+#pragma mark - MAAdViewAdapter Methods
+
+- (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
+{
+    NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading %@ ad for instance ID: %@", adFormat.label, instanceID];
+    
+    [self updateIronSourceDelegates];
+    [self setPrivacySettingsWithParameters: parameters];
+    
+    // Create a format specific router identifier to ensure that the router can distinguish between them.
+    self.routerPlacementIdentifier = [ALIronSourceMediationAdapterRouter adViewRouterIdentifierForInstanceID: instanceID];
+    [self.router addAdViewAdapter: self
+                         delegate: delegate
+           forPlacementIdentifier: self.routerPlacementIdentifier
+                           adView: nil];
+    
+    __block UIViewController *presentingViewController;
+    dispatchSyncOnMainQueue(^{
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    });
+    
+    [IronSource loadISDemandOnlyBannerWithInstanceId: instanceID viewController: presentingViewController size: [self toISBannerSize: adFormat]];
 }
 
 #pragma mark - Dynamic Properties
@@ -214,6 +246,7 @@
 {
     [IronSource setISDemandOnlyInterstitialDelegate: self.router];
     [IronSource setISDemandOnlyRewardedVideoDelegate: self.router];
+    [IronSource setISDemandOnlyBannerDelegate: self.router];
 }
 
 - (void)setPrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
@@ -261,7 +294,7 @@
     if ( adFormats.count == 0 )
     {
         // Default to initialize all ad formats if backend doesn't send down which ones to initialize
-        return @[IS_INTERSTITIAL, IS_REWARDED_VIDEO];
+        return @[IS_INTERSTITIAL, IS_REWARDED_VIDEO, IS_BANNER];
     }
     
     NSMutableArray<NSString *> *adFormatsToInitialize = [NSMutableArray array];
@@ -275,7 +308,33 @@
         [adFormatsToInitialize addObject: IS_REWARDED_VIDEO];
     }
     
+    if ( [adFormats containsObject: @"banner"] )
+    {
+        [adFormatsToInitialize addObject: IS_BANNER];
+    }
+    
     return adFormatsToInitialize;
+}
+
+- (ISBannerSize *)toISBannerSize:(MAAdFormat *)adFormat
+{
+    if ( adFormat == MAAdFormat.banner )
+    {
+        return ISBannerSize_BANNER;
+    }
+    else if ( adFormat == MAAdFormat.leader )
+    {
+        return ISBannerSize_LARGE; // Note: LARGE is 320x90 - leaders weren't supported at the time of implementation.
+    }
+    else if ( adFormat == MAAdFormat.mrec )
+    {
+        return ISBannerSize_RECTANGLE;
+    }
+    else
+    {
+        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
+        return ISBannerSize_BANNER;
+    }
 }
 
 @end
@@ -411,6 +470,41 @@
     [self didClickAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceId]];
 }
 
+#pragma mark - ISDemandOnlyBannerDelegate methods
+
+- (void)bannerDidLoad:(ISDemandOnlyBannerView *)bannerView instanceId:(NSString *)instanceId
+{
+    [self log: @"AdView ad loaded for instance ID: %@", instanceId];
+    NSString *adViewRouterPlacementIdentifier = [ALIronSourceMediationAdapterRouter adViewRouterIdentifierForInstanceID: instanceId];
+    [self updateAdView: bannerView forPlacementIdentifier: adViewRouterPlacementIdentifier];
+    [self didLoadAdForPlacementIdentifier: adViewRouterPlacementIdentifier];
+}
+
+- (void)bannerDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId
+{
+    MAAdapterError *adapterError = [[self class] toMaxError: error];
+    [self log: @"AdView ad failed to load for instance ID: %@ error: %@", instanceId, adapterError];
+    [self didFailToLoadAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter adViewRouterIdentifierForInstanceID: instanceId]
+                                          error: adapterError];
+}
+
+- (void)bannerDidShow:(NSString *)instanceId
+{
+    [self log: @"AdView shown for instance ID: %@", instanceId];
+    [self didDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter adViewRouterIdentifierForInstanceID: instanceId]];
+}
+
+- (void)didClickBanner:(NSString *)instanceId
+{
+    [self log: @"AdView ad clicked for instance ID: %@", instanceId];
+    [self didClickAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter adViewRouterIdentifierForInstanceID: instanceId]];
+}
+
+- (void)bannerWillLeaveApplication:(NSString *)instanceId
+{
+    [self log: @"AdView ad left application for instance ID: %@", instanceId];
+}
+
 #pragma mark - Utility Methods
 
 + (NSString *)interstitialRouterIdentifierForInstanceID:(NSString *)instanceID
@@ -421,6 +515,11 @@
 + (NSString *)rewardedVideoRouterIdentifierForInstanceID:(NSString *)instanceID
 {
     return [NSString stringWithFormat: @"%@-%@", instanceID, IS_REWARDED_VIDEO];
+}
+
++ (NSString *)adViewRouterIdentifierForInstanceID:(NSString *)instanceID
+{
+    return [NSString stringWithFormat: @"%@-%@", instanceID, IS_BANNER];
 }
 
 #pragma mark - Shared Methods
