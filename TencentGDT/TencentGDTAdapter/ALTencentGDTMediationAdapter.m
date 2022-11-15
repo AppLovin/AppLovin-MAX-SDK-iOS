@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.13.90.0"
+#define ADAPTER_VERSION @"4.13.90.1"
 
 /**
  * Interstitial Delegate
@@ -189,7 +189,10 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
     if ( ![self.rewardedAd isAdValid] )
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         
         return;
     }
@@ -240,22 +243,38 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
         case 2:
         case 4001: // Initialization error (which includes NO FILL, or invalid configuration)
         case 5004: // No fill - but do not request another ad or it will screw with internal SDK caching
+        case 5028: // Ad Show function parameter verification failed
             adapterError = MAAdapterError.noFill;
             break;
         case 3001: // All error codes from now on are from their docs (https://developers.adnet.qq.com/doc/ios/guide)
+        case 3003: // Network unavailable
             adapterError = MAAdapterError.noConnection;
             break;
         case 4003: // Ad slot error
         case 4007: // Device not supported
+        case 4021: // Wrong appID, not registered
+        case 5018: // Ad slot has been taken offline
+        case 5021: // Ad is offline
+        case 5022: // VAST access error
+        case 5024: // Ad slot interface combination error
+        case 5025: // Ad slot list field is empty
             adapterError = MAAdapterError.invalidConfiguration;
             break;
         case 4006: // Ad "unexposed" (曝光)
+        case 6000: // Locate error code details
             adapterError = MAAdapterError.unspecified;
             break;
         case 4008: // The orientation of the app is not supported for this ad
         case 4009: // Ad skipped when not supposed to be skippable
+        case 4010: //height of the opened bottomView exceeds 25% of the screen height
         case 4015: // Ad shown already
         case 4016: // Orientation of app does not match that of the ad
+        case 4020: // Window is empty
+        case 5030: // Rewarded video display failed (player error)
+        case 5032: // Ad template field using Template is empty
+        case 5034: // Video display failed (player error)
+        case 5035: // Ad slot has not been uploaded/uploaded content is empty
+        case 5043: // Template rendering failed
             adapterError = MAAdapterError.internalError;
             break;
         case 4011: // Frequency capped
@@ -263,23 +282,37 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
             break;
         case 4013:
         case 4014:
+        case 5010: // Ad slot doesn't match the call interface (ad style verification failed)
+        case 5015: // No ads in the current version
             adapterError = MAAdapterError.adNotReady;
             break;
         case 5001:
+        case 5016: // JSON data parsing failed
             adapterError = MAAdapterError.serverError;
             break;
         case 5002:
         case 5003: // Video download or playback error
+        case 4018: // Cache file deleted during process
+        case 4019: // Open screen ad rootViewController PresentVC is occupied
             adapterError = MAAdapterError.unspecified;
             break;
         case 5005:
         case 5009: // Daily, and hourly frequency capped
+        case 5033: // Wrong number of ads
+        case 5017: // adCount parameter is illegal
             adapterError = MAAdapterError.adFrequencyCappedError;
             break;
         case 5012: // Expired
             adapterError = MAAdapterError.adExpiredError;
             break;
+        case 4017: // Invalid VC passed in (incentive video, inter half/fullscreen scenarios)
+        case 5020: // Video URL is empty
+        case 5026: // Live requests return preloaded responses
+        case 5027: // Inspired browse page failed to load
+            adapterError = MAAdapterError.badRequest;
+            break;
         case 5013: // Ad loaded too frequently
+        case 5014: // Ads targeted and filtered (downloads ads, app installation/non-installation)
             adapterError = MAAdapterError.invalidLoadState;
             break;
     }

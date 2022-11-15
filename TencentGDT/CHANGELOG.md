@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.13.90.1
+* Update Error Code Mapping for SDK Error Codes
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 4.13.90.0
 * Certified with TencentGDT SDK 4.13.90.
 
