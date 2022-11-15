@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.5.1.2
+* Update error code mapping for SDK error reports.
+
 ## 7.2.5.1.1
 * Add support for banners and MRECs.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).

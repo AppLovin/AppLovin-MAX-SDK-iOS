@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.2.5.1.1"
+#define ADAPTER_VERSION @"7.2.5.1.2"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyBannerDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -535,26 +535,33 @@
         case 506:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
-        case 508:
+        case 508: // Init failure
             adapterError = MAAdapterError.notInitialized;
             break;
-        case 509:
+        case 509: // No ads to show (Show Fail)
             adapterError = MAAdapterError.noFill;
             break;
-        case 520:
+        case 510: // Server Response Failed (Load Fail)
+            adapterError = MAAdapterError.serverError;
+            break;
+        case 520: // No Internet Connection (Show Fail)
             adapterError = MAAdapterError.noConnection;
             break;
-        case 524:
-        case 526:
+        case 524: // Placement %@ reached it's capping limit (Show Fail)
+        case 526: // Ad Unit reached it's daily cap per session (Show Fail)
             adapterError = MAAdapterError.adFrequencyCappedError;
             break;
-        case 1022:
-        case 1036:
-        case 1037:
-            adapterError = MAAdapterError.invalidLoadState;
+        case 1055: // Load aborted due to timeout (Load Fail)
+            adapterError = MAAdapterError.timeout;
             break;
-        case 1023:
+        case 1023: // Show RV called when no available ads to show (Show Fail)
             adapterError = MAAdapterError.adNotReady;
+            break;
+        case 1036: // Interstitial already showing (Show Fail)
+        case 1037: // Interstitial already loaded (Load Fail)
+        case 1022: // RV already showing (Show Fail)
+        case 1056: // RV already loaded (Load Fail)
+            adapterError = MAAdapterError.invalidLoadState;
             break;
     }
     
