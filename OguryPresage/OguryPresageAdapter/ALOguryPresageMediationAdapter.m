@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"2.6.2.1"
+#define ADAPTER_VERSION @"2.6.3.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -168,7 +168,10 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -224,7 +227,10 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 

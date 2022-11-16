@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.6.3.0
+* Certified with OguryPresage SDK 2.2.0.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 2.6.2.1
 * Update privacy settings before collecting signal. 
 
