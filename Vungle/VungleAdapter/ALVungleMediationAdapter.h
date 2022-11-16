@@ -11,10 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @interface ALVungleMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 =======
 @interface ALVungleMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 >>>>>>> 28e2d3e (Implement Native Ad Support in MAX adapter (#1))
+=======
+@interface ALVungleMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+>>>>>>> b3618ea (Adapter updates for App open ad formate. (#7))
 
 @end
 
