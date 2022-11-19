@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.0.8.0"
+#define ADAPTER_VERSION @"4.7.0.8.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -1362,37 +1362,39 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         // Create MANativeAd after images are loaded from remote URLs
-        [self.parentAdapter log: @"Creating native ad with assets"];
-        
-        MANativeAd *maxNativeAd = [[MAByteDanceNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = data.AdTitle;
-            builder.body = data.AdDescription;
+        dispatchOnMainQueue(^{
+            [self.parentAdapter log: @"Creating native ad with assets"];
             
+            MANativeAd *maxNativeAd = [[MAByteDanceNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = data.AdTitle;
+                builder.body = data.AdDescription;
+                
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                // NOTE: Might be same as `AdTitle` - ignore if that's the case
-                if ( ![data.AdTitle isEqualToString: data.source] )
+                // Introduced in 10.4.0
+                if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
                 {
-                    [builder performSelector: @selector(setAdvertiser:) withObject: data.source];
+                    // NOTE: Might be same as `AdTitle` - ignore if that's the case
+                    if ( ![data.AdTitle isEqualToString: data.source] )
+                    {
+                        [builder performSelector: @selector(setAdvertiser:) withObject: data.source];
+                    }
                 }
-            }
 #pragma clang diagnostic pop
+                
+                builder.callToAction = data.buttonText;
+                builder.icon = iconImage;
+                if ( ALSdk.versionCode >= 11040299 )
+                {
+                    [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+                }
+                builder.mediaView = mediaView;
+                builder.optionsView = optionsView;
+            }];
             
-            builder.callToAction = data.buttonText;
-            builder.icon = iconImage;
-            if ( ALSdk.versionCode >= 11040299 )
-            {
-                [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-            }
-            builder.mediaView = mediaView;
-            builder.optionsView = optionsView;
-        }];
-        
-        [self.parentAdapter log: @"Native ad fully loaded: %@", self.slotId];
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+            [self.parentAdapter log: @"Native ad fully loaded: %@", self.slotId];
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        });
     });
 }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.8.1
+* Fix main image missing error by creating native ad on the main thread.
+
 ## 4.7.0.8.0
 * Certified with ByteDance Global SDK 4.7.0.8.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
