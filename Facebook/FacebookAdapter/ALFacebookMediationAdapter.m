@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.12.0.0"
+#define ADAPTER_VERSION @"6.12.0.1"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
@@ -1177,14 +1177,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    FBNativeAd *nativeAd = self.parentAdapter.nativeAd;
-    FBNativeBannerAd *nativeBannerAd = self.parentAdapter.nativeBannerAd;
-    if ( !nativeAd && !nativeBannerAd )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -1221,18 +1213,41 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
 #pragma clang diagnostic pop
     
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    FBNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    FBNativeBannerAd *nativeBannerAd = self.parentAdapter.nativeBannerAd;
+    if ( !nativeAd && !nativeBannerAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    UIImageView *iconImageView = nil;
+    for ( UIView *clickableView in clickableViews )
+    {
+        if( [clickableView isKindOfClass: [UIImageView class]] )
+        {
+            iconImageView = (UIImageView *)clickableView;
+            break;
+        }
+    }
+    
     if ( self.parentAdapter.nativeBannerAd )
     {
-        if ( maxNativeAdView.iconImageView )
+        if ( iconImageView )
         {
-            [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
-                                                            iconImageView: maxNativeAdView.iconImageView
+            [self.parentAdapter.nativeBannerAd registerViewForInteraction: container
+                                                            iconImageView: iconImageView
                                                            viewController: [ALUtils topViewControllerFromKeyWindow]
                                                            clickableViews: clickableViews];
         }
         else if ( self.mediaView )
         {
-            [self.parentAdapter.nativeBannerAd registerViewForInteraction: maxNativeAdView
+            [self.parentAdapter.nativeBannerAd registerViewForInteraction: container
                                                             iconImageView: (UIImageView *) self.mediaView
                                                            viewController: [ALUtils topViewControllerFromKeyWindow]
                                                            clickableViews: clickableViews];
@@ -1240,6 +1255,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         else
         {
             [self.parentAdapter e: @"Failed to register native ad view for interaction: icon image view and media view are nil"];
+            return NO;
         }
         
         // Facebook sets the content mode for the media view to be aspect fill, so we need to reset it for true native banner media views.
@@ -1247,12 +1263,14 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
     else
     {
-        [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
+        [self.parentAdapter.nativeAd registerViewForInteraction: container
                                                       mediaView: (FBMediaView *) self.mediaView
-                                                  iconImageView: maxNativeAdView.iconImageView
+                                                  iconImageView: iconImageView
                                                  viewController: [ALUtils topViewControllerFromKeyWindow]
                                                  clickableViews: clickableViews];
     }
+    
+    return YES;
 }
 
 @end
