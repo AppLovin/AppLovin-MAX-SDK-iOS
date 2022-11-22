@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.8.0"
+#define ADAPTER_VERSION @"21.7.8.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -249,7 +249,10 @@
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205
+                                                                                                            errorString: @"Ad Display Failed"
+                                                                                               mediatedNetworkErrorCode: 0
+                                                                                            mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -325,7 +328,10 @@
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205
+                                                                                                            errorString: @"Ad Display Failed"
+                                                                                               mediatedNetworkErrorCode: 0
+                                                                                            mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -920,13 +926,6 @@
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    SMANativeAdRenderer *nativeAdRenderer = self.parentAdapter.nativeAdRenderer;
-    if ( !nativeAdRenderer )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views: native ad renderer is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -963,8 +962,24 @@
     }
 #pragma clang diagnostic pop
     
-    [self.parentAdapter.nativeAdRenderer registerViewForImpression: maxNativeAdView];
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    SMANativeAdRenderer *nativeAdRenderer = self.parentAdapter.nativeAdRenderer;
+    if ( !nativeAdRenderer )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad renderer is nil."];
+        return NO;
+    }
+
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+
+    [self.parentAdapter.nativeAdRenderer registerViewForImpression: container];
     [self.parentAdapter.nativeAdRenderer registerViewsForClickAction: clickableViews];
+
+    return YES;
 }
 
 @end
