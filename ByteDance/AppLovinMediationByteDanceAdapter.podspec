@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationByteDanceAdapter'
-s.version = '4.7.0.8.1'
+s.version = '4.7.0.8.2'
 s.platform = :ios, '10.0'
 s.summary = 'ByteDance adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

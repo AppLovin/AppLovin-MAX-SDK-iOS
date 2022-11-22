@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.8.2
+* Support for native ads in external plugins (e.g. React Native).
+
 ## 4.7.0.8.1
 * Fix main image missing error by creating native ad on the main thread.
 

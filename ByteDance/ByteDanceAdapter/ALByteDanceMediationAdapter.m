@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.0.8.1"
+#define ADAPTER_VERSION @"4.7.0.8.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -1439,13 +1439,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    BUNativeAd *nativeAd = self.parentAdapter.nativeAd;
-    if ( !nativeAd )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -1482,7 +1475,23 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
 #pragma clang diagnostic pop
     
-    [self.parentAdapter.nativeAd registerContainer: maxNativeAdView withClickableViews: clickableViews];
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    BUNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
+        return NO;
+    }
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    
+    [self.parentAdapter.nativeAd registerContainer: container withClickableViews: clickableViews];
+    
+    return YES;
 }
 
 @end
