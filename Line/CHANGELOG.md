@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.20220630.1
+* Support for native ads in external plugins (e.g. React Native).
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+
 ## 2.4.20220630.0
 * Certified with Line SDK 2.4.20220630.
 

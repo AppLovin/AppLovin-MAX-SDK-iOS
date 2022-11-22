@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.4.20220630.0"
+#define ADAPTER_VERSION @"2.4.20220630.1"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject<FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -1006,13 +1006,6 @@ static ALAtomicBoolean *ALLineInitialized;
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    FADNative *nativeAd = self.parentAdapter.nativeAd;
-    if ( !nativeAd )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -1049,10 +1042,33 @@ static ALAtomicBoolean *ALLineInitialized;
     }
 #pragma clang diagnostic pop
     
-    dispatchOnMainQueue(^{
-        
-        [nativeAd registerViewForInteraction: maxNativeAdView withInformationIconView: maxNativeAdView.iconImageView withClickableViews: clickableViews];
-    });
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    FADNative *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    UIImageView *iconImageView = nil;
+    for ( UIView *clickableView in clickableViews )
+    {
+        if( [clickableView isKindOfClass: [UIImageView class]] )
+        {
+            iconImageView = (UIImageView *)clickableView;
+            break;
+        }
+    }
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    
+    [nativeAd registerViewForInteraction: container withInformationIconView: iconImageView withClickableViews: clickableViews];
+
+    return YES;
 }
 
 @end
