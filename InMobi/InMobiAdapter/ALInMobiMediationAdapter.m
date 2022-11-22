@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.1.0"
+#define ADAPTER_VERSION @"10.1.1.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -113,11 +113,6 @@
 // Native
 @property (nonatomic, strong) IMNative *nativeAd;
 @property (nonatomic, strong) ALInMobiMediationAdapterNativeAdDelegate *nativeAdDelegate;
-@property (nonatomic, strong) UITapGestureRecognizer *titleGestureRecognizer;
-@property (nonatomic, strong) UITapGestureRecognizer *advertiserGestureRecognizer;
-@property (nonatomic, strong) UITapGestureRecognizer *bodyGestureRecognizer;
-@property (nonatomic, strong) UITapGestureRecognizer *iconGestureRecognizer;
-@property (nonatomic, strong) UITapGestureRecognizer *ctaGestureRecognizer;
 
 // Native AdView
 @property (nonatomic, strong) MANativeAd *maxNativeAdViewAd;
@@ -554,6 +549,33 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
 }
 
+- (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
+{
+    NSMutableArray *clickableViews = [NSMutableArray array];
+    if ( maxNativeAdView.titleLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.titleLabel];
+    }
+    if ( maxNativeAdView.advertiserLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.advertiserLabel];
+    }
+    if ( maxNativeAdView.bodyLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.bodyLabel];
+    }
+    if ( maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+    }
+    if ( maxNativeAdView.iconImageView )
+    {
+        [clickableViews addObject: maxNativeAdView.iconImageView];
+    }
+    
+    return clickableViews;
+}
+
 @end
 
 @implementation ALInMobiMediationAdapterAdViewDelegate
@@ -904,7 +926,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
         }
         
-        [self.parentAdapter.maxNativeAdViewAd prepareViewForInteraction: maxNativeAdView];
+        [self.parentAdapter.maxNativeAdViewAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
         
         if ( ALSdk.versionCode >= 6150000 && [nativeAd.creativeId al_isValidString] )
         {
@@ -1116,14 +1138,19 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
+    [self prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
     IMNative *nativeAd = self.parentAdapter.nativeAd;
     if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
-        return;
+        return NO;
     }
     
-    UIView *mediaView = maxNativeAdView.mediaContentView;
+    UIView *mediaView = self.mediaView;
     CGFloat primaryViewWidth = CGRectGetWidth(mediaView.frame);
     
     // NOTE: InMobi's SDK returns primary view with a height that does not fit a banner, so scale media smaller specifically for horizontal banners (and not leaders/MRECs)
@@ -1141,20 +1168,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     [inMobiContentView al_pinToSuperview];
     
     // InMobi does not provide a method to bind views with landing url, so we need to do it manually
-    dispatchOnMainQueue(^{
-        
-        self.parentAdapter.titleGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        self.parentAdapter.advertiserGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        self.parentAdapter.bodyGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        self.parentAdapter.iconGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        self.parentAdapter.ctaGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        
-        [maxNativeAdView.titleLabel addGestureRecognizer: self.parentAdapter.titleGestureRecognizer];
-        [maxNativeAdView.advertiserLabel addGestureRecognizer: self.parentAdapter.advertiserGestureRecognizer];
-        [maxNativeAdView.bodyLabel addGestureRecognizer: self.parentAdapter.bodyGestureRecognizer];
-        [maxNativeAdView.iconImageView addGestureRecognizer: self.parentAdapter.iconGestureRecognizer];
-        [maxNativeAdView.callToActionButton addGestureRecognizer: self.parentAdapter.ctaGestureRecognizer];
-    });
+    for ( UIView *clickableView in clickableViews )
+    {
+        UITapGestureRecognizer *clickGesture = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
+        [clickableView addGestureRecognizer: clickGesture];
+    }
+    
+    return YES;
 }
 
 - (void)clickNativeView
