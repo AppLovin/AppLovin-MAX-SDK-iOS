@@ -11,7 +11,7 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.12.1.0"
+#define ADAPTER_VERSION @"6.12.1.1"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
@@ -1146,13 +1146,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    VungleNativeAd *nativeAd = self.parentAdapter.nativeAd;
-    if ( !nativeAd )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -1189,11 +1182,37 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 #pragma clang diagnostic pop
     
-    [nativeAd registerViewForInteraction: maxNativeAdView
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    VungleNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    UIImageView *iconImageView = nil;
+    for ( UIView *clickableView in clickableViews )
+    {
+        if( [clickableView isKindOfClass: [UIImageView class]] )
+        {
+            iconImageView = (UIImageView *)clickableView;
+            break;
+        }
+    }
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+
+    [nativeAd registerViewForInteraction: container
                                mediaView: (VungleMediaView *) self.mediaView
-                           iconImageView: maxNativeAdView.iconImageView
+                           iconImageView: iconImageView
                           viewController: [ALUtils topViewControllerFromKeyWindow]
                           clickableViews: clickableViews];
+    
+    return YES;
 }
 
 @end
