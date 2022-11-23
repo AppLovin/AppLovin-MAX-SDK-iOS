@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.5.0.6
+* Support for native ads in external plugins (e.g. React Native).
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 4.5.0.5
 * Distribute adapter as an XCFramework.
 * Silence API deprecation warnings.
