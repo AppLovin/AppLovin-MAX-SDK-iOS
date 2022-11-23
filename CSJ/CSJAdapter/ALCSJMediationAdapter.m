@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.1.1.1"
+#define ADAPTER_VERSION @"4.7.1.1.2"
 
 @interface ALCSJInterstitialAdDelegate : NSObject<BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -1331,13 +1331,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    BUNativeAd *nativeAd = self.parentAdapter.nativeAd;
-    if ( !nativeAd )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -1364,7 +1357,23 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         [clickableViews addObject: maxNativeAdView.mediaContentView];
     }
     
-    [nativeAd registerContainer: maxNativeAdView withClickableViews: clickableViews];
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    BUNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
+        return false;
+    }
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    
+    [nativeAd registerContainer: container withClickableViews: clickableViews];
+    
+    return true;
 }
 
 @end
