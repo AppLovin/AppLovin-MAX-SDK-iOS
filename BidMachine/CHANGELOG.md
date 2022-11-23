@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.5.0.2
+* Support for native ads in external plugins (e.g. React Native).
+
 ## 1.9.5.0.1
 * Update error code mapping for SDK error reports.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).

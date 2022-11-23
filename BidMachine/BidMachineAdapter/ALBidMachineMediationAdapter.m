@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.5.0.1"
+#define ADAPTER_VERSION @"1.9.5.0.2"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -803,13 +803,6 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    BDMNativeAd *nativeAd = self.parentAdapter.nativeAd;
-    if ( !nativeAd )
-    {
-        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
-        return;
-    }
-    
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
     {
@@ -832,17 +825,35 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         [clickableViews addObject: maxNativeAdView.mediaContentView];
     }
     
+    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    BDMNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
     NSError *error = nil;
-    MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: maxNativeAdView];
-    [self.parentAdapter.nativeAd presentOn: maxNativeAdView
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    
+    MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: container];
+    [self.parentAdapter.nativeAd presentOn: container
                             clickableViews: clickableViews
                                adRendering: adRendering
                                 controller: [ALUtils topViewControllerFromKeyWindow]
                                      error: &error];
     if ( error )
     {
-        [self.parentAdapter log: @"Native ad failed to present with error: %@", error];
+        [self.parentAdapter e: @"Native ad failed to present with error: %@", error];
+        return NO;
     }
+    
+    return YES;
 }
 
 @end
