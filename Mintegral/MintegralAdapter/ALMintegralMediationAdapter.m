@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.2.6.0.0"
+#define ADAPTER_VERSION @"7.2.6.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -91,7 +91,7 @@
 @property (nonatomic, strong) MTGBidNativeAdManager *bidNativeAdManager;
 @property (nonatomic, strong) MTGBidNativeAdManager *bidNativeAdViewManager;
 @property (nonatomic, strong) MTGCampaign *nativeAdCampaign;
-@property (nonatomic,   weak) MANativeAdView *maxNativeAdView;
+@property (nonatomic,   weak) UIView *maxNativeAdContainer;
 @property (nonatomic, strong) NSArray<UIView *> *clickableViews;
 
 @property (nonatomic, strong) ALMintegralMediationAdapterInterstitialDelegate *interstitialDelegate;
@@ -194,11 +194,11 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     self.bannerAdView.delegate = nil;
     self.bannerAdView = nil;
     
-    [self.bidNativeAdManager unregisterView: self.maxNativeAdView clickableViews: self.clickableViews];
+    [self.bidNativeAdManager unregisterView: self.maxNativeAdContainer clickableViews: self.clickableViews];
     self.bidNativeAdManager.delegate = nil;
     self.bidNativeAdManager = nil;
     
-    [self.bidNativeAdViewManager unregisterView: self.maxNativeAdView clickableViews: self.clickableViews];
+    [self.bidNativeAdViewManager unregisterView: self.maxNativeAdContainer clickableViews: self.clickableViews];
     self.bidNativeAdViewManager.delegate = nil;
     self.bidNativeAdViewManager = nil;
     
@@ -689,6 +689,33 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     }
 }
 
+- (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
+{
+    NSMutableArray *clickableViews = [NSMutableArray array];
+    if ( maxNativeAdView.titleLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.titleLabel];
+    }
+    if ( maxNativeAdView.advertiserLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.advertiserLabel];
+    }
+    if ( maxNativeAdView.bodyLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.bodyLabel];
+    }
+    if ( maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+    }
+    if ( maxNativeAdView.iconImageView )
+    {
+        [clickableViews addObject: maxNativeAdView.iconImageView];
+    }
+    
+    return clickableViews;
+}
+
 @end
 
 #pragma mark - MTGInterstitialDelegate Methods
@@ -1152,7 +1179,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
             MANativeAdView *maxNativeAdView = [self.parentAdapter createMaxNativeAdViewWithNativeAd: maxNativeAdViewAd templateName: templateName];
             
-            [maxNativeAdViewAd prepareViewForInteraction: maxNativeAdView];
+            [maxNativeAdViewAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
             
             // Mintegral is not providing creative id for native ads
             [self.delegate didLoadAdForAdView: maxNativeAdView];
@@ -1454,44 +1481,30 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
+    [self prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
     if ( self.format == MAAdFormat.native )
     {
-        [self.parentAdapter.bidNativeAdManager registerViewForInteraction: maxNativeAdView
+        [self.parentAdapter.bidNativeAdManager registerViewForInteraction: container
                                                        withClickableViews: clickableViews
                                                              withCampaign: self.parentAdapter.nativeAdCampaign];
     }
     else
     {
-        [self.parentAdapter.bidNativeAdViewManager registerViewForInteraction: maxNativeAdView
+        [self.parentAdapter.bidNativeAdViewManager registerViewForInteraction: container
                                                            withClickableViews: clickableViews
                                                                  withCampaign: self.parentAdapter.nativeAdCampaign];
     }
     
-    self.parentAdapter.maxNativeAdView = maxNativeAdView;
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+
+    self.parentAdapter.maxNativeAdContainer = container;
     self.parentAdapter.clickableViews = clickableViews;
+    
+    return YES;
 }
 
 @end
