@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.2.0.2"
+#define ADAPTER_VERSION @"2.2.0.3"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -1127,9 +1127,28 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     return self;
 }
 
+- (BOOL)isContainerClickable
+{
+    return YES;
+}
+
+- (void)performClick
+{
+    YASNativeAd *ad = self.parentAdapter.nativeAd;
+    if ( !ad )
+    {
+        [self.parentAdapter e: @"Failed to perform click: Native ad is nil."];
+        return;
+    }
+    
+    [self.parentAdapter d: @"Performing click..."];
+    [self.parentAdapter.nativeAdDelegate.delegate didClickNativeAd];
+    [ad invokeDefaultAction];
+}
+
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    YASNativeAd *ad = self.format == MAAdFormat.native ? self.parentAdapter.nativeAd : self.parentAdapter.nativeAdViewAd;
+    YASNativeAd *ad = ( self.format == MAAdFormat.native ) ? self.parentAdapter.nativeAd : self.parentAdapter.nativeAdViewAd;
     if ( !ad )
     {
         [self.parentAdapter e: @"Failed to register native ad view for interaction: Native ad is nil."];
