@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.7.0.0
+* Certified with Mintegral SDK 7.2.7.
+
 ## 7.2.6.0.1
 * Support for native ads in external plugins (e.g. React Native).
 
