@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.5.6.1
+* Add support for passing creative id to AppLovin SDK.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 4.5.6.0
 * Certified with APS SDK 4.5.6. 
 * Add try/catch to signal collection to avoid crashes.

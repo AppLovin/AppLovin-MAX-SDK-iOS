@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.5.6.0"
+#define ADAPTER_VERSION @"4.5.6.1"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -34,7 +34,10 @@
 @interface ALAmazonAdMarketplaceMediationAdapterAdViewDelegate : NSObject<DTBAdBannerDispatcherDelegate>
 @property (nonatomic,   weak) ALAmazonAdMarketplaceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
-- (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+@property (nonatomic,   weak) MAAdFormat *adFormat;
+- (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter
+                             adFormat:(MAAdFormat *)adFormat
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
 @interface ALAmazonAdMarketplaceMediationAdapterInterstitialAdDelegate : NSObject<DTBAdInterstitialDispatcherDelegate>
@@ -87,6 +90,10 @@ static NSMutableDictionary<MAAdFormat *, DTBAdLoader *> *ALAmazonAdLoaders;
 static NSMutableDictionary<NSString *, ALTAMAmazonMediationHints *> *ALMediationHintsCache;
 static NSObject *ALMediationHintsCacheLock;
 
+// Contains mapping of ad format -> crid
+static NSMutableDictionary<MAAdFormat *, NSString *> *ALAmazonCreativeIdentifiers;
+static NSObject *ALAmazonCreativeIdentifiersLock;
+
 static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
 static NSString *ALAPSSDKVersion;
 
@@ -98,6 +105,9 @@ static NSString *ALAPSSDKVersion;
     
     ALMediationHintsCache = [NSMutableDictionary dictionary];
     ALMediationHintsCacheLock = [[NSObject alloc] init];
+    
+    ALAmazonCreativeIdentifiers = [NSMutableDictionary dictionary];
+    ALAmazonCreativeIdentifiersLock = [[NSObject alloc] init];
     
     ALUsedAmazonAdLoaderHashes = [NSMutableSet set];
 }
@@ -205,8 +215,12 @@ static NSString *ALAPSSDKVersion;
             
             if ( [adResponseObj isKindOfClass: [DTBAdResponse class]] )
             {
+                DTBAdResponse *adResponse = (DTBAdResponse *)adResponseObj;
+                
+                [self setCreativeIdentifier: adResponse.crid forAdFormat: adFormat];
+                
                 [self processAdResponseWithParameters: parameters
-                                           adResponse: (DTBAdResponse *) adResponseObj
+                                           adResponse: adResponse
                                             andNotify: delegate];
             }
             else // DTBAdErrorInfo
@@ -328,7 +342,9 @@ static NSString *ALAPSSDKVersion;
     }
     
     CGRect frame = (CGRect) { CGPointZero, adFormat.size };
-    self.adViewAdapterDelegate = [[ALAmazonAdMarketplaceMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    self.adViewAdapterDelegate = [[ALAmazonAdMarketplaceMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                           adFormat: adFormat
+                                                                                                          andNotify: delegate];
     DTBAdBannerDispatcher *dispatcher = [[DTBAdBannerDispatcher alloc] initWithAdFrame: frame delegate: self.adViewAdapterDelegate];
     
     ALTAMAmazonMediationHints *mediationHints;
@@ -381,7 +397,10 @@ static NSString *ALAPSSDKVersion;
     if ( !success )
     {
         [self e: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -419,7 +438,10 @@ static NSString *ALAPSSDKVersion;
     if ( !success )
     {
         [self e: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -494,6 +516,28 @@ static NSString *ALAPSSDKVersion;
                   thirdPartySdkErrorCode: amazonErrorCode
                thirdPartySdkErrorMessage: @""];
 #pragma clang diagnostic pop
+}
+
+- (void)setCreativeIdentifier:(NSString *)creativeId forAdFormat:(MAAdFormat *)adFormat
+{
+    @synchronized ( ALAmazonCreativeIdentifiersLock )
+    {
+        ALAmazonCreativeIdentifiers[adFormat] = creativeId;
+    }
+}
+
+- (nullable NSDictionary *)extraInfoForAdFormat:(MAAdFormat *)adFormat
+{
+    NSString *creativeId;
+    
+    @synchronized ( ALAmazonCreativeIdentifiersLock )
+    {
+      creativeId = ALAmazonCreativeIdentifiers[adFormat];
+    }
+    
+    if ( ![creativeId al_isValidString] ) return nil;
+    
+    return @{@"creative_id" : creativeId};
 }
 
 @end
@@ -575,6 +619,8 @@ static NSString *ALAPSSDKVersion;
     
     [ALUsedAmazonAdLoaderHashes addObject: @(adResponse.dtbAdLoader.hash)];
     
+    [self.parentAdapter setCreativeIdentifier: adResponse.crid forAdFormat: self.adFormat];
+    
     [self.parentAdapter d: @"Signal collected for ad loader: %@", adResponse.dtbAdLoader];
     
     [self.parentAdapter processAdResponseWithParameters: self.parameters
@@ -598,12 +644,15 @@ static NSString *ALAPSSDKVersion;
 
 @implementation ALAmazonAdMarketplaceMediationAdapterAdViewDelegate
 
-- (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALAmazonAdMarketplaceMediationAdapter *)parentAdapter
+                             adFormat:(MAAdFormat *)adformat
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
+        self.adFormat = adformat;
         self.delegate = delegate;
     }
     return self;
@@ -612,7 +661,9 @@ static NSString *ALAPSSDKVersion;
 - (void)adDidLoad:(UIView *)adView
 {
     [self.parentAdapter d: @"AdView ad loaded"];
-    [self.delegate didLoadAdForAdView: adView];
+    
+    NSDictionary *extraInfo = [self.parentAdapter extraInfoForAdFormat: self.adFormat];
+    [self.delegate didLoadAdForAdView: adView withExtraInfo: extraInfo];
 }
 
 - (void)adFailedToLoad:(nullable UIView *)banner errorCode:(NSInteger)errorCode
@@ -658,7 +709,9 @@ static NSString *ALAPSSDKVersion;
 - (void)interstitialDidLoad:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
     [self.parentAdapter d: @"Interstitial loaded"];
-    [self.delegate didLoadInterstitialAd];
+    
+    NSDictionary *extraInfo = [self.parentAdapter extraInfoForAdFormat: MAAdFormat.interstitial];
+    [self.delegate didLoadInterstitialAdWithExtraInfo: extraInfo];
 }
 
 - (void)interstitial:(nullable DTBAdInterstitialDispatcher *)interstitial didFailToLoadAdWithErrorCode:(DTBAdErrorCode)errorCode
@@ -735,7 +788,10 @@ static NSString *ALAPSSDKVersion;
 - (void)interstitialDidLoad:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
     [self.parentAdapter d: @"Rewarded ad loaded"];
-    [self.delegate didLoadRewardedAd];
+    
+    NSDictionary *extraInfo = [self.parentAdapter extraInfoForAdFormat: MAAdFormat.rewarded];
+    [self.delegate didLoadRewardedAdWithExtraInfo: extraInfo];
+    
 }
 
 - (void)interstitial:(nullable DTBAdInterstitialDispatcher *)interstitial didFailToLoadAdWithErrorCode:(DTBAdErrorCode)errorCode
