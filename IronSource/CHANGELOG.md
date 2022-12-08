@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.6.0.0
+* Certified with IronSource SDK 7.2.6.0.
+
 ## 7.2.5.1.2
 * Update error code mapping for SDK error reports.
 
