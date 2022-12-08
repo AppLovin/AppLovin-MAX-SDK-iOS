@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"5.2.1.0"
+#define ADAPTER_VERSION @"5.3.1.0"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -123,7 +123,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
-
+    
     [ALYandexBidderTokenLoader loadBidderTokenWithCompletionHandler:^(NSString *bidderToken) {
         [self log: @"Collected signal"];
         [delegate didCollectSignal: bidderToken];
@@ -163,7 +163,10 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     if ( !self.interstitialAd || ![self.interstitialAd loaded] )
     {
         [self log: @"Interstitial ad failed to show - ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         
         return;
     }
@@ -214,7 +217,10 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     if ( !self.rewardedAd || ![self.rewardedAd loaded] )
     {
         [self log: @"Rewarded ad failed to show - ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         
         return;
     }
@@ -243,11 +249,11 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self log: @"Loading %@%@ ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), adFormat.label, placementId];
     
     [self updateUserConsent: parameters];
-
+    
     self.adViewAdapterDelegate = [[ALYandexMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormatLabel: adFormat.label andNotify: delegate];
     // NOTE: iOS banner ads do not auto-refresh by default
     self.adView = [[YMAAdView alloc] initWithAdUnitID: placementId
-                                              adSize: [self adSizeFromAdFormat: adFormat]];
+                                               adSize: [self adSizeFromAdFormat: adFormat]];
     self.adView.delegate = self.adViewAdapterDelegate;
     [self.adView loadAdWithRequest: [self createAdRequestWithParameters: parameters]];
 }
