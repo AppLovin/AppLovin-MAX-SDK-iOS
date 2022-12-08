@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.14.0.0
+* Certified with GoogleAdManager SDK 9.14.0.
+
 ## 9.13.0.0
 * Certified with GoogleAdManager SDK 9.13.0.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
