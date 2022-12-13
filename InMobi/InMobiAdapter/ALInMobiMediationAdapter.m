@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.2.0"
+#define ADAPTER_VERSION @"10.1.2.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -551,6 +551,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
 {
+    // We don't add CTA button here to avoid duplicate click callbacks
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( maxNativeAdView.titleLabel )
     {
@@ -563,10 +564,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( maxNativeAdView.bodyLabel )
     {
         [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
     }
     if ( maxNativeAdView.iconImageView )
     {

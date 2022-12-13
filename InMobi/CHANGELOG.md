@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.2.1
+* Fix duplicate click callbacks fired for native CTA button.
+
 ## 10.1.2.0
 * Certified with InMobi SDK 10.1.2.
 
