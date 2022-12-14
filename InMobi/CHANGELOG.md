@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.2.2
+* Fix broken native CTA button and duplicate click callbacks for other views.
+
 ## 10.1.2.1
 * Fix duplicate click callbacks fired for native CTA button.
 

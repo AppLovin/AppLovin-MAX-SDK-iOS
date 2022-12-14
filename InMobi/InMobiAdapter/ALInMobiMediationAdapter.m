@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.2.1"
+#define ADAPTER_VERSION @"10.1.2.2"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -86,12 +86,10 @@
 @end
 
 @interface MAInMobiNativeAd : MANativeAd
-@property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
-@property (nonatomic,   weak) MAAdFormat *adFormat;
-@property (nonatomic, strong) id<MAAdapterDelegate> delegate;
+@property (nonatomic, weak) ALInMobiMediationAdapter *parentAdapter;
+@property (nonatomic, weak) MAAdFormat *adFormat;
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
                              adFormat:(MAAdFormat *)format
-                            andNotify:(id<MAAdapterDelegate>)delegate
                          builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
@@ -565,6 +563,10 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [clickableViews addObject: maxNativeAdView.bodyLabel];
     }
+    if ( maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+    }
     if ( maxNativeAdView.iconImageView )
     {
         [clickableViews addObject: maxNativeAdView.iconImageView];
@@ -885,7 +887,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         // Need a strong reference of MAInMobiNativeAd in parentAdapter to make gesture recognizers work
         self.parentAdapter.maxNativeAdViewAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
                                                                                       adFormat: self.format
-                                                                                     andNotify: self.delegate
                                                                                   builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
             builder.body = nativeAd.adDescription;
@@ -1041,7 +1042,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         
         MANativeAd *maxNativeAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
                                                                          adFormat: MAAdFormat.native
-                                                                        andNotify: self.delegate
                                                                      builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
             builder.body = nativeAd.adDescription;
@@ -1120,7 +1120,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
                              adFormat:(MAAdFormat *)format
-                            andNotify:(id<MAAdapterDelegate>)delegate
                          builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
     self = [super initWithFormat: format builderBlock: builderBlock];
@@ -1128,7 +1127,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         self.parentAdapter = parentAdapter;
         self.adFormat = format;
-        self.delegate = delegate;
     }
     return self;
 }
@@ -1179,20 +1177,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];
     
     [self.parentAdapter.nativeAd reportAdClickAndOpenLandingPage];
-    if ( self.adFormat == MAAdFormat.native )
-    {
-        id<MANativeAdAdapterDelegate> delegate = (id<MANativeAdAdapterDelegate>)self.delegate;
-        [delegate didClickNativeAd];
-    }
-    else if ( [self.adFormat isAdViewAd] )
-    {
-        id<MAAdViewAdapterDelegate> delegate = (id<MAAdViewAdapterDelegate>)self.delegate;
-        [delegate didClickAdViewAd];
-    }
-    else
-    {
-        [self.parentAdapter log: @"Unsupported ad delegate"];
-    }
 }
 
 @end
