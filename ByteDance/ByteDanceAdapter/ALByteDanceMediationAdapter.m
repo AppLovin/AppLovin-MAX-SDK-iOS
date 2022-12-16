@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.8.1.0.0"
+#define ADAPTER_VERSION @"4.8.1.0.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -798,10 +798,14 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( error )
     {
         [self.parentAdapter log: @"Interstitial finished with error: %@", error];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                                   errorString: @"Ad Display Failed"
-                                                                     mediatedNetworkErrorCode: error.code
-                                                                  mediatedNetworkErrorMessage: error.localizedDescription]];
+                                                                       thirdPartySdkErrorCode: error.code
+                                                                    thirdPartySdkErrorMessage: error.localizedDescription]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -1015,10 +1019,14 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     if ( error )
     {
         [self.parentAdapter log: @"Rewarded ad finished with error: %@", error];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
                                                                               errorString: @"Ad Display Failed"
-                                                                 mediatedNetworkErrorCode: error.code
-                                                              mediatedNetworkErrorMessage: error.localizedDescription]];
+                                                                   thirdPartySdkErrorCode: error.code
+                                                                thirdPartySdkErrorMessage:error.localizedDescription]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -1087,10 +1095,14 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)nativeExpressBannerAdViewRenderFail:(BUNativeExpressBannerView *)bannerAdView error:(nullable NSError *)error
 {
     [self.parentAdapter log: @"AdView failed to show with error: %@", error];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.delegate didFailToDisplayAdViewAdWithError: [MAAdapterError errorWithCode: -4205
                                                                         errorString: @"Ad Display Failed"
-                                                           mediatedNetworkErrorCode: error.code
-                                                        mediatedNetworkErrorMessage: error.localizedDescription]];
+                                                             thirdPartySdkErrorCode: error.code
+                                                          thirdPartySdkErrorMessage: error.localizedDescription]];
+#pragma clang diagnostic pop
 }
 
 - (void)nativeExpressBannerAdViewDidClick:(BUNativeExpressBannerView *)bannerAdView
