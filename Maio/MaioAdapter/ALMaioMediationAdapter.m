@@ -10,7 +10,7 @@
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
 
-#define ADAPTER_VERSION @"1.6.3.0"
+#define ADAPTER_VERSION @"1.6.3.1"
 
 @interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter<MaioDelegate>
 
@@ -155,7 +155,14 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Interstitial not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205
+                                                                                                    errorString: @"Ad Display Failed"
+                                                                                         thirdPartySdkErrorCode: 0
+                                                                                      thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -207,7 +214,14 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205
+                                                                                                    errorString: @"Ad Display Failed"
+                                                                                         thirdPartySdkErrorCode: 0
+                                                                                      thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 

@@ -1,8 +1,13 @@
 # Changelog
 
+## 1.6.3.1
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 1.6.3.0
 * Certified with Maio SDK 1.6.3.
 * Silence API deprecation warnings.
+* Add additional details for ad display failures. 
 
 ## 1.6.2.0
 * Certified with Maio SDK 1.6.2.
