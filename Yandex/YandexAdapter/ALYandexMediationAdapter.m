@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"5.3.1.0"
+#define ADAPTER_VERSION @"5.3.1.1"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -163,10 +163,14 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     if ( !self.interstitialAd || ![self.interstitialAd loaded] )
     {
         [self log: @"Interstitial ad failed to show - ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                              errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -217,10 +221,14 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     if ( !self.rewardedAd || ![self.rewardedAd loaded] )
     {
         [self log: @"Rewarded ad failed to show - ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
                                                                          errorString: @"Ad Display Failed"
-                                                            mediatedNetworkErrorCode: 0
-                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
