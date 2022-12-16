@@ -10,7 +10,7 @@
 #import <DataseatSDK/Dataseat.h>
 #import <DataseatSDK/DSErrorCode.h>
 
-#define ADAPTER_VERSION @"1.0.9.3"
+#define ADAPTER_VERSION @"1.0.9.4"
 
 @interface ALDataseatMediationAdapterRouter : ALMediationAdapterRouter<DSSDKDelegate>
 @end
@@ -106,10 +106,14 @@
     else
     {
         [self log: @"Unable to show interstitial - ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.router didFailToDisplayAdForPlacementIdentifier: self.routerPlacementIdentifer error: [MAAdapterError errorWithCode: -4205
                                                                                                                       errorString: @"Ad Display Failed"
-                                                                                                         mediatedNetworkErrorCode: 0
-                                                                                                      mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                                                           thirdPartySdkErrorCode: 0
+                                                                                                        thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -170,10 +174,14 @@
     else
     {
         [self log: @"Unable to show rewarded ad with tag: %@", self.routerPlacementIdentifer];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.router didFailToDisplayAdForPlacementIdentifier: self.routerPlacementIdentifer error: [MAAdapterError errorWithCode: -4205
                                                                                                                       errorString: @"Ad Display Failed"
-                                                                                                         mediatedNetworkErrorCode: 0
-                                                                                                      mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                                                           thirdPartySdkErrorCode: 0
+                                                                                                        thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 

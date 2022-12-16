@@ -1,11 +1,8 @@
 Pod::Spec.new do |s|
 
-s.authors =
-{
-	'AppLovin Corporation' => 'devsupport@applovin.com'
-}
+s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationDataseatAdapter'
-s.version = '1.0.9.3'
+s.version = '1.0.9.4'
 s.platform = :ios, '11.0'
 s.summary = 'Dataseat adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

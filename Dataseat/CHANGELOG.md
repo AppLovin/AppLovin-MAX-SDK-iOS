@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.9.4
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 1.0.9.3
 * Update error code mapping for SDK error reports.
 * Distribute adapter as an XCFramework.
