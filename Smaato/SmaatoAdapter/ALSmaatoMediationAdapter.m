@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.9.0"
+#define ADAPTER_VERSION @"21.7.9.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -249,10 +249,14 @@
     else
     {
         [self log: @"Interstitial ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205
                                                                                                             errorString: @"Ad Display Failed"
-                                                                                               mediatedNetworkErrorCode: 0
-                                                                                            mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                                                 thirdPartySdkErrorCode: 0
+                                                                                              thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -328,10 +332,14 @@
     else
     {
         [self log: @"Rewarded ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205
                                                                                                             errorString: @"Ad Display Failed"
-                                                                                               mediatedNetworkErrorCode: 0
-                                                                                            mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                                                 thirdPartySdkErrorCode: 0
+                                                                                              thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 21.7.9.1
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 21.7.9.0
 * Certified with Smaato SDK 21.7.9.
 
