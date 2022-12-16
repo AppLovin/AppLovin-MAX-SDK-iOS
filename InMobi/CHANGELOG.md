@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.2.3
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 10.1.2.2
 * Fix broken native CTA button and duplicate click callbacks for other views.
 
