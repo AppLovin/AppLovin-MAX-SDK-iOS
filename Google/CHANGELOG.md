@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.14.0.1
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 9.14.0.0
 * Certified with Google SDK 9.14.0.
 
