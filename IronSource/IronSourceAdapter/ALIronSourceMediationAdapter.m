@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.2.6.0.0"
+#define ADAPTER_VERSION @"7.2.6.0.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyBannerDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -139,11 +139,15 @@
     else
     {
         [self log: @"Unable to show ironSource interstitial - no ad loaded for instance ID: %@", instanceID];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceID]
                                                         error: [MAAdapterError errorWithCode: -4205
                                                                                  errorString: @"Ad Display Failed"
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                      thirdPartySdkErrorCode: 0
+                                                                   thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -200,11 +204,15 @@
     else
     {
         [self log: @"Unable to show ironSource rewarded - no ad loaded for instance ID: %@", instanceID];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID]
                                                         error: [MAAdapterError errorWithCode: -4205
                                                                                  errorString: @"Ad Display Failed"
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                      thirdPartySdkErrorCode: 0
+                                                                   thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
