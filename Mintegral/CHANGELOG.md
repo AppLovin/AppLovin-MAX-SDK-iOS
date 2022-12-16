@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.8.0.1
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 7.2.8.0.0
 * Certified with Mintegral SDK 7.2.8.
 
