@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.5.6.1"
+#define ADAPTER_VERSION @"4.5.6.2"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -397,10 +397,14 @@ static NSString *ALAPSSDKVersion;
     if ( !success )
     {
         [self e: @"Interstitial ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                              errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -438,10 +442,14 @@ static NSString *ALAPSSDKVersion;
     if ( !success )
     {
         [self e: @"Rewarded ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
                                                                          errorString: @"Ad Display Failed"
-                                                            mediatedNetworkErrorCode: 0
-                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
