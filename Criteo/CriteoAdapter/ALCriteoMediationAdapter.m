@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.5.0.6"
+#define ADAPTER_VERSION @"4.5.0.7"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject<CRInterstitialDelegate>
@@ -186,10 +186,14 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     else
     {
         [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                              errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
