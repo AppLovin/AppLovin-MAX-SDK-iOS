@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"2.6.3.0"
+#define ADAPTER_VERSION @"2.6.3.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject<OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -168,10 +168,14 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     else
     {
         [self log: @"Interstitial ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                              errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -227,10 +231,14 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     else
     {
         [self log: @"Rewarded ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
                                                                          errorString: @"Ad Display Failed"
-                                                            mediatedNetworkErrorCode: 0
-                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
