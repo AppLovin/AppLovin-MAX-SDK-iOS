@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
 
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.2.0.2"
+#define ADAPTER_VERSION @"2.2.0.4"
 
 /**
  * Dedicated delegate object for Verizon Ads interstitial ads.
@@ -227,10 +227,14 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( !self.interstitialAd )
     {
         [self log: @"Unable to show interstitial - no ad loaded"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                              errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -277,10 +281,14 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     if ( !self.rewardedAd )
     {
         [self log: @"Unable to show rewarded ad - no ad loaded"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
                                                                          errorString: @"Ad Display Failed"
-                                                            mediatedNetworkErrorCode: 0
-                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -1127,9 +1135,28 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
     return self;
 }
 
+- (BOOL)isContainerClickable
+{
+    return YES;
+}
+
+- (void)performClick
+{
+    YASNativeAd *ad = self.parentAdapter.nativeAd;
+    if ( !ad )
+    {
+        [self.parentAdapter e: @"Failed to perform click: Native ad is nil."];
+        return;
+    }
+    
+    [self.parentAdapter d: @"Performing click..."];
+    [self.parentAdapter.nativeAdDelegate.delegate didClickNativeAd];
+    [ad invokeDefaultAction];
+}
+
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    YASNativeAd *ad = self.format == MAAdFormat.native ? self.parentAdapter.nativeAd : self.parentAdapter.nativeAdViewAd;
+    YASNativeAd *ad = ( self.format == MAAdFormat.native ) ? self.parentAdapter.nativeAd : self.parentAdapter.nativeAdViewAd;
     if ( !ad )
     {
         [self.parentAdapter e: @"Failed to register native ad view for interaction: Native ad is nil."];
