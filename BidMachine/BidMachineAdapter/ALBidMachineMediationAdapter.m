@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"1.9.5.0.2"
+#define ADAPTER_VERSION @"1.9.5.0.3"
 
 @interface ALBidMachineInterstitialDelegate : NSObject<BDMInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -177,10 +177,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( ![self.interstitialAd canShow] )
     {
         [self log: @"Unable to show interstitial - ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
                                                                              errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -213,10 +217,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( ![self.rewardedAd canShow] )
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
                                                                          errorString: @"Ad Display Failed"
-                                                            mediatedNetworkErrorCode: 0
-                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }

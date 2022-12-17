@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.5.0.3
+* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+
 ## 1.9.5.0.2
 * Support for native ads in external plugins (e.g. React Native).
 
