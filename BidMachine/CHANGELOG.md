@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.5.1.0
+* Certified with BidMachine SDK 1.9.5.1.
+
 ## 1.9.5.0.3
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
