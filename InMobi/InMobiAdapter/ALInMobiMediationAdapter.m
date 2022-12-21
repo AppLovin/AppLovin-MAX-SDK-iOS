@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.2.3"
+#define ADAPTER_VERSION @"10.1.2.4"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -459,6 +459,15 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( isAgeRestrictedUser )
     {
         [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
+    }
+    
+    if ( ALSdk.versionCode >= 61100 )
+    {
+        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
+        if ( isDoNotSell )
+        {
+            [extras setObject: isDoNotSell forKey: @"do_not_sell"];
+        }
     }
     
     return extras;
