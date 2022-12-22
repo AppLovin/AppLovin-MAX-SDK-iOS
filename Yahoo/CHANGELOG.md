@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0.5
+* Add adapter class name `ALYahooMediationAdapter`.
+
 ## 2.2.0.4
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
