@@ -9,12 +9,12 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"5.3.1.1"
+#define ADAPTER_VERSION @"5.4.0.0"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
  */
-@interface ALYandexMediationAdapterInterstitialAdDelegate : NSObject<YMAInterstitialAdDelegate>
+@interface ALYandexMediationAdapterInterstitialAdDelegate : NSObject <YMAInterstitialAdDelegate>
 
 @property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
@@ -27,7 +27,7 @@
 /**
  * Dedicated delegate object for Yandex rewarded ads.
  */
-@interface ALYandexMediationAdapterRewardedAdDelegate : NSObject<YMARewardedAdDelegate>
+@interface ALYandexMediationAdapterRewardedAdDelegate : NSObject <YMARewardedAdDelegate>
 
 @property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
@@ -41,7 +41,7 @@
 /**
  * Dedicated delegate object for Yandex AdView ads.
  */
-@interface ALYandexMediationAdapterAdViewDelegate : NSObject<YMAAdViewDelegate>
+@interface ALYandexMediationAdapterAdViewDelegate : NSObject <YMAAdViewDelegate>
 
 @property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
 @property (nonatomic,   weak) NSString *adFormatLabel;
@@ -53,7 +53,7 @@
 
 @end
 
-@interface ALYandexMediationAdapter()
+@interface ALYandexMediationAdapter ()
 
 // Interstitial
 @property (nonatomic, strong) YMAInterstitialAd *interstitialAd;
@@ -92,7 +92,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     return ADAPTER_VERSION;
 }
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     [self log: @"Initializing Yandex SDK%@...", [parameters isTesting] ? @" in test mode" : @""];
     

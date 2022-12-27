@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.4.0.0
+* Certified with Yandex SDK 5.4.0.
+
 ## 5.3.1.1
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
