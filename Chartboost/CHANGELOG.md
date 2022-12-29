@@ -1,5 +1,10 @@
 # Changelog
 
+## 9.1.0.1
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+* Remove `consentDialogState` guard.
+
 ## 9.1.0.0
 * Certified with Chartboost SDK 9.1.0.
 

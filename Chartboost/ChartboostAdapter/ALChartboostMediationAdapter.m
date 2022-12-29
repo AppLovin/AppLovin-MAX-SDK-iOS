@@ -9,29 +9,29 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.1.0.0"
+#define ADAPTER_VERSION @"9.1.0.1"
 
-@interface ALChartboostInterstitialDelegate : NSObject<CHBInterstitialDelegate>
+@interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALChartboostMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALChartboostRewardedDelegate : NSObject<CHBRewardedDelegate>
+@interface ALChartboostRewardedDelegate : NSObject <CHBRewardedDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALChartboostMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALChartboostAdViewDelegate : NSObject<CHBBannerDelegate>
+@interface ALChartboostAdViewDelegate : NSObject <CHBBannerDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
 @property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALChartboostMediationAdapter *)parentAdapter format:(MAAdFormat *)format andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALChartboostMediationAdapter()
+@interface ALChartboostMediationAdapter ()
 @property (nonatomic, strong) CHBInterstitial *interstitialAd;
 @property (nonatomic, strong) CHBRewarded *rewardedAd;
 @property (nonatomic, strong) CHBBanner *adView;
@@ -57,7 +57,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( [ALChartboostInitialized compareAndSet: NO update: YES] )
     {
@@ -162,7 +162,14 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -205,7 +212,14 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -233,14 +247,11 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 - (void)updateUserConsentForParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            CHBGDPRConsent gdprConsent = hasUserConsent.boolValue ? CHBGDPRConsentBehavioral : CHBGDPRConsentNonBehavioral;
-            [Chartboost addDataUseConsent: [CHBGDPRDataUseConsent gdprConsent: gdprConsent]];
-        }
+        CHBGDPRConsent gdprConsent = hasUserConsent.boolValue ? CHBGDPRConsentBehavioral : CHBGDPRConsentNonBehavioral;
+        [Chartboost addDataUseConsent: [CHBGDPRDataUseConsent gdprConsent: gdprConsent]];
     }
     
     if ( ALSdk.versionCode >= 61100 )
@@ -332,7 +343,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
                   thirdPartySdkErrorCode: chartBoostCacheErrorCode
                thirdPartySdkErrorMessage: chartBoostCacheError.description];
 #pragma clang diagnostic pop
-    
 }
 
 - (MAAdapterError *)toMaxErrorFromCHBShowError:(CHBShowError *)chartBoostShowError
@@ -384,7 +394,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     }
     else
     {
-        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat ];
+        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
         return CHBBannerSizeStandard;
     }
 }
@@ -619,7 +629,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self.parentAdapter log: @"%@ ad loaded: %@", self.adFormat.label, event.ad.location];
-        CHBBanner *adView = (CHBBanner *)event.ad;
+        CHBBanner *adView = (CHBBanner *) event.ad;
         
         // Passing extra info such as creative id supported in 6.15.0+
         if ( ALSdk.versionCode >= 6150000 && [event.adID al_isValidString] )
@@ -637,7 +647,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     }
 }
 
--(void)willShowAd:(CHBShowEvent *)event
+- (void)willShowAd:(CHBShowEvent *)event
 {
     [self.parentAdapter log: @"%@ ad will show: %@", self.adFormat.label, event.ad.location];
 }
