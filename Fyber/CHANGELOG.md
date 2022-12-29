@@ -1,7 +1,10 @@
 # Changelog
 
+## 8.1.7.2
+* Remove `consentDialogState` guard.
+
 ## 8.1.7.1
-* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+* Update to use `+[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
 ## 8.1.7.0
 * Certified with Fyber SDK 8.1.7.

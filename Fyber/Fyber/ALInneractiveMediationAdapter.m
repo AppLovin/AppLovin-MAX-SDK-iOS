@@ -9,31 +9,31 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.1.7.1"
+#define ADAPTER_VERSION @"8.1.7.2"
 
-@interface ALInneractiveMediationAdapterGlobalDelegate : NSObject<IAGlobalAdDelegate>
+@interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
 
-@interface ALInneractiveMediationAdapterInterstitialDelegate : NSObject<IAUnitDelegate, IAVideoContentDelegate, IAMRAIDContentDelegate>
+@interface ALInneractiveMediationAdapterInterstitialDelegate : NSObject <IAUnitDelegate, IAVideoContentDelegate, IAMRAIDContentDelegate>
 @property (nonatomic,   weak) ALInneractiveMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALInneractiveMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALInneractiveMediationAdapterRewardedDelegate : NSObject<IAUnitDelegate, IAVideoContentDelegate, IAMRAIDContentDelegate>
+@interface ALInneractiveMediationAdapterRewardedDelegate : NSObject <IAUnitDelegate, IAVideoContentDelegate, IAMRAIDContentDelegate>
 @property (nonatomic,   weak) ALInneractiveMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALInneractiveMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALInneractiveMediationAdapterAdViewDelegate : NSObject<IAUnitDelegate, IAMRAIDContentDelegate>
+@interface ALInneractiveMediationAdapterAdViewDelegate : NSObject <IAUnitDelegate, IAMRAIDContentDelegate>
 @property (nonatomic,   weak) ALInneractiveMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALInneractiveMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALInneractiveMediationAdapter()
+@interface ALInneractiveMediationAdapter ()
 
 // Interstitial
 @property (nonatomic, strong) IAAdSpot *interstitialAdSpot;
@@ -64,7 +64,6 @@ static MAAdapterInitializationStatus ALInneractiveInitializationStatus = NSInteg
 
 static ALInneractiveMediationAdapterGlobalDelegate *ALInneractiveGlobalDelegate;
 static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInneractiveCurrentlyShowingAdapters;
-
 
 + (void)initialize
 {
@@ -427,13 +426,10 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 {
     [IASDKCore sharedInstance].userID = self.sdk.userIdentifier;
     
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: requestParameters];
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: requestParameters];
-        if ( hasUserConsent )
-        {
-            [[IASDKCore sharedInstance] setGDPRConsent: hasUserConsent.boolValue];
-        }
+        [[IASDKCore sharedInstance] setGDPRConsent: hasUserConsent.boolValue];
     }
     else
     {
