@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationVerveAdapter'
-s.version = '2.16.1.2'
+s.version = '2.16.1.3'
 s.platform = :ios, '10.0'
 s.summary = 'Verve adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
