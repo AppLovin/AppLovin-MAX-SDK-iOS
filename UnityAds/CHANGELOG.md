@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.0.1
+* Remove `consentDialogState` guard.
+
 ## 4.5.0.0
 * Certified with UnityAds SDK 4.5.0.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
