@@ -8,16 +8,16 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.2.6.0.1"
+#define ADAPTER_VERSION @"7.2.6.0.2"
 
-@interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter<ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyBannerDelegate, ISLogDelegate>
+@interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyBannerDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 + (NSString *)interstitialRouterIdentifierForInstanceID:(NSString *)instanceID;
 + (NSString *)rewardedVideoRouterIdentifierForInstanceID:(NSString *)instanceID;
 + (NSString *)adViewRouterIdentifierForInstanceID:(NSString *)instanceID;
 @end
 
-@interface ALIronSourceMediationAdapter()
+@interface ALIronSourceMediationAdapter ()
 @property (nonatomic, strong, readonly) ALIronSourceMediationAdapterRouter *router;
 @property (nonatomic, copy) NSString *routerPlacementIdentifier;
 @end
@@ -27,7 +27,7 @@
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -259,13 +259,10 @@
 
 - (void)setPrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            [IronSource setConsent: hasUserConsent.boolValue];
-        }
+        [IronSource setConsent: hasUserConsent.boolValue];
     }
 }
 
