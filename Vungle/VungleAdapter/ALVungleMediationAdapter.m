@@ -11,10 +11,10 @@
 #import <VungleSDK/VungleSDKCreativeTracking.h>
 #import <VungleSDK/VungleSDK.h>
 
-#define ADAPTER_VERSION @"6.12.1.1"
+#define ADAPTER_VERSION @"6.12.1.2"
 
 // TODO: Remove when SDK with App Open APIs is released
-@protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
+@protocol MAAppOpenAdapterDelegateTemp <MAAdapterDelegate>
 - (void)didLoadAppOpenAd;
 - (void)didLoadAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
 - (void)didFailToLoadAppOpenAdWithError:(MAAdapterError *)adapterError;
@@ -27,17 +27,17 @@
 - (void)didFailToDisplayAppOpenAdWithError:(MAAdapterError *)adapterError;
 @end
 
-@interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter<VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
-@property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
-@property (nonatomic, copy, nullable) void(^completionBlock)(MAAdapterInitializationStatus, NSString * _Nullable);
+@interface ALVungleMediationAdapterRouter : ALMediationAdapterRouter <VungleSDKDelegate, VungleSDKCreativeTracking, VungleSDKHBDelegate>
+@property (nonatomic,   copy, nullable) void(^oldCompletionHandler)(void);
+@property (nonatomic,   copy, nullable) void(^completionBlock)(MAAdapterInitializationStatus, NSString *_Nullable);
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *creativeIdentifiers;
 
-- (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters consentDialogState:(ALConsentDialogState)consentDialogState;
+- (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters;
 - (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters;
 @end
 
-@interface ALVungleMediationAdapterNativeAdDelegate : NSObject<VungleNativeAdDelegate>
+@interface ALVungleMediationAdapterNativeAdDelegate : NSObject <VungleNativeAdDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -53,7 +53,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALVungleMediationAdapter()
+@interface ALVungleMediationAdapter ()
 @property (nonatomic, strong, readonly) ALVungleMediationAdapterRouter *router;
 @property (nonatomic, copy) NSString *placementIdentifier;
 @property (nonatomic, strong) UIView *adView;
@@ -78,9 +78,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
-    [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
+    [self.router updateUserPrivacySettingsForParameters: parameters];
     
     [[VungleSDK sharedSDK] setLoggingEnabled: [parameters isTesting]];
     
@@ -157,7 +157,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 {
     [self log: @"Collecting signal..."];
     
-    [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
+    [self.router updateUserPrivacySettingsForParameters: parameters];
     
     NSString *signal = [[VungleSDK sharedSDK] currentSuperTokenForPlacementID: nil forSize: 0];
     [delegate didCollectSignal: signal];
@@ -466,8 +466,8 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     VungleAdSize adSize = [ALVungleMediationAdapter vungleBannerAdSizeFromFormat: adFormat];
     if ( isBiddingAd )
     {
-        if ( [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier adMarkup: bidResponse] ||
-            [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier adMarkup: bidResponse withSize: adSize] )
+        if ( [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier adMarkup: bidResponse]
+            || [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier adMarkup: bidResponse withSize: adSize] )
         {
             [self showAdViewAdForParameters: parameters
                                    adFormat: adFormat
@@ -475,8 +475,8 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             return;
         }
     }
-    else if ( [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier] ||
-             [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier withSize: adSize] )
+    else if ( [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier]
+             || [[VungleSDK sharedSDK] isAdCachedForPlacementID: self.placementIdentifier withSize: adSize] )
     {
         [self showAdViewAdForParameters: parameters
                                adFormat: adFormat
@@ -589,7 +589,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     [self log: @"Loading %@native ad for placement: %@...", ( isBiddingAd ? @"bidding " : @"" ), self.placementIdentifier];
     
-    [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
+    [self.router updateUserPrivacySettingsForParameters: parameters];
     
     self.nativeAd = [[VungleNativeAd alloc] initWithPlacementID: self.placementIdentifier];
     self.nativeAdDelegate = [[ALVungleMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
@@ -611,7 +611,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (BOOL)loadAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat error:(NSError **)error
 {
-    [self.router updateUserPrivacySettingsForParameters: parameters consentDialogState: self.sdk.configuration.consentDialogState];
+    [self.router updateUserPrivacySettingsForParameters: parameters];
     
     // [loadPlacementWithID:] only supports the withSize parameter for banners and leaders.
     // [vungleAdPlayabilityUpdate:] is the callback for the load.
@@ -726,7 +726,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 {
     if ( !vungleError ) return MAAdapterError.unspecified;
     
-    VungleSDKErrorCode vungleErrorCode = (VungleSDKErrorCode)vungleError.code;
+    VungleSDKErrorCode vungleErrorCode = (VungleSDKErrorCode) vungleError.code;
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( vungleErrorCode )
     {
@@ -795,16 +795,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 #pragma mark - GDPR
 
-- (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters consentDialogState:(ALConsentDialogState)consentDialogState
+- (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            VungleConsentStatus contentStatus = hasUserConsent.boolValue ? VungleConsentAccepted : VungleConsentDenied;
-            [[VungleSDK sharedSDK] updateConsentStatus: contentStatus consentMessageVersion: @""];
-        }
+        VungleConsentStatus contentStatus = hasUserConsent.boolValue ? VungleConsentAccepted : VungleConsentDenied;
+        [[VungleSDK sharedSDK] updateConsentStatus: contentStatus consentMessageVersion: @""];
     }
     
     NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
@@ -1066,7 +1063,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 }
 
 - (void)nativeAdDidLoad:(VungleNativeAd *)nativeAd
-{    
+{
     if ( !nativeAd )
     {
         [self.parentAdapter log: @"Native ad failed to load: no fill"];

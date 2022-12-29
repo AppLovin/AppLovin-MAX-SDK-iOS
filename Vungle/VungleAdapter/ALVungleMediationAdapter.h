@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALVungleMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALVungleMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 @end
 
