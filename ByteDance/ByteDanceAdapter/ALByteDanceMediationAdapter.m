@@ -9,40 +9,40 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.8.1.0.1"
+#define ADAPTER_VERSION @"4.8.1.0.2"
 
-@interface ALByteDanceInterstitialAdDelegate : NSObject<BUFullscreenVideoAdDelegate>
+@interface ALByteDanceInterstitialAdDelegate : NSObject <BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceAppOpenAdDelegate : NSObject<BUAppOpenAdDelegate>
+@interface ALByteDanceAppOpenAdDelegate : NSObject <BUAppOpenAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceAppOpenSplashAdDelegate : NSObject<BUSplashAdDelegate>
+@interface ALByteDanceAppOpenSplashAdDelegate : NSObject <BUSplashAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceRewardedVideoAdDelegate : NSObject<BURewardedVideoAdDelegate>
+@interface ALByteDanceRewardedVideoAdDelegate : NSObject <BURewardedVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceAdViewAdDelegate : NSObject<BUNativeExpressBannerViewDelegate>
+@interface ALByteDanceAdViewAdDelegate : NSObject <BUNativeExpressBannerViewDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceNativeAdViewAdDelegate : NSObject<BUNativeAdsManagerDelegate, BUNativeAdDelegate>
+@interface ALByteDanceNativeAdViewAdDelegate : NSObject <BUNativeAdsManagerDelegate, BUNativeAdDelegate>
 @property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
@@ -51,7 +51,7 @@
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter parameters:(id<MAAdapterResponseParameters>)parameters format:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceNativeAdDelegate : NSObject<BUNativeAdsManagerDelegate, BUNativeAdDelegate>
+@interface ALByteDanceNativeAdDelegate : NSObject <BUNativeAdsManagerDelegate, BUNativeAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -65,7 +65,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALByteDanceMediationAdapter()
+@interface ALByteDanceMediationAdapter ()
 
 @property (nonatomic, strong) BUFullscreenVideoAd *interstitialAd;
 @property (nonatomic, strong) ALByteDanceInterstitialAdDelegate *interstitialAdDelegate;
@@ -106,7 +106,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     ALByteDanceInitialized = [[ALAtomicBoolean alloc] init];
 }
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( [ALByteDanceInitialized compareAndSet: NO update: YES] )
     {
@@ -455,7 +455,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             {
                 [self.nativeAdViewAdManager loadAdDataWithCount: 1];
             }
-            
         }
         else
         {
@@ -528,13 +527,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 - (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            [BUAdSDKManager setGDPR: hasUserConsent.boolValue ? 1 : 0];
-        }
+        [BUAdSDKManager setGDPR: hasUserConsent.boolValue ? 1 : 0];
     }
     
     NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
@@ -615,12 +611,12 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 - (BOOL)isVideoMediaView:(BUFeedADMode)imageMode
 {
-    return ( imageMode == BUFeedVideoAdModeImage ||
-            imageMode == BUFeedVideoAdModePortrait ||
-            imageMode == BUFeedADModeSquareVideo );
+    return ( imageMode == BUFeedVideoAdModeImage
+            || imageMode == BUFeedVideoAdModePortrait
+            || imageMode == BUFeedADModeSquareVideo );
 }
 
--(nullable UIImage *)appIconImage
+- (nullable UIImage *)appIconImage
 {
     NSDictionary *icons = [[NSBundle mainBundle] infoDictionary][@"CFBundleIcons"];
     NSDictionary *primary = icons[@"CFBundlePrimaryIcon"];
@@ -1192,7 +1188,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         // Create MANativeAd after images are loaded from remote URLs
         dispatchOnMainQueue(^{
@@ -1371,7 +1367,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         // Create MANativeAd after images are loaded from remote URLs
         dispatchOnMainQueue(^{

@@ -1,7 +1,10 @@
 # Changelog
 
+## 4.8.1.0.2
+* Remove `consentDialogState` guard.
+
 ## 4.8.1.0.1
-* Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
+* Update to use `+[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
 ## 4.8.1.0.0
 * Certified with ByteDance Global SDK 4.8.1.0.
