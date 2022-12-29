@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationYandexAdapter'
-s.version = '5.4.0.0'
+s.version = '5.4.0.1'
 s.platform = :ios, '12.0'
 s.summary = 'Yandex adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"5.4.0.0"
+#define ADAPTER_VERSION @"5.4.0.1"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -270,13 +270,10 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (void)updateUserConsent:(id<MAAdapterParameters>)parameters
 {
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            [YMAMobileAds setUserConsent: hasUserConsent.boolValue];
-        }
+        [YMAMobileAds setUserConsent: hasUserConsent.boolValue];
     }
 }
 
