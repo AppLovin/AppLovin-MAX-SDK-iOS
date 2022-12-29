@@ -7,6 +7,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALLineMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALLineMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 @end
