@@ -8,6 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALOguryPresageMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MARewardedAdapter>
+@interface ALOguryPresageMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, MARewardedAdapter>
 
 @end
