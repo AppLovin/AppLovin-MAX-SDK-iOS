@@ -106,12 +106,13 @@ extension ALMAXManualNativeAdViewController: MANativeAdDelegate
         logCallback()
     }
     
-    func didClickNativeAd(_ ad: MAAd)
+    func didRecordImpression(forNativeAd ad: MAAd)
     {
         logCallback()
     }
     
-    func didImpressionNativeAd(_ ad: MAAd) {
+    func didClickNativeAd(_ ad: MAAd)
+    {
         logCallback()
     }
     
