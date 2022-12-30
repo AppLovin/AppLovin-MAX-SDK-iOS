@@ -101,13 +101,13 @@ class ALHomeViewController: UITableViewController
          * Toggling the sdk mute setting will affect whether your video ads begin in a muted state or not.
          */
         let sdk = ALSdk.shared()
-        sdk?.settings.muted = !(sdk?.settings.muted)!
+        sdk?.settings.isMuted = !(sdk?.settings.isMuted)!
         sender.image = muteIconForCurrentSdkMuteSetting()
     }
     
     func muteIconForCurrentSdkMuteSetting() -> UIImage!
     {
-        return ALSdk.shared()!.settings.muted ? UIImage(named: "mute") : UIImage(named: "unmute")
+        return ALSdk.shared()!.settings.isMuted ? UIImage(named: "mute") : UIImage(named: "unmute")
     }
     
     // MARK: Table View Actions
