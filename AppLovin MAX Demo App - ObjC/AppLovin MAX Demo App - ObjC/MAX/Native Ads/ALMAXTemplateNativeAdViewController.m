@@ -92,6 +92,11 @@
     [self logCallback: __PRETTY_FUNCTION__];
 }
 
+- (void)didRecordImpressionForNativeAd:(MAAd *)ad
+{
+    [self logCallback: __PRETTY_FUNCTION__];
+}
+
 - (void)didClickNativeAd:(MAAd *)ad
 {
     [self logCallback: __PRETTY_FUNCTION__];
