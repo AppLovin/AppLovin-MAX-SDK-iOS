@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.16.2.1
+* Use new Swift bridging file and remove `HyBid-Swift.h`.
+
 ## 2.16.2.0
 * Certified with Verve SDK 2.16.2.
 

@@ -41,7 +41,6 @@
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D9C1065270EA081006CA163 /* AppLovinMediationVerveAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationVerveAdapter.podspec; sourceTree = "<group>"; };
-		47448BB22915900800BE06A2 /* HyBid-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HyBid-Swift.h"; sourceTree = "<group>"; };
 		6A561CD5219BB58300E3749A /* ALVerveMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALVerveMediationAdapter.m; sourceTree = "<group>"; };
 		6A561CD6219BB58300E3749A /* ALVerveMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALVerveMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CEF219BB5D400E3749A /* libVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,7 +102,6 @@
 		6A12947F21C086760052F283 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				47448BB22915900800BE06A2 /* HyBid-Swift.h */,
 				1D9C1065270EA081006CA163 /* AppLovinMediationVerveAdapter.podspec */,
 				6A5A632E21C0872C00B755D7 /* CHANGELOG.md */,
 			);
