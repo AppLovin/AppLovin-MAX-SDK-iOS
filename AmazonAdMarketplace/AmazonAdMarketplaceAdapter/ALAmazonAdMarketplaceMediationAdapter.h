@@ -8,6 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALAmazonAdMarketplaceMediationAdapter : ALMediationAdapter<MASignalProvider, MAAdViewAdapter, MAInterstitialAdapter, MARewardedAdapter>
+@interface ALAmazonAdMarketplaceMediationAdapter : ALMediationAdapter <MASignalProvider, MAAdViewAdapter, MAInterstitialAdapter, MARewardedAdapter>
 
 @end

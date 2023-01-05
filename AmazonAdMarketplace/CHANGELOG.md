@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.6.3
+* Fix using incorrect mediation hints when same price point is used for different ad formats.
+
 ## 4.5.6.2
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
