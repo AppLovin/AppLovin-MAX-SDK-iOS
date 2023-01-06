@@ -9,23 +9,23 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.7.1.1.2"
+#define ADAPTER_VERSION @"4.9.0.7.0"
 
-@interface ALCSJInterstitialAdDelegate : NSObject<BUNativeExpressFullscreenVideoAdDelegate>
+@interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALCSJMediationAdapter *)parentAdapter slotId:(NSString *)slotId andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALCSJAppOpenSplashAdDelegate : NSObject<BUSplashAdDelegate>
+@interface ALCSJAppOpenSplashAdDelegate : NSObject <BUSplashAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALCSJMediationAdapter *)parentAdapter slotId:(NSString *)slotId andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
-@interface ALCSJRewardedVideoAdDelegate : NSObject<BUNativeExpressRewardedVideoAdDelegate>
+@interface ALCSJRewardedVideoAdDelegate : NSObject <BUNativeExpressRewardedVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
@@ -33,14 +33,14 @@
 - (instancetype)initWithParentAdapter:(ALCSJMediationAdapter *)parentAdapter slotId:(NSString *)slotId andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALCSJAdViewAdDelegate : NSObject<BUNativeExpressBannerViewDelegate>
+@interface ALCSJAdViewAdDelegate : NSObject <BUNativeExpressBannerViewDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALCSJMediationAdapter *)parentAdapter slotId:(NSString *)slotId andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALCSJNativeAdViewAdDelegate : NSObject<BUNativeAdsManagerDelegate, BUNativeAdDelegate>
+@interface ALCSJNativeAdViewAdDelegate : NSObject <BUNativeAdsManagerDelegate, BUNativeAdDelegate>
 @property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
@@ -49,7 +49,7 @@
 - (instancetype)initWithParentAdapter:(ALCSJMediationAdapter *)parentAdapter parameters:(id<MAAdapterResponseParameters>)parameters format:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALCSJNativeAdDelegate : NSObject<BUNativeAdsManagerDelegate, BUNativeAdDelegate>
+@interface ALCSJNativeAdDelegate : NSObject <BUNativeAdsManagerDelegate, BUNativeAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -63,7 +63,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALCSJMediationAdapter()
+@interface ALCSJMediationAdapter ()
 
 @property (nonatomic, strong) BUNativeExpressFullscreenVideoAd *interstitialAd;
 @property (nonatomic, strong) ALCSJInterstitialAdDelegate *interstitialAdDelegate;
@@ -101,7 +101,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     ALCSJInitialized = [[ALAtomicBoolean alloc] init];
 }
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( [ALCSJInitialized compareAndSet: NO update: YES] )
     {
@@ -458,9 +458,9 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
 
 - (BOOL)isVideoMediaView:(BUFeedADMode)imageMode
 {
-    return ( imageMode == BUFeedVideoAdModeImage ||
-            imageMode == BUFeedVideoAdModePortrait ||
-            imageMode == BUFeedADModeSquareVideo );
+    return ( imageMode == BUFeedVideoAdModeImage
+            || imageMode == BUFeedVideoAdModePortrait
+            || imageMode == BUFeedADModeSquareVideo );
 }
 
 - (nullable UIImage *)appIconImage
@@ -1092,7 +1092,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         // Create MANativeAd after images are loaded from remote URLs
         dispatchOnMainQueue(^{
@@ -1265,7 +1265,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         // Create MANativeAd after images are loaded from remote URLs
         [self.parentAdapter log: @"Creating native ad with assets"];
