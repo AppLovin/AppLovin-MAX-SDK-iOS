@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0.7
+* Add support for star ratings in manual native ads.
+
 ## 2.2.0.6
 * Certified with Yahoo Mobile SDK 1.3.0.
 

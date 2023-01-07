@@ -10,7 +10,7 @@
 #import <YahooAds/YahooAds.h>
  
 // Major version number is '2' since certifying against the rebranded Yahoo SDK
-#define ADAPTER_VERSION @"2.2.0.6"
+#define ADAPTER_VERSION @"2.2.0.7"
 
 /**
  * Dedicated delegate object for Yahoo interstitial ads.
@@ -1034,6 +1034,10 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
             mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }
         
+        id<YASNativeTextComponent> starRatingComponent = (id<YASNativeTextComponent>)[nativeAd component: @"rating"];
+        // NOTE: `starRatingComponent.text` is an NSString(ex: @"1.0"). Using .doubleValue any invalid value, 0 -> 0.0
+        NSNumber *starRating = @(starRatingComponent.text.doubleValue);
+        
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         BOOL isTemplateAd = [templateName al_isValidString];
         if ( isTemplateAd && ![title al_isValidString] )
@@ -1066,6 +1070,15 @@ static NSString *const kMAAdImpressionEventId = @"adImpression";
             if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
             {
                 [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+            }
+#pragma clang diagnostic pop
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 11.7.0
+            if ( [builder respondsToSelector: @selector(setStarRating:)] )
+            {
+                [builder performSelector: @selector(setStarRating:) withObject: starRating];
             }
 #pragma clang diagnostic pop
         }];
