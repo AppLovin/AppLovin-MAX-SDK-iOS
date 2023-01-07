@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.2.5
+* Add support for star ratings in manual native ads.
+
 ## 10.1.2.4
 * Add CCPA support.
 

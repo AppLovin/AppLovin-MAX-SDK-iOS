@@ -9,12 +9,12 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.2.4"
+#define ADAPTER_VERSION @"10.1.2.5"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
  */
-@interface ALInMobiMediationAdapterAdViewDelegate : NSObject<IMBannerDelegate>
+@interface ALInMobiMediationAdapterAdViewDelegate : NSObject <IMBannerDelegate>
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
@@ -27,7 +27,7 @@
 /**
  * Dedicated delegate object for InMobi interstitial ads.
  */
-@interface ALInMobiMediationAdapterInterstitialAdDelegate : NSObject<IMInterstitialDelegate>
+@interface ALInMobiMediationAdapterInterstitialAdDelegate : NSObject <IMInterstitialDelegate>
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
@@ -40,7 +40,7 @@
 /**
  * Dedicated delegate object for InMobi rewarded ads.
  */
-@interface ALInMobiMediationAdapterRewardedAdDelegate : NSObject<IMInterstitialDelegate>
+@interface ALInMobiMediationAdapterRewardedAdDelegate : NSObject <IMInterstitialDelegate>
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
@@ -54,7 +54,7 @@
 /**
  * Dedicated delegate object for InMobi native AdView ads.
  */
-@interface ALInMobiMediationAdapterNativeAdViewDelegate : NSObject<IMNativeDelegate>
+@interface ALInMobiMediationAdapterNativeAdViewDelegate : NSObject <IMNativeDelegate>
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic,   weak) MAAdFormat *format;
@@ -73,7 +73,7 @@
 /**
  * Dedicated delegate object for InMobi native ads.
  */
-@interface ALInMobiMediationAdapterNativeAdDelegate : NSObject<IMNativeDelegate>
+@interface ALInMobiMediationAdapterNativeAdDelegate : NSObject <IMNativeDelegate>
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
@@ -94,7 +94,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALInMobiMediationAdapter()
+@interface ALInMobiMediationAdapter ()
 
 // AdView
 @property (nonatomic, strong) IMBanner *adView;
@@ -140,7 +140,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return ADAPTER_VERSION;
 }
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( [ALInMobiInitialized compareAndSet: NO update: YES] )
     {
@@ -150,7 +150,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         ALInMobiInitializationStatus = MAAdapterInitializationStatusInitializing;
         
         NSDictionary<NSString *, id> *consentDict = [self consentDictionaryForParameters: parameters];
-        [IMSdk initWithAccountID: accountID consentDictionary: consentDict andCompletionHandler:^(NSError * _Nullable error) {
+        [IMSdk initWithAccountID: accountID consentDictionary: consentDict andCompletionHandler:^(NSError *_Nullable error) {
             if ( error )
             {
                 [self log: @"InMobi SDK initialization failed with error: %@", error];
@@ -1065,6 +1065,15 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             builder.callToAction = nativeAd.adCtaText;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
             builder.mediaView = [[UIView alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 11.7.0
+            if ( [builder respondsToSelector: @selector(setStarRating:)] )
+            {
+                // NOTE: `nativeAd.adRating` is an NSString(ex: @"1.0"). Using .doubleValue any invalid value, 0 -> 0.0
+                [builder performSelector: @selector(setStarRating:) withObject: @(nativeAd.adRating.doubleValue)];
+            }
+#pragma clang diagnostic pop
         }];
         
         NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;

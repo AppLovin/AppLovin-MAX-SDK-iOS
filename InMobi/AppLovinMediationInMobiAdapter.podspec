@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationInMobiAdapter'
-s.version = '10.1.2.4'
+s.version = '10.1.2.5'
 s.platform = :ios, '9.0'
 s.summary = 'InMobi adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
