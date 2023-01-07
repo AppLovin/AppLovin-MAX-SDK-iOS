@@ -8,7 +8,7 @@
 
 #import "ALGoogleAppOpenDelegate.h"
 
-@interface ALGoogleAppOpenDelegate()
+@interface ALGoogleAppOpenDelegate ()
 @property (nonatomic, weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, copy) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegateTemp> delegate;

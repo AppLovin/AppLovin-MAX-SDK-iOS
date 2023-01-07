@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALGoogleInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleInterstitialDelegate : NSObject <GADFullScreenContentDelegate>
 
 - (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter
                   placementIdentifier:(NSString *)placementIdentifier

@@ -8,7 +8,7 @@
 
 #import "ALGoogleAdViewDelegate.h"
 
-@interface ALGoogleAdViewDelegate()
+@interface ALGoogleAdViewDelegate ()
 @property (nonatomic, weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, weak) MAAdFormat *adFormat;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;

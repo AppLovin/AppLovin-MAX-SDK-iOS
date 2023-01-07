@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALGoogleNativeAdDelegate : NSObject<GADNativeAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate>
+@interface ALGoogleNativeAdDelegate : NSObject <GADNativeAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate>
 
 - (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter
                            parameters:(id<MAAdapterResponseParameters>)parameters

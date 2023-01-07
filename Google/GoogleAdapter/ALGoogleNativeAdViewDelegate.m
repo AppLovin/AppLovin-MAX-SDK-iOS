@@ -8,11 +8,11 @@
 
 #import "ALGoogleNativeAdViewDelegate.h"
 
-@interface ALGoogleMediationAdapter()
+@interface ALGoogleMediationAdapter ()
 @property (nonatomic, strong) GADNativeAdView *nativeAdView;
 @end
 
-@interface ALGoogleNativeAdViewDelegate()
+@interface ALGoogleNativeAdViewDelegate ()
 @property (nonatomic, weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, weak) MAAdFormat *adFormat;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;

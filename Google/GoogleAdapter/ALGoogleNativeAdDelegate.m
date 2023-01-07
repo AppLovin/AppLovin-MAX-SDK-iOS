@@ -9,11 +9,11 @@
 #import "ALGoogleNativeAdDelegate.h"
 #import "ALGoogleNativeAd.h"
 
-@interface ALGoogleMediationAdapter()
+@interface ALGoogleMediationAdapter ()
 @property (nonatomic, strong) GADNativeAd *nativeAd;
 @end
 
-@interface ALGoogleNativeAdDelegate()
+@interface ALGoogleNativeAdDelegate ()
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
@@ -122,6 +122,15 @@
         if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
         {
             [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+        }
+#pragma clang diagnostic pop
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 11.7.0
+        if ( [builder respondsToSelector: @selector(setStarRating:)] )
+        {
+            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
         }
 #pragma clang diagnostic pop
         

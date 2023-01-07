@@ -8,7 +8,7 @@
 
 #import "ALGoogleRewardedDelegate.h"
 
-@interface ALGoogleRewardedDelegate()
+@interface ALGoogleRewardedDelegate ()
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;

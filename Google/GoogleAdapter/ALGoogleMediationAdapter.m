@@ -16,9 +16,9 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"9.14.0.1"
+#define ADAPTER_VERSION @"9.14.0.2"
 
-@interface ALGoogleMediationAdapter()
+@interface ALGoogleMediationAdapter ()
 
 @property (nonatomic, strong) GADInterstitialAd *interstitialAd;
 @property (nonatomic, strong) GADAppOpenAd *appOpenAd;
@@ -104,7 +104,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)destroy
 {
-    [self log: @"Destroy called for adapter %@", self ];
+    [self log: @"Destroy called for adapter %@", self];
     
     self.interstitialAd.fullScreenContentDelegate = nil;
     self.interstitialAd = nil;
@@ -608,7 +608,7 @@ static NSString *ALGoogleSDKVersion;
         BOOL isAdaptiveBanner = [parameters.serverParameters al_boolForKey: @"adaptive_banner" defaultValue: NO];
         GADAdSize adSize = [self adSizeFromAdFormat: adFormat isAdaptiveBanner: isAdaptiveBanner];
         self.adView = [[GADBannerView alloc] initWithAdSize: adSize];
-        self.adView.frame = (CGRect){.size = adSize.size};
+        self.adView.frame = (CGRect) {.size = adSize.size};
         self.adView.adUnitID = placementIdentifier;
         self.adView.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         self.adViewDelegate = [[ALGoogleAdViewDelegate alloc] initWithParentAdapter: self
@@ -973,10 +973,10 @@ static NSString *ALGoogleSDKVersion;
     {
         GADAdChoicesPosition rawValue = ((NSNumber *) placementObj).integerValue;
         
-        return rawValue == GADAdChoicesPositionTopRightCorner ||
-        rawValue == GADAdChoicesPositionTopLeftCorner ||
-        rawValue == GADAdChoicesPositionBottomRightCorner ||
-        rawValue == GADAdChoicesPositionBottomLeftCorner;
+        return rawValue == GADAdChoicesPositionTopRightCorner
+        || rawValue == GADAdChoicesPositionTopLeftCorner
+        || rawValue == GADAdChoicesPositionBottomRightCorner
+        || rawValue == GADAdChoicesPositionBottomLeftCorner;
     }
     
     return NO;

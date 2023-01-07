@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALGoogleRewardedInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleRewardedInterstitialDelegate : NSObject <GADFullScreenContentDelegate>
 
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 

@@ -8,12 +8,12 @@
 
 #import "ALGoogleNativeAd.h"
 
-@interface ALGoogleMediationAdapter()
+@interface ALGoogleMediationAdapter ()
 @property (nonatomic, strong) GADNativeAd *nativeAd;
 @property (nonatomic, strong) GADNativeAdView *nativeAdView;
 @end
 
-@interface ALGoogleNativeAd()
+@interface ALGoogleNativeAd ()
 @property (nonatomic,   weak) ALGoogleMediationAdapter *parentAdapter;
 @property (nonatomic, assign) NSInteger gadNativeAdViewTag;
 @end

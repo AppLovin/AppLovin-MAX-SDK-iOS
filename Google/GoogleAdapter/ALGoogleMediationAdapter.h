@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALGoogleMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MAAppOpenAdapter, MARewardedInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALGoogleMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, MAAppOpenAdapter, MARewardedInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 /**
  * Maps the provided ad network's error to an instance of @c MAAdapterError.

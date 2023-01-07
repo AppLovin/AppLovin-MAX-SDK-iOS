@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // TODO: Remove when SDK with App Open APIs is released
-@protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
+@protocol MAAppOpenAdapterDelegateTemp <MAAdapterDelegate>
 - (void)didLoadAppOpenAd;
 - (void)didLoadAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
 - (void)didFailToLoadAppOpenAdWithError:(MAAdapterError *)adapterError;
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didFailToDisplayAppOpenAdWithError:(MAAdapterError *)adapterError;
 @end
 
-@interface ALGoogleAppOpenDelegate: NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleAppOpenDelegate : NSObject <GADFullScreenContentDelegate>
 
 - (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter
                   placementIdentifier:(NSString *)placementIdentifier

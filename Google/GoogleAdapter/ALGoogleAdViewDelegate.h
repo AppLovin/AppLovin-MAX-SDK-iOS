@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALGoogleAdViewDelegate : NSObject<GADBannerViewDelegate>
+@interface ALGoogleAdViewDelegate : NSObject <GADBannerViewDelegate>
 
 - (instancetype)initWithParentAdapter:(ALGoogleMediationAdapter *)parentAdapter
                              adFormat:(MAAdFormat *)adFormat
