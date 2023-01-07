@@ -13,6 +13,6 @@
 #import <GoogleMobileAds/GADAdFormat.h>
 #import <GoogleMobileAds/GADRequest.h>
 
-@interface ALGoogleAdManagerMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALGoogleAdManagerMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 @end

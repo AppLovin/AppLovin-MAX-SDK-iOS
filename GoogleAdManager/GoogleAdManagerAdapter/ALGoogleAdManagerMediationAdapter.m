@@ -9,10 +9,10 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"9.14.0.1"
+#define ADAPTER_VERSION @"9.14.0.2"
 
 // TODO: Remove when SDK with App Open APIs is released
-@protocol MAAppOpenAdapterDelegateTemp<MAAdapterDelegate>
+@protocol MAAppOpenAdapterDelegateTemp <MAAdapterDelegate>
 - (void)didLoadAppOpenAd;
 - (void)didLoadAppOpenAdWithExtraInfo:(nullable NSDictionary<NSString *, id> *)extraInfo;
 - (void)didFailToLoadAppOpenAdWithError:(MAAdapterError *)adapterError;
@@ -25,7 +25,7 @@
 - (void)didFailToDisplayAppOpenAdWithError:(MAAdapterError *)adapterError;
 @end
 
-@interface ALGoogleAdManagerInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleAdManagerInterstitialDelegate : NSObject <GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
@@ -34,7 +34,7 @@
                             andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALGoogleAdManagerAppOpenDelegate : NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleAdManagerAppOpenDelegate : NSObject <GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegateTemp> delegate;
@@ -43,7 +43,7 @@
                             andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate;
 @end
 
-@interface ALGoogleAdManagerRewardedInterstitialDelegate : NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleAdManagerRewardedInterstitialDelegate : NSObject <GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MARewardedInterstitialAdapterDelegate> delegate;
@@ -53,7 +53,7 @@
                             andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALGoogleAdManagerRewardedDelegate : NSObject<GADFullScreenContentDelegate>
+@interface ALGoogleAdManagerRewardedDelegate : NSObject <GADFullScreenContentDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
@@ -63,7 +63,7 @@
                             andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALGoogleAdManagerAdViewDelegate : NSObject<GADBannerViewDelegate>
+@interface ALGoogleAdManagerAdViewDelegate : NSObject <GADBannerViewDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
@@ -72,7 +72,7 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALGoogleAdManagerNativeAdViewAdDelegate : NSObject<GADNativeAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate>
+@interface ALGoogleAdManagerNativeAdViewAdDelegate : NSObject <GADNativeAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -83,7 +83,7 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALGoogleAdManagerNativeAdDelegate : NSObject<GADNativeAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate>
+@interface ALGoogleAdManagerNativeAdDelegate : NSObject <GADNativeAdLoaderDelegate, GADAdLoaderDelegate, GADNativeAdDelegate>
 @property (nonatomic,   weak) ALGoogleAdManagerMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
@@ -102,7 +102,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALGoogleAdManagerMediationAdapter()
+@interface ALGoogleAdManagerMediationAdapter ()
 
 @property (nonatomic, strong) GAMInterstitialAd *interstitialAd;
 @property (nonatomic, strong) GADAppOpenAd *appOpenAd;
@@ -152,7 +152,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)destroy
 {
-    [self log: @"Destroy called for adapter %@", self ];
+    [self log: @"Destroy called for adapter %@", self];
     
     self.interstitialAd.fullScreenContentDelegate = nil;
     self.interstitialAd = nil;
@@ -368,7 +368,7 @@ static NSString *ALGoogleSDKVersion;
     
     [GADRewardedInterstitialAd loadWithAdUnitID: placementIdentifier
                                         request: request
-                              completionHandler:^(GADRewardedInterstitialAd * _Nullable rewardedInterstitialAd, NSError * _Nullable error) {
+                              completionHandler:^(GADRewardedInterstitialAd *_Nullable rewardedInterstitialAd, NSError *_Nullable error) {
         
         if ( error )
         {
@@ -877,10 +877,10 @@ static NSString *ALGoogleSDKVersion;
     {
         GADAdChoicesPosition rawValue = ((NSNumber *) placementObj).integerValue;
         
-        return rawValue == GADAdChoicesPositionTopRightCorner ||
-        rawValue == GADAdChoicesPositionTopLeftCorner ||
-        rawValue == GADAdChoicesPositionBottomRightCorner ||
-        rawValue == GADAdChoicesPositionBottomLeftCorner;
+        return rawValue == GADAdChoicesPositionTopRightCorner
+        || rawValue == GADAdChoicesPositionTopLeftCorner
+        || rawValue == GADAdChoicesPositionBottomRightCorner
+        || rawValue == GADAdChoicesPositionBottomLeftCorner;
     }
     
     return NO;
@@ -1451,6 +1451,15 @@ static NSString *ALGoogleSDKVersion;
         if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
         {
             [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+        }
+#pragma clang diagnostic pop
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 11.7.0
+        if ( [builder respondsToSelector: @selector(setStarRating:)] )
+        {
+            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
         }
 #pragma clang diagnostic pop
         
