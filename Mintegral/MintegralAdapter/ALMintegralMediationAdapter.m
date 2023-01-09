@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.2.8.0.1"
+#define ADAPTER_VERSION @"7.2.9.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -32,32 +32,32 @@
 #define EXCEPTION_APP_ID_EMPTY -1301 // appID is empty
 #define EXCEPTION_APP_NOT_FOUND -1302 // Can not find the appId
 
-@interface ALMintegralMediationAdapterInterstitialDelegate : NSObject<MTGInterstitialVideoDelegate, MTGBidInterstitialVideoDelegate>
+@interface ALMintegralMediationAdapterInterstitialDelegate : NSObject <MTGInterstitialVideoDelegate, MTGBidInterstitialVideoDelegate>
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALMintegralMediationAdapterAppOpenAdDelegate : NSObject<MTGSplashADDelegate>
+@interface ALMintegralMediationAdapterAppOpenAdDelegate : NSObject <MTGSplashADDelegate>
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
 @end
 
-@interface ALMintegralMediationAdapterRewardedDelegate : NSObject<MTGRewardAdLoadDelegate, MTGRewardAdShowDelegate>
+@interface ALMintegralMediationAdapterRewardedDelegate : NSObject <MTGRewardAdLoadDelegate, MTGRewardAdShowDelegate>
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALMintegralMediationAdapterBannerViewDelegate : NSObject<MTGBannerAdViewDelegate>
+@interface ALMintegralMediationAdapterBannerViewDelegate : NSObject <MTGBannerAdViewDelegate>
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALMintegralMediationAdapterNativeAdDelegate : NSObject<MTGNativeAdManagerDelegate, MTGBidNativeAdManagerDelegate, MTGMediaViewDelegate>
+@interface ALMintegralMediationAdapterNativeAdDelegate : NSObject <MTGNativeAdManagerDelegate, MTGBidNativeAdManagerDelegate, MTGMediaViewDelegate>
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
@@ -66,7 +66,7 @@
 - (instancetype)initWithParentAdapter:(ALMintegralMediationAdapter *)parentAdapter parameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 @end
 
-@interface ALMintegralMediationAdapterNativeAdViewDelegate: NSObject<MTGNativeAdManagerDelegate, MTGBidNativeAdManagerDelegate, MTGMediaViewDelegate>
+@interface ALMintegralMediationAdapterNativeAdViewDelegate : NSObject <MTGNativeAdManagerDelegate, MTGBidNativeAdManagerDelegate, MTGMediaViewDelegate>
 @property (nonatomic,   weak) ALMintegralMediationAdapter *parentAdapter;
 @property (nonatomic,   weak) MAAdFormat *format;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -82,7 +82,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALMintegralMediationAdapter()
+@interface ALMintegralMediationAdapter ()
 
 @property (nonatomic, strong) MTGBidInterstitialVideoAdManager *bidInterstitialVideoManager;
 @property (nonatomic, strong) MTGInterstitialVideoAdManager *interstitialVideoManager;
@@ -108,7 +108,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -897,11 +897,17 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 //
 
 - (void)splashADLoadSuccess:(MTGSplashAD *)splashAD {}
+
 - (void)splashADLoadFail:(MTGSplashAD *)splashAD error:(NSError *)error {}
+
 - (CGPoint)pointForSplashZoomOutADViewToAddOn:(MTGSplashAD *)splashAD { return CGPointZero; }
+
 - (void)splashAD:(MTGSplashAD *)splashAD timeLeft:(NSUInteger)time {}
+
 - (void)splashZoomOutADViewClosed:(MTGSplashAD *)splashAD {}
+
 - (void)splashZoomOutADViewDidShow:(MTGSplashAD *)splashAD {}
+
 - (UIView *)superViewForSplashZoomOutADViewToAddOn:(MTGSplashAD *)splashAD { return [UIApplication sharedApplication].keyWindow; }
 
 @end
@@ -1165,7 +1171,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         dispatchOnMainQueue(^{
             MTGMediaView *mediaView = [[MTGMediaView alloc] initWithFrame: CGRectZero];
@@ -1270,7 +1276,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 - (void)nativeAdClickUrlDidEndJump:(nullable NSURL *)finalURL error:(nullable NSError *)error mediaView:(MTGMediaView *)mediaView
 {
     NSString *errorString = [NSString stringWithFormat: @" with error: %@", error.localizedDescription];
-    [self.parentAdapter log: @"Media view click did end jump to: %@%@", finalURL, error ? errorString: @""];
+    [self.parentAdapter log: @"Media view click did end jump to: %@%@", finalURL, error ? errorString : @""];
 }
 
 - (void)nativeAdImpressionWithType:(MTGAdSourceType)type mediaView:(MTGMediaView *)mediaView;
@@ -1389,7 +1395,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         dispatchOnMainQueue(^{
             MTGMediaView *mediaView = [[MTGMediaView alloc] initWithFrame: CGRectZero];
@@ -1464,7 +1470,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 - (void)nativeAdClickUrlDidEndJump:(nullable NSURL *)finalURL error:(nullable NSError *)error mediaView:(MTGMediaView *)mediaView
 {
     NSString *errorString = [NSString stringWithFormat: @" with error: %@", error.localizedDescription];
-    [self.parentAdapter log: @"Media view click did end jump to: %@%@", finalURL, error ? errorString: @""];
+    [self.parentAdapter log: @"Media view click did end jump to: %@%@", finalURL, error ? errorString : @""];
 }
 
 - (void)nativeAdImpressionWithType:(MTGAdSourceType)type mediaView:(MTGMediaView *)mediaView;
