@@ -14,13 +14,13 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"21.7.9.1"
+#define ADAPTER_VERSION @"22.0.1.0"
 
 /**
  * Router for interstitial/rewarded ad events.
  * Ads are removed on ad displayed/expired, as Smaato will allow a new ad load for the same adSpaceId.
  */
-@interface ALSmaatoMediationAdapterRouter : ALMediationAdapterRouter<SMAInterstitialDelegate, SMARewardedInterstitialDelegate>
+@interface ALSmaatoMediationAdapterRouter : ALMediationAdapterRouter <SMAInterstitialDelegate, SMARewardedInterstitialDelegate>
 - (nullable SMAInterstitial *)interstitialAdForPlacementIdentifier:(NSString *)placementIdentifier;
 - (nullable SMARewardedInterstitial *)rewardedAdForPlacementIdentifier:(NSString *)placementIdentifier;
 @end
@@ -28,7 +28,7 @@
 /**
  * Smaato banners are instance-based.
  */
-@interface ALSmaatoMediationAdapterAdViewDelegate : NSObject<SMABannerViewDelegate>
+@interface ALSmaatoMediationAdapterAdViewDelegate : NSObject <SMABannerViewDelegate>
 @property (nonatomic,   weak) ALSmaatoMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
@@ -37,7 +37,7 @@
 /**
  * Smaato native ads are instance-based.
  */
-@interface ALSmaatoMediationAdapterNativeDelegate : NSObject<SMANativeAdDelegate>
+@interface ALSmaatoMediationAdapterNativeDelegate : NSObject <SMANativeAdDelegate>
 @property (nonatomic,   weak) ALSmaatoMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSString *placementIdentifier;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -53,7 +53,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALSmaatoMediationAdapter()
+@interface ALSmaatoMediationAdapter ()
 // Used by the mediation adapter router
 @property (nonatomic, copy, nullable) NSString *placementIdentifier;
 
@@ -78,7 +78,7 @@
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -529,7 +529,7 @@
 
 #pragma mark - Smaato Interstitial/Rewarded Router
 
-@interface ALSmaatoMediationAdapterRouter()
+@interface ALSmaatoMediationAdapterRouter ()
 // Interstitial
 @property (nonatomic, strong) NSMutableDictionary<NSString *, SMAInterstitial *> *interstitialAds;
 @property (nonatomic, strong) NSObject *interstitialAdsLock;
@@ -584,7 +584,7 @@
         self.interstitialAds[placementIdentifier] = interstitial;
     }
     
-    [self log: @"Interstitial loaded for placement: %@...", placementIdentifier];
+    [self log: @"Interstitial ad loaded for placement: %@...", placementIdentifier];
     [self didLoadAdForCreativeIdentifier: interstitial.sci placementIdentifier: placementIdentifier];
 }
 
@@ -592,7 +592,7 @@
 {
     NSString *placementIdentifier = interstitial.adSpaceId;
     
-    [self log: @"Interstitial failed to load for placement: %@...with error: %@", placementIdentifier, error];
+    [self log: @"Interstitial ad failed to load for placement: %@...with error: %@", placementIdentifier, error];
     
     MAAdapterError *adapterError = [ALSmaatoMediationAdapter toMaxError: error];
     [self didFailToLoadAdForPlacementIdentifier: placementIdentifier error: adapterError];
@@ -608,6 +608,11 @@
     }
 }
 
+- (void)interstitialWillAppear:(SMAInterstitial *)interstitial
+{
+    [self log: @"Interstitial ad will appear"];
+}
+
 - (void)interstitialDidAppear:(SMAInterstitial *)interstitial
 {
     // Allow the next interstitial to load
@@ -616,19 +621,29 @@
         [self.interstitialAds removeObjectForKey: interstitial.adSpaceId];
     }
     
-    [self log: @"Interstitial displayed"];
+    [self log: @"Interstitial ad displayed"];
     [self didDisplayAdForPlacementIdentifier: interstitial.adSpaceId];
 }
 
 - (void)interstitialDidClick:(SMAInterstitial *)interstitial
 {
-    [self log: @"Interstitial clicked"];
+    [self log: @"Interstitial ad clicked"];
     [self didClickAdForPlacementIdentifier: interstitial.adSpaceId];
+}
+
+- (void)interstitialWillLeaveApplication:(SMAInterstitial *)interstitial
+{
+    [self log: @"Interstitial ad will leave application"];
+}
+
+- (void)interstitialWillDisappear:(SMAInterstitial *)interstitial
+{
+    [self log: @"Interstitial ad will disappear"];
 }
 
 - (void)interstitialDidDisappear:(SMAInterstitial *)interstitial
 {
-    [self log: @"Interstitial hidden"];
+    [self log: @"Interstitial ad hidden"];
     [self didHideAdForPlacementIdentifier: interstitial.adSpaceId];
 }
 
@@ -667,6 +682,11 @@
     }
 }
 
+- (void)rewardedInterstitialWillAppear:(SMARewardedInterstitial *)rewardedInterstitial
+{
+    [self log: @"Rewarded ad will appear"];
+}
+
 - (void)rewardedInterstitialDidAppear:(SMARewardedInterstitial *)rewardedInterstitial
 {
     // Allow the next rewarded ad to load
@@ -691,12 +711,22 @@
     [self didClickAdForPlacementIdentifier: rewardedInterstitial.adSpaceId];
 }
 
+- (void)rewardedInterstitialWillLeaveApplication:(SMARewardedInterstitial *)rewardedInterstitial
+{
+    [self log: @"Rewarded ad will leave application"];
+}
+
 - (void)rewardedInterstitialDidReward:(SMARewardedInterstitial *)rewardedInterstitial
 {
-    [self log: @"Reward ad video completed"];
+    [self log: @"Rewarded ad video completed"];
     [self didCompleteRewardedVideoForPlacementIdentifier: rewardedInterstitial.adSpaceId];
     
     self.grantedReward = YES;
+}
+
+- (void)rewardedInterstitialWillDisappear:(SMARewardedInterstitial *)rewardedInterstitial
+{
+    [self log: @"Rewarded ad will disappear"];
 }
 
 - (void)rewardedInterstitialDidDisappear:(SMARewardedInterstitial *)rewardedInterstitial
