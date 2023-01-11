@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 		6A9A772A21A4F43A00151D7A /* ALBidMachineMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A772821A4F43A00151D7A /* ALBidMachineMediationAdapter.m */; };
+		89ADA67D416E0B7CF016E955 /* Pods_BidMachineAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3F23B71FB1BCE02880EFB6D /* Pods_BidMachineAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,9 @@
 		6A5A633B21C0875E00B755D7 /* AppLovinMediationBidMachineAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationBidMachineAdapter.podspec; sourceTree = "<group>"; };
 		6A9A772821A4F43A00151D7A /* ALBidMachineMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALBidMachineMediationAdapter.m; sourceTree = "<group>"; };
 		6A9A772921A4F43A00151D7A /* ALBidMachineMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALBidMachineMediationAdapter.h; sourceTree = "<group>"; };
+		ADB887ED63152218EE7B9162 /* Pods-BidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.debug.xcconfig"; path = "Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		B3F23B71FB1BCE02880EFB6D /* Pods_BidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C94A5817B1EF58C9ED086606 /* Pods-BidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.release.xcconfig"; path = "Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */,
+				89ADA67D416E0B7CF016E955 /* Pods_BidMachineAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				B3F23B71FB1BCE02880EFB6D /* Pods_BidMachineAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +94,7 @@
 				6A5A632921C086CF00B755D7 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				B1DF109E71BB9FA3DE10DC86 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +124,16 @@
 			path = BidMachineAdapter;
 			sourceTree = "<group>";
 		};
+		B1DF109E71BB9FA3DE10DC86 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ADB887ED63152218EE7B9162 /* Pods-BidMachineAdapter.debug.xcconfig */,
+				C94A5817B1EF58C9ED086606 /* Pods-BidMachineAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -124,6 +141,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CE2219BB5A600E3749A /* Build configuration list for PBXNativeTarget "BidMachineAdapter" */;
 			buildPhases = (
+				612D638154E28C80802AAC14 /* [CP] Check Pods Manifest.lock */,
 				6A561CDD219BB5A600E3749A /* Sources */,
 				6A561CDF219BB5A600E3749A /* Frameworks */,
 				6A561CE1219BB5A600E3749A /* Copy Files */,
@@ -168,6 +186,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		612D638154E28C80802AAC14 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BidMachineAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561CDD219BB5A600E3749A /* Sources */ = {
@@ -302,6 +345,7 @@
 		};
 		6A561CE3219BB5A600E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ADB887ED63152218EE7B9162 /* Pods-BidMachineAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -309,9 +353,9 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -324,6 +368,7 @@
 		};
 		6A561CE4219BB5A600E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C94A5817B1EF58C9ED086606 /* Pods-BidMachineAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -331,9 +376,9 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";

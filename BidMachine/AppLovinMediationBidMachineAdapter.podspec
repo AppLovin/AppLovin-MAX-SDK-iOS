@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationBidMachineAdapter'
-s.version = '1.9.5.1.0'
+s.version = '2.0.0.5.0'
 s.platform = :ios, '10.0'
 s.summary = 'BidMachine adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,10 +26,9 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'BidMachine', '= 1.9.5.1'
-s.dependency 'BDMIABAdapter', '= 1.9.5.0'
+s.dependency 'BidMachine', '= 2.0.0.5'
 s.dependency 'AppLovinSDK'
-s.swift_version = '5.0'
+s.swift_version = '5.1'
 
 s.pod_target_xcconfig =
 {
