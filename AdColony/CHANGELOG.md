@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.9.0.0.3
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+* Remove `consentDialogState` guard.
+
 ## 4.9.0.0.2
 * Update privacy settings before collecting signal.
 

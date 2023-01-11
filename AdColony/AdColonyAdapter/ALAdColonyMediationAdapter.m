@@ -9,27 +9,27 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.9.0.0.2"
+#define ADAPTER_VERSION @"4.9.0.0.3"
 
-@interface ALAdColonyInterstitialDelegate : NSObject<AdColonyInterstitialDelegate>
+@interface ALAdColonyInterstitialDelegate : NSObject <AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALAdColonyMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALAdColonyRewardedAdDelegate : NSObject<AdColonyInterstitialDelegate>
+@interface ALAdColonyRewardedAdDelegate : NSObject <AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALAdColonyMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALAdColonyMediationAdapterAdViewDelegate : NSObject<AdColonyAdViewDelegate>
+@interface ALAdColonyMediationAdapterAdViewDelegate : NSObject <AdColonyAdViewDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALAdColonyMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALAdColonyMediationAdapter()
+@interface ALAdColonyMediationAdapter ()
 
 // Initialize the SDK only once
 @property (atomic, assign) BOOL initialized;
@@ -72,7 +72,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     return ADAPTER_VERSION;
 }
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( [ALAdColonyInitialized compareAndSet: NO update: YES] )
     {
@@ -130,9 +130,9 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
-
+    
     [AdColony setAppOptions: [self optionsFromParameters: parameters]];
-
+    
     [AdColony collectSignals:^(NSString *token, NSError *error) {
         if ( error )
         {
@@ -168,7 +168,14 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     if ( !self.loadedInterstitialAd )
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                 thirdPartySdkErrorCode : 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -220,7 +227,14 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     if ( !self.loadedRewardedAd )
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
         
         return;
     }
@@ -277,7 +291,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     [AdColony setAppOptions: [self optionsFromParameters: parameters]];
     
     AdColonyAdSize adSize = [self sizeFromAdFormat: adFormat];
-    self.adViewDelegate = [[ALAdColonyMediationAdapterAdViewDelegate alloc] initWithParentAdapter:self andNotify: delegate];
+    self.adViewDelegate = [[ALAdColonyMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     [AdColony requestAdViewInZone: zoneId
                          withSize: adSize
                    viewController: [ALUtils topViewControllerFromKeyWindow]
@@ -354,7 +368,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
 #pragma clang diagnostic pop
 }
 
-- (AdColonyAppOptions *)optionsFromParameters:(id<MAAdapterParameters >)parameters
+- (AdColonyAppOptions *)optionsFromParameters:(id<MAAdapterParameters>)parameters
 {
     NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
     AdColonyAppOptions *options = [[AdColonyAppOptions alloc] init];
@@ -369,19 +383,10 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     //
     // GDPR options
     //
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        [options setPrivacyFrameworkOfType: ADC_GDPR isRequired: YES];
-        
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            [options setPrivacyConsentString: hasUserConsent.boolValue ? @"1" : @"0" forType: ADC_GDPR];
-        }
-    }
-    else if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateDoesNotApply )
-    {
-        [options setPrivacyFrameworkOfType: ADC_GDPR isRequired: NO];
+        [options setPrivacyConsentString: hasUserConsent.boolValue ? @"1" : @"0" forType: ADC_GDPR];
     }
     
     //
@@ -417,7 +422,7 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
     // If AdColony wins the auction, network adapters need to send any .adm content via ad_options to the AdColony SDK when making the ad request
     if ( [parameters conformsToProtocol: @protocol(MAAdapterResponseParameters)] )
     {
-        NSString *bidResponse = ((id<MAAdapterResponseParameters>)parameters).bidResponse;
+        NSString *bidResponse = ((id<MAAdapterResponseParameters>) parameters).bidResponse;
         if ( [bidResponse al_isValidString] )
         {
             [options setOption: @"adm" withStringValue: bidResponse];
