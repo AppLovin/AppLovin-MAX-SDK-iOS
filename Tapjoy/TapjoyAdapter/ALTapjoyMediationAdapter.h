@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALTapjoyMediationAdapter : ALMediationAdapter<MAInterstitialAdapter, MARewardedAdapter, MASignalProvider>
+@interface ALTapjoyMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, MARewardedAdapter, MASignalProvider>
 
 @end
 

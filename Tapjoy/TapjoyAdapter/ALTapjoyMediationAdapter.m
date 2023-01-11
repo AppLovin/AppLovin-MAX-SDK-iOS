@@ -9,26 +9,26 @@
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
 
-#define ADAPTER_VERSION @"12.11.1.1"
+#define ADAPTER_VERSION @"12.11.1.2"
 
-@interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject<TJPlacementDelegate, TJPlacementVideoDelegate>
+@interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALTapjoyMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALTapjoyMediationAdapterRewardedDelegate : NSObject<TJPlacementDelegate, TJPlacementVideoDelegate>
+@interface ALTapjoyMediationAdapterRewardedDelegate : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALTapjoyMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALTapjoyMediationAdapter()
+@interface ALTapjoyMediationAdapter ()
 
 // Initialization
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
-@property (nonatomic, copy, nullable) void(^completionHandler)(MAAdapterInitializationStatus, NSString * _Nullable);
+@property (nonatomic, copy, nullable) void(^completionHandler)(MAAdapterInitializationStatus, NSString *_Nullable);
 
 // Interstitial
 @property (nonatomic, strong) TJPlacement *interstitialPlacement;
@@ -44,7 +44,7 @@
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( ![Tapjoy isConnected] )
     {
@@ -281,18 +281,10 @@
         [tjPrivacyPolicy setBelowConsentAge: isAgeRestrictedUser.boolValue];
     }
     
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        [tjPrivacyPolicy setSubjectToGDPR: YES];
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            [tjPrivacyPolicy setUserConsent: hasUserConsent.boolValue ? @"1" : @"0"];
-        }
-    }
-    else if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateDoesNotApply )
-    {
-        [tjPrivacyPolicy setSubjectToGDPR: NO];
+        [tjPrivacyPolicy setUserConsent: hasUserConsent.boolValue ? @"1" : @"0"];
     }
     
     if ( ALSdk.versionCode >= 61100 )
