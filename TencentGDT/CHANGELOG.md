@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.14.10.0
+* Certified with TencentGDT SDK 4.14.10.
+
 ## 4.14.02.1
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 

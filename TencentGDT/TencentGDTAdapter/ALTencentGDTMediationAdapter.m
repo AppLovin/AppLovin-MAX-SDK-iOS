@@ -12,12 +12,12 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.14.02.1"
+#define ADAPTER_VERSION @"4.14.10.0"
 
 /**
  * Interstitial Delegate
  */
-@interface ALTencentGDTInterstitialDelegate : NSObject<GDTUnifiedInterstitialAdDelegate>
+@interface ALTencentGDTInterstitialDelegate : NSObject <GDTUnifiedInterstitialAdDelegate>
 @property (nonatomic,   weak) ALTencentGDTMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALTencentGDTMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
@@ -26,7 +26,7 @@
 /**
  * Rewarded Delegate
  */
-@interface ALTencentGDTRewardedVideoDelegate : NSObject<GDTRewardedVideoAdDelegate>
+@interface ALTencentGDTRewardedVideoDelegate : NSObject <GDTRewardedVideoAdDelegate>
 @property (nonatomic,   weak) ALTencentGDTMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -36,13 +36,13 @@
 /**
  * Banner Delegate
  */
-@interface ALTencentGDTAdViewDelegate : NSObject<GDTUnifiedBannerViewDelegate>
+@interface ALTencentGDTAdViewDelegate : NSObject <GDTUnifiedBannerViewDelegate>
 @property (nonatomic,   weak) ALTencentGDTMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALTencentGDTMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALTencentGDTMediationAdapter()
+@interface ALTencentGDTMediationAdapter ()
 
 // Interstitial Properties
 @property (nonatomic, strong) GDTUnifiedInterstitialAd *interstitialAd;
@@ -100,7 +100,7 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
     self.adViewDelegate = nil;
 }
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     if ( [ALTencentGDTInitialized compareAndSet: NO update: YES] )
     {
