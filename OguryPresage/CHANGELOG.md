@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.0.0
+* Certified with OguryPresage SDK 4.0.0.
+
 ## 2.6.3.2
 * Remove `consentDialogState` guard.
 
