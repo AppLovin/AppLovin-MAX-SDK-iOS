@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.9.0.1
+* Add COPPA support.
+
 ## 7.2.9.0.0
 * Certified with Mintegral SDK 7.2.9.
 

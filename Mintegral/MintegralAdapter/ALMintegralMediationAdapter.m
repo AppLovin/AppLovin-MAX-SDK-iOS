@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.2.9.0.0"
+#define ADAPTER_VERSION @"7.2.9.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -134,6 +134,17 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             {
                 mtgSDK.doNotTrackStatus = YES;
             }
+        }
+        
+        // Has to be _before_ their SDK init as well
+        NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        if ( isAgeRestrictedUser )
+        {
+            [mtgSDK setCoppa: isAgeRestrictedUser.boolValue ? MTGBoolYes : MTGBoolNo];
+        }
+        else
+        {
+            [mtgSDK setCoppa: MTGBoolUnknown];
         }
         
         [mtgSDK setAppID: appId ApiKey: appKey];
