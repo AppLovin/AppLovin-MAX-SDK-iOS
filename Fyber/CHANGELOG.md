@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.1.9.0
+* Certified with Fyber SDK 8.1.9.
+
 ## 8.1.7.2
 * Remove `consentDialogState` guard.
 
