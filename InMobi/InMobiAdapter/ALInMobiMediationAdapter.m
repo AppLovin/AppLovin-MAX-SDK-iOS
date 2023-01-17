@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.2.5"
+#define ADAPTER_VERSION @"10.1.2.6"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -431,20 +431,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     NSMutableDictionary<NSString *, id> *consentDict = [NSMutableDictionary dictionaryWithCapacity: 2];
     
-    if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateApplies )
+    // Set user consent state. Note: this must be sent as true/false.
+    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    if ( hasUserConsent )
     {
-        consentDict[IM_PARTNER_GDPR_APPLIES] = @"1";
-        
-        // Set user consent state. Note: this must be sent as true/false.
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
-        if ( hasUserConsent )
-        {
-            consentDict[IM_PARTNER_GDPR_CONSENT_AVAILABLE] = hasUserConsent.boolValue ? @"true" : @"false";
-        }
-    }
-    else if ( self.sdk.configuration.consentDialogState == ALConsentDialogStateDoesNotApply )
-    {
-        consentDict[IM_PARTNER_GDPR_APPLIES] = @"0";
+        consentDict[IM_PARTNER_GDPR_CONSENT_AVAILABLE] = hasUserConsent.boolValue ? @"true" : @"false";
     }
     
     return consentDict;

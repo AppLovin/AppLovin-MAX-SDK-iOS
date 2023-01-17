@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.2.6
+* Remove `consentDialogState` guard.
+
 ## 10.1.2.5
 * Add support for star ratings in manual native ads.
 
