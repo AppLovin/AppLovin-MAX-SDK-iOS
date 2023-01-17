@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.5.0.1"
+#define ADAPTER_VERSION @"4.5.0.2"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -134,11 +134,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     self.interstitialDelegate = [[ALUnityAdsInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     
-    // Bidding ads need a random ID associated with each load and show
-    if ( [parameters.bidResponse al_isValidString] )
-    {
-        self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
-    }
+    // Every ad needs a random ID associated with each load and show
+    self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
     
     [UnityAds load: placementIdentifier
            options: [self createAdLoadOptionsForParameters: parameters]
@@ -183,11 +180,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     self.rewardedDelegate = [[ALUnityAdsRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     
-    // Bidding ads need a random ID associated with each load and show
-    if ( [parameters.bidResponse al_isValidString] )
-    {
-        self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
-    }
+    // Every ad needs a random ID associated with each load and show
+    self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
     
     [UnityAds load: placementIdentifier
            options: [self createAdLoadOptionsForParameters: parameters]
@@ -248,10 +242,14 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     UADSLoadOptions *options = [[UADSLoadOptions alloc] init];
     
     NSString *bidResponse = parameters.bidResponse;
-    if ( [bidResponse al_isValidString] && [self.biddingAdIdentifier al_isValidString] )
+    if ( [bidResponse al_isValidString] )
+    {
+        options.adMarkup = bidResponse;
+    }
+    
+    if ( [self.biddingAdIdentifier al_isValidString] )
     {
         options.objectId = self.biddingAdIdentifier;
-        options.adMarkup = bidResponse;
     }
     
     return options;
