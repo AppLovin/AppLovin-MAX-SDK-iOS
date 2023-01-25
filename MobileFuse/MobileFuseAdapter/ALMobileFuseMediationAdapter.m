@@ -15,22 +15,22 @@
 #import <MobileFuseSDK/MFBannerAd.h>
 #import <MobileFuseSDK/MFRewardedAd.h>
 
-#define ADAPTER_VERSION @"1.3.1.0"
+#define ADAPTER_VERSION @"1.4.0.0"
 
-@interface ALMobileFuseInterstitialDelegate : NSObject<IMFAdCallbackReceiver>
+@interface ALMobileFuseInterstitialDelegate : NSObject <IMFAdCallbackReceiver>
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALMobileFuseRewardedAdDelegate : NSObject<IMFAdCallbackReceiver>
+@interface ALMobileFuseRewardedAdDelegate : NSObject <IMFAdCallbackReceiver>
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALMobileFuseAdViewDelegate : NSObject<IMFAdCallbackReceiver>
+@interface ALMobileFuseAdViewDelegate : NSObject <IMFAdCallbackReceiver>
 @property (nonatomic,   weak) MAAdFormat *format;
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
@@ -39,7 +39,7 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALMobileFuseMediationAdapter()
+@interface ALMobileFuseMediationAdapter ()
 
 @property (nonatomic, strong) MFInterstitialAd *interstitialAd;
 @property (nonatomic, strong) ALMobileFuseInterstitialDelegate *interstitialAdapterDelegate;
@@ -126,7 +126,10 @@
     else if ( ![self.interstitialAd isAdReady] )
     {
         [self log: @"Unable to show interstitial - ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         return;
     }
     
@@ -163,7 +166,10 @@
     else if ( ![self.rewardedAd isAdReady] )
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                            mediatedNetworkErrorCode: 0
+                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         return;
     }
     
@@ -431,7 +437,7 @@
     [self.parentAdapter log: @"AdView ad loaded: %@", ad.placementId];
     [self.delegate didLoadAdForAdView: ad];
     
-    [(MFBannerAd *)ad showAdWithViewController: [ALUtils topViewControllerFromKeyWindow]];
+    [(MFBannerAd *) ad showAdWithViewController: [ALUtils topViewControllerFromKeyWindow]];
 }
 
 - (void)onAdNotFilled:(MFAd *)ad
