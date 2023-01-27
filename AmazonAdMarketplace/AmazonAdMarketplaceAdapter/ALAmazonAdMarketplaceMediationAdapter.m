@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.5.6.3"
+#define ADAPTER_VERSION @"4.5.6.4"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -94,6 +94,10 @@ static NSObject *ALMediationHintsCacheLock;
 static NSMutableDictionary<MAAdFormat *, NSString *> *ALAmazonCreativeIdentifiers;
 static NSObject *ALAmazonCreativeIdentifiersLock;
 
+// Contains mapping of ad format -> amazon hashed bidder identifier / amznp
+static NSMutableDictionary<MAAdFormat *, NSString *> *ALAmazonHashedBidderIdentifiers;
+static NSObject *ALAmazonHashedBidderIdentifiersLock;
+
 static NSMutableSet<NSNumber *> *ALUsedAmazonAdLoaderHashes;
 static NSString *ALAPSSDKVersion;
 
@@ -108,6 +112,9 @@ static NSString *ALAPSSDKVersion;
     
     ALAmazonCreativeIdentifiers = [NSMutableDictionary dictionary];
     ALAmazonCreativeIdentifiersLock = [[NSObject alloc] init];
+    
+    ALAmazonHashedBidderIdentifiers = [NSMutableDictionary dictionary];
+    ALAmazonHashedBidderIdentifiersLock = [[NSObject alloc] init];
     
     ALUsedAmazonAdLoaderHashes = [NSMutableSet set];
 }
@@ -301,6 +308,7 @@ static NSString *ALAPSSDKVersion;
             }
             
             [self setCreativeIdentifier: adResponse.crid forAdFormat: adFormat];
+            [self setHashedBidderIdentifier: adResponse.customTargeting[@"amznp"] forAdFormat: adFormat];
             
             [self d: @"Successfully loaded encoded bid id: %@", encodedBidId];
             
@@ -542,18 +550,37 @@ static NSString *ALAPSSDKVersion;
     }
 }
 
+- (void)setHashedBidderIdentifier:(NSString *)hashedBidderId forAdFormat:(MAAdFormat *)adFormat
+{
+    @synchronized ( ALAmazonHashedBidderIdentifiersLock )
+    {
+        ALAmazonHashedBidderIdentifiers[adFormat] = hashedBidderId;
+    }
+}
+
 - (nullable NSDictionary *)extraInfoForAdFormat:(MAAdFormat *)adFormat
 {
-    NSString *creativeId;
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 2];
     
     @synchronized ( ALAmazonCreativeIdentifiersLock )
     {
-        creativeId = ALAmazonCreativeIdentifiers[adFormat];
+        NSString *creativeId = ALAmazonCreativeIdentifiers[adFormat];
+        if ( [creativeId al_isValidString] )
+        {
+            extraInfo[@"creative_id" ] = creativeId;
+        }
     }
     
-    if ( ![creativeId al_isValidString] ) return nil;
+    @synchronized ( ALAmazonHashedBidderIdentifiersLock )
+    {
+        NSString *hashedBidderId = ALAmazonHashedBidderIdentifiers[adFormat];
+        if ( [hashedBidderId al_isValidString] )
+        {
+            extraInfo[@"ad_values"] = @{@"amazon_hashed_bidder_id" : hashedBidderId};
+        }
+    }
     
-    return @{@"creative_id" : creativeId};
+    return extraInfo;
 }
 
 - (NSString *)mediationHintsCacheId:(NSString *)encodedBidId adFormat:(MAAdFormat *)adFormat

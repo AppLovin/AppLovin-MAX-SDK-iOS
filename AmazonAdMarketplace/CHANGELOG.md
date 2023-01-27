@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.6.4
+* Add support for passing Amazon hashed bidder id (`amznp`) in `-[MAAdDelegate didLoadAd:]` callback via `-[MAAd adValueForKey:]`. AppLovin MAX SDK v11.7.0+ is required.
+
 ## 4.5.6.3
 * Fix using incorrect mediation hints when same price point is used for different ad formats.
 
