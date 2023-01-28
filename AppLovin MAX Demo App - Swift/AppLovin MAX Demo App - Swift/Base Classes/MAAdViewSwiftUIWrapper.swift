@@ -129,7 +129,7 @@ extension MAAdViewSwiftUIWrapper
 @available(iOS 13.0.0, *)
 struct MAAdViewFrame: ViewModifier
 {
-    private let adFormat: MAAdFormat
+    let adFormat: MAAdFormat
     private let isPhone = UIDevice.current.userInterfaceIdiom == .phone
     
     func body(content: Content) -> some View
