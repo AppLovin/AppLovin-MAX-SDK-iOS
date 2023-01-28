@@ -13,8 +13,6 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 class ALMAXSwiftUIMRecAdViewController: UIHostingController<ALMAXSwiftUIMRecAdView>
 {
-    private var callbacks: [String] = []
-    
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder, rootView: ALMAXSwiftUIMRecAdView())

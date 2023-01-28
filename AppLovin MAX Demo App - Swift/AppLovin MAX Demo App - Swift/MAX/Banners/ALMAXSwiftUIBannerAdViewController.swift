@@ -13,8 +13,6 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 class ALMAXSwiftUIBannerAdViewController: UIHostingController<ALMAXSwiftUIBannerAdView>
 {
-    private var callbacks: [String] = []
-    
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder, rootView: ALMAXSwiftUIBannerAdView())

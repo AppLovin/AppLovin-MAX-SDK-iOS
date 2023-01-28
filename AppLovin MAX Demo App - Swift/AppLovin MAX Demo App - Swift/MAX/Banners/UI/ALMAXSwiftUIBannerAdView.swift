@@ -46,13 +46,13 @@ struct ALMAXSwiftUIBannerAdView: View
 @available(iOS 13.0, *)
 class ALMAXSwiftUIBannerAdViewModel: NSObject, ObservableObject
 {
-    @Published fileprivate var callbacks: [CallbackTableItem] = []
+    @Published fileprivate var callbacks: [MAAdViewCallbackTableItem] = []
     
     private func logCallback(functionName: String = #function)
     {
         DispatchQueue.main.async {
             withAnimation {
-                self.callbacks.append(CallbackTableItem(callback: functionName))
+                self.callbacks.append(MAAdViewCallbackTableItem(callback: functionName))
             }
         }
     }
@@ -95,10 +95,4 @@ extension ALMAXSwiftUIBannerAdViewModel: MAAdViewAdDelegate, MAAdRevenueDelegate
         
         Adjust.trackAdRevenue(adjustAdRevenue)
     }
-}
-
-struct CallbackTableItem: Identifiable
-{
-    let id = UUID()
-    let callback: String
 }

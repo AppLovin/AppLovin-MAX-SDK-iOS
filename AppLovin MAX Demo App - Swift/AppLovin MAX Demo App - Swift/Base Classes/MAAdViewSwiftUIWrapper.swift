@@ -147,3 +147,9 @@ struct MAAdViewFrame: ViewModifier
         }
     }
 }
+
+struct MAAdViewCallbackTableItem: Identifiable
+{
+    let id = UUID()
+    let callback: String
+}
