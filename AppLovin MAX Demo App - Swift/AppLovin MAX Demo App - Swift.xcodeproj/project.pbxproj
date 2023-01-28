@@ -3,10 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1055D8A32984A18700228C1B /* MAAdViewSwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A22984A18700228C1B /* MAAdViewSwiftUIWrapper.swift */; };
+		1055D8A52984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */; };
+		1055D8A72984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A62984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift */; };
+		1055D8AB2984A1BC00228C1B /* ALMAXSwiftUIBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A92984A1BC00228C1B /* ALMAXSwiftUIBannerAdView.swift */; };
+		1055D8AC2984A1BC00228C1B /* ALMAXSwiftUIBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8AA2984A1BC00228C1B /* ALMAXSwiftUIBannerAdViewController.swift */; };
 		1DDCE59D242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE596242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift */; };
 		1DDCE59E242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE597242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift */; };
 		1DDCE59F242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCE598242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift */; };
@@ -52,6 +57,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1055D8A22984A18700228C1B /* MAAdViewSwiftUIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MAAdViewSwiftUIWrapper.swift; sourceTree = "<group>"; };
+		1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUIMRecAdViewController.swift; sourceTree = "<group>"; };
+		1055D8A62984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUIMRecAdView.swift; sourceTree = "<group>"; };
+		1055D8A92984A1BC00228C1B /* ALMAXSwiftUIBannerAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUIBannerAdView.swift; sourceTree = "<group>"; };
+		1055D8AA2984A1BC00228C1B /* ALMAXSwiftUIBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUIBannerAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE596242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXFrameLayoutBannerAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE597242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXInterfaceBuilderBannerAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE598242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXAutoLayoutBannerAdViewController.swift; sourceTree = "<group>"; };
@@ -110,12 +120,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1055D8A82984A1BC00228C1B /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1055D8A92984A1BC00228C1B /* ALMAXSwiftUIBannerAdView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		1DDCE595242AE564007EAC8D /* Banners */ = {
 			isa = PBXGroup;
 			children = (
+				1055D8A82984A1BC00228C1B /* UI */,
 				1DDCE598242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift */,
 				1DDCE596242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift */,
 				1DDCE597242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift */,
+				1055D8AA2984A1BC00228C1B /* ALMAXSwiftUIBannerAdViewController.swift */,
 			);
 			path = Banners;
 			sourceTree = "<group>";
@@ -139,9 +159,10 @@
 		1DDCE5A2242AE5CE007EAC8D /* Base Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */,
 				1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */,
+				1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */,
 				35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */,
+				1055D8A22984A18700228C1B /* MAAdViewSwiftUIWrapper.swift */,
 			);
 			path = "Base Classes";
 			sourceTree = "<group>";
@@ -213,6 +234,7 @@
 				37B6CECD246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift */,
 				37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */,
 				6254AC68286A5741000D3298 /* ALMAXMRecTableViewController.swift */,
+				1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */,
 			);
 			path = MRECs;
 			sourceTree = "<group>";
@@ -230,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				6254AC6C286A5E90000D3298 /* ALMAXMRecTableViewCell.swift */,
+				1055D8A62984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -389,6 +412,7 @@
 				E5BDBE8C243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift in Sources */,
 				35C0C88627F79E090030B2F8 /* ALTextCollectionViewCell.swift in Sources */,
 				77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */,
+				1055D8A32984A18700228C1B /* MAAdViewSwiftUIWrapper.swift in Sources */,
 				5BCB21D227445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift in Sources */,
 				E5BDBE862433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift in Sources */,
 				E5BDBE8B243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift in Sources */,
@@ -403,18 +427,22 @@
 				E5BDBDFE2432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift in Sources */,
 				1DDCE59F242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift in Sources */,
 				1DDCE5A0242AE564007EAC8D /* ALMAXRewardedAdViewController.swift in Sources */,
+				1055D8A72984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift in Sources */,
 				37C4D0E8233D834900096894 /* main.swift in Sources */,
 				37B6CECE246DE9FF0068A6A4 /* ALMAXFrameLayoutMRecAdViewController.swift in Sources */,
 				35C0C88227F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift in Sources */,
+				1055D8A52984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift in Sources */,
 				77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */,
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
 				77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */,
 				1DDCE59D242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift in Sources */,
 				E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */,
+				1055D8AB2984A1BC00228C1B /* ALMAXSwiftUIBannerAdView.swift in Sources */,
 				3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */,
 				E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */,
 				E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */,
 				E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */,
+				1055D8AC2984A1BC00228C1B /* ALMAXSwiftUIBannerAdViewController.swift in Sources */,
 				35C0C88427F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift in Sources */,
 				E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */,
 			);
