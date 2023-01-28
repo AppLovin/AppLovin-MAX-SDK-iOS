@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.7.0.1
+* Update to use `setISDemandOnlyBannerDelegate:forInstanceId:` API to support setting a new delegate for each banner/MREC instance.
+
 ## 7.2.7.0.0
 * Certified with IronSource SDK 7.2.7.0.
 
