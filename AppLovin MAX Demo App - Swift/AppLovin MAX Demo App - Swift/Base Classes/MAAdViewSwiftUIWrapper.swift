@@ -40,6 +40,10 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
         adView.requestDelegate = context.coordinator
         adView.revenueDelegate = context.coordinator
         
+        // Set background or background color for MRECs to be fully functional
+        adView.backgroundColor = .black
+        
+        // Load the first ad
         adView.loadAd()
         
         return adView
@@ -130,25 +134,27 @@ extension MAAdViewSwiftUIWrapper
 struct MAAdViewFrame: ViewModifier
 {
     let adFormat: MAAdFormat
-    private let isPhone = UIDevice.current.userInterfaceIdiom == .phone
     
     func body(content: Content) -> some View
     {
-        if ( adFormat == .banner )
+        if ( adFormat == .banner || adFormat == .leader )
         {
+            // Stretch to the width of the screen for banners to be fully functional
+            // Banner height on iPhone and iPad is 50 and 90, respectively
             content
-                .frame(width: isPhone ? MAAdFormat.banner.size.width : MAAdFormat.leader.size.width,
-                       height: isPhone ? MAAdFormat.banner.size.height : MAAdFormat.leader.size.height)
+                .frame(width: UIScreen.main.bounds.width,
+                       height: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50)
         }
         else // adFormat == .mrec
         {
+            // MREC width and height are 300 and 250 respectively, on iPhone and iPad
             content
                 .frame(width: 300, height: 250)
         }
     }
 }
 
-struct MAAdViewCallbackTableItem: Identifiable
+struct CallbackTableItem: Identifiable
 {
     let id = UUID()
     let callback: String
