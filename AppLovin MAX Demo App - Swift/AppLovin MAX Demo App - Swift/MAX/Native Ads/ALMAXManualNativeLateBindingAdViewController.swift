@@ -15,9 +15,9 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     @IBOutlet weak var nativeAdContainerView: UIView!
     @IBOutlet weak var showAdButton: UIButton!
     
-    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
+    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "c832d255ca1b13b3")
     
-    private var nativeAdView: MANativeAdView!
+    private var nativeAdView: NativeManualAdView!
     private var nativeAd: MAAd?
     
     // MARK: View Lifecycle
@@ -55,7 +55,7 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     func createNativeAdView() -> MANativeAdView
     {
         let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
-        let nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView
+        let nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! NativeManualAdView?
         
         let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
             builder.titleLabelTag = 1001
@@ -65,10 +65,11 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
             builder.optionsContentViewTag = 1005
             builder.mediaContentViewTag = 1006
             builder.callToActionButtonTag = 1007
+            builder.starRatingContentViewTag = 1008
         })
-        nativeAdView.bindViews(with: adViewBinder)
+        nativeAdView?.bindViews(with: adViewBinder)
         
-        return nativeAdView
+        return nativeAdView!
     }
     
     // MARK: IB Actions
@@ -93,9 +94,11 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
                 return
             }
             
-            nativeAdView = createNativeAdView()
+            nativeAdView = createNativeAdView() as! NativeManualAdView
             nativeAdLoader.renderNativeAdView(nativeAdView, with: nativeAd)
             nativeAdContainerView.addSubview(nativeAdView)
+            
+            self.nativeAdView.starRatingContentViewHeightConstraint.isActive = nativeAd.nativeAd?.starRating == nil
             
             // Set to false if modifying constraints after adding the ad view to your layout
             nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -119,6 +122,8 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
         
         // Save ad to be rendered later
         nativeAd = ad
+        
+        //self.nativeAdView.starRatingContentViewHeightConstraint.isActive = nativeAd?.nativeAd?.starRating == nil
         
         showAdButton.isEnabled = true
     }
