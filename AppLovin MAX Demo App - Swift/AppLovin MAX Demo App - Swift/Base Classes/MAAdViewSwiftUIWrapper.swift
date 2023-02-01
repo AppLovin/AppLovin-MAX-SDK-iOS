@@ -40,7 +40,7 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
         adView.requestDelegate = context.coordinator
         adView.revenueDelegate = context.coordinator
         
-        // Set background or background color for MRECs to be fully functional
+        // Set background or background color for AdViews to be fully functional
         adView.backgroundColor = .black
         
         // Load the first ad
