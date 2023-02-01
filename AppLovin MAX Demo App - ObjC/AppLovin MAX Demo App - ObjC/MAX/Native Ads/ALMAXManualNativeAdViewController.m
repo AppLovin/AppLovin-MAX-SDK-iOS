@@ -9,13 +9,14 @@
 #import "ALMAXManualNativeAdViewController.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import "NativeManualAdView.h"
 
 @interface ALMAXManualNativeAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
-@property (nonatomic, strong) MANativeAdView *nativeAdView;
+@property (nonatomic, strong) NativeManualAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
 
 @end
@@ -39,6 +40,7 @@
         builder.optionsContentViewTag = 1005;
         builder.mediaContentViewTag = 1006;
         builder.callToActionButtonTag = 1007;
+        builder.starRatingContentViewTag = 1008;
     }];
     [self.nativeAdView bindViewsWithAdViewBinder: binder];
     

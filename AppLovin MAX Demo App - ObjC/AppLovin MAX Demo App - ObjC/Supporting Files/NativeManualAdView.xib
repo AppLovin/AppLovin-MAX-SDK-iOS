@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rby-xI-6gL" customClass="MANativeAdView">
+        <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rby-xI-6gL" customClass="NativeManualAdView">
             <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -38,6 +39,13 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sSi-Sj-nx8" userLabel="Text View">
                             <rect key="frame" x="50" y="0.0" width="234" height="50"/>
                             <subviews>
+                                <view tag="1008" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gM1-rV-aYA" userLabel="Star Rating Content View">
+                                    <rect key="frame" x="4" y="25" width="226" height="0.0"/>
+                                    <viewLayoutGuide key="safeArea" id="rNc-ZR-YPK"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" id="etn-5x-cwD"/>
+                                    </constraints>
+                                </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4X6-FO-Q2u" userLabel="Ad Badge">
                                     <rect key="frame" x="10" y="2" width="28" height="21"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -76,6 +84,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="Cg1-B5-hPd" firstAttribute="top" secondItem="sSi-Sj-nx8" secondAttribute="top" id="1fc-rw-3Ue"/>
+                                <constraint firstItem="gM1-rV-aYA" firstAttribute="leading" secondItem="sSi-Sj-nx8" secondAttribute="leading" constant="4" id="AZa-4G-GkU"/>
                                 <constraint firstAttribute="trailing" secondItem="cLN-sc-RCW" secondAttribute="trailing" id="D4h-6p-Fun"/>
                                 <constraint firstItem="gyL-zc-IbE" firstAttribute="top" secondItem="sSi-Sj-nx8" secondAttribute="top" id="MGH-S6-zQ9"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gyL-zc-IbE" secondAttribute="trailing" constant="8" id="NC0-ro-doD"/>
@@ -83,6 +92,8 @@
                                 <constraint firstItem="cLN-sc-RCW" firstAttribute="top" secondItem="gyL-zc-IbE" secondAttribute="bottom" id="SRy-yN-aYl"/>
                                 <constraint firstItem="gyL-zc-IbE" firstAttribute="leading" secondItem="4X6-FO-Q2u" secondAttribute="trailing" constant="8" id="YXd-HF-o08"/>
                                 <constraint firstAttribute="trailing" secondItem="Cg1-B5-hPd" secondAttribute="trailing" id="beW-4A-ibv"/>
+                                <constraint firstItem="gM1-rV-aYA" firstAttribute="top" secondItem="cLN-sc-RCW" secondAttribute="top" id="fZ3-R5-s3j"/>
+                                <constraint firstItem="gM1-rV-aYA" firstAttribute="centerX" secondItem="sSi-Sj-nx8" secondAttribute="centerX" id="hnY-Hl-61g"/>
                                 <constraint firstItem="4X6-FO-Q2u" firstAttribute="leading" secondItem="sSi-Sj-nx8" secondAttribute="leading" constant="10" id="p52-YX-LZh"/>
                                 <constraint firstItem="Cg1-B5-hPd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gyL-zc-IbE" secondAttribute="trailing" constant="4" id="qac-eB-4dW"/>
                                 <constraint firstItem="4X6-FO-Q2u" firstAttribute="centerY" secondItem="gyL-zc-IbE" secondAttribute="centerY" id="rw8-rb-1uF"/>
