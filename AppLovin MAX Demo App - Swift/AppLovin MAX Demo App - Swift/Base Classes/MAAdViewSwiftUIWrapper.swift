@@ -142,8 +142,7 @@ struct MAAdViewFrame: ViewModifier
             // Stretch to the width of the screen for banners to be fully functional
             // Banner height on iPhone and iPad is 50 and 90, respectively
             content
-                .frame(width: UIScreen.main.bounds.width,
-                       height: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50)
+                .frame(height: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50)
         }
         else // adFormat == .mrec
         {
