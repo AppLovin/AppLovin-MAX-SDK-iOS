@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>AppLovinSdkKey</key>
+<<<<<<< Updated upstream
 	<string>SDK_KEY_HERE</string>
+=======
+	<string>0WnSSlDKI4cbhIiyko0qTHnZe5QIuGP9zTOZUGNm8eLNx8P3yu3EaDoZgFWS20GEPhOrSEz4kllWNP6EeSpfvs</string>
+>>>>>>> Stashed changes
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

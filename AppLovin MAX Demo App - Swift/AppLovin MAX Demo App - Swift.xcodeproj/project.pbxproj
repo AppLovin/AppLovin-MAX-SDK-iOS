@@ -32,9 +32,9 @@
 		77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */; };
 		77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */; };
 		77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */; };
-		77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
 		9DC37FD00BD87E3277C16287 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C338813CD1CC1972621CBD87 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */; };
 		DE0E55342988745900123D86 /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE0E55332988745900123D86 /* info.plist */; };
+		DE1B82A32989F7B200C417D8 /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
 		DE43EF832986513000F1282B /* NativeManualAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE43EF822986513000F1282B /* NativeManualAdView.swift */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
@@ -399,7 +399,7 @@
 			files = (
 				DE0E55342988745900123D86 /* info.plist in Resources */,
 				E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */,
-				77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */,
+				DE1B82A32989F7B200C417D8 /* NativeManualAdView.xib in Resources */,
 				5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */,
 				3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */,
 				E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */,

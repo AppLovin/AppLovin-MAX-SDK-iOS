@@ -35,7 +35,11 @@
 		77B6F437279B51AB0063F81D /* ALMAXManualNativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F433279B51AB0063F81D /* ALMAXManualNativeAdViewController.m */; };
 		77B6F438279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */; };
 		C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */; };
+<<<<<<< Updated upstream
 		DE3D3DE7298A1FB9008B89DA /* NativeManualAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3D3DE6298A1FB9008B89DA /* NativeManualAdView.m */; };
+=======
+		DE1B82A92989FFAE00C417D8 /* NativeManualAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE1B82A82989FFAE00C417D8 /* NativeManualAdView.m */; };
+>>>>>>> Stashed changes
 		DEAF8D252989BE2000013C39 /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DEAF8D242989BE2000013C39 /* info.plist */; };
 		E56784A623F22AB300ACA6C1 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */; };
 		E567854523F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */; };
@@ -106,8 +110,13 @@
 		77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMAXTemplateNativeAdViewController.m; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
+<<<<<<< Updated upstream
 		DE3D3DE5298A1FB9008B89DA /* NativeManualAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeManualAdView.h; sourceTree = "<group>"; };
 		DE3D3DE6298A1FB9008B89DA /* NativeManualAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeManualAdView.m; sourceTree = "<group>"; };
+=======
+		DE1B82A72989FFAE00C417D8 /* NativeManualAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeManualAdView.h; sourceTree = "<group>"; };
+		DE1B82A82989FFAE00C417D8 /* NativeManualAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeManualAdView.m; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
 		DEAF8D242989BE2000013C39 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosViewController.m; sourceTree = "<group>"; };
@@ -322,6 +331,8 @@
 				3517A8CE27F76F860074CCDE /* ALMAXAdPlacerCollectionViewController.m */,
 				3517A8D027F76F9D0074CCDE /* ALMAXAdPlacerTableViewController.h */,
 				3517A8D127F76F9D0074CCDE /* ALMAXAdPlacerTableViewController.m */,
+				DE1B82A72989FFAE00C417D8 /* NativeManualAdView.h */,
+				DE1B82A82989FFAE00C417D8 /* NativeManualAdView.m */,
 			);
 			path = "Native Ads";
 			sourceTree = "<group>";
@@ -643,7 +654,11 @@
 				E56785E823F3555A00ACA6C1 /* ALDemoProgrammaticBannerViewController.m in Sources */,
 				E567854623F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m in Sources */,
 				3517A8CF27F76F860074CCDE /* ALMAXAdPlacerCollectionViewController.m in Sources */,
+<<<<<<< Updated upstream
 				DE3D3DE7298A1FB9008B89DA /* NativeManualAdView.m in Sources */,
+=======
+				DE1B82A92989FFAE00C417D8 /* NativeManualAdView.m in Sources */,
+>>>>>>> Stashed changes
 				62CD0EE8286E1C7400BD03CE /* ALMAXMRecTableViewCell.m in Sources */,
 				37B6CEDB246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m in Sources */,
 				35C0C88027F786A50030B2F8 /* ALTextCollectionViewCell.m in Sources */,
