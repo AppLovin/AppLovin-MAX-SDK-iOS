@@ -648,6 +648,22 @@
             </objects>
             <point key="canvasLocation" x="1929" y="840"/>
         </scene>
+        <!--SwiftUI Banner Ads-->
+        <scene sceneID="gJ0-f3-t6e">
+            <objects>
+                <viewController title="SwiftUI Banner Ads" id="vcs-Bh-Pt2" customClass="ALMAXSwiftUIBannerAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XVB-AO-oJF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="X6f-B7-9nY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="f9R-cD-aft"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NFT-mc-P4L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2667" y="840"/>
+        </scene>
         <!--Auto Layout MREC Ads-->
         <scene sceneID="szR-f5-bWj">
             <objects>
@@ -886,6 +902,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bCm-ul-otu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2666.666666666667" y="1504.6875"/>
+        </scene>
+        <!--SwiftUI MREC Ads-->
+        <scene sceneID="ddv-Ku-vE1">
+            <objects>
+                <viewController title="SwiftUI MREC Ads" id="Mzc-Gd-sYr" customClass="ALMAXSwiftUIMRecAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TrQ-cg-w3a">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="IAN-os-SRs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="vmz-jC-5RJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2iT-g2-Ctf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3396" y="1505"/>
         </scene>
         <!--Interstitials-->
         <scene sceneID="DRO-0t-Z22">
@@ -1437,6 +1469,26 @@
                                             <segue destination="Lhe-mt-J8Q" kind="show" id="cCt-T9-P2R"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="ReA-Vf-pzQ" style="IBUITableViewCellStyleDefault" id="ApU-bG-Xtn">
+                                        <rect key="frame" x="0.0" y="142" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ApU-bG-Xtn" id="Mat-fb-och">
+                                            <rect key="frame" x="0.0" y="0.0" width="385.5" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="SwiftUI Banners" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ReA-Vf-pzQ">
+                                                    <rect key="frame" x="20" y="0.0" width="357.5" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="vcs-Bh-Pt2" kind="show" id="RmK-8Z-mwu"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1537,6 +1589,26 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="cwl-Iu-xYU" kind="show" id="L1l-mc-MAN"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="bS8-8e-Usv" style="IBUITableViewCellStyleDefault" id="Y6d-0z-nPB">
+                                        <rect key="frame" x="0.0" y="186" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y6d-0z-nPB" id="oG2-CO-rHm">
+                                            <rect key="frame" x="0.0" y="0.0" width="385.5" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="SwiftUI MRecs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bS8-8e-Usv">
+                                                    <rect key="frame" x="20" y="0.0" width="357.5" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Mzc-Gd-sYr" kind="show" id="Lda-v5-3FV"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
