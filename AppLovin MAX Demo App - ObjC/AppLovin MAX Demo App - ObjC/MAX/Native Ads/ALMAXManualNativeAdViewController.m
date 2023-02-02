@@ -9,13 +9,14 @@
 #import "ALMAXManualNativeAdViewController.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import "NativeManualAdView.h"
 
 @interface ALMAXManualNativeAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
-@property (nonatomic, strong) MANativeAdView *nativeAdView;
+@property (nonatomic, strong) NativeManualAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
 
 @end
@@ -29,7 +30,7 @@
     [super viewDidLoad];
     
     UINib *nativeAdViewNib = [UINib nibWithNibName: @"NativeManualAdView" bundle: NSBundle.mainBundle];
-    self.nativeAdView = [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
+    self.nativeAdView =  (NativeManualAdView *) [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;      //(NativeManualAdView *)
     
     MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
         builder.titleLabelTag = 1001;
@@ -39,6 +40,7 @@
         builder.optionsContentViewTag = 1005;
         builder.mediaContentViewTag = 1006;
         builder.callToActionButtonTag = 1007;
+        builder.starRatingContentViewTag = 1008;
     }];
     [self.nativeAdView bindViewsWithAdViewBinder: binder];
     
@@ -86,6 +88,14 @@
     
     // Save ad for cleanup
     self.nativeAd = ad;
+    
+    //self.nativeAdView.starRatingContentViewHeightConstraint.isActive = false;// = _nativeAd.nativeAd.starRating == nil;
+    self.nativeAdView.starRatingContentViewHeightConstraint.active = (_nativeAd.nativeAd.starRating == nil);
+    
+
+
+    
+
     
     // Add ad view to view
     self.nativeAdView = nativeAdView;

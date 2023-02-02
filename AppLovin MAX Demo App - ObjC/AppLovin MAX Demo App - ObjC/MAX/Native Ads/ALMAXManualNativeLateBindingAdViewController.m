@@ -9,6 +9,7 @@
 #import "ALMAXManualNativeLateBindingAdViewController.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import "NativeManualAdView.h"
 
 @interface ALMAXManualNativeLateBindingAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
@@ -16,7 +17,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *showAdButton;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
-@property (nonatomic, strong) MANativeAdView *nativeAdView;
+@property (nonatomic, strong) NativeManualAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
 
 @end
@@ -69,6 +70,7 @@
         builder.optionsContentViewTag = 1005;
         builder.mediaContentViewTag = 1006;
         builder.callToActionButtonTag = 1007;
+        builder.starRatingContentViewTag = 1008;
     }];
     [nativeAdView bindViewsWithAdViewBinder: binder];
     
@@ -95,9 +97,11 @@
         return;
     }
     
-    self.nativeAdView = [self createNativeAdView];
+    self.nativeAdView = (NativeManualAdView *) [self createNativeAdView];
     [self.nativeAdLoader renderNativeAdView: self.nativeAdView withAd: self.nativeAd];
     [self.nativeAdContainerView addSubview: self.nativeAdView];
+    
+    self.nativeAdView.starRatingContentViewHeightConstraint.active = (_nativeAd.nativeAd.starRating == nil);
     
     // Set to false if modifying constraints after adding the ad view to your layout
     self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;
