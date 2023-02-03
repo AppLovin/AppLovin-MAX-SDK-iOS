@@ -7,9 +7,9 @@
 //
 
 #import "ALMAXManualNativeLateBindingAdViewController.h"
+#import "NativeManualAdView.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
-#import "NativeManualAdView.h"
 
 @interface ALMAXManualNativeLateBindingAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
@@ -101,7 +101,7 @@
     [self.nativeAdLoader renderNativeAdView: self.nativeAdView withAd: self.nativeAd];
     [self.nativeAdContainerView addSubview: self.nativeAdView];
     
-    self.nativeAdView.starRatingContentViewHeightConstraint.active = (_nativeAd.nativeAd.starRating == nil);
+    self.nativeAdView.starRatingContentViewHeightConstraint.active = (self.nativeAd.nativeAd.starRating == nil);
     
     // Set to false if modifying constraints after adding the ad view to your layout
     self.nativeAdContainerView.translatesAutoresizingMaskIntoConstraints = NO;

@@ -7,9 +7,9 @@
 //
 
 #import "ALMAXManualNativeAdViewController.h"
+#import "NativeManualAdView.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
-#import "NativeManualAdView.h"
 
 @interface ALMAXManualNativeAdViewController()<MANativeAdDelegate, MAAdRevenueDelegate>
 
@@ -89,11 +89,10 @@
     // Save ad for cleanup
     self.nativeAd = ad;
     
-    //self.nativeAdView.starRatingContentViewHeightConstraint.isActive = false;// = _nativeAd.nativeAd.starRating == nil;
-    self.nativeAdView.starRatingContentViewHeightConstraint.active = (_nativeAd.nativeAd.starRating == nil);
+    self.nativeAdView.starRatingContentViewHeightConstraint.active = (self.nativeAd.nativeAd.starRating == nil);
     
     // Add ad view to view
-    self.nativeAdView = nativeAdView;
+    self.nativeAdView = (NativeManualAdView *) nativeAdView;
     [self.nativeAdContainerView addSubview: nativeAdView];
     
     // Set to false if modifying constraints after adding the ad view to your layout

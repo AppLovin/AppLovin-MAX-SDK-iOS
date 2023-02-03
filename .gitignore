@@ -76,3 +76,4 @@ iOSInjectionProject/
 
 .DS_Store
 *.lock
+*.plist
