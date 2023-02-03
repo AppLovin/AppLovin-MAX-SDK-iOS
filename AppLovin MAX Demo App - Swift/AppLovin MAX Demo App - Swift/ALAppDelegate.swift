@@ -5,7 +5,6 @@
 //  Created by Andrew Tian on 9/20/19.
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
-
 import UIKit
 import Adjust
 import AppLovinSDK
@@ -20,16 +19,13 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
         
         // Initialize the AppLovin SDK
         ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
-        ALSdk.shared()?.settings.isVerboseLogging = true
         ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
-
+            
             // Initialize Adjust SDK
             let adjustConfig = ADJConfig(appToken: "{YourAppToken}", environment: ADJEnvironmentSandbox)
             Adjust.appDidLaunch(adjustConfig)
         })
-        
-        
         
         let barTintColor = UIColor.init(red: 10/255.0, green: 131/255.0, blue: 170/255.0, alpha: 1.0)
         let navigationBarAppearance = UINavigationBar.appearance()
