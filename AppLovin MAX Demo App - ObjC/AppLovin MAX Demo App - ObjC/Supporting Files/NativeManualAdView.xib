@@ -152,7 +152,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="starRatingContentViewHeightConstraint" destination="LAL-Da-itD" id="HEh-2r-dcx"/>
+                <outlet property="starRatingContentViewHeightConstraint" destination="LAL-Da-itD" id="vwm-4W-hS7"/>
             </connections>
             <point key="canvasLocation" x="-26.086956521739133" y="-73.369565217391312"/>
         </view>
