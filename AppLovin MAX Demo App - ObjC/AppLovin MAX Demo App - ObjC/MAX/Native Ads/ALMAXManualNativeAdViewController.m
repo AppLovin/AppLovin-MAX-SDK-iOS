@@ -30,7 +30,7 @@
     [super viewDidLoad];
     
     UINib *nativeAdViewNib = [UINib nibWithNibName: @"NativeManualAdView" bundle: NSBundle.mainBundle];
-    self.nativeAdView =  (NativeManualAdView *) [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;      //(NativeManualAdView *)
+    self.nativeAdView =  (NativeManualAdView *) [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
     
     MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
         builder.titleLabelTag = 1001;
