@@ -92,11 +92,6 @@
     //self.nativeAdView.starRatingContentViewHeightConstraint.isActive = false;// = _nativeAd.nativeAd.starRating == nil;
     self.nativeAdView.starRatingContentViewHeightConstraint.active = (_nativeAd.nativeAd.starRating == nil);
     
-
-
-    
-
-    
     // Add ad view to view
     self.nativeAdView = nativeAdView;
     [self.nativeAdContainerView addSubview: nativeAdView];
