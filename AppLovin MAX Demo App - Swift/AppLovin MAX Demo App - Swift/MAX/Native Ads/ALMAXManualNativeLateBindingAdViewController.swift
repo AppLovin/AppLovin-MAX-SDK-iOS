@@ -15,7 +15,7 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
     @IBOutlet weak var nativeAdContainerView: UIView!
     @IBOutlet weak var showAdButton: UIButton!
     
-    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "your ad unit identifier")
+    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
     
     private var nativeAdView: NativeManualAdView!
     private var nativeAd: MAAd?
@@ -123,8 +123,7 @@ extension ALMAXManualNativeLateBindingAdViewController: MANativeAdDelegate
         // Save ad to be rendered later
         nativeAd = ad
         
-        //self.nativeAdView.starRatingContentViewHeightConstraint.isActive = nativeAd?.nativeAd?.starRating == nil
-        
+
         showAdButton.isEnabled = true
     }
     

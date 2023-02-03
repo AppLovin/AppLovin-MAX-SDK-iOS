@@ -14,7 +14,7 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
     
-    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "your ad unit identifier")   //Replace your ad unit ID 
+    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
     
     private var nativeAdView: NativeManualAdView!
     private var nativeAd: MAAd?
@@ -26,7 +26,7 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
         super.viewDidLoad()
         
         let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
-        nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! NativeManualAdView? //MANativeAdView?
+        nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! NativeManualAdView?
         
         let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
             builder.titleLabelTag = 1001
