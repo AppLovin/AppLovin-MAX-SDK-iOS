@@ -34,7 +34,6 @@
 		77B6F437279B51AB0063F81D /* ALMAXManualNativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F433279B51AB0063F81D /* ALMAXManualNativeAdViewController.m */; };
 		77B6F438279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */; };
 		C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */; };
-		DE71F8DE298C52F1007A7966 /* NativeManualAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE71F8DD298C52F1007A7966 /* NativeManualAdView.m */; };
 		E56784A623F22AB300ACA6C1 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */; };
 		E567854523F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */; };
 		E567854623F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */; };
@@ -107,8 +106,6 @@
 		81269F147A61AC39CDC8CA37 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
-		DE71F8DC298C52F1007A7966 /* NativeManualAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeManualAdView.h; sourceTree = "<group>"; };
-		DE71F8DD298C52F1007A7966 /* NativeManualAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeManualAdView.m; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosViewController.m; sourceTree = "<group>"; };
 		E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosZoneViewController.m; sourceTree = "<group>"; };
@@ -312,8 +309,6 @@
 				77B6F435279B51AB0063F81D /* ALMAXManualNativeAdViewController.h */,
 				77B6F433279B51AB0063F81D /* ALMAXManualNativeAdViewController.m */,
 				77AAC0F327D800500060499A /* ALMAXManualNativeLateBindingAdViewController.h */,
-				DE71F8DC298C52F1007A7966 /* NativeManualAdView.h */,
-				DE71F8DD298C52F1007A7966 /* NativeManualAdView.m */,
 				77AAC0F427D800890060499A /* ALMAXManualNativeLateBindingAdViewController.m */,
 				77B6F434279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.h */,
 				77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */,
@@ -641,7 +636,6 @@
 				E56785E823F3555A00ACA6C1 /* ALDemoProgrammaticBannerViewController.m in Sources */,
 				E567854623F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m in Sources */,
 				3517A8CF27F76F860074CCDE /* ALMAXAdPlacerCollectionViewController.m in Sources */,
-				DE71F8DE298C52F1007A7966 /* NativeManualAdView.m in Sources */,
 				62CD0EE8286E1C7400BD03CE /* ALMAXMRecTableViewCell.m in Sources */,
 				37B6CEDB246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m in Sources */,
 				35C0C88027F786A50030B2F8 /* ALTextCollectionViewCell.m in Sources */,

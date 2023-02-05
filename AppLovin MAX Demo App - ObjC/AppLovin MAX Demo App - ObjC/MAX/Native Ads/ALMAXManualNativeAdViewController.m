@@ -7,7 +7,6 @@
 //
 
 #import "ALMAXManualNativeAdViewController.h"
-#import "NativeManualAdView.h"
 #import <Adjust/Adjust.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
@@ -16,7 +15,7 @@
 @property (nonatomic, weak) IBOutlet UIView *nativeAdContainerView;
 
 @property (nonatomic, strong) MANativeAdLoader *nativeAdLoader;
-@property (nonatomic, strong) NativeManualAdView *nativeAdView;
+@property (nonatomic, strong) MANativeAdView *nativeAdView;
 @property (nonatomic, strong, nullable) MAAd *nativeAd;
 
 @end
@@ -30,7 +29,7 @@
     [super viewDidLoad];
     
     UINib *nativeAdViewNib = [UINib nibWithNibName: @"NativeManualAdView" bundle: NSBundle.mainBundle];
-    self.nativeAdView =  (NativeManualAdView *) [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
+    self.nativeAdView = [nativeAdViewNib instantiateWithOwner: nil options: nil].firstObject;
     
     MANativeAdViewBinder *binder = [[MANativeAdViewBinder alloc] initWithBuilderBlock:^(MANativeAdViewBinderBuilder *builder) {
         builder.titleLabelTag = 1001;
@@ -89,10 +88,8 @@
     // Save ad for cleanup
     self.nativeAd = ad;
     
-    self.nativeAdView.starRatingContentViewHeightConstraint.active = (self.nativeAd.nativeAd.starRating == nil);
-    
     // Add ad view to view
-    self.nativeAdView = (NativeManualAdView *) nativeAdView;
+    self.nativeAdView = nativeAdView;
     [self.nativeAdContainerView addSubview: nativeAdView];
     
     // Set to false if modifying constraints after adding the ad view to your layout
