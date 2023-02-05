@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -10,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Z1E-Ze-QuT" customClass="NativeManualAdView" customModule="AppLovin_MAX_Demo_App___Swift">
+        <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Z1E-Ze-QuT" customClass="MANativeAdView">
             <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -67,14 +68,11 @@
                                     </constraints>
                                 </view>
                                 <view tag="1008" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RHn-83-ioS" userLabel="Star Rating Content View">
-                                    <rect key="frame" x="8" y="25" width="226" height="0.0"/>
+                                    <rect key="frame" x="8" y="25" width="226" height="10.666666666666664"/>
                                     <viewLayoutGuide key="safeArea" id="bSo-kC-aCO"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" id="elc-9z-en6"/>
-                                    </constraints>
                                 </view>
                                 <label opaque="NO" tag="1002" contentMode="left" verticalHuggingPriority="251" text="ADVERTISER_LABEL" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-nQ-xBz" userLabel="Advertiser Label">
-                                    <rect key="frame" x="8" y="25" width="226" height="25"/>
+                                    <rect key="frame" x="8" y="35.666666666666664" width="226" height="14.333333333333336"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -150,9 +148,6 @@
                 <constraint firstAttribute="bottom" secondItem="9l7-yO-cij" secondAttribute="bottom" constant="8" id="pDb-Qw-fsG"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="starRatingContentViewHeightConstraint" destination="elc-9z-en6" id="tWT-Pf-Hxj"/>
-            </connections>
             <point key="canvasLocation" x="-26.086956521739133" y="-73.369565217391312"/>
         </view>
     </objects>
