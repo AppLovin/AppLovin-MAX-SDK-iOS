@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,7 +38,6 @@
 		77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */; };
 		77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */; };
 		77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
-		818D80B7703FCF11F61C8B32 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DDB718068A1D533F3F6745 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
 		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
@@ -70,7 +69,6 @@
 		1DDCE59C242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXInterstitialAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
-		3314EBFDBDBB899617D68ADC /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
 		35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerTableViewController.swift; sourceTree = "<group>"; };
 		35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerCollectionViewController.swift; sourceTree = "<group>"; };
 		35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALTextCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 		77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXTemplateNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F440279B52050063F81D /* NativeManualAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeManualAdView.xib; sourceTree = "<group>"; };
-		A96EB0A44CA58140520390FA /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
@@ -110,7 +107,6 @@
 		E5EE50D6241C25AA0032B659 /* Leaders.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leaders.storyboard; sourceTree = "<group>"; };
 		E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
 		E5EE50DA241C25B60032B659 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
-		E8DDB718068A1D533F3F6745 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,23 +114,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				818D80B7703FCF11F61C8B32 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0556B9CF2263B7E7A264D8BE /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A96EB0A44CA58140520390FA /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */,
-				3314EBFDBDBB899617D68ADC /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */,
-			);
-			name = Pods;
-			path = "../../iOS-Workspace/Pods";
-			sourceTree = "<group>";
-		};
 		1055D8A82984A1BC00228C1B /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,8 +173,6 @@
 				E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */,
 				3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */,
 				3763B23423357C4B00E49783 /* Products */,
-				0556B9CF2263B7E7A264D8BE /* Pods */,
-				45627B514375383704BA9DE0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -254,14 +237,6 @@
 				1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */,
 			);
 			path = MRECs;
-			sourceTree = "<group>";
-		};
-		45627B514375383704BA9DE0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E8DDB718068A1D533F3F6745 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		5BCB21D027445D51007218B2 /* MRECs */ = {
@@ -361,12 +336,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3763B24523357C4D00E49783 /* Build configuration list for PBXNativeTarget "AppLovin MAX Demo App - Swift" */;
 			buildPhases = (
-				73D9FE80AE01C1468C5EE782 /* [CP] Check Pods Manifest.lock */,
 				3763B22F23357C4B00E49783 /* Sources */,
 				3763B23023357C4B00E49783 /* Frameworks */,
 				3763B23123357C4B00E49783 /* Resources */,
-				D9D34FEFD05D24A5140950FD /* [CP] Embed Pods Frameworks */,
-				528408FA50A6CC45B9FF979B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -430,7 +402,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
 		528408FA50A6CC45B9FF979B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
