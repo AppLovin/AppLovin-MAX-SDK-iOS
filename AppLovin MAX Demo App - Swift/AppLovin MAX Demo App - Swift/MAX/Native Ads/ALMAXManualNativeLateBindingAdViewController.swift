@@ -65,6 +65,7 @@ class ALMAXManualNativeLateBindingAdViewController: ALBaseAdViewController
             builder.optionsContentViewTag = 1005
             builder.mediaContentViewTag = 1006
             builder.callToActionButtonTag = 1007
+            builder.starRatingContentViewTag = 1008
         })
         nativeAdView.bindViews(with: adViewBinder)
         

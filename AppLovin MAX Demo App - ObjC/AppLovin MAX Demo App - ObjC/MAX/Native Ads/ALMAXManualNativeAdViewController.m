@@ -39,6 +39,7 @@
         builder.optionsContentViewTag = 1005;
         builder.mediaContentViewTag = 1006;
         builder.callToActionButtonTag = 1007;
+        builder.starRatingContentViewTag = 1008;
     }];
     [self.nativeAdView bindViewsWithAdViewBinder: binder];
     
