@@ -1,4 +1,4 @@
-
+//
 //  ALMAXManualNativeLateBindingAdViewController.swift
 //  AppLovin MAX Demo App - Swift
 //
