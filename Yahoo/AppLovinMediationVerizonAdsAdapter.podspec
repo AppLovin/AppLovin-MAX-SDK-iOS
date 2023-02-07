@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationVerizonAdsAdapter'
-s.version = '2.2.0.7'
+s.version = '2.2.0.8'
 s.platform = :ios, '11.0'
 s.summary = 'Yahoo adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "AppLovinMediationYahooAdapter-#{s.version}/AppLovinMediationYahooAdapter.xcframework"
 
-s.dependency 'Yahoo-Mobile-SDK', '= 1.3.0'
+s.dependency 'Yahoo-Mobile-SDK', '= 1.4.0'
 s.dependency 'AppLovinSDK'
 
 s.swift_version = '5.0'

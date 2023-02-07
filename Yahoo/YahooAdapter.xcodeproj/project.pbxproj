@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D5748D821C79E13004C8981 /* ALYahooMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALYahooMediationAdapter.m */; };
-		46F983F6C961BDB124125710 /* Pods_YahooAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB1FF5C93F7B023FE738FD75 /* Pods_YahooAdapter.framework */; };
+		5B98033C89556D70530A8B0D /* Pods_YahooAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E71F9DC079950025224C6A81 /* Pods_YahooAdapter.framework */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,11 +46,11 @@
 		6A561CEF219BB5D400E3749A /* libYahooAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYahooAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A632E21C0872C00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		6A5A632F21C0872D00B755D7 /* AppLovinMediationVerizonAdsAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationVerizonAdsAdapter.podspec; sourceTree = SOURCE_ROOT; };
+		6FB8AE66A67DE5415BE90652 /* Pods-YahooAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YahooAdapter.debug.xcconfig"; path = "Target Support Files/Pods-YahooAdapter/Pods-YahooAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		857940D3352DC05E44E4CB88 /* Pods-VerizonAdsAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VerizonAdsAdapter.debug.xcconfig"; path = "Target Support Files/Pods-VerizonAdsAdapter/Pods-VerizonAdsAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		89C560B582FAF02E0199813E /* Pods-YahooAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YahooAdapter.release.xcconfig"; path = "Target Support Files/Pods-YahooAdapter/Pods-YahooAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		AB728BEF776C7734E33A1B74 /* Pods-VerizonAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VerizonAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-VerizonAdsAdapter/Pods-VerizonAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		CB1FF5C93F7B023FE738FD75 /* Pods_YahooAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YahooAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2984F6DFC44AE766E24876B /* Pods-YahooAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YahooAdapter.release.xcconfig"; path = "Target Support Files/Pods-YahooAdapter/Pods-YahooAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		EFEA76F963355D84601C30CC /* Pods-YahooAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YahooAdapter.debug.xcconfig"; path = "Target Support Files/Pods-YahooAdapter/Pods-YahooAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		E71F9DC079950025224C6A81 /* Pods_YahooAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YahooAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
-				46F983F6C961BDB124125710 /* Pods_YahooAdapter.framework in Frameworks */,
+				5B98033C89556D70530A8B0D /* Pods_YahooAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +84,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
-				CB1FF5C93F7B023FE738FD75 /* Pods_YahooAdapter.framework */,
+				E71F9DC079950025224C6A81 /* Pods_YahooAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -131,8 +131,8 @@
 			children = (
 				857940D3352DC05E44E4CB88 /* Pods-VerizonAdsAdapter.debug.xcconfig */,
 				AB728BEF776C7734E33A1B74 /* Pods-VerizonAdsAdapter.release.xcconfig */,
-				EFEA76F963355D84601C30CC /* Pods-YahooAdapter.debug.xcconfig */,
-				E2984F6DFC44AE766E24876B /* Pods-YahooAdapter.release.xcconfig */,
+				6FB8AE66A67DE5415BE90652 /* Pods-YahooAdapter.debug.xcconfig */,
+				89C560B582FAF02E0199813E /* Pods-YahooAdapter.release.xcconfig */,
 			);
 			name = Pods;
 			path = "../../iOS-Workspace/Pods";
@@ -349,7 +349,7 @@
 		};
 		6A561CED219BB5D400E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFEA76F963355D84601C30CC /* Pods-YahooAdapter.debug.xcconfig */;
+			baseConfigurationReference = 6FB8AE66A67DE5415BE90652 /* Pods-YahooAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -372,7 +372,7 @@
 		};
 		6A561CEE219BB5D400E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2984F6DFC44AE766E24876B /* Pods-YahooAdapter.release.xcconfig */;
+			baseConfigurationReference = 89C560B582FAF02E0199813E /* Pods-YahooAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
