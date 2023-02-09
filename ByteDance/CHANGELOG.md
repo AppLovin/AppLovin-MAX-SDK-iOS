@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.8.1.0.3
+* Fix native ad view ad not triggering show and click event callbacks.
+
 ## 4.8.1.0.2
 * Remove `consentDialogState` guard.
 

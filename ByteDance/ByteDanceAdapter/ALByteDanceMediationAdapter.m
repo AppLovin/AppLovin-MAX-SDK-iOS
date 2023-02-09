@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.8.1.0.2"
+#define ADAPTER_VERSION @"4.8.1.0.3"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <BUFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -42,7 +42,7 @@
 - (instancetype)initWithParentAdapter:(ALByteDanceMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALByteDanceNativeAdViewAdDelegate : NSObject <BUNativeAdsManagerDelegate, BUNativeAdDelegate>
+@interface ALByteDanceNativeAdViewAdDelegate : NSObject <BUNativeAdDelegate>
 @property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *slotId;
@@ -81,7 +81,7 @@
 
 @property (nonatomic, strong) BUNativeExpressBannerView *adViewAd;
 @property (nonatomic, strong) ALByteDanceAdViewAdDelegate *adViewAdDelegate;
-@property (nonatomic, strong) BUNativeAdsManager *nativeAdViewAdManager;
+@property (nonatomic, strong) BUNativeAd *nativeAdViewAd;
 @property (nonatomic, strong) ALByteDanceNativeAdViewAdDelegate *nativeAdViewAdDelegate;
 
 @property (nonatomic, strong) BUNativeAd *nativeAd;
@@ -192,7 +192,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     self.adViewAd = nil;
     self.adViewAdDelegate = nil;
-    self.nativeAdViewAdManager = nil;
+    self.nativeAdViewAd = nil;
     self.nativeAdViewAdDelegate = nil;
     
     [self.nativeAd unregisterView];
@@ -271,7 +271,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 
 - (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
 {
-    BUAdSlot *slot = BUAdSlot.new;
+    BUAdSlot *slot = [[BUAdSlot alloc] init];
     slot.ID = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@app open ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slot.ID];
@@ -440,20 +440,20 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             slot.position = BUAdSlotPositionTop;
             slot.imgSize = [BUSize sizeBy: BUProposalSize_Banner600_400];
             
-            self.nativeAdViewAdManager = [[BUNativeAdsManager alloc] initWithSlot: slot];
+            self.nativeAdViewAd = [[BUNativeAd alloc] initWithSlot: slot];
             self.nativeAdViewAdDelegate = [[ALByteDanceNativeAdViewAdDelegate alloc] initWithParentAdapter: self
                                                                                                 parameters: parameters
                                                                                                     format: adFormat
                                                                                                  andNotify: delegate];
-            self.nativeAdViewAdManager.delegate = self.nativeAdViewAdDelegate;
+            self.nativeAdViewAd.delegate = self.nativeAdViewAdDelegate;
             
             if ( [bidResponse al_isValidString] )
             {
-                [self.nativeAdViewAdManager setMopubAdMarkUp: bidResponse];
+                [self.nativeAdViewAd setAdMarkup: bidResponse];
             }
             else
             {
-                [self.nativeAdViewAdManager loadAdDataWithCount: 1];
+                [self.nativeAdViewAd loadAdData];
             }
         }
         else
@@ -1130,9 +1130,9 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     return self;
 }
 
-- (void)nativeAdsManagerSuccessToLoad:(BUNativeAdsManager *)adsManager nativeAds:(nullable NSArray<BUNativeAd *> *)nativeAdDataArray
+- (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *)view
 {
-    if ( nativeAdDataArray.count == 0 )
+    if ( !nativeAd )
     {
         [self.parentAdapter log: @"Native %@ ad (%@) failed to load: no fill", self.adFormat.label, self.slotId];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
@@ -1141,8 +1141,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     
     [self.parentAdapter log: @"Native %@ ad loaded: %@. Preparing assets...", self.adFormat.label, self.slotId];
-    
-    BUNativeAd *nativeAd = nativeAdDataArray.firstObject;
     
     // Pangle iOS doesn't link the passed in delegate so we do it here
     nativeAd.delegate = self;
@@ -1241,7 +1239,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     });
 }
 
-- (void)nativeAdsManager:(BUNativeAdsManager *)adsManager didFailWithError:(nullable NSError *)error
+- (void)nativeAd:(BUNativeAd *)nativeAd didFailWithError:(NSError *)error
 {
     [self.parentAdapter log: @"Native %@ (%@) failed to load with error: %@", self.adFormat.label, self.slotId, error];
     
