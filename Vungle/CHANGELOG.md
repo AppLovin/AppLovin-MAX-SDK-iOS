@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.12.2.0
+* Certified with Vungle SDK 6.12.2.
+
 ## 6.12.1.2
 * Remove `consentDialogState` guard.
 
