@@ -13,7 +13,6 @@
 
 @interface ALMAXAppOpenAdViewController ()<MAAdDelegate, MAAdRevenueDelegate>
 @property (nonatomic, strong) MAAppOpenAd *appOpenAd;
-@property (nonatomic, assign) NSInteger retryAttempt;
 @end
 
 @implementation ALMAXAppOpenAdViewController
@@ -49,23 +48,11 @@
 {
     // App Open ad is ready to be shown. '[self.appOpenAd isReady]' will now return 'YES'
     [self logCallback: __PRETTY_FUNCTION__];
-    
-    // Reset retry attempt
-    self.retryAttempt = 0;
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error
 {
     [self logCallback: __PRETTY_FUNCTION__];
-    
-    // App Open ad failed to load. We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds).
-    
-    self.retryAttempt++;
-    NSInteger delaySec = pow(2, MIN(6, self.retryAttempt));
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delaySec * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [self.appOpenAd loadAd];
-    });
 }
 
 - (void)didDisplayAd:(MAAd *)ad
