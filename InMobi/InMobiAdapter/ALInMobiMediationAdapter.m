@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.2.6"
+#define ADAPTER_VERSION @"10.1.2.7"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -146,6 +146,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         NSString *accountID = [parameters.serverParameters al_stringForKey: @"account_id"];
         [self log: @"Initializing InMobi SDK with account id: %@...", accountID];
+        
+        // API docs - "Debug mode is only for simulators, wont work on actual devices"
+        [IMUnifiedIdService enableDebugMode: [ALUtils isSimulator] && [parameters isTesting]];
         
         ALInMobiInitializationStatus = MAAdapterInitializationStatusInitializing;
         

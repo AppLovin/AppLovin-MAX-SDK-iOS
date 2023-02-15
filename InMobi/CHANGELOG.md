@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.2.7
+* Add support for test mode for simulators.
+
 ## 10.1.2.6
 * Remove `consentDialogState` guard.
 
