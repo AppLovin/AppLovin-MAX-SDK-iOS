@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationLineAdapter'
-s.version = '2.5.20221226.0'
+s.version = '2.6.20230215.0'
 s.platform = :ios, '11.0'
 s.summary = 'Line adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'FiveAd', '= 2.5.20221226'
+s.dependency 'FiveAd', '= 2.6.20230215'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
