@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,7 +35,7 @@
 		77B6F438279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */; };
 		A55630DBE7E775A43BA5EA62 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC6859D09B18A6799EC68F6 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___ObjC.framework */; };
 		C0DE8BB3234E8A86004B0CFC /* ALBaseAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */; };
-		DEEC21E7299EBF5E002313FB /* ALMAXAppOpenAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEC21E6299EBF5E002313FB /* ALMAXAppOpenAdViewController.m */; };
+		DEEC21EE299EC35C002313FB /* ALMAXAppOpenAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEC21ED299EC35C002313FB /* ALMAXAppOpenAdViewController.m */; };
 		E56784A623F22AB300ACA6C1 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */; };
 		E567854523F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */; };
 		E567854623F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */; };
@@ -106,8 +106,8 @@
 		947968BDEB66F929BB7F3151 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
-		DEEC21E5299EBF5E002313FB /* ALMAXAppOpenAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMAXAppOpenAdViewController.h; sourceTree = "<group>"; };
-		DEEC21E6299EBF5E002313FB /* ALMAXAppOpenAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMAXAppOpenAdViewController.m; sourceTree = "<group>"; };
+		DEEC21EC299EC35C002313FB /* ALMAXAppOpenAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMAXAppOpenAdViewController.h; sourceTree = "<group>"; };
+		DEEC21ED299EC35C002313FB /* ALMAXAppOpenAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMAXAppOpenAdViewController.m; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 		E567854123F22E1300ACA6C1 /* ALDemoRewardedVideosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosViewController.m; sourceTree = "<group>"; };
 		E567854223F22E1300ACA6C1 /* ALDemoRewardedVideosZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoRewardedVideosZoneViewController.m; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		E573083323EB970400D972F4 /* ALDemoInterstitialManualLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitialManualLoadingViewController.m; sourceTree = "<group>"; };
 		E573083623EB972C00D972F4 /* ALDemoInterstitalZoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDemoInterstitalZoneViewController.h; sourceTree = "<group>"; };
 		E573083723EB972C00D972F4 /* ALDemoInterstitalZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDemoInterstitalZoneViewController.m; sourceTree = "<group>"; };
-		EBC6859D09B18A6799EC68F6 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBC6859D09B18A6799EC68F6 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +152,7 @@
 		1D0CB33823204EBD0076AAAA /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				DEEC21E4299EBF5E002313FB /* App Open */,
+				DEEC21EB299EC35C002313FB /* App Open Ads */,
 				1D629D5D240F4E6600FE6F5F /* Banners */,
 				1D629D5E240F4E7200FE6F5F /* Interstitials */,
 				37B6CED3246E04D30068A6A4 /* MRECs */,
@@ -342,13 +342,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DEEC21E4299EBF5E002313FB /* App Open */ = {
+		DEEC21EB299EC35C002313FB /* App Open Ads */ = {
 			isa = PBXGroup;
 			children = (
-				DEEC21E5299EBF5E002313FB /* ALMAXAppOpenAdViewController.h */,
-				DEEC21E6299EBF5E002313FB /* ALMAXAppOpenAdViewController.m */,
+				DEEC21EC299EC35C002313FB /* ALMAXAppOpenAdViewController.h */,
+				DEEC21ED299EC35C002313FB /* ALMAXAppOpenAdViewController.m */,
 			);
-			path = "App Open";
+			path = "App Open Ads";
 			sourceTree = "<group>";
 		};
 		E567854723F22E1E00ACA6C1 /* Rewarded */ = {
@@ -652,7 +652,7 @@
 				62CD0EE8286E1C7400BD03CE /* ALMAXMRecTableViewCell.m in Sources */,
 				37B6CEDB246E05D00068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.m in Sources */,
 				35C0C88027F786A50030B2F8 /* ALTextCollectionViewCell.m in Sources */,
-				DEEC21E7299EBF5E002313FB /* ALMAXAppOpenAdViewController.m in Sources */,
+				DEEC21EE299EC35C002313FB /* ALMAXAppOpenAdViewController.m in Sources */,
 				E56785EB23F3557100ACA6C1 /* ALDemoInterfaceBuilderBannerViewController.m in Sources */,
 				37C7E1F3232892CF002165B5 /* ALAppDelegate.m in Sources */,
 				E56786FA23F4CAE100ACA6C1 /* ALEventTrackingViewController.m in Sources */,

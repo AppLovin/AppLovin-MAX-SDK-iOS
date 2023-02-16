@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,7 +39,7 @@
 		77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */; };
 		77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
 		CF6C7E72C9B55EBB844E9FDC /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAB4EDC8B018D00C2E26FC6 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */; };
-		DEEC21EA299EBFA7002313FB /* ALMAXAppOpenAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEC21E9299EBFA7002313FB /* ALMAXAppOpenAdViewController.swift */; };
+		DEEC21F1299EC36F002313FB /* ALMAXAppOpenAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */; };
 		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
 		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
 		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
@@ -94,9 +94,9 @@
 		77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXTemplateNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F440279B52050063F81D /* NativeManualAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeManualAdView.xib; sourceTree = "<group>"; };
-		9EAB4EDC8B018D00C2E26FC6 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EAB4EDC8B018D00C2E26FC6 /* Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_Non_Mediated_Projects_AppLovin_MAX_Demo_App___Swift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C395ACD57CFF0746B2DE19C2 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
-		DEEC21E9299EBFA7002313FB /* ALMAXAppOpenAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXAppOpenAdViewController.swift; sourceTree = "<group>"; };
+		DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXAppOpenAdViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
 		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		3763B24A23357CFB00E49783 /* MAX */ = {
 			isa = PBXGroup;
 			children = (
-				DEEC21E8299EBFA7002313FB /* App Open */,
+				DEEC21EF299EC36F002313FB /* App Open Ads */,
 				1DDCE595242AE564007EAC8D /* Banners */,
 				1DDCE59B242AE564007EAC8D /* Interstitials */,
 				37B6CECC246DE9DE0068A6A4 /* MRECs */,
@@ -297,12 +297,12 @@
 			path = "../../iOS-Workspace/Pods";
 			sourceTree = "<group>";
 		};
-		DEEC21E8299EBFA7002313FB /* App Open */ = {
+		DEEC21EF299EC36F002313FB /* App Open Ads */ = {
 			isa = PBXGroup;
 			children = (
-				DEEC21E9299EBFA7002313FB /* ALMAXAppOpenAdViewController.swift */,
+				DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */,
 			);
-			path = "App Open";
+			path = "App Open Ads";
 			sourceTree = "<group>";
 		};
 		E5BDBDF22432C4E800F82D79 /* AppLovin */ = {
@@ -531,7 +531,7 @@
 				35C0C88227F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift in Sources */,
 				1055D8A52984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift in Sources */,
 				77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */,
-				DEEC21EA299EBFA7002313FB /* ALMAXAppOpenAdViewController.swift in Sources */,
+				DEEC21F1299EC36F002313FB /* ALMAXAppOpenAdViewController.swift in Sources */,
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
 				77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */,
 				1DDCE59D242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift in Sources */,
