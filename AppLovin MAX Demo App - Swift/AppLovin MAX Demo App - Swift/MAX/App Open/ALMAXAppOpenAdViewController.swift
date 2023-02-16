@@ -38,7 +38,7 @@ class ALMAXAppOpenAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, 
     
     func didLoad(_ ad: MAAd)
     {
-        // App Open ad is ready to be shown. '[self.appOpen isReady]' will now return 'YES'
+        // App Open ad is ready to be shown. 'appOpenAd.isReady' will now return 'true'
         logCallback()
     }
     
