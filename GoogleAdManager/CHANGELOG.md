@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.0.0
+* Certified with GoogleAdManager SDK 10.1.0.
+
 ## 9.14.0.2
 * Add support for star ratings in manual native ads.
 
