@@ -9,29 +9,29 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.12.0.1"
+#define ADAPTER_VERSION @"6.12.0.2"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 
-@interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject<FBInterstitialAdDelegate>
+@interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject <FBInterstitialAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALFacebookMediationAdapterRewardedVideoAdDelegate : NSObject<FBRewardedVideoAdDelegate>
+@interface ALFacebookMediationAdapterRewardedVideoAdDelegate : NSObject <FBRewardedVideoAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
-@interface ALFacebookMediationAdapterRewardedInterAdDelegate : NSObject<FBRewardedVideoAdDelegate>
+@interface ALFacebookMediationAdapterRewardedInterAdDelegate : NSObject <FBRewardedVideoAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedInterstitialAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALFacebookMediationAdapterAdViewDelegate : NSObject<FBAdViewDelegate>
+@interface ALFacebookMediationAdapterAdViewDelegate : NSObject <FBAdViewDelegate>
 @property (nonatomic,   weak) MAAdFormat *format;
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
@@ -40,7 +40,7 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALFacebookMediationAdapterNativeAdViewAdDelegate : NSObject<FBNativeAdDelegate>
+@interface ALFacebookMediationAdapterNativeAdViewAdDelegate : NSObject <FBNativeAdDelegate>
 @property (nonatomic,   weak) MAAdFormat *format;
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
@@ -51,7 +51,7 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALFacebookMediationAdapterNativeAdDelegate : NSObject<FBNativeAdDelegate>
+@interface ALFacebookMediationAdapterNativeAdDelegate : NSObject <FBNativeAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -60,7 +60,7 @@
                             andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 @end
 
-@interface ALFacebookMediationAdapterNativeBannerAdDelegate : NSObject<FBNativeBannerAdDelegate>
+@interface ALFacebookMediationAdapterNativeBannerAdDelegate : NSObject <FBNativeBannerAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -75,7 +75,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALFacebookMediationAdapter()
+@interface ALFacebookMediationAdapter ()
 
 @property (nonatomic, strong) FBInterstitialAd *interstitialAd;
 @property (nonatomic, strong) FBRewardedVideoAd *rewardedVideoAd;
@@ -112,7 +112,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
     [self updateAdSettingsWithParameters: parameters];
     
@@ -337,7 +337,17 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        [self.rewardedVideoAd showAdFromRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController;
+        if ( ALSdk.versionCode >= 11020199 )
+        {
+            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        }
+        else
+        {
+            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+        }
+        
+        [self.rewardedVideoAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
@@ -860,7 +870,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 @implementation ALFacebookMediationAdapterNativeAdViewAdDelegate
 
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
-                     serverParameters:(NSDictionary<NSString *,id> *)serverParameters
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
                                format:(MAAdFormat *)format
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
@@ -1111,7 +1121,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 @implementation ALFacebookMediationAdapterNativeBannerAdDelegate
 
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter
-                     serverParameters:(NSDictionary<NSString *,id> *)serverParameters
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
                             andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
     self = [super init];
