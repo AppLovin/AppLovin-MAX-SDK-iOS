@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.1.3.0
+* Certified with InMobi SDK 10.1.3.
+
 ## 10.1.2.7
 * Add support for test mode for simulators.
 
