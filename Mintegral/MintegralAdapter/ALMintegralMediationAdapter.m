@@ -225,12 +225,63 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 #pragma mark - Signal Collection
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
     
-    NSString *signal = [MTGBiddingSDK buyerUID];
+    NSDictionary<NSString *, id> *bidInfo = @{@"placementId" : parameters.serverParameters[@"placement_id"] ?: @"",
+                                              @"unitId" : parameters.adUnitIdentifier,
+                                              @"adType" : @([self toMintegralAdType: parameters.adFormat])};
+    
+    // Returns an empty string, if request is to be filtered
+    NSString *signal = [MTGBiddingSDK performSelector: @selector(buyerUIDWithDictionary) withObject: bidInfo];
+    if ( ![signal al_isValidString] )
+    {
+        [delegate didFailToCollectSignalWithErrorMessage: nil];
+        return;
+    }
+    
     [delegate didCollectSignal: signal];
+}
+
+#pragma clang diagnostic pop
+
+- (NSInteger/* MintegralAdType */)toMintegralAdType:(MAAdFormat *)adFormat
+{
+    //    typedef NS_ENUM(NSInteger,MintegralAdType) {
+    //            MintegralNativeAd = 42,
+    //            MintegralRewardVideoAd = 94,
+    //            MintegralBannerAd = 296,
+    //            MintegralSplashAd = 297,
+    //            MintegralIntersitialAd = 287,
+    //            MintegralNativeAdVanceAd = 298
+    //        };
+    
+    if ( adFormat == MAAdFormat.interstitial )
+    {
+        return 287;
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        return 94;
+    }
+    else if ( adFormat == MAAdFormat.appOpen )
+    {
+        return 297;
+    }
+    else if ( adFormat == MAAdFormat.banner )
+    {
+        return 296;
+    }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return 42;
+    }
+    
+    return -1;
 }
 
 #pragma mark - MAInterstitialAdapter Methods
