@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.0.1
+* Add support for interstitial, rewarded, native and native ad view ads.
+
 ## 1.4.0.0
 * Certified with MobileFuse SDK 1.4.0.
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).

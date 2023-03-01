@@ -14,8 +14,35 @@
 #import <MobileFuseSDK/MFInterstitialAd.h>
 #import <MobileFuseSDK/MFBannerAd.h>
 #import <MobileFuseSDK/MFRewardedAd.h>
+#import <MobileFuseSDK/MFNativeAd.h>
 
-#define ADAPTER_VERSION @"1.4.0.0"
+#define ADAPTER_VERSION @"1.4.0.1"
+
+/**
+ * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
+ */
+typedef NS_ENUM(NSInteger, MFAdErrorCode)
+{
+    /**
+     * Cannot load this ad - it is already loaded.
+     */
+    MFAdErrorCodeAdAlreadyLoaded = 1,
+    
+    /**
+     * There was an error while attempting to display the ad such as a bad campaign or invalid ad markup.
+     */
+    MFAdErrorCodeAdRuntimeError = 3,
+    
+    /**
+     * Cannot show this ad - it has already been displayed (call LoadAd again).
+     */
+    MFAdErrorCodeAdAlreadyRendered = 4,
+    
+    /**
+     * The ad failed to load.
+     */
+    MFAdErrorCodeAdLoadError = 5
+};
 
 @interface ALMobileFuseInterstitialDelegate : NSObject <IMFAdCallbackReceiver>
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
@@ -23,7 +50,7 @@
 - (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALMobileFuseRewardedAdDelegate : NSObject <IMFAdCallbackReceiver>
+@interface ALMobileFuseRewardedDelegate : NSObject <IMFAdCallbackReceiver>
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -31,12 +58,36 @@
 @end
 
 @interface ALMobileFuseAdViewDelegate : NSObject <IMFAdCallbackReceiver>
-@property (nonatomic,   weak) MAAdFormat *format;
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter
-                               format:(MAAdFormat *)format
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+@end
+
+@interface ALMobileFuseNativeAdViewDelegate : NSObject <IMFAdCallbackReceiver>
+@property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
+@property (nonatomic,   weak) MAAdFormat *adFormat;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)adFormat
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+@end
+
+@interface ALMobileFuseNativeAdDelegate : NSObject <IMFAdCallbackReceiver>
+@property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+@end
+
+@interface MAMobileFuseNativeAd : MANativeAd
+@property (nonatomic, weak) ALMobileFuseMediationAdapter *parentAdapter;
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter format:(MAAdFormat *)adFormat builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
 @interface ALMobileFuseMediationAdapter ()
@@ -45,10 +96,14 @@
 @property (nonatomic, strong) ALMobileFuseInterstitialDelegate *interstitialAdapterDelegate;
 
 @property (nonatomic, strong) MFRewardedAd *rewardedAd;
-@property (nonatomic, strong) ALMobileFuseRewardedAdDelegate *rewardedAdapterDelegate;
+@property (nonatomic, strong) ALMobileFuseRewardedDelegate *rewardedAdapterDelegate;
 
 @property (nonatomic, strong) MFBannerAd *adView;
 @property (nonatomic, strong) ALMobileFuseAdViewDelegate *adViewAdapterDelegate;
+@property (nonatomic, strong) ALMobileFuseNativeAdViewDelegate *nativeAdViewAdapterDelegate;
+
+@property (nonatomic, strong) MFNativeAd *nativeAd;
+@property (nonatomic, strong) ALMobileFuseNativeAdDelegate *nativeAdAdapterDelegate;
 
 @end
 
@@ -78,9 +133,19 @@
     self.interstitialAd = nil;
     self.interstitialAdapterDelegate = nil;
     
+    [self.rewardedAd destroy];
+    self.rewardedAd = nil;
+    self.rewardedAdapterDelegate = nil;
+    
     [self.adView destroy];
     self.adView = nil;
     self.adViewAdapterDelegate = nil;
+    
+    [self.nativeAd unregisterViews];
+    [self.nativeAd destroy];
+    self.nativeAd = nil;
+    self.nativeAdViewAdapterDelegate = nil;
+    self.nativeAdAdapterDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -103,6 +168,7 @@
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    
     [self log: @"Loading interstitial ad: %@...", placementId];
     
     [self updatePrivacyPreferences: parameters];
@@ -121,6 +187,7 @@
     {
         [self log: @"Unable to show interstitial - ad expired"];
         [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
+        
         return;
     }
     else if ( ![self.interstitialAd isAdReady] )
@@ -130,6 +197,7 @@
                                                                              errorString: @"Ad Display Failed"
                                                                 mediatedNetworkErrorCode: 0
                                                              mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+        
         return;
     }
     
@@ -143,12 +211,13 @@
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    
     [self log: @"Loading rewarded ad: %@...", placementId];
     
     [self updatePrivacyPreferences: parameters];
     
     self.rewardedAd = [[MFRewardedAd alloc] initWithPlacementId: placementId];
-    self.rewardedAdapterDelegate = [[ALMobileFuseRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    self.rewardedAdapterDelegate = [[ALMobileFuseRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     [self.rewardedAd registerAdCallbackReceiver: self.rewardedAdapterDelegate];
     [self.rewardedAd loadAdWithBiddingResponseToken: parameters.bidResponse];
 }
@@ -161,6 +230,7 @@
     {
         [self log: @"Unable to show rewarded ad - ad expired"];
         [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
+        
         return;
     }
     else if ( ![self.rewardedAd isAdReady] )
@@ -170,6 +240,7 @@
                                                                          errorString: @"Ad Display Failed"
                                                             mediatedNetworkErrorCode: 0
                                                          mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+        
         return;
     }
     
@@ -185,60 +256,71 @@
 - (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@ ad: %@", adFormat.label, placementId];
+    BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
+    
+    [self log: @"Loading %@%@ ad: %@...", ( isNative ? @"native " : @"" ), adFormat.label, placementId];
     
     [self updatePrivacyPreferences: parameters];
     
-    self.adView = [[MFBannerAd alloc] initWithPlacementId: placementId withSize: [self sizeFromAdFormat: adFormat]];
-    self.adViewAdapterDelegate = [[ALMobileFuseAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                    format: adFormat
-                                                                                 andNotify: delegate];
-    [self.adView registerAdCallbackReceiver: self.adViewAdapterDelegate];
-    [self.adView setAutorefreshEnabled: NO];
-    [self.adView setMuted: YES];
-    
-    [self.adView loadAdWithBiddingResponseToken: parameters.bidResponse];
-}
-
-#pragma mark - Shared Methods
-
-+ (MAAdapterError *)toMaxError:(NSString *)mobileFuseErrorMessage
-{
-    MAAdapterError *adapterError = MAAdapterError.unspecified;
-    
-    if ( [mobileFuseErrorMessage isEqualToString: @"VAST Player failed to initialize"] )
+    if ( isNative )
     {
-        adapterError = MAAdapterError.invalidLoadState;
-    }
-    else if ( [mobileFuseErrorMessage hasPrefix: @"VAST Player failed with error code"] || [mobileFuseErrorMessage isEqualToString: @"MRAID Renderer failed to initialize and display a companion ad"] )
-    {
-        adapterError = MAAdapterError.adDisplayFailedError;
-    }
-    
-    return [MAAdapterError errorWithAdapterError: adapterError
-                        mediatedNetworkErrorCode: MAErrorCodeUnspecified
-                     mediatedNetworkErrorMessage: mobileFuseErrorMessage];
-}
-
-- (MFBannerAdSize)sizeFromAdFormat:(MAAdFormat *)adFormat
-{
-    if ( adFormat == MAAdFormat.banner )
-    {
-        return MOBILEFUSE_BANNER_SIZE_320x50;
-    }
-    else if ( adFormat == MAAdFormat.leader )
-    {
-        return MOBILEFUSE_BANNER_SIZE_728x90;
-    }
-    else if ( adFormat == MAAdFormat.mrec )
-    {
-        return MOBILEFUSE_BANNER_SIZE_300x250;
+        self.nativeAd = [[MFNativeAd alloc] initWithPlacementId: placementId];
+        self.nativeAdViewAdapterDelegate = [[ALMobileFuseNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                    format: adFormat
+                                                                                                parameters: parameters
+                                                                                                 andNotify: delegate];
+        [self.nativeAd registerAdCallbackReceiver: self.nativeAdViewAdapterDelegate];
+        [self.nativeAd loadAdWithBiddingResponseToken: parameters.bidResponse];
     }
     else
     {
-        [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
-        return MOBILEFUSE_BANNER_SIZE_320x50;
+        self.adView = [[MFBannerAd alloc] initWithPlacementId: placementId withSize: [self sizeFromAdFormat: adFormat]];
+        self.adViewAdapterDelegate = [[ALMobileFuseAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        [self.adView registerAdCallbackReceiver: self.adViewAdapterDelegate];
+        [self.adView setAutorefreshEnabled: NO];
+        [self.adView setMuted: YES];
+        [self.adView loadAdWithBiddingResponseToken: parameters.bidResponse];
     }
+}
+
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    
+    [self log: @"Loading native ad: %@", placementId];
+    
+    [self updatePrivacyPreferences: parameters];
+    
+    self.nativeAd = [[MFNativeAd alloc] initWithPlacementId: placementId];
+    self.nativeAdAdapterDelegate = [[ALMobileFuseNativeAdDelegate alloc] initWithParentAdapter: self parameters: parameters andNotify: delegate];
+    [self.nativeAd registerAdCallbackReceiver: self.nativeAdAdapterDelegate];
+    [self.nativeAd loadAdWithBiddingResponseToken: parameters.bidResponse];
+}
+
+#pragma mark - Helper Methods
+
++ (MAAdapterError *)toMaxError:(MFAdError *)mobileFuseError
+{
+    MFAdErrorCode mobileFuseErrorCode = mobileFuseError.code;
+    MAAdapterError *adapterError = MAAdapterError.unspecified;
+    
+    switch ( mobileFuseErrorCode )
+    {
+        case MFAdErrorCodeAdAlreadyLoaded:
+        case MFAdErrorCodeAdLoadError:
+            adapterError = MAAdapterError.invalidLoadState;
+            break;
+        case MFAdErrorCodeAdRuntimeError:
+        case MFAdErrorCodeAdAlreadyRendered:
+            adapterError = MAAdapterError.adDisplayFailedError;
+            break;
+    }
+    
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: mobileFuseErrorCode
+                     mediatedNetworkErrorMessage: mobileFuseError.localizedDescription];
 }
 
 - (void)updatePrivacyPreferences:(id<MAAdapterParameters>)parameters
@@ -265,6 +347,58 @@
     }
     
     [MobileFuse setPrivacyPreferences: privacyPreferences];
+}
+
+- (MFBannerAdSize)sizeFromAdFormat:(MAAdFormat *)adFormat
+{
+    if ( adFormat == MAAdFormat.banner )
+    {
+        return MOBILEFUSE_BANNER_SIZE_320x50;
+    }
+    else if ( adFormat == MAAdFormat.leader )
+    {
+        return MOBILEFUSE_BANNER_SIZE_728x90;
+    }
+    else if ( adFormat == MAAdFormat.mrec )
+    {
+        return MOBILEFUSE_BANNER_SIZE_300x250;
+    }
+    else
+    {
+        [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
+        return MOBILEFUSE_BANNER_SIZE_320x50;
+    }
+}
+
+- (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
+{
+    NSMutableArray *clickableViews = [NSMutableArray array];
+    if ( maxNativeAdView.titleLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.titleLabel];
+    }
+    if ( maxNativeAdView.advertiserLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.advertiserLabel];
+    }
+    if ( maxNativeAdView.bodyLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.bodyLabel];
+    }
+    if ( maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+    }
+    if ( maxNativeAdView.iconImageView )
+    {
+        [clickableViews addObject: maxNativeAdView.iconImageView];
+    }
+    if ( maxNativeAdView.mediaContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.mediaContentView];
+    }
+    
+    return clickableViews;
 }
 
 - (UIViewController *)presentingViewControllerFromParameters:(id<MAAdapterResponseParameters>)parameters
@@ -297,7 +431,7 @@
 
 - (void)onAdNotFilled:(MFAd *)ad
 {
-    [self.parentAdapter log: @"Interstitial ad failed to load: %@", ad.placementId];
+    [self.parentAdapter log: @"Interstitial ad failed to load - no fill: %@", ad.placementId];
     [self.delegate didFailToLoadInterstitialAdWithError: MAAdapterError.noFill];
 }
 
@@ -308,7 +442,7 @@
 
 - (void)onAdRendered:(MFAd *)ad
 {
-    [self.parentAdapter log: @"Interstitial ad shown: %@", ad.placementId];
+    [self.parentAdapter log: @"Interstitial ad displayed: %@", ad.placementId];
     [self.delegate didDisplayInterstitialAd];
 }
 
@@ -324,17 +458,18 @@
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)onAdError:(MFAd *)ad withMessage:(NSString *)message
+- (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    [self.parentAdapter log: @"Interstitial ad failed to load: %@, with message: %@", ad.placementId, message];
+    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
     
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: message];
-    if ( adapterError == MAAdapterError.invalidLoadState )
+    if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        [self.parentAdapter log: @"Interstitial ad failed to load with error: %@", adapterError];
         [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
     }
     else
     {
+        [self.parentAdapter log: @"Interstitial ad failed to display with error: %@", adapterError];
         [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
     }
 }
@@ -343,7 +478,7 @@
 
 #pragma mark - ALMobileFuseRewardedAdDelegate
 
-@implementation ALMobileFuseRewardedAdDelegate
+@implementation ALMobileFuseRewardedDelegate
 
 - (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
@@ -364,7 +499,7 @@
 
 - (void)onAdNotFilled:(MFAd *)ad
 {
-    [self.parentAdapter log: @"Rewarded ad failed to load: %@", ad.placementId];
+    [self.parentAdapter log: @"Rewarded ad failed to load - no fill: %@", ad.placementId];
     [self.delegate didFailToLoadRewardedAdWithError: MAAdapterError.noFill];
 }
 
@@ -375,7 +510,7 @@
 
 - (void)onAdRendered:(MFAd *)ad
 {
-    [self.parentAdapter log: @"Rewarded ad shown: %@", ad.placementId];
+    [self.parentAdapter log: @"Rewarded ad displayed: %@", ad.placementId];
     [self.delegate didDisplayRewardedAd];
 }
 
@@ -383,6 +518,12 @@
 {
     [self.parentAdapter log: @"Rewarded ad clicked: %@", ad.placementId];
     [self.delegate didClickRewardedAd];
+}
+
+- (void)onUserEarnedReward:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad should grant reward: %@", ad.placementId];
+    self.grantedReward = YES;
 }
 
 - (void)onAdClosed:(MFAd *)ad
@@ -399,17 +540,18 @@
     [self.delegate didHideRewardedAd];
 }
 
-- (void)onAdError:(MFAd *)ad withMessage:(NSString *)message
+- (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    [self.parentAdapter log: @"Rewarded ad failed to load: %@, with message: %@", ad.placementId, message];
+    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
     
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: message];
-    if ( adapterError == MAAdapterError.invalidLoadState )
+    if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        [self.parentAdapter log: @"Rewarded ad failed to load with error: %@", adapterError];
         [self.delegate didFailToLoadRewardedAdWithError: adapterError];
     }
     else
     {
+        [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
         [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
     }
 }
@@ -420,14 +562,13 @@
 
 @implementation ALMobileFuseAdViewDelegate
 
-- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter format:(MAAdFormat *)format andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
         self.delegate = delegate;
-        self.format = format;
     }
     return self;
 }
@@ -442,7 +583,7 @@
 
 - (void)onAdNotFilled:(MFAd *)ad
 {
-    [self.parentAdapter log: @"AdView ad not filled: %@", ad.placementId];
+    [self.parentAdapter log: @"AdView ad failed to load - no fill: %@", ad.placementId];
     [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
 }
 
@@ -453,7 +594,7 @@
 
 - (void)onAdRendered:(MFAd *)ad
 {
-    [self.parentAdapter log: @"AdView ad rendered: %@", ad.placementId];
+    [self.parentAdapter log: @"AdView ad displayed: %@", ad.placementId];
     [self.delegate didDisplayAdViewAd];
 }
 
@@ -480,19 +621,253 @@
     [self.parentAdapter log: @"AdView ad hidden: %@", ad.placementId];
 }
 
-- (void)onAdError:(MFAd *)ad withMessage:(NSString *)message
+- (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    [self.parentAdapter log: @"AdView ad failed to load: %@, with message: %@", ad.placementId, message];
+    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
     
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: message];
-    if ( adapterError == MAAdapterError.invalidLoadState )
+    if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        [self.parentAdapter log: @"AdView ad failed to load with error: %@", adapterError];
         [self.delegate didFailToLoadAdViewAdWithError: adapterError];
     }
     else
     {
+        [self.parentAdapter log: @"AdView ad failed to display with error: %@", adapterError];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
     }
+}
+
+@end
+
+#pragma mark - ALMobileFuseNativeAdViewDelegate
+
+@implementation ALMobileFuseNativeAdViewDelegate
+
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)adFormat
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.adFormat = adFormat;
+        self.serverParameters = parameters.serverParameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)onAdLoaded:(MFAd *)ad
+{
+    MFNativeAd *nativeAd = (MFNativeAd *) ad;
+    
+    [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat.label, nativeAd.placementId];
+    
+    if ( ![nativeAd hasTitle] )
+    {
+        [self.parentAdapter e: @"Native %@ ad does not have required assets: %@", self.adFormat.label, nativeAd];
+        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError missingRequiredNativeAdAssets]];
+        
+        return;
+    }
+    
+    self.parentAdapter.nativeAd = nativeAd;
+    
+    MANativeAd *maxMobileFuseNativeAd = [[MAMobileFuseNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                                     format: self.adFormat
+                                                                               builderBlock:^(MANativeAdBuilder *builder) {
+        builder.title = [nativeAd getTitle];
+        builder.body = [nativeAd getDescriptionText];
+        builder.advertiser = [nativeAd getSponsoredText];
+        builder.callToAction = [nativeAd getCtaButtonText];
+        builder.icon = [[MANativeAdImage alloc] initWithImage: [nativeAd getIconImage]];
+        builder.mediaView = [nativeAd getMainContentView];
+    }];
+    
+    MANativeAdView *maxNativeAdView;
+    NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+    if ( [templateName isEqualToString: @"vertical"] )
+    {
+        NSString *verticalTemplateName = ( self.adFormat == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
+        maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxMobileFuseNativeAd withTemplate: verticalTemplateName];
+    }
+    else
+    {
+        maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxMobileFuseNativeAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
+    }
+    
+    [maxMobileFuseNativeAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
+    [self.delegate didLoadAdForAdView: maxNativeAdView];
+}
+
+- (void)onAdNotFilled:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native %@ ad failed to load - no fill: %@", self.adFormat.label, ad.placementId];
+    [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
+}
+
+- (void)onAdExpired:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native %@ ad expired: %@", self.adFormat.label, ad.placementId];
+}
+
+- (void)onAdRendered:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native %@ ad displayed: %@", self.adFormat.label, ad.placementId];
+    [self.delegate didDisplayAdViewAd];
+}
+
+- (void)onAdClicked:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native %@ ad clicked: %@", self.adFormat.label, ad.placementId];
+    [self.delegate didClickAdViewAd];
+}
+
+- (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
+{
+    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
+    
+    if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
+    {
+        [self.parentAdapter log: @"Native %@ ad failed to load with error: %@", self.adFormat.label, adapterError];
+        [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+    }
+    else
+    {
+        [self.parentAdapter log: @"Native %@ ad failed to display with error: %@", self.adFormat.label, adapterError];
+        [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
+    }
+}
+
+@end
+
+#pragma mark - ALMobileFuseNativeAdDelegate
+
+@implementation ALMobileFuseNativeAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.serverParameters = parameters.serverParameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)onAdLoaded:(MFAd *)ad
+{
+    MFNativeAd *nativeAd = (MFNativeAd *) ad;
+    
+    [self.parentAdapter log: @"Native ad loaded: %@", nativeAd.placementId];
+    
+    NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+    BOOL isTemplateAd = [templateName al_isValidString];
+    
+    if ( isTemplateAd && ![nativeAd hasTitle] )
+    {
+        [self.parentAdapter e: @"Native ad does not have required assets: %@", nativeAd];
+        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError missingRequiredNativeAdAssets]];
+        
+        return;
+    }
+    
+    self.parentAdapter.nativeAd = nativeAd;
+    
+    MANativeAd *maxNativeAd = [[MAMobileFuseNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                           format: MAAdFormat.native
+                                                                     builderBlock:^(MANativeAdBuilder *builder) {
+        builder.title = [nativeAd getTitle];
+        builder.advertiser = [nativeAd getSponsoredText];
+        builder.body = [nativeAd getDescriptionText];
+        builder.callToAction = [nativeAd getCtaButtonText];
+        builder.icon = [[MANativeAdImage alloc] initWithImage: [nativeAd getIconImage]];
+        builder.mediaView = [nativeAd getMainContentView];
+    }];
+    
+    [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+}
+
+- (void)onAdNotFilled:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native ad failed to load - no fill: %@", ad.placementId];
+    [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
+}
+
+- (void)onAdExpired:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native ad expired: %@", ad.placementId];
+}
+
+- (void)onAdRendered:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native ad displayed: %@", ad.placementId];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)onAdClicked:(MFAd *)ad
+{
+    [self.parentAdapter log: @"Native ad clicked: %@", ad.placementId];
+    [self.delegate didClickNativeAd];
+}
+
+- (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
+{
+    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
+    
+    if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
+    {
+        [self.parentAdapter log: @"Native ad failed to load with error: %@", adapterError];
+    }
+    else
+    {
+        [self.parentAdapter log: @"Native ad failed to display with error: %@", adapterError];
+    }
+    
+    // possible display error for native ads also handled by load error callback
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+@end
+
+@implementation MAMobileFuseNativeAd
+
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)adFormat
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+{
+    self = [super initWithFormat: adFormat builderBlock: builderBlock];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+    }
+    return self;
+}
+
+- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
+{
+    [self prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    MFNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    
+    [nativeAd registerViewForInteraction: container withClickableViews: clickableViews];
+    return YES;
 }
 
 @end
