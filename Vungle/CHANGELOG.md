@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.12.2.1
+* Add Support for native banner and MREC ads.
+
 ## 6.12.2.0
 * Certified with Vungle SDK 6.12.2.
 
