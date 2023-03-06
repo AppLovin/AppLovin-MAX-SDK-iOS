@@ -8,6 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALCriteoMediationAdapter : ALMediationAdapter<MASignalProvider, MAInterstitialAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALCriteoMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 @end

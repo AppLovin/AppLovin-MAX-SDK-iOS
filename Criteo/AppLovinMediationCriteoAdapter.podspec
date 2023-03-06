@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
   s.authors = 'AppLovin Corporation'
   s.name = 'AppLovinMediationCriteoAdapter'
-  s.version = '4.5.0.7'
-  s.platform = :ios, '9.0'
+  s.version = '4.8.0.0'
+  s.platform = :ios, '12.0'
   s.summary = 'Criteo adapter used for mediation with the AppLovin MAX SDK'
   s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   
   s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-  s.dependency 'CriteoPublisherSdk', '= 4.5.0'
+  s.dependency 'CriteoPublisherSdk', '= 4.8.0'
   s.dependency 'AppLovinSDK'
   s.swift_version = '5.0'
 
@@ -35,7 +35,8 @@ Pod::Spec.new do |s|
   {
     'VALID_ARCHS' => 'arm64 arm64e armv7 armv7s x86_64',
     'VALID_ARCHS[sdk=iphoneos*]' => 'arm64 arm64e armv7 armv7s',
-    'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64'
+    'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64',
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386'
   }
   
   s.description = <<-DESC

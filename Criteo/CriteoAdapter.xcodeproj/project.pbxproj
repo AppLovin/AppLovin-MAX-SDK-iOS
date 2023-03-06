@@ -3,12 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1D5748D821C79E13004C8981 /* ALCriteoMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALCriteoMediationAdapter.m */; };
-		25B5F4892874E7FE0022A1BA /* CriteoPublisherSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5F4882874E7FE0022A1BA /* CriteoPublisherSdk.xcframework */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 		A434F120125CD2A5E666E982 /* Pods_CriteoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F292B343F677841329E839C6 /* Pods_CriteoAdapter.framework */; };
 /* End PBXBuildFile section */
@@ -44,7 +43,6 @@
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D9C1065270EA081006CA163 /* AppLovinMediationCriteoAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationCriteoAdapter.podspec; sourceTree = "<group>"; };
-		25B5F4882874E7FE0022A1BA /* CriteoPublisherSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = CriteoPublisherSdk.xcframework; sourceTree = "<group>"; };
 		6A561CD5219BB58300E3749A /* ALCriteoMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCriteoMediationAdapter.m; sourceTree = "<group>"; };
 		6A561CD6219BB58300E3749A /* ALCriteoMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCriteoMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CEF219BB5D400E3749A /* libCriteoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCriteoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25B5F4892874E7FE0022A1BA /* CriteoPublisherSdk.xcframework in Frameworks */,
 				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
 				A434F120125CD2A5E666E982 /* Pods_CriteoAdapter.framework in Frameworks */,
 			);
@@ -70,7 +67,6 @@
 		1D2303A61FBCF4C7001939D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				25B5F4882874E7FE0022A1BA /* CriteoPublisherSdk.xcframework */,
 				1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */,
 				1D9AE8FC21423C9200080475 /* QuartzCore.framework */,
 				1D9AE8EB21423C7E00080475 /* AdSupport.framework */,
@@ -356,10 +352,10 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "i386 $(inherited)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				EXCLUDED_ARCHS = "$(inherited) i386";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				HEADER_SEARCH_PATHS = "$(inherited)/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "${inherited}";
@@ -380,10 +376,10 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "i386 $(inherited)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				EXCLUDED_ARCHS = "$(inherited) i386";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				HEADER_SEARCH_PATHS = "$(inherited)/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "${inherited}";

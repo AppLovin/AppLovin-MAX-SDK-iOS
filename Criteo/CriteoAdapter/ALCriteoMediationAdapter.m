@@ -9,10 +9,10 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.5.0.7"
+#define ADAPTER_VERSION @"4.8.0.0"
 #define PUB_ID_KEY @"pub_id"
 
-@interface ALCriteoInterstitialDelegate : NSObject<CRInterstitialDelegate>
+@interface ALCriteoInterstitialDelegate : NSObject <CRInterstitialDelegate>
 @property (nonatomic, weak) ALCriteoMediationAdapter *parentAdapter;
 @property (nonatomic, copy) NSString *placementIdentifier;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
@@ -21,7 +21,7 @@
                             andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALCriteoAdViewDelegate : NSObject<CRBannerViewDelegate>
+@interface ALCriteoAdViewDelegate : NSObject <CRBannerViewDelegate>
 @property (nonatomic, weak) ALCriteoMediationAdapter *parentAdapter;
 @property (nonatomic, weak) MAAdFormat *adFormat;
 @property (nonatomic, copy) NSString *placementIdentifier;
@@ -32,7 +32,7 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALCriteoNativeDelegate : NSObject<CRNativeLoaderDelegate>
+@interface ALCriteoNativeDelegate : NSObject <CRNativeLoaderDelegate>
 @property (nonatomic, weak) ALCriteoMediationAdapter *parentAdapter;
 @property (nonatomic, copy) NSString *placementIdentifier;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -49,7 +49,7 @@
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
-@interface ALCriteoMediationAdapter()
+@interface ALCriteoMediationAdapter ()
 @property (nonatomic, strong) CRBannerView *bannerAd;
 @property (nonatomic, strong) ALCriteoAdViewDelegate *bannerAdDelegate;
 
@@ -106,7 +106,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (NSString *)SDKVersion
 {
-    return [NSString stringWithFormat: @"%ld", (long) CRITEO_PUBLISHER_SDK_VERSION];
+    return CRITEO_PUBLISHER_SDK_VERSION;
 }
 
 - (NSString *)adapterVersion
@@ -219,7 +219,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId: placementIdentifier size: adFormat.size];
     self.bannerAd = [[CRBannerView alloc] initWithAdUnit: bannerAdUnit];
-    self.bannerAdDelegate = [[ALCriteoAdViewDelegate alloc] initWithParentAdapter: self adFormat:adFormat placementIdentifier: placementIdentifier andNotify: delegate];
+    self.bannerAdDelegate = [[ALCriteoAdViewDelegate alloc] initWithParentAdapter: self adFormat: adFormat placementIdentifier: placementIdentifier andNotify: delegate];
     self.bannerAd.delegate = self.bannerAdDelegate;
     [self.bannerAd loadAdWithDisplayData: parameters.bidResponse];
 }
@@ -256,14 +256,14 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     
     /* Based on the current order as defined in NSError+Criteo.h (which isn't exposed):
-     typedef NS_ENUM(NSInteger, CRErrorCode) {
-     CRErrorCodeInternalError,
-     CRErrorCodeNoFill,
-     CRErrorCodeNetworkError,
-     CRErrorCodeInvalidRequest,
-     CRErrorCodeInvalidParameter,
-     CRErrorCodeInvalidErrorCode
-     };
+     * typedef NS_ENUM(NSInteger, CRErrorCode) {
+     * CRErrorCodeInternalError,
+     * CRErrorCodeNoFill,
+     * CRErrorCodeNetworkError,
+     * CRErrorCodeInvalidRequest,
+     * CRErrorCodeInvalidParameter,
+     * CRErrorCodeInvalidErrorCode
+     * };
      */
     switch ( criteoErrorCode )
     {
@@ -469,7 +469,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // Timeout tasks if incomplete within the given time
         NSTimeInterval imageTaskTimeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(imageTaskTimeoutSeconds * NSEC_PER_SEC)));
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
         
         dispatchOnMainQueue(^{
             

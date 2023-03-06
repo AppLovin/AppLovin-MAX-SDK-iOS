@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.8.0.0
+* Certified with Criteo SDK 4.8.0.
+* Return the correct SDK version.
+
 ## 4.5.0.7
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
 
