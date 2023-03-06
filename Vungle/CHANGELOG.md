@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.12.3.0
+* Certified with Vungle SDK 6.12.3.
+
 ## 6.12.2.2
 * Downgrade to Vungle SDK 6.12.1 from 6.12.2.
 
