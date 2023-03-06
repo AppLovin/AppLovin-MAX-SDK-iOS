@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.2.0.0
+* Certified with GoogleAdManager SDK 10.2.0.
+
 ## 10.1.0.1
 * Adding back support for iOS 10.
 
