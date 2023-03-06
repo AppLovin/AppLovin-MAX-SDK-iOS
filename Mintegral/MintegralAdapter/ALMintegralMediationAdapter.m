@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.3.1.0.0"
+#define ADAPTER_VERSION @"7.3.1.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -229,7 +229,11 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self log: @"Collecting signal..."];
     
-    NSString *signal = [MTGBiddingSDK buyerUID];
+    NSDictionary<NSString *, id> *bidInfo = @{@"placementId" : parameters.serverParameters[@"placement_id"] ?: @"",
+                                              @"unitId" : parameters.adUnitIdentifier ?: @"",
+                                              @"adType" : @([self toMintegralAdType: parameters.adFormat])};
+    
+    NSString *signal = [MTGBiddingSDK buyerUIDWithDictionary: bidInfo];
     [delegate didCollectSignal: signal];
 }
 
@@ -559,6 +563,32 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 }
 
 #pragma mark - Shared Methods
+
+- (MintegralAdType)toMintegralAdType:(MAAdFormat *)adFormat
+{
+    if ( adFormat == MAAdFormat.interstitial )
+    {
+        return MintegralIntersitialAd;
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        return MintegralRewardVideoAd;
+    }
+    else if ( adFormat == MAAdFormat.appOpen )
+    {
+        return MintegralSplashAd;
+    }
+    else if ( adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader || adFormat == MAAdFormat.mrec )
+    {
+        return MintegralBannerAd;
+    }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return MintegralNativeAd;
+    }
+    
+    return -1;
+}
 
 + (MAAdapterError *)toMaxError:(NSError *)mintegralError
 {
@@ -1525,7 +1555,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     }
     
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
-
+    
     self.parentAdapter.maxNativeAdContainer = container;
     self.parentAdapter.clickableViews = clickableViews;
     
