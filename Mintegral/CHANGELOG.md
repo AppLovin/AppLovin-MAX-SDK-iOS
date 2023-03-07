@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.3.3.0.0
+* Certified with Mintegral SDK 7.3.3.
+
 ## 7.3.1.0.1
 * Pass in extra data for signal collection.
 
