@@ -2,12 +2,12 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationByteDanceAdapter'
-s.version = '4.8.1.0.3'
+s.version = '4.9.1.0.0'
 s.platform = :ios, '10.0'
 s.summary = 'ByteDance adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
-s.license = 
-{ 
+s.license =
+{
   :type => 'Commercial License',
   :text => <<-LICENSE
 
@@ -18,25 +18,25 @@ The AppLovin MAX SDK is available under a commercial license (https://www.applov
 LICENSE
 }
 
-s.source = 
-{ 
-  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/bytedance-adapter/#{s.name}-#{s.version}.zip",
-  	:type => 'zip'
+s.source =
+{
+      :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/bytedance-adapter/#{s.name}-#{s.version}.zip",
+      :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'Ads-Global/BUAdSDK_Compatible', '= 4.8.1.0'
-s.dependency 'Ads-CN/BUAdSDK_Compatible', '= 4.9.0.7'
+s.dependency 'Ads-Global/BUAdSDK_Compatible', '= 4.9.1.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
 {
   'VALID_ARCHS' => 'arm64 arm64e armv7 armv7s x86_64',
   'VALID_ARCHS[sdk=iphoneos*]' => 'arm64 arm64e armv7 armv7s',
-  'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64'
+  'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64',
+  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386'
 }
-                                                              
+
 s.description = <<-DESC
 
 AppLovin turns mobile into the medium of choice for advertisers.

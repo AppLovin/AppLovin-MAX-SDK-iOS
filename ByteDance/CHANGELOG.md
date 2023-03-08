@@ -1,7 +1,8 @@
 # Changelog
 
-## 4.8.1.0.3
-* Fix native ad view ad not triggering show and click event callbacks.
+## 4.9.1.0.0
+* Updated all existing APIs to use the PAGAdSDK.
+* Added App Open Support and App Open Bidding.
 
 ## 4.8.1.0.2
 * Remove `consentDialogState` guard.
