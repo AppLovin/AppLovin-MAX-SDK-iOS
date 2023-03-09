@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A6E9B128A39936EF7A9975E /* Pods_ChartboostAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3853288398735B14F35FE23 /* Pods_ChartboostAdapter.framework */; };
 		6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 		6A9A772A21A4F43A00151D7A /* ALChartboostMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A772821A4F43A00151D7A /* ALChartboostMediationAdapter.m */; };
 /* End PBXBuildFile section */
@@ -40,11 +41,14 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		62FB9ADF416F4ECB6E8DCF88 /* Pods-ChartboostAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChartboostAdapter.release.xcconfig"; path = "Target Support Files/Pods-ChartboostAdapter/Pods-ChartboostAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		6A561CE5219BB5A600E3749A /* libChartboostAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libChartboostAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A633A21C0875E00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		6A5A633B21C0875E00B755D7 /* AppLovinMediationChartboostAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationChartboostAdapter.podspec; sourceTree = "<group>"; };
 		6A9A772821A4F43A00151D7A /* ALChartboostMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChartboostMediationAdapter.m; sourceTree = "<group>"; };
 		6A9A772921A4F43A00151D7A /* ALChartboostMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChartboostMediationAdapter.h; sourceTree = "<group>"; };
+		A3853288398735B14F35FE23 /* Pods_ChartboostAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChartboostAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD79C8D7F9390D5F0C88602 /* Pods-ChartboostAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChartboostAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ChartboostAdapter/Pods-ChartboostAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */,
+				0A6E9B128A39936EF7A9975E /* Pods_ChartboostAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				A3853288398735B14F35FE23 /* Pods_ChartboostAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +94,7 @@
 				6A5A632921C086CF00B755D7 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				2AB5D4449994C59654DA21C2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +104,16 @@
 				6A561CE5219BB5A600E3749A /* libChartboostAdapter.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2AB5D4449994C59654DA21C2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DDD79C8D7F9390D5F0C88602 /* Pods-ChartboostAdapter.debug.xcconfig */,
+				62FB9ADF416F4ECB6E8DCF88 /* Pods-ChartboostAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
 			sourceTree = "<group>";
 		};
 		6A5A632921C086CF00B755D7 /* Supporting Files */ = {
@@ -124,6 +141,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CE2219BB5A600E3749A /* Build configuration list for PBXNativeTarget "ChartboostAdapter" */;
 			buildPhases = (
+				F3AAECEF84DC9C81AFB7D6F8 /* [CP] Check Pods Manifest.lock */,
 				6A561CDD219BB5A600E3749A /* Sources */,
 				6A561CDF219BB5A600E3749A /* Frameworks */,
 				6A561CE1219BB5A600E3749A /* Copy Files */,
@@ -168,6 +186,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F3AAECEF84DC9C81AFB7D6F8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ChartboostAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561CDD219BB5A600E3749A /* Sources */ = {
@@ -219,6 +262,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "armv7 i386";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -234,7 +278,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -281,6 +325,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "armv7 i386";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -290,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
@@ -302,16 +347,17 @@
 		};
 		6A561CE3219BB5A600E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDD79C8D7F9390D5F0C88602 /* Pods-ChartboostAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				EXCLUDED_ARCHS = "i386 armv7";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -324,16 +370,17 @@
 		};
 		6A561CE4219BB5A600E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62FB9ADF416F4ECB6E8DCF88 /* Pods-ChartboostAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				EXCLUDED_ARCHS = "i386 armv7";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";

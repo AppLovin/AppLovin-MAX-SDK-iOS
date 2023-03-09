@@ -1,5 +1,10 @@
 # Changelog
 
+## 9.2.0.0
+* Certified with Chartboost SDK 9.2.0.
+* Updated the minimum required iOS version to 11.0 in Pod Spec to match ChartboostSDK. 
+* Removed support for armv7 devices, as the ChartboostSDK does not support them.
+
 ## 9.1.0.1
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
 * Add additional details for ad display failures. 
