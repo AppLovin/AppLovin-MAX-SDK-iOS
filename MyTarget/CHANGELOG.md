@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.17.4.0
+* Certified with MyTarget SDK 5.17.4.
+* Must be built with Xcode 14.0
+* Updated the minimum required iOS version to 10.0 in Pod Spec to match myTargetSDK. 
+* Removed support for armv7 devices.
+
 ## 5.16.0.2
 * Remove `consentDialogState` guard.
 
