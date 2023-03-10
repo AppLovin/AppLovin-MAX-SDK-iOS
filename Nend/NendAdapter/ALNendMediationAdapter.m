@@ -10,29 +10,29 @@
 #import <NendAd/NendAd.h>
 #import <NendAd/NADLogger.h>
 
-#define ADAPTER_VERSION @"7.4.0.0"
+#define ADAPTER_VERSION @"8.0.0.0"
 #define NSSTRING(_X) ( (_X != NULL) ? [NSString stringWithCString: _X encoding: NSStringEncodingConversionAllowLossy] : nil)
 
-@interface ALNendMediationAdapterInterstitialAdDelegate : NSObject<NADInterstitialVideoDelegate>
+@interface ALNendMediationAdapterInterstitialAdDelegate : NSObject <NADInterstitialVideoDelegate>
 @property (nonatomic,   weak) ALNendMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALNendMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALNendMediationAdapterRewardedAdDelegate : NSObject<NADRewardedVideoDelegate>
+@interface ALNendMediationAdapterRewardedAdDelegate : NSObject <NADRewardedVideoDelegate>
 @property (nonatomic,   weak) ALNendMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALNendMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALNendMediationAdapterAdViewDelegate : NSObject<NADViewDelegate>
+@interface ALNendMediationAdapterAdViewDelegate : NSObject <NADViewDelegate>
 @property (nonatomic,   weak) ALNendMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALNendMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALNendMediationAdapter()
+@interface ALNendMediationAdapter ()
 
 @property (nonatomic, strong) NADInterstitialVideo *interstitialVideo;
 @property (nonatomic, strong) NADRewardedVideo *rewardedVideo;
@@ -48,13 +48,12 @@
 
 static NSString *const kMAConfigKeyApiKey = @"api_key";
 static NSString *const kMAConfigKeySetMediationId = @"set_mediation_identifier";
-static NSString *const kMAConfigKeyUserId = @"user_id";
 
 #pragma mark - MAAdapter Methods
 
 - (NSString *)SDKVersion
 {
-    NSString *sdkVersionString = NSSTRING((char *)NendAdVersionString);
+    NSString *sdkVersionString = NSSTRING((char *) NendAdVersionString);
     
     @try
     {
@@ -124,11 +123,6 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
         [self.interstitialVideo setMediationName: self.mediationTag];
     }
     
-    if ( [serverParameters al_containsValueForKey: kMAConfigKeyUserId] )
-    {
-        [self.interstitialVideo setUserId: [serverParameters al_stringForKey: kMAConfigKeyUserId]];
-    }
-    
     [self.interstitialVideo loadAd];
 }
 
@@ -153,7 +147,14 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -173,11 +174,6 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     if ( [serverParameters al_numberForKey: kMAConfigKeySetMediationId].boolValue )
     {
         [self.rewardedVideo setMediationName: self.mediationTag];
-    }
-    
-    if ( [serverParameters al_containsValueForKey: kMAConfigKeyUserId] )
-    {
-        [self.rewardedVideo setUserId: [serverParameters al_stringForKey: kMAConfigKeyUserId]];
     }
     
     [self.rewardedVideo loadAd];
@@ -206,7 +202,14 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -259,7 +262,7 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
             adapterError = MAAdapterError.noConnection;
             break;
     }
-
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: adapterError.errorCode
@@ -274,7 +277,7 @@ static NSString *const kMAConfigKeyUserId = @"user_id";
  */
 + (MAAdapterError *)toMaxErrorFromNendAdViewError:(NSError *)nendError
 {
-    NADViewErrorCode nendErrorCode = (NADViewErrorCode)nendError.code;
+    NADViewErrorCode nendErrorCode = (NADViewErrorCode) nendError.code;
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( nendErrorCode )
     {
