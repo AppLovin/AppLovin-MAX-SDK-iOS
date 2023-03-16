@@ -82,3 +82,4 @@
 
 ## 4.2.1.0
 * Initial commit.
+* Minimum AppLovin MAX SDK version 11.0.0.

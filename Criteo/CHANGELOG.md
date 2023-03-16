@@ -35,3 +35,4 @@
 ## 4.5.0.0
 * Initial Commit.
 * Certified with Criteo SDK 4.5.0.
+* Minimum AppLovin MAX SDK version 11.1.2.
