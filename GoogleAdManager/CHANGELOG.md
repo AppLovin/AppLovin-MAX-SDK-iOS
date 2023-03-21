@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.2.0.1
+* Add support for custom adaptive banner widths.
+
 ## 10.2.0.0
 * Certified with GoogleAdManager SDK 10.2.0.
 

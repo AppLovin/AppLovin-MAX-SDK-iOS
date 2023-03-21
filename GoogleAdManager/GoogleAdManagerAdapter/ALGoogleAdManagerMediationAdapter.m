@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.2.0.0"
+#define ADAPTER_VERSION @"10.2.0.1"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp <MAAdapterDelegate>
@@ -567,7 +567,10 @@ static NSString *ALGoogleSDKVersion;
     }
     else
     {
-        GADAdSize adSize = [self adSizeFromAdFormat: adFormat withServerParameters: parameters.serverParameters];
+        BOOL isAdaptiveBanner = [parameters.serverParameters al_boolForKey: @"adaptive_banner" defaultValue: NO];
+        GADAdSize adSize = [self adSizeFromAdFormat: adFormat
+                                   isAdaptiveBanner: isAdaptiveBanner
+                                         parameters: parameters];
         self.adView = [[GAMBannerView alloc] initWithAdSize: adSize];
         self.adView.frame = CGRectMake(0, 0, adSize.size.width, adSize.size.height);
         self.adView.adUnitID = placementIdentifier;
@@ -668,28 +671,18 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
 }
 
-- (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat withServerParameters:(NSDictionary<NSString *, id> *)serverParameters
+- (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat
+               isAdaptiveBanner:(BOOL)isAdaptiveBanner
+                     parameters:(id<MAAdapterParameters>)parameters
 {
     if ( adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader )
     {
-        // Check if adaptive banner sizes should be used
-        if ( [serverParameters al_boolForKey: @"adaptive_banner" defaultValue: NO] )
+        if ( isAdaptiveBanner )
         {
             __block GADAdSize adSize;
             
             dispatchSyncOnMainQueue(^{
-                UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
-                UIWindow *window = viewController.view.window;
-                CGRect frame = window.frame;
-                
-                // Use safe area insets when available.
-                if ( @available(iOS 11.0, *) )
-                {
-                    frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
-                }
-                
-                CGFloat viewWidth = CGRectGetWidth(frame);
-                adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
+                adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth([self adaptiveBannerWidthFromParameters: parameters]);
             });
             
             return adSize;
@@ -709,6 +702,30 @@ static NSString *ALGoogleSDKVersion;
         
         return GADAdSizeBanner;
     }
+}
+
+- (CGFloat)adaptiveBannerWidthFromParameters:(id<MAAdapterParameters>)parameters
+{
+    if ( ALSdk.versionCode >= 11000000 )
+    {
+        NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
+        if ( customWidth )
+        {
+            return customWidth.floatValue;
+        }
+    }
+    
+    UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
+    UIWindow *window = viewController.view.window;
+    CGRect frame = window.frame;
+    
+    // Use safe area insets when available.
+    if ( @available(iOS 11.0, *) )
+    {
+        frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
+    }
+    
+    return CGRectGetWidth(frame);
 }
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
