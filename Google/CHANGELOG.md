@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.2.0.2
+* Add support for custom adaptive banner widths.
+
 ## 10.2.0.1
 * Temporarily disable adaptive banner traffic for Google bidding until they resolve sizing issue.
 

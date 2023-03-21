@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.2.0.1"
+#define ADAPTER_VERSION @"10.2.0.2"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -616,7 +616,9 @@ static NSString *ALGoogleSDKVersion;
             isAdaptiveBanner = [parameters.serverParameters al_boolForKey: @"adaptive_banner" defaultValue: NO];
         }
         
-        GADAdSize adSize = [self adSizeFromAdFormat: adFormat isAdaptiveBanner: isAdaptiveBanner];
+        GADAdSize adSize = [self adSizeFromAdFormat: adFormat
+                                   isAdaptiveBanner: isAdaptiveBanner
+                                         parameters: parameters];
         self.adView = [[GADBannerView alloc] initWithAdSize: adSize];
         self.adView.frame = (CGRect) {.size = adSize.size};
         self.adView.adUnitID = placementIdentifier;
@@ -720,7 +722,9 @@ static NSString *ALGoogleSDKVersion;
 #pragma clang diagnostic pop
 }
 
-- (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat isAdaptiveBanner:(BOOL)isAdaptiveBanner
+- (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat
+               isAdaptiveBanner:(BOOL)isAdaptiveBanner
+                     parameters:(id<MAAdapterParameters>)parameters
 {
     if ( adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader )
     {
@@ -729,18 +733,7 @@ static NSString *ALGoogleSDKVersion;
             __block GADAdSize adSize;
             
             dispatchSyncOnMainQueue(^{
-                UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
-                UIWindow *window = viewController.view.window;
-                CGRect frame = window.frame;
-                
-                // Use safe area insets when available.
-                if ( @available(iOS 11.0, *) )
-                {
-                    frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
-                }
-                
-                CGFloat viewWidth = CGRectGetWidth(frame);
-                adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth);
+                adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth([self adaptiveBannerWidthFromParameters: parameters]);
             });
             
             return adSize;
@@ -760,6 +753,30 @@ static NSString *ALGoogleSDKVersion;
         
         return GADAdSizeBanner;
     }
+}
+
+- (CGFloat)adaptiveBannerWidthFromParameters:(id<MAAdapterParameters>)parameters
+{
+    if ( ALSdk.versionCode >= 11000000 )
+    {
+        NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
+        if ( customWidth )
+        {
+            return customWidth.floatValue;
+        }
+    }
+    
+    UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
+    UIWindow *window = viewController.view.window;
+    CGRect frame = window.frame;
+    
+    // Use safe area insets when available.
+    if ( @available(iOS 11.0, *) )
+    {
+        frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
+    }
+    
+    return CGRectGetWidth(frame);
 }
 
 - (GADAdFormat)adFormatFromParameters:(id<MASignalCollectionParameters>)parameters
@@ -826,11 +843,17 @@ static NSString *ALGoogleSDKVersion;
         extraParameters[@"query_info_type"] = isDv360Bidding ? @"requester_type_3" : @"requester_type_2";
         
         // Temporarily manually disable adaptive banner traffic for Google bidding until they resolve sizing issue
-        //        if ( ALSdk.versionCode >= 11000000 && [adFormat isAdViewAd] && [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"] )
+        //        if ( ALSdk.versionCode >= 11000000 && [adFormat isAdViewAd] )
         //        {
-        //            GADAdSize adaptiveAdSize = [self adSizeFromAdFormat: adFormat isAdaptiveBanner: YES];
-        //            extraParameters[@"adaptive_banner_w"] = @(adaptiveAdSize.size.width);
-        //            extraParameters[@"adaptive_banner_h"] = @(adaptiveAdSize.size.height);
+        //            BOOL isAdaptiveBanner = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        //            if ( isAdaptiveBanner )
+        //            {
+        //                GADAdSize adaptiveAdSize = [self adSizeFromAdFormat: adFormat
+        //                                                   isAdaptiveBanner: isAdaptiveBanner
+        //                                                         parameters: parameters];
+        //                extraParameters[@"adaptive_banner_w"] = @(adaptiveAdSize.size.width);
+        //                extraParameters[@"adaptive_banner_h"] = @(adaptiveAdSize.size.height);
+        //            }
         //        }
         
         if ( [parameters respondsToSelector: @selector(bidResponse)] )
