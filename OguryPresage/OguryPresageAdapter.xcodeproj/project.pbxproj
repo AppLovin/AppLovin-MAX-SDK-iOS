@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		35E16B5325B0CEB700EC2322 /* ALOguryPresageMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E16B5225B0CEB700EC2322 /* ALOguryPresageMediationAdapter.m */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		B07F22CEDA6DE9719E900FC5 /* Pods_OguryPresageAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAA47FA4635CA9322E8CC4A /* Pods_OguryPresageAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,7 +45,10 @@
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		35E16B5125B0CEB700EC2322 /* ALOguryPresageMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALOguryPresageMediationAdapter.h; sourceTree = "<group>"; };
 		35E16B5225B0CEB700EC2322 /* ALOguryPresageMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALOguryPresageMediationAdapter.m; sourceTree = "<group>"; };
+		4889DE7D0A8A2242447E68A0 /* Pods-OguryPresageAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OguryPresageAdapter.release.xcconfig"; path = "Target Support Files/Pods-OguryPresageAdapter/Pods-OguryPresageAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		4DAA47FA4635CA9322E8CC4A /* Pods_OguryPresageAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OguryPresageAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A561CEF219BB5D400E3749A /* libOguryPresageAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOguryPresageAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D8C6C8F14CA72A51A0404F5 /* Pods-OguryPresageAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OguryPresageAdapter.debug.xcconfig"; path = "Target Support Files/Pods-OguryPresageAdapter/Pods-OguryPresageAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
+				B07F22CEDA6DE9719E900FC5 /* Pods_OguryPresageAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				4DAA47FA4635CA9322E8CC4A /* Pods_OguryPresageAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -97,6 +103,7 @@
 				1D5748ED21C9C979004C8981 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				F97BC99BCB0B2ABE90BB7CB2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +124,16 @@
 			path = OguryPresageAdapter;
 			sourceTree = "<group>";
 		};
+		F97BC99BCB0B2ABE90BB7CB2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7D8C6C8F14CA72A51A0404F5 /* Pods-OguryPresageAdapter.debug.xcconfig */,
+				4889DE7D0A8A2242447E68A0 /* Pods-OguryPresageAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -124,6 +141,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CEC219BB5D400E3749A /* Build configuration list for PBXNativeTarget "OguryPresageAdapter" */;
 			buildPhases = (
+				29AA241EBE1BE7EE8E0B4960 /* [CP] Check Pods Manifest.lock */,
 				6A561CE7219BB5D400E3749A /* Sources */,
 				6A561CE9219BB5D400E3749A /* Frameworks */,
 				6A561CEB219BB5D400E3749A /* Copy Files */,
@@ -168,6 +186,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29AA241EBE1BE7EE8E0B4960 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OguryPresageAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561CE7219BB5D400E3749A /* Sources */ = {
@@ -219,7 +262,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -235,7 +277,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -281,7 +322,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -291,7 +331,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -302,6 +341,7 @@
 		};
 		6A561CED219BB5D400E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D8C6C8F14CA72A51A0404F5 /* Pods-OguryPresageAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -309,20 +349,30 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/OguryAds\"/**",
+					"\"${PODS_ROOT}/OguryChoiceManager\"/**",
+					"\"${PODS_ROOT}/OguryCore\"/**",
+					"\"${PODS_ROOT}/OgurySdk\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryAds\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryAds/OMID\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryChoiceManager\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryCore\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OgurySdk\"/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6A561CEE219BB5D400E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4889DE7D0A8A2242447E68A0 /* Pods-OguryPresageAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -330,14 +380,23 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/OguryAds\"/**",
+					"\"${PODS_ROOT}/OguryChoiceManager\"/**",
+					"\"${PODS_ROOT}/OguryCore\"/**",
+					"\"${PODS_ROOT}/OgurySdk\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryAds\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryAds/OMID\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryChoiceManager\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OguryCore\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/OgurySdk\"/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

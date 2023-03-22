@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.1.1.0"
+#define ADAPTER_VERSION @"4.1.1.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -246,10 +246,19 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 
 - (void)updateUserConsent:(id<MAAdapterParameters>)parameters
 {
+    NSString *assetKey = [parameters.serverParameters al_stringForKey: @"asset_key"];
+    
+    if ( ALSdk.versionCode >= 11040299 )
+    {
+        if ( parameters.consentString )
+        {
+            [OguryChoiceManagerExternal setConsentForTCFV2WithAssetKey: assetKey iabString: parameters.consentString andNonIABVendorsAccepted: @[]];
+        }
+    }
+    
     NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
     if ( hasUserConsent )
     {
-        NSString *assetKey = [parameters.serverParameters al_stringForKey: @"asset_key"];
         [OguryChoiceManagerExternal setTransparencyAndConsentStatus: hasUserConsent.boolValue origin: @"CUSTOM" assetKey: assetKey];
     }
 }
