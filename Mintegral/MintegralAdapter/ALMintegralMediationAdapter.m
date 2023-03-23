@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.3.4.0.0"
+#define ADAPTER_VERSION @"7.3.4.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -229,11 +229,23 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self log: @"Collecting signal..."];
     
-    NSDictionary<NSString *, id> *bidInfo = @{@"placementId" : parameters.serverParameters[@"placement_id"] ?: @"",
-                                              @"unitId" : parameters.adUnitIdentifier ?: @"",
-                                              @"adType" : @([self toMintegralAdType: parameters.adFormat])};
+    NSString *adUnitId = parameters.adUnitIdentifier;
+    NSString *signal;
     
-    NSString *signal = [MTGBiddingSDK buyerUIDWithDictionary: bidInfo];
+    if ( [adUnitId al_isValidString] )
+    {
+        NSDictionary<NSString *, id> *credentials = parameters.serverParameters[@"credentials"] ?: @{};
+        NSDictionary<NSString *, id> *adUnitCredentials = credentials[adUnitId] ?: @{};
+        NSDictionary<NSString *, id> *bidInfo = @{@"placementId" : adUnitCredentials[@"placement_id"] ?: @"",
+                                                  @"unitId" : adUnitCredentials[@"ad_unit_id"] ?: @"",
+                                                  @"adType" : @([self toMintegralAdType: parameters.adFormat])};
+        signal = [MTGBiddingSDK buyerUIDWithDictionary: bidInfo];
+    }
+    else
+    {
+        signal = [MTGBiddingSDK buyerUID];
+    }
+    
     [delegate didCollectSignal: signal];
 }
 
