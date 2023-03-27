@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.3.0.0
+* Certified with Google SDK 10.3.0.
+
 ## 10.2.0.2
 * Add support for custom adaptive banner widths.
 

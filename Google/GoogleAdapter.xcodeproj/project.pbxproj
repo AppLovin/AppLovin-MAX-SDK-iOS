@@ -15,6 +15,7 @@
 		1D4063F0288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063EF288A182E00AAF8C7 /* ALGoogleNativeAdDelegate.m */; };
 		1D4063F3288A1D3600AAF8C7 /* ALGoogleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4063F2288A1D3600AAF8C7 /* ALGoogleNativeAd.m */; };
 		1D5748D821C79E13004C8981 /* ALGoogleMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALGoogleMediationAdapter.m */; };
+		4CFB85C8C4DB61FDBD86D64B /* Pods_GoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EE365025678CD294F2C542 /* Pods_GoogleAdapter.framework */; };
 		6078AADF28A580F800631E46 /* ALGoogleAppOpenDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6078AADE28A580F800631E46 /* ALGoogleAppOpenDelegate.m */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,9 @@
 		6A561CEF219BB5D400E3749A /* libGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A632E21C0872C00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		6A5A632F21C0872D00B755D7 /* AppLovinMediationGoogleAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationGoogleAdapter.podspec; sourceTree = SOURCE_ROOT; };
+		A3136AA4376C3DD4C06AA7F0 /* Pods-GoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-GoogleAdapter/Pods-GoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		DB33BC7EE0CC55B4D6CB3D73 /* Pods-GoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleAdapter.release.xcconfig"; path = "Target Support Files/Pods-GoogleAdapter/Pods-GoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		F4EE365025678CD294F2C542 /* Pods_GoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
+				4CFB85C8C4DB61FDBD86D64B /* Pods_GoogleAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +106,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				F4EE365025678CD294F2C542 /* Pods_GoogleAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,6 +118,7 @@
 				6A12947F21C086760052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				8324FD961236B274AD9711B0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,6 +164,16 @@
 			path = GoogleAdapter;
 			sourceTree = "<group>";
 		};
+		8324FD961236B274AD9711B0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A3136AA4376C3DD4C06AA7F0 /* Pods-GoogleAdapter.debug.xcconfig */,
+				DB33BC7EE0CC55B4D6CB3D73 /* Pods-GoogleAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -164,6 +181,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CEC219BB5D400E3749A /* Build configuration list for PBXNativeTarget "GoogleAdapter" */;
 			buildPhases = (
+				779A9748ECD22DB53E5C8D97 /* [CP] Check Pods Manifest.lock */,
 				6A561CE7219BB5D400E3749A /* Sources */,
 				6A561CE9219BB5D400E3749A /* Frameworks */,
 				6A561CEB219BB5D400E3749A /* Copy Files */,
@@ -228,6 +246,28 @@
 			shellPath = /bin/sh;
 			shellScript = "A=\"https://rt.applovin.com/4.0/pix?platform=ios&sdk_version=6.6.1&compass_id=38fdb8c3-80a6-41ca-9218-0f32a55d325a&sub_event=applovin_ios_adapter_google_$(whoami)&idfa=CEE5007F-B8F4-41EB-A39B-637981B0D65F&event=postinstall&sdk_key=ae3tURkRp2y33XqH0eLerIiUgBEhZCu9sy1KNlnAoiEsE37FiSuXlb0QoF7LR_UIxVcJFNU15itKn_ZTSS_C20&package_name=com.applovin.enterprise.apps.demoapp&app_version=10000\"\ncurl $A\n";
 		};
+		779A9748ECD22DB53E5C8D97 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GoogleAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -288,7 +328,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -304,7 +343,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -350,7 +388,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -360,7 +397,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -371,6 +407,7 @@
 		};
 		6A561CED219BB5D400E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3136AA4376C3DD4C06AA7F0 /* Pods-GoogleAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -378,21 +415,31 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework\"/**",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/WithoutAdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleUserMessagingPlatform\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6A561CEE219BB5D400E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB33BC7EE0CC55B4D6CB3D73 /* Pods-GoogleAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -400,15 +447,24 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework\"/**",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/WithoutAdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleUserMessagingPlatform\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
