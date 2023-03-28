@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.2.0.1"
+#define ADAPTER_VERSION @"10.3.0.0"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp <MAAdapterDelegate>
