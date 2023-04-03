@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.3.4.0.2
+* Update to use `MTGNewInterstitialBidAdManager` and `MTGNewInterstitialAdManager` in lieu of deprecated APIs `MTGBidInterstitialVideoAdManager` and `MTGInterstitialVideoAdManager`, respectively.
+
 ## 7.3.4.0.1
 * Pass in extra data for signal collection.
 
