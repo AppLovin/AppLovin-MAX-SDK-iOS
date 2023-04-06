@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.3.0.0"
+#define ADAPTER_VERSION @"10.3.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -64,8 +64,8 @@ static NSString *ALGoogleSDKVersion;
     {
         ALGoogleInitializatationStatus = MAAdapterInitializationStatusInitializing;
         
-        // Ads may be preloaded by the Mobile Ads SDK or mediation partner SDKs upon calling startWithCompletionHandler:. So set consent before calling it.
-        [self updateAgeRestrictedUser: parameters];
+        // Ads may be preloaded by the Mobile Ads SDK or mediation partner SDKs upon calling startWithCompletionHandler:. So set request configuration with parameters (like consent)
+        [self setRequestConfigurationWithParameters: parameters];
         
         // Prevent AdMob SDK from auto-initing its adapters in AB testing environments.
         // NOTE: If MAX makes an ad request to AdMob, and the AdMob account has AL enabled (e.g. AppLovin Bidding) _and_ detects the AdMob<->AppLovin adapter, AdMob will still attempt to initialize AppLovin
@@ -811,14 +811,10 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
 {
-    [self updateAgeRestrictedUser: parameters];
-    
-    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-    NSString *testDevicesString = [serverParameters al_stringForKey: @"test_device_ids"];
-    if ( [testDevicesString al_isValidString] )
+    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    if ( isAgeRestrictedUser )
     {
-        NSArray<NSString *> *testDevices = [testDevicesString componentsSeparatedByString: @","];
-        [[GADMobileAds sharedInstance].requestConfiguration setTestDeviceIdentifiers: testDevices];
+        [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
     }
 }
 
@@ -924,15 +920,6 @@ static NSString *ALGoogleSDKVersion;
     [request registerAdNetworkExtras: extras];
     
     return request;
-}
-
-- (void)updateAgeRestrictedUser:(id<MAAdapterParameters>)parameters
-{
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
-    if ( isAgeRestrictedUser )
-    {
-        [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
-    }
 }
 
 - (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters

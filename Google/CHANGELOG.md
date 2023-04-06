@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.3.0.1
+* Remove client-side setting of test device identifiers.
+
 ## 10.3.0.0
 * Certified with Google SDK 10.3.0.
 
