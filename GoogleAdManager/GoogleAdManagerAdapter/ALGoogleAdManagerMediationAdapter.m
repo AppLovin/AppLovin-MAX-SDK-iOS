@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.3.0.0"
+#define ADAPTER_VERSION @"10.3.0.1"
 
 // TODO: Remove when SDK with App Open APIs is released
 @protocol MAAppOpenAdapterDelegateTemp <MAAdapterDelegate>
@@ -734,14 +734,6 @@ static NSString *ALGoogleSDKVersion;
     if ( isAgeRestrictedUser )
     {
         [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
-    }
-    
-    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-    NSString *testDevicesString = [serverParameters al_stringForKey: @"test_device_ids"];
-    if ( [testDevicesString al_isValidString] )
-    {
-        NSArray<NSString *> *testDevices = [testDevicesString componentsSeparatedByString: @","];
-        [[GADMobileAds sharedInstance].requestConfiguration setTestDeviceIdentifiers: testDevices];
     }
 }
 
