@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.0.2
+* Enable native ads for Mediation Debugger.
+
 ## 1.4.0.1
 * Add support for interstitial, rewarded, native and native ad view ads.
 
