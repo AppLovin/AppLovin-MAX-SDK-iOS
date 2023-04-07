@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.1.3
+* Enable banner and MREC ads for Mediation Debugger.
+
 ## 4.1.1.2
 * Add bidding support for rewarded, banner, and MREC ads.
 
