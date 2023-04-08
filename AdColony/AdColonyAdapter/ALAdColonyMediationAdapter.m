@@ -9,7 +9,7 @@
 #import "ALAdColonyMediationAdapter.h"
 #import <AdColony/AdColony.h>
 
-#define ADAPTER_VERSION @"4.9.0.0.3"
+#define ADAPTER_VERSION @"4.9.0.0.4"
 
 @interface ALAdColonyInterstitialDelegate : NSObject <AdColonyInterstitialDelegate>
 @property (nonatomic,   weak) ALAdColonyMediationAdapter *parentAdapter;
@@ -81,10 +81,9 @@ static MAAdapterInitializationStatus ALAdColonyInitializationStatus = NSIntegerM
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing AdColony SDK with app id: %@...", appID];
         
-        NSArray<NSString *> *zoneIDs = [parameters.serverParameters al_arrayForKey: @"zone_ids"];
         AdColonyAppOptions *options = [self optionsFromParameters: parameters];
         
-        [AdColony configureWithAppID: appID zoneIDs: zoneIDs options: options completion:^(NSArray<AdColonyZone *> *zones) {
+        [AdColony configureWithAppID: appID options: options completion:^(NSArray<AdColonyZone *> *zones) {
             
             [self log: @"AdColony SDK initialized with zones: %@", [self retrieveRawZoneIDs: zones]];
             

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.0.0.4
+* Update call to '+[AdColony configureWithAppID:zoneIDs:options:completion:]' to no longer use deprecated 'zoneIDs' parameter.
+
 ## 4.9.0.0.3
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
 * Add additional details for ad display failures. 
