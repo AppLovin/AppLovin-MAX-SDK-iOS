@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.1.0.0"
+#define ADAPTER_VERSION @"22.1.0.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -35,11 +35,26 @@
 @end
 
 /**
+ * Smaato native ad views are instance-based.
+ */
+@interface ALSmaatoMediationAdapterNativeAdViewDelegate : NSObject <SMANativeAdDelegate>
+@property (nonatomic,   weak) ALSmaatoMediationAdapter *parentAdapter;
+@property (nonatomic,   copy) NSString *placementIdentifier;
+@property (nonatomic, strong) MAAdFormat *format;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)format
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+@end
+
+/**
  * Smaato native ads are instance-based.
  */
 @interface ALSmaatoMediationAdapterNativeDelegate : NSObject <SMANativeAdDelegate>
 @property (nonatomic,   weak) ALSmaatoMediationAdapter *parentAdapter;
-@property (nonatomic, strong) NSString *placementIdentifier;
+@property (nonatomic,   copy) NSString *placementIdentifier;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter
@@ -49,7 +64,9 @@
 
 @interface MASmaatoNativeAd : MANativeAd
 @property (nonatomic, weak) ALSmaatoMediationAdapter *parentAdapter;
-- (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter
+                             adFormat:(MAAdFormat *)format
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 - (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
 @end
 
@@ -66,11 +83,16 @@
 @property (nonatomic, strong) SMANativeAdRenderer *nativeAdRenderer;
 @property (nonatomic, strong) ALSmaatoMediationAdapterNativeDelegate *nativeAdapterDelegate;
 
+// Native Ad View Properties
+@property (nonatomic, strong) ALSmaatoMediationAdapterNativeAdViewDelegate *nativeAdViewAdapterDelegate;
+
 // Interstitial/Rewarded ad delegate router
 @property (nonatomic, strong, readonly) ALSmaatoMediationAdapterRouter *router;
 
 @property (nonatomic, strong, nullable) SMAInterstitial *interstitialAd;
 @property (nonatomic, strong, nullable) SMARewardedInterstitial *rewardedAd;
+
++ (NSArray<UIView *> *)clickableViewsForNativeAd:(MANativeAd *)maxNativeAd nativeAdView:(MANativeAdView *)maxNativeAdView;
 @end
 
 @implementation ALSmaatoMediationAdapter
@@ -121,6 +143,8 @@
     self.nativeAdRenderer = nil;
     self.nativeAdapterDelegate = nil;
     
+    self.nativeAdViewAdapterDelegate = nil;
+    
     self.interstitialAd = nil;
     self.rewardedAd = nil;
     
@@ -147,36 +171,71 @@
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *bidResponse = parameters.bidResponse;
+    BOOL isBiddingAd = [bidResponse al_isValidString];
+    BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
     self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@%@ ad view ad for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), adFormat.label, self.placementIdentifier];
+    [self log: @"Loading %@%@%@ ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), ( isNative ? @"native " : @"" ), adFormat.label, self.placementIdentifier];
     
     [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
-    
-    self.adView = [[SMABannerView alloc] init];
-    self.adView.autoreloadInterval = kSMABannerAutoreloadIntervalDisabled;
-    
-    self.adViewAdapterDelegate = [[ALSmaatoMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.adView.delegate = self.adViewAdapterDelegate;
-    
-    if ( [bidResponse al_isValidString] )
+        
+    if ( isNative )
     {
-        SMAAdRequestParams *adRequestParams = [self createBiddingAdRequestParamsFromBidResponse: bidResponse];
-        if ( adRequestParams && adRequestParams.ubUniqueId ) // Smaato suggests nil checking the ID
+        self.nativeAd = [[SMANativeAd alloc] init];
+        self.nativeAdViewAdapterDelegate = [[ALSmaatoMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                                format: adFormat
+                                                                                                            parameters: parameters
+                                                                                                             andNotify: delegate];
+        self.nativeAd.delegate = self.nativeAdViewAdapterDelegate;
+
+        SMANativeAdRequest *nativeAdViewAdRequest = [[SMANativeAdRequest alloc] initWithAdSpaceId: self.placementIdentifier];
+        nativeAdViewAdRequest.returnUrlsForImageAssets = NO;
+
+        if ( isBiddingAd )
         {
-            [self.adView loadWithAdSpaceId: self.placementIdentifier
-                                    adSize: [self adSizeForAdFormat: adFormat]
-                             requestParams: adRequestParams];
+            SMAAdRequestParams *adRequestParams = [self createBiddingAdRequestParamsFromBidResponse: bidResponse];
+            if ( adRequestParams && adRequestParams.ubUniqueId ) // Smaato suggests nil checking the ID
+            {
+                [self.nativeAd loadWithAdRequest: nativeAdViewAdRequest requestParams: adRequestParams];
+            }
+            else
+            {
+                [self log: @"Native %@ ad load failed: ad request nil with valid bid response", adFormat.label];
+                [delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
+            }
         }
         else
         {
-            [self log: @"%@ ad load failed: ad request nil with valid bid response", adFormat.label];
-            [delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
+            [self.nativeAd loadWithAdRequest: nativeAdViewAdRequest];
         }
     }
     else
     {
-        [self.adView loadWithAdSpaceId: self.placementIdentifier adSize: [self adSizeForAdFormat: adFormat]];
+        self.adView = [[SMABannerView alloc] init];
+        self.adView.autoreloadInterval = kSMABannerAutoreloadIntervalDisabled;
+        
+        self.adViewAdapterDelegate = [[ALSmaatoMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.adView.delegate = self.adViewAdapterDelegate;
+
+        if ( isBiddingAd )
+        {
+            SMAAdRequestParams *adRequestParams = [self createBiddingAdRequestParamsFromBidResponse: bidResponse];
+            if ( adRequestParams && adRequestParams.ubUniqueId ) // Smaato suggests nil checking the ID
+            {
+                [self.adView loadWithAdSpaceId: self.placementIdentifier
+                                        adSize: [self adSizeForAdFormat: adFormat]
+                                 requestParams: adRequestParams];
+            }
+            else
+            {
+                [self log: @"%@ ad load failed: ad request nil with valid bid response", adFormat.label];
+                [delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
+            }
+        }
+        else
+        {
+            [self.adView loadWithAdSpaceId: self.placementIdentifier adSize: [self adSizeForAdFormat: adFormat]];
+        }
     }
 }
 
@@ -349,7 +408,7 @@
 {
     NSString *bidResponse = parameters.bidResponse;
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@ad: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @""), placementIdentifier];
+    [self log: @"Loading %@ad: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), placementIdentifier];
     
     [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
@@ -516,6 +575,37 @@
     params.ubUniqueId = token;
     
     return params;
+}
+
++ (NSArray<UIView *> *)clickableViewsForNativeAd:(MANativeAd *)maxNativeAd nativeAdView:(MANativeAdView *)maxNativeAdView
+{
+    NSMutableArray *clickableViews = [NSMutableArray array];
+    if ( [maxNativeAd.title al_isValidString] && maxNativeAdView.titleLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.titleLabel];
+    }
+    if ( [maxNativeAd.advertiser al_isValidString] && maxNativeAdView.advertiserLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.advertiserLabel];
+    }
+    if ( [maxNativeAd.body al_isValidString] && maxNativeAdView.bodyLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.bodyLabel];
+    }
+    if ( [maxNativeAd.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+    }
+    if ( maxNativeAd.icon && maxNativeAdView.iconImageView )
+    {
+        [clickableViews addObject: maxNativeAdView.iconImageView];
+    }
+    if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.mediaContentView];
+    }
+
+    return clickableViews;
 }
 
 #pragma mark - Dynamic Properties
@@ -841,6 +931,117 @@
 
 @end
 
+@implementation ALSmaatoMediationAdapterNativeAdViewDelegate
+
+- (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter
+                               format:(MAAdFormat *)format
+                           parameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.format = format;
+        self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+        self.serverParameters = parameters.serverParameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeAd:(SMANativeAd *)nativeAd didLoadWithAdRenderer:(SMANativeAdRenderer *)renderer
+{
+    [self.parentAdapter log: @"Native %@ ad loaded: %@", self.format.label, self.placementIdentifier];
+    
+    // Save the renderer in order to register the native ad view later.
+    self.parentAdapter.nativeAdRenderer = renderer;
+    
+    SMANativeAdAssets *assets = renderer.nativeAssets;
+    if ( ![assets.title al_isValidString] )
+    {
+        [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.format.label, nativeAd];
+        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        
+        return;
+    }
+
+    dispatchOnMainQueue(^{
+        MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
+            
+            builder.title = assets.title;
+            builder.advertiser = assets.sponsored;
+            builder.body = assets.mainText;
+            builder.callToAction = assets.cta;
+            
+            if ( assets.icon.image )
+            {
+                builder.icon = [[MANativeAdImage alloc] initWithImage: assets.icon.image];
+            }
+            
+            if ( assets.images.count > 0 )
+            {
+                SMANativeImage *image = assets.images.firstObject;
+                if ( image.image )
+                {
+                    UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: image.image];
+                    mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+                    builder.mediaView = mediaImageView;
+                }
+            }
+        }];
+        
+        MANativeAdView *maxNativeAdView;
+        NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        if ( [templateName isEqualToString: @"vertical"] )
+        {
+            NSString *verticalTemplateName = ( self.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
+            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: verticalTemplateName];
+        }
+        else
+        {
+            NSString *adViewTemplateName = [templateName al_isValidString] ? templateName : @"media_banner_template";
+            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: adViewTemplateName];
+        }
+        
+        NSArray<UIView *> *clickableViews = [ALSmaatoMediationAdapter clickableViewsForNativeAd: maxNativeAd nativeAdView: maxNativeAdView];
+        [maxNativeAd prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+
+        [self.delegate didLoadAdForAdView: maxNativeAdView withExtraInfo: nil];
+    });
+}
+
+- (void)nativeAd:(SMANativeAd *)nativeAd didFailWithError:(NSError *)error
+{
+    MAAdapterError *adapterError = [ALSmaatoMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Native %@ ad (%@) failed to load with error: %@", self.format.label, self.placementIdentifier, adapterError];
+    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
+}
+
+- (void)nativeAdDidImpress:(SMANativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native %@ ad shown", self.format.label];
+    [self.delegate didDisplayAdViewAdWithExtraInfo: nil];
+}
+
+- (void)nativeAdDidClick:(SMANativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native %@ ad clicked", self.format.label];
+    [self.delegate didClickAdViewAd];
+}
+
+- (void)nativeAdDidTTLExpire:(SMANativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native %@ ad expired", self.format.label];
+}
+
+- (UIViewController *)presentingViewControllerForNativeAd:(SMANativeAd *)nativeAd
+{
+    return [ALUtils topViewControllerFromKeyWindow];
+}
+
+@end
+
 @implementation ALSmaatoMediationAdapterNativeDelegate
 
 - (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter
@@ -878,12 +1079,10 @@
             return;
         }
         
-        MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+        MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
             
             builder.title = assets.title;
-            builder.body = assets.mainText;
-            builder.callToAction = assets.cta;
-            
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             // Introduced in 10.4.0
@@ -892,6 +1091,9 @@
                 [builder performSelector: @selector(setAdvertiser:) withObject: assets.sponsored];
             }
 #pragma clang diagnostic pop
+
+            builder.body = assets.mainText;
+            builder.callToAction = assets.cta;
             
             if ( assets.icon.image )
             {
@@ -952,9 +1154,11 @@
 
 @implementation MASmaatoNativeAd
 
-- (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALSmaatoMediationAdapter *)parentAdapter
+                             adFormat:(MAAdFormat *)format
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
-    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    self = [super initWithFormat: format builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
@@ -964,42 +1168,7 @@
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    // Introduced in 10.4.0
-    if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
-    {
-        id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
-        id advertiser = [self performSelector: @selector(advertiser)];
-        if ( [advertiser al_isValidString] && advertiserLabel )
-        {
-            [clickableViews addObject: advertiserLabel];
-        }
-    }
-#pragma clang diagnostic pop
-    
+    NSArray<UIView *> *clickableViews = [ALSmaatoMediationAdapter clickableViewsForNativeAd: self nativeAdView: maxNativeAdView];
     [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
