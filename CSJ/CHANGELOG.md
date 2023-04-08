@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.9.0.7.1
+* Removed unused 'kDefaultAppOpenAdLoadingTimeoutSeconds' constant.
+* Added switch statement to handle 'BUErrorCodeBiddingAdmExpired' error case.
+
 ## 4.9.0.7.0
 * Certified with ByteDance China SDK 4.9.0.7.
 

@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.9.0.7.0"
+#define ADAPTER_VERSION @"4.9.0.7.1"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -90,7 +90,6 @@
 
 @implementation ALCSJMediationAdapter
 static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 10.0;
-static NSTimeInterval const kDefaultAppOpenAdLoadingTimeoutSeconds = 15.0;
 static ALAtomicBoolean              *ALCSJInitialized;
 static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
 
@@ -561,6 +560,9 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         case BUErrorSlotAB_EmptyResult:
         case BUErrorCodeResource:
             adapterError = MAAdapterError.internalError;
+            break;
+        case BUErrorCodeBiddingAdmExpired:
+            adapterError = MAAdapterError.adExpiredError;
             break;
     }
     
