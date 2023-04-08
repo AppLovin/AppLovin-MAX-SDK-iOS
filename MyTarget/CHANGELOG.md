@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.17.4.1
+* Updated 'ALMyTargetMediationAdapterNativeDelegate' to conform to 'MTRGNativeAdMediaDelegate.'
+
 ## 5.17.4.0
 * Certified with MyTarget SDK 5.17.4.
 * Must be built with Xcode 14.0

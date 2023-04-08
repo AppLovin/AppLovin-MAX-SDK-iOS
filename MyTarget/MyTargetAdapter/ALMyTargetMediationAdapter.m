@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.17.4.0"
+#define ADAPTER_VERSION @"5.17.4.1"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject <MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -681,6 +681,11 @@
 - (void)onImageLoadWithNativeAd:(MTRGNativeAd *)nativeAd
 {
     [self.parentAdapter log: @"Native ad image loaded: %@", self.slotId];
+}
+
+- (void)onAdChoicesIconLoadWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad choices icon loaded: %@", self.slotId];
 }
 
 @end
