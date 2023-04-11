@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.2.0.1
+* Fixed missing `didPayRevenueForAd:` callbacks and creative ids for some banners/MRECs.
+
 ## 8.2.0.0
 * Certified with Fyber SDK 8.2.0.
 * Updated the minimum required iOS version to 11.0 in Pod Spec to match Fyber Marketplace SDK. 

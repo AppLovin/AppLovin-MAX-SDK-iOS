@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.2.0.0"
+#define ADAPTER_VERSION @"8.2.0.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -134,28 +134,13 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 {
     [self log: @"Destroy called for adapter %@", self];
     
-    if ( self.interstitialAdSpot.adRequest.spotID )
-    {
-        [ALInneractiveCurrentlyShowingAdapters removeObjectForKey: self.interstitialAdSpot.adRequest.spotID];
-    }
-    
     self.interstitialAdSpot = nil;
     self.interstitialUnitController = nil;
     self.interstitialDelegate = nil;
     
-    if ( self.rewardedAdSpot.adRequest.spotID )
-    {
-        [ALInneractiveCurrentlyShowingAdapters removeObjectForKey: self.rewardedAdSpot.adRequest.spotID];
-    }
-    
     self.rewardedAdSpot = nil;
     self.rewardedUnitController = nil;
     self.rewardedDelegate = nil;
-    
-    if ( self.adViewAdSpot.adRequest.spotID )
-    {
-        [ALInneractiveCurrentlyShowingAdapters removeObjectForKey: self.adViewAdSpot.adRequest.spotID];
-    }
     
     self.adViewAdSpot = nil;
     self.adViewUnitController = nil;
@@ -743,6 +728,8 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     NSString *creativeID = impressionData.creativeID;
     
     ALInneractiveMediationAdapter *adapter = ALInneractiveCurrentlyShowingAdapters[adRequest.spotID];
+    [ALInneractiveCurrentlyShowingAdapters removeObjectForKey: adRequest.spotID];
+
     if ( adapter.interstitialDelegate )
     {
         if ( [creativeID al_isValidString] )
