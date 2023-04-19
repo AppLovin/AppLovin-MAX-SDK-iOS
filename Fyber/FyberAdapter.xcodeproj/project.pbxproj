@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1D31B68C219BF8CD00875D92 /* ALInneractiveMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561D09219BEC4400E3749A /* ALInneractiveMediationAdapter.m */; };
 		6A561D0E219BEC4B00E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		BF96877121FA2CFFAC514B69 /* Pods_FyberAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2C25B91379F47E958397AF /* Pods_FyberAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,9 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3B2C25B91379F47E958397AF /* Pods_FyberAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FyberAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		427021F025C78C8628C33656 /* Pods-FyberAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FyberAdapter.release.xcconfig"; path = "Target Support Files/Pods-FyberAdapter/Pods-FyberAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		68712F3668D8DF0EF1398C5E /* Pods-FyberAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FyberAdapter.debug.xcconfig"; path = "Target Support Files/Pods-FyberAdapter/Pods-FyberAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		6A561D09219BEC4400E3749A /* ALInneractiveMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALInneractiveMediationAdapter.m; sourceTree = "<group>"; };
 		6A561D0A219BEC4400E3749A /* ALInneractiveMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALInneractiveMediationAdapter.h; sourceTree = "<group>"; };
 		6A561D13219BEC4B00E3749A /* libFyberAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFyberAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561D0E219BEC4B00E3749A /* AppLovinSDK.framework in Frameworks */,
+				BF96877121FA2CFFAC514B69 /* Pods_FyberAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				3B2C25B91379F47E958397AF /* Pods_FyberAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +94,7 @@
 				6A12948021C086830052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				D31F81DAAB9D67E97BBD03E9 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +124,16 @@
 			path = Fyber;
 			sourceTree = "<group>";
 		};
+		D31F81DAAB9D67E97BBD03E9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				68712F3668D8DF0EF1398C5E /* Pods-FyberAdapter.debug.xcconfig */,
+				427021F025C78C8628C33656 /* Pods-FyberAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -124,6 +141,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561D10219BEC4B00E3749A /* Build configuration list for PBXNativeTarget "FyberAdapter" */;
 			buildPhases = (
+				29DAFF54EE2745B7929FD20A /* [CP] Check Pods Manifest.lock */,
 				6A561D0C219BEC4B00E3749A /* Sources */,
 				6A561D0D219BEC4B00E3749A /* Frameworks */,
 				6A561D0F219BEC4B00E3749A /* Copy Files */,
@@ -168,6 +186,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29DAFF54EE2745B7929FD20A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FyberAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561D0C219BEC4B00E3749A /* Sources */ = {
@@ -219,7 +262,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -235,7 +277,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -281,7 +322,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -291,7 +331,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -302,6 +341,7 @@
 		};
 		6A561D11219BEC4B00E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 68712F3668D8DF0EF1398C5E /* Pods-FyberAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -309,21 +349,18 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6A561D12219BEC4B00E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 427021F025C78C8628C33656 /* Pods-FyberAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -331,14 +368,10 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

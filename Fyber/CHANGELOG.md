@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.2.1.0
+* Certified with Fyber SDK 8.2.1.
+
 ## 8.2.0.1
 * Fixed missing `didPayRevenueForAd:` callbacks and creative ids for some banners/MRECs.
 
