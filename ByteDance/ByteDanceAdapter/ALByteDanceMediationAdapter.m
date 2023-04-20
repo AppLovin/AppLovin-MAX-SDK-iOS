@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"5.1.0.8.0"
+#define ADAPTER_VERSION @"5.1.0.9.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -464,8 +464,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                             builder.body = nativeAdData.AdDescription;
                             builder.callToAction = nativeAdData.buttonText;
                             builder.icon = iconImage;
-                            builder.mediaView = mediaView;
                             builder.optionsView = optionsView;
+                            builder.mediaView = mediaView;
                         }];
                         
                         NSString *templateName = [parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
@@ -641,8 +641,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                     builder.body = nativeAdData.AdDescription;
                     builder.callToAction = nativeAdData.buttonText;
                     builder.icon = iconImage;
-                    builder.mediaView = mediaView;
                     builder.optionsView = optionsView;
+                    builder.mediaView = mediaView;
                 }];
                 
                 [self log: @"Native ad fully loaded: %@", slotId];
