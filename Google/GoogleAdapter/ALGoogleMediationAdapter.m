@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.3.0.2"
+#define ADAPTER_VERSION @"10.4.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -811,7 +811,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
@@ -876,20 +876,17 @@ static NSString *ALGoogleSDKVersion;
         extraParameters[@"placement_req_id"] = eventIdentifier;
     }
     
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
     {
         extraParameters[@"npa"] = @"1"; // Non-personalized ads
     }
     
-    if ( ALSdk.versionCode >= 61100 ) // Pre-beta versioning (6.14.0)
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell && isDoNotSell.boolValue )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell && isDoNotSell.boolValue )
-        {
-            // Restrict data processing - https://developers.google.com/admob/ios/ccpa
-            [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
-        }
+        // Restrict data processing - https://developers.google.com/admob/ios/ccpa
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
     }
     
     if ( ALSdk.versionCode >= 11000000 )
@@ -920,33 +917,6 @@ static NSString *ALGoogleSDKVersion;
     [request registerAdNetworkExtras: extras];
     
     return request;
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
-    }
 }
 
 /**

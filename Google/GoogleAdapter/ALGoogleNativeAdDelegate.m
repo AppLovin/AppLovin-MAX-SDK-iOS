@@ -101,39 +101,6 @@
         builder.body = nativeAd.body;
         builder.callToAction = nativeAd.callToAction;
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 10.4.0
-        if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-        {
-            [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.advertiser];
-        }
-#pragma clang diagnostic pop
-        
-        builder.mediaView = mediaView;
-        if ( ALSdk.versionCode >= 11040299 )
-        {
-            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-        }
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 11.4.0
-        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
-        {
-            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
-        }
-#pragma clang diagnostic pop
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 11.7.0
-        if ( [builder respondsToSelector: @selector(setStarRating:)] )
-        {
-            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
-        }
-#pragma clang diagnostic pop
-        
         if ( nativeAd.icon.image ) // Cached
         {
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.icon.image];
@@ -142,6 +109,33 @@
         {
             builder.icon = [[MANativeAdImage alloc] initWithURL: nativeAd.icon.imageURL];
         }
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 10.4.0
+        if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+        {
+            [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.advertiser];
+        }
+        
+        builder.mediaView = mediaView;
+        if ( ALSdk.versionCode >= 11040299 )
+        {
+            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+        }
+
+        // Introduced in 11.4.0
+        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+        {
+            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+        }
+
+        // Introduced in 11.7.0
+        if ( [builder respondsToSelector: @selector(setStarRating:)] )
+        {
+            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
+        }
+#pragma clang diagnostic pop
     }];
     
     NSString *responseId = nativeAd.responseInfo.responseIdentifier;

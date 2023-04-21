@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.4.0.0
+* Certified with Google SDK 10.4.0.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+* Clean up `prepareViewForInteraction:` implementation.
+
 ## 10.3.0.2
 * Add support for native ads in external plugins (e.g. React Native).
 

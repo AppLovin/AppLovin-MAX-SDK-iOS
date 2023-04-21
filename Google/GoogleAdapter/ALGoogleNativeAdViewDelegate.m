@@ -56,12 +56,6 @@
         builder.body = nativeAd.body;
         builder.callToAction = nativeAd.callToAction;
         
-        if ( nativeAd.mediaContent )
-        {
-            [gadMediaView setMediaContent: nativeAd.mediaContent];
-            builder.mediaView = gadMediaView;
-        }
-        
         if ( nativeAd.icon.image ) // Cached
         {
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.icon.image];
@@ -69,6 +63,12 @@
         else // URL may require fetching
         {
             builder.icon = [[MANativeAdImage alloc] initWithURL: nativeAd.icon.imageURL];
+        }
+        
+        if ( nativeAd.mediaContent )
+        {
+            [gadMediaView setMediaContent: nativeAd.mediaContent];
+            builder.mediaView = gadMediaView;
         }
     }];
     
@@ -85,15 +85,7 @@
         nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         
         MANativeAdView *maxNativeAdView;
-        if ( ALSdk.versionCode < 6140000 )
-        {
-            [self.parentAdapter log: @"Native ads with media views are only supported on MAX SDK version 6.14.0 and above. Default native template will be used."];
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd];
-        }
-        else
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
-        }
+        maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
         
         GADNativeAdView *gadNativeAdView = [[GADNativeAdView alloc] init];
         gadNativeAdView.iconView = maxNativeAdView.iconImageView;
