@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.3.0.2"
+#define ADAPTER_VERSION @"10.4.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -737,7 +737,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
@@ -764,20 +764,17 @@ static NSString *ALGoogleSDKVersion;
         extraParameters[@"placement_req_id"] = eventIdentifier;
     }
     
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
     {
         extraParameters[@"npa"] = @"1"; // Non-personalized ads
     }
     
-    if ( ALSdk.versionCode >= 61100 ) // Pre-beta versioning (6.14.0)
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell && isDoNotSell.boolValue )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell && isDoNotSell.boolValue )
-        {
-            // Restrict data processing - https://developers.google.com/admob/ios/ccpa
-            [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
-        }
+        // Restrict data processing - https://developers.google.com/admob/ios/ccpa
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
     }
     
     if ( ALSdk.versionCode >= 11000000 )
@@ -819,33 +816,6 @@ static NSString *ALGoogleSDKVersion;
     [request registerAdNetworkExtras: extras];
     
     return request;
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
-    }
 }
 
 /**
@@ -1262,12 +1232,6 @@ static NSString *ALGoogleSDKVersion;
         builder.body = nativeAd.body;
         builder.callToAction = nativeAd.callToAction;
         
-        if ( nativeAd.mediaContent )
-        {
-            [gadMediaView setMediaContent: nativeAd.mediaContent];
-            builder.mediaView = gadMediaView;
-        }
-        
         if ( nativeAd.icon.image ) // Cached
         {
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.icon.image];
@@ -1275,6 +1239,12 @@ static NSString *ALGoogleSDKVersion;
         else // URL may require fetching
         {
             builder.icon = [[MANativeAdImage alloc] initWithURL: nativeAd.icon.imageURL];
+        }
+        
+        if ( nativeAd.mediaContent )
+        {
+            [gadMediaView setMediaContent: nativeAd.mediaContent];
+            builder.mediaView = gadMediaView;
         }
     }];
     
@@ -1291,15 +1261,7 @@ static NSString *ALGoogleSDKVersion;
         nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         
         MANativeAdView *maxNativeAdView;
-        if ( ALSdk.versionCode < 6140000 )
-        {
-            [self.parentAdapter log: @"Native ads with media views are only supported on MAX SDK version 6.14.0 and above. Default native template will be used."];
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd];
-        }
-        else
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
-        }
+        maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
         
         GADNativeAdView *gadNativeAdView = [[GADNativeAdView alloc] init];
         gadNativeAdView.iconView = maxNativeAdView.iconImageView;
@@ -1446,39 +1408,6 @@ static NSString *ALGoogleSDKVersion;
         builder.body = nativeAd.body;
         builder.callToAction = nativeAd.callToAction;
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 10.4.0
-        if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-        {
-            [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.advertiser];
-        }
-#pragma clang diagnostic pop
-        
-        builder.mediaView = mediaView;
-        if ( ALSdk.versionCode >= 11040299 )
-        {
-            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-        }
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 11.4.0
-        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
-        {
-            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
-        }
-#pragma clang diagnostic pop
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 11.7.0
-        if ( [builder respondsToSelector: @selector(setStarRating:)] )
-        {
-            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
-        }
-#pragma clang diagnostic pop
-        
         if ( nativeAd.icon.image ) // Cached
         {
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.icon.image];
@@ -1487,6 +1416,33 @@ static NSString *ALGoogleSDKVersion;
         {
             builder.icon = [[MANativeAdImage alloc] initWithURL: nativeAd.icon.imageURL];
         }
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        // Introduced in 10.4.0
+        if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+        {
+            [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.advertiser];
+        }
+        
+        builder.mediaView = mediaView;
+        if ( ALSdk.versionCode >= 11040299 )
+        {
+            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
+        }
+
+        // Introduced in 11.4.0
+        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+        {
+            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+        }
+
+        // Introduced in 11.7.0
+        if ( [builder respondsToSelector: @selector(setStarRating:)] )
+        {
+            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
+        }
+#pragma clang diagnostic pop
     }];
     
     NSString *responseId = nativeAd.responseInfo.responseIdentifier;
@@ -1543,33 +1499,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.advertiser al_isValidString] && maxNativeAdView.advertiserLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.advertiserLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
-    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
+    [self prepareForInteractionClickableViews: @[] withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
