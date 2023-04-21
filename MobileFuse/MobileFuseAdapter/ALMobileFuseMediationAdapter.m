@@ -16,7 +16,7 @@
 #import <MobileFuseSDK/MFRewardedAd.h>
 #import <MobileFuseSDK/MFNativeAd.h>
 
-#define ADAPTER_VERSION @"1.4.4.0"
+#define ADAPTER_VERSION @"1.4.5.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -679,8 +679,8 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
                                                                                      format: self.adFormat
                                                                                builderBlock:^(MANativeAdBuilder *builder) {
         builder.title = [nativeAd getTitle];
-        builder.body = [nativeAd getDescriptionText];
         builder.advertiser = [nativeAd getSponsoredText];
+        builder.body = [nativeAd getDescriptionText];
         builder.callToAction = [nativeAd getCtaButtonText];
         builder.icon = [[MANativeAdImage alloc] initWithImage: [nativeAd getIconImage]];
         builder.mediaView = [nativeAd getMainContentView];
