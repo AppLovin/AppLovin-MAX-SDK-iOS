@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.1.0.1"
+#define ADAPTER_VERSION @"22.1.1.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -178,7 +178,7 @@
     
     [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
-        
+    
     if ( isNative )
     {
         self.nativeAd = [[SMANativeAd alloc] init];
@@ -187,10 +187,10 @@
                                                                                                             parameters: parameters
                                                                                                              andNotify: delegate];
         self.nativeAd.delegate = self.nativeAdViewAdapterDelegate;
-
+        
         SMANativeAdRequest *nativeAdViewAdRequest = [[SMANativeAdRequest alloc] initWithAdSpaceId: self.placementIdentifier];
         nativeAdViewAdRequest.returnUrlsForImageAssets = NO;
-
+        
         if ( isBiddingAd )
         {
             SMAAdRequestParams *adRequestParams = [self createBiddingAdRequestParamsFromBidResponse: bidResponse];
@@ -216,7 +216,7 @@
         
         self.adViewAdapterDelegate = [[ALSmaatoMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
         self.adView.delegate = self.adViewAdapterDelegate;
-
+        
         if ( isBiddingAd )
         {
             SMAAdRequestParams *adRequestParams = [self createBiddingAdRequestParamsFromBidResponse: bidResponse];
@@ -477,37 +477,10 @@
 
 - (void)updateAgeRestrictedUser:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         SmaatoSDK.requireCoppaCompliantAds = isAgeRestrictedUser.boolValue;
-    }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
     }
 }
 
@@ -604,7 +577,7 @@
     {
         [clickableViews addObject: maxNativeAdView.mediaContentView];
     }
-
+    
     return clickableViews;
 }
 
@@ -965,7 +938,7 @@
         
         return;
     }
-
+    
     dispatchOnMainQueue(^{
         MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
             
@@ -1006,7 +979,7 @@
         
         NSArray<UIView *> *clickableViews = [ALSmaatoMediationAdapter clickableViewsForNativeAd: maxNativeAd nativeAdView: maxNativeAdView];
         [maxNativeAd prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
-
+        
         [self.delegate didLoadAdForAdView: maxNativeAdView withExtraInfo: nil];
     });
 }
@@ -1082,16 +1055,6 @@
         MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
             
             builder.title = assets.title;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                [builder performSelector: @selector(setAdvertiser:) withObject: assets.sponsored];
-            }
-#pragma clang diagnostic pop
-
             builder.body = assets.mainText;
             builder.callToAction = assets.cta;
             
@@ -1115,6 +1078,15 @@
                     }
                 }
             }
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 10.4.0
+            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+            {
+                [builder performSelector: @selector(setAdvertiser:) withObject: assets.sponsored];
+            }
+#pragma clang diagnostic pop
         }];
         
         [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
@@ -1180,12 +1152,12 @@
         [self.parentAdapter e: @"Failed to register native ad views: native ad renderer is nil."];
         return NO;
     }
-
+    
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
-
+    
     [self.parentAdapter.nativeAdRenderer registerViewForImpression: container];
     [self.parentAdapter.nativeAdRenderer registerViewsForClickAction: clickableViews];
-
+    
     return YES;
 }
 
