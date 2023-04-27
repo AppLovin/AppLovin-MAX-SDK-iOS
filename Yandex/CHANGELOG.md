@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.6.0.0
+* Certified with Yandex SDK 5.6.0.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+
 ## 5.5.0.0
 * Certified with Yandex SDK 5.5.0.
 
