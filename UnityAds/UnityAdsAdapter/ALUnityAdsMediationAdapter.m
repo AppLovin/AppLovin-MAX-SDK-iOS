@@ -276,6 +276,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     {
         return CGSizeMake(728, 90);
     }
+    else if ( adFormat == MAAdFormat.mrec) {
+        return CGSizeMake(300, 250);
+    }
     else
     {
         [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
