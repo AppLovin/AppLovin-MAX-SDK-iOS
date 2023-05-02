@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.2.2.0
+* Certified with Fyber SDK 8.2.2. 
+
 ## 8.2.1.1
 * Added COPPA support. 
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
