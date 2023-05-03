@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationBidMachineAdapter'
-s.version = '2.0.0.6.0'
+s.version = '2.0.0.6.1'
 s.platform = :ios, '10.0'
 s.summary = 'BidMachine adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

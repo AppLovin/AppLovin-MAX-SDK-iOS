@@ -10,7 +10,7 @@
 #import <BidMachine/BidMachine.h>
 #import <BidMachineApiCore/BidMachineApiCore.h>
 
-#define ADAPTER_VERSION @"2.0.0.6.0"
+#define ADAPTER_VERSION @"2.0.0.6.1"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -520,6 +520,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( isAgeRestrictedUser )
     {
         [regulationBuilder withCOPPA: isAgeRestrictedUser.boolValue];
+    }
+    
+    if ( ALSdk.versionCode >= 11040299 )
+    {
+        if ( parameters.consentString )
+        {
+            [regulationBuilder withGDPRConsentString: parameters.consentString];
+        }
     }
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
