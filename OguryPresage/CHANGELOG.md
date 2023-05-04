@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.2.0
+* Certified with OguryPresage SDK 4.1.2.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Remove unnecessary MAX SDK version check.
+
 ## 4.1.1.3
 * Enable banner and MREC ads for Mediation Debugger.
 
