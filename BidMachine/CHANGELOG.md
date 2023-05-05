@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1.0.0
+* Certified with BidMachine SDK 2.0.1.0.
+* Updated the minimum required iOS version to 12.0 in Pod Spec to match BidMachine SDK.
+
 ## 2.0.0.6.1
 * Add support for IAB's TCFv2 GDPR consent string. Note that you must be on the AppLovin MAX SDK v11.4.2+ and use a TCFv2-compliant framework which stores the consent string in User Defaults via the `IABTCF_TCString` key to use this feature. BidMachine's iOS SDK requires that the adapter passes the TCFv2 GDPR consent string, the BidMachine Android SDK does not.
 
