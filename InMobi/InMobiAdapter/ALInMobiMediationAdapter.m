@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.3.0"
+#define ADAPTER_VERSION @"10.1.4.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -435,7 +435,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     NSMutableDictionary<NSString *, id> *consentDict = [NSMutableDictionary dictionaryWithCapacity: 2];
     
     // Set user consent state. Note: this must be sent as true/false.
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
         consentDict[IM_PARTNER_GDPR_CONSENT_AVAILABLE] = hasUserConsent.boolValue ? @"true" : @"false";
@@ -449,49 +449,19 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     NSMutableDictionary *extras = [@{@"tp"     : @"c_applovin",
                                      @"tp-ver" : [ALSdk version]} mutableCopy];
     
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
     }
     
-    if ( ALSdk.versionCode >= 61100 )
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell )
-        {
-            [extras setObject: isDoNotSell forKey: @"do_not_sell"];
-        }
+        [extras setObject: isDoNotSell forKey: @"do_not_sell"];
     }
     
     return extras;
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
-    }
 }
 
 + (MAAdapterError *)toMaxError:(IMRequestStatus *)inMobiError
@@ -1059,6 +1029,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             builder.callToAction = nativeAd.adCtaText;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
             builder.mediaView = [[UIView alloc] init];
+            
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             // Introduced in 11.7.0

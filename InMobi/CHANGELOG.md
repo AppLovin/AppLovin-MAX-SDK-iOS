@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.1.4.0
+* Certified with InMobi SDK 10.1.4.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+
 ## 10.1.3.0
 * Certified with InMobi SDK 10.1.3.
 
