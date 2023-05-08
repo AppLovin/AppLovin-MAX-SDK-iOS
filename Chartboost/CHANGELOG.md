@@ -1,5 +1,10 @@
 # Changelog
 
+## 9.3.0.0
+* Certified with Chartboost SDK 9.3.0.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+
 ## 9.2.0.0
 * Certified with Chartboost SDK 9.2.0.
 * Updated the minimum required iOS version to 11.0 in Pod Spec to match ChartboostSDK. 

@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.2.0.0"
+#define ADAPTER_VERSION @"9.3.0.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -247,48 +247,18 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 - (void)updateUserConsentForParameters:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
         CHBGDPRConsent gdprConsent = hasUserConsent.boolValue ? CHBGDPRConsentBehavioral : CHBGDPRConsentNonBehavioral;
         [Chartboost addDataUseConsent: [CHBGDPRDataUseConsent gdprConsent: gdprConsent]];
     }
     
-    if ( ALSdk.versionCode >= 61100 )
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell )
-        {
-            CHBCCPAConsent ccpaConsent = isDoNotSell.boolValue ? CHBCCPAConsentOptOutSale : CHBCCPAConsentOptInSale;
-            [Chartboost addDataUseConsent: [CHBCCPADataUseConsent ccpaConsent: ccpaConsent]];
-        }
-    }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
+        CHBCCPAConsent ccpaConsent = isDoNotSell.boolValue ? CHBCCPAConsentOptOutSale : CHBCCPAConsentOptInSale;
+        [Chartboost addDataUseConsent: [CHBCCPADataUseConsent ccpaConsent: ccpaConsent]];
     }
 }
 
