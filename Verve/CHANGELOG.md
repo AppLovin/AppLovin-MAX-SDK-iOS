@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.18.1.0
+* Certified with Verve SDK 2.18.1.
+* Remove unnecessary MAX SDK version check.
+
 ## 2.18.0.0
 * Certified with Verve SDK 2.18.0.
 

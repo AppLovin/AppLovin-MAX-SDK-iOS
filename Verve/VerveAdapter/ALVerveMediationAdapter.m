@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"2.18.0.0"
+#define ADAPTER_VERSION @"2.18.1.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -310,7 +310,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     }
     
     NSString *verveUSPrivacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
-    if ( ALSdk.versionCode >= 61100 && (!verveUSPrivacyString || [verveUSPrivacyString isEqualToString: @""]) )
+    if ( !verveUSPrivacyString || [verveUSPrivacyString isEqualToString: @""] )
     {
         NSNumber *isDoNotSell = parameters.doNotSell;
         if ( isDoNotSell && isDoNotSell.boolValue )
