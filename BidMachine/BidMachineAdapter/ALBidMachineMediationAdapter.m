@@ -149,8 +149,11 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSString *signal = BidMachineSdk.shared.token;
-    [delegate didCollectSignal: signal];
+    BidMachinePlacementFormat format = [self bidMachineFormatFromAdFormat:parameters.adFormat];
+    
+    [BidMachineSdk.shared tokenWith:format completion:^(NSString * _Nullable signal) {
+        [delegate didCollectSignal: signal];
+    }];
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -327,7 +330,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    BidMachinePlacementFormat format = [self sizeFromAdFormat: adFormat];
+    BidMachinePlacementFormat format = [self bidMachineFormatFromAdFormat: adFormat];
     
     NSError *configurationError = nil;
     id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: format error: &configurationError];
@@ -488,8 +491,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 #pragma clang diagnostic pop
 }
 
-- (BidMachinePlacementFormat)sizeFromAdFormat:(MAAdFormat *)adFormat
-{
+- (BidMachinePlacementFormat)bidMachineFormatFromAdFormat:(MAAdFormat *)adFormat {
     if ( adFormat == MAAdFormat.banner )
     {
         return BidMachinePlacementFormatBanner320x50;
@@ -502,10 +504,22 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         return BidMachinePlacementFormatBanner300x250;
     }
+    else if ( adFormat == MAAdFormat.interstitial )
+    {
+        return BidMachinePlacementFormatInterstitial;
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        return BidMachinePlacementFormatRewarded;
+    }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return BidMachinePlacementFormatNative;
+    }
     else
     {
         [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
-        return BidMachinePlacementFormatBanner;
+        return BidMachinePlacementFormatUnknown;
     }
 }
 
