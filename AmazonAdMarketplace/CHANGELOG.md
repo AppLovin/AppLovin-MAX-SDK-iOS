@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.1.0
+* Certified with APS SDK 4.7.1.
+
 ## 4.7.0.1
 * Fix APS banner ads not loading on tablets in edge-case situations.
 
