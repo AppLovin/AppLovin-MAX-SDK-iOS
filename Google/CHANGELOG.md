@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.5.0.0
+* Certified with Google SDK 10.5.0.
+
 ## 10.4.0.0
 * Certified with Google SDK 10.4.0.
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
