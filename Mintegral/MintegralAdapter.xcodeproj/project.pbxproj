@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6A561CDE219BB5A600E3749A /* ALMintegralMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD2219BB57900E3749A /* ALMintegralMediationAdapter.m */; };
 		6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		8C84AC85E400F469E95E93F8 /* Pods_MintegralAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B95D778C042073CB2501CCF /* Pods_MintegralAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,11 +41,14 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2B95D778C042073CB2501CCF /* Pods_MintegralAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MintegralAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A561CD1219BB57900E3749A /* ALMintegralMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMintegralMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CD2219BB57900E3749A /* ALMintegralMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMintegralMediationAdapter.m; sourceTree = "<group>"; };
 		6A561CE5219BB5A600E3749A /* libMintegralAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMintegralAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A633221C0873C00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		6A5A633321C0873C00B755D7 /* AppLovinMediationMintegralAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationMintegralAdapter.podspec; sourceTree = "<group>"; };
+		9FD63EFA49C9231EE4537C9C /* Pods-MintegralAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MintegralAdapter.release.xcconfig"; path = "Target Support Files/Pods-MintegralAdapter/Pods-MintegralAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		B60D69443992F5909912C9AE /* Pods-MintegralAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MintegralAdapter.debug.xcconfig"; path = "Target Support Files/Pods-MintegralAdapter/Pods-MintegralAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */,
+				8C84AC85E400F469E95E93F8 /* Pods_MintegralAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				2B95D778C042073CB2501CCF /* Pods_MintegralAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +94,7 @@
 				6A12948121C086950052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				298314886A07CF140BB852DB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +104,16 @@
 				6A561CE5219BB5A600E3749A /* libMintegralAdapter.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		298314886A07CF140BB852DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B60D69443992F5909912C9AE /* Pods-MintegralAdapter.debug.xcconfig */,
+				9FD63EFA49C9231EE4537C9C /* Pods-MintegralAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
 			sourceTree = "<group>";
 		};
 		6A12948121C086950052F283 /* Supporting Files */ = {
@@ -124,6 +141,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CE2219BB5A600E3749A /* Build configuration list for PBXNativeTarget "MintegralAdapter" */;
 			buildPhases = (
+				4B501B05B3D63AFE9CCAF2F3 /* [CP] Check Pods Manifest.lock */,
 				6A561CDD219BB5A600E3749A /* Sources */,
 				6A561CDF219BB5A600E3749A /* Frameworks */,
 				6A561CE1219BB5A600E3749A /* Copy Files */,
@@ -168,6 +186,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4B501B05B3D63AFE9CCAF2F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MintegralAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561CDD219BB5A600E3749A /* Sources */ = {
@@ -219,7 +262,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -235,7 +277,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -281,7 +322,6 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -291,7 +331,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -302,6 +341,7 @@
 		};
 		6A561CE3219BB5A600E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B60D69443992F5909912C9AE /* Pods-MintegralAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -309,21 +349,29 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/MintegralAdSDK/Fmk\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BannerAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BidNativeAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/InterstitialVideoAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NativeAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NewInterstitialAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/RewardVideoAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/SplashAd\"/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6A561CE4219BB5A600E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9FD63EFA49C9231EE4537C9C /* Pods-MintegralAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -331,15 +379,22 @@
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = "../../iOS-Workspace/Pods/**";
-				HEADER_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/MintegralAdSDK/Fmk\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BannerAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BidNativeAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/InterstitialVideoAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NativeAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NewInterstitialAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/RewardVideoAd\"/**",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/SplashAd\"/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

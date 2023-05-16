@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.3.5.0.0"
+#define ADAPTER_VERSION @"7.3.6.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -120,24 +120,21 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         MTGSDK *mtgSDK = [MTGSDK sharedInstance];
         
         // Must be called before -[MTGSDK setAppID:ApiKey:] - GDPR status can only be set before SDK initialization
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+        NSNumber *hasUserConsent = [parameters hasUserConsent];
         if ( hasUserConsent )
         {
             mtgSDK.consentStatus = hasUserConsent.boolValue;
         }
         
-        if ( ALSdk.versionCode >= 61100 )
+        // Has to be _before_ their SDK init as well
+        NSNumber *isDoNotSell = [parameters isDoNotSell];
+        if ( isDoNotSell && isDoNotSell.boolValue )
         {
-            // Has to be _before_ their SDK init as well
-            NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-            if ( isDoNotSell && isDoNotSell.boolValue )
-            {
-                mtgSDK.doNotTrackStatus = YES;
-            }
+            mtgSDK.doNotTrackStatus = YES;
         }
         
         // Has to be _before_ their SDK init as well
-        NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
         if ( isAgeRestrictedUser )
         {
             [mtgSDK setCoppa: isAgeRestrictedUser.boolValue ? MTGBoolYes : MTGBoolNo];
@@ -151,33 +148,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     });
     
     completionHandler(MAAdapterInitializationStatusDoesNotApply, nil);
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
-    }
 }
 
 - (NSString *)SDKVersion
@@ -1309,8 +1279,8 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
                 builder.icon = iconImage;
-                builder.mediaView = mediaView;
                 builder.optionsView = adChoicesView;
+                builder.mediaView = mediaView;
             }];
             
             NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
@@ -1533,12 +1503,13 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
                 builder.icon = iconImage;
+                builder.optionsView = adChoicesView;
+                
                 if ( ALSdk.versionCode >= 11040299 )
                 {
                     [builder performSelector: @selector(setMainImage:) withObject: mainImage];
                 }
                 builder.mediaView = mediaView;
-                builder.optionsView = adChoicesView;
             }];
             
             // To compile SOURCE code with < 11.0.0 before SDK is merged so we can push adapter
