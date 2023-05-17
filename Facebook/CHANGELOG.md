@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.12.0.3
+* Fix native ad's media content view to be clickable.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+
 ## 6.12.0.2
 * Add support for passing in a presenting view controller.
 

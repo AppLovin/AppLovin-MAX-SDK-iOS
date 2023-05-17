@@ -9,8 +9,9 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.12.0.2"
+#define ADAPTER_VERSION @"6.12.0.3"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
+#define ICON_VIEW_TAG            3
 
 @interface ALFacebookMediationAdapterInterstitialAdDelegate : NSObject <FBInterstitialAdDelegate>
 @property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
@@ -444,7 +445,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // FBAdSettings is apparently not thread-safe on iOS - and may occassionally crash :/
     @synchronized ( ALFBAdSettingsLock )
     {
-        NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
         if ( isAgeRestrictedUser )
         {
             FBAdSettings.mixedAudience = isAgeRestrictedUser.boolValue;
@@ -463,33 +464,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         }
         
         [FBAdSettings setMediationService: MEDIATION_IDENTIFIER];
-    }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
     }
 }
 
@@ -593,14 +567,10 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
             
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                builder.advertiser = nativeAd.advertiserName;
-            }
-#pragma clang diagnostic pop
+            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
+            adOptionsView.nativeAd = nativeAd;
+            adOptionsView.backgroundColor = UIColor.clearColor;
+            builder.optionsView = adOptionsView;
             
             CGFloat mediaContentAspectRatio = 0.0f;
             if ( self.nativeBannerAd )
@@ -621,17 +591,18 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
+            // Introduced in 10.4.0
+            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
+            {
+                builder.advertiser = nativeAd.advertiserName;
+            }
+            
             // Introduced in 11.4.0
             if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
             {
                 [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
             }
 #pragma clang diagnostic pop
-            
-            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
-            adOptionsView.nativeAd = nativeAd;
-            adOptionsView.backgroundColor = UIColor.clearColor;
-            builder.optionsView = adOptionsView;
         }];
         
         [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
@@ -906,17 +877,12 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         return;
     }
     
-    if ( ALSdk.versionCode >= 6140000 && self.format != MAAdFormat.mrec ) // Native banners and leaders use APIs in newer SDKs
+    if ( self.format != MAAdFormat.mrec ) // Native banners and leaders use APIs
     {
         [self renderNativeAdView];
     }
     else
     {
-        if ( self.format != MAAdFormat.mrec )
-        {
-            [self.parentAdapter log: @"Showing default Facebook native %@: AppLovin SDK version must be at least 6.14.0", self.format.label];
-        }
-        
         FBNativeAdView *adView = [FBNativeAdView nativeAdViewWithNativeAd: self.parentAdapter.nativeAd];
         [self.delegate didLoadAdForAdView: adView];
     }
@@ -967,6 +933,11 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             builder.iconView = iconView;
             builder.mediaView = mediaView;
             
+            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
+            adOptionsView.nativeAd = self.parentAdapter.nativeAd;
+            adOptionsView.backgroundColor = UIColor.clearColor;
+            builder.optionsView = adOptionsView;
+            
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             // Introduced in 10.4.0
@@ -975,11 +946,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
                 builder.advertiser = self.parentAdapter.nativeAd.advertiserName;
             }
 #pragma clang diagnostic pop
-            
-            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
-            adOptionsView.nativeAd = self.parentAdapter.nativeAd;
-            adOptionsView.backgroundColor = UIColor.clearColor;
-            builder.optionsView = adOptionsView;
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
@@ -1013,6 +979,18 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         NSMutableArray *clickableViews = [NSMutableArray array];
         
+        if ( [maxNativeAd.title al_isValidString] && maxNativeAdView.titleLabel )
+        {
+            [clickableViews addObject: maxNativeAdView.titleLabel];
+        }
+        if ( [maxNativeAd.body al_isValidString] && maxNativeAdView.bodyLabel )
+        {
+            [clickableViews addObject: maxNativeAdView.bodyLabel];
+        }
+        if ( [maxNativeAd.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
+        {
+            [clickableViews addObject: maxNativeAdView.callToActionButton];
+        }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ( maxNativeAd.iconView && maxNativeAdView.iconContentView )
@@ -1023,18 +1001,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
         {
             [clickableViews addObject: maxNativeAdView.mediaContentView];
-        }
-        if ( [maxNativeAd.title al_isValidString] && maxNativeAdView.titleLabel )
-        {
-            [clickableViews addObject: maxNativeAdView.titleLabel];
-        }
-        if ( [maxNativeAd.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-        {
-            [clickableViews addObject: maxNativeAdView.callToActionButton];
-        }
-        if ( [maxNativeAd.body al_isValidString] && maxNativeAdView.bodyLabel )
-        {
-            [clickableViews addObject: maxNativeAdView.bodyLabel];
         }
         
 #pragma clang diagnostic push
@@ -1236,13 +1202,24 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         return NO;
     }
     
-    UIImageView *iconImageView = nil;
-    for ( UIView *clickableView in clickableViews )
+    NSMutableArray *facebookClickableViews = [NSMutableArray array];
+    [facebookClickableViews addObjectsFromArray: clickableViews];
+    [facebookClickableViews addObject: self.mediaView]; // mediaView needs to be in the clickableViews for the mediaView to be clickable even though it is only a container of the network's media view
+    
+    UIImageView *iconImageView;
+    if ( [container isKindOfClass: [MANativeAdView class]] ) // Native integrations
     {
-        if( [clickableView isKindOfClass: [UIImageView class]] )
+        iconImageView = ((MANativeAdView *) container).iconImageView;
+    }
+    else // Plugins
+    {
+        for ( UIView *clickableView in clickableViews )
         {
-            iconImageView = (UIImageView *)clickableView;
-            break;
+            if ( clickableView.tag == ICON_VIEW_TAG )
+            {
+                iconImageView = (UIImageView *) clickableView;
+                break;
+            }
         }
     }
     
@@ -1253,14 +1230,14 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             [self.parentAdapter.nativeBannerAd registerViewForInteraction: container
                                                             iconImageView: iconImageView
                                                            viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                           clickableViews: clickableViews];
+                                                           clickableViews: facebookClickableViews];
         }
         else if ( self.mediaView )
         {
             [self.parentAdapter.nativeBannerAd registerViewForInteraction: container
                                                             iconImageView: (UIImageView *) self.mediaView
                                                            viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                           clickableViews: clickableViews];
+                                                           clickableViews: facebookClickableViews];
         }
         else
         {
@@ -1277,7 +1254,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
                                                       mediaView: (FBMediaView *) self.mediaView
                                                   iconImageView: iconImageView
                                                  viewController: [ALUtils topViewControllerFromKeyWindow]
-                                                 clickableViews: clickableViews];
+                                                 clickableViews: facebookClickableViews];
     }
     
     return YES;
