@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.0.0.0
+* Certified with BidMachine SDK 2.1.0.0.
+
 ## 2.0.1.0.0
 * Certified with BidMachine SDK 2.0.1.0.
 * Updated the minimum required iOS version to 12.0 in Pod Spec to match BidMachine SDK.
