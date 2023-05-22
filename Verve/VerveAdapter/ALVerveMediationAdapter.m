@@ -298,10 +298,22 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     NSNumber *hasUserConsent = parameters.hasUserConsent;
     NSString *verveGDPRConsentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-    if ( hasUserConsent && (!verveGDPRConsentString || [verveGDPRConsentString isEqualToString: @""]) )
+    // 1. AppLovin revokes consent
+    if ( hasUserConsent != nil && [hasUserConsent intValue] != 1 )
     {
-        [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: hasUserConsent.boolValue ? @"1" : @"0"];
+        [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"0"];
     }
+
+    // 2. AppLovin grants consent and Verve doesn't have binary nor CMP consent yet
+    if ( ( hasUserConsent != nil && [hasUserConsent intValue] == 1 )
+        && ( [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString] == nil
+            || [verveGDPRConsentString isEqualToString: @""]
+            || [verveGDPRConsentString isEqualToString: @"0"] ) )
+    {
+        [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"1"];
+    }
+
+    // 3. all other cases -> no change
     
     NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;
     if ( isAgeRestrictedUser )
