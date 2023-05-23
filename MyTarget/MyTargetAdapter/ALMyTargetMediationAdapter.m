@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.17.4.1"
+#define ADAPTER_VERSION @"5.17.5.0"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject <MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -269,52 +269,22 @@
 
 - (void)updatePrivacyStates:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
         [MTRGPrivacy setUserConsent: hasUserConsent.boolValue];
     }
     
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         [MTRGPrivacy setUserAgeRestricted: isAgeRestrictedUser.boolValue];
     }
     
-    if ( ALSdk.versionCode >= 61100 )
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell )
-        {
-            [MTRGPrivacy setCcpaUserConsent: isDoNotSell.boolValue];
-        }
-    }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
+        [MTRGPrivacy setCcpaUserConsent: isDoNotSell.boolValue];
     }
 }
 
@@ -607,10 +577,7 @@
         {
             [builder performSelector: @selector(setAdvertiser:) withObject: promoBanner.advertisingLabel];
         }
-#pragma clang diagnostic pop
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
+
         // Introduced in 11.4.0
         if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
         {
@@ -740,7 +707,6 @@
     }
 #pragma clang diagnostic pop
     
-    
     [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
@@ -754,7 +720,7 @@
     }
     
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
-
+    
     [nativeAd registerView: container
             withController: [ALUtils topViewControllerFromKeyWindow]
         withClickableViews: clickableViews];

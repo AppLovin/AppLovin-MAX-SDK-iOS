@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.17.5.0
+* Certified with MyTarget SDK 5.17.5.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+
 ## 5.17.4.1
 * Updated `ALMyTargetMediationAdapterNativeDelegate` to conform to `MTRGNativeAdMediaDelegate`.
 
