@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.1.2.0"
+#define ADAPTER_VERSION @"4.1.2.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -612,6 +612,13 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
         [self.parentAdapter log: @"AdView (%@) failed to load with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToLoadAdViewAdWithError: maxError];
     }
+}
+
+// This allows clicks on banners using modal view controller (Ex: banner ads using mediation debugger)
+// (https://ogury-ltd.gitbook.io/ios/ad-formats/banner-ad#using-modal-view-controller)
+- (UIViewController *)presentingViewControllerForOguryAdsBannerAd:(OguryBannerAd *)banner
+{
+    return [ALUtils topViewControllerFromKeyWindow];
 }
 
 @end

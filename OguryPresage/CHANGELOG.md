@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.2.1
+* Fixed banner ads using modal view controller to be clickable by adding `presentingViewControllerForOguryAdsBannerAd` callback.
+
 ## 4.1.2.0
 * Certified with OguryPresage SDK 4.1.2.
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
