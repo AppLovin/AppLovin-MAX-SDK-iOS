@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0.0
+* Certified with HyprMX SDK 6.2.0.
+* Updated podspec to use `HyprMX` instead of `HyprMX/Core`.
+* Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
+* Add additional details for ad display failures. 
+
 ## 6.0.3.1
 * Set consent based on a mix of 'hasUserConsent', 'ageRestrictedUser' and 'doNotSell' values.
 

@@ -9,21 +9,21 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.0.3.1"
+#define ADAPTER_VERSION @"6.2.0.0"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
  */
-@interface ALHyprMXMediationAdapterInitializationDelegate : NSObject<HyprMXInitializationDelegate>
+@interface ALHyprMXMediationAdapterInitializationDelegate : NSObject <HyprMXInitializationDelegate>
 @property (nonatomic, weak) ALHyprMXMediationAdapter *parentAdapter;
-@property (nonatomic, copy, nullable) void(^completionBlock)(MAAdapterInitializationStatus, NSString * _Nullable);
-- (instancetype)initWithParentAdapter:(ALHyprMXMediationAdapter *)parentAdapter completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler;
+@property (nonatomic, copy, nullable) void(^completionBlock)(MAAdapterInitializationStatus, NSString *_Nullable);
+- (instancetype)initWithParentAdapter:(ALHyprMXMediationAdapter *)parentAdapter completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler;
 @end
 
 /**
  * Dedicated delegate object for HyprMX AdView ads.
  */
-@interface ALHyprMXMediationAdapterAdViewDelegate : NSObject<HyprMXBannerDelegate>
+@interface ALHyprMXMediationAdapterAdViewDelegate : NSObject <HyprMXBannerDelegate>
 @property (nonatomic,   weak) ALHyprMXMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALHyprMXMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
@@ -33,7 +33,7 @@
 /**
  * Dedicated delegate object for HyprMX interstitial ads.
  */
-@interface ALHyprMXMediationAdapterInterstitialAdDelegate : NSObject<HyprMXPlacementDelegate>
+@interface ALHyprMXMediationAdapterInterstitialAdDelegate : NSObject <HyprMXPlacementDelegate>
 @property (nonatomic,   weak) ALHyprMXMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALHyprMXMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
@@ -43,7 +43,7 @@
 /**
  * Dedicated delegate object for HyprMX rewarded ads.
  */
-@interface ALHyprMXMediationAdapterRewardedAdDelegate : NSObject<HyprMXPlacementDelegate>
+@interface ALHyprMXMediationAdapterRewardedAdDelegate : NSObject <HyprMXPlacementDelegate>
 @property (nonatomic,   weak) ALHyprMXMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -51,7 +51,7 @@
 - (instancetype)init NS_UNAVAILABLE;
 @end
 
-@interface ALHyprMXMediationAdapter()
+@interface ALHyprMXMediationAdapter ()
 
 // Initialization
 @property (nonatomic, strong) ALHyprMXMediationAdapterInitializationDelegate *initializationDelegate;
@@ -219,7 +219,14 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     else
     {
         [self log: @"Interstitial ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -262,7 +269,14 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     else
     {
         [self log: @"Rewarded ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205 errorString: @"Ad Display Failed"]];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -396,7 +410,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 
 @implementation ALHyprMXMediationAdapterInitializationDelegate
 
-- (instancetype)initWithParentAdapter:(ALHyprMXMediationAdapter *)parentAdapter completionHandler:(void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler;
+- (instancetype)initWithParentAdapter:(ALHyprMXMediationAdapter *)parentAdapter completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler;
 {
     self = [super init];
     if ( self )
@@ -620,7 +634,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 
 - (void)adDidRewardForPlacement:(HyprMXPlacement *)placement rewardName:(NSString *)rewardName rewardValue:(NSInteger)rewardValue
 {
-    [self.parentAdapter log: @"Rewarded ad for placement: %@ granted reward with rewardName: %@, rewardValue: %ld", placement.placementName, rewardName, (long)rewardValue];
+    [self.parentAdapter log: @"Rewarded ad for placement: %@ granted reward with rewardName: %@, rewardValue: %ld", placement.placementName, rewardName, (long) rewardValue];
     self.grantedReward = YES;
 }
 
