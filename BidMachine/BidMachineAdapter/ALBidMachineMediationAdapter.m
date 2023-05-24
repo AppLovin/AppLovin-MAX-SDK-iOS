@@ -10,7 +10,7 @@
 #import <BidMachine/BidMachine.h>
 #import <BidMachineApiCore/BidMachineApiCore.h>
 
-#define ADAPTER_VERSION @"2.1.0.0.0"
+#define ADAPTER_VERSION @"2.1.0.0.1"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -145,12 +145,15 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
-    [self log: @"Collecting signal..."];
+    [self log: @"Collecting signal for %@ ad...", parameters.adFormat.label];
     
     [self updateSettings: parameters];
     
-    NSString *signal = BidMachineSdk.shared.token;
-    [delegate didCollectSignal: signal];
+    BidMachinePlacementFormat bidMachinePlacementFormat = [self bidMachinePlacementFormatFromAdFormat: parameters.adFormat];
+    [BidMachineSdk.shared tokenWith: bidMachinePlacementFormat completion:^(NSString *_Nullable signal) {
+        [self log: @"Signal collection successful with%@ valid signal", [signal al_isValidString] ? @"" : @"out"];
+        [delegate didCollectSignal: signal];
+    }];
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -327,7 +330,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    BidMachinePlacementFormat format = [self sizeFromAdFormat: adFormat];
+    BidMachinePlacementFormat format = [self bidMachinePlacementFormatFromAdFormat: adFormat];
     
     NSError *configurationError = nil;
     id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: format error: &configurationError];
@@ -488,7 +491,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 #pragma clang diagnostic pop
 }
 
-- (BidMachinePlacementFormat)sizeFromAdFormat:(MAAdFormat *)adFormat
+- (BidMachinePlacementFormat)bidMachinePlacementFormatFromAdFormat:(MAAdFormat *)adFormat
 {
     if ( adFormat == MAAdFormat.banner )
     {
@@ -502,10 +505,22 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         return BidMachinePlacementFormatBanner300x250;
     }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return BidMachinePlacementFormatNative;
+    }
+    else if ( adFormat == MAAdFormat.interstitial )
+    {
+        return BidMachinePlacementFormatInterstitial;
+    }
+    else if ( adFormat == MAAdFormat.rewarded || adFormat == MAAdFormat.rewardedInterstitial )
+    {
+        return BidMachinePlacementFormatRewarded;
+    }
     else
     {
         [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
-        return BidMachinePlacementFormatBanner;
+        return BidMachinePlacementFormatUnknown;
     }
 }
 

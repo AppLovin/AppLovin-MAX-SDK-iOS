@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.0.0.1
+* Updated `[BidMachine tokenWith:completion:]` usage.
+
 ## 2.1.0.0.0
 * Certified with BidMachine SDK 2.1.0.0.
 
