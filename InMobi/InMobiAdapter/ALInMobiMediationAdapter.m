@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.1.4.0"
+#define ADAPTER_VERSION @"10.1.4.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -18,6 +18,8 @@
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+@property (nonatomic, assign) BOOL bannerDidFinishLoadingCalled;
+@property (nonatomic, assign) BOOL bannerAdImpressedCalled;
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 - (instancetype)init NS_UNAVAILABLE;
@@ -586,6 +588,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [self.delegate didLoadAdForAdView: banner];
     }
+    
+    // Temporary workaround for an issue where bannerAdImpressed is called before bannerDidFinishLoading.
+    if ( [self bannerAdImpressedCalled] )
+    {
+        [self.delegate didDisplayAdViewAd];
+    }
+    self.bannerDidFinishLoadingCalled = YES;
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
@@ -598,7 +607,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)bannerAdImpressed:(IMBanner *)banner
 {
     [self.parentAdapter log: @"AdView impression tracked"];
-    [self.delegate didDisplayAdViewAd];
+    if ( [self bannerDidFinishLoadingCalled] )
+    {
+        [self.delegate didDisplayAdViewAd];
+    }
+    self.bannerAdImpressedCalled = YES;
 }
 
 - (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params
