@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"2.18.1.0"
+#define ADAPTER_VERSION @"2.18.1.1"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -292,15 +292,26 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 - (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
 {
     // From PubNative: "HyBid SDK is TCF v2 compliant, so any change in the IAB consent string will be picked up by the SDK."
-    // Because of this, they requested that we don't update consent values if one is already set.
+    // Because of this, they requested that we don't update consent values if one is already set and use binary consent state as a fallback.
     // As a side effect, pubs that use the MAX consent flow will not be able to update consent values mid-session.
     // Full context in this PR: https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/pull/57
     
     NSNumber *hasUserConsent = parameters.hasUserConsent;
-    NSString *verveGDPRConsentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-    if ( hasUserConsent && (!verveGDPRConsentString || [verveGDPRConsentString isEqualToString: @""]) )
+    if ( hasUserConsent )
     {
-        [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: hasUserConsent.boolValue ? @"1" : @"0"];
+        // NOTE: verveGDPRConsentString can be nil, TCFv2 consent string, "1" or "0"
+        NSString *verveGDPRConsentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
+        
+        // If hasUserConsent is set to false, set consent string to "0"
+        if ( !hasUserConsent.boolValue )
+        {
+            [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"0"];
+        }
+        // If hasUserConsent is set to true, only override if it has not been set to a TCFv2 consent string or is set to "0"
+        else if ( ![verveGDPRConsentString al_isValidString] || [verveGDPRConsentString isEqualToString: @"0"] )
+        {
+            [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"1"];
+        }
     }
     
     NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;
