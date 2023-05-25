@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.8.0.0"
+#define ADAPTER_VERSION @"4.9.0.0"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject <CRInterstitialDelegate>
@@ -474,12 +474,12 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
         dispatchOnMainQueue(^{
             
             MANativeAd *maxNativeAd = [[MACriteoNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
-                builder.icon = iconImage;
                 builder.title = ad.title;
                 builder.advertiser = ad.advertiserDomain;
                 builder.body = ad.body;
-                builder.mediaView = mediaView;
                 builder.callToAction = ad.callToAction;
+                builder.icon = iconImage;
+                builder.mediaView = mediaView;
             }];
             
             [self.parentAdapter log: @"Native ad loaded: %@", self.placementIdentifier];
@@ -562,7 +562,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 
 - (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
 {
-    [self prepareForInteractionClickableViews: nil withContainer: maxNativeAdView];
+    [self prepareForInteractionClickableViews: @[] withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container

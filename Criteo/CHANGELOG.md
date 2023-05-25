@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.0.0
+* Certified with Criteo SDK 4.9.0.
+
 ## 4.8.0.0
 * Certified with Criteo SDK 4.8.0.
 * Return the correct SDK version.
