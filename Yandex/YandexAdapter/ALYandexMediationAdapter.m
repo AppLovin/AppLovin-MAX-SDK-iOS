@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"5.6.0.0"
+#define ADAPTER_VERSION @"5.7.0.0"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
