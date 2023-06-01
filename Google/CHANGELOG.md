@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.5.0.1
+* Re-enable support for adaptive banner traffic for Google bidding since their sizing issue is resolved.
+
 ## 10.5.0.0
 * Certified with Google SDK 10.5.0.
 
