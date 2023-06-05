@@ -7,9 +7,9 @@
 //
 
 #import "ALInMobiMediationAdapter.h"
-#import <InMobiSDK/InMobiSDK.h>
+@import InMobiSDK;
 
-#define ADAPTER_VERSION @"10.1.4.1"
+#define ADAPTER_VERSION @"10.5.5.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -172,7 +172,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             }
         }];
         
-        IMSDKLogLevel logLevel = [parameters isTesting] ? kIMSDKLogLevelDebug : kIMSDKLogLevelError;
+        IMSDKLogLevel logLevel = [parameters isTesting] ? IMSDKLogLevelDebug : IMSDKLogLevelError;
         [IMSdk setLogLevel: logLevel];
     }
     else
@@ -398,17 +398,17 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     if ( [interstitial isReady] )
     {
-        IMInterstitialAnimationType animationType = kIMInterstitialAnimationTypeNone;
+        IMInterstitialAnimationType animationType = IMInterstitialAnimationTypeAsNone;
         if ( [parameters.serverParameters al_containsValueForKey: @"animation_type"] )
         {
             NSString *value = [parameters.serverParameters al_stringForKey: @"animation_type"];
             if ( [@"cover_vertical" al_isEqualToStringIgnoringCase: value] )
             {
-                animationType = kIMInterstitialAnimationTypeCoverVertical;
+                animationType = IMInterstitialAnimationTypeCoverVertical;
             }
             else if ( [@"flip_horizontal" al_isEqualToStringIgnoringCase: value] )
             {
-                animationType = kIMInterstitialAnimationTypeFlipHorizontal;
+                animationType = IMInterstitialAnimationTypeFlipHorizontal;
             }
         }
         
@@ -422,7 +422,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             presentingViewController = [ALUtils topViewControllerFromKeyWindow];
         }
         
-        [interstitial showFromViewController: presentingViewController withAnimation: animationType];
+        [interstitial showFrom:presentingViewController with:animationType];
         
         return YES;
     }
@@ -440,7 +440,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
-        consentDict[IM_PARTNER_GDPR_CONSENT_AVAILABLE] = hasUserConsent.boolValue ? @"true" : @"false";
+        consentDict[IMCommonConstants.IM_PARTNER_GDPR_CONSENT_AVAILABLE] = hasUserConsent.boolValue ? @"true" : @"false";
     }
     
     return consentDict;
@@ -472,30 +472,35 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( inMobiErrorCode )
     {
-        case kIMStatusCodeNetworkUnReachable:
+        case IMStatusCodeNetworkUnReachable:
             adapterError = MAAdapterError.noConnection;
             break;
-        case kIMStatusCodeNoFill:
+        case IMStatusCodeNoFill:
             adapterError = MAAdapterError.noFill;
             break;
-        case kIMStatusCodeRequestInvalid:
+        case IMStatusCodeRequestInvalid:
             adapterError = MAAdapterError.badRequest;
             break;
-        case kIMStatusCodeRequestPending:
-        case kIMStatusCodeMultipleLoadsOnSameInstance:
-        case kIMStatusCodeAdActive:
-        case kIMStatusCodeEarlyRefreshRequest:
+        case IMStatusCodeRequestPending:
+        case IMStatusCodeMultipleLoadsOnSameInstance:
+        case IMStatusCodeAdActive:
+        case IMStatusCodeEarlyRefreshRequest:
+        case IMStatusCodeIncorrectPlacementID:
+        case IMStatusCodeInvalidBannerframe:
             adapterError = MAAdapterError.invalidLoadState;
             break;
-        case kIMStatusCodeRequestTimedOut:
+        case IMStatusCodeRequestTimedOut:
             adapterError = MAAdapterError.timeout;
             break;
-        case kIMStatusCodeInternalError:
-        case kIMStatusCodeDroppingNetworkRequest:
+        case IMStatusCodeInternalError:
+        case IMStatusCodeDroppingNetworkRequest:
             adapterError = MAAdapterError.internalError;
             break;
-        case kIMStatusCodeServerError:
+        case IMStatusCodeServerError:
             adapterError = MAAdapterError.serverError;
+            break;
+        case IMStatusCodeSdkNotInitialised:
+            adapterError = MAAdapterError.notInitialized;
             break;
     }
     

@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationInMobiAdapter'
-s.version = '10.1.4.1'
+s.version = '10.5.5.0'
 s.platform = :ios, '11.0'
 s.summary = 'InMobi adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'InMobiSDK/Core', '= 10.1.4'
+s.dependency 'InMobiSDK/Core', '= 10.5.5'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
