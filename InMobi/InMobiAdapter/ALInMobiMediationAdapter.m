@@ -485,9 +485,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         case IMStatusCodeMultipleLoadsOnSameInstance:
         case IMStatusCodeAdActive:
         case IMStatusCodeEarlyRefreshRequest:
+            adapterError = MAAdapterError.invalidLoadState;
+            break;
         case IMStatusCodeIncorrectPlacementID:
         case IMStatusCodeInvalidBannerframe:
-            adapterError = MAAdapterError.invalidLoadState;
+            adapterError = MAAdapterError.invalidConfiguration;
             break;
         case IMStatusCodeRequestTimedOut:
             adapterError = MAAdapterError.timeout;
