@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationIronSourceAdapter'
-s.version = '7.3.0.0.0'
-s.platform = :ios, '9.0'
+s.version = '7.3.1.0.0'
+s.platform = :ios, '10.0'
 s.summary = 'IronSource adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'IronSourceSDK', '= 7.3.0.0'
+s.dependency 'IronSourceSDK', '= 7.3.1.0'
 s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
