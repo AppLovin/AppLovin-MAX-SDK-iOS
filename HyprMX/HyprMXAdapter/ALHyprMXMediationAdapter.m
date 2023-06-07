@@ -118,6 +118,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
         [HyprMX initializeWithDistributorId: distributorId
                                      userId: userId
                               consentStatus: [self consentStatusWithParameters: parameters]
+                          ageRestrictedUser: settings.ageRestrictedUser
                      initializationDelegate: self.initializationDelegate];
     }
     else
