@@ -286,15 +286,14 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 - (HyprConsentStatus)consentStatusWithParameters:(id<MAAdapterParameters>)parameters
 {
     NSNumber *hasUserConsent = parameters.hasUserConsent;
-    NSNumber *isAgeRestrictedUser = parameters.isAgeRestrictedUser;
     NSNumber *isDoNotSell = parameters.isDoNotSell;
     
     // isTrue/isFalse/isNil to match the spec from HyprMX
-    if ( ( [self isNil: isDoNotSell] || [self isFalse: isDoNotSell] ) && [self isTrue: hasUserConsent] && [self isFalse: isAgeRestrictedUser] )
+    if ( ( [self isNil: isDoNotSell] || [self isFalse: isDoNotSell] ) && [self isTrue: hasUserConsent])
     {
         return CONSENT_GIVEN;
     }
-    else if ( [self isTrue: isDoNotSell] || [self isFalse: hasUserConsent] || [self isTrue: isAgeRestrictedUser] )
+    else if ( [self isTrue: isDoNotSell] || [self isFalse: hasUserConsent])
     {
         return CONSENT_DECLINED;
     }
