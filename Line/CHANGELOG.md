@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.6.20230609.0
+* Certified with Line SDK 2.6.20230609.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Remove unnecessary MAX SDK version check.
+
 ## 2.6.20230215.0
 * Certified with Line SDK 2.6.20230215.
 
