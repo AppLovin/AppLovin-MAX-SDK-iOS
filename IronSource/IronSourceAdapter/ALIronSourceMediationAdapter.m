@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.3.1.0.0"
+#define ADAPTER_VERSION @"7.3.1.0.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -88,6 +88,7 @@
 
 - (void)destroy
 {
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
     [self.router removeAdapter: self forPlacementIdentifier: self.routerPlacementIdentifier];
