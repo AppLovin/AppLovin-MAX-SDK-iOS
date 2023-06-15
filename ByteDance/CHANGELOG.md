@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.2.1.0.0
+* Certified with ByteDance SDK 5.2.1.0.
+
 ## 5.2.0.9.1
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.  
 * Fix privacy view not clickable for native ads and native banners/MRECs. 
