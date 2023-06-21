@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.14.30.0"
+#define ADAPTER_VERSION @"4.14.31.0"
 
 /**
  * Interstitial Delegate
@@ -89,14 +89,17 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
     
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
     self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdDelegate.delegate = nil;
     self.rewardedAdDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
 }
 
