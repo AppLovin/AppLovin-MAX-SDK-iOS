@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.6.0.0"
+#define ADAPTER_VERSION @"10.6.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -116,7 +116,7 @@ static NSString *ALGoogleSDKVersion;
     
     self.appOpenInterstitialAd.fullScreenContentDelegate = nil;
     self.appOpenInterstitialAd = nil;
-    self.appOpenInterstitialAdDelegate   = nil;
+    self.appOpenInterstitialAdDelegate = nil;
     
     self.rewardedInterstitialAd.fullScreenContentDelegate = nil;
     self.rewardedInterstitialAd = nil;
@@ -130,6 +130,7 @@ static NSString *ALGoogleSDKVersion;
     self.adView = nil;
     self.adViewDelegate = nil;
     
+    self.nativeAdLoader.delegate = nil;
     self.nativeAdLoader = nil;
     
     [self.nativeAd unregisterAdView];
@@ -877,6 +878,10 @@ static NSString *ALGoogleSDKVersion;
     {
         // Restrict data processing - https://developers.google.com/admob/ios/ccpa
         [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"gad_rdp"];
     }
     
     if ( ALSdk.versionCode >= 11000000 )
