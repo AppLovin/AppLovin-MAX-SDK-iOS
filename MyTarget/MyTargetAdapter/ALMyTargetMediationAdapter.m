@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.17.5.0"
+#define ADAPTER_VERSION @"5.18.0.0"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject <MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -94,20 +94,25 @@
     
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
     self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView.viewController = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
-    self.nativeAd.delegate = nil;
     [self.nativeAd unregisterView];
+    self.nativeAd.delegate = nil;
+    self.nativeAd.mediaDelegate = nil;
     self.nativeAd = nil;
+    self.nativeAdapterDelegate.delegate = nil;
     self.nativeAdapterDelegate = nil;
 }
 
