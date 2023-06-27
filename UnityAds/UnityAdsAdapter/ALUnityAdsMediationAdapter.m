@@ -617,6 +617,12 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [self.parentAdapter log: @"Banner ad left application"];
 }
 
+- (void)bannerViewDidShow:(UADSBannerView *)bannerView
+{
+    [self.parentAdapter log: @"Banner showed"];
+    [self.delegate didDisplayAdViewAd];
+}
+
 @end
 
 @implementation ALUnityAdsInitializationDelegate
