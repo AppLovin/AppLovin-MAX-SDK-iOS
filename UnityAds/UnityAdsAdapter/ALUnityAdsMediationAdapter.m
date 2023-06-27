@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.7.1.0"
+#define ADAPTER_VERSION @"4.8.0.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -101,10 +101,14 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     if ( self.bannerAdView )
     {
+        self.bannerAdView.delegate = nil;
         self.bannerAdView = nil;
+        self.adViewDelegate.delegate = nil;
         self.adViewDelegate = nil;
     }
     
+    self.interstitialDelegate.delegate = nil;
+    self.rewardedDelegate.delegate = nil;
     self.interstitialDelegate = nil;
     self.rewardedDelegate = nil;
 }
@@ -301,6 +305,11 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         case UADSBannerErrorCodeNoFillError:
             adapterError = MAAdapterError.noFill;
             break;
+        case UADSBannerErrorInitializeFailed:
+            adapterError = MAAdapterError.notInitialized;
+            break;
+        case UADSBannerErrorInvalidArgument:
+            adapterError = MAAdapterError.invalidConfiguration;
     }
     
 #pragma clang diagnostic push
@@ -369,6 +378,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         case kUnityShowErrorInternalError:
             adapterError = MAAdapterError.internalError;
             break;
+        case kUnityShowErrorTimeout:
+            adapterError = MAAdapterError.timeout;
     }
     
 #pragma clang diagnostic push
@@ -385,7 +396,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 - (void)updatePrivacyConsent:(id<MAAdapterParameters>)parameters
 {
     UADSMetaData *privacyConsentMetaData = [[UADSMetaData alloc] init];
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
         [privacyConsentMetaData set: @"gdpr.consent" value: @(hasUserConsent.boolValue)];
@@ -393,51 +404,21 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     }
     
     // CCPA compliance - https://unityads.unity3d.com/help/legal/gdpr
-    if ( ALSdk.versionCode >= 61100 )
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell )
-        {
-            [privacyConsentMetaData set: @"privacy.consent" value: @(!isDoNotSell.boolValue)]; // isDoNotSell means user has opted out and is equivalent to NO.
-            [privacyConsentMetaData commit];
-        }
+        [privacyConsentMetaData set: @"privacy.consent" value: @(!isDoNotSell.boolValue)]; // isDoNotSell means user has opted out and is equivalent to NO.
+        [privacyConsentMetaData commit];
     }
     
     [privacyConsentMetaData set: @"privacy.mode" value: @"mixed"];
     [privacyConsentMetaData commit];
     
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         [privacyConsentMetaData set: @"user.nonbehavioral" value: @(isAgeRestrictedUser.boolValue)];
         [privacyConsentMetaData commit];
-    }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
     }
 }
 
