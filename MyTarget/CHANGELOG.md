@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.18.0.0
+* Certified with MyTarget SDK 5.18.0.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 5.17.5.0
 * Certified with MyTarget SDK 5.17.5.
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
@@ -10,7 +14,7 @@
 
 ## 5.17.4.0
 * Certified with MyTarget SDK 5.17.4.
-* Must be built with Xcode 14.0
+* Updated minimum Xcode requirement to 14.0.
 * Updated the minimum required iOS version to 10.0 in Pod Spec to match myTargetSDK. 
 * Removed support for armv7 devices.
 

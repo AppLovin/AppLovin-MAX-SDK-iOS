@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.2.2
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 4.1.2.1
 * Fixed banner ads using modal view controller to be clickable by adding `presentingViewControllerForOguryAdsBannerAd` callback.
 

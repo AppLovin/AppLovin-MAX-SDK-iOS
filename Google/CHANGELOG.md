@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.6.0.1
+* Update CCPA state if granted mid-session.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 10.6.0.0
 * Certified with Google SDK 10.6.0.
 

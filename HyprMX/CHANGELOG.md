@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.2.0.1
+* Add support to set `ageRestrictedUser` on initialization.
+* Remove the `ageRestrictedUser` check from user consent.
+
 ## 6.2.0.0
 * Certified with HyprMX SDK 6.2.0.
 * Updated podspec to use `HyprMX` instead of `HyprMX/Core`.

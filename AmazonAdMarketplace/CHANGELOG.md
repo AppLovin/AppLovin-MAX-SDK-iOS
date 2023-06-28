@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.2.0
+* Certified with APS SDK 4.7.2.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 4.7.1.0
 * Certified with APS SDK 4.7.1.
 

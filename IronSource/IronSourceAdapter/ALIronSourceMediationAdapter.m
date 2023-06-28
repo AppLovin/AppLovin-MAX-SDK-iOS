@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.3.0.0.0"
+#define ADAPTER_VERSION @"7.3.1.0.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -55,17 +55,14 @@
         
         [self setPrivacySettingsWithParameters: parameters];
         
-        if ( ALSdk.versionCode >= 61100 )
+        NSNumber *isDoNotSell = [parameters isDoNotSell];
+        if ( isDoNotSell )
         {
-            NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-            if ( isDoNotSell )
-            {
-                // NOTE: `setMetaData` must be called _before_ initializing their SDK
-                [IronSource setMetaDataWithKey: @"do_not_sell" value: isDoNotSell.boolValue ? @"YES" : @"NO"];
-            }
+            // NOTE: `setMetaData` must be called _before_ initializing their SDK
+            [IronSource setMetaDataWithKey: @"do_not_sell" value: isDoNotSell.boolValue ? @"YES" : @"NO"];
         }
         
-        NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
         if ( isAgeRestrictedUser )
         {
             [IronSource setMetaDataWithKey: @"is_child_directed" value: isAgeRestrictedUser.boolValue ? @"YES" : @"NO"];
@@ -91,6 +88,7 @@
 
 - (void)destroy
 {
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
     [self.router removeAdapter: self forPlacementIdentifier: self.routerPlacementIdentifier];
@@ -262,37 +260,10 @@
 
 - (void)setPrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
         [IronSource setConsent: hasUserConsent.boolValue];
-    }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
     }
 }
 

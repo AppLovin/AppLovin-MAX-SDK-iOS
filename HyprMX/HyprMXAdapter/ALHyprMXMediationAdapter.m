@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.2.0.0"
+#define ADAPTER_VERSION @"6.2.0.1"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -118,6 +118,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
         [HyprMX initializeWithDistributorId: distributorId
                                      userId: userId
                               consentStatus: [self consentStatusWithParameters: parameters]
+                          ageRestrictedUser: parameters.ageRestrictedUser.boolValue
                      initializationDelegate: self.initializationDelegate];
     }
     else
@@ -285,15 +286,14 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 - (HyprConsentStatus)consentStatusWithParameters:(id<MAAdapterParameters>)parameters
 {
     NSNumber *hasUserConsent = parameters.hasUserConsent;
-    NSNumber *isAgeRestrictedUser = parameters.isAgeRestrictedUser;
     NSNumber *isDoNotSell = parameters.isDoNotSell;
     
     // isTrue/isFalse/isNil to match the spec from HyprMX
-    if ( ( [self isNil: isDoNotSell] || [self isFalse: isDoNotSell] ) && [self isTrue: hasUserConsent] && [self isFalse: isAgeRestrictedUser] )
+    if ( ( [self isNil: isDoNotSell] || [self isFalse: isDoNotSell] ) && [self isTrue: hasUserConsent] )
     {
         return CONSENT_GIVEN;
     }
-    else if ( [self isTrue: isDoNotSell] || [self isFalse: hasUserConsent] || [self isTrue: isAgeRestrictedUser] )
+    else if ( [self isTrue: isDoNotSell] || [self isFalse: hasUserConsent] )
     {
         return CONSENT_DECLINED;
     }

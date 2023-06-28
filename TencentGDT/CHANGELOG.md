@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.14.31.0
+* Certified with TencentGDT SDK 4.14.31.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 4.14.30.0
 * Certified with TencentGDT SDK 4.14.30.
 

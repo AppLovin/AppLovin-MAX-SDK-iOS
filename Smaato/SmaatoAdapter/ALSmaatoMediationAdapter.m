@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.1.2.0"
+#define ADAPTER_VERSION @"22.1.3.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -136,13 +136,18 @@
 
 - (void)destroy
 {
+    self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
+    self.nativeAd.delegate = nil;
     self.nativeAd = nil;
     self.nativeAdRenderer = nil;
+    self.nativeAdapterDelegate.delegate = nil;
     self.nativeAdapterDelegate = nil;
     
+    self.nativeAdViewAdapterDelegate.delegate = nil;
     self.nativeAdViewAdapterDelegate = nil;
     
     self.interstitialAd = nil;

@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.6.0.0"
+#define ADAPTER_VERSION @"10.6.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -163,24 +163,30 @@ static NSString *ALGoogleSDKVersion;
     
     self.interstitialAd.fullScreenContentDelegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
     self.appOpenAd.fullScreenContentDelegate = nil;
     self.appOpenAd = nil;
+    self.appOpenAdapterDelegate.delegate = nil;
     self.appOpenAdapterDelegate = nil;
     
     self.rewardedInterstitialAd.fullScreenContentDelegate = nil;
     self.rewardedInterstitialAd = nil;
+    self.rewardedInterstitialAdapterDelegate.delegate = nil;
     self.rewardedInterstitialAdapterDelegate = nil;
     
     self.rewardedAd.fullScreenContentDelegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
+    self.nativeAdLoader.delegate = nil;
     self.nativeAdLoader = nil;
     
     [self.nativeAd unregisterAdView];
@@ -190,6 +196,8 @@ static NSString *ALGoogleSDKVersion;
     [self.nativeAdView removeFromSuperview];
     self.nativeAdView = nil;
     
+    self.nativeAdViewAdapterDelegate.delegate = nil;
+    self.nativeAdAdapterDelegate.delegate = nil;
     self.nativeAdViewAdapterDelegate = nil;
     self.nativeAdAdapterDelegate = nil;
 }
@@ -775,6 +783,10 @@ static NSString *ALGoogleSDKVersion;
     {
         // Restrict data processing - https://developers.google.com/admob/ios/ccpa
         [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"gad_rdp"];
     }
     
     if ( ALSdk.versionCode >= 11000000 )

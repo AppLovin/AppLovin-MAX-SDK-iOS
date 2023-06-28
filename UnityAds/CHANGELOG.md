@@ -1,7 +1,18 @@
 # Changelog
 
+## 4.8.0.0
+* Certified with UnityAds SDK 4.8.0.
+* Updated minimum Xcode requirement to 14.0.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 4.7.1.0
 * Certified with UnityAds SDK 4.7.1.
+
+## 4.7.0.0
+* Certified with UnityAds SDK 4.7.0.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+* Add new error cases. 
 
 ## 4.6.1.0
 * Certified with UnityAds SDK 4.6.1.

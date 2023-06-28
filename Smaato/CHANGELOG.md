@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.1.3.0
+* Certified with Smaato SDK 22.1.3.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 22.1.2.0
 * Certified with Smaato SDK 22.1.2.
 

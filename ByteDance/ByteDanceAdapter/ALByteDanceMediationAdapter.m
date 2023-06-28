@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"5.2.0.8.0"
+#define ADAPTER_VERSION @"5.2.1.1.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -74,9 +74,11 @@
 @property (nonatomic, strong) ALByteDanceAdViewAdDelegate *adViewAdDelegate;
 @property (nonatomic, strong) PAGLNativeAd *nativeAdViewAd;
 @property (nonatomic, strong) ALByteDanceNativeAdViewAdDelegate *nativeAdViewAdDelegate;
+@property (nonatomic, strong) PAGLNativeAdRelatedView *nativeAdViewRelatedView;
 
 @property (nonatomic, strong) PAGLNativeAd *nativeAd;
 @property (nonatomic, strong) ALByteDanceNativeAdDelegate *nativeAdDelegate;
+@property (nonatomic, strong) PAGLNativeAdRelatedView *nativeAdRelatedView;
 
 @end
 
@@ -159,25 +161,39 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 {
     [self log: @"Destroying..."];
     
+    self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
+    self.appOpenAd.delegate = nil;
     self.appOpenAd = nil;
+    self.appOpenAdDelegate.delegate = nil;
     self.appOpenAdDelegate = nil;
     
+    self.rewardedVideoAd.delegate = nil;
     self.rewardedVideoAd = nil;
+    self.rewardedVideoAdDelegate.delegate = nil;
     self.rewardedVideoAdDelegate = nil;
     
+    self.adViewAd.delegate = nil;
     self.adViewAd = nil;
+    self.adViewAdDelegate.delegate = nil;
     self.adViewAdDelegate = nil;
     
     [self.nativeAdViewAd unregisterView];
+    self.nativeAdViewAd.delegate = nil;
     self.nativeAdViewAd = nil;
+    self.nativeAdViewAdDelegate.delegate = nil;
     self.nativeAdViewAdDelegate = nil;
+    self.nativeAdViewRelatedView = nil;
     
     [self.nativeAd unregisterView];
+    self.nativeAd.delegate = nil;
     self.nativeAd = nil;
+    self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
+    self.nativeAdRelatedView = nil;
 }
 
 #pragma mark - Signal Collection
@@ -441,11 +457,11 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                 }
                 
                 // Instantiate a relatedView and fill it based on the nativeAdViewAd
-                PAGLNativeAdRelatedView *relatedView = [[PAGLNativeAdRelatedView alloc] init];
-                [relatedView refreshWithNativeAd: ad];
+                self.nativeAdViewRelatedView = [[PAGLNativeAdRelatedView alloc] init];
+                [self.nativeAdViewRelatedView refreshWithNativeAd: ad];
                 
-                UIView *optionsView = relatedView.logoADImageView;
-                UIView *mediaView = relatedView.mediaView;
+                UIView *optionsView = self.nativeAdViewRelatedView.logoADImageView;
+                UIView *mediaView = self.nativeAdViewRelatedView.mediaView;
                 
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     
@@ -619,12 +635,12 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                 }];
             }
             
-            PAGLNativeAdRelatedView *relatedView = [[PAGLNativeAdRelatedView alloc] init];
-            [relatedView refreshWithNativeAd: ad];
+            self.nativeAdRelatedView = [[PAGLNativeAdRelatedView alloc] init];
+            [self.nativeAdRelatedView refreshWithNativeAd: ad];
             
-            UIView *optionsView = relatedView.logoADImageView;
-            UIView *mediaView = relatedView.mediaView;
-            
+            UIView *optionsView = self.nativeAdRelatedView.logoADImageView;
+            UIView *mediaView = self.nativeAdRelatedView.mediaView;
+
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 // Timeout tasks if incomplete within the given time

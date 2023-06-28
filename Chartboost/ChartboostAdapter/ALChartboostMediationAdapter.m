@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.3.0.0"
+#define ADAPTER_VERSION @"9.3.0.1"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -115,12 +115,22 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 - (void)destroy
 {
+    [self.interstitialAd clearCache];
+    self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
-    self.rewardedAd = nil;
-    self.adView = nil;
-    
+    self.interstitialDelegate.delegate = nil;
     self.interstitialDelegate = nil;
+    
+    [self.rewardedAd clearCache];
+    self.rewardedAd.delegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedDelegate.delegate = nil;
     self.rewardedDelegate = nil;
+    
+    [self.adView clearCache];
+    self.adView.delegate = nil;
+    self.adView = nil;
+    self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
 }
 

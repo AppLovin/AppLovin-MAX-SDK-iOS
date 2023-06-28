@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.3.0.1
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 9.3.0.0
 * Certified with Chartboost SDK 9.3.0.
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.

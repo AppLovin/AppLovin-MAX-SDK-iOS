@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.3.1.0.1
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
+## 7.3.1.0.0
+* Certified with IronSource SDK 7.3.1.0.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+
 ## 7.3.0.0.0
 * Certified with IronSource SDK 7.3.0.0.
 

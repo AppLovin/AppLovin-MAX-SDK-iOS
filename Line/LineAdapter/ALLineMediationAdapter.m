@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.6.20230215.0"
+#define ADAPTER_VERSION @"2.6.20230609.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -115,7 +115,7 @@ static ALAtomicBoolean *ALLineInitialized;
         //
         // GDPR options
         //
-        NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+        NSNumber *hasUserConsent = [parameters hasUserConsent];
         if ( hasUserConsent )
         {
             config.needGdprNonPersonalizedAdsTreatment = hasUserConsent.boolValue ? kFADNeedGdprNonPersonalizedAdsTreatmentFalse : kFADNeedGdprNonPersonalizedAdsTreatmentTrue;
@@ -124,7 +124,7 @@ static ALAtomicBoolean *ALLineInitialized;
         //
         // COPPA options
         //
-        NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
         if ( isAgeRestrictedUser )
         {
             config.needChildDirectedTreatment = isAgeRestrictedUser.boolValue ? kFADNeedChildDirectedTreatmentTrue : kFADNeedChildDirectedTreatmentFalse;
@@ -221,38 +221,38 @@ static ALAtomicBoolean *ALLineInitialized;
     [self log: @"Loading %@%@ ad for slot id: %@...", isNative ? @"native " : @"", adFormat.label, slotId];
     
     dispatchOnMainQueue(^{
-    
-      if ( isNative )
-      {
-          self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                                       adFormat: adFormat
-                                                                                               serverParameters: parameters.serverParameters
-                                                                                                      andNotify: delegate];
-          self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-          [self.nativeAd setLoadDelegate: self.nativeAdViewDelegate];
-          [self.nativeAd setAdViewEventListener: self.nativeAdViewDelegate];
-
-          // We always want to mute banners and MRECs
-          [self.nativeAd enableSound: NO];
-
-          [self.nativeAd loadAdAsync];
-      }
-      else
-      {
-          self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormat: adFormat andNotify: delegate];
-          self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                           adFormat: adFormat
-                                                                                          andNotify: delegate];
-          self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
-          [self.adView setLoadDelegate: self.adViewDelegate];
-          [self.adView setAdViewEventListener: self.adViewDelegate];
-          self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
-
-          // We always want to mute banners and MRECs
-          [self.adView enableSound: NO];
-
-          [self.adView loadAdAsync];
-       }
+        
+        if ( isNative )
+        {
+            self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                         adFormat: adFormat
+                                                                                                 serverParameters: parameters.serverParameters
+                                                                                                        andNotify: delegate];
+            self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
+            [self.nativeAd setLoadDelegate: self.nativeAdViewDelegate];
+            [self.nativeAd setAdViewEventListener: self.nativeAdViewDelegate];
+            
+            // We always want to mute banners and MRECs
+            [self.nativeAd enableSound: NO];
+            
+            [self.nativeAd loadAdAsync];
+        }
+        else
+        {
+            self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormat: adFormat andNotify: delegate];
+            self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                             adFormat: adFormat
+                                                                                            andNotify: delegate];
+            self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
+            [self.adView setLoadDelegate: self.adViewDelegate];
+            [self.adView setAdViewEventListener: self.adViewDelegate];
+            self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
+            
+            // We always want to mute banners and MRECs
+            [self.adView enableSound: NO];
+            
+            [self.adView loadAdAsync];
+        }
     });
 }
 
@@ -330,33 +330,6 @@ static ALAtomicBoolean *ALLineInitialized;
                   thirdPartySdkErrorCode: lineAdsErrorCode
                thirdPartySdkErrorMessage: thirdPartySdkErrorMessage];
 #pragma clang diagnostic pop
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
-    else
-    {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
-    }
 }
 
 @end
@@ -807,13 +780,8 @@ static ALAtomicBoolean *ALLineInitialized;
             }
             
             MANativeAdView *maxNativeAdView;
-            if ( ALSdk.versionCode < 6140000 )
-            {
-                [self.parentAdapter log: @"Native ads with media views are only supported on MAX SDK version 6.14.0 and above. Default native template will be used."];
-                maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd];
-            }
             // Fallback case to be removed when backend sends down full template names for vertical native ads
-            else if ( [templateName isEqualToString: @"vertical"] )
+            if ( [templateName isEqualToString: @"vertical"] )
             {
                 NSString *verticalTemplateName = ( self.adFormat == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
                 maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: verticalTemplateName];
@@ -824,6 +792,18 @@ static ALAtomicBoolean *ALLineInitialized;
             }
             
             NSMutableArray *clickableViews = [NSMutableArray array];
+            if ( [maxNativeAd.title al_isValidString] && maxNativeAdView.titleLabel )
+            {
+                [clickableViews addObject: maxNativeAdView.titleLabel];
+            }
+            if ( [maxNativeAd.body al_isValidString] && maxNativeAdView.bodyLabel )
+            {
+                [clickableViews addObject: maxNativeAdView.bodyLabel];
+            }
+            if ( [maxNativeAd.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
+            {
+                [clickableViews addObject: maxNativeAdView.callToActionButton];
+            }
             if ( maxNativeAd.icon && maxNativeAdView.iconImageView )
             {
                 [clickableViews addObject: maxNativeAdView.iconImageView];
@@ -831,18 +811,6 @@ static ALAtomicBoolean *ALLineInitialized;
             if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
             {
                 [clickableViews addObject: maxNativeAdView.mediaContentView];
-            }
-            if ( [maxNativeAd.title al_isValidString] && maxNativeAdView.titleLabel )
-            {
-                [clickableViews addObject: maxNativeAdView.titleLabel];
-            }
-            if ( [maxNativeAd.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-            {
-                [clickableViews addObject: maxNativeAdView.callToActionButton];
-            }
-            if ( [maxNativeAd.body al_isValidString] && maxNativeAdView.bodyLabel )
-            {
-                [clickableViews addObject: maxNativeAdView.bodyLabel];
             }
             
             [nativeAd registerViewForInteraction: maxNativeAdView withInformationIconView: maxNativeAdView.iconImageView withClickableViews: clickableViews];
@@ -1064,7 +1032,7 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
     
     [nativeAd registerViewForInteraction: container withInformationIconView: iconImageView withClickableViews: clickableViews];
-
+    
     return YES;
 }
 

@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.7.1.0"
+#define ADAPTER_VERSION @"4.7.2.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -149,11 +149,20 @@ static NSString *ALAPSSDKVersion;
 
 - (void)destroy
 {
+    self.signalCollectionDelegate.delegate = nil;
     self.signalCollectionDelegate = nil;
+    
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
+    
+    self.interstitialDispatcher.delegate = nil;
     self.interstitialDispatcher = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
+    
+    self.rewardedDispatcher.delegate = nil;
     self.rewardedDispatcher = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
 }
 

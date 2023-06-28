@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.1.2.1"
+#define ADAPTER_VERSION @"4.1.2.2"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -103,14 +103,20 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 
 - (void)destroy
 {
+    self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialDelegate.delegate = nil;
     self.interstitialDelegate = nil;
     
+    self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdDelegate.delegate = nil;
     self.rewardedAdDelegate = nil;
     
     [self.adView destroy];
+    self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
 }
 
