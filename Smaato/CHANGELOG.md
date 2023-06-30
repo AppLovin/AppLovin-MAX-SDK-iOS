@@ -1,5 +1,8 @@
 # Changelog
 
+## 22.2.1.0
+* Certified with Smaato SDK 22.2.1.
+
 ## 22.2.0.0
 * Certified with Smaato SDK 22.2.0.
 * Updated minimum Xcode requirement to 14.1.
