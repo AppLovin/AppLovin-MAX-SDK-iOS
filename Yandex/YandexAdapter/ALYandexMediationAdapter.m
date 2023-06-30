@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"5.7.0.0"
+#define ADAPTER_VERSION @"5.8.0.0"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -110,12 +110,18 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
+    self.interstitialAdapterDelegate = nil;
     
     self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
+    self.rewardedAdapterDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
+    self.adViewAdapterDelegate = nil;
 }
 
 #pragma mark - Signal Collection
