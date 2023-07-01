@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.8.0.0"
+#define ADAPTER_VERSION @"4.8.0.1"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -585,6 +585,12 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Banner ad failed to load: %@", error];
     [self.delegate didFailToLoadAdViewAdWithError: [ALUnityAdsMediationAdapter toMaxError: error]];
+}
+
+- (void)bannerViewDidShow:(UADSBannerView *)bannerView
+{
+    [self.parentAdapter log: @"Banner shown"];
+    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)bannerViewDidClick:(UADSBannerView *)bannerView
