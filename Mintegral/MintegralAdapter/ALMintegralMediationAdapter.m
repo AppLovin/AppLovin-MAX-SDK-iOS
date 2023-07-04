@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.3.8.0.0"
+#define ADAPTER_VERSION @"7.3.9.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -182,6 +182,13 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     self.bidNativeAdViewManager = nil;
     
     self.nativeAdCampaign = nil;
+    
+    self.interstitialDelegate.delegate = nil;
+    self.appOpenAdDelegate.delegate = nil;
+    self.rewardedDelegate.delegate = nil;
+    self.bannerDelegate.delegate = nil;
+    self.nativeAdDelegate.delegate = nil;
+    self.nativeAdViewDelegate.delegate = nil;
     
     self.interstitialDelegate = nil;
     self.appOpenAdDelegate = nil;
