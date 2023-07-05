@@ -95,16 +95,6 @@
 
 #pragma mark - MARewardedAdDelegate Protocol
 
-- (void)didStartRewardedVideoForAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
-- (void)didCompleteRewardedVideoForAd:(MAAd *)ad
-{
-    [self logCallback: __PRETTY_FUNCTION__];
-}
-
 - (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward
 {
     // Rewarded ad was displayed and user should receive the reward
