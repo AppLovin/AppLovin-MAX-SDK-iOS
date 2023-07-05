@@ -19,6 +19,11 @@
 static NSString *const kSupportLink = @"https://support.applovin.com/support/home";
 static const NSInteger kRowIndexToHideForPhone = 3;
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -93,10 +98,6 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     {
         [[UIApplication sharedApplication] openURL: [NSURL URLWithString: kSupportLink]];
     }
-}
-
-- (UIStatusBarStyle) preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
 }
 
 - (void)addFooterLabel
