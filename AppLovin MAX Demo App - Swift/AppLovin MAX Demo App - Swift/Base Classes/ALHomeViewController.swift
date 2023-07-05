@@ -119,16 +119,14 @@ class ALHomeViewController: UITableViewController
         if #available(iOS 9.0, *)
         {
             let safariController = SFSafariViewController(url: supportURL, entersReaderIfAvailable: true)
-            present(safariController, animated: true)
+            present(safariController, animated: true, completion: {
+                UIApplication.shared.statusBarStyle = .default
+            })
         }
         else
         {
             UIApplication.shared.openURL(supportURL)
         }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.lightContent
     }
     
 }
