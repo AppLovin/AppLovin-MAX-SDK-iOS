@@ -54,7 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		03BC9EB9E864EC8A282B84DB /* Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/AppLovin MAX Demo App - ObjC/Pods/Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
+		03BC9EB9E864EC8A282B84DB /* Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		13C37ED6A69CB1BAEB81EB97 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		1D0CB32E23204CE70076AAAA /* ALMAXInterstitialAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALMAXInterstitialAdViewController.h; sourceTree = "<group>"; };
 		1D0CB32F23204CE70076AAAA /* ALMAXInterstitialAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALMAXInterstitialAdViewController.m; sourceTree = "<group>"; };
@@ -104,11 +104,11 @@
 		77B6F434279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMAXTemplateNativeAdViewController.h; sourceTree = "<group>"; };
 		77B6F435279B51AB0063F81D /* ALMAXManualNativeAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMAXManualNativeAdViewController.h; sourceTree = "<group>"; };
 		77B6F436279B51AB0063F81D /* ALMAXTemplateNativeAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMAXTemplateNativeAdViewController.m; sourceTree = "<group>"; };
-		8B44FAD7FD9A7F46FD47BFD5 /* Pods_AppLovin_MAX_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_AppLovin_MAX_Demo_App___ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B44FAD7FD9A7F46FD47BFD5 /* Pods_AppLovin_MAX_Demo_App___ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLovin_MAX_Demo_App___ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		947968BDEB66F929BB7F3151 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC/Pods-Non-Mediated Projects-AppLovin MAX Demo App - ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		C0DE8BB1234E8A86004B0CFC /* ALBaseAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBaseAdViewController.h; sourceTree = "<group>"; };
 		C0DE8BB2234E8A86004B0CFC /* ALBaseAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBaseAdViewController.m; sourceTree = "<group>"; };
-		D5800DCAD909EC69A12040D8 /* Pods-AppLovin MAX Demo App - ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - ObjC.release.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/AppLovin MAX Demo App - ObjC/Pods/Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC.release.xcconfig"; sourceTree = "<group>"; };
+		D5800DCAD909EC69A12040D8 /* Pods-AppLovin MAX Demo App - ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - ObjC.release.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - ObjC/Pods-AppLovin MAX Demo App - ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		DEEC21EC299EC35C002313FB /* ALMAXAppOpenAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMAXAppOpenAdViewController.h; sourceTree = "<group>"; };
 		DEEC21ED299EC35C002313FB /* ALMAXAppOpenAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMAXAppOpenAdViewController.m; sourceTree = "<group>"; };
 		E56784A523F22AB300ACA6C1 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
@@ -824,7 +824,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z32VZFZ239;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
 				INFOPLIST_FILE = "$(SRCROOT)/AppLovin MAX Demo App - ObjC/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

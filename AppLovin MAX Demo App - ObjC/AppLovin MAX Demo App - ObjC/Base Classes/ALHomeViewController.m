@@ -87,16 +87,14 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     {
         SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL: [NSURL URLWithString: kSupportLink]
                                                                        entersReaderIfAvailable: YES];
-        [self presentViewController: safariController animated: YES completion:^{}];
+        [self presentViewController: safariController animated: YES completion:^{
+            [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleDefault];
+        }];
     }
     else
     {
         [[UIApplication sharedApplication] openURL: [NSURL URLWithString: kSupportLink]];
     }
-}
-
-- (UIStatusBarStyle) preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
 }
 
 - (void)addFooterLabel
