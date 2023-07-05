@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.3.1.0
+* Certified with Chartboost SDK 9.3.1.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 9.3.0.1
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   
 
