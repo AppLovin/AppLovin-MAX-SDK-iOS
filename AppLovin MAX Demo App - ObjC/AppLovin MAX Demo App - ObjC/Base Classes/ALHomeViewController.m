@@ -92,7 +92,7 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     {
         SFSafariViewController *safariController = [[SFSafariViewController alloc] initWithURL: [NSURL URLWithString: kSupportLink]
                                                                        entersReaderIfAvailable: YES];
-        [self presentViewController: safariController animated: YES completion: nil];
+        [self presentViewController: safariController animated: YES completion:^{}];
     }
     else
     {
