@@ -14,8 +14,7 @@ import SafariServices
 class ALHomeViewController: UITableViewController
 {
     let kSupportLink = "https://support.applovin.com/hc/en-us"
-    
-    let kRowIndexToHideForPhones = 3;
+    let kRowIndexToHideForPhones = 3
     
     @IBOutlet var muteToggle: UIBarButtonItem!
     @IBOutlet weak var mediationDebuggerCell: UITableViewCell!
