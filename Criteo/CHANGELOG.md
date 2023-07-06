@@ -2,6 +2,8 @@
 
 ## 5.0.0.0
 * Certified with Criteo SDK 5.0.0.
+* Updated minimum Xcode requirement to 14.0.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.
 
 ## 4.9.0.0
 * Certified with Criteo SDK 4.9.0.
