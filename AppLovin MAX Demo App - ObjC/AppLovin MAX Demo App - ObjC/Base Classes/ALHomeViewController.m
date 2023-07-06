@@ -16,7 +16,7 @@
 @end
 
 @implementation ALHomeViewController
-static NSString *const kSupportLink = @"https://support.applovin.com/support/home";
+static NSString *const kSupportLink = @"https://support.applovin.com/hc/en-us";
 static const NSInteger kRowIndexToHideForPhone = 3;
 
 - (UIStatusBarStyle)preferredStatusBarStyle

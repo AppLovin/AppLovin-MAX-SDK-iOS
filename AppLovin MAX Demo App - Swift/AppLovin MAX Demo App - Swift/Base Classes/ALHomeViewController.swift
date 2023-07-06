@@ -13,7 +13,7 @@ import SafariServices
 
 class ALHomeViewController: UITableViewController
 {
-    let kSupportLink = "https://support.applovin.com/support/home"
+    let kSupportLink = "https://support.applovin.com/hc/en-us"
     
     let kRowIndexToHideForPhones = 3;
     
