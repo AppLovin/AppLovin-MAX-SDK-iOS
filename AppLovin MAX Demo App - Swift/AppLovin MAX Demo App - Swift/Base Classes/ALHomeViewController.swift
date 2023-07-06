@@ -20,6 +20,11 @@ class ALHomeViewController: UITableViewController
     @IBOutlet var muteToggle: UIBarButtonItem!
     @IBOutlet weak var mediationDebuggerCell: UITableViewCell!
     
+    override var preferredStatusBarStyle: UIStatusBarStyle
+    {
+        return .lightContent
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -119,9 +124,7 @@ class ALHomeViewController: UITableViewController
         if #available(iOS 9.0, *)
         {
             let safariController = SFSafariViewController(url: supportURL, entersReaderIfAvailable: true)
-            present(safariController, animated: true, completion: {
-                UIApplication.shared.statusBarStyle = .default
-            })
+            present(safariController, animated: true)
         }
         else
         {
