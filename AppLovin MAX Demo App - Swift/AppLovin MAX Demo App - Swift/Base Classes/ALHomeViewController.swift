@@ -22,7 +22,7 @@ class ALHomeViewController: UITableViewController
     
     override var preferredStatusBarStyle: UIStatusBarStyle
     {
-        return UIStatusBarStyle.lightContent
+        return .lightContent
     }
     
     override func viewDidLoad()
