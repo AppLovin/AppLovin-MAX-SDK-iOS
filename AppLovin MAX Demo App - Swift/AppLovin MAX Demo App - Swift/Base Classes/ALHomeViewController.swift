@@ -13,8 +13,8 @@ import SafariServices
 
 class ALHomeViewController: UITableViewController
 {
-    let kSupportLink = "https://support.applovin.com/hc/en-us"
-    let kRowIndexToHideForPhones = 3
+    static let kSupportLink = "https://support.applovin.com/hc/en-us"
+    static let kRowIndexToHideForPhones = 3
     
     @IBOutlet var muteToggle: UIBarButtonItem!
     @IBOutlet weak var mediationDebuggerCell: UITableViewCell!
@@ -60,7 +60,7 @@ class ALHomeViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == kRowIndexToHideForPhones
+        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
         {
             cell.isHidden = true;
         }
@@ -68,7 +68,7 @@ class ALHomeViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == kRowIndexToHideForPhones
+        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
         {
             return 0;
         }
@@ -118,7 +118,7 @@ class ALHomeViewController: UITableViewController
     
     func openSupportSite()
     {
-        guard let supportURL = URL(string: kSupportLink) else { return }
+        guard let supportURL = URL(string: Self.kSupportLink) else { return }
         
         if #available(iOS 9.0, *)
         {
