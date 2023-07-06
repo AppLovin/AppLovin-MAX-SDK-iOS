@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"4.9.0.0"
+#define ADAPTER_VERSION @"5.0.0.0"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject <CRInterstitialDelegate>
@@ -120,16 +120,20 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
     
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
     self.bannerAd.delegate = nil;
     self.bannerAd = nil;
+    self.bannerAdDelegate.delegate = nil;
     self.bannerAdDelegate = nil;
     
     self.nativeAdLoader.delegate = nil;
+    self.nativeAdLoader = nil;
     self.nativeAd = nil;
     self.nativeAdView = nil;
-    self.nativeAdLoader = nil;
+    self.nativeAdAdapterDelegate.delegate = nil;
+    self.nativeAdAdapterDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
