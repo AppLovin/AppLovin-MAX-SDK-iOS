@@ -214,7 +214,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
     
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
-    [self setPrivcayCompliance:parameters];
+    [self setPrivacyCompliance:parameters];
     
     NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
     [delegate didCollectSignal: signal];
@@ -230,7 +230,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Update GDPR states
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
-    [self setPrivcayCompliance:parameters];
+    [self setPrivacyCompliance:parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
@@ -359,7 +359,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Update GDPR states
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
-    [self setPrivcayCompliance:parameters];
+    [self setPrivacyCompliance:parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -383,7 +383,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Update GDPR states
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
-    [self setPrivcayCompliance:parameters];
+    [self setPrivacyCompliance:parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -436,7 +436,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
 }
 
-- (void)setPrivcayCompliance:(id<MAAdapterParameters>)parameters {
+- (void)setPrivacyCompliance:(id<MAAdapterParameters>)parameters {
     
     NSNumber *isDoNotSell = [parameters isDoNotSell];
     if ( isDoNotSell )
