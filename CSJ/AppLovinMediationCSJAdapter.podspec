@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationCSJAdapter'
-s.version = '4.9.0.7.1'
+s.version = '4.9.0.7.2'
 s.platform = :ios, '10.0'
 s.summary = 'CSJ adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -31,10 +31,7 @@ s.dependency 'AppLovinSDK'
 
 s.pod_target_xcconfig =
 {
-  'VALID_ARCHS' => 'arm64 arm64e armv7 armv7s x86_64',
-  'VALID_ARCHS[sdk=iphoneos*]' => 'arm64 arm64e armv7 armv7s',
-  'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64',
-  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386'
+  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
 }
 
 s.description = <<-DESC

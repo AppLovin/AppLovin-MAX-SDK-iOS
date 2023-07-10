@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.9.0.7.1"
+#define ADAPTER_VERSION @"4.9.0.7.2"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -160,23 +160,37 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
 {
     [self log: @"Destroying..."];
     
+    self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
+    self.appOpenAd.delegate = nil;
     self.appOpenAd = nil;
+    self.appOpenAdDelegate.delegate = nil;
     self.appOpenAdDelegate = nil;
     
+    self.rewardedVideoAd.delegate = nil;
     self.rewardedVideoAd = nil;
+    self.rewardedVideoAdDelegate.delegate = nil;
     self.rewardedVideoAdDelegate = nil;
     
+    self.adViewAd.delegate = nil;
     self.adViewAd = nil;
+    self.adViewAdDelegate.delegate = nil;
     self.adViewAdDelegate = nil;
+    
+    self.nativeAdViewAdManager.delegate = nil;
     self.nativeAdViewAdManager = nil;
+    self.nativeAdViewAdDelegate.delegate = nil;
     self.nativeAdViewAdDelegate = nil;
     
     [self.nativeAd unregisterView];
+    self.nativeAd.delegate = nil;
     self.nativeAd = nil;
+    self.nativeAdManager.delegate = nil;
     self.nativeAdManager = nil;
+    self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
 }
 
@@ -1049,6 +1063,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Native %@ ad loaded: %@. Preparing assets...", self.adFormat.label, self.slotId];
     
     BUNativeAd *nativeAd = nativeAdDataArray.firstObject;
+    self.parentAdapter.nativeAd = nativeAd;
     
     // Pangle iOS doesn't link the passed in delegate so we do it here
     nativeAd.delegate = self;
@@ -1105,8 +1120,8 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
                 builder.body = data.AdDescription;
                 builder.callToAction = data.buttonText;
                 builder.icon = iconImage;
-                builder.mediaView = [self.parentAdapter isVideoMediaView: data.imageMode] ? relatedView.videoAdView : mediaImageView;
                 builder.optionsView = relatedView.logoADImageView;
+                builder.mediaView = [self.parentAdapter isVideoMediaView: data.imageMode] ? relatedView.videoAdView : mediaImageView;
             }];
             
             NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
@@ -1282,10 +1297,10 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
             }
             builder.callToAction = data.buttonText;
             builder.icon = iconImage;
-            builder.mainImage = mainImage;
-            builder.mediaView = mediaView;
-            builder.mediaContentAspectRatio = data.videoResolutionWidth / data.videoResolutionHeight;
             builder.optionsView = optionsView;
+            builder.mediaView = mediaView;
+            builder.mainImage = mainImage;
+            builder.mediaContentAspectRatio = data.videoResolutionWidth / data.videoResolutionHeight;
         }];
         
         [self.parentAdapter log: @"Native ad fully loaded: %@", self.slotId];
