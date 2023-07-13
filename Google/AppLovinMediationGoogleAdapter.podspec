@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationGoogleAdapter'
-s.version = '10.7.0.0'
+s.version = '10.8.0.0'
 s.platform = :ios, '10.0'
 s.summary = 'Google adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -20,13 +20,15 @@ LICENSE
 
 s.source = 
 {
-  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/google-adapter/#{s.name}-#{s.version}.zip",
+  :http => "#{s.version}" =~ /beta/ ?
+    "https://artifacts.applovin.com/ios/com/applovin/mediation/beta/google-adapter/#{s.name}-#{s.version}.zip" :
+    "https://artifacts.applovin.com/ios/com/applovin/mediation/google-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'Google-Mobile-Ads-SDK', '= 10.7.0'
+s.dependency 'Google-Mobile-Ads-SDK', '= 10.8.0'
 s.dependency 'AppLovinSDK'
 
 s.description = <<-DESC
