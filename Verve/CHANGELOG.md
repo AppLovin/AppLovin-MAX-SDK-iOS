@@ -2,7 +2,7 @@
 
 ## 2.19.0.0
 * Certified with Verve SDK 2.19.0.
-* Updated minimum Xcode requirement to 14.0.
+* Updated minimum Xcode requirement to 14.1.
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   
 
 ## 2.18.1.1
