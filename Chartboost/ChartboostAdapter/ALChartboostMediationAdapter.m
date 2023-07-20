@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.3.1.0"
+#define ADAPTER_VERSION @"9.4.0.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -292,7 +292,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( chartBoostCacheErrorCode )
     {
-        case CHBCacheErrorCodeInternal:
+        case CHBCacheErrorCodeInternalError:
             adapterError = MAAdapterError.internalError;
             break;
         case CHBCacheErrorCodeInternetUnavailable:
@@ -331,7 +331,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( chartBoostShowErrorCode )
     {
-        case CHBShowErrorCodeInternal:
+        case CHBShowErrorCodeInternalError:
         case CHBShowErrorCodePresentationFailure:
             adapterError = MAAdapterError.internalError;
             break;
