@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.1.4.2
+* Updated minimum Xcode requirement to 14.1.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.
+* Revert temporary workaround for the issue where `bannerAdImpressed:` is called before `bannerDidFinishLoading:`.    
+
 ## 10.1.4.1
 * Add a temporary workaround for the issue where `bannerAdImpressed:` is called before `bannerDidFinishLoading:.`
 
