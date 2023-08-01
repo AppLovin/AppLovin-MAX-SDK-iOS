@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.1.0
+* Certified with Vungle SDK 7.0.1.
+* Update to use instance based APIs.
+* Updated minimum Xcode requirement to 14.1.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 6.12.3.0
 * Certified with Vungle SDK 6.12.3.
 
