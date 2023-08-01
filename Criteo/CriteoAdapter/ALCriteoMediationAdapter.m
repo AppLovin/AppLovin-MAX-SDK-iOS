@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"5.0.0.0"
+#define ADAPTER_VERSION @"5.0.2.0"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject <CRInterstitialDelegate>

@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0.2.0
+* Certified with Criteo SDK 5.0.2.
+
+## 5.0.1.0
+* Certified with Criteo SDK 5.0.1.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 5.0.0.0
 * Certified with Criteo SDK 5.0.0.
 * Updated minimum Xcode requirement to 14.0.
