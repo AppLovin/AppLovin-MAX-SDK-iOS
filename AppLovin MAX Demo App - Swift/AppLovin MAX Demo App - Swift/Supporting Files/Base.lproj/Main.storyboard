@@ -1360,6 +1360,26 @@
                                             <segue destination="E60-Rv-ojR" kind="show" id="o7K-xY-Urq"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rootPrototype" textLabel="LbO-Rw-Mu7" style="IBUITableViewCellStyleDefault" id="58Z-2g-BIY">
+                                        <rect key="frame" x="0.0" y="230" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="58Z-2g-BIY" id="5Fu-Yt-LTg">
+                                            <rect key="frame" x="0.0" y="0.0" width="383.5" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="SwiftUI Templates API" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LbO-Rw-Mu7">
+                                                    <rect key="frame" x="20" y="0.0" width="355.5" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ugF-Gs-3Ag" kind="show" id="0pI-Z1-uK6"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1776,6 +1796,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BKk-cT-hhR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-409" y="-538"/>
+        </scene>
+        <!--SwiftUI Templates API-->
+        <scene sceneID="X0S-5T-PJk">
+            <objects>
+                <viewController id="ugF-Gs-3Ag" userLabel="SwiftUI Templates API" customClass="ALMAXSwiftUITemplateNativeAdViewController" customModule="AppLovin_MAX_Demo_App___Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dEp-cr-BIY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="KET-kC-2Mg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kJd-br-Z1U"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kax-Am-EUo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4167" y="2192"/>
         </scene>
     </scenes>
     <resources>
