@@ -18,7 +18,7 @@ struct ALMAXSwiftUITemplateNativeAdView: View
     var body: some View {
         
         VStack {
-            MANativeTemplateAdViewSwiftUIWrapper(triggerLoadAd: $viewModel.triggerLoadAd,
+            MANativeTemplateAdViewSwiftUIWrapper(triggerShowAd: $viewModel.triggerShowAd,
                                                  nativeAdLoader: viewModel.adLoader,
                                                  containerView: viewModel.containerView,
                                                  didLoadNativeAd: viewModel.didLoadNativeAd(_:for:),
@@ -31,7 +31,7 @@ struct ALMAXSwiftUITemplateNativeAdView: View
             callbacksTable
                 .frame(maxHeight: .infinity)
             Button {
-                viewModel.triggerLoadAd = true
+                viewModel.triggerShowAd = true
             } label: {
                 Text("Show")
             }
@@ -49,7 +49,7 @@ struct ALMAXSwiftUITemplateNativeAdView: View
 class ALMAXSwiftUITemplateNativeAdViewModel: NSObject, ObservableObject
 {
     @Published fileprivate var callbacks: [CallbackTableItem] = []
-    @Published var triggerLoadAd: Bool = false
+    @Published var triggerShowAd: Bool = false
     
     let adUnitIdentifier: String
     
@@ -103,7 +103,7 @@ extension ALMAXSwiftUITemplateNativeAdViewModel: MANativeAdDelegate
             self.containerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
             self.containerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
             
-            self.triggerLoadAd = false
+            self.triggerShowAd = false
         }
     }
     

@@ -12,8 +12,7 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 struct MANativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
 {
-    
-    @Binding var triggerLoadAd: Bool
+    @Binding var triggerShowAd: Bool
     let nativeAdLoader: NativeSwiftUIAdLoader
     let containerView: UIView
     
@@ -37,7 +36,7 @@ struct MANativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
     
     func updateUIView(_ uiView: UIView, context: Context)
     {
-        if triggerLoadAd
+        if triggerShowAd
         {
             nativeAdLoader.showAd()
         }

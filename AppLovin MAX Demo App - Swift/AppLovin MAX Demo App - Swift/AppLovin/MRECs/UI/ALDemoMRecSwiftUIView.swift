@@ -96,8 +96,6 @@ extension ALDemoSwiftUIMRecViewModel: ALAdDisplayDelegate
     func ad(_ ad: ALAd, wasClickedIn view: UIView) { logCallback() }
 }
 
-
-
 @available(iOS 13.0, *)
 extension ALDemoSwiftUIMRecViewModel: ALAdViewEventDelegate
 {

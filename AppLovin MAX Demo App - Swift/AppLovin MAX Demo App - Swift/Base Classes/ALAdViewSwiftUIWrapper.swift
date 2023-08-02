@@ -70,7 +70,6 @@ extension AlAdViewSwiftUIWrapper
     {
         private let parent: AlAdViewSwiftUIWrapper
 
-        
         init(parent: AlAdViewSwiftUIWrapper)
         {
             self.parent = parent
