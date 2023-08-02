@@ -127,7 +127,6 @@ extension ALMAXSwiftUITemplateNativeAdViewModel: MANativeAdDelegate
 extension ALMAXSwiftUITemplateNativeAdViewModel: MAAdRevenueDelegate
 {
     // MARK: MANativeAdDelegate Protocol
-    
     func didPayRevenue(for ad: MAAd)
     {
         logCallback()
