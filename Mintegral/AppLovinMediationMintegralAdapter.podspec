@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationMintegralAdapter'
-s.version = '7.4.1.0.0'
+s.version = '7.4.2.0.0'
 s.platform = :ios, '9.0'
 s.summary = 'Mintegral adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -20,16 +20,14 @@ LICENSE
 
 s.source =
 {
-  :http => "#{s.version}" =~ /beta/ ?
-    "https://artifacts.applovin.com/ios/com/applovin/mediation/beta/mintegral-adapter/#{s.name}-#{s.version}.zip" :
-    "https://artifacts.applovin.com/ios/com/applovin/mediation/mintegral-adapter/#{s.name}-#{s.version}.zip",
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/mintegral-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'MintegralAdSDK', '= 7.4.1'
-s.dependency 'MintegralAdSDK/BidSplashAd', '= 7.4.1'
+s.dependency 'MintegralAdSDK', '= 7.4.2'
+s.dependency 'MintegralAdSDK/BidSplashAd', '= 7.4.2'
 
 s.dependency 'AppLovinSDK'
 

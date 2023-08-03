@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.2.0.0
+* Certified with Mintegral SDK 7.4.2.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 7.4.1.0.0
 * Certified with Mintegral SDK 7.4.1.
 
