@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0.0.0
+* Certified with BidMachine SDK 2.3.0.0.
+* Updated minimum Xcode requirement to 14.1.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 2.1.0.0.1
 * Updated `[BidMachine tokenWith:completion:]` usage.
 
@@ -20,6 +25,7 @@
 * Certified with BidMachine SDK 2.0.0.5.
 * Update to use new APIs.
 * Remove `consentDialogState` guard.
+* Updated minimum Xcode requirement to 14.0.
 
 ## 1.9.5.1.0
 * Certified with BidMachine SDK 1.9.5.1.

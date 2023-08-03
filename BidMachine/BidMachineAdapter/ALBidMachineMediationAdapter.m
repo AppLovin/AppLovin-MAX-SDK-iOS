@@ -10,7 +10,7 @@
 #import <BidMachine/BidMachine.h>
 #import <BidMachineApiCore/BidMachineApiCore.h>
 
-#define ADAPTER_VERSION @"2.1.0.0.1"
+#define ADAPTER_VERSION @"2.3.0.0.0"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -126,18 +126,22 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
     self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
     self.nativeAd.delegate = nil;
     self.nativeAd = nil;
+    self.nativeAdAdapterDelegate.delegate = nil;
     self.nativeAdAdapterDelegate = nil;
 }
 
