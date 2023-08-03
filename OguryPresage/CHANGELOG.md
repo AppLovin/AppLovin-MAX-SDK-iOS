@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0.0
+* Certified with OguryPresage SDK 4.2.0.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 4.1.4.0
 * Certified with OguryPresage SDK 4.1.4 that includes the fix to ensure `didTriggerImpressionOguryBannerAd:` is called when `presentingViewControllerForOguryAdsBannerAd` is implemented.
 * Updated minimum Xcode requirement to 14.0.
