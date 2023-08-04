@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.12.0.3"
+#define ADAPTER_VERSION @"6.14.0.0"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -169,28 +169,36 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
     self.rewardedInterAd.delegate = nil;
     self.rewardedInterAd = nil;
+    self.rewardedInterAdapterDelegate.delegate = nil;
     self.rewardedInterAdapterDelegate = nil;
     
     self.rewardedVideoAd.delegate = nil;
     self.rewardedVideoAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
     [self.nativeAd unregisterView];
     self.nativeAd.delegate = nil;
     self.nativeAd = nil;
+    self.nativeAdViewAdAdapterDelegate.delegate = nil;
     self.nativeAdViewAdAdapterDelegate = nil;
+    self.nativeAdAdapterDelegate.delegate = nil;
+    self.nativeAdAdapterDelegate = nil;
     
     [self.nativeBannerAd unregisterView];
     self.nativeBannerAd.delegate = nil;
     self.nativeBannerAd = nil;
+    self.nativeBannerAdAdapterDelegate.delegate = nil;
     self.nativeBannerAdAdapterDelegate = nil;
 }
 

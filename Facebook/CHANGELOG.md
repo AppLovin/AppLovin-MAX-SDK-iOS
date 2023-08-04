@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.14.0.0
+* Certified with Facebook SDK 6.14.0.
+* Updated minimum Xcode requirement to 14.1.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+* Updated the minimum required iOS version to 11.0 to match Facebook SDK. 
+
 ## 6.12.0.3
 * Fix native ad's media content view to be clickable.
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
