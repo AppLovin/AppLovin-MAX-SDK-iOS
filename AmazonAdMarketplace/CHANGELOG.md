@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.5.0
+* Certified with AmazonAdMarketplace SDK 4.7.5.
+
 ## 4.7.4.0
 * Certified with AmazonAdMarketplace SDK 4.7.4.
 

@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationAmazonAdMarketplaceAdapter'
-s.version = '4.7.4.0'
+s.version = '4.7.5.0'
 s.platform = :ios, '12.0'
 s.summary = 'Amazon Publisher Services adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -20,10 +20,8 @@ LICENSE
 
 s.source =
 {
-   :http => "#{s.version}" =~ /beta/ ?
-     "https://artifacts.applovin.com/ios/com/applovin/mediation/beta/amazonadmarketplace-adapter/#{s.name}-#{s.version}.zip" :
-     "https://artifacts.applovin.com/ios/com/applovin/mediation/amazonadmarketplace-adapter/#{s.name}-#{s.version}.zip",
-   :type => 'zip'
+  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/amazonadmarketplace-adapter/#{s.name}-#{s.version}.zip",
+  	:type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
