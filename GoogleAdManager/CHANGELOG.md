@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.9.0.0
+* Certified with GoogleAdManager SDK 10.9.0.
+* Updated minimum Xcode requirement to 14.1.
+* Fix deprecation warnings regarding `sdkVersion` and `tagForChildDirectedTreatment`.
+* Updated the minimum required iOS version to 11.0 to match GoogleAdManager SDK. 
+
 ## 10.8.0.0
 * Certified with GoogleAdManager SDK 10.8.0.
 
