@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.8.0.0"
+#define ADAPTER_VERSION @"10.9.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -44,8 +44,6 @@
 @implementation ALGoogleMediationAdapter
 static ALAtomicBoolean              *ALGoogleInitialized;
 static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerMin;
-
-static NSString *ALGoogleSDKVersion;
 
 + (void)initialize
 {
@@ -90,11 +88,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (NSString *)SDKVersion
 {
-    if ( ALGoogleSDKVersion ) return ALGoogleSDKVersion;
-    
-    ALGoogleSDKVersion = [GADMobileAds sharedInstance].sdkVersion;
-    
-    return ALGoogleSDKVersion;
+    return GADGetStringFromVersionNumber([GADMobileAds sharedInstance].versionNumber);
 }
 
 - (NSString *)adapterVersion
@@ -803,11 +797,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
-    {
-        [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
-    }
+    [GADMobileAds sharedInstance].requestConfiguration.tagForChildDirectedTreatment = [parameters isAgeRestrictedUser];
 }
 
 - (GADRequest *)createAdRequestForBiddingAd:(BOOL)isBiddingAd
