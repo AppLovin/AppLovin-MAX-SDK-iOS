@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.2.4.0
+* Certified with Fyber SDK 8.2.4.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 8.2.3.0
 * Certified with Fyber SDK 8.2.3.
 * Updated minimum Xcode requirement to 14.0.
