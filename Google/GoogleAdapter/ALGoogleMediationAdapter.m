@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.9.0.0"
+#define ADAPTER_VERSION @"10.9.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -788,6 +788,10 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     else if ( adFormat == MAAdFormat.rewardedInterstitial )
     {
         return GADAdFormatRewardedInterstitial;
+    }
+    else if ( adFormat == MAAdFormat.appOpen )
+    {
+        return GADAdFormatAppOpen;
     }
     else
     {

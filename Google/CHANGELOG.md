@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.9.0.1
+* Add support for bidding on app open ads.
+
 ## 10.9.0.0
 * Certified with Google SDK 10.9.0.
 * Updated minimum Xcode requirement to 14.1.
