@@ -557,7 +557,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
-+ (MAAdapterError *)toMaxError:(nullable NSError *)vungleError
++ (MAAdapterError *)toMaxError:(nullable NSError *)vungleError isPlayFlow:(BOOL)isPlayFlow
 {
     if ( !vungleError ) return MAAdapterError.unspecified;
     
@@ -570,33 +570,57 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             break;
         case 2: // Invalid AppID
         case 201: // Invalid PlacementID
+        case 207: // Invalid Placement Type
+        case 222: // Invalid Placement load type
         case 500: // BannerView: Invalid Size
             adapterError = MAAdapterError.invalidConfiguration;
             break;
-        case 210: // Ad Not Loaded
-            adapterError = MAAdapterError.noFill;
+        case 119: // Json Encode Error
+            adapterError = MAAdapterError.internalError;
             break;
-        case 212: // Placement Sleep
+        case 202: // Ad already Consumed
+        case 203: // Ad is already loading
+        case 204: // Ad already loaded
+        case 205: // Ad is playing
+        case 206: // Ad already failed loading
             adapterError = MAAdapterError.invalidLoadState;
             break;
-        case 304: // Ad Expired
-            adapterError = MAAdapterError.adExpiredError;
+        case 210: // Ad Not Loaded
+            adapterError = isPlayFlow ? MAAdapterError.adNotReady : MAAdapterError.invalidLoadState;
             break;
-        case 303: // Ad Not Ready
-            adapterError = MAAdapterError.adNotReady;
+        case 115: // Invalid IndexURL
+        case 302: // Invalid Ifa Status
+        case 305: // Mraid Bridge Error
+        case 400: // Concurrent Playback Unsupported
+            adapterError = MAAdapterError.adDisplayFailedError;
+            break;
+        case 212: // Placement Sleep
+            adapterError = MAAdapterError.noFill;
+            break;
+        case 217: // Ad response timeOut
+            adapterError = MAAdapterError.timeout;
+            break;
+        case 220: // Server busy with retry after timer.
+        case 221: // Load ad during Server busy with retry after timer.
+            adapterError = MAAdapterError.serverError;
+            break;
+        case 304: // Ad Expired
+        case 307: // Ad Expired on play call.
+            adapterError = MAAdapterError.adExpiredError;
             break;
         case 600: // Native Asset Error
             adapterError = MAAdapterError.missingRequiredNativeAdAssets;
             break;
+        case 2000: // webView WebContent Process Did Terminate
+        case 2001: // webView Failed Navigation
+            adapterError = MAAdapterError.webViewError;
+            break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: vungleErrorCode
-               thirdPartySdkErrorMessage: vungleError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithCode:adapterError.code
+                             errorString:adapterError.message
+                mediatedNetworkErrorCode:vungleErrorCode
+             mediatedNetworkErrorMessage:vungleError.localizedDescription];
 }
 
 @end
@@ -622,7 +646,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isPlayFlow:NO];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to load with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
 }
@@ -654,7 +678,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:YES];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -704,7 +728,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:NO];
     [self.parentAdapter log: @"App Open ad (%@) failed to load with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
 }
@@ -736,7 +760,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:YES];
     [self.parentAdapter log: @"App Open ad (%@) failed to show with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
 }
@@ -786,7 +810,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:NO];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to load with error: %@", rewarded.placementId, adapterError];
     [self.delegate didFailToLoadRewardedAdWithError: adapterError];
 }
@@ -819,7 +843,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError:MAAdapterError.rewardError
+                                                mediatedNetworkErrorCode:error.code
+                                             mediatedNetworkErrorMessage:error.localizedDescription];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", rewarded.placementId, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -899,7 +925,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:NO];
     [self.parentAdapter log: @"AdView failed to load with error: %@", adapterError];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
 }
@@ -942,7 +968,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:YES];
     [self.parentAdapter log: @"AdView ad failed to present with error: %@", adapterError];
     [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
 }
@@ -1056,7 +1082,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)nativeAd:(VungleNative *)nativeAd didFailWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error  isPlayFlow:NO];
     [self.parentAdapter log: @"Native %@ ad failed to load with error: %@", self.adFormat, adapterError];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
 }
@@ -1149,7 +1175,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)nativeAd:(VungleNative *)nativeAd didFailWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isPlayFlow:NO];
     [self.parentAdapter log: @"Native ad failed to load with error: %@", adapterError];
     [self.delegate didFailToLoadNativeAdWithError: adapterError];
 }
