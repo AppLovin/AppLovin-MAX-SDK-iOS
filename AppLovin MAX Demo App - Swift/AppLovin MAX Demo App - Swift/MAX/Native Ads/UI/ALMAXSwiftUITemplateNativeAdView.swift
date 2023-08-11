@@ -18,13 +18,13 @@ struct ALMAXSwiftUITemplateNativeAdView: View
     var body: some View {
         VStack {
             ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $viewModel.triggerShowAd,
-                                                 nativeAdLoader: viewModel.nativeAdLoader,
-                                                 containerView: viewModel.containerView,
-                                                 didLoadNativeAd: viewModel.didLoadNativeAd(_:for:),
-                                                 didFailToLoadNativeAd: viewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
-                                                 didClickNativeAd: viewModel.didClickNativeAd(_:),
-                                                 didExpireNativeAd: viewModel.didExpireNativeAd(_:),
-                                                 didPayRevenue: viewModel.didPayRevenue(for:))
+                                                    nativeAdLoader: viewModel.nativeAdLoader,
+                                                    containerView: viewModel.containerView,
+                                                    didLoadNativeAd: viewModel.didLoadNativeAd(_:for:),
+                                                    didFailToLoadNativeAd: viewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
+                                                    didClickNativeAd: viewModel.didClickNativeAd(_:),
+                                                    didExpireNativeAd: viewModel.didExpireNativeAd(_:),
+                                                    didPayRevenue: viewModel.didPayRevenue(for:))
                 .frame(width: 300, height: 250)
             
             callbacksTable
