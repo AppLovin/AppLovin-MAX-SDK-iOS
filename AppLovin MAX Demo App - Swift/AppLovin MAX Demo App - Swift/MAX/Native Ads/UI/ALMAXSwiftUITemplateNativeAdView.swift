@@ -13,13 +13,12 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 struct ALMAXSwiftUITemplateNativeAdView: View
 {
-    @ObservedObject private var viewModel = ALMAXSwiftUITemplateNativeAdViewModel(adUnitId: "YOUR_AD_UNIT_ID")
+    @ObservedObject private var viewModel = ALMAXSwiftUITemplateNativeAdViewModel(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     var body: some View {
-        
         VStack {
-            MANativeTemplateAdViewSwiftUIWrapper(triggerShowAd: $viewModel.triggerShowAd,
-                                                 nativeAdLoader: viewModel.adLoader,
+            ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $viewModel.triggerShowAd,
+                                                 nativeAdLoader: viewModel.nativeAdLoader,
                                                  containerView: viewModel.containerView,
                                                  didLoadNativeAd: viewModel.didLoadNativeAd(_:for:),
                                                  didFailToLoadNativeAd: viewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
@@ -30,10 +29,12 @@ struct ALMAXSwiftUITemplateNativeAdView: View
             
             callbacksTable
                 .frame(maxHeight: .infinity)
+            
             Button {
                 viewModel.triggerShowAd = true
             } label: {
                 Text("Show")
+                    .font(.system(size: 15))
             }
         }
     }
@@ -53,14 +54,14 @@ class ALMAXSwiftUITemplateNativeAdViewModel: NSObject, ObservableObject
     
     let adUnitIdentifier: String
     
-    let adLoader: NativeSwiftUIAdLoader
+    let nativeAdLoader: ALMAXNativeSwiftUIAdLoader
     
     var containerView = UIView()
     
-    init(adUnitId: String)
+    init(adUnitIdentifier: String)
     {
-        self.adUnitIdentifier = adUnitId
-        self.adLoader = NativeSwiftUIAdLoader(adUnitId: adUnitId, containerView: containerView)
+        self.adUnitIdentifier = adUnitIdentifier
+        nativeAdLoader = ALMAXNativeSwiftUIAdLoader(adUnitIdentifier: adUnitIdentifier, containerView: containerView)
     }
     
     private func logCallback(functionName: String = #function)
@@ -73,60 +74,47 @@ class ALMAXSwiftUITemplateNativeAdViewModel: NSObject, ObservableObject
     }
 }
 
-
-
-
 @available(iOS 13.0, *)
 extension ALMAXSwiftUITemplateNativeAdViewModel: MANativeAdDelegate
 {
-    // MARK: MANativeAdDelegate Protocol
-
+    // MARK: MANativeAdDelegate
     func didLoadNativeAd(_ nativeAdView: MANativeAdView?, for ad: MAAd)
     {
         logCallback()
         
         // Save ad for clean up
-        self.adLoader.nativeAd = ad
+        nativeAdLoader.nativeAd = ad
         
         if let adView = nativeAdView
         {
             // Add ad view to container view.
-            self.adLoader.replaceCurrentNativeAdView(adView)
-            self.containerView.addSubview(adView)
+            nativeAdLoader.replaceCurrentNativeAdView(adView)
+            containerView.addSubview(adView)
             
             // Set to false after adding the ad view to your layout if modifying constraints.
             adView.translatesAutoresizingMaskIntoConstraints = false
             
             // Set ad view to span width and height of container and center the ad
-            self.containerView.widthAnchor.constraint(equalTo: adView.widthAnchor).isActive = true
-            self.containerView.heightAnchor.constraint(equalTo: adView.heightAnchor).isActive = true
-            self.containerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
-            self.containerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
+            containerView.widthAnchor.constraint(equalTo: adView.widthAnchor).isActive = true
+            containerView.heightAnchor.constraint(equalTo: adView.heightAnchor).isActive = true
+            containerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
+            containerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
             
-            self.triggerShowAd = false
+            triggerShowAd = false
         }
     }
     
-    func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
-    {
-        logCallback()
-    }
+    func didFailToLoadNativeAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) { logCallback() }
     
-    func didClickNativeAd(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didClickNativeAd(_ ad: MAAd) { logCallback() }
     
-    func didExpireNativeAd(_ ad: MAAd)
-    {
-        logCallback()
-    }
+    func didExpireNativeAd(_ ad: MAAd) { logCallback() }
 }
 
 @available(iOS 13.0, *)
 extension ALMAXSwiftUITemplateNativeAdViewModel: MAAdRevenueDelegate
 {
-    // MARK: MANativeAdDelegate Protocol
+    // MARK: MANativeAdDelegate
     func didPayRevenue(for ad: MAAd)
     {
         logCallback()

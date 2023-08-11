@@ -1,8 +1,8 @@
 //
-//  ALDemoSwiftUIBannerView.swift
+//  ALDemoSwiftUILeaderView.swift
 //  AppLovin MAX Demo App - Swift
 //
-//  Created by Matthew Nguyen on 7/31/23.
+//  Created by Matthew Nguyen on 8/9/23.
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import Adjust
 import AppLovinSDK
 
 @available(iOS 13.0, *)
-struct ALDemoSwiftUIBannerView: View
+struct ALDemoSwiftUILeaderView: View
 {
     @ObservedObject private var viewModel = ALDemoAdViewSwiftUIViewModel()
     
@@ -21,7 +21,7 @@ struct ALDemoSwiftUIBannerView: View
                 .frame(maxHeight: .infinity)
             
             ALAdViewSwiftUIWrapper(shouldLoadAd: $viewModel.shouldLoadAd,
-                                   adFormat: .banner,
+                                   adFormat: .leader,
                                    didLoad: viewModel.adService(_:didLoad:),
                                    didFailToLoadAdWithError: viewModel.adService(_:didFailToLoadAdWithError:),
                                    wasDisplayedIn: viewModel.ad(_:wasDisplayedIn:),

@@ -1,5 +1,5 @@
 //
-//  MANativeTemplateAdViewSwiftUIWrapper.swift
+//  ALMAXNativeTemplateAdViewSwiftUIWrapper.swift
 //  AppLovin MAX Demo App - Swift
 //
 //  Created by Matthew Nguyen on 7/31/23.
@@ -10,10 +10,11 @@ import SwiftUI
 import AppLovinSDK
 
 @available(iOS 13.0, *)
-struct MANativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
+struct ALMAXNativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
 {
-    @Binding var triggerShowAd: Bool
-    let nativeAdLoader: NativeSwiftUIAdLoader
+    @Binding var shouldShowAd: Bool
+    
+    let nativeAdLoader: ALMAXNativeSwiftUIAdLoader
     let containerView: UIView
     
     // MANativeAdDelegate methods
@@ -25,7 +26,6 @@ struct MANativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
     // MAAdRevenueDelegate methods
     var didPayRevenue: ((MAAd) -> Void)? = nil
         
-    
     func makeUIView(context: Context) -> UIView
     {
         nativeAdLoader.setNativeAdDelegate(context)
@@ -36,7 +36,7 @@ struct MANativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
     
     func updateUIView(_ uiView: UIView, context: Context)
     {
-        if triggerShowAd
+        if shouldShowAd
         {
             nativeAdLoader.showAd()
         }
@@ -49,13 +49,13 @@ struct MANativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
 }
 
 @available(iOS 13.0, *)
-extension MANativeTemplateAdViewSwiftUIWrapper
+extension ALMAXNativeTemplateAdViewSwiftUIWrapper
 {
     class Coordinator: NSObject, MANativeAdDelegate, MAAdRevenueDelegate
     {
-        private let parent: MANativeTemplateAdViewSwiftUIWrapper
+        private let parent: ALMAXNativeTemplateAdViewSwiftUIWrapper
         
-        init(parent: MANativeTemplateAdViewSwiftUIWrapper)
+        init(parent: ALMAXNativeTemplateAdViewSwiftUIWrapper)
         {
             self.parent = parent
         }
@@ -90,42 +90,42 @@ extension MANativeTemplateAdViewSwiftUIWrapper
 }
 
 @available(iOS 13.0, *)
-class NativeSwiftUIAdLoader
+class ALMAXNativeSwiftUIAdLoader
 {
-    var adUnitId: String
+    var adUnitIdentifier: String
     weak var containerView: UIView?
-    var nativeAdLoader: MANativeAdLoader?
+    var nativeAdLoader: MANativeAdLoader
     var nativeAd: MAAd?
     var nativeAdView: MANativeAdView?
     
-    init(adUnitId: String, containerView: UIView)
+    init(adUnitIdentifier: String, containerView: UIView)
     {
-        self.adUnitId = adUnitId
+        self.adUnitIdentifier = adUnitIdentifier
         self.containerView = containerView
-        self.nativeAdLoader = MANativeAdLoader(adUnitIdentifier: adUnitId)
+        nativeAdLoader = MANativeAdLoader(adUnitIdentifier: adUnitIdentifier)
     }
     
-    func setNativeAdDelegate(_ context: UIViewRepresentableContext<MANativeTemplateAdViewSwiftUIWrapper>)
+    func setNativeAdDelegate(_ context: UIViewRepresentableContext<ALMAXNativeTemplateAdViewSwiftUIWrapper>)
     {
-        self.nativeAdLoader?.nativeAdDelegate = context.coordinator
+        nativeAdLoader.nativeAdDelegate = context.coordinator
     }
     
-    func setRevenueDelegate(_ context: UIViewRepresentableContext<MANativeTemplateAdViewSwiftUIWrapper>)
+    func setRevenueDelegate(_ context: UIViewRepresentableContext<ALMAXNativeTemplateAdViewSwiftUIWrapper>)
     {
-        self.nativeAdLoader?.revenueDelegate = context.coordinator
+        nativeAdLoader.revenueDelegate = context.coordinator
     }
     
     func replaceCurrentNativeAdView(_ newNativeAdView: MANativeAdView)
     {
-        self.nativeAdView = newNativeAdView
-        self.containerView?.addSubview(newNativeAdView)
+        nativeAdView = newNativeAdView
+        containerView?.addSubview(newNativeAdView)
     }
     
     func cleanUpAdIfNeeded()
     {
         if let currentNativeAd = nativeAd
         {
-            self.nativeAdLoader?.destroy(currentNativeAd)
+            nativeAdLoader.destroy(currentNativeAd)
         }
         
         if let currentNativeAdView = nativeAdView
@@ -138,6 +138,6 @@ class NativeSwiftUIAdLoader
     {
         cleanUpAdIfNeeded()
         
-        self.nativeAdLoader?.loadAd()
+        nativeAdLoader.loadAd()
     }
 }

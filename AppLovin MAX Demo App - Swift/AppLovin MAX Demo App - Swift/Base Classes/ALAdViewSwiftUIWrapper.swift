@@ -10,9 +10,9 @@ import SwiftUI
 import AppLovinSDK
 
 @available(iOS 13.0, *)
-struct AlAdViewSwiftUIWrapper: UIViewRepresentable
+struct ALAdViewSwiftUIWrapper: UIViewRepresentable
 {
-    @Binding var triggerLoadAd: Bool
+    @Binding var shouldLoadAd: Bool
     
     let adFormat: ALAdSize
     
@@ -51,7 +51,7 @@ struct AlAdViewSwiftUIWrapper: UIViewRepresentable
     
     func updateUIView(_ uiView: ALAdView, context: Context)
     {
-        if triggerLoadAd
+        if shouldLoadAd
         {
             uiView.loadNextAd()
         }
@@ -64,13 +64,13 @@ struct AlAdViewSwiftUIWrapper: UIViewRepresentable
 }
 
 @available(iOS 13.0, *)
-extension AlAdViewSwiftUIWrapper
+extension ALAdViewSwiftUIWrapper
 {
     class Coordinator: NSObject, ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate, ObservableObject
     {
-        private let parent: AlAdViewSwiftUIWrapper
+        private let parent: ALAdViewSwiftUIWrapper
 
-        init(parent: AlAdViewSwiftUIWrapper)
+        init(parent: ALAdViewSwiftUIWrapper)
         {
             self.parent = parent
         }
@@ -136,7 +136,7 @@ extension AlAdViewSwiftUIWrapper
 }
 
 @available(iOS 13.0, *)
-extension AlAdViewSwiftUIWrapper
+extension ALAdViewSwiftUIWrapper
 {
     func deviceSpecificFrame() -> some View
     {

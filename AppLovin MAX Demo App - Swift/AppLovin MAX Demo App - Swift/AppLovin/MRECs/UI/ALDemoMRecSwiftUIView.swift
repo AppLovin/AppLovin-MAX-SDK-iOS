@@ -13,12 +13,11 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 struct ALDemoSwiftUIMRecView: View
 {
-    @ObservedObject private var viewModel = ALDemoSwiftUIMRecViewModel()
+    @ObservedObject private var viewModel = ALDemoAdViewSwiftUIViewModel()
     
     var body: some View {
-        
-        VStack {
-            AlAdViewSwiftUIWrapper(triggerLoadAd: $viewModel.triggerLoadAd,
+        VStack(spacing: 0) {
+            ALAdViewSwiftUIWrapper(shouldLoadAd: $viewModel.shouldLoadAd,
                                    adFormat: .mrec,
                                    didLoad: viewModel.adService(_:didLoad:),
                                    didFailToLoadAdWithError: viewModel.adService(_:didFailToLoadAdWithError:),
@@ -36,11 +35,18 @@ struct ALDemoSwiftUIMRecView: View
             callbacksTable
                 .frame(maxHeight: .infinity)
             
-            Button {
-                viewModel.triggerLoadAd = true
-            } label: {
-                Text("Load")
-            }
+            ZStack{
+                Color.black.edgesIgnoringSafeArea(.all)
+                Button {
+                    viewModel.shouldLoadAd = true
+                } label: {
+                    Text("Load")
+                }
+            }.frame(
+                maxWidth: .infinity,
+                maxHeight: 44
+            )
+            .padding(.top)
         }
     }
     
@@ -48,85 +54,5 @@ struct ALDemoSwiftUIMRecView: View
         List(viewModel.callbacks) {
             Text($0.callback)
         }
-    }
-}
-
-@available(iOS 13.0, *)
-class ALDemoSwiftUIMRecViewModel: NSObject, ObservableObject
-{
-    @Published fileprivate var callbacks: [CallbackTableItem] = []
-    @Published var triggerLoadAd: Bool = false
-    
-    private func logCallback(functionName: String = #function)
-    {
-        DispatchQueue.main.async {
-            withAnimation {
-                self.callbacks.append(CallbackTableItem(callback: functionName))
-            }
-        }
-    }
-}
-
-@available(iOS 13.0, *)
-extension ALDemoSwiftUIMRecViewModel: ALAdLoadDelegate
-{
-    // MARK: ALAdLoadDelegate Protocol
-    func adService(_ adService: ALAdService, didLoad ad: ALAd)
-    {
-        logCallback()
-        self.triggerLoadAd = false
-    }
-    
-    // Look at ALErrorCodes.h for list of error codes
-    func adService(_ adService: ALAdService, didFailToLoadAdWithError code: Int32)
-    {
-        logCallback()
-        self.triggerLoadAd = false
-    }
-}
-
-@available(iOS 13.0, *)
-extension ALDemoSwiftUIMRecViewModel: ALAdDisplayDelegate
-{
-    // MARK: ALAdDisplayDelegate Protocol
-    func ad(_ ad: ALAd, wasDisplayedIn view: UIView) { logCallback() }
-    
-    func ad(_ ad: ALAd, wasHiddenIn view: UIView) { logCallback() }
-    
-    func ad(_ ad: ALAd, wasClickedIn view: UIView) { logCallback() }
-}
-
-@available(iOS 13.0, *)
-extension ALDemoSwiftUIMRecViewModel: ALAdViewEventDelegate
-{
-    // MARK: ALAdViewEventDelegate Protocol
-    func ad(_ ad: ALAd, didPresentFullscreenFor adView: ALAdView)
-    {
-        logCallback()
-    }
-    
-    func ad(_ ad: ALAd, willDismissFullscreenFor adView: ALAdView)
-    {
-        logCallback()
-    }
-    
-    func ad(_ ad: ALAd, didDismissFullscreenFor adView: ALAdView)
-    {
-        logCallback()
-    }
-    
-    func ad(_ ad: ALAd, willLeaveApplicationFor adView: ALAdView)
-    {
-        logCallback()
-    }
-    
-    func ad(_ ad: ALAd, didReturnToApplicationFor adView: ALAdView)
-    {
-        logCallback()
-    }
-    
-    func ad(_ ad: ALAd, didFailToDisplayIn adView: ALAdView, withError code: ALAdViewDisplayErrorCode)
-    {
-        logCallback()
     }
 }
