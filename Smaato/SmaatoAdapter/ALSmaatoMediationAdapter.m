@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.2.1.0"
+#define ADAPTER_VERSION @"22.3.0.0"
 
 /**
  * Router for interstitial/rewarded ad events.
