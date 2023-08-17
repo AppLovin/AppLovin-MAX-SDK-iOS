@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationByteDanceAdapter'
-s.version = '5.4.0.7.0'
+s.version = '5.4.0.8.0'
 s.platform = :ios, '10.0'
 s.summary = 'ByteDance adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'Ads-Global/BUAdSDK_Compatible', '= 5.4.0.7'
+s.dependency 'Ads-Global/BUAdSDK_Compatible', '= 5.4.0.8'
 s.dependency 'AppLovinSDK'
 
 s.description = <<-DESC
