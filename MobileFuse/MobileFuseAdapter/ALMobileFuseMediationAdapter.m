@@ -16,7 +16,7 @@
 #import <MobileFuseSDK/MFRewardedAd.h>
 #import <MobileFuseSDK/MFNativeAd.h>
 
-#define ADAPTER_VERSION @"1.5.2.0"
+#define ADAPTER_VERSION @"1.6.0.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -43,6 +43,12 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
      */
     MFAdErrorCodeAdLoadError = 5
 };
+
+@interface ALMobileFuseInitializationDelegate : NSObject <IMFInitializationCallbackReceiver>
+@property (nonatomic, weak) ALMobileFuseMediationAdapter *parentAdapter;
+@property (nonatomic, copy, nullable) void(^completionBlock)(MAAdapterInitializationStatus, NSString *_Nullable);
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler;
+@end
 
 @interface ALMobileFuseInterstitialDelegate : NSObject <IMFAdCallbackReceiver>
 @property (nonatomic,   weak) ALMobileFuseMediationAdapter *parentAdapter;
@@ -92,6 +98,8 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
 
 @interface ALMobileFuseMediationAdapter ()
 
+@property (nonatomic, strong) ALMobileFuseInitializationDelegate *initializationDelegate;
+
 @property (nonatomic, strong) MFInterstitialAd *interstitialAd;
 @property (nonatomic, strong) ALMobileFuseInterstitialDelegate *interstitialAdapterDelegate;
 
@@ -109,17 +117,55 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
 
 @implementation ALMobileFuseMediationAdapter
 
+static ALAtomicBoolean              *ALMobileFuseInitialized;
+static MAAdapterInitializationStatus ALMobileFuseInitializationStatus = NSIntegerMin;
+
+static NSString *ALMobileFuseSDKVersion;
+
++ (void)initialize
+{
+    [super initialize];
+    
+    ALMobileFuseInitialized = [[ALAtomicBoolean alloc] init];
+}
+
 #pragma mark - MAAdapter Methods
 
 - (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
-    [MobileFuseSettings setTestMode: [parameters isTesting]];
-    completionHandler(MAAdapterInitializationStatusInitializedUnknown, nil);
+    if ( [ALMobileFuseInitialized compareAndSet: NO update: YES] )
+    {
+        ALMobileFuseInitializationStatus = MAAdapterInitializationStatusInitializing;
+        
+        [self log: @"Initializing MobileFuse SDK"];
+        
+        if ( [parameters isTesting] )
+        {
+            [MobileFuseSettings setTestMode: YES];
+            [MobileFuse enableVerboseLogging];
+        }
+        
+        self.initializationDelegate = [[ALMobileFuseInitializationDelegate alloc] initWithParentAdapter: self completionHandler: completionHandler];
+        
+        [MobileFuse initWithDelegate: self.initializationDelegate];
+    }
+    else
+    {
+        [self log: @"MobileFuse SDK already initialized"];
+        completionHandler(ALMobileFuseInitializationStatus, nil);
+    }
 }
 
 - (NSString *)SDKVersion
 {
-    return MobileFuse.version;
+    if ( ALMobileFuseSDKVersion ) return ALMobileFuseSDKVersion;
+    
+    // A Main Thread Checker warning is dispalyed for MobileFuseSDK v1.6.0: [UIApplication applicationState] must be used from main thread only
+    dispatchSyncOnMainQueue(^{
+        ALMobileFuseSDKVersion = MobileFuse.version;
+    });
+    
+    return ALMobileFuseSDKVersion;
 }
 
 - (NSString *)adapterVersion
@@ -129,21 +175,28 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
 
 - (void)destroy
 {
+    self.initializationDelegate = nil;
+    
     [self.interstitialAd destroy];
     self.interstitialAd = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
     [self.rewardedAd destroy];
     self.rewardedAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
     
     [self.adView destroy];
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
     
     [self.nativeAd unregisterViews];
     [self.nativeAd destroy];
     self.nativeAd = nil;
+    self.nativeAdViewAdapterDelegate.delegate = nil;
+    self.nativeAdAdapterDelegate.delegate = nil;
     self.nativeAdViewAdapterDelegate = nil;
     self.nativeAdAdapterDelegate = nil;
 }
@@ -159,8 +212,10 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
     MFBiddingTokenRequest *request = [[MFBiddingTokenRequest alloc] init];
     request.isTestMode = [parameters isTesting];
     
-    NSString *token = [MFBiddingTokenProvider getTokenWithRequest: request];
-    [delegate didCollectSignal: token];
+    [MFBiddingTokenProvider getTokenWithRequest: request withCallback:^(NSString *token) {
+        [self log: @"Signal collected"];
+        [delegate didCollectSignal: token];
+    }];
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -320,7 +375,7 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
     
     return [MAAdapterError errorWithAdapterError: adapterError
                         mediatedNetworkErrorCode: mobileFuseErrorCode
-                     mediatedNetworkErrorMessage: mobileFuseError.localizedDescription];
+                     mediatedNetworkErrorMessage: mobileFuseError.message];
 }
 
 - (void)updatePrivacyPreferences:(id<MAAdapterParameters>)parameters
@@ -404,6 +459,53 @@ typedef NS_ENUM(NSInteger, MFAdErrorCode)
 - (UIViewController *)presentingViewControllerFromParameters:(id<MAAdapterResponseParameters>)parameters
 {
     return parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+}
+
+@end
+
+#pragma mark - ALMobileFuseInitializationDelegate
+
+@implementation ALMobileFuseInitializationDelegate
+
+- (instancetype)initWithParentAdapter:(ALMobileFuseMediationAdapter *)parentAdapter completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler;
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.completionBlock = completionHandler;
+    }
+    return self;
+}
+
+- (void)onInitSuccess:(NSString *)appId withPublisherId:(NSString *)publisherId
+{
+    [self.parentAdapter log: @"MobileFuse SDK Initialized"];
+    
+    ALMobileFuseInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
+    
+    if ( self.completionBlock )
+    {
+        self.completionBlock(ALMobileFuseInitializationStatus, nil);
+        self.completionBlock = nil;
+        
+        self.parentAdapter.initializationDelegate = nil;
+    }
+}
+
+- (void)onInitError:(NSString *)appId withPublisherId:(NSString *)publisherId withError:(MFAdError *)error
+{
+    [self.parentAdapter log: @"MobileFuse SDK failed to initialize with error: %@", error];
+    
+    ALMobileFuseInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+    
+    if ( self.completionBlock )
+    {
+        self.completionBlock(ALMobileFuseInitializationStatus, error.message);
+        self.completionBlock = nil;
+        
+        self.parentAdapter.initializationDelegate = nil;
+    }
 }
 
 @end
