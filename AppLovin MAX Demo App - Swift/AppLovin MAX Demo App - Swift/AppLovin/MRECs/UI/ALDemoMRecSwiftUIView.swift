@@ -18,6 +18,7 @@ struct ALDemoSwiftUIMRecView: View
     var body: some View {
         VStack(spacing: 0) {
             ALAdViewSwiftUIWrapper(shouldLoadAd: $viewModel.shouldLoadAd,
+                                   adLoaded: $viewModel.adLoaded,
                                    adFormat: .mrec,
                                    didLoad: viewModel.adService(_:didLoad:),
                                    didFailToLoadAdWithError: viewModel.adService(_:didFailToLoadAdWithError:),
@@ -42,11 +43,13 @@ struct ALDemoSwiftUIMRecView: View
                 } label: {
                     Text("Load")
                 }
-            }.frame(
-                maxWidth: .infinity,
-                maxHeight: 44
-            )
-            .padding(.top)
+                    .disabled(viewModel.shouldLoadAd)
+            }
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: 44
+                )
+                .padding(.top)
         }
     }
     

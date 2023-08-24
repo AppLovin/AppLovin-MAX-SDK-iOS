@@ -13,7 +13,8 @@ import AppLovinSDK
 class ALDemoAdViewSwiftUIViewModel: NSObject, ObservableObject
 {
     @Published var callbacks: [CallbackTableItem] = []
-    @Published var shouldLoadAd: Bool = false
+    @Published var shouldLoadAd: Bool = true
+    @Published var adLoaded: Bool = false
     
     private func logCallback(functionName: String = #function)
     {
@@ -29,17 +30,19 @@ class ALDemoAdViewSwiftUIViewModel: NSObject, ObservableObject
 extension ALDemoAdViewSwiftUIViewModel: ALAdLoadDelegate
 {
     // MARK: ALAdLoadDelegate
-    func adService(_ adService: ALAdService, didLoad ad: ALAd)
-    {
+    func adService(_ adService: ALAdService, didLoad ad: ALAd) {
         logCallback()
-        shouldLoadAd = false
+
+        adLoaded = true
     }
     
     // Look at ALErrorCodes.h for list of error codes
     func adService(_ adService: ALAdService, didFailToLoadAdWithError code: Int32)
     {
         logCallback()
-        self.shouldLoadAd = false
+        
+        shouldLoadAd = false
+        adLoaded = false
     }
 }
 
@@ -47,7 +50,13 @@ extension ALDemoAdViewSwiftUIViewModel: ALAdLoadDelegate
 extension ALDemoAdViewSwiftUIViewModel: ALAdDisplayDelegate
 {
     // MARK: ALAdDisplayDelegate
-    func ad(_ ad: ALAd, wasDisplayedIn view: UIView) { logCallback() }
+    func ad(_ ad: ALAd, wasDisplayedIn view: UIView)
+    {
+        logCallback()
+        
+        shouldLoadAd = false
+        adLoaded = false
+    }
     
     func ad(_ ad: ALAd, wasHiddenIn view: UIView) { logCallback() }
     

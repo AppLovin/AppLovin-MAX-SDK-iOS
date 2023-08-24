@@ -13,6 +13,7 @@ import AppLovinSDK
 struct ALAdViewSwiftUIWrapper: UIViewRepresentable
 {
     @Binding var shouldLoadAd: Bool
+    @Binding var adLoaded: Bool
     
     let adFormat: ALAdSize
     
@@ -51,7 +52,7 @@ struct ALAdViewSwiftUIWrapper: UIViewRepresentable
     
     func updateUIView(_ uiView: ALAdView, context: Context)
     {
-        if shouldLoadAd
+        if shouldLoadAd && !adLoaded
         {
             uiView.loadNextAd()
         }

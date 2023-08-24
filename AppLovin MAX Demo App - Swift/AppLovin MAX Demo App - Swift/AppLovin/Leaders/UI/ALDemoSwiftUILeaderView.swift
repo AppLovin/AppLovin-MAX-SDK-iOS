@@ -21,6 +21,7 @@ struct ALDemoSwiftUILeaderView: View
                 .frame(maxHeight: .infinity)
             
             ALAdViewSwiftUIWrapper(shouldLoadAd: $viewModel.shouldLoadAd,
+                                   adLoaded: $viewModel.adLoaded,
                                    adFormat: .leader,
                                    didLoad: viewModel.adService(_:didLoad:),
                                    didFailToLoadAdWithError: viewModel.adService(_:didFailToLoadAdWithError:),
@@ -39,8 +40,11 @@ struct ALDemoSwiftUILeaderView: View
                 viewModel.shouldLoadAd = true
             } label: {
                 Text("Load")
-            }.padding(.top)
-        }.background(Color.black.edgesIgnoringSafeArea(.all))
+            }
+                .disabled(viewModel.shouldLoadAd)
+                .padding(.top)
+        }
+            .background(Color.black.edgesIgnoringSafeArea(.all))
     }
     
     var callbacksTable: some View {
