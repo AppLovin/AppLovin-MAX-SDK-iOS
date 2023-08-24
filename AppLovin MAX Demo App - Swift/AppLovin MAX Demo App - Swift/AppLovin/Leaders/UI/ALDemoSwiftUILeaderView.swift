@@ -13,42 +13,42 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 struct ALDemoSwiftUILeaderView: View
 {
-    @ObservedObject private var viewModel = ALDemoAdViewSwiftUIViewModel()
+    @ObservedObject private var leaderViewModel = ALDemoAdViewSwiftUIViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
             callbacksTable
                 .frame(maxHeight: .infinity)
             
-            ALAdViewSwiftUIWrapper(shouldLoadAd: $viewModel.shouldLoadAd,
-                                   adLoaded: $viewModel.adLoaded,
+            ALAdViewSwiftUIWrapper(shouldLoadAd: $leaderViewModel.shouldLoadAd,
+                                   adLoaded: $leaderViewModel.adLoaded,
                                    adFormat: .leader,
-                                   didLoad: viewModel.adService(_:didLoad:),
-                                   didFailToLoadAdWithError: viewModel.adService(_:didFailToLoadAdWithError:),
-                                   wasDisplayedIn: viewModel.ad(_:wasDisplayedIn:),
-                                   wasHiddenIn: viewModel.ad(_:wasHiddenIn:),
-                                   wasClickedIn: viewModel.ad(_:wasClickedIn:),
-                                   didPresentfullscreenFor: viewModel.ad(_:didPresentFullscreenFor:),
-                                   willDismissFullscreenFor: viewModel.ad(_:willDismissFullscreenFor:),
-                                   didDismissFullscreenFor: viewModel.ad(_:didDismissFullscreenFor:),
-                                   willLeaveApplicationFor: viewModel.ad(_:willLeaveApplicationFor:),
-                                   didReturnToApplicationFor: viewModel.ad(_:didReturnToApplicationFor:),
-                                   didFailToDisplayIn: viewModel.ad(_:didFailToDisplayIn:withError:))
+                                   didLoad: leaderViewModel.adService(_:didLoad:),
+                                   didFailToLoadAdWithError: leaderViewModel.adService(_:didFailToLoadAdWithError:),
+                                   wasDisplayedIn: leaderViewModel.ad(_:wasDisplayedIn:),
+                                   wasHiddenIn: leaderViewModel.ad(_:wasHiddenIn:),
+                                   wasClickedIn: leaderViewModel.ad(_:wasClickedIn:),
+                                   didPresentfullscreenFor: leaderViewModel.ad(_:didPresentFullscreenFor:),
+                                   willDismissFullscreenFor: leaderViewModel.ad(_:willDismissFullscreenFor:),
+                                   didDismissFullscreenFor: leaderViewModel.ad(_:didDismissFullscreenFor:),
+                                   willLeaveApplicationFor: leaderViewModel.ad(_:willLeaveApplicationFor:),
+                                   didReturnToApplicationFor: leaderViewModel.ad(_:didReturnToApplicationFor:),
+                                   didFailToDisplayIn: leaderViewModel.ad(_:didFailToDisplayIn:withError:))
                 .deviceSpecificFrame()
             
             Button {
-                viewModel.shouldLoadAd = true
+                leaderViewModel.shouldLoadAd = true
             } label: {
                 Text("Load")
             }
-                .disabled(viewModel.shouldLoadAd)
+                .disabled(leaderViewModel.shouldLoadAd)
                 .padding(.top)
         }
             .background(Color.black.edgesIgnoringSafeArea(.all))
     }
     
     var callbacksTable: some View {
-        List(viewModel.callbacks) {
+        List(leaderViewModel.callbacks) {
             Text($0.callback)
         }
     }

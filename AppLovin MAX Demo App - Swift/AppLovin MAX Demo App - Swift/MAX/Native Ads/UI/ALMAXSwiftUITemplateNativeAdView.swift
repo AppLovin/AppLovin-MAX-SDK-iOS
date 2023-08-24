@@ -13,25 +13,25 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 struct ALMAXSwiftUITemplateNativeAdView: View
 {
-    @ObservedObject private var viewModel = ALMAXSwiftUITemplateNativeAdViewModel(adUnitIdentifier: "YOUR_AD_UNIT_ID")
+    @ObservedObject private var templateNativeViewModel = ALMAXSwiftUITemplateNativeAdViewModel(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     var body: some View {
         VStack {
-            ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $viewModel.triggerShowAd,
-                                                    nativeAdLoader: viewModel.nativeAdLoader,
-                                                    containerView: viewModel.containerView,
-                                                    didLoadNativeAd: viewModel.didLoadNativeAd(_:for:),
-                                                    didFailToLoadNativeAd: viewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
-                                                    didClickNativeAd: viewModel.didClickNativeAd(_:),
-                                                    didExpireNativeAd: viewModel.didExpireNativeAd(_:),
-                                                    didPayRevenue: viewModel.didPayRevenue(for:))
+            ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $templateNativeViewModel.shouldShowAd,
+                                                    nativeAdLoader: templateNativeViewModel.nativeAdLoader,
+                                                    containerView: templateNativeViewModel.containerView,
+                                                    didLoadNativeAd: templateNativeViewModel.didLoadNativeAd(_:for:),
+                                                    didFailToLoadNativeAd: templateNativeViewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
+                                                    didClickNativeAd: templateNativeViewModel.didClickNativeAd(_:),
+                                                    didExpireNativeAd: templateNativeViewModel.didExpireNativeAd(_:),
+                                                    didPayRevenue: templateNativeViewModel.didPayRevenue(for:))
                 .frame(width: 300, height: 250)
             
             callbacksTable
                 .frame(maxHeight: .infinity)
             
             Button {
-                viewModel.triggerShowAd = true
+                templateNativeViewModel.shouldShowAd = true
             } label: {
                 Text("Show")
                     .font(.system(size: 15))
@@ -40,7 +40,7 @@ struct ALMAXSwiftUITemplateNativeAdView: View
     }
     
     var callbacksTable: some View {
-        List(viewModel.callbacks) {
+        List(templateNativeViewModel.callbacks) {
             Text($0.callback)
         }
     }
@@ -50,7 +50,7 @@ struct ALMAXSwiftUITemplateNativeAdView: View
 class ALMAXSwiftUITemplateNativeAdViewModel: NSObject, ObservableObject
 {
     @Published fileprivate var callbacks: [CallbackTableItem] = []
-    @Published var triggerShowAd: Bool = false
+    @Published var shouldShowAd: Bool = false
     
     let adUnitIdentifier: String
     
@@ -100,7 +100,7 @@ extension ALMAXSwiftUITemplateNativeAdViewModel: MANativeAdDelegate
             containerView.centerXAnchor.constraint(equalTo: adView.centerXAnchor).isActive = true
             containerView.centerYAnchor.constraint(equalTo: adView.centerYAnchor).isActive = true
             
-            triggerShowAd = false
+            shouldShowAd = false
         }
     }
     

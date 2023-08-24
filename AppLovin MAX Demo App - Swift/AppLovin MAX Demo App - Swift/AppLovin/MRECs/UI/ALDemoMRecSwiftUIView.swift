@@ -13,24 +13,24 @@ import AppLovinSDK
 @available(iOS 13.0, *)
 struct ALDemoSwiftUIMRecView: View
 {
-    @ObservedObject private var viewModel = ALDemoAdViewSwiftUIViewModel()
+    @ObservedObject private var mrecViewModel = ALDemoAdViewSwiftUIViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
-            ALAdViewSwiftUIWrapper(shouldLoadAd: $viewModel.shouldLoadAd,
-                                   adLoaded: $viewModel.adLoaded,
+            ALAdViewSwiftUIWrapper(shouldLoadAd: $mrecViewModel.shouldLoadAd,
+                                   adLoaded: $mrecViewModel.adLoaded,
                                    adFormat: .mrec,
-                                   didLoad: viewModel.adService(_:didLoad:),
-                                   didFailToLoadAdWithError: viewModel.adService(_:didFailToLoadAdWithError:),
-                                   wasDisplayedIn: viewModel.ad(_:wasDisplayedIn:),
-                                   wasHiddenIn: viewModel.ad(_:wasHiddenIn:),
-                                   wasClickedIn: viewModel.ad(_:wasClickedIn:),
-                                   didPresentfullscreenFor: viewModel.ad(_:didPresentFullscreenFor:),
-                                   willDismissFullscreenFor: viewModel.ad(_:willDismissFullscreenFor:),
-                                   didDismissFullscreenFor: viewModel.ad(_:didDismissFullscreenFor:),
-                                   willLeaveApplicationFor: viewModel.ad(_:willLeaveApplicationFor:),
-                                   didReturnToApplicationFor: viewModel.ad(_:didReturnToApplicationFor:),
-                                   didFailToDisplayIn: viewModel.ad(_:didFailToDisplayIn:withError:))
+                                   didLoad: mrecViewModel.adService(_:didLoad:),
+                                   didFailToLoadAdWithError: mrecViewModel.adService(_:didFailToLoadAdWithError:),
+                                   wasDisplayedIn: mrecViewModel.ad(_:wasDisplayedIn:),
+                                   wasHiddenIn: mrecViewModel.ad(_:wasHiddenIn:),
+                                   wasClickedIn: mrecViewModel.ad(_:wasClickedIn:),
+                                   didPresentfullscreenFor: mrecViewModel.ad(_:didPresentFullscreenFor:),
+                                   willDismissFullscreenFor: mrecViewModel.ad(_:willDismissFullscreenFor:),
+                                   didDismissFullscreenFor: mrecViewModel.ad(_:didDismissFullscreenFor:),
+                                   willLeaveApplicationFor: mrecViewModel.ad(_:willLeaveApplicationFor:),
+                                   didReturnToApplicationFor: mrecViewModel.ad(_:didReturnToApplicationFor:),
+                                   didFailToDisplayIn: mrecViewModel.ad(_:didFailToDisplayIn:withError:))
                 .deviceSpecificFrame()
             
             callbacksTable
@@ -39,11 +39,11 @@ struct ALDemoSwiftUIMRecView: View
             ZStack{
                 Color.black.edgesIgnoringSafeArea(.all)
                 Button {
-                    viewModel.shouldLoadAd = true
+                    mrecViewModel.shouldLoadAd = true
                 } label: {
                     Text("Load")
                 }
-                    .disabled(viewModel.shouldLoadAd)
+                    .disabled(mrecViewModel.shouldLoadAd)
             }
                 .frame(
                     maxWidth: .infinity,
@@ -54,7 +54,7 @@ struct ALDemoSwiftUIMRecView: View
     }
     
     var callbacksTable: some View {
-        List(viewModel.callbacks) {
+        List(mrecViewModel.callbacks) {
             Text($0.callback)
         }
     }
