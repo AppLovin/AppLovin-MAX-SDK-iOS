@@ -10,33 +10,36 @@ import SwiftUI
 import Adjust
 import AppLovinSDK
 
-@available(iOS 13.0, *)
+@available(iOS 14.0, *)
 struct ALMAXSwiftUITemplateNativeAdView: View
 {
     @ObservedObject private var templateNativeViewModel = ALMAXSwiftUITemplateNativeAdViewModel(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
     var body: some View {
-        VStack {
-            ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $templateNativeViewModel.shouldShowAd,
-                                                    nativeAdLoader: templateNativeViewModel.nativeAdLoader,
-                                                    containerView: templateNativeViewModel.containerView,
-                                                    didLoadNativeAd: templateNativeViewModel.didLoadNativeAd(_:for:),
-                                                    didFailToLoadNativeAd: templateNativeViewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
-                                                    didClickNativeAd: templateNativeViewModel.didClickNativeAd(_:),
-                                                    didExpireNativeAd: templateNativeViewModel.didExpireNativeAd(_:),
-                                                    didPayRevenue: templateNativeViewModel.didPayRevenue(for:))
+        NavigationView {
+            VStack {
+                ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $templateNativeViewModel.shouldShowAd,
+                                                        nativeAdLoader: templateNativeViewModel.nativeAdLoader,
+                                                        containerView: templateNativeViewModel.containerView,
+                                                        didLoadNativeAd: templateNativeViewModel.didLoadNativeAd(_:for:),
+                                                        didFailToLoadNativeAd: templateNativeViewModel.didFailToLoadNativeAd(forAdUnitIdentifier:withError:),
+                                                        didClickNativeAd: templateNativeViewModel.didClickNativeAd(_:),
+                                                        didExpireNativeAd: templateNativeViewModel.didExpireNativeAd(_:),
+                                                        didPayRevenue: templateNativeViewModel.didPayRevenue(for:))
                 .frame(width: 300, height: 250)
-            
-            callbacksTable
-                .frame(maxHeight: .infinity)
-            
-            Button {
-                templateNativeViewModel.shouldShowAd = true
-            } label: {
-                Text("Show")
-                    .font(.system(size: 15))
+                
+                callbacksTable
+                    .frame(maxHeight: .infinity)
+                
+                Button {
+                    templateNativeViewModel.shouldShowAd = true
+                } label: {
+                    Text("Show")
+                        .font(.system(size: 15))
+                }
             }
         }
+        .navigationTitle(Text("SwiftUI Templates API"))
     }
     
     var callbacksTable: some View {
@@ -52,15 +55,12 @@ class ALMAXSwiftUITemplateNativeAdViewModel: NSObject, ObservableObject
     @Published fileprivate var callbacks: [CallbackTableItem] = []
     @Published var shouldShowAd: Bool = false
     
-    let adUnitIdentifier: String
-    
     let nativeAdLoader: ALMAXNativeSwiftUIAdLoader
     
     var containerView = UIView()
     
     init(adUnitIdentifier: String)
     {
-        self.adUnitIdentifier = adUnitIdentifier
         nativeAdLoader = ALMAXNativeSwiftUIAdLoader(adUnitIdentifier: adUnitIdentifier, containerView: containerView)
     }
     
@@ -123,6 +123,7 @@ extension ALMAXSwiftUITemplateNativeAdViewModel: MAAdRevenueDelegate
         adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
         adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
         adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
+        
         if let placement = ad.placement
         {
             adjustAdRevenue.setAdRevenuePlacement(placement)

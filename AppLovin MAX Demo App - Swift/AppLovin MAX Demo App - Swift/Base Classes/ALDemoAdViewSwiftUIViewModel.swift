@@ -30,9 +30,10 @@ class ALDemoAdViewSwiftUIViewModel: NSObject, ObservableObject
 extension ALDemoAdViewSwiftUIViewModel: ALAdLoadDelegate
 {
     // MARK: ALAdLoadDelegate
-    func adService(_ adService: ALAdService, didLoad ad: ALAd) {
+    func adService(_ adService: ALAdService, didLoad ad: ALAd)
+    {
         logCallback()
-
+        
         adLoaded = true
     }
     

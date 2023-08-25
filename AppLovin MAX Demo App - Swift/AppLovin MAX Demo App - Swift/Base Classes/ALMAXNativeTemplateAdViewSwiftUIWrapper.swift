@@ -25,7 +25,7 @@ struct ALMAXNativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
     
     // MAAdRevenueDelegate methods
     var didPayRevenue: ((MAAd) -> Void)? = nil
-        
+    
     func makeUIView(context: Context) -> UIView
     {
         nativeAdLoader.setNativeAdDelegate(context)
@@ -92,7 +92,6 @@ extension ALMAXNativeTemplateAdViewSwiftUIWrapper
 @available(iOS 13.0, *)
 class ALMAXNativeSwiftUIAdLoader
 {
-    var adUnitIdentifier: String
     weak var containerView: UIView?
     var nativeAdLoader: MANativeAdLoader
     var nativeAd: MAAd?
@@ -100,8 +99,8 @@ class ALMAXNativeSwiftUIAdLoader
     
     init(adUnitIdentifier: String, containerView: UIView)
     {
-        self.adUnitIdentifier = adUnitIdentifier
         self.containerView = containerView
+        
         nativeAdLoader = MANativeAdLoader(adUnitIdentifier: adUnitIdentifier)
     }
     
@@ -118,6 +117,7 @@ class ALMAXNativeSwiftUIAdLoader
     func replaceCurrentNativeAdView(_ newNativeAdView: MANativeAdView)
     {
         nativeAdView = newNativeAdView
+        
         containerView?.addSubview(newNativeAdView)
     }
     

@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 import AppLovinSDK
 
-@available(iOS 13.0, *)
+@available(iOS 14.0, *)
 class ALDemoSwiftUILeaderViewController: UIHostingController<ALDemoSwiftUILeaderView>
 {
     required init?(coder aDecoder: NSCoder)

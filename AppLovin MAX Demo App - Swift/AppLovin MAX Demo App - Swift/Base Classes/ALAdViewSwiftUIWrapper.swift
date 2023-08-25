@@ -27,7 +27,7 @@ struct ALAdViewSwiftUIWrapper: UIViewRepresentable
     var wasClickedIn: ((ALAd, UIView) -> Void)? = nil
     
     // ALAdViewEventDelegate methods
-    var didPresentfullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
+    var didPresentFullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
     var willDismissFullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
     var didDismissFullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
     var willLeaveApplicationFor: ((ALAd, ALAdView) -> Void)? = nil
@@ -70,7 +70,7 @@ extension ALAdViewSwiftUIWrapper
     class Coordinator: NSObject, ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate, ObservableObject
     {
         private let parent: ALAdViewSwiftUIWrapper
-
+        
         init(parent: ALAdViewSwiftUIWrapper)
         {
             self.parent = parent
@@ -106,7 +106,7 @@ extension ALAdViewSwiftUIWrapper
         // ALAdViewEventDelegate methods
         func ad(_ ad: ALAd, didPresentFullscreenFor adView: ALAdView)
         {
-            parent.didPresentfullscreenFor?(ad, adView)
+            parent.didPresentFullscreenFor?(ad, adView)
         }
         
         func ad(_ ad: ALAd, willDismissFullscreenFor adView: ALAdView)
@@ -152,7 +152,7 @@ struct ALAdViewFrame: ViewModifier
     
     func body(content: Content) -> some View
     {
-        if ( adFormat == .banner || adFormat == .leader )
+        if adFormat == .banner || adFormat == .leader
         {
             // Stretch to the width of the screen for banners to be fully functional
             // Banner height on iPhone and iPad is 50 and 90, respectively
