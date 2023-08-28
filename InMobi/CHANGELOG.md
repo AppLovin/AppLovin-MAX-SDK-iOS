@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.5.6.0
+* Certified with InMobi's Swift SDK 10.5.6.
+
 ## 10.1.4.2
 * Updated minimum Xcode requirement to 14.1.
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.
