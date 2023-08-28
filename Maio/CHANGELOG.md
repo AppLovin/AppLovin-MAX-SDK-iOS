@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.3.3
+* Fixed `maioDidCloseAd:` callback not fired caused by clearing delegates in `destroy:` method. 
+* Updated minimum Xcode requirement to 14.1.
+
 ## 1.6.3.2
 * Updated minimum Xcode requirement to 14.0.
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   

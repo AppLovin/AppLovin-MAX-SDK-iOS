@@ -10,7 +10,7 @@
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
 
-#define ADAPTER_VERSION @"1.6.3.2"
+#define ADAPTER_VERSION @"1.6.3.3"
 
 @interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter <MaioDelegate>
 
@@ -106,7 +106,6 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
 
 - (void)destroy
 {
-    [Maio removeDelegateObject: self.router];
     [self.router removeAdapter: self forPlacementIdentifier: self.zoneId];
 }
 
