@@ -7,96 +7,48 @@
 //
 
 #import "ALMaioMediationAdapter.h"
-#import <Maio/Maio.h>
-#import <Maio/MaioDelegate.h>
+#import <Maio/Maio-Swift.h>
 
-#define ADAPTER_VERSION @"1.6.3.3"
+#define ADAPTER_VERSION @"2.0.0.0"
 
-@interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter <MaioDelegate>
+@interface ALMaioMediationAdapterInterstitialAdDelegate : NSObject <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
+@property (nonatomic, weak) ALMaioMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALMaioMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
+@end
 
-@property (nonatomic, strong) ALAtomicBoolean *isShowingAd;
-@property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
-
-@property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
-@property (nonatomic, copy, nullable) void(^newCompletionHandler)(MAAdapterInitializationStatus, NSString *_Nullable);
-
+@interface ALMaioMediationAdapterRewardedAdDelegate : NSObject <MaioRewardedLoadCallback, MaioRewardedShowCallback>
+@property (nonatomic, weak) ALMaioMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALMaioMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
 @interface ALMaioMediationAdapter ()
 
-@property (nonatomic, strong, readonly) ALMaioMediationAdapterRouter *router;
-@property (nonatomic, copy) NSString *zoneId;
+@property (nonatomic) BOOL isTesting;
+@property (nonatomic, strong) MaioInterstitial *maioInterstitial;
+@property (nonatomic, strong) MaioRewarded *maioRewarded;
+
+@property (nonatomic, strong) ALMaioMediationAdapterInterstitialAdDelegate *interstitialAdapterDelegate;
+@property (nonatomic, strong) ALMaioMediationAdapterRewardedAdDelegate *rewardedAdapterDelegate;
 
 @end
 
 @implementation ALMaioMediationAdapter
-@dynamic router;
-
-static ALAtomicBoolean              *ALMaioInitialized;
-static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
-
-+ (void)initialize
-{
-    [super initialize];
-    
-    ALMaioInitialized = [[ALAtomicBoolean alloc] init];
-}
 
 #pragma mark - MAAdapter Methods
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters withCompletionHandler:(void (^)(void))completionHandler
+- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void(^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
-    if ( [ALMaioInitialized compareAndSet: NO update: YES] )
-    {
-        NSString *mediaId = [parameters.serverParameters al_stringForKey: @"media_id"];
-        
-        [self log: @"Initializing Maio with media id: %@", mediaId];
-        
-        if ( [parameters isTesting] )
-        {
-            [Maio setAdTestMode: YES];
-        }
-        
-        self.router.oldCompletionHandler = completionHandler;
-        
-        [Maio startWithMediaId: mediaId delegate: self.router];
-    }
-    else
-    {
-        [self log: @"Maio already initialized"];
-        completionHandler();
-    }
-}
+    self.isTesting = parameters.isTesting;
 
-- (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters
-               completionHandler:(void(^)(MAAdapterInitializationStatus initializationStatus, NSString *_Nullable errorMessage))completionHandler
-{
-    if ( [ALMaioInitialized compareAndSet: NO update: YES] )
-    {
-        NSString *mediaId = [parameters.serverParameters al_stringForKey: @"media_id"];
-        
-        [self log: @"Initializing Maio with media id: %@", mediaId];
-        
-        if ( [parameters isTesting] )
-        {
-            [Maio setAdTestMode: YES];
-        }
-        
-        self.router.newCompletionHandler = completionHandler;
-        ALMaioIntializationStatus = MAAdapterInitializationStatusInitializing;
-        
-        [Maio startWithMediaId: mediaId delegate: self.router];
-    }
-    else
-    {
-        [self log: @"Maio already initialized"];
-        completionHandler(ALMaioIntializationStatus, nil);
-    }
+    // Maio SDK does not have any API for initialization.
+    completionHandler(MAAdapterInitializationStatusDoesNotApply, nil);
 }
 
 - (NSString *)SDKVersion
 {
-    return [Maio sdkVersion];
+    return [[MaioVersion shared] toString];
 }
 
 - (NSString *)adapterVersion
@@ -106,39 +58,35 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
 
 - (void)destroy
 {
-    [self.router removeAdapter: self forPlacementIdentifier: self.zoneId];
+    [self log: @"Destroy called for adapter: %@", self];
+
+    self.maioInterstitial = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
+    self.interstitialAdapterDelegate = nil;
+
+    self.maioRewarded = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
+    self.rewardedAdapterDelegate = nil;
 }
 
-#pragma mark - MAInterstitialAdapterMethods
+#pragma mark - MAInterstitialAdapter Methods
 
-- (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
+- (void)loadInterstitialAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MAInterstitialAdapterDelegate>)delegate
 {
-    self.zoneId = parameters.thirdPartyAdPlacementIdentifier;
-    
-    [self log: @"Loading interstitial ad: %@...", self.zoneId];
-    
-    [self.router addInterstitialAdapter: self delegate: delegate forPlacementIdentifier: self.zoneId];
-    
-    // `canShowAtZoneId:` will callback to `maioDidFail:reason:` with `MaioFailReasonIncorrectZoneId` - Android does not (hence extra check)
-    if ( [Maio canShowAtZoneId: self.zoneId] )
-    {
-        [self.router didLoadAdForPlacementIdentifier: self.zoneId];
-    }
-    // Maio might lose out on the first impression.
-    else
-    {
-        [self log: @"Ad failed to load for this zone: %@", self.zoneId];
-        [self.router didFailToLoadAdForPlacementIdentifier: self.zoneId error: MAAdapterError.noFill];
-    }
+    NSString *zoneID = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading interstitial ad: %@...", zoneID];
+
+    self.interstitialAdapterDelegate = [[ALMaioMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter:self andNotify:delegate];
+
+    MaioRequest *request = [[MaioRequest alloc] initWithZoneId:zoneID testMode:self.isTesting];
+    self.maioInterstitial = [MaioInterstitial loadAdWithRequest:request callback:self.interstitialAdapterDelegate];
 }
 
-- (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
+- (void)showInterstitialAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MAInterstitialAdapterDelegate>)delegate
 {
-    [self log: @"Showing interstitial ad %@", self.zoneId];
-    
-    [self.router addShowingAdapter: self];
-    
-    if ( [Maio canShowAtZoneId: self.zoneId] )
+    [self log: @"Showing interstitial ad..."];
+
+    if ( self.maioInterstitial != nil )
     {
         UIViewController *presentingViewController;
         if ( ALSdk.versionCode >= 11020199 )
@@ -149,56 +97,39 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
         {
             presentingViewController = [ALUtils topViewControllerFromKeyWindow];
         }
-        
-        [Maio showAtZoneId: self.zoneId vc: presentingViewController];
+
+        [self.maioInterstitial showWithViewContext:presentingViewController callback:self.interstitialAdapterDelegate];
     }
     else
     {
-        [self log: @"Interstitial not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205
-                                                                                                    errorString: @"Ad Display Failed"
-                                                                                         thirdPartySdkErrorCode: 0
-                                                                                      thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [self log: @"Interstitial ad not ready"];
+
+        [delegate didFailToDisplayInterstitialAdWithError:[MAAdapterError errorWithCode:-4205
+                                                                            errorString:@"Ad Display Failed"
+                                                               mediatedNetworkErrorCode:0
+                                                            mediatedNetworkErrorMessage:@"Interstitial ad not ready"]];
     }
 }
 
 #pragma mark - MARewardedAdapter Methods
 
-- (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
+- (void)loadRewardedAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MARewardedAdapterDelegate>)delegate
 {
-    self.zoneId = parameters.thirdPartyAdPlacementIdentifier;
-    
-    [self log: @"Loading rewarded ad: %@...", self.zoneId];
-    
-    [self.router addRewardedAdapter: self delegate: delegate forPlacementIdentifier: self.zoneId];
-    
-    if ( [Maio canShowAtZoneId: self.zoneId] )
-    {
-        [self.router didLoadAdForPlacementIdentifier: self.zoneId];
-    }
-    // Maio might lose out on the first impression.
-    else
-    {
-        [self log: @"Ad failed to load for this zone: %@", self.zoneId];
-        [self.router didFailToLoadAdForPlacementIdentifier: self.zoneId error: MAAdapterError.noFill];
-    }
+    NSString *zoneID = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading rewarded ad: %@...", zoneID];
+
+    self.rewardedAdapterDelegate = [[ALMaioMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter:self andNotify:delegate];
+
+    MaioRequest *request = [[MaioRequest alloc] initWithZoneId:zoneID testMode:self.isTesting];
+    self.maioRewarded = [MaioRewarded loadAdWithRequest:request callback:self.rewardedAdapterDelegate];
 }
 
-- (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
+- (void)showRewardedAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MARewardedAdapterDelegate>)delegate
 {
-    [self log: @"Showing rewarded ad %@", self.zoneId];
-    
-    [self.router addShowingAdapter: self];
-    
-    if ( [Maio canShowAtZoneId: self.zoneId] )
+    [self log: @"Showing rewarded ad..."];
+
+    if ( self.maioRewarded != nil )
     {
-        // Configure reward from server.
-        [self configureRewardForParameters: parameters];
-        
         UIViewController *presentingViewController;
         if ( ALSdk.versionCode >= 11020199 )
         {
@@ -208,245 +139,236 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
         {
             presentingViewController = [ALUtils topViewControllerFromKeyWindow];
         }
-        
-        [Maio showAtZoneId: self.zoneId vc: presentingViewController];
+
+        [self.maioRewarded showWithViewContext:presentingViewController callback:self.rewardedAdapterDelegate];
     }
     else
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.router didFailToDisplayAdForPlacementIdentifier: self.zoneId error: [MAAdapterError errorWithCode: -4205
-                                                                                                    errorString: @"Ad Display Failed"
-                                                                                         thirdPartySdkErrorCode: 0
-                                                                                      thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
-    }
-}
 
-#pragma mark - Dynamic Properties
-
-- (ALMaioMediationAdapterRouter *)router
-{
-    return [ALMaioMediationAdapterRouter sharedInstance];
-}
-
-@end
-
-@implementation ALMaioMediationAdapterRouter
-
-- (instancetype)init
-{
-    self = [super init];
-    if ( self )
-    {
-        self.isShowingAd = [[ALAtomicBoolean alloc] init];
-    }
-    return self;
-}
-
-#pragma mark - Override for Ad Show
-
-- (void)addShowingAdapter:(id<MAAdapter>)showingAdapter
-{
-    [super addShowingAdapter: showingAdapter];
-    
-    // Maio uses the same callback for [AD LOAD FAILED] and [AD DISPLAY FAILED] callbacks
-    [self.isShowingAd set: YES];
-}
-
-#pragma mark - Maio Delegate Methods
-
-- (void)maioDidInitialize
-{
-    [self log: @"Maio SDK initialized"];
-    
-    if ( self.oldCompletionHandler )
-    {
-        self.oldCompletionHandler();
-        self.oldCompletionHandler = nil;
-    }
-    
-    if ( self.newCompletionHandler )
-    {
-        ALMaioIntializationStatus = MAAdapterInitializationStatusInitializedUnknown;
-        
-        self.newCompletionHandler(ALMaioIntializationStatus, nil);
-        self.newCompletionHandler = nil;
-    }
-}
-
-// Does not refer to a specific ad, but if ads can show in general.
-- (void)maioDidChangeCanShow:(NSString *)zoneId newValue:(BOOL)newValue
-{
-    if ( newValue )
-    {
-        [self log: @"Maio can show ads: %@", zoneId];
-    }
-    else
-    {
-        [self log: @"Maio cannot show ads: %@", zoneId];
-    }
-}
-
-- (void)maioWillStartAd:(NSString *)zoneId
-{
-    [self log: @"Ad video started: %@", zoneId];
-    [self didDisplayAdForPlacementIdentifier: zoneId];
-    [self didStartRewardedVideoForPlacementIdentifier: zoneId];
-}
-
-- (void)maioDidClickAd:(NSString *)zoneId
-{
-    [self log: @"Ad clicked: %@", zoneId];
-    [self didClickAdForPlacementIdentifier: zoneId];
-}
-
-- (void)maioDidFinishAd:(NSString *)zoneId playtime:(NSInteger)playtime skipped:(BOOL)skipped rewardParam:(NSString *)rewardParam
-{
-    [self log: @"Did finish ad=%@, playtime=%ld, skipped=%d, rewardParam=%@", zoneId, playtime, skipped, rewardParam];
-    
-    if ( !skipped )
-    {
-        self.grantedReward = YES;
-    }
-    
-    [self didCompleteRewardedVideoForPlacementIdentifier: zoneId];
-}
-
-- (void)maioDidCloseAd:(NSString *)zoneId
-{
-    [self log: @"Ad closed: %@", zoneId];
-    
-    if ( [self hasGrantedReward] || [self shouldAlwaysRewardUserForPlacementIdentifier: zoneId] )
-    {
-        MAReward *reward = [self rewardForPlacementIdentifier: zoneId];
-        [self log: @"Rewarded ad user with reward: %@", reward];
-        [self didRewardUserForPlacementIdentifier: zoneId withReward: reward];
-        
-        self.grantedReward = NO;
-    }
-    
-    [self.isShowingAd set: NO];
-    
-    [self didHideAdForPlacementIdentifier: zoneId];
-}
-
-- (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason
-{
-    MAAdapterError *error = [ALMaioMediationAdapterRouter toMaxError: reason];
-    
-    if ( [self.isShowingAd compareAndSet: YES update: NO] )
-    {
-        [self log: @"Ad failed to display with Maio reason: %@ and MAX error: %@", [self reasonToString: reason], error];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self didFailToDisplayAdForPlacementIdentifier: zoneId error: [MAAdapterError errorWithCode: -4205
-                                                                                        errorString: @"Ad Display Failed"
-                                                                             thirdPartySdkErrorCode: reason
-                                                                          thirdPartySdkErrorMessage: [self reasonToString: reason]]];
-#pragma clang diagnostic pop
-    }
-    else
-    {
-        [self log: @"Ad failed to load with Maio reason: %@, and MAX error: %@", [self reasonToString: reason], error];
-        [self didFailToLoadAdForPlacementIdentifier: zoneId error: error];
+        [delegate didFailToDisplayRewardedAdWithError:[MAAdapterError errorWithCode:-4205
+                                                                        errorString:@"Ad Display Failed"
+                                                           mediatedNetworkErrorCode:0
+                                                        mediatedNetworkErrorMessage:@"Rewarded ad not ready"]];
     }
 }
 
 #pragma mark - Helper functions
 
-+ (MAAdapterError *)toMaxError:(MaioFailReason)maioErrorCode
+- (MAAdapterError *)toMaxError:(NSInteger)maioErrorCode
 {
+    NSString *errorCodeString = [NSString stringWithFormat:@"%ld", maioErrorCode];
+    NSString *maioErrorMessage = @"Unknown";
     MAAdapterError *adapterError = MAAdapterError.unspecified;
-    switch ( maioErrorCode )
-    {
-        case MaioFailReasonAdStockOut:
-            adapterError = MAAdapterError.noFill;
-            break;
-        case MaioFailReasonNetworkConnection:
-            adapterError = MAAdapterError.noConnection;
-            break;
-        case MaioFailReasonNetworkClient:
-            adapterError = MAAdapterError.badRequest;
-            break;
-        case MaioFailReasonNetworkServer:
-        case MaioFailReasonSdk:
-            adapterError = MAAdapterError.serverError;
-            break;
-        case MaioFailReasonDownloadCancelled:
-            adapterError = MAAdapterError.adNotReady;
-            break;
-        case MaioFailReasonVideoPlayback:
-            adapterError = MAAdapterError.internalError;
-            break;
-        case MaioFailReasonIncorrectMediaId:
-        case MaioFailReasonIncorrectZoneId:
-            adapterError = MAAdapterError.invalidConfiguration;
-            break;
-        case MaioFailReasonNotFoundViewContext:
-        case MaioFailReasonUnknown:
-            adapterError = MAAdapterError.unspecified;
-            break;
-    }
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: maioErrorCode
-               thirdPartySdkErrorMessage: @""];
-#pragma clang diagnostic pop
-}
 
-- (NSString *)reasonToString:(MaioFailReason)reason
-{
-    NSString *errorString;
-    
-    if ( reason == MaioFailReasonAdStockOut )
+    if ( [errorCodeString hasPrefix:@"101"] )
     {
-        errorString = @"Ad Stock Out";
+        maioErrorMessage = @"NoNetwork";
+        adapterError = MAAdapterError.noConnection;
     }
-    else if ( reason == MaioFailReasonNetworkConnection )
+    else if ( [errorCodeString hasPrefix:@"102"] )
     {
-        errorString = @"Network Connection";
+        maioErrorMessage = @"NetworkTimeout";
+        adapterError = MAAdapterError.timeout;
     }
-    else if ( reason == MaioFailReasonNetworkClient )
+    else if ( [errorCodeString hasPrefix:@"103"] )
     {
-        errorString = @"Client Network";
+        maioErrorMessage = @"AbortedDownload";
+        adapterError = MAAdapterError.adNotReady;
     }
-    else if ( reason == MaioFailReasonNetworkServer )
+    else if ( [errorCodeString hasPrefix:@"104"] )
     {
-        errorString = @"Server Network";
+        maioErrorMessage = @"InvalidResponse";
+        adapterError = MAAdapterError.serverError;
     }
-    else if ( reason == MaioFailReasonSdk )
+    else if ( [errorCodeString hasPrefix:@"105"] )
     {
-        errorString = @"Maio SDK Issue";
+        maioErrorMessage = @"ZoneNotFound";
+        adapterError = MAAdapterError.invalidConfiguration;
     }
-    else if ( reason == MaioFailReasonDownloadCancelled )
+    else if ( [errorCodeString hasPrefix:@"106"] )
     {
-        errorString = @"Download Cancelled";
+        maioErrorMessage = @"UnavailableZone";
+        adapterError = MAAdapterError.invalidConfiguration;
     }
-    else if ( reason == MaioFailReasonVideoPlayback )
+    else if ( [errorCodeString hasPrefix:@"107"] )
     {
-        errorString = @"Video Playback Issue";
+        maioErrorMessage = @"NoFill";
+        adapterError = MAAdapterError.noFill;
     }
-    else if ( reason == MaioFailReasonIncorrectMediaId )
+    else if ( [errorCodeString hasPrefix:@"108"] )
     {
-        errorString = @"Incorrect media id";
+        maioErrorMessage = @"NilArgMaioRequest";
+        adapterError = MAAdapterError.badRequest;
     }
-    else if ( reason == MaioFailReasonIncorrectZoneId )
+    else if ( [errorCodeString hasPrefix:@"109"] )
     {
-        errorString = @"Incorrect zone id";
+        maioErrorMessage = @"DiskSpaceNotEnough";
+        adapterError = MAAdapterError.internalError;
+    }
+    else if ( [errorCodeString hasPrefix:@"110"] )
+    {
+        maioErrorMessage = @"UnsupportedOsVer";
+        adapterError = MAAdapterError.unspecified;
+    }
+    else if ( [errorCodeString hasPrefix:@"201"] )
+    {
+        maioErrorMessage = @"Expired";
+        adapterError = MAAdapterError.adExpiredError;
+    }
+    else if ( [errorCodeString hasPrefix:@"202"] )
+    {
+        maioErrorMessage = @"NotReadyYet";
+        adapterError = MAAdapterError.adNotReady;
+    }
+    else if ( [errorCodeString hasPrefix:@"203"] )
+    {
+        maioErrorMessage = @"AlreadyShown";
+        adapterError = MAAdapterError.internalError;
+    }
+    else if ( [errorCodeString hasPrefix:@"204"] )
+    {
+        maioErrorMessage = @"FailedPlayback";
+        adapterError = MAAdapterError.webViewError;
+    }
+    else if ( [errorCodeString hasPrefix:@"205"] )
+    {
+        maioErrorMessage = @"NilArgViewController";
+        adapterError = MAAdapterError.missingViewController;
     }
     else
     {
-        errorString = @"Unknown Issue";
+        maioErrorMessage = @"Unknown";
+        adapterError = MAAdapterError.unspecified;
     }
-    
-    return errorString;
+
+    return [MAAdapterError errorWithCode:adapterError.code
+                             errorString:adapterError.message
+                mediatedNetworkErrorCode:maioErrorCode
+             mediatedNetworkErrorMessage:maioErrorMessage];
+}
+
+@end
+
+#pragma mark - ALMaioMediationAdapterInterstitialAdDelegate
+
+@implementation ALMaioMediationAdapterInterstitialAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALMaioMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)didLoad:(MaioInterstitial *)ad
+{
+    [self.parentAdapter log: @"Interstitial ad loaded: %@", ad.request.zoneId];
+    [self.delegate didLoadInterstitialAd];
+}
+
+- (void)didOpen:(MaioInterstitial *)ad
+{
+    [self.parentAdapter log: @"Interstitial ad started: %@", ad.request.zoneId];
+    [self.delegate didDisplayInterstitialAd];
+}
+
+- (void)didClose:(MaioInterstitial *)ad
+{
+    [self.parentAdapter log: @"Interstitial ad closed: %@", ad.request.zoneId];
+    [self.delegate didHideInterstitialAd];
+}
+
+- (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode
+{
+    MAAdapterError *error = [self.parentAdapter toMaxError:errorCode];
+
+    if ( 10000 <= errorCode && errorCode < 20000 )
+    {
+        // Fail to load.
+        [self.parentAdapter log: @"Interstitial ad failed to load with Maio reason: %@, and MAX error: %@", error.mediatedNetworkErrorMessage, error];
+        [self.delegate didFailToLoadInterstitialAdWithError:error];
+    }
+    else if ( 20000 <= errorCode && errorCode < 30000 )
+    {
+        // Fail to show.
+        [self.parentAdapter log: @"Interstitial ad failed to display with Maio reason: %@ and MAX error: %@", error.mediatedNetworkErrorMessage, error];
+        [self.delegate didFailToDisplayInterstitialAdWithError:error];
+    }
+    else
+    {
+        // Unknown error code
+        [self.delegate didFailToLoadInterstitialAdWithError:error];
+    }
+}
+
+@end
+
+#pragma mark - ALMaioMediationAdapterRewardedAdDelegate
+
+@implementation ALMaioMediationAdapterRewardedAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALMaioMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)didLoad:(MaioRewarded *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad loaded: %@", ad.request.zoneId];
+    [self.delegate didLoadRewardedAd];
+}
+
+- (void)didOpen:(MaioRewarded *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad started: %@", ad.request.zoneId];
+    [self.delegate didDisplayRewardedAd];
+}
+
+- (void)didClose:(MaioRewarded *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad closed: %@", ad.request.zoneId];
+    [self.delegate didHideRewardedAd];
+}
+
+- (void)didReward:(MaioRewarded *)ad reward:(RewardData *)reward
+{
+    MAReward *maReward = [self.parentAdapter reward];
+    [self.parentAdapter log: @"Rewarded user with reward: %@", maReward];
+    [self.delegate didRewardUserWithReward:maReward];
+}
+
+- (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode
+{
+    MAAdapterError *error = [self.parentAdapter toMaxError:errorCode];
+
+    if ( 10000 <= errorCode && errorCode < 20000 )
+    {
+        // Fail to load.
+        [self.parentAdapter log: @"Rewarded ad failed to load with Maio reason: %@, and MAX error: %@", error.mediatedNetworkErrorMessage, error];
+        [self.delegate didFailToLoadRewardedAdWithError:error];
+    }
+    else if ( 20000 <= errorCode && errorCode < 30000 )
+    {
+        // Fail to show.
+        [self.parentAdapter log: @"Rewarded ad failed to display with Maio reason: %@ and MAX error: %@", error.mediatedNetworkErrorMessage, error];
+        [self.delegate didFailToDisplayRewardedAdWithError:error];
+    }
+    else
+    {
+        // Unknown error code
+        [self.delegate didFailToLoadRewardedAdWithError:error];
+    }
 }
 
 @end
