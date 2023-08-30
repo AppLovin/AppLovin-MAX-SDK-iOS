@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.9.0.1"
+#define ADAPTER_VERSION @"10.10.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -789,6 +789,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     {
         return GADAdFormatRewardedInterstitial;
     }
+    // NOTE: App open ads were added in AppLovin v11.5.0 and must be checked after all the other ad formats to avoid throwing an exception
     else if ( adFormat == MAAdFormat.appOpen )
     {
         return GADAdFormatAppOpen;
