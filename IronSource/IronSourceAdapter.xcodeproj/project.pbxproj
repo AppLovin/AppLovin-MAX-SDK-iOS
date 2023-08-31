@@ -346,11 +346,6 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/IronSourceSDK/IronSource\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/IronSourceSDK\"/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -369,11 +364,6 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/IronSourceSDK/IronSource\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/IronSourceSDK\"/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
