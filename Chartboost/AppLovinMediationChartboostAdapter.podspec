@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationChartboostAdapter'
-s.version = '9.4.0.0'
+s.version = '9.4.0.1'
 s.platform = :ios, '11.0'
 s.summary = 'Chartboost adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -19,11 +19,9 @@ LICENSE
 }
 
 s.source = 
-{
-   :http => "#{s.version}" =~ /beta/ ?
-     "https://artifacts.applovin.com/ios/com/applovin/mediation/beta/chartboost-adapter/#{s.name}-#{s.version}.zip" :
-     "https://artifacts.applovin.com/ios/com/applovin/mediation/chartboost-adapter/#{s.name}-#{s.version}.zip",
-   :type => 'zip'
+{ 
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/chartboost-adapter/#{s.name}-#{s.version}.zip",
+  :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
