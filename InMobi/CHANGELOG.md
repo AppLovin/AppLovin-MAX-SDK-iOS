@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.5.8.0
+* Certified with InMobi SDK 10.5.8.
+
 ## 10.5.6.0
 * Certified with InMobi's Swift SDK 10.5.6.
 
