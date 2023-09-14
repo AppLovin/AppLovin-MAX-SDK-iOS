@@ -7,7 +7,7 @@
 //
 
 #import "ALInMobiMediationAdapter.h"
-@import InMobiSDK;
+#import <InMobiSDK/InMobiSDK.h>
 
 #define ADAPTER_VERSION @"10.5.6.0"
 
@@ -517,9 +517,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             break;
         case IMStatusCodeServerError:
             adapterError = MAAdapterError.serverError;
-            break;
-        case IMStatusCodeSdkNotInitialised:
-            adapterError = MAAdapterError.notInitialized;
             break;
     }
     
