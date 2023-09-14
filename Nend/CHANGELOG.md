@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.2.0.0
+* Certified with Nend SDK 8.2.0.
+
 ## 8.1.0.0
 * Certified with Nend SDK 8.1.0.
 * Updated minimum Xcode requirement to 14.1.
