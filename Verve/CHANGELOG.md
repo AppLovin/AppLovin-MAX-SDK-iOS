@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.19.0.0
+* Certified with Verve SDK 2.19.0.
+* Updated minimum Xcode requirement to 14.1.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 2.18.1.1
 * Add support for binary consent state as a fallback option if the TCFv2 GDPR consent string is not present in User Defaults. 
 

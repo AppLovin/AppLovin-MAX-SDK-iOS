@@ -10,19 +10,19 @@
 #import <Maio/Maio.h>
 #import <Maio/MaioDelegate.h>
 
-#define ADAPTER_VERSION @"1.6.3.1"
+#define ADAPTER_VERSION @"1.6.3.3"
 
-@interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter<MaioDelegate>
+@interface ALMaioMediationAdapterRouter : ALMediationAdapterRouter <MaioDelegate>
 
 @property (nonatomic, strong) ALAtomicBoolean *isShowingAd;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 
 @property (nonatomic, copy, nullable) void(^oldCompletionHandler)(void);
-@property (nonatomic, copy, nullable) void(^newCompletionHandler)(MAAdapterInitializationStatus, NSString * _Nullable);
+@property (nonatomic, copy, nullable) void(^newCompletionHandler)(MAAdapterInitializationStatus, NSString *_Nullable);
 
 @end
 
-@interface ALMaioMediationAdapter()
+@interface ALMaioMediationAdapter ()
 
 @property (nonatomic, strong, readonly) ALMaioMediationAdapterRouter *router;
 @property (nonatomic, copy) NSString *zoneId;
@@ -450,4 +450,3 @@ static MAAdapterInitializationStatus ALMaioIntializationStatus = NSIntegerMin;
 }
 
 @end
-

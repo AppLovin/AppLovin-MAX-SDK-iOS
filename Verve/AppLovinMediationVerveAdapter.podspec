@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationVerveAdapter'
-s.version = '2.18.1.1'
+s.version = '2.19.0.0'
 s.platform = :ios, '10.0'
 s.summary = 'Verve adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -20,23 +20,17 @@ LICENSE
 
 s.source = 
 {
-  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/verve-adapter/#{s.name}-#{s.version}.zip",
+  :http => "#{s.version}" =~ /beta/ ?
+    "https://artifacts.applovin.com/ios/com/applovin/mediation/beta/verve-adapter/#{s.name}-#{s.version}.zip" :
+    "https://artifacts.applovin.com/ios/com/applovin/mediation/verve-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'HyBid', '= 2.18.1'
+s.dependency 'HyBid', '= 2.19.0'
 s.dependency 'AppLovinSDK'
 s.swift_version = '5.0'
-
-s.pod_target_xcconfig =
-{
-  'VALID_ARCHS' => 'arm64 arm64e armv7 armv7s x86_64',
-  'VALID_ARCHS[sdk=iphoneos*]' => 'arm64 arm64e armv7 armv7s',
-  'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64',
-  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386'
-}
 
 s.description = <<-DESC
 

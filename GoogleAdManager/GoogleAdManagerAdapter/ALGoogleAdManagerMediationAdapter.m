@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.6.0.1"
+#define ADAPTER_VERSION @"10.10.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -131,7 +131,6 @@
 @end
 
 @implementation ALGoogleAdManagerMediationAdapter
-static NSString *ALGoogleSDKVersion;
 
 #pragma mark - MAAdapter Methods
 
@@ -143,13 +142,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (NSString *)SDKVersion
 {
-    if ( ALGoogleSDKVersion ) return ALGoogleSDKVersion;
-    
-    dispatchSyncOnMainQueue(^{
-        ALGoogleSDKVersion = [GADMobileAds sharedInstance].sdkVersion;
-    });
-    
-    return ALGoogleSDKVersion;
+    return GADGetStringFromVersionNumber([GADMobileAds sharedInstance].versionNumber);
 }
 
 - (NSString *)adapterVersion
@@ -745,11 +738,7 @@ static NSString *ALGoogleSDKVersion;
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
 {
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
-    {
-        [[GADMobileAds sharedInstance].requestConfiguration tagForChildDirectedTreatment: isAgeRestrictedUser.boolValue];
-    }
+    [GADMobileAds sharedInstance].requestConfiguration.tagForChildDirectedTreatment = [parameters isAgeRestrictedUser];
 }
 
 - (GAMRequest *)createAdRequestWithParameters:(id<MAAdapterParameters>)parameters

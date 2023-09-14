@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.7.5.0
+* Certified with AmazonAdMarketplace SDK 4.7.5.
+
+## 4.7.4.0
+* Certified with AmazonAdMarketplace SDK 4.7.4.
+
+## 4.7.3.0
+* Certified with AmazonAdMarketplace SDK 4.7.3.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 4.7.2.0
 * Certified with APS SDK 4.7.2.
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   
@@ -12,6 +22,7 @@
 
 ## 4.7.0.0
 * Certified with APS SDK 4.7.0.
+* Updated minimum Xcode requirement to 14.0.
 
 ## 4.6.0.0
 * Certified with APS SDK 4.6.0.

@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.3.1.0.1"
+#define ADAPTER_VERSION @"7.5.0.0.0"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -94,12 +94,26 @@
     [self.router removeAdapter: self forPlacementIdentifier: self.routerPlacementIdentifier];
 }
 
+#pragma mark - MASignalProvider Methods
+
+- (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    [self log: @"Collecting signal..."];
+    
+    [self setPrivacySettingsWithParameters: parameters];
+    
+    NSString *signal = [IronSource getISDemandOnlyBiddingData];
+    [delegate didCollectSignal: signal];
+}
+
 #pragma mark - MAInterstitialAdapter Methods
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBiddingAd = [bidResponse al_isValidString];
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading ironSource interstitial for instance ID: %@", instanceID];
+    [self log: @"Loading ironSource %@interstitial for instance ID: %@", ( isBiddingAd ? @"bidding " : @"" ), instanceID];
     
     [self updateIronSourceDelegates];
     [self setPrivacySettingsWithParameters: parameters];
@@ -110,14 +124,21 @@
                                delegate: delegate
                  forPlacementIdentifier: self.routerPlacementIdentifier];
     
-    if ( [IronSource hasISDemandOnlyInterstitial: instanceID] )
+    if ( isBiddingAd )
     {
-        [self log: @"Ad is available already for instance ID: %@", instanceID];
-        [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
+        [IronSource loadISDemandOnlyInterstitialWithAdm: instanceID adm: bidResponse];
     }
     else
     {
-        [IronSource loadISDemandOnlyInterstitial: instanceID];
+        if ( [IronSource hasISDemandOnlyInterstitial: instanceID] )
+        {
+            [self log: @"Ad is available already for instance ID: %@", instanceID];
+            [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
+        }
+        else
+        {
+            [IronSource loadISDemandOnlyInterstitial: instanceID];
+        }
     }
 }
 
@@ -162,8 +183,10 @@
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBiddingAd = [bidResponse al_isValidString];
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading ironSource rewarded for instance ID: %@", instanceID];
+    [self log: @"Loading ironSource %@rewarded for instance ID: %@", ( isBiddingAd ? @"bidding " : @"" ), instanceID];
     
     [self updateIronSourceDelegates];
     [self setPrivacySettingsWithParameters: parameters];
@@ -172,14 +195,21 @@
     self.routerPlacementIdentifier = [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID];
     [self.router addRewardedAdapter: self delegate: delegate forPlacementIdentifier: self.routerPlacementIdentifier];
     
-    if ( [IronSource hasISDemandOnlyRewardedVideo: instanceID] )
+    if ( isBiddingAd )
     {
-        [self log: @"Ad is available already for instance ID: %@", instanceID];
-        [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
+        [IronSource loadISDemandOnlyRewardedVideoWithAdm: instanceID adm: bidResponse];
     }
     else
     {
-        [IronSource loadISDemandOnlyRewardedVideo: instanceID];
+        if ( [IronSource hasISDemandOnlyRewardedVideo: instanceID] )
+        {
+            [self log: @"Ad is available already for instance ID: %@", instanceID];
+            [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
+        }
+        else
+        {
+            [IronSource loadISDemandOnlyRewardedVideo: instanceID];
+        }
     }
 }
 
@@ -227,8 +257,10 @@
 
 - (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBiddingAd = [bidResponse al_isValidString];
     NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@ ad for instance ID: %@", adFormat.label, instanceID];
+    [self log: @"Loading %@%@ ad for instance ID: %@", ( isBiddingAd ? @"bidding " : @"" ), adFormat.label, instanceID];
     
     self.adViewAdapterDelegate = [[ALIronSourceMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     [IronSource setISDemandOnlyBannerDelegate: self.adViewAdapterDelegate forInstanceId: instanceID];
@@ -240,7 +272,19 @@
         presentingViewController = [ALUtils topViewControllerFromKeyWindow];
     });
     
-    [IronSource loadISDemandOnlyBannerWithInstanceId: instanceID viewController: presentingViewController size: [self toISBannerSize: adFormat]];
+    if ( isBiddingAd )
+    {
+        [IronSource loadISDemandOnlyBannerWithAdm: bidResponse
+                                       instanceId: instanceID
+                                   viewController: presentingViewController
+                                             size: [self toISBannerSize: adFormat]];
+    }
+    else
+    {
+        [IronSource loadISDemandOnlyBannerWithInstanceId: instanceID
+                                          viewController: presentingViewController
+                                                    size: [self toISBannerSize: adFormat]];
+    }
 }
 
 #pragma mark - Dynamic Properties

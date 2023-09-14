@@ -9,7 +9,7 @@
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
 
-#define ADAPTER_VERSION @"13.0.1.0"
+#define ADAPTER_VERSION @"13.1.2.0"
 
 @interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
@@ -124,7 +124,20 @@
     return ADAPTER_VERSION;
 }
 
-- (void)destroy {}
+- (void)destroy
+{
+    self.interstitialPlacement.delegate = nil;
+    self.interstitialPlacement.videoDelegate = nil;
+    self.interstitialPlacement = nil;
+    self.interstitialDelegate.delegate = nil;
+    self.interstitialDelegate = nil;
+    
+    self.rewardedPlacement.delegate = nil;
+    self.rewardedPlacement.videoDelegate = nil;
+    self.rewardedPlacement = nil;
+    self.rewardedDelegate.delegate = nil;
+    self.rewardedDelegate = nil;
+}
 
 - (void)dealloc
 {
@@ -275,56 +288,26 @@
 {
     TJPrivacyPolicy *tjPrivacyPolicy = [Tapjoy getPrivacyPolicy];
     
-    NSNumber *isAgeRestrictedUser = [self privacySettingForSelector: @selector(isAgeRestrictedUser) fromParameters: parameters];
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser )
     {
         [tjPrivacyPolicy setBelowConsentAge: isAgeRestrictedUser.boolValue];
     }
     
-    NSNumber *hasUserConsent = [self privacySettingForSelector: @selector(hasUserConsent) fromParameters: parameters];
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent )
     {
         [tjPrivacyPolicy setUserConsent: hasUserConsent.boolValue ? @"1" : @"0"];
     }
     
-    if ( ALSdk.versionCode >= 61100 )
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
     {
-        NSNumber *isDoNotSell = [self privacySettingForSelector: @selector(isDoNotSell) fromParameters: parameters];
-        if ( isDoNotSell )
-        {
-            [tjPrivacyPolicy setUSPrivacy: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
-        }
-        else
-        {
-            [tjPrivacyPolicy setUSPrivacy: @"1---"];
-        }
+        [tjPrivacyPolicy setUSPrivacy: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
     }
-}
-
-- (nullable NSNumber *)privacySettingForSelector:(SEL)selector fromParameters:(id<MAAdapterParameters>)parameters
-{
-    // Use reflection because compiled adapters have trouble fetching `BOOL` from old SDKs and `NSNumber` from new SDKs (above 6.14.0)
-    NSMethodSignature *signature = [[parameters class] instanceMethodSignatureForSelector: selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
-    [invocation setSelector: selector];
-    [invocation setTarget: parameters];
-    [invocation invoke];
-    
-    // Privacy parameters return nullable `NSNumber` on newer SDKs
-    if ( ALSdk.versionCode >= 6140000 )
-    {
-        NSNumber *__unsafe_unretained value;
-        [invocation getReturnValue: &value];
-        
-        return value;
-    }
-    // Privacy parameters return BOOL on older SDKs
     else
     {
-        BOOL rawValue;
-        [invocation getReturnValue: &rawValue];
-        
-        return @(rawValue);
+        [tjPrivacyPolicy setUSPrivacy: @"1---"];
     }
 }
 

@@ -13,12 +13,16 @@ import SafariServices
 
 class ALHomeViewController: UITableViewController
 {
-    let kSupportLink = "https://support.applovin.com/support/home"
-    
-    let kRowIndexToHideForPhones = 3;
+    static let kSupportLink = "https://support.applovin.com/hc/en-us"
+    static let kRowIndexToHideForPhones = 3
     
     @IBOutlet var muteToggle: UIBarButtonItem!
     @IBOutlet weak var mediationDebuggerCell: UITableViewCell!
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle
+    {
+        return .lightContent
+    }
     
     override func viewDidLoad()
     {
@@ -56,7 +60,7 @@ class ALHomeViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == kRowIndexToHideForPhones
+        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
         {
             cell.isHidden = true;
         }
@@ -64,7 +68,7 @@ class ALHomeViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == kRowIndexToHideForPhones
+        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
         {
             return 0;
         }
@@ -114,14 +118,12 @@ class ALHomeViewController: UITableViewController
     
     func openSupportSite()
     {
-        guard let supportURL = URL(string: kSupportLink) else { return }
+        guard let supportURL = URL(string: Self.kSupportLink) else { return }
         
         if #available(iOS 9.0, *)
         {
             let safariController = SFSafariViewController(url: supportURL, entersReaderIfAvailable: true)
-            present(safariController, animated: true, completion: {
-                UIApplication.shared.statusBarStyle = .default
-            })
+            present(safariController, animated: true)
         }
         else
         {

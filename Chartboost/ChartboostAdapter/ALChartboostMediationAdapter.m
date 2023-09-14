@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.3.0.1"
+#define ADAPTER_VERSION @"9.4.0.1"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -292,7 +292,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( chartBoostCacheErrorCode )
     {
-        case CHBCacheErrorCodeInternal:
+        case CHBCacheErrorCodeInternalError:
             adapterError = MAAdapterError.internalError;
             break;
         case CHBCacheErrorCodeInternetUnavailable:
@@ -331,7 +331,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( chartBoostShowErrorCode )
     {
-        case CHBShowErrorCodeInternal:
+        case CHBShowErrorCodeInternalError:
         case CHBShowErrorCodePresentationFailure:
             adapterError = MAAdapterError.internalError;
             break;
@@ -445,6 +445,20 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self.parentAdapter log: @"Interstitial shown: %@", event.ad.location];
+    }
+}
+
+- (void)didRecordImpression:(CHBImpressionEvent *)event
+{
+    [self.parentAdapter log: @"Interstitial impression tracked: %@", event.ad.location];
+
+    NSString *creativeID = event.adID;
+    if ( [creativeID al_isValidString] )
+    {
+        [self.delegate didDisplayInterstitialAdWithExtraInfo: @{@"creative_id" : creativeID}];
+    }
+    else
+    {
         [self.delegate didDisplayInterstitialAd];
     }
 }
@@ -535,8 +549,22 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         [self.parentAdapter log: @"Rewarded shown: %@", event.ad.location];
         
-        [self.delegate didDisplayRewardedAd];
         [self.delegate didStartRewardedAdVideo];
+    }
+}
+
+- (void)didRecordImpression:(CHBImpressionEvent *)event
+{
+    [self.parentAdapter log: @"Rewarded impression tracked: %@", event.ad.location];
+
+    NSString *creativeID = event.adID;
+    if ( [creativeID al_isValidString] )
+    {
+        [self.delegate didDisplayRewardedAdWithExtraInfo: @{@"creative_id" : creativeID}];
+    }
+    else
+    {
+        [self.delegate didDisplayRewardedAd];
     }
 }
 
@@ -650,6 +678,20 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self.parentAdapter log: @"%@ ad shown: %@", self.adFormat.label, event.ad.location];
+    }
+}
+
+- (void)didRecordImpression:(CHBImpressionEvent *)event
+{
+    [self.parentAdapter log: @"%@ ad impression tracked: %@", self.adFormat.label, event.ad.location];
+    
+    NSString *creativeID = event.adID;
+    if ( [creativeID al_isValidString] )
+    {
+        [self.delegate didDisplayAdViewAdWithExtraInfo: @{@"creative_id" : creativeID}];
+    }
+    else
+    {
         [self.delegate didDisplayAdViewAd];
     }
 }

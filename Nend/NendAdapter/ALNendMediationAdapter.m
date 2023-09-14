@@ -10,7 +10,7 @@
 #import <NendAd/NendAd.h>
 #import <NendAd/NADLogger.h>
 
-#define ADAPTER_VERSION @"8.0.1.0"
+#define ADAPTER_VERSION @"8.1.0.0"
 #define NSSTRING(_X) ( (_X != NULL) ? [NSString stringWithCString: _X encoding: NSStringEncodingConversionAllowLossy] : nil)
 
 @interface ALNendMediationAdapterInterstitialAdDelegate : NSObject <NADInterstitialVideoDelegate>
@@ -93,15 +93,18 @@ static NSString *const kMAConfigKeySetMediationId = @"set_mediation_identifier";
     [self.interstitialVideo releaseVideoAd];
     self.interstitialVideo.delegate = nil;
     self.interstitialVideo = nil;
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
     [self.rewardedVideo releaseVideoAd];
     self.rewardedVideo.delegate = nil;
     self.rewardedVideo = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
     
     self.adView.delegate = nil;
     self.adView = nil;
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
 }
 

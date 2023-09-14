@@ -1,5 +1,16 @@
 # Changelog
 
+## 7.5.0.0.0
+* Certified with IronSource SDK 7.5.0.0.
+
+## 7.4.0.0.1
+* Add support for bidding on banners/MRECs, interstitials, and rewarded ads.
+
+## 7.4.0.0.0
+* Certified with IronSource SDK 7.4.0.0.
+* Updated the minimum required iOS version to 11.0 to match IronSource SDK.
+* Updated minimum Xcode requirement to 14.1.
+
 ## 7.3.1.0.1
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   
 

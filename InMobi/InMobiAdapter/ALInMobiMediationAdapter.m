@@ -18,8 +18,6 @@
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
-@property (nonatomic, assign) BOOL bannerDidFinishLoadingCalled;
-@property (nonatomic, assign) BOOL bannerAdImpressedCalled;
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 - (instancetype)init NS_UNAVAILABLE;
@@ -186,18 +184,28 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.adView cancel];
     self.adView.delegate = nil;
+    self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
     
+    [self.interstitialAd cancel];
+    self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
+    [self.rewardedAd cancel];
+    self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdDelegate.delegate = nil;
     self.rewardedAdDelegate = nil;
     
+    self.nativeAd.delegate = nil;
     self.nativeAd = nil;
+    self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
     
     self.maxNativeAdViewAd = nil;
+    self.nativeAdViewDelegate.delegate = nil;
     self.nativeAdViewDelegate = nil;
 }
 
@@ -426,7 +434,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             presentingViewController = [ALUtils topViewControllerFromKeyWindow];
         }
         
-        [interstitial showFrom:presentingViewController with:animationType];
+        [interstitial showFrom: presentingViewController with: animationType];
         
         return YES;
     }
@@ -484,18 +492,21 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         case IMStatusCodeNoFill:
             adapterError = MAAdapterError.noFill;
             break;
+        case IMStatusCodeSdkNotInitialised:
+            adapterError = MAAdapterError.notInitialized;
+            break;
         case IMStatusCodeRequestInvalid:
+        case IMStatusCodeInvalidBannerframe:
             adapterError = MAAdapterError.badRequest;
+            break;
+        case IMStatusCodeIncorrectPlacementID:
+            adapterError = MAAdapterError.invalidConfiguration;
             break;
         case IMStatusCodeRequestPending:
         case IMStatusCodeMultipleLoadsOnSameInstance:
         case IMStatusCodeAdActive:
         case IMStatusCodeEarlyRefreshRequest:
             adapterError = MAAdapterError.invalidLoadState;
-            break;
-        case IMStatusCodeIncorrectPlacementID:
-        case IMStatusCodeInvalidBannerframe:
-            adapterError = MAAdapterError.invalidConfiguration;
             break;
         case IMStatusCodeRequestTimedOut:
             adapterError = MAAdapterError.timeout;
@@ -601,13 +612,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [self.delegate didLoadAdForAdView: banner];
     }
-    
-    // Temporary workaround for an issue where bannerAdImpressed is called before bannerDidFinishLoading.
-    if ( [self bannerAdImpressedCalled] )
-    {
-        [self.delegate didDisplayAdViewAd];
-    }
-    self.bannerDidFinishLoadingCalled = YES;
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
@@ -620,11 +624,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)bannerAdImpressed:(IMBanner *)banner
 {
     [self.parentAdapter log: @"AdView impression tracked"];
-    if ( [self bannerDidFinishLoadingCalled] )
-    {
-        [self.delegate didDisplayAdViewAd];
-    }
-    self.bannerAdImpressedCalled = YES;
+    [self.delegate didDisplayAdViewAd];
 }
 
 - (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params

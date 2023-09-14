@@ -1,5 +1,20 @@
 # Changelog
 
+## 7.4.3.0.0
+* Certified with Mintegral SDK 7.4.3.
+
+## 7.4.2.0.0
+* Certified with Mintegral SDK 7.4.2.
+* Updated minimum Xcode requirement to 14.1.
+
+## 7.4.1.0.0
+* Certified with Mintegral SDK 7.4.1.
+
+## 7.3.9.0.0
+* Certified with Mintegral SDK 7.3.9.
+* Updated minimum Xcode requirement to 14.0.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 7.3.8.0.0
 * Certified with Mintegral SDK 7.3.8.
 

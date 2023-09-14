@@ -9,7 +9,7 @@
 #import "ALMyTargetMediationAdapter.h"
 #import <myTargetSDK/MyTargetSDK.h>
 
-#define ADAPTER_VERSION @"5.18.0.0"
+#define ADAPTER_VERSION @"5.19.0.0"
 
 @interface ALMyTargetMediationAdapterInterstitialAdDelegate : NSObject <MTRGInterstitialAdDelegate>
 @property (nonatomic,   weak) ALMyTargetMediationAdapter *parentAdapter;
@@ -314,14 +314,14 @@
     }
 }
 
-+ (MAAdapterError *)toMaxError:(NSString *)reason
++ (MAAdapterError *)toMaxError:(NSError *)myTargetError
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [MAAdapterError errorWithCode: MAAdapterError.noFill.errorCode
                              errorString: MAAdapterError.noFill.errorMessage
-                  thirdPartySdkErrorCode: 0
-               thirdPartySdkErrorMessage: reason];
+                  thirdPartySdkErrorCode: myTargetError.code
+               thirdPartySdkErrorMessage: myTargetError.localizedDescription];
 #pragma clang diagnostic pop
 }
 
@@ -348,10 +348,11 @@
     [self.delegate didLoadInterstitialAd];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onLoadFailedWithError:(NSError *)error interstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-    [self.parentAdapter log: @"Interstitial ad failed to load with reason: %@", reason];
-    [self.delegate didFailToLoadInterstitialAdWithError: [ALMyTargetMediationAdapter toMaxError: reason]];
+    MAAdapterError *adapterError = [ALMyTargetMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Interstitial ad failed to load with error: %@", adapterError];
+    [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
 }
 
 - (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
@@ -405,10 +406,11 @@
     [self.delegate didLoadRewardedAd];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason rewardedAd:(MTRGRewardedAd *)rewardedAd
+- (void)onLoadFailedWithError:(NSError *)error rewardedAd:(MTRGRewardedAd *)rewardedAd
 {
-    [self.parentAdapter log: @"Rewarded ad failed to load with reason: %@", reason];
-    [self.delegate didFailToLoadRewardedAdWithError: [ALMyTargetMediationAdapter toMaxError: reason]];
+    MAAdapterError *adapterError = [ALMyTargetMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Rewarded ad failed to load with error: %@", adapterError];
+    [self.delegate didFailToLoadRewardedAdWithError: adapterError];
 }
 
 - (void)onDisplayWithRewardedAd:(MTRGRewardedAd *)rewardedAd
@@ -471,10 +473,11 @@
     [self.delegate didLoadAdForAdView: adView];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView
+- (void)onLoadFailedWithError:(NSError *)error adView:(MTRGAdView *)adView
 {
-    [self.parentAdapter log: @"Ad view failed to load with reason: %@", reason];
-    [self.delegate didFailToLoadAdViewAdWithError: [ALMyTargetMediationAdapter toMaxError: reason]];
+    MAAdapterError *adapterError = [ALMyTargetMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Ad view failed to load with error: %@", adapterError];
+    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
 }
 
 - (void)onAdShowWithAdView:(MTRGAdView *)adView
@@ -582,7 +585,7 @@
         {
             [builder performSelector: @selector(setAdvertiser:) withObject: promoBanner.advertisingLabel];
         }
-
+        
         // Introduced in 11.4.0
         if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
         {
@@ -595,10 +598,11 @@
     [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason nativeAd:(MTRGNativeAd *)nativeAd
+- (void)onLoadFailedWithError:(NSError *)error nativeAd:(MTRGNativeAd *)nativeAd
 {
-    [self.parentAdapter log: @"Native ad (%@) failed to load with reason: %@", self.slotId, reason];
-    [self.delegate didFailToLoadNativeAdWithError: [ALMyTargetMediationAdapter toMaxError: reason]];
+    MAAdapterError *adapterError = [ALMyTargetMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Native ad (%@) failed to load with error: %@", self.slotId, adapterError];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
 }
 
 - (void)onAdShowWithNativeAd:(MTRGNativeAd *)nativeAd

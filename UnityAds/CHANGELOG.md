@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.8.0.1
+* Add the `bannerViewDidShow:` callback.
+* Fix crash when displaying Unity banners, introduced in version 4.8.0.0.
+
 ## 4.8.0.0
 * Certified with UnityAds SDK 4.8.0.
 * Updated minimum Xcode requirement to 14.0.
