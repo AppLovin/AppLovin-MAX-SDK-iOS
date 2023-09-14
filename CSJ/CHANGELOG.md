@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.9.0.7.2
+* Updated minimum Xcode requirement to 14.0.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+* Fix native banner/MREC impression and clicks not firing.
+* Remove arm64 simulator slice to match ByteDance China SDK.
+
 ## 4.9.0.7.1
 * Removed unused `kDefaultAppOpenAdLoadingTimeoutSeconds` constant.
 * Added switch statement to handle `BUErrorCodeBiddingAdmExpired` error case.

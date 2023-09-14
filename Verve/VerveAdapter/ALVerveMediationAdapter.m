@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"2.18.1.1"
+#define ADAPTER_VERSION @"2.19.0.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -108,15 +108,18 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 
 - (void)destroy
 {
+    self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     self.interstitialAd = nil;
     
-    self.rewardedAd = nil;
+    self.rewardedAdapterDelegate.delegate = nil;
     self.rewardedAdapterDelegate = nil;
+    self.rewardedAd = nil;
     
     self.adViewAd.delegate = nil;
     self.adViewAd = nil;
     
+    self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
 }
 

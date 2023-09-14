@@ -1,7 +1,20 @@
 # Changelog
 
+## 13.1.2.0
+* Certified with Tapjoy SDK 13.1.2.
+
+## 13.1.1.0
+* Certified with Tapjoy SDK 13.1.1.
+
+## 13.1.0.0
+* Certified with Tapjoy SDK 13.1.0.
+* Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
+* Now requires MAX SDK version 6.14.0 or higher. 
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 13.0.1.0
 * Certified with Tapjoy SDK 13.0.1.
+* Updated minimum Xcode requirement to 14.0.
 
 ## 13.0.0.0
 * Certified with Tapjoy SDK 13.0.0.

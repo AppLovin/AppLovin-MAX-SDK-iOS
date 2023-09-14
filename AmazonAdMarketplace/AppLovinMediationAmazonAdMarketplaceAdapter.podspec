@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationAmazonAdMarketplaceAdapter'
-s.version = '4.7.2.0'
+s.version = '4.7.5.0'
 s.platform = :ios, '12.0'
 s.summary = 'Amazon Publisher Services adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -28,14 +28,6 @@ s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
 # NOTE: Amazon requested us to not add them to the list of transitive dependencies. External pubs have to manually integrate their SDK.
 s.dependency 'AppLovinSDK'
-
-s.pod_target_xcconfig =
-{
-  'VALID_ARCHS' => 'arm64 arm64e armv7 armv7s x86_64',
-  'VALID_ARCHS[sdk=iphoneos*]' => 'arm64 arm64e armv7 armv7s',
-  'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64',
-  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386'
-}
 
 s.description = <<-DESC
 

@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationOguryPresageAdapter'
-s.version = '4.1.2.2'
+s.version = '4.2.0.0'
 s.platform = :ios, '10.0'
 s.summary = 'Ogury (Presage) adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,16 +26,8 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'OgurySdk', '= 4.1.2'
+s.dependency 'OgurySdk', '= 4.2.0'
 s.dependency 'AppLovinSDK'
-
-s.pod_target_xcconfig =
-{
-  'VALID_ARCHS' => 'arm64 arm64e armv7 armv7s x86_64',
-  'VALID_ARCHS[sdk=iphoneos*]' => 'arm64 arm64e armv7 armv7s',
-  'VALID_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e x86_64',
-  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386'
-}
 
 s.description = <<-DESC
 

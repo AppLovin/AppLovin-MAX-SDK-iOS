@@ -1,5 +1,36 @@
 # Changelog
 
+## 5.4.1.1.0
+* Certified with ByteDance SDK 5.4.1.1.
+
+## 5.4.1.0.0
+* Certified with ByteDance SDK 5.4.1.0.
+
+## 5.4.0.9.0
+* Certified with ByteDance SDK 5.4.0.9.
+
+## 5.4.0.8.0
+* Certified with ByteDance SDK 5.4.0.8.
+
+## 5.4.0.7.0
+* Certified with ByteDance SDK 5.4.0.7.
+
+## 5.3.1.2.0
+* Certified with ByteDance SDK 5.3.1.2.
+
+## 5.3.1.1.0
+* Certified with ByteDance SDK 5.3.1.1.
+* Updated minimum Xcode requirement to 14.1.
+
+## 5.3.1.0.0
+* Certified with ByteDance SDK 5.3.1.0.
+
+## 5.2.1.3.0
+* Certified with ByteDance SDK 5.2.1.3.
+
+## 5.2.1.2.0
+* Certified with ByteDance SDK 5.2.1.2.
+
 ## 5.2.1.1.0
 * Certified with ByteDance SDK 5.2.1.1.
 
@@ -33,6 +64,7 @@
 
 ## 5.1.0.7.0
 * Certified with ByteDance Global SDK 5.1.0.7.
+* Updated minimum Xcode requirement to 14.0.
 
 ## 4.9.1.0.0
 * Updated all existing APIs to use the PAGAdSDK.

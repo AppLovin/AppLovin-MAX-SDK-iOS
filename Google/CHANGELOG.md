@@ -1,5 +1,24 @@
 # Changelog
 
+## 10.10.0.0
+* Certified with Google SDK 10.10.0.
+
+## 10.9.0.1
+* Add support for bidding on app open ads.
+
+## 10.9.0.0
+* Certified with Google SDK 10.9.0.
+* Updated minimum Xcode requirement to 14.1.
+* Fix deprecation warnings regarding `sdkVersion` and `tagForChildDirectedTreatment`.
+* Updated the minimum required iOS version to 11.0 to match Google SDK. 
+
+## 10.8.0.0
+* Certified with Google SDK 10.8.0.
+
+## 10.7.0.0
+* Certified with Google SDK 10.7.0.
+* Updated minimum Xcode requirement to 14.0.
+
 ## 10.6.0.1
 * Update CCPA state if granted mid-session.
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.3.3
+* Fixed `maioDidCloseAd:` callback not fired caused by clearing delegates in `destroy:` method. 
+* Updated minimum Xcode requirement to 14.1.
+
+## 1.6.3.2
+* Updated minimum Xcode requirement to 14.0.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
+
 ## 1.6.3.1
 * Disable bitcode, as Apple deprecated it in Xcode 14 (https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes).
 * Update to use `[MAAdapterError errorWithCode:errorString:thirdPartySdkErrorCode:thirdPartySdkErrorMessage:]` to avoid crashes with AppLovin SDK 11.4.1 and earlier.
