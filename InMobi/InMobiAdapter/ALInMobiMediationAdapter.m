@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.5.8.0"
+#define ADAPTER_VERSION @"10.5.8.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -222,6 +222,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
     
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self setPrivacyCompliance:parameters];
     
     NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
     [delegate didCollectSignal: signal];
@@ -237,6 +238,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Update GDPR states
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self setPrivacyCompliance:parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
@@ -365,6 +367,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Update GDPR states
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self setPrivacyCompliance:parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -388,6 +391,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Update GDPR states
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self setPrivacyCompliance:parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -440,6 +444,15 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
 }
 
+- (void)setPrivacyCompliance:(id<MAAdapterParameters>)parameters {
+    
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell )
+    {
+        [IMPrivacyCompliance setDoNotSell:isDoNotSell.boolValue];
+    }
+}
+
 - (NSDictionary<NSString *, id> *)consentDictionaryForParameters:(id<MAAdapterParameters>)parameters
 {
     NSMutableDictionary<NSString *, id> *consentDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -464,13 +477,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
     }
-    
-    NSNumber *isDoNotSell = [parameters isDoNotSell];
-    if ( isDoNotSell )
-    {
-        [extras setObject: isDoNotSell forKey: @"do_not_sell"];
-    }
-    
     return extras;
 }
 
