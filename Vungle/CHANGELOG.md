@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0.0
+* Certified with Vungle SDK 7.1.0.
+* Remove `canPlayAd` checks from load methods with the instance based APIs.
+* Update error code mapping to include new error codes.
+* Now requires MAX SDK version 6.15.0 or higher. 
+
 ## 7.0.1.0
 * Certified with Vungle SDK 7.0.1.
 * Update to use instance based APIs.

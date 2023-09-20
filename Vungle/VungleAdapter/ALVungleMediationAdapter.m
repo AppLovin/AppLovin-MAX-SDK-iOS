@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.0.1.0"
+#define ADAPTER_VERSION @"7.1.0.0"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -219,26 +219,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.interstitialAdDelegate = [[ALVungleMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
     
-    if ( [self.interstitialAd canPlayAd] )
-    {
-        [self log: @"Interstitial ad loaded"];
-        [delegate didLoadInterstitialAd];
-        
-        return;
-    }
-    
     [self.interstitialAd load: bidResponse];
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *bidResponse = parameters.bidResponse;
-    BOOL isBiddingAd = [bidResponse al_isValidString];
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing %@interstitial ad for placement: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
-    
     if ( [self.interstitialAd canPlayAd] )
     {
+        [self log: @"Showing interstitial ad for placement: %@...", parameters.thirdPartyAdPlacementIdentifier];
+        
         UIViewController *presentingViewController;
         if ( ALSdk.versionCode >= 11020199 )
         {
@@ -281,26 +270,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.appOpenAd = [[VungleInterstitial alloc] initWithPlacementId: placementIdentifier];
     self.appOpenAd.delegate = self.appOpenAdDelegate;
     
-    if ( [self.appOpenAd canPlayAd] )
-    {
-        [self log: @"App open ad loaded"];
-        [delegate didLoadAppOpenAd];
-        
-        return;
-    }
-    
     [self.appOpenAd load: bidResponse];
 }
 
 - (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
 {
-    NSString *bidResponse = parameters.bidResponse;
-    BOOL isBiddingAd = [bidResponse al_isValidString];
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing %@app open ad for placement: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
-    
     if ( [self.appOpenAd canPlayAd] )
     {
+        [self log: @"Showing app open ad for placement: %@...", parameters.thirdPartyAdPlacementIdentifier];
+        
         UIViewController *presentingViewController;
         if ( ALSdk.versionCode >= 11020199 )
         {
@@ -343,26 +321,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.rewardedAdDelegate = [[ALVungleMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
     
-    if ( [self.rewardedAd canPlayAd] )
-    {
-        [self log: @"Rewarded ad loaded"];
-        [delegate didLoadRewardedAd];
-        
-        return;
-    }
-    
     [self.rewardedAd load: bidResponse];
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *bidResponse = parameters.bidResponse;
-    BOOL isBiddingAd = [bidResponse al_isValidString];
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing %@rewarded ad for placement: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
-    
     if ( [self.rewardedAd canPlayAd] )
     {
+        [self log: @"Showing rewarded ad for placement: %@...", parameters.thirdPartyAdPlacementIdentifier];
+        
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
@@ -557,12 +524,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
-+ (MAAdapterError *)toMaxError:(nullable NSError *)vungleError
++ (MAAdapterError *)toMaxError:(nullable NSError *)vungleError isAdPresentError:(BOOL)adPresentError
 {
     if ( !vungleError ) return MAAdapterError.unspecified;
     
     int vungleErrorCode = (int) vungleError.code;
     MAAdapterError *adapterError = MAAdapterError.unspecified;
+    
     switch ( vungleErrorCode )
     {
         case 6: // SDK Not Initialized
@@ -570,23 +538,50 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             break;
         case 2: // Invalid AppID
         case 201: // Invalid PlacementID
+        case 207: // Invalid Placement Type
+        case 222: // Invalid Placement load type
         case 500: // BannerView: Invalid Size
             adapterError = MAAdapterError.invalidConfiguration;
             break;
-        case 210: // Ad Not Loaded
-            adapterError = MAAdapterError.noFill;
+        case 119: // Json Encode Error
+            adapterError = MAAdapterError.internalError;
             break;
-        case 212: // Placement Sleep
+        case 202: // Ad already Consumed
+        case 203: // Ad is already loading
+        case 204: // Ad already loaded
+        case 205: // Ad is playing
+        case 206: // Ad already failed loading
             adapterError = MAAdapterError.invalidLoadState;
             break;
-        case 304: // Ad Expired
-            adapterError = MAAdapterError.adExpiredError;
+        case 210: // Ad Not Loaded
+            adapterError = adPresentError ? MAAdapterError.adNotReady : MAAdapterError.invalidLoadState;
             break;
-        case 303: // Ad Not Ready
-            adapterError = MAAdapterError.adNotReady;
+        case 115: // Invalid IndexURL
+        case 302: // Invalid Ifa Status
+        case 305: // Mraid Bridge Error
+        case 400: // Concurrent Playback Unsupported
+            adapterError = MAAdapterError.adDisplayFailedError;
+            break;
+        case 212: // Placement Sleep
+            adapterError = MAAdapterError.noFill;
+            break;
+        case 217: // Ad response timeOut
+            adapterError = MAAdapterError.timeout;
+            break;
+        case 220: // Server busy with retry after timer.
+        case 221: // Load ad during Server busy with retry after timer.
+            adapterError = MAAdapterError.serverError;
+            break;
+        case 304: // Ad Expired
+        case 307: // Ad Expired on play call.
+            adapterError = MAAdapterError.adExpiredError;
             break;
         case 600: // Native Asset Error
             adapterError = MAAdapterError.missingRequiredNativeAdAssets;
+            break;
+        case 2000: // webView WebContent Process Did Terminate
+        case 2001: // webView Failed Navigation
+            adapterError = MAAdapterError.webViewError;
             break;
     }
     
@@ -622,7 +617,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to load with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
 }
@@ -642,7 +637,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Interstitial ad impression tracked: %@", interstitial.placementId];
     
     NSString *creativeIdentifier = interstitial.creativeId;
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
         [self.delegate didDisplayInterstitialAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
@@ -654,7 +649,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: YES];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -704,7 +699,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
     [self.parentAdapter log: @"App Open ad (%@) failed to load with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
 }
@@ -724,7 +719,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"App Open ad impression tracked: %@", interstitial.placementId];
     
     NSString *creativeIdentifier = interstitial.creativeId;
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
         [self.delegate didDisplayAppOpenAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
@@ -736,7 +731,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: YES];
     [self.parentAdapter log: @"App Open ad (%@) failed to show with error: %@", interstitial.placementId, adapterError];
     [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
 }
@@ -786,7 +781,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to load with error: %@", rewarded.placementId, adapterError];
     [self.delegate didFailToLoadRewardedAdWithError: adapterError];
 }
@@ -807,7 +802,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Rewarded ad impression tracked: %@", rewarded.placementId];
     
     NSString *creativeIdentifier = rewarded.creativeId;
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
         [self.delegate didDisplayRewardedAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
@@ -819,7 +814,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: YES];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", rewarded.placementId, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -899,7 +894,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
     [self.parentAdapter log: @"AdView failed to load with error: %@", adapterError];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
 }
@@ -919,7 +914,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"AdView ad impression tracked %@", banner.placementId];
     
     NSString *creativeIdentifier = banner.creativeId;
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
         [self.delegate didDisplayAdViewAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
@@ -942,7 +937,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: YES];
     [self.parentAdapter log: @"AdView ad failed to present with error: %@", adapterError];
     [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
 }
@@ -1024,11 +1019,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         if ( [templateName containsString: @"vertical"] )
         {
-            if ( ALSdk.versionCode < 6140500 )
-            {
-                [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-            }
-            
             if ( [templateName isEqualToString: @"vertical"] )
             {
                 NSString *verticalTemplateName = ( self.adFormat == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
@@ -1038,10 +1028,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             {
                 maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxVungleNativeAd withTemplate: templateName];
             }
-        }
-        else if ( ALSdk.versionCode < 6140500 )
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxVungleNativeAd withTemplate: [templateName al_isValidString] ? templateName : @"no_body_banner_template"];
         }
         else
         {
@@ -1056,7 +1042,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)nativeAd:(VungleNative *)nativeAd didFailWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
     [self.parentAdapter log: @"Native %@ ad failed to load with error: %@", self.adFormat, adapterError];
     [self.delegate didFailToLoadAdViewAdWithError: adapterError];
 }
@@ -1066,7 +1052,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Native %@ ad shown: %@", self.adFormat, self.placementIdentifier];
     
     NSString *creativeIdentifier = nativeAd.creativeId;
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
         [self.delegate didDisplayAdViewAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
@@ -1149,7 +1135,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)nativeAd:(VungleNative *)nativeAd didFailWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
     [self.parentAdapter log: @"Native ad failed to load with error: %@", adapterError];
     [self.delegate didFailToLoadNativeAdWithError: adapterError];
 }
@@ -1158,7 +1144,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 {
     [self.parentAdapter log: @"Native ad shown: %@", self.placementIdentifier];
     NSString *creativeIdentifier = nativeAd.creativeId;
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
         [self.delegate didDisplayNativeAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
