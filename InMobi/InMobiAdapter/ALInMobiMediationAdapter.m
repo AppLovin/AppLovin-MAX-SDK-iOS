@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.5.8.0"
+#define ADAPTER_VERSION @"10.5.8.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -221,7 +221,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         return;
     }
     
-    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
     [delegate didCollectSignal: signal];
@@ -235,8 +235,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
     [self log: @"Loading%@%@ AdView ad for placement: %lld...", isNative ? @" native " : @" ", adFormat.label, placementId];
     
-    // Update GDPR states
-    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
@@ -363,8 +362,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdDelegate];
     self.nativeAd.extras = [self extrasForParameters: parameters];
     
-    // Update GDPR states
-    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -386,8 +384,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     IMInterstitial *interstitial = [[IMInterstitial alloc] initWithPlacementId: placementId delegate: delegate];
     interstitial.extras = [self extrasForParameters: parameters];
     
-    // Update GDPR states
-    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    [self updatePrivacySettingsWithParameters: parameters]; 
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -465,13 +462,18 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
     }
     
+    return extras;
+}
+
+- (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
+{
+    [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
+    
     NSNumber *isDoNotSell = [parameters isDoNotSell];
     if ( isDoNotSell )
     {
-        [extras setObject: isDoNotSell forKey: @"do_not_sell"];
+        [IMPrivacyCompliance setDoNotSell: isDoNotSell.boolValue];
     }
-    
-    return extras;
 }
 
 + (MAAdapterError *)toMaxError:(IMRequestStatus *)inMobiError
@@ -507,6 +509,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             break;
         case IMStatusCodeInternalError:
         case IMStatusCodeDroppingNetworkRequest:
+        case IMStatusCodeInvalidAudioFrame:
+        case IMStatusCodeAudioDisabled:
+        case IMStatusCodeAudioDeviceVolumeLow:
             adapterError = MAAdapterError.internalError;
             break;
         case IMStatusCodeServerError:

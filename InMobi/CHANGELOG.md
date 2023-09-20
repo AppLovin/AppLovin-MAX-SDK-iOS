@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.5.8.1
+* Updated to use `+[IMPrivacyCompliance setDoNotSell:]` API to set CCPA values.
+* Updated error code mapping to include new error codes.
+
 ## 10.5.8.0
 * Certified with InMobi SDK 10.5.8.
 
