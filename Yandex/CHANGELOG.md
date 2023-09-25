@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.0.0.0
+* Certified with Yandex SDK 6.0.0.
+* Updated the minimum required iOS version to 13.0 to match Yandex SDK.
+
 ## 5.9.1.0
 * Certified with Yandex SDK 5.9.1.
 
