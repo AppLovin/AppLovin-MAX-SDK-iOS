@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.12.0.0
+* Certified with GoogleAdManager SDK 10.12.0.
+
 ## 10.11.0.0
 * Certified with GoogleAdManager SDK 10.11.0.
 
