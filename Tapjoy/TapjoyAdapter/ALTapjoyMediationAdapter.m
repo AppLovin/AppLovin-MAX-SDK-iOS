@@ -9,7 +9,7 @@
 #import "ALTapjoyMediationAdapter.h"
 #import <Tapjoy/Tapjoy.h>
 
-#define ADAPTER_VERSION @"13.2.0.0"
+#define ADAPTER_VERSION @"13.2.1.0"
 
 @interface ALTapjoyMediationAdapterInterstitialDelegate : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
 @property (nonatomic,   weak) ALTapjoyMediationAdapter *parentAdapter;
