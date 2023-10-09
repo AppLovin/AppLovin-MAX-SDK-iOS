@@ -49,7 +49,7 @@ class ALHomeViewController: UITableViewController
             ALSdk.shared()!.showMediationDebugger()
         }
         
-        if indexPath.section == 2
+        if indexPath.section == 1
         {
             if indexPath.row == 0
             {
