@@ -40,7 +40,7 @@ static const NSInteger kRowIndexToHideForPhone = 3;
     {
         [[ALSdk shared] showMediationDebugger];
     }
-    else if ( indexPath.section == 2 )
+    else if ( indexPath.section == 1 )
     {
         if ( indexPath.row == 0 )
         {

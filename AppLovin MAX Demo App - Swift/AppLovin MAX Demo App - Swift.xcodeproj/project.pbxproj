@@ -8,16 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		07DAFDE02A781A4C00AA54FA /* ALAdViewSwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDDF2A781A4C00AA54FA /* ALAdViewSwiftUIWrapper.swift */; };
-		07DAFDE72A782FCC00AA54FA /* ALDemoSwiftUIBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDE62A782FCC00AA54FA /* ALDemoSwiftUIBannerView.swift */; };
-		07DAFDE92A78366C00AA54FA /* ALDemoSwiftUIBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDE82A78366C00AA54FA /* ALDemoSwiftUIBannerViewController.swift */; };
-		07DAFDEC2A78485A00AA54FA /* ALDemoMRecSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDEB2A78485A00AA54FA /* ALDemoMRecSwiftUIView.swift */; };
-		07DAFDEE2A784C3F00AA54FA /* ALDemoSwiftUIMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDED2A784C3F00AA54FA /* ALDemoSwiftUIMRecViewController.swift */; };
 		07DAFDF02A78613000AA54FA /* ALMAXNativeTemplateAdViewSwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDEF2A78613000AA54FA /* ALMAXNativeTemplateAdViewSwiftUIWrapper.swift */; };
 		07DAFDF32A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF22A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift */; };
 		07DAFDF52A794B1900AA54FA /* ALMAXSwiftUITemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF42A794B1900AA54FA /* ALMAXSwiftUITemplateNativeAdViewController.swift */; };
 		07DAFDF72A8369C100AA54FA /* ALDemoAdViewSwiftUIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF62A8369C100AA54FA /* ALDemoAdViewSwiftUIViewModel.swift */; };
-		07DAFDFA2A842F7100AA54FA /* ALDemoSwiftUILeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF92A842F7100AA54FA /* ALDemoSwiftUILeaderView.swift */; };
-		07DAFDFC2A84302600AA54FA /* ALDemoSwiftUILeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDFB2A84302600AA54FA /* ALDemoSwiftUILeaderViewController.swift */; };
 		0F59AFEA2C1B64BF96C40680 /* Pods_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */; };
 		1055D8A32984A18700228C1B /* MAAdViewSwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A22984A18700228C1B /* MAAdViewSwiftUIWrapper.swift */; };
 		1055D8A52984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */; };
@@ -41,9 +35,6 @@
 		37B6CED0246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */; };
 		37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */; };
 		37C4D0E8233D834900096894 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C4D0E7233D834900096894 /* main.swift */; };
-		5BCB21D227445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */; };
-		5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BCB21D327446691007218B2 /* MRecs.storyboard */; };
-		5BCB21D62745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */; };
 		6254AC69286A5741000D3298 /* ALMAXMRecTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6254AC68286A5741000D3298 /* ALMAXMRecTableViewController.swift */; };
 		6254AC6D286A5E90000D3298 /* ALMAXMRecTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6254AC6C286A5E90000D3298 /* ALMAXMRecTableViewCell.swift */; };
 		77AAC0F727D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */; };
@@ -51,37 +42,16 @@
 		77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */; };
 		77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
 		DEEC21F1299EC36F002313FB /* ALMAXAppOpenAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */; };
-		E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */; };
-		E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */; };
-		E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */; };
-		E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF82432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift */; };
-		E5BDBDFE2432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBDF92432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift */; };
-		E5BDBE852433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE822433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift */; };
-		E5BDBE862433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE832433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift */; };
-		E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE842433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift */; };
-		E5BDBE8B243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE89243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift */; };
-		E5BDBE8C243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBE8A243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift */; };
-		E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BDBFF024354C3F00F82D79 /* ALEventTrackingViewController.swift */; };
-		E5EE50D5241C259D0032B659 /* Banners.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D4241C259D0032B659 /* Banners.storyboard */; };
-		E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D6241C25AA0032B659 /* Leaders.storyboard */; };
-		E5EE50D9241C25AA0032B659 /* Interstitials.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */; };
-		E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5EE50DA241C25B60032B659 /* Rewarded.storyboard */; };
 		E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23A23357C4B00E49783 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		078501F52BC6135FA410F2C8 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		07DAFDDF2A781A4C00AA54FA /* ALAdViewSwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAdViewSwiftUIWrapper.swift; sourceTree = "<group>"; };
-		07DAFDE62A782FCC00AA54FA /* ALDemoSwiftUIBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoSwiftUIBannerView.swift; sourceTree = "<group>"; };
-		07DAFDE82A78366C00AA54FA /* ALDemoSwiftUIBannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoSwiftUIBannerViewController.swift; sourceTree = "<group>"; };
-		07DAFDEB2A78485A00AA54FA /* ALDemoMRecSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoMRecSwiftUIView.swift; sourceTree = "<group>"; };
-		07DAFDED2A784C3F00AA54FA /* ALDemoSwiftUIMRecViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoSwiftUIMRecViewController.swift; sourceTree = "<group>"; };
 		07DAFDEF2A78613000AA54FA /* ALMAXNativeTemplateAdViewSwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXNativeTemplateAdViewSwiftUIWrapper.swift; sourceTree = "<group>"; };
 		07DAFDF22A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUITemplateNativeAdView.swift; sourceTree = "<group>"; };
 		07DAFDF42A794B1900AA54FA /* ALMAXSwiftUITemplateNativeAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUITemplateNativeAdViewController.swift; sourceTree = "<group>"; };
 		07DAFDF62A8369C100AA54FA /* ALDemoAdViewSwiftUIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoAdViewSwiftUIViewModel.swift; sourceTree = "<group>"; };
-		07DAFDF92A842F7100AA54FA /* ALDemoSwiftUILeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoSwiftUILeaderView.swift; sourceTree = "<group>"; };
-		07DAFDFB2A84302600AA54FA /* ALDemoSwiftUILeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoSwiftUILeaderViewController.swift; sourceTree = "<group>"; };
 		1055D8A22984A18700228C1B /* MAAdViewSwiftUIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MAAdViewSwiftUIWrapper.swift; sourceTree = "<group>"; };
 		1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUIMRecAdViewController.swift; sourceTree = "<group>"; };
 		1055D8A62984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUIMRecAdView.swift; sourceTree = "<group>"; };
@@ -94,7 +64,7 @@
 		1DDCE59C242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXInterstitialAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
-		327A5740B44E574F21A6720C /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/AppLovin MAX Demo App - Swift/Pods/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
+		327A5740B44E574F21A6720C /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
 		35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerTableViewController.swift; sourceTree = "<group>"; };
 		35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerCollectionViewController.swift; sourceTree = "<group>"; };
 		35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALTextCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -108,35 +78,17 @@
 		37B6CECF246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXInterfaceBuilderMRecAdViewController.swift; sourceTree = "<group>"; };
 		37B6CED1246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAutoLayoutMRecAdViewController.swift; sourceTree = "<group>"; };
 		37C4D0E7233D834900096894 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoMRecProgrammaticViewController.swift; sourceTree = "<group>"; };
-		5BCB21D327446691007218B2 /* MRecs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MRecs.storyboard; sourceTree = "<group>"; };
-		5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderMRecViewController.swift; sourceTree = "<group>"; };
 		6254AC68286A5741000D3298 /* ALMAXMRecTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXMRecTableViewController.swift; sourceTree = "<group>"; };
 		6254AC6C286A5E90000D3298 /* ALMAXMRecTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXMRecTableViewCell.swift; sourceTree = "<group>"; };
 		77AAC0F627D806820060499A /* ALMAXManualNativeLateBindingAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeLateBindingAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXTemplateNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F440279B52050063F81D /* NativeManualAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeManualAdView.xib; sourceTree = "<group>"; };
-		A49BD6F0C5004760192CA0D3 /* Pods-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/AppLovin MAX Demo App - Swift/Pods/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
+		A49BD6F0C5004760192CA0D3 /* Pods-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		C395ACD57CFF0746B2DE19C2 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
-		C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLovin_MAX_Demo_App___Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_AppLovin_MAX_Demo_App___Swift.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXAppOpenAdViewController.swift; sourceTree = "<group>"; };
-		E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialBasicIntegrationViewController.swift; sourceTree = "<group>"; };
-		E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialZoneViewController.swift; sourceTree = "<group>"; };
-		E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterstitialManualLoadingViewController.swift; sourceTree = "<group>"; };
-		E5BDBDF82432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoRewardedVideosViewController.swift; sourceTree = "<group>"; };
-		E5BDBDF92432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoRewardedVideosZoneViewController.swift; sourceTree = "<group>"; };
-		E5BDBE822433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderBannerViewController.swift; sourceTree = "<group>"; };
-		E5BDBE832433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoBannerZoneViewController.swift; sourceTree = "<group>"; };
-		E5BDBE842433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoProgrammaticBannerViewController.swift; sourceTree = "<group>"; };
-		E5BDBE89243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoProgrammaticLeaderViewController.swift; sourceTree = "<group>"; };
-		E5BDBE8A243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALDemoInterfaceBuilderLeaderViewController.swift; sourceTree = "<group>"; };
 		E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovin MAX Demo App-Bridging-Header.h"; sourceTree = "<group>"; };
-		E5BDBFF024354C3F00F82D79 /* ALEventTrackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALEventTrackingViewController.swift; sourceTree = "<group>"; };
-		E5EE50D4241C259D0032B659 /* Banners.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Banners.storyboard; sourceTree = "<group>"; };
-		E5EE50D6241C25AA0032B659 /* Leaders.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Leaders.storyboard; sourceTree = "<group>"; };
-		E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interstitials.storyboard; sourceTree = "<group>"; };
-		E5EE50DA241C25B60032B659 /* Rewarded.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rewarded.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,34 +103,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		07DAFDE32A782F4600AA54FA /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				07DAFDE62A782FCC00AA54FA /* ALDemoSwiftUIBannerView.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		07DAFDEA2A78481B00AA54FA /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				07DAFDEB2A78485A00AA54FA /* ALDemoMRecSwiftUIView.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		07DAFDF12A794AAB00AA54FA /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				07DAFDF22A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		07DAFDF82A842F5D00AA54FA /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				07DAFDF92A842F7100AA54FA /* ALDemoSwiftUILeaderView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -257,7 +185,6 @@
 			children = (
 				3763B23623357C4B00E49783 /* ALAppDelegate.swift */,
 				1DDCE5A2242AE5CE007EAC8D /* Base Classes */,
-				E5BDBDF22432C4E800F82D79 /* AppLovin */,
 				3763B24A23357CFB00E49783 /* MAX */,
 				3763B25323357D7900E49783 /* Supporting Files */,
 			);
@@ -281,16 +208,11 @@
 			isa = PBXGroup;
 			children = (
 				77B6F440279B52050063F81D /* NativeManualAdView.xib */,
-				E5EE50DA241C25B60032B659 /* Rewarded.storyboard */,
-				E5EE50D7241C25AA0032B659 /* Interstitials.storyboard */,
-				E5EE50D6241C25AA0032B659 /* Leaders.storyboard */,
-				E5EE50D4241C259D0032B659 /* Banners.storyboard */,
 				37C4D0E7233D834900096894 /* main.swift */,
 				3763B24223357C4D00E49783 /* Info.plist */,
 				3763B23D23357C4D00E49783 /* Assets.xcassets */,
 				3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */,
 				3763B23A23357C4B00E49783 /* Main.storyboard */,
-				5BCB21D327446691007218B2 /* MRecs.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -314,17 +236,6 @@
 				C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5BCB21D027445D51007218B2 /* MRECs */ = {
-			isa = PBXGroup;
-			children = (
-				07DAFDEA2A78481B00AA54FA /* UI */,
-				5BCB21D52745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift */,
-				5BCB21D127445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift */,
-				07DAFDED2A784C3F00AA54FA /* ALDemoSwiftUIMRecViewController.swift */,
-			);
-			path = MRECs;
 			sourceTree = "<group>";
 		};
 		62D738A9286BCA9E0073BA24 /* UI */ = {
@@ -368,70 +279,6 @@
 				DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */,
 			);
 			path = "App Open Ads";
-			sourceTree = "<group>";
-		};
-		E5BDBDF22432C4E800F82D79 /* AppLovin */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBE882433F50800F82D79 /* Banners */,
-				E5BDBFF224354C5800F82D79 /* Event Tracking */,
-				E5BDBDF32432C4E800F82D79 /* Interstitials */,
-				E5BDBE8D243404DD00F82D79 /* Leaders */,
-				5BCB21D027445D51007218B2 /* MRECs */,
-				E5BDBDF72432C4E800F82D79 /* Rewarded */,
-			);
-			name = AppLovin;
-			path = "AppLovin MAX Demo App - Swift/AppLovin";
-			sourceTree = SOURCE_ROOT;
-		};
-		E5BDBDF32432C4E800F82D79 /* Interstitials */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBDF42432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift */,
-				E5BDBDF62432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift */,
-				E5BDBDF52432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift */,
-			);
-			path = Interstitials;
-			sourceTree = "<group>";
-		};
-		E5BDBDF72432C4E800F82D79 /* Rewarded */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBDF82432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift */,
-				E5BDBDF92432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift */,
-			);
-			path = Rewarded;
-			sourceTree = "<group>";
-		};
-		E5BDBE882433F50800F82D79 /* Banners */ = {
-			isa = PBXGroup;
-			children = (
-				07DAFDE32A782F4600AA54FA /* UI */,
-				E5BDBE832433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift */,
-				E5BDBE822433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift */,
-				E5BDBE842433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift */,
-				07DAFDE82A78366C00AA54FA /* ALDemoSwiftUIBannerViewController.swift */,
-			);
-			path = Banners;
-			sourceTree = "<group>";
-		};
-		E5BDBE8D243404DD00F82D79 /* Leaders */ = {
-			isa = PBXGroup;
-			children = (
-				07DAFDF82A842F5D00AA54FA /* UI */,
-				E5BDBE8A243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift */,
-				E5BDBE89243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift */,
-				07DAFDFB2A84302600AA54FA /* ALDemoSwiftUILeaderViewController.swift */,
-			);
-			path = Leaders;
-			sourceTree = "<group>";
-		};
-		E5BDBFF224354C5800F82D79 /* Event Tracking */ = {
-			isa = PBXGroup;
-			children = (
-				E5BDBFF024354C3F00F82D79 /* ALEventTrackingViewController.swift */,
-			);
-			path = "Event Tracking";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,15 +343,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5EE50D8241C25AA0032B659 /* Leaders.storyboard in Resources */,
 				77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */,
-				5BCB21D427446691007218B2 /* MRecs.storyboard in Resources */,
 				3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */,
 				E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */,
-				E5EE50DC241C25B70032B659 /* Rewarded.storyboard in Resources */,
 				3763B23E23357C4D00E49783 /* Assets.xcassets in Resources */,
-				E5EE50D5241C259D0032B659 /* Banners.storyboard in Resources */,
-				E5EE50D9241C25AA0032B659 /* Interstitials.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,30 +416,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07DAFDE92A78366C00AA54FA /* ALDemoSwiftUIBannerViewController.swift in Sources */,
-				E5BDBE852433F4FF00F82D79 /* ALDemoInterfaceBuilderBannerViewController.swift in Sources */,
 				1DDCE5A1242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift in Sources */,
-				E5BDBE8C243404D100F82D79 /* ALDemoInterfaceBuilderLeaderViewController.swift in Sources */,
 				35C0C88627F79E090030B2F8 /* ALTextCollectionViewCell.swift in Sources */,
 				77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */,
 				1055D8A32984A18700228C1B /* MAAdViewSwiftUIWrapper.swift in Sources */,
-				5BCB21D227445E46007218B2 /* ALDemoMRecProgrammaticViewController.swift in Sources */,
-				07DAFDEC2A78485A00AA54FA /* ALDemoMRecSwiftUIView.swift in Sources */,
-				E5BDBE862433F4FF00F82D79 /* ALDemoBannerZoneViewController.swift in Sources */,
 				07DAFDE02A781A4C00AA54FA /* ALAdViewSwiftUIWrapper.swift in Sources */,
-				E5BDBE8B243404D100F82D79 /* ALDemoProgrammaticLeaderViewController.swift in Sources */,
 				07DAFDF32A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift in Sources */,
 				37B6CED2246DEAE00068A6A4 /* ALMAXAutoLayoutMRecAdViewController.swift in Sources */,
 				1DDCE59E242AE564007EAC8D /* ALMAXInterfaceBuilderBannerAdViewController.swift in Sources */,
 				1DDCE5A5242AE5CE007EAC8D /* ALHomeViewController.swift in Sources */,
-				E5BDBDFC2432C4E800F82D79 /* ALDemoInterstitialManualLoadingViewController.swift in Sources */,
 				6254AC6D286A5E90000D3298 /* ALMAXMRecTableViewCell.swift in Sources */,
 				37B6CED0246DEA300068A6A4 /* ALMAXInterfaceBuilderMRecAdViewController.swift in Sources */,
-				07DAFDFC2A84302600AA54FA /* ALDemoSwiftUILeaderViewController.swift in Sources */,
-				5BCB21D62745B1CD007218B2 /* ALDemoInterfaceBuilderMRecViewController.swift in Sources */,
 				6254AC69286A5741000D3298 /* ALMAXMRecTableViewController.swift in Sources */,
-				E5BDBDFE2432C4E800F82D79 /* ALDemoRewardedVideosZoneViewController.swift in Sources */,
-				07DAFDFA2A842F7100AA54FA /* ALDemoSwiftUILeaderView.swift in Sources */,
 				1DDCE59F242AE564007EAC8D /* ALMAXAutoLayoutBannerAdViewController.swift in Sources */,
 				1DDCE5A0242AE564007EAC8D /* ALMAXRewardedAdViewController.swift in Sources */,
 				1055D8A72984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift in Sources */,
@@ -611,19 +441,12 @@
 				1DDCE5A6242AE5CE007EAC8D /* ALBaseAdViewController.swift in Sources */,
 				77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */,
 				1DDCE59D242AE564007EAC8D /* ALMAXFrameLayoutBannerAdViewController.swift in Sources */,
-				07DAFDE72A782FCC00AA54FA /* ALDemoSwiftUIBannerView.swift in Sources */,
-				E5BDBDFA2432C4E800F82D79 /* ALDemoInterstitialBasicIntegrationViewController.swift in Sources */,
 				1055D8AB2984A1BC00228C1B /* ALMAXSwiftUIBannerAdView.swift in Sources */,
 				3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */,
-				E5BDBE872433F4FF00F82D79 /* ALDemoProgrammaticBannerViewController.swift in Sources */,
-				E5BDBFF124354C4000F82D79 /* ALEventTrackingViewController.swift in Sources */,
-				E5BDBDFD2432C4E800F82D79 /* ALDemoRewardedVideosViewController.swift in Sources */,
 				07DAFDF02A78613000AA54FA /* ALMAXNativeTemplateAdViewSwiftUIWrapper.swift in Sources */,
-				07DAFDEE2A784C3F00AA54FA /* ALDemoSwiftUIMRecViewController.swift in Sources */,
 				1055D8AC2984A1BC00228C1B /* ALMAXSwiftUIBannerAdViewController.swift in Sources */,
 				35C0C88427F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift in Sources */,
 				07DAFDF72A8369C100AA54FA /* ALDemoAdViewSwiftUIViewModel.swift in Sources */,
-				E5BDBDFB2432C4E800F82D79 /* ALDemoInterstitialZoneViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
