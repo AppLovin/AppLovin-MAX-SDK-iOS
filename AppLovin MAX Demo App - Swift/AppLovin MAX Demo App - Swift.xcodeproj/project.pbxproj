@@ -207,12 +207,12 @@
 		3763B25323357D7900E49783 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				77B6F440279B52050063F81D /* NativeManualAdView.xib */,
-				37C4D0E7233D834900096894 /* main.swift */,
-				3763B24223357C4D00E49783 /* Info.plist */,
 				3763B23D23357C4D00E49783 /* Assets.xcassets */,
+				3763B24223357C4D00E49783 /* Info.plist */,
 				3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */,
 				3763B23A23357C4B00E49783 /* Main.storyboard */,
+				37C4D0E7233D834900096894 /* main.swift */,
+				77B6F440279B52050063F81D /* NativeManualAdView.xib */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";

@@ -192,12 +192,12 @@
 		1D993015231FA39000C472F8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				77B6F430279B51850063F81D /* NativeManualAdView.xib */,
-				1D992FED231FA1C500C472F8 /* main.m */,
-				1D992FEC231FA1C500C472F8 /* Info.plist */,
 				1D992FE7231FA1C500C472F8 /* Assets.xcassets */,
+				1D992FEC231FA1C500C472F8 /* Info.plist */,
 				1D992FE9231FA1C500C472F8 /* LaunchScreen.storyboard */,
+				1D992FED231FA1C500C472F8 /* main.m */,
 				1D992FE4231FA1C400C472F8 /* Main.storyboard */,
+				77B6F430279B51850063F81D /* NativeManualAdView.xib */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
