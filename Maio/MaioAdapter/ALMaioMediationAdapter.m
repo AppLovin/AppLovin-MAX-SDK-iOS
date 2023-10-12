@@ -9,7 +9,7 @@
 #import "ALMaioMediationAdapter.h"
 #import <Maio/Maio-Swift.h>
 
-#define ADAPTER_VERSION @"2.0.0.0"
+#define ADAPTER_VERSION @"2.1.1.0"
 
 @interface ALMaioMediationAdapterInterstitialAdDelegate : NSObject <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
 @property (nonatomic, weak) ALMaioMediationAdapter *parentAdapter;
@@ -283,6 +283,12 @@
     [self.delegate didHideInterstitialAd];
 }
 
+- (void)didClick:(MaioInterstitial *)ad
+{
+    [self.parentAdapter log: @"Interstitial ad clicked: %@", ad.request.zoneId];
+    [self.delegate didClickInterstitialAd];
+}
+
 - (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode
 {
     MAAdapterError *error = [self.parentAdapter toMaxError:errorCode];
@@ -346,6 +352,12 @@
     MAReward *maReward = [self.parentAdapter reward];
     [self.parentAdapter log: @"Rewarded user with reward: %@", maReward];
     [self.delegate didRewardUserWithReward:maReward];
+}
+
+- (void)didClick:(MaioRewarded *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad clicked: %@", ad.request.zoneId];
+    [self.delegate didClickRewardedAd];
 }
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode
