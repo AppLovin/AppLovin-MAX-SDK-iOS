@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.1.0
+* Certified with UnityAds SDK 4.9.1.
+
 ## 4.9.0.0
 * Certified with UnityAds SDK 4.9.0.
 * Updated minimum Xcode requirement to 14.1.
