@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.5.0.0
+* Certified with Chartboost SDK 9.5.0.
+
 ## 9.4.0.1
 * Use `didRecordImpression:` instead of `didShowAd:` for impression tracking.
 
