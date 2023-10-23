@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.0.1
+* Fix native ad's media content view to be clickable.
+
 ## 7.1.0.0
 * Certified with Vungle SDK 7.1.0.
 * Remove `canPlayAd` checks from load methods with the instance based APIs.

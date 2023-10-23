@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.1.0.0"
+#define ADAPTER_VERSION @"7.1.0.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -1188,6 +1188,12 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         return NO;
     }
     
+    NSMutableArray *vungleClickableViews = [clickableViews mutableCopy];
+    if ( self.mediaView )
+    {
+        [vungleClickableViews addObject: self.mediaView]; // mediaView needs to be in the clickableViews for the mediaView to be clickable even though it is only a container of the network's media view
+    }
+    
     UIImageView *iconImageView = nil;
     for ( UIView *clickableView in clickableViews )
     {
@@ -1198,13 +1204,13 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         }
     }
     
-    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", vungleClickableViews, container];
     
     [nativeAd registerViewForInteractionWithView: container
                                        mediaView: (MediaView *) self.mediaView
                                    iconImageView: iconImageView
                                   viewController: [ALUtils topViewControllerFromKeyWindow]
-                                  clickableViews: clickableViews];
+                                  clickableViews: vungleClickableViews];
     
     return YES;
 }
