@@ -16,7 +16,7 @@
 #import <MobileFuseSDK/MFRewardedAd.h>
 #import <MobileFuseSDK/MFNativeAd.h>
 
-#define ADAPTER_VERSION @"1.6.3.0"
+#define ADAPTER_VERSION @"1.6.4.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -382,18 +382,20 @@ static NSString *ALMobileFuseSDKVersion;
 {
     MobileFusePrivacyPreferences *privacyPreferences = [[MobileFusePrivacyPreferences alloc] init];
     
-    if ( [parameters isDoNotSell] )
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell != nil )
     {
-        [privacyPreferences setUsPrivacyConsentString: [parameters isDoNotSell].boolValue ? @"1YY-" : @"1YN-"];
+        [privacyPreferences setUsPrivacyConsentString: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
     }
     else
     {
         [privacyPreferences setUsPrivacyConsentString: @"1---"];
     }
     
-    if ( [parameters isAgeRestrictedUser] )
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
+    if ( isAgeRestrictedUser != nil )
     {
-        [privacyPreferences setSubjectToCoppa: [parameters isAgeRestrictedUser].boolValue];
+        [privacyPreferences setSubjectToCoppa: isAgeRestrictedUser.boolValue];
     }
     
     if ( parameters.consentString )
