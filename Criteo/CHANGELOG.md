@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.0.4.0
+* Certified with Criteo SDK 5.0.4.
+
 ## 5.0.3.0
 * Certified with Criteo SDK 5.0.3.
 

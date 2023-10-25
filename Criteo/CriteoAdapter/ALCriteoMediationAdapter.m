@@ -9,7 +9,7 @@
 #import "ALCriteoMediationAdapter.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-#define ADAPTER_VERSION @"5.0.3.0"
+#define ADAPTER_VERSION @"5.0.4.0"
 #define PUB_ID_KEY @"pub_id"
 
 @interface ALCriteoInterstitialDelegate : NSObject <CRInterstitialDelegate>
@@ -302,7 +302,7 @@ static MAAdapterInitializationStatus ALCriteoInitializationStatus = NSIntegerMin
 - (void)updatePrivacySettings:(id<MAAdapterParameters>)parameters
 {
     NSNumber *isDoNotSell = parameters.isDoNotSell;
-    if ( isDoNotSell )
+    if ( isDoNotSell != nil )
     {
         // CCPA
         [[Criteo sharedCriteo] setUsPrivacyOptOut: isDoNotSell.boolValue];
