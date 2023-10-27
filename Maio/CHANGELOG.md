@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.1.0
+* Certified with Maio SDK 2.1.1.
+* Update to use instance based APIs.
+* Update the minimum required iOS version to 12.0 in Pod Spec to match Maio SDK.
+
 ## 1.6.3.3
 * Fixed `maioDidCloseAd:` callback not fired caused by clearing delegates in `destroy:` method. 
 * Updated minimum Xcode requirement to 14.1.
