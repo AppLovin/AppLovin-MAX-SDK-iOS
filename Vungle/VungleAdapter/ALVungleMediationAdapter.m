@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.1.0.1"
+#define ADAPTER_VERSION @"7.2.0.0"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -394,8 +394,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
                                                                                           andNotify: delegate];
         self.adView.delegate = self.adViewDelegate;
         
-        self.adView.enableRefresh = NO;
-        
         self.adViewContainer = [[UIView alloc] initWithFrame: (CGRect) { CGPointZero, adFormat.size }];
         
         [self.adView load: bidResponse];
@@ -563,6 +561,11 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             adapterError = MAAdapterError.adDisplayFailedError;
             break;
         case 212: // Placement Sleep
+        case 10001: // Ad No Fill
+        case 10002: // AdLoad Too Frequently
+        case 20001: // Ad Server Error
+        case 30001: // Ad Publisher Mismatch
+        case 30002: // Ad Internal Integration Error
             adapterError = MAAdapterError.noFill;
             break;
         case 217: // Ad response timeOut
