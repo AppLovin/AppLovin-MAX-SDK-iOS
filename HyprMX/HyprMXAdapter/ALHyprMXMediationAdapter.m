@@ -9,7 +9,7 @@
 #import "ALHyprMXMediationAdapter.h"
 #import <HyprMX/HyprMX.h>
 
-#define ADAPTER_VERSION @"6.2.0.1"
+#define ADAPTER_VERSION @"6.3.0.0"
 
 /**
  * Dedicated delegate object for HyprMX initialization.
@@ -146,13 +146,19 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 {
     self.initializationDelegate = nil;
     
+    self.adView.placementDelegate = nil;
     self.adView = nil;
+    self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
     
+    self.interstitialAd.placementDelegate = nil;
     self.interstitialAd = nil;
+    self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
+    self.rewardedAd.placementDelegate = nil;
     self.rewardedAd = nil;
+    self.rewardedAdDelegate.delegate = nil;
     self.rewardedAdDelegate = nil;
 }
 
@@ -315,7 +321,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
 
 - (BOOL)isNil:(nullable NSNumber *)privacyConsent
 {
-    return !privacyConsent;
+    return privacyConsent == nil;
 }
 
 - (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
@@ -402,7 +408,7 @@ static NSString *const kHyprMXRandomUserIdKey = @"com.applovin.sdk.mediation.ran
     return [MAAdapterError errorWithCode: adapterError.errorCode
                              errorString: adapterError.errorMessage
                   thirdPartySdkErrorCode: hyprMXErrorCode
-               thirdPartySdkErrorMessage: hyprMXMessage];
+               thirdPartySdkErrorMessage: hyprMXMessage ?: @""];
 #pragma clang diagnostic pop
 }
 
