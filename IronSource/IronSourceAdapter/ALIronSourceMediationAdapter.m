@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.5.0.0.0"
+#define ADAPTER_VERSION @"7.5.1.0.0"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -56,14 +56,14 @@
         [self setPrivacySettingsWithParameters: parameters];
         
         NSNumber *isDoNotSell = [parameters isDoNotSell];
-        if ( isDoNotSell )
+        if ( isDoNotSell != nil )
         {
             // NOTE: `setMetaData` must be called _before_ initializing their SDK
             [IronSource setMetaDataWithKey: @"do_not_sell" value: isDoNotSell.boolValue ? @"YES" : @"NO"];
         }
         
         NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-        if ( isAgeRestrictedUser )
+        if ( isAgeRestrictedUser != nil )
         {
             [IronSource setMetaDataWithKey: @"is_child_directed" value: isAgeRestrictedUser.boolValue ? @"YES" : @"NO"];
         }
@@ -305,7 +305,7 @@
 - (void)setPrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
 {
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [IronSource setConsent: hasUserConsent.boolValue];
     }
