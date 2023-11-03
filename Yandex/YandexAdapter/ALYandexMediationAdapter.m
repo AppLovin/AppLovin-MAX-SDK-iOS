@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"6.1.0.0"
+#define ADAPTER_VERSION @"6.1.0.1"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -269,7 +269,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 - (void)updateUserConsent:(id<MAAdapterParameters>)parameters
 {
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [YMAMobileAds setUserConsent: hasUserConsent.boolValue];
     }
@@ -372,6 +372,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self.parentAdapter log: @"Interstitial ad loaded"];
     self.parentAdapter.interstitialAd = interstitialAd;
+    interstitialAd.delegate = self.parentAdapter.interstitialAdapterDelegate;
     [self.delegate didLoadInterstitialAd];
 }
 
@@ -451,6 +452,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self.parentAdapter log: @"Rewarded ad loaded"];
     self.parentAdapter.rewardedAd = rewardedAd;
+    rewardedAd.delegate = self.parentAdapter.rewardedAdapterDelegate;
     [self.delegate didLoadRewardedAd];
 }
 

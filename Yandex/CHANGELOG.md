@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.1.0.1
+* Addressed an issue where fullscreen ad callbacks were not being invoked.
+
 ## 6.1.0.0
 * Certified with Yandex SDK 6.1.0.
 
