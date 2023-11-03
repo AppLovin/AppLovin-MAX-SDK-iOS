@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.1.0.2
+* Update ad display failed error code.
+
 ## 7.1.0.1
 * Fix native ad's media content view to be clickable.
 

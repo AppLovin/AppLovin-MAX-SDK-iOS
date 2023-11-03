@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.1.0.1"
+#define ADAPTER_VERSION @"7.1.0.2"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -243,7 +243,14 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Failed to show interstitial ad: ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adNotReady];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                  thirdPartySdkErrorCode: 0
+                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -294,7 +301,10 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Failed to show app open ad: ad not ready"];
-        [delegate didFailToDisplayAppOpenAdWithError: MAAdapterError.adNotReady];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                        errorString: @"Ad Display Failed"
+                                                           mediatedNetworkErrorCode: 0
+                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
     }
 }
 
@@ -348,7 +358,14 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     else
     {
         [self log: @"Failed to show rewarded ad: ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adNotReady];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                         errorString: @"Ad Display Failed"
+                                                              thirdPartySdkErrorCode: 0
+                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+#pragma clang diagnostic pop
     }
 }
 
@@ -433,20 +450,20 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters
 {
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [VunglePrivacySettings setGDPRStatus: hasUserConsent.boolValue];
         [VunglePrivacySettings setGDPRMessageVersion: @""];
     }
     
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         [VunglePrivacySettings setCOPPAStatus: isAgeRestrictedUser.boolValue];
     }
     
     NSNumber *isDoNotSell = [parameters isDoNotSell];
-    if ( isDoNotSell )
+    if ( isDoNotSell != nil )
     {
         [VunglePrivacySettings setCCPAStatus: isDoNotSell.boolValue];
     }
