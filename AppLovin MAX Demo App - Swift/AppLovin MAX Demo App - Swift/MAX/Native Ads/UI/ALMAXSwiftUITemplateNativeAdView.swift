@@ -6,16 +6,17 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import SwiftUI
 import Adjust
 import AppLovinSDK
+import SwiftUI
 
 @available(iOS 14.0, *)
 struct ALMAXSwiftUITemplateNativeAdView: View
 {
     @ObservedObject private var templateNativeViewModel = ALMAXSwiftUITemplateNativeAdViewModel(adUnitIdentifier: "YOUR_AD_UNIT_ID")
     
-    var body: some View {
+    var body: some View
+    {
         NavigationView {
             VStack {
                 ALMAXNativeTemplateAdViewSwiftUIWrapper(shouldShowAd: $templateNativeViewModel.shouldShowAd,
@@ -26,7 +27,7 @@ struct ALMAXSwiftUITemplateNativeAdView: View
                                                         didClickNativeAd: templateNativeViewModel.didClickNativeAd(_:),
                                                         didExpireNativeAd: templateNativeViewModel.didExpireNativeAd(_:),
                                                         didPayRevenue: templateNativeViewModel.didPayRevenue(for:))
-                .frame(width: 300, height: 250)
+                    .frame(width: 300, height: 250)
                 
                 callbacksTable
                     .frame(maxHeight: .infinity)
@@ -42,7 +43,8 @@ struct ALMAXSwiftUITemplateNativeAdView: View
         .navigationTitle(Text("SwiftUI Templates API"))
     }
     
-    var callbacksTable: some View {
+    var callbacksTable: some View
+    {
         List(templateNativeViewModel.callbacks) {
             Text($0.callback)
         }
@@ -61,7 +63,7 @@ class ALMAXSwiftUITemplateNativeAdViewModel: NSObject, ObservableObject
     
     init(adUnitIdentifier: String)
     {
-        nativeAdLoader = ALMAXNativeSwiftUIAdLoader(adUnitIdentifier: adUnitIdentifier, containerView: containerView)
+        self.nativeAdLoader = ALMAXNativeSwiftUIAdLoader(adUnitIdentifier: adUnitIdentifier, containerView: containerView)
     }
     
     private func logCallback(functionName: String = #function)

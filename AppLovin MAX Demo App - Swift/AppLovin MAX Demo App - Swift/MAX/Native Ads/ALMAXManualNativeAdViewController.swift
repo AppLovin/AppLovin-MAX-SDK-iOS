@@ -6,15 +6,15 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALMAXManualNativeAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
     
-    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
+    private let nativeAdLoader: MANativeAdLoader = .init(adUnitIdentifier: "YOUR_AD_UNIT")
     
     private var nativeAdView: MANativeAdView!
     private var nativeAd: MAAd?
@@ -28,7 +28,7 @@ class ALMAXManualNativeAdViewController: ALBaseAdViewController
         let nativeAdViewNib = UINib(nibName: "NativeManualAdView", bundle: Bundle.main)
         nativeAdView = nativeAdViewNib.instantiate(withOwner: nil, options: nil).first! as! MANativeAdView?
         
-        let adViewBinder = MANativeAdViewBinder(builderBlock: { (builder) in
+        let adViewBinder = MANativeAdViewBinder(builderBlock: { builder in
             builder.titleLabelTag = 1001
             builder.advertiserLabelTag = 1002
             builder.bodyLabelTag = 1003

@@ -6,8 +6,8 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import SwiftUI
 import AppLovinSDK
+import SwiftUI
 
 @available(iOS 13.0, *)
 class ALDemoAdViewSwiftUIViewModel: NSObject, ObservableObject

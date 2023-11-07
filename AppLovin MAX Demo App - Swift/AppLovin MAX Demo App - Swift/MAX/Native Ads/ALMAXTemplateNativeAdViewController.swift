@@ -6,15 +6,15 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALMAXTemplateNativeAdViewController: ALBaseAdViewController
 {
     @IBOutlet weak var nativeAdContainerView: UIView!
     
-    private let nativeAdLoader: MANativeAdLoader = MANativeAdLoader(adUnitIdentifier: "YOUR_AD_UNIT")
+    private let nativeAdLoader: MANativeAdLoader = .init(adUnitIdentifier: "YOUR_AD_UNIT")
     
     private var nativeAdView: UIView?
     private var nativeAd: MAAd?

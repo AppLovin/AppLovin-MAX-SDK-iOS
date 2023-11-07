@@ -6,10 +6,10 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-import UIKit
 import AppLovinSDK
 import MessageUI
 import SafariServices
+import UIKit
 
 class ALHomeViewController: UITableViewController
 {
@@ -21,20 +21,20 @@ class ALHomeViewController: UITableViewController
     
     override var preferredStatusBarStyle: UIStatusBarStyle
     {
-        return .lightContent
+        .lightContent
     }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.navigationController?.setToolbarHidden(self.hidesBottomBarWhenPushed, animated: true)
+        navigationController?.setToolbarHidden(hidesBottomBarWhenPushed, animated: true)
         addFooterLabel()
         muteToggle.image = muteIconForCurrentSdkMuteSetting()
     }
     
     override func viewWillDisappear(_ animated: Bool)
     {
-        self.navigationController?.setToolbarHidden(true, animated: false)
+        navigationController?.setToolbarHidden(true, animated: false)
         super.viewWillDisappear(animated)
     }
     
@@ -62,7 +62,7 @@ class ALHomeViewController: UITableViewController
     {
         if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
         {
-            cell.isHidden = true;
+            cell.isHidden = true
         }
     }
     
@@ -70,7 +70,7 @@ class ALHomeViewController: UITableViewController
     {
         if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
         {
-            return 0;
+            return 0
         }
         
         return super.tableView(tableView, heightForRowAt: indexPath)
@@ -89,7 +89,7 @@ class ALHomeViewController: UITableViewController
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         style.minimumLineHeight = 20
-        footer.attributedText = NSAttributedString(string: text, attributes: [NSAttributedString.Key.paragraphStyle : style])
+        footer.attributedText = NSAttributedString(string: text, attributes: [NSAttributedString.Key.paragraphStyle: style])
         
         var frame = footer.frame
         frame.size.height = footer.sizeThatFits(CGSize(width: footer.frame.width, height: CGFloat.greatestFiniteMagnitude)).height + 60
@@ -111,7 +111,7 @@ class ALHomeViewController: UITableViewController
     
     func muteIconForCurrentSdkMuteSetting() -> UIImage!
     {
-        return ALSdk.shared()!.settings.isMuted ? UIImage(named: "mute") : UIImage(named: "unmute")
+        ALSdk.shared()!.settings.isMuted ? UIImage(named: "mute") : UIImage(named: "unmute")
     }
     
     // MARK: Table View Actions
@@ -132,4 +132,3 @@ class ALHomeViewController: UITableViewController
     }
     
 }
-

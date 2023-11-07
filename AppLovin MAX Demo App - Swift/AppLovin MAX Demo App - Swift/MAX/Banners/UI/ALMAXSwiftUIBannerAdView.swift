@@ -6,16 +6,17 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import SwiftUI
 import Adjust
 import AppLovinSDK
+import SwiftUI
 
 @available(iOS 13.0, *)
 struct ALMAXSwiftUIBannerAdView: View
 {
     @ObservedObject private var viewModel = ALMAXSwiftUIBannerAdViewModel()
     
-    var body: some View {
+    var body: some View
+    {
         VStack {
             MAAdViewSwiftUIWrapper(adUnitIdentifier: "YOUR_AD_UNIT_ID",
                                    adFormat: .banner,
@@ -29,14 +30,15 @@ struct ALMAXSwiftUIBannerAdView: View
                                    didCollapse: viewModel.didCollapse,
                                    didHide: viewModel.didHide,
                                    didPayRevenue: viewModel.didPayRevenue)
-            .deviceSpecificFrame()
+                .deviceSpecificFrame()
             
             callbacksTable
                 .frame(maxHeight: .infinity)
         }
     }
     
-    var callbacksTable: some View {
+    var callbacksTable: some View
+    {
         List(viewModel.callbacks) {
             Text($0.callback)
         }

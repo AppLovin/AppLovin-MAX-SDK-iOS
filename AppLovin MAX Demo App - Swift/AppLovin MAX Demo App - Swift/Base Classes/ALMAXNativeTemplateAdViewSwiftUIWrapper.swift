@@ -6,8 +6,8 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import SwiftUI
 import AppLovinSDK
+import SwiftUI
 
 @available(iOS 13.0, *)
 struct ALMAXNativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
@@ -18,13 +18,13 @@ struct ALMAXNativeTemplateAdViewSwiftUIWrapper: UIViewRepresentable
     let containerView: UIView
     
     // MANativeAdDelegate methods
-    var didLoadNativeAd: ((MANativeAdView?, MAAd) -> Void)? = nil
-    var didFailToLoadNativeAd: ((String, MAError) -> Void)? = nil
-    var didClickNativeAd: ((MAAd) -> Void)? = nil
-    var didExpireNativeAd: ((MAAd) -> Void)? = nil
+    var didLoadNativeAd: ((MANativeAdView?, MAAd) -> ())? = nil
+    var didFailToLoadNativeAd: ((String, MAError) -> ())? = nil
+    var didClickNativeAd: ((MAAd) -> ())? = nil
+    var didExpireNativeAd: ((MAAd) -> ())? = nil
     
     // MAAdRevenueDelegate methods
-    var didPayRevenue: ((MAAd) -> Void)? = nil
+    var didPayRevenue: ((MAAd) -> ())? = nil
     
     func makeUIView(context: Context) -> UIView
     {
@@ -101,7 +101,7 @@ class ALMAXNativeSwiftUIAdLoader
     {
         self.containerView = containerView
         
-        nativeAdLoader = MANativeAdLoader(adUnitIdentifier: adUnitIdentifier)
+        self.nativeAdLoader = MANativeAdLoader(adUnitIdentifier: adUnitIdentifier)
     }
     
     func setNativeAdDelegate(_ context: UIViewRepresentableContext<ALMAXNativeTemplateAdViewSwiftUIWrapper>)

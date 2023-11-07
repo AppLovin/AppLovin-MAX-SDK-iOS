@@ -18,16 +18,16 @@ class ALBaseAdViewController: UIViewController
     override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
-        self.navigationController?.setToolbarHidden(self.hidesBottomBarWhenPushed, animated: true)
+        navigationController?.setToolbarHidden(hidesBottomBarWhenPushed, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool)
     {
-        self.navigationController?.setToolbarHidden(true, animated: false)
+        navigationController?.setToolbarHidden(true, animated: false)
         super.viewWillDisappear(animated)
     }
 
-    internal func logCallback(functionName: String = #function)
+    func logCallback(functionName: String = #function)
     {
         callbacks.append(functionName)
         callbackTableView.insertRows(at: [IndexPath(row: callbacks.count - 1, section: 0)], with: .automatic)
@@ -46,6 +46,6 @@ extension ALBaseAdViewController: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return callbacks.count
+        callbacks.count
     }
 }

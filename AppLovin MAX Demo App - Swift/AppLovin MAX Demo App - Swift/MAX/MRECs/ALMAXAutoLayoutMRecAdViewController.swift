@@ -6,9 +6,9 @@
 //  Copyright © 2020 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALMAXAutoLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
