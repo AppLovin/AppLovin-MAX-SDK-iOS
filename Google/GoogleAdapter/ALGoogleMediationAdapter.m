@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.12.0.0"
+#define ADAPTER_VERSION @"10.13.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -746,7 +746,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     if ( ALSdk.versionCode >= 11000000 )
     {
         NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
-        if ( customWidth )
+        if ( customWidth != nil )
         {
             return customWidth.floatValue;
         }
@@ -754,13 +754,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     
     UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
     UIWindow *window = viewController.view.window;
-    CGRect frame = window.frame;
-    
-    // Use safe area insets when available.
-    if ( @available(iOS 11.0, *) )
-    {
-        frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
-    }
+    CGRect frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
     
     return CGRectGetWidth(frame);
 }
