@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.12.0.0"
+#define ADAPTER_VERSION @"10.13.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -717,7 +717,7 @@
     if ( ALSdk.versionCode >= 11000000 )
     {
         NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
-        if ( customWidth )
+        if ( customWidth != nil )
         {
             return customWidth.floatValue;
         }
@@ -725,13 +725,7 @@
     
     UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
     UIWindow *window = viewController.view.window;
-    CGRect frame = window.frame;
-    
-    // Use safe area insets when available.
-    if ( @available(iOS 11.0, *) )
-    {
-        frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
-    }
+    CGRect frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
     
     return CGRectGetWidth(frame);
 }
