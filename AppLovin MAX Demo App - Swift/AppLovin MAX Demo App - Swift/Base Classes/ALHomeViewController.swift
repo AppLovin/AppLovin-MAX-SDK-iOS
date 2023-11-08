@@ -60,7 +60,7 @@ class ALHomeViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
     {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
+        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row == Self.kRowIndexToHideForPhones
         {
             cell.isHidden = true
         }
@@ -68,7 +68,7 @@ class ALHomeViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row  == Self.kRowIndexToHideForPhones
+        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row == Self.kRowIndexToHideForPhones
         {
             return 0
         }
