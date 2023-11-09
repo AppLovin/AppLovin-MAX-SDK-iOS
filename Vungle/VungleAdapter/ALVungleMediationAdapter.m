@@ -615,7 +615,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)interstitialAdDidLoad:(VungleInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Interstitial ad loaded: %@", interstitial.placementId];
-    [self.delegate didLoadInterstitialAd];
+    NSString *creativeIdentifier = interstitial.creativeId;
+    if ( [creativeIdentifier al_isValidString] )
+    {
+        [self.delegate didLoadInterstitialAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
+    }
+    else
+    {
+        [self.delegate didLoadInterstitialAd];
+    }
 }
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error
@@ -697,7 +705,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)interstitialAdDidLoad:(VungleInterstitial *)interstitial
 {
     [self.parentAdapter log: @"App Open ad loaded: %@", interstitial.placementId];
-    [self.delegate didLoadAppOpenAd];
+    NSString *creativeIdentifier = interstitial.creativeId;
+    if ( [creativeIdentifier al_isValidString] )
+    {
+        [self.delegate didLoadAppOpenAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
+    }
+    else
+    {
+        [self.delegate didLoadAppOpenAd];
+    }
 }
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error
@@ -779,7 +795,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)rewardedAdDidLoad:(VungleRewarded *)rewarded
 {
     [self.parentAdapter log: @"Rewarded ad loaded: %@", rewarded.placementId];
-    [self.delegate didLoadRewardedAd];
+    NSString *creativeIdentifier = rewarded.creativeId;
+    if ( [creativeIdentifier al_isValidString] )
+    {
+        [self.delegate didLoadRewardedAdWithExtraInfo: @{@"creative_id" : creativeIdentifier}];
+    }
+    else
+    {
+        [self.delegate didLoadRewardedAd];
+    }
 }
 
 - (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error
@@ -882,7 +906,16 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)bannerAdDidLoad:(VungleBanner *)banner
 {
     [self.parentAdapter log: @"AdView loaded: %@", banner.placementId];
-    [self.delegate didLoadAdForAdView: self.parentAdapter.adViewContainer];
+    
+    NSString *creativeIdentifier = banner.creativeId;
+    if ( [creativeIdentifier al_isValidString] )
+    {
+        [self.delegate didLoadAdForAdView: self.parentAdapter.adViewContainer withExtraInfo: @{@"creative_id" : creativeIdentifier}];
+    }
+    else
+    {
+        [self.delegate didLoadAdForAdView: self.parentAdapter.adViewContainer];
+    }
     
     if ( [banner canPlayAd] )
     {
@@ -1039,7 +1072,16 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         
         [maxVungleNativeAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
         
-        [self.delegate didLoadAdForAdView: maxNativeAdView];
+        NSString *creativeIdentifier = nativeAd.creativeId;
+        if ( [creativeIdentifier al_isValidString] )
+        {
+            [self.delegate didLoadAdForAdView: maxNativeAdView withExtraInfo: @{@"creative_id" : creativeIdentifier}];
+        }
+        else
+        {
+            [self.delegate didLoadAdForAdView: maxNativeAdView];
+        }
+        
     });
 }
 
@@ -1131,8 +1173,15 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             }
 #pragma clang diagnostic pop
         }];
-        
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        NSString *creativeIdentifier = nativeAd.creativeId;
+        if ( [creativeIdentifier al_isValidString] )
+        {
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: @{@"creative_id" : creativeIdentifier}];
+        }
+        else
+        {
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        }
     });
 }
 
