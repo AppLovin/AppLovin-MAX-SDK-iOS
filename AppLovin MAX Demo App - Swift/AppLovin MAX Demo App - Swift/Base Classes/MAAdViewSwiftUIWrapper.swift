@@ -6,8 +6,8 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import SwiftUI
 import AppLovinSDK
+import SwiftUI
 
 @available(iOS 13.0, *)
 struct MAAdViewSwiftUIWrapper: UIViewRepresentable
@@ -17,20 +17,20 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
     let sdk: ALSdk
     
     // MAAdViewAdDelegate methods
-    var didLoad: ((MAAd) -> Void)? = nil
-    var didFailToLoadAd: ((String, MAError) -> Void)? = nil
-    var didDisplay: ((MAAd) -> Void)? = nil
-    var didFailToDisplayAd: ((MAAd, MAError) -> Void)? = nil
-    var didClick: ((MAAd) -> Void)? = nil
-    var didExpand: ((MAAd) -> Void)? = nil
-    var didCollapse: ((MAAd) -> Void)? = nil
-    var didHide: ((MAAd) -> Void)? = nil
+    var didLoad: ((MAAd) -> ())? = nil
+    var didFailToLoadAd: ((String, MAError) -> ())? = nil
+    var didDisplay: ((MAAd) -> ())? = nil
+    var didFailToDisplayAd: ((MAAd, MAError) -> ())? = nil
+    var didClick: ((MAAd) -> ())? = nil
+    var didExpand: ((MAAd) -> ())? = nil
+    var didCollapse: ((MAAd) -> ())? = nil
+    var didHide: ((MAAd) -> ())? = nil
     
     // MAAdRequestDelegate method
-    var didStartAdRequest: ((String) -> Void)? = nil
+    var didStartAdRequest: ((String) -> ())? = nil
     
     // MAAdRevenueDelegate method
-    var didPayRevenue: ((MAAd) -> Void)? = nil
+    var didPayRevenue: ((MAAd) -> ())? = nil
     
     func makeUIView(context: Context) -> MAAdView
     {
@@ -137,7 +137,7 @@ struct MAAdViewFrame: ViewModifier
     
     func body(content: Content) -> some View
     {
-        if ( adFormat == .banner || adFormat == .leader )
+        if adFormat == .banner || adFormat == .leader
         {
             // Stretch to the width of the screen for banners to be fully functional
             // Banner height on iPhone and iPad is 50 and 90, respectively

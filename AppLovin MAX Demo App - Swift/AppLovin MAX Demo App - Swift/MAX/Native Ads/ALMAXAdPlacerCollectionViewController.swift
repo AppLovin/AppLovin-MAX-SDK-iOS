@@ -6,8 +6,8 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import UIKit
 import AppLovinSDK
+import UIKit
 
 class ALMAXAdPlacerCollectionViewController: UICollectionViewController
 {
@@ -35,7 +35,7 @@ class ALMAXAdPlacerCollectionViewController: UICollectionViewController
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return data.count
+        data.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell

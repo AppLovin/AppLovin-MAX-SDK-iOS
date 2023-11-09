@@ -6,8 +6,8 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import UIKit
 import AppLovinSDK
+import UIKit
 
 class ALMAXMRecTableViewCell: UITableViewCell
 {

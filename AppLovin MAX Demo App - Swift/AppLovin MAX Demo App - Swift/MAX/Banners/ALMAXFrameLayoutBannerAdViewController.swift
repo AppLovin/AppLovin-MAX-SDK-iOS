@@ -6,9 +6,9 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALMAXFrameLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {

@@ -6,9 +6,9 @@
 //  Copyright © 2020 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
@@ -30,7 +30,7 @@ class ALMAXFrameLayoutMRecAdViewController: ALBaseAdViewController, MAAdViewAdDe
         let y: CGFloat = 0
         
         adView.frame = CGRect(x: x, y: y, width: width, height: height)
-        adView.center.x = self.view.center.x
+        adView.center.x = view.center.x
         
         // Set background or background color for MRECs to be fully functional
         adView.backgroundColor = .black

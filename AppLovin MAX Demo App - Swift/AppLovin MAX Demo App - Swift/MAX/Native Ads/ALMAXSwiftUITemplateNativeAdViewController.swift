@@ -6,9 +6,9 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
+import AppLovinSDK
 import SwiftUI
 import UIKit
-import AppLovinSDK
 
 @available(iOS 14.0, *)
 class ALMAXSwiftUITemplateNativeAdViewController: UIHostingController<ALMAXSwiftUITemplateNativeAdView>

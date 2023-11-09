@@ -6,8 +6,8 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import UIKit
 import AppLovinSDK
+import UIKit
 
 class ALMAXMRecTableViewController: UIViewController
 {
@@ -61,11 +61,11 @@ class ALMAXMRecTableViewController: UIViewController
 
 // MARK: UITableView
 
-extension ALMAXMRecTableViewController : UITableViewDelegate, UITableViewDataSource
+extension ALMAXMRecTableViewController: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return sampleData.count
+        sampleData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell

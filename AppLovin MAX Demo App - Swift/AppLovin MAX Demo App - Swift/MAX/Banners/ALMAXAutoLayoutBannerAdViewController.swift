@@ -6,9 +6,9 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdDelegate, MAAdRevenueDelegate
 {
@@ -31,11 +31,11 @@ class ALMAXAutoLayoutBannerAdViewController: ALBaseAdViewController, MAAdViewAdD
         view.addSubview(adView)
 
         // Anchor the banner to the left, right, and top of the screen.
-        adView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true;
-        adView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true;
-        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true;
+        adView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        adView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        adView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         
-        adView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true;
+        adView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         adView.heightAnchor.constraint(equalToConstant: (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50).isActive = true // Banner height on iPhone and iPad is 50 and 90, respectively
         
         // Load the first ad

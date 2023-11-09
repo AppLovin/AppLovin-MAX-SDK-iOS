@@ -6,9 +6,9 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-import UIKit
 import Adjust
 import AppLovinSDK
+import UIKit
 
 class ALAppDelegate: UIResponder, UIApplicationDelegate
 {
@@ -28,14 +28,14 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
             Adjust.appDidLaunch(adjustConfig)
         })
         
-        let barTintColor = UIColor.init(red: 10/255.0, green: 131/255.0, blue: 170/255.0, alpha: 1.0)
+        let barTintColor = UIColor.init(red: 10 / 255.0, green: 131 / 255.0, blue: 170 / 255.0, alpha: 1.0)
         let navigationBarAppearance = UINavigationBar.appearance()
         if #available(iOS 15.0, *)
         {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = barTintColor
-            appearance.titleTextAttributes = [.foregroundColor : UIColor.white]
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
             navigationBarAppearance.standardAppearance = appearance
             navigationBarAppearance.scrollEdgeAppearance = appearance
             navigationBarAppearance.tintColor = .white
@@ -45,7 +45,7 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
             // Fallback on earlier versions
             navigationBarAppearance.isTranslucent = false
             navigationBarAppearance.barTintColor = barTintColor
-            navigationBarAppearance.titleTextAttributes = [.foregroundColor : UIColor.white]
+            navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
             navigationBarAppearance.tintColor = .white
         }
         

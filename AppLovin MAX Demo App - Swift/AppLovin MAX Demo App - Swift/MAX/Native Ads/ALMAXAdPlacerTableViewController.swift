@@ -6,8 +6,8 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import UIKit
 import AppLovinSDK
+import UIKit
 
 class ALMAXAdPlacerTableViewController: UITableViewController
 {
@@ -22,12 +22,12 @@ class ALMAXAdPlacerTableViewController: UITableViewController
         let settings = MAAdPlacerSettings(adUnitIdentifier: "YOUR_AD_UNIT_ID")
         settings.addFixedPosition(IndexPath(row: 2, section: 0))
         settings.addFixedPosition(IndexPath(row: 8, section: 0))
-        settings.repeatingInterval = 10;
+        settings.repeatingInterval = 10
         
         // If using custom views, you must also set the `nativeAdViewNib` and `nativeAdViewBinder` properties on the ad placer
         
         adPlacer = MATableViewAdPlacer(tableView: tableView, settings: settings)
-        adPlacer.delegate = self;
+        adPlacer.delegate = self
         adPlacer.loadAds()
     }
     
@@ -35,7 +35,7 @@ class ALMAXAdPlacerTableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return data.count
+        data.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell

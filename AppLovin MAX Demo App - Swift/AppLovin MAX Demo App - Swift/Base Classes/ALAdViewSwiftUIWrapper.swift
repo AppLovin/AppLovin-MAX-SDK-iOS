@@ -6,8 +6,8 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import SwiftUI
 import AppLovinSDK
+import SwiftUI
 
 @available(iOS 13.0, *)
 struct ALAdViewSwiftUIWrapper: UIViewRepresentable
@@ -18,21 +18,21 @@ struct ALAdViewSwiftUIWrapper: UIViewRepresentable
     let adFormat: ALAdSize
     
     // ALAdLoadDelegate methods
-    var didLoad: ((ALAdService, ALAd) -> Void)? = nil
-    var didFailToLoadAdWithError: ((ALAdService, Int32) -> Void)? = nil
+    var didLoad: ((ALAdService, ALAd) -> ())? = nil
+    var didFailToLoadAdWithError: ((ALAdService, Int32) -> ())? = nil
     
     // ALAdDisplayDelegate methods
-    var wasDisplayedIn: ((ALAd, UIView) -> Void)? = nil
-    var wasHiddenIn: ((ALAd, UIView) -> Void)? = nil
-    var wasClickedIn: ((ALAd, UIView) -> Void)? = nil
+    var wasDisplayedIn: ((ALAd, UIView) -> ())? = nil
+    var wasHiddenIn: ((ALAd, UIView) -> ())? = nil
+    var wasClickedIn: ((ALAd, UIView) -> ())? = nil
     
     // ALAdViewEventDelegate methods
-    var didPresentFullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
-    var willDismissFullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
-    var didDismissFullscreenFor: ((ALAd, ALAdView) -> Void)? = nil
-    var willLeaveApplicationFor: ((ALAd, ALAdView) -> Void)? = nil
-    var didReturnToApplicationFor: ((ALAd, ALAdView) -> Void)? = nil
-    var didFailToDisplayIn: ((ALAd, ALAdView, ALAdViewDisplayErrorCode) -> Void)? = nil
+    var didPresentFullscreenFor: ((ALAd, ALAdView) -> ())? = nil
+    var willDismissFullscreenFor: ((ALAd, ALAdView) -> ())? = nil
+    var didDismissFullscreenFor: ((ALAd, ALAdView) -> ())? = nil
+    var willLeaveApplicationFor: ((ALAd, ALAdView) -> ())? = nil
+    var didReturnToApplicationFor: ((ALAd, ALAdView) -> ())? = nil
+    var didFailToDisplayIn: ((ALAd, ALAdView, ALAdViewDisplayErrorCode) -> ())? = nil
     
     func makeUIView(context: Context) -> ALAdView
     {
