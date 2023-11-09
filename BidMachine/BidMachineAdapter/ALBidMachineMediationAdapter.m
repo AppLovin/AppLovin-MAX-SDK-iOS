@@ -10,7 +10,7 @@
 #import <BidMachine/BidMachine.h>
 #import <BidMachineApiCore/BidMachineApiCore.h>
 
-#define ADAPTER_VERSION @"2.3.0.2.0"
+#define ADAPTER_VERSION @"2.4.0.0.0"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -536,7 +536,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     }];
     
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         [regulationBuilder withCOPPA: isAgeRestrictedUser.boolValue];
     }
@@ -550,13 +550,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     }
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [regulationBuilder withGDPRConsent: hasUserConsent.boolValue];
     }
     
     NSNumber *isDoNotSell = [parameters isDoNotSell];
-    if ( isDoNotSell )
+    if ( isDoNotSell != nil )
     {
         [regulationBuilder withUSPrivacyString: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
     }
