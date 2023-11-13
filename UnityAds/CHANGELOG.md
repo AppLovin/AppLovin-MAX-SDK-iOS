@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.9.2.0
+* Certified with UnityAds SDK 4.9.2.
+* Update the minimum required iOS version to 10.0 in Pod Spec to match UnityAds SDK.
+
 ## 4.9.1.0
 * Certified with UnityAds SDK 4.9.1.
 

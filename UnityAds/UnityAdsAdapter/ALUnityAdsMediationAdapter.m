@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.9.1.0"
+#define ADAPTER_VERSION @"4.9.2.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -397,7 +397,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     UADSMetaData *privacyConsentMetaData = [[UADSMetaData alloc] init];
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [privacyConsentMetaData set: @"gdpr.consent" value: @(hasUserConsent.boolValue)];
         [privacyConsentMetaData commit];
@@ -405,7 +405,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     // CCPA compliance - https://unityads.unity3d.com/help/legal/gdpr
     NSNumber *isDoNotSell = [parameters isDoNotSell];
-    if ( isDoNotSell )
+    if ( isDoNotSell != nil )
     {
         [privacyConsentMetaData set: @"privacy.consent" value: @(!isDoNotSell.boolValue)]; // isDoNotSell means user has opted out and is equivalent to NO.
         [privacyConsentMetaData commit];
@@ -415,7 +415,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [privacyConsentMetaData commit];
     
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         [privacyConsentMetaData set: @"user.nonbehavioral" value: @(isAgeRestrictedUser.boolValue)];
         [privacyConsentMetaData commit];
