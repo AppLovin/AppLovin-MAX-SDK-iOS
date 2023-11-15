@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.1.0.2
+* Specified compatible versions of Yandex dependencies: DivKit (28.4.0) and VGSLBase (2.2).
+
 ## 6.1.0.1
 * Addressed an issue where fullscreen ad callbacks were not being invoked.
 
