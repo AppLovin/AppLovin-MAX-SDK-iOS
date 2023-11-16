@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.6.20230609.0"
+#define ADAPTER_VERSION @"2.7.20231115.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -116,7 +116,7 @@ static ALAtomicBoolean *ALLineInitialized;
         // GDPR options
         //
         NSNumber *hasUserConsent = [parameters hasUserConsent];
-        if ( hasUserConsent )
+        if ( hasUserConsent != nil )
         {
             config.needGdprNonPersonalizedAdsTreatment = hasUserConsent.boolValue ? kFADNeedGdprNonPersonalizedAdsTreatmentFalse : kFADNeedGdprNonPersonalizedAdsTreatmentTrue;
         }
@@ -125,7 +125,7 @@ static ALAtomicBoolean *ALLineInitialized;
         // COPPA options
         //
         NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-        if ( isAgeRestrictedUser )
+        if ( isAgeRestrictedUser != nil )
         {
             config.needChildDirectedTreatment = isAgeRestrictedUser.boolValue ? kFADNeedChildDirectedTreatmentTrue : kFADNeedChildDirectedTreatmentFalse;
         }
@@ -150,17 +150,30 @@ static ALAtomicBoolean *ALLineInitialized;
 
 - (void)destroy
 {
+    [self.interstitialAd setLoadDelegate: nil];
+    [self.interstitialAd setAdViewEventListener: nil];
     self.interstitialAd = nil;
+    self.interstitialDelegate.delegate = nil;
     self.interstitialDelegate = nil;
     
+    [self.rewardedAd setLoadDelegate: nil];
+    [self.rewardedAd setAdViewEventListener: nil];
     self.rewardedAd = nil;
+    self.rewardedDelegate.delegate = nil;
     self.rewardedDelegate = nil;
     
+    [self.adView setLoadDelegate: nil];
+    [self.adView setAdViewEventListener: nil];
     self.adView = nil;
+    self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
+    self.nativeAdViewDelegate.delegate = nil;
     self.nativeAdViewDelegate = nil;
     
+    [self.nativeAd setLoadDelegate: nil];
+    [self.nativeAd setAdViewEventListener: nil];
     self.nativeAd = nil;
+    self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
 }
 

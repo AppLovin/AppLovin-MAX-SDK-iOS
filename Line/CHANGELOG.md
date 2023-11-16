@@ -1,9 +1,15 @@
 # Changelog
 
+## 2.7.20231115.0
+* Certified with Line SDK 2.7.20231115.
+* Updated minimum Xcode requirement to 14.1.
+* Updated minimum iOS version to 11.0.
+
 ## 2.6.20230609.0
 * Certified with Line SDK 2.6.20230609.
 * Remove the `privacySettingForSelector:fromParameters:` function and call privacy methods directly.
 * Remove unnecessary MAX SDK version check.
+* Fixed potential memory leaks by clearing delegates in `destroy:` method.   
 
 ## 2.6.20230215.0
 * Certified with Line SDK 2.6.20230215.
