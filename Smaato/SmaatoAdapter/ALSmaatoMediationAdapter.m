@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.4.0.0"
+#define ADAPTER_VERSION @"22.5.0.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -471,7 +471,7 @@
     {
         NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
         NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
-        if ( isLocationCollectionEnabled )
+        if ( isLocationCollectionEnabled != nil )
         {
             [self log: @"Setting location collection enabled: %@", isLocationCollectionEnabled];
             // NOTE: According to docs - this is disabled by default
@@ -483,7 +483,7 @@
 - (void)updateAgeRestrictedUser:(id<MAAdapterParameters>)parameters
 {
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         SmaatoSDK.requireCoppaCompliantAds = isAgeRestrictedUser.boolValue;
     }
