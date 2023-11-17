@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.20.0.0
+* Certified with MyTarget SDK 5.20.0.
+
 ## 5.19.0.0
 * Certified with MyTarget SDK 5.19.0.
 * Updated the minimum required iOS version to 12.4 to match MyTarget SDK. 
