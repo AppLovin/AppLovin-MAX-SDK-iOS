@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.1.0.3
+* Specified compatible version of Yandex dependency for republished SDK 6.1.0: VGSLCommonCore and VGSLNetworking (2.3.0).
+
 ## 6.1.0.2
 * Specified compatible versions of Yandex dependencies: DivKit (28.4.0) and VGSLBase (2.2).
 
