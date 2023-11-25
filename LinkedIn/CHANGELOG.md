@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0.0
+* Certified with LinkedIn SDK 1.2.0.
+* Updated minimum iOS version to 11.0.
+
 ## 1.1.3.1
 * Updated minimum Xcode requirement to 14.1.
 * Collect SDK init error messages.

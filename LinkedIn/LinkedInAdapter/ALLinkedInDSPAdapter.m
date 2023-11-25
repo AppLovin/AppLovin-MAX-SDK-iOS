@@ -8,7 +8,7 @@
 #import "ALLinkedInDSPAdapter.h"
 #import <LinkedinAudienceNetwork/LinkedinAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"1.1.3.1"
+#define ADAPTER_VERSION @"1.2.0.0"
 
 @implementation ALLinkedInDSPAdapter
 
