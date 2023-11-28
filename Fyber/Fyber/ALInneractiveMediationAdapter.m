@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.2.4.0"
+#define ADAPTER_VERSION @"8.2.5.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -422,7 +422,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     [IASDKCore sharedInstance].userID = self.sdk.userIdentifier;
     
     NSNumber *hasUserConsent = [requestParameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [[IASDKCore sharedInstance] setGDPRConsent: hasUserConsent.boolValue];
     }
@@ -440,7 +440,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     }
     
     NSNumber *isDoNotSell = [requestParameters isDoNotSell];
-    if ( isDoNotSell )
+    if ( isDoNotSell != nil )
     {
         [[IASDKCore sharedInstance] setCCPAString: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
     }
@@ -450,7 +450,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     }
     
     NSNumber *isAgeRestrictedUser = [requestParameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         [[IASDKCore sharedInstance] setCoppaApplies: isAgeRestrictedUser.boolValue ? IACoppaAppliesTypeGiven : IACoppaAppliesTypeDenied];
     }
