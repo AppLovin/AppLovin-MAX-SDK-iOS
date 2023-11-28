@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.1.0.0
+* Certified with Mintegral SDK 7.5.1.
+
 ## 7.5.0.0.0
 * Certified with Mintegral SDK 7.5.0.
 * Updated minimum iOS version to 11.0.
