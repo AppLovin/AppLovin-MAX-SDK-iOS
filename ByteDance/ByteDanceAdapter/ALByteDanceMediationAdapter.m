@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"5.6.0.6.0"
+#define ADAPTER_VERSION @"5.6.0.7.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
