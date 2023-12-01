@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.2.0.0
+* Certified with Vungle SDK 7.2.0.
+* Remove usage of `[VungleBanner enableRefresh]` since Vungle banner refresh is disabled by default and the API is removed in Vungle SDK 7.2.0.
+* Update support for passing creative ID to MAX SDK on ad load callbacks instead of the impression callbacks. 
+* Update error codes.
+
 ## 7.1.0.2
 * Update ad display failed error code.
 
