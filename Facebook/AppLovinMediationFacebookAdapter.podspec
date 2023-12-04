@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationFacebookAdapter'
-s.version = '6.14.0.0'
+s.version = '6.14.0.1'
 s.platform = :ios, '11.0'
 s.summary = 'Facebook adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -29,11 +29,6 @@ s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 s.dependency 'FBAudienceNetwork', '= 6.14.0'
 s.dependency 'AppLovinSDK'
 s.swift_version = '5.0'
-
-s.pod_target_xcconfig =
-{
-  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
-}
 
 s.description = <<-DESC
 

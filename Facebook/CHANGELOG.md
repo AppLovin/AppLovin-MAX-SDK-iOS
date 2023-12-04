@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.14.0.1
+* Add back arm64 simulator slice to match Facebook SDK.
+
 ## 6.14.0.0
 * Certified with Facebook SDK 6.14.0.
 * Updated minimum Xcode requirement to 14.1.
