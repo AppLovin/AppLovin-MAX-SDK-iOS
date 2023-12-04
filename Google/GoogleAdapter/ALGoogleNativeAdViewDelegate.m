@@ -44,7 +44,7 @@
     if ( ![nativeAd.headline al_isValidString] )
     {
         [self.parentAdapter log: @"Native %@ ad failed to load: Google native ad is missing one or more required assets", self.adFormat.label];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
+        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
         
         return;
     }

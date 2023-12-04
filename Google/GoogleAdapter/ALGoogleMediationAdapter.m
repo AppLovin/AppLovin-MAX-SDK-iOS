@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.14.0.0"
+#define ADAPTER_VERSION @"10.14.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -288,7 +288,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
             if ( !interstitialAd )
             {
                 [self log: @"App open interstitial ad (%@) failed to load: ad is nil", placementIdentifier];
-                [delegate didFailToDisplayAppOpenAdWithError: MAAdapterError.adNotReady];
+                [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.adNotReady];
                 
                 return;
             }

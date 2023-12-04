@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.14.0.1
+* Improve error handling.
+
 ## 10.14.0.0
 * Certified with Google SDK 10.14.0.
 
