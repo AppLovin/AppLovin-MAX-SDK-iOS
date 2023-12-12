@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.9.2.0"
+#define ADAPTER_VERSION @"4.9.2.1"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -31,8 +31,10 @@
 
 @interface ALUnityAdsAdViewDelegate : NSObject <UADSBannerViewDelegate>
 @property (nonatomic,   weak) ALUnityAdsMediationAdapter *parentAdapter;
+@property (nonatomic,   copy) NSString *placementIdentifier;
+@property (nonatomic,   weak) MAAdFormat *adFormat;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
-- (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter placementIdentifier:(NSString *)placementIdentifier adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
 @interface ALUnityAdsMediationAdapter ()
@@ -229,14 +231,17 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading banner ad for placement \"%@\"...", placementIdentifier];
+    [self log: @"Loading %@%@ ad for placement \"%@\"...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), adFormat.label, placementIdentifier];
     
     [self updatePrivacyConsent: parameters];
     
-    self.adViewDelegate = [[ALUnityAdsAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    // Every ad needs a random ID associated with each load and show
+    self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
+    
+    self.adViewDelegate = [[ALUnityAdsAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier adFormat: adFormat andNotify: delegate];
     self.bannerAdView = [[UADSBannerView alloc] initWithPlacementId: placementIdentifier size: [self bannerSizeFromAdFormat: adFormat]];
     self.bannerAdView.delegate = self.adViewDelegate;
-    [self.bannerAdView load];
+    [self.bannerAdView loadWithOptions: [self createAdLoadOptionsForParameters: parameters]];
 }
 
 #pragma mark - Shared Methods
@@ -279,6 +284,10 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     else if ( adFormat == MAAdFormat.leader )
     {
         return CGSizeMake(728, 90);
+    }
+    else if ( adFormat == MAAdFormat.mrec )
+    {
+        return CGSizeMake(300, 250);
     }
     else
     {
@@ -562,12 +571,14 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 @implementation ALUnityAdsAdViewDelegate
 
-- (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter placementIdentifier:(NSString *)placementIdentifier adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
+        self.placementIdentifier = placementIdentifier;
+        self.adFormat = adFormat;
         self.delegate = delegate;
     }
     return self;
@@ -577,31 +588,31 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 - (void)bannerViewDidLoad:(UADSBannerView *)bannerView
 {
-    [self.parentAdapter log: @"Banner ad loaded"];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" loaded", self.adFormat.label, self.placementIdentifier];
     [self.delegate didLoadAdForAdView: bannerView];
 }
 
 - (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error
 {
-    [self.parentAdapter log: @"Banner ad failed to load: %@", error];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" failed to load: %@", self.adFormat.label, self.placementIdentifier, error];
     [self.delegate didFailToLoadAdViewAdWithError: [ALUnityAdsMediationAdapter toMaxError: error]];
 }
 
 - (void)bannerViewDidShow:(UADSBannerView *)bannerView
 {
-    [self.parentAdapter log: @"Banner shown"];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" shown", self.adFormat.label, self.placementIdentifier];
     [self.delegate didDisplayAdViewAd];
 }
 
 - (void)bannerViewDidClick:(UADSBannerView *)bannerView
 {
-    [self.parentAdapter log: @"Banner ad clicked"];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" clicked", self.adFormat.label, self.placementIdentifier];
     [self.delegate didClickAdViewAd];
 }
 
 - (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView
 {
-    [self.parentAdapter log: @"Banner ad left application"];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" left application", self.adFormat.label, self.placementIdentifier];
 }
 
 @end

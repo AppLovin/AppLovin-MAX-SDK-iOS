@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.9.2.1
+* Updated minimum iOS version to 11.0.
+* Add support for bidding on banners/MRECs.
+
 ## 4.9.2.0
 * Certified with UnityAds SDK 4.9.2.
 * Update the minimum required iOS version to 10.0 in Pod Spec to match UnityAds SDK.

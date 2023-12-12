@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationUnityAdsAdapter'
-s.version = '4.9.2.0'
-s.platform = :ios, '10.0'
+s.version = '4.9.2.1'
+s.platform = :ios, '11.0'
 s.summary = 'Unity adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
