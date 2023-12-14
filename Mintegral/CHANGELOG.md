@@ -5,6 +5,7 @@
 
 ## 7.5.1.0.0
 * Certified with Mintegral SDK 7.5.1.
+* Note: This is the first Mintegral SDK with TCF v2 compliance.
 
 ## 7.5.0.0.0
 * Certified with Mintegral SDK 7.5.0.
