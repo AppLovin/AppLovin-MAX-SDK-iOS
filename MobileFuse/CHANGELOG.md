@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0.0
+* Certified with MobileFuse SDK 1.7.0.
+* Updated minimum iOS version to 11.0.
+
 ## 1.6.5.0
 * Certified with MobileFuse SDK 1.6.5.
 
