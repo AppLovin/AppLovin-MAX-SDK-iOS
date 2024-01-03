@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.14.60.0
+* Certified with TencentGDT SDK 4.14.60.
+
 ## 4.14.50.0
 * Certified with TencentGDT SDK 4.14.50.
 * Updated minimum iOS version to 11.0.
