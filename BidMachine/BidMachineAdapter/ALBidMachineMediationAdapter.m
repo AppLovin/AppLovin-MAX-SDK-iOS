@@ -10,7 +10,7 @@
 #import <BidMachine/BidMachine.h>
 #import <BidMachineApiCore/BidMachineApiCore.h>
 
-#define ADAPTER_VERSION @"2.4.0.1.0"
+#define ADAPTER_VERSION @"2.4.0.2.0"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -954,7 +954,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     if ( !nativeAd )
     {
-        [self.parentAdapter log: @"Native ad cant't be nil"];
+        [self.parentAdapter log: @"Native ad can't be nil"];
         [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
         
         return;
