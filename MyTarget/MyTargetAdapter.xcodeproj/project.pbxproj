@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3526C7F42ADA13140096F9F6 /* Error+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526C7F32ADA13140096F9F6 /* Error+Extensions.swift */; };
+		3526C7F62ADA131D0096F9F6 /* Log+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3526C7F52ADA131D0096F9F6 /* Log+Extensions.swift */; };
+		359489942A9D5CFE009AA0FC /* MyTargetAdapter+AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3594898E2A9D5CFD009AA0FC /* MyTargetAdapter+AdView.swift */; };
+		359489962A9D5CFE009AA0FC /* MyTargetAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359489902A9D5CFE009AA0FC /* MyTargetAdapter.swift */; };
+		359489972A9D5CFE009AA0FC /* MyTargetAdapter+Interstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359489912A9D5CFE009AA0FC /* MyTargetAdapter+Interstitial.swift */; };
+		359489982A9D5CFE009AA0FC /* MyTargetAdapter+Native.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359489922A9D5CFE009AA0FC /* MyTargetAdapter+Native.swift */; };
+		359489992A9D5CFE009AA0FC /* MyTargetAdapter+Rewarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359489932A9D5CFE009AA0FC /* MyTargetAdapter+Rewarded.swift */; };
 		569F58ACE550581F5C01CE03 /* Pods_MyTargetAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD247CC9FF4D0FBDCDE6CC1 /* Pods_MyTargetAdapter.framework */; };
 		6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		6A9A772A21A4F43A00151D7A /* ALMyTargetMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A772821A4F43A00151D7A /* ALMyTargetMediationAdapter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,13 +47,18 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3526C7F32ADA13140096F9F6 /* Error+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extensions.swift"; sourceTree = "<group>"; };
+		3526C7F52ADA131D0096F9F6 /* Log+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Log+Extensions.swift"; sourceTree = "<group>"; };
+		3594898E2A9D5CFD009AA0FC /* MyTargetAdapter+AdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyTargetAdapter+AdView.swift"; sourceTree = "<group>"; };
+		359489902A9D5CFE009AA0FC /* MyTargetAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTargetAdapter.swift; sourceTree = "<group>"; };
+		359489912A9D5CFE009AA0FC /* MyTargetAdapter+Interstitial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyTargetAdapter+Interstitial.swift"; sourceTree = "<group>"; };
+		359489922A9D5CFE009AA0FC /* MyTargetAdapter+Native.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyTargetAdapter+Native.swift"; sourceTree = "<group>"; };
+		359489932A9D5CFE009AA0FC /* MyTargetAdapter+Rewarded.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyTargetAdapter+Rewarded.swift"; sourceTree = "<group>"; };
 		4E11391C6158FC98AD96FFE7 /* Pods-MyTargetAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTargetAdapter.release.xcconfig"; path = "Target Support Files/Pods-MyTargetAdapter/Pods-MyTargetAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		5FD247CC9FF4D0FBDCDE6CC1 /* Pods_MyTargetAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyTargetAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A561CE5219BB5A600E3749A /* libMyTargetAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMyTargetAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A633A21C0875E00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		6A5A633B21C0875E00B755D7 /* AppLovinMediationMyTargetAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationMyTargetAdapter.podspec; sourceTree = "<group>"; };
-		6A9A772821A4F43A00151D7A /* ALMyTargetMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALMyTargetMediationAdapter.m; sourceTree = "<group>"; };
-		6A9A772921A4F43A00151D7A /* ALMyTargetMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALMyTargetMediationAdapter.h; sourceTree = "<group>"; };
 		F68691A91146EE26F0C87F27 /* Pods-MyTargetAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTargetAdapter.debug.xcconfig"; path = "Target Support Files/Pods-MyTargetAdapter/Pods-MyTargetAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +117,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3526C7F72ADD9D000096F9F6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3526C7F32ADA13140096F9F6 /* Error+Extensions.swift */,
+				3526C7F52ADA131D0096F9F6 /* Log+Extensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		6A5A632921C086CF00B755D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,8 +138,12 @@
 		6A9A772721A4F43A00151D7A /* MyTargetAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				6A9A772921A4F43A00151D7A /* ALMyTargetMediationAdapter.h */,
-				6A9A772821A4F43A00151D7A /* ALMyTargetMediationAdapter.m */,
+				3526C7F72ADD9D000096F9F6 /* Extensions */,
+				359489902A9D5CFE009AA0FC /* MyTargetAdapter.swift */,
+				3594898E2A9D5CFD009AA0FC /* MyTargetAdapter+AdView.swift */,
+				359489912A9D5CFE009AA0FC /* MyTargetAdapter+Interstitial.swift */,
+				359489922A9D5CFE009AA0FC /* MyTargetAdapter+Native.swift */,
+				359489932A9D5CFE009AA0FC /* MyTargetAdapter+Rewarded.swift */,
 			);
 			path = MyTargetAdapter;
 			sourceTree = "<group>";
@@ -165,6 +189,7 @@
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					6A561CDC219BB5A600E3749A = {
+						LastSwiftMigration = 1430;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -217,7 +242,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9A772A21A4F43A00151D7A /* ALMyTargetMediationAdapter.m in Sources */,
+				359489942A9D5CFE009AA0FC /* MyTargetAdapter+AdView.swift in Sources */,
+				359489962A9D5CFE009AA0FC /* MyTargetAdapter.swift in Sources */,
+				3526C7F42ADA13140096F9F6 /* Error+Extensions.swift in Sources */,
+				3526C7F62ADA131D0096F9F6 /* Log+Extensions.swift in Sources */,
+				359489972A9D5CFE009AA0FC /* MyTargetAdapter+Interstitial.swift in Sources */,
+				359489982A9D5CFE009AA0FC /* MyTargetAdapter+Native.swift in Sources */,
+				359489992A9D5CFE009AA0FC /* MyTargetAdapter+Rewarded.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +311,8 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 			};
 			name = Debug;
 		};
@@ -333,6 +366,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -351,6 +386,10 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -369,6 +408,9 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
