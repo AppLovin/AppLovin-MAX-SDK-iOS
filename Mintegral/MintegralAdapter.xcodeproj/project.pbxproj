@@ -346,17 +346,6 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/MintegralAdSDK/Fmk\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BannerAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BidNativeAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/InterstitialVideoAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NativeAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NewInterstitialAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/RewardVideoAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/SplashAd\"/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -375,17 +364,6 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/MintegralAdSDK/Fmk\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BannerAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/BidNativeAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/InterstitialVideoAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NativeAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/NewInterstitialAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/RewardVideoAd\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/MintegralAdSDK/SplashAd\"/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
