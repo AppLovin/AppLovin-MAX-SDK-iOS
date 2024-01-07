@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.5.4.0.1
+* Update to retrieve creative ID and set channel code/ID using new APIs.
+* Add `kMTGErrorCodeAdsCountInvalid` error code to error mapping.
+* Now requires MAX SDK version 6.15.0 or higher.
+
 ## 7.5.4.0.0
 * Certified with Mintegral SDK 7.5.4.
 
