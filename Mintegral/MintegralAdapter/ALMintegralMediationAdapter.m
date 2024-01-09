@@ -15,7 +15,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.5.4.0.1"
+#define ADAPTER_VERSION @"7.5.4.0.2"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -655,6 +655,8 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         case kMTGErrorCodeFailedDiskIO:
         case kMTGErrorCodeImageURLisEmpty:
         case kMTGErrorCodeAdsCountInvalid:
+        case kMTGErrorCodeSocketInvalidStatus:
+        case kMTGErrorCodeSocketInvalidContent:
             adapterError = MAAdapterError.internalError;
             break;
     }

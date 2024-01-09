@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.4.0.2
+* Add `kMTGErrorCodeSocketInvalidStatus` and `kMTGErrorCodeSocketInvalidContent` error code to error mapping.
+
 ## 7.5.4.0.1
 * Update to retrieve creative ID and set channel code/ID using new APIs.
 * Add `kMTGErrorCodeAdsCountInvalid` error code to error mapping.
