@@ -14,7 +14,6 @@ import UIKit
 class ALHomeViewController: UITableViewController
 {
     static let kSupportLink = "https://support.applovin.com/hc/en-us"
-    static let kRowIndexToHideForPhones = 3
     
     @IBOutlet var muteToggle: UIBarButtonItem!
     @IBOutlet weak var mediationDebuggerCell: UITableViewCell!
@@ -56,24 +55,6 @@ class ALHomeViewController: UITableViewController
                 openSupportSite()
             }
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-    {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row == Self.kRowIndexToHideForPhones
-        {
-            cell.isHidden = true
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        if UIDevice.current.userInterfaceIdiom == .phone && indexPath.section == 0 && indexPath.row == Self.kRowIndexToHideForPhones
-        {
-            return 0
-        }
-        
-        return super.tableView(tableView, heightForRowAt: indexPath)
     }
     
     func addFooterLabel()
