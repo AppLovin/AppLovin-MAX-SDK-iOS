@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		58BD7B588AA886AEB6367F80 /* Pods_HyprMXAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD8B910F9925CB52706DB03 /* Pods_HyprMXAdapter.framework */; };
+		6A47612D2ACF65EB00A5DE5E /* HyprMXAdapter+Interstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A47612C2ACF65EB00A5DE5E /* HyprMXAdapter+Interstitial.swift */; };
+		6A4C04782AD0B9E900327C63 /* HyprMXAdapter+Rewarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C04772AD0B9E900327C63 /* HyprMXAdapter+Rewarded.swift */; };
+		6A4C047A2AD0BAEB00327C63 /* HyprMXAdapter+AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C04792AD0BAEB00327C63 /* HyprMXAdapter+AdView.swift */; };
+		6A4DFE5C2ADA06E300AC2D22 /* Error+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4DFE5B2ADA06E300AC2D22 /* Error+Extensions.swift */; };
 		6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		6A9A772A21A4F43A00151D7A /* ALHyprMXMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A772821A4F43A00151D7A /* ALHyprMXMediationAdapter.m */; };
+		6A645F092ABCF8F900A3C420 /* HyprMXAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A645F082ABCF8F900A3C420 /* HyprMXAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,10 +47,13 @@
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D9F22512526851B009B119E /* AppLovinMediationHyprMXAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationHyprMXAdapter.podspec; sourceTree = "<group>"; };
+		6A47612C2ACF65EB00A5DE5E /* HyprMXAdapter+Interstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyprMXAdapter+Interstitial.swift"; sourceTree = "<group>"; };
+		6A4C04772AD0B9E900327C63 /* HyprMXAdapter+Rewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyprMXAdapter+Rewarded.swift"; sourceTree = "<group>"; };
+		6A4C04792AD0BAEB00327C63 /* HyprMXAdapter+AdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyprMXAdapter+AdView.swift"; sourceTree = "<group>"; };
+		6A4DFE5B2ADA06E300AC2D22 /* Error+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extensions.swift"; sourceTree = "<group>"; };
 		6A561CE5219BB5A600E3749A /* libHyprMXAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHyprMXAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A633A21C0875E00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		6A9A772821A4F43A00151D7A /* ALHyprMXMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALHyprMXMediationAdapter.m; sourceTree = "<group>"; };
-		6A9A772921A4F43A00151D7A /* ALHyprMXMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALHyprMXMediationAdapter.h; sourceTree = "<group>"; };
+		6A645F082ABCF8F900A3C420 /* HyprMXAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyprMXAdapter.swift; sourceTree = "<group>"; };
 		95672DCD50F193FAA4F6DF24 /* Pods-HyprMXAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyprMXAdapter.release.xcconfig"; path = "Target Support Files/Pods-HyprMXAdapter/Pods-HyprMXAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		9F085E87718C948EC7C8C53E /* Pods-HyprMXAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyprMXAdapter.debug.xcconfig"; path = "Target Support Files/Pods-HyprMXAdapter/Pods-HyprMXAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,8 +125,11 @@
 		6A9A772721A4F43A00151D7A /* HyprMXAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				6A9A772921A4F43A00151D7A /* ALHyprMXMediationAdapter.h */,
-				6A9A772821A4F43A00151D7A /* ALHyprMXMediationAdapter.m */,
+				6A645F082ABCF8F900A3C420 /* HyprMXAdapter.swift */,
+				6A4C04792AD0BAEB00327C63 /* HyprMXAdapter+AdView.swift */,
+				6A47612C2ACF65EB00A5DE5E /* HyprMXAdapter+Interstitial.swift */,
+				6A4C04772AD0B9E900327C63 /* HyprMXAdapter+Rewarded.swift */,
+				6A4DFE5B2ADA06E300AC2D22 /* Error+Extensions.swift */,
 			);
 			path = HyprMXAdapter;
 			sourceTree = "<group>";
@@ -165,6 +175,7 @@
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					6A561CDC219BB5A600E3749A = {
+						LastSwiftMigration = 1430;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -217,7 +228,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9A772A21A4F43A00151D7A /* ALHyprMXMediationAdapter.m in Sources */,
+				6A4DFE5C2ADA06E300AC2D22 /* Error+Extensions.swift in Sources */,
+				6A4C047A2AD0BAEB00327C63 /* HyprMXAdapter+AdView.swift in Sources */,
+				6A4C04782AD0B9E900327C63 /* HyprMXAdapter+Rewarded.swift in Sources */,
+				6A47612D2ACF65EB00A5DE5E /* HyprMXAdapter+Interstitial.swift in Sources */,
+				6A645F092ABCF8F900A3C420 /* HyprMXAdapter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +292,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -331,7 +346,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -343,15 +358,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9F085E87718C948EC7C8C53E /* Pods-HyprMXAdapter.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -360,15 +382,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 95672DCD50F193FAA4F6DF24 /* Pods-HyprMXAdapter.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

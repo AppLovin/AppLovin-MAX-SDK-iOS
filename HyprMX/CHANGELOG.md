@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.3.0.1
+* Fully re-written in Swift.
+* Updated minimum AppLovinSDK requirement to 12.0.0.
+* Updated minimum iOS version to 11.0.
+
 ## 6.3.0.0
 * Certified with HyprMX SDK 6.3.0.
 * Updated minimum Xcode requirement to 14.1.
