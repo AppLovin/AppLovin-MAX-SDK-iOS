@@ -2,6 +2,8 @@ use_frameworks!
 inhibit_all_warnings!
 platform :ios, '11.0'
 
+# Please use 'pod install --repo-update' to ensure you have the latest versions of our SDKs.
+
 target 'AppLovin MAX Demo App - Swift' do
   pod 'AppLovinSDK'
   pod 'Adjust'
