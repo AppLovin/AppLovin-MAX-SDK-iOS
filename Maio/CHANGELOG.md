@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.2.0
+* Certified with Maio SDK 2.1.2.
+
 ## 2.1.1.0
 * Certified with Maio SDK 2.1.1.
 * Update to use instance based APIs.
