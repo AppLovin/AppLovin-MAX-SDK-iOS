@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationFyberAdapter'
-s.version = '8.2.5.1'
+s.version = '8.2.5.2'
 s.platform = :ios, '11.0'
 s.summary = 'Fyber adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

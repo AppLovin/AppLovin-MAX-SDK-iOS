@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.2.5.1"
+#define ADAPTER_VERSION @"8.2.5.2"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -472,6 +472,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     if ( [serverParameters al_containsValueForKey: @"is_muted"] )
     {
         // Overwritten by `mute_state` setting, unless `mute_state` is disabled
+        // NOTE: Does not work for rewarded ads
         [IASDKCore sharedInstance].muteAudio = [serverParameters al_numberForKey: @"is_muted"].boolValue; // Introduced in 6.10.0
     }
     
@@ -711,10 +712,13 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 // NOTE: Only AppLovin SDK 6.15.0+ registers for this callback
 - (void)adDidShowWithImpressionData:(IAImpressionData *)impressionData withAdRequest:(IAAdRequest *)adRequest
 {
+    NSString *placementID = adRequest.spotID;
+    if ( ![placementID al_isValidString] ) return;
+    
     NSString *creativeID = impressionData.creativeID;
     
-    ALInneractiveMediationAdapter *adapter = ALInneractiveCurrentlyShowingAdapters[adRequest.spotID];
-    [ALInneractiveCurrentlyShowingAdapters removeObjectForKey: adRequest.spotID];
+    ALInneractiveMediationAdapter *adapter = ALInneractiveCurrentlyShowingAdapters[placementID];
+    [ALInneractiveCurrentlyShowingAdapters removeObjectForKey: placementID];
     
     if ( adapter.interstitialDelegate )
     {
