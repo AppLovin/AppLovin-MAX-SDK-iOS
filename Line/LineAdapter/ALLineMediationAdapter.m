@@ -8,29 +8,29 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.7.20231115.0"
+#define ADAPTER_VERSION @"2.7.20231115.1"
 
-@interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
+@interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterRewardedAdDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
+@interface ALLineMediationAdapterRewardedAdDelegate : NSObject <FADLoadDelegate, FADVideoRewardEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterAdViewDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
+@interface ALLineMediationAdapterAdViewDelegate : NSObject <FADLoadDelegate, FADCustomLayoutEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 @property (nonatomic, strong) MAAdFormat *adFormat;
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterNativeAdViewDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
+@interface ALLineMediationAdapterNativeAdViewDelegate : NSObject <FADLoadDelegate, FADNativeEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 @property (nonatomic, strong) MAAdFormat *adFormat;
@@ -38,7 +38,7 @@
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)adFormat serverParameters:(NSDictionary<NSString *, id> *)serverParameters andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterNativeAdDelegate : NSObject <FADLoadDelegate, FADAdViewEventListener>
+@interface ALLineMediationAdapterNativeAdDelegate : NSObject <FADLoadDelegate, FADNativeEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -151,19 +151,19 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)destroy
 {
     [self.interstitialAd setLoadDelegate: nil];
-    [self.interstitialAd setAdViewEventListener: nil];
+    [self.interstitialAd setEventListener: nil];
     self.interstitialAd = nil;
     self.interstitialDelegate.delegate = nil;
     self.interstitialDelegate = nil;
     
     [self.rewardedAd setLoadDelegate: nil];
-    [self.rewardedAd setAdViewEventListener: nil];
+    [self.rewardedAd setEventListener: nil];
     self.rewardedAd = nil;
     self.rewardedDelegate.delegate = nil;
     self.rewardedDelegate = nil;
     
     [self.adView setLoadDelegate: nil];
-    [self.adView setAdViewEventListener: nil];
+    [self.adView setEventListener: nil];
     self.adView = nil;
     self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
@@ -171,7 +171,7 @@ static ALAtomicBoolean *ALLineInitialized;
     self.nativeAdViewDelegate = nil;
     
     [self.nativeAd setLoadDelegate: nil];
-    [self.nativeAd setAdViewEventListener: nil];
+    [self.nativeAd setEventListener: nil];
     self.nativeAd = nil;
     self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
@@ -187,7 +187,7 @@ static ALAtomicBoolean *ALLineInitialized;
     self.interstitialDelegate = [[ALLineMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd = [[FADInterstitial alloc] initWithSlotId: slotId];
     [self.interstitialAd setLoadDelegate: self.interstitialDelegate];
-    [self.interstitialAd setAdViewEventListener: self.interstitialDelegate];
+    [self.interstitialAd setEventListener: self.interstitialDelegate];
     
     [self.interstitialAd loadAdAsync];
 }
@@ -210,7 +210,7 @@ static ALAtomicBoolean *ALLineInitialized;
     self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd = [[FADVideoReward alloc] initWithSlotId: slotId];
     [self.rewardedAd setLoadDelegate: self.rewardedDelegate];
-    [self.rewardedAd setAdViewEventListener: self.rewardedDelegate];
+    [self.rewardedAd setEventListener: self.rewardedDelegate];
     
     [self.rewardedAd loadAdAsync];
 }
@@ -243,7 +243,7 @@ static ALAtomicBoolean *ALLineInitialized;
                                                                                                         andNotify: delegate];
             self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
             [self.nativeAd setLoadDelegate: self.nativeAdViewDelegate];
-            [self.nativeAd setAdViewEventListener: self.nativeAdViewDelegate];
+            [self.nativeAd setEventListener: self.nativeAdViewDelegate];
             
             // We always want to mute banners and MRECs
             [self.nativeAd enableSound: NO];
@@ -258,7 +258,7 @@ static ALAtomicBoolean *ALLineInitialized;
                                                                                             andNotify: delegate];
             self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
             [self.adView setLoadDelegate: self.adViewDelegate];
-            [self.adView setAdViewEventListener: self.adViewDelegate];
+            [self.adView setEventListener: self.adViewDelegate];
             self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
             
             // We always want to mute banners and MRECs
@@ -283,7 +283,7 @@ static ALAtomicBoolean *ALLineInitialized;
         
         self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
         [self.nativeAd setLoadDelegate: self.nativeAdDelegate];
-        [self.nativeAd setAdViewEventListener: self.nativeAdDelegate];
+        [self.nativeAd setEventListener: self.nativeAdDelegate];
         
         // We always want to mute banners and MRECs
         [self.nativeAd enableSound: NO];
@@ -373,7 +373,7 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToLoadInterstitialAdWithError: error];
 }
 
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
+- (void)fiveInterstitialAd:(FADInterstitial *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Interstitial ad failed to show for slot id: %@ with error: %ld", ad.slotId, errorCode];
     
@@ -388,61 +388,42 @@ static ALAtomicBoolean *ALLineInitialized;
     
     [self.delegate didFailToDisplayInterstitialAdWithError: error];
 }
-
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
+- (void)fiveInterstitialAdDidImpression:(FADInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad impression tracked for slot id: %@...", ad.slotId];
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad
+- (void)fiveInterstitialAdDidClick:(FADInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad clicked for slot id: %@...", ad.slotId];
     [self.delegate didClickInterstitialAd];
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad
+- (void)fiveInterstitialAdFullScreenDidOpen:(FADInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad shown for slot id: %@...", ad.slotId];
-    
-    // NOTE: Called for video-only interstitial ads.
-    [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad
+- (void)fiveInterstitialAdFullScreenDidClose:(FADInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad hidden for slot id: %@...", ad.slotId];
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad
+- (void)fiveInterstitialAdDidPlay:(FADInterstitial *)ad
+{
+    [self.parentAdapter log: @"Interstitial ad did play for slot id: %@...", ad.slotId];
+}
+
+- (void)fiveInterstitialAdDidPause:(FADInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad did pause for slot id: %@...", ad.slotId];
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad did resume for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad
+- (void)fiveInterstitialAdDidViewThrough:(FADInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad completed for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad did replay for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad did stall for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad did recover for slot id: %@...", ad.slotId];
 }
 
 @end
@@ -473,7 +454,7 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToLoadRewardedAdWithError: error];
 }
 
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
+- (void)fiveVideoRewardAd:(FADVideoReward *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Rewarded ad failed to show for slot id: %@ with error: %ld", ad.slotId, errorCode];
     
@@ -488,21 +469,22 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayRewardedAdWithError: error];
 }
 
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
+- (void)fiveVideoRewardAdDidImpression:(FADVideoReward *)ad
 {
     [self.parentAdapter log: @"Rewarded ad impression tracked for slot id: %@...", ad.slotId];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad
+- (void)fiveVideoRewardAdDidClick:(FADVideoReward *)ad
 {
     [self.parentAdapter log: @"Rewarded ad clicked for slot id: %@...", ad.slotId];
     [self.delegate didClickRewardedAd];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad
+- (void)fiveVideoRewardAdFullScreenDidClose:(FADVideoReward *)ad
 {
+    [self.delegate didCompleteRewardedAdVideo];
+    
     if ( ad.state != kFADStateError )
     {
         if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
@@ -517,49 +499,31 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didHideRewardedAd];
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad
+- (void)fiveVideoRewardAdFullScreenDidOpen:(FADVideoReward *)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown for slot id: %@...", ad.slotId];
-    
-    // NOTE: Called for video-only rewarded ads.
-    [self.delegate didDisplayRewardedAd];
     [self.delegate didStartRewardedAdVideo];
 }
 
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad
+- (void)fiveVideoRewardAdDidPlay:(FADVideoReward *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad did play for slot id: %@...", ad.slotId];
+}
+
+- (void)fiveVideoRewardAdDidPause:(FADVideoReward *)ad
 {
     [self.parentAdapter log: @"Rewarded ad did pause for slot id: %@...", ad.slotId];
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad did resume for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad
+- (void)fiveVideoRewardAdDidViewThrough:(FADVideoReward *)ad
 {
     [self.parentAdapter log: @"Rewarded ad completed for slot id: %@...", ad.slotId];
-    [self.delegate didCompleteRewardedAdVideo];
-    
-    // Note: LINE provides rewarded videos longer than 30 secs, e.g. 45 secs, where the user may watch the video for longer than the minimum 30 secs.
-    // At the 30 sec mark, LINE shows the close button and considers the reward as granted.
-    // Net-net: we do not need to handle the reward logic here; "always_reward_user" should be enabled.
+}
+
+- (void)fiveVideoRewardAdDidReward:(FADVideoReward *)ad
+{
+    [self.parentAdapter log: @"Rewarded ad did reward user for slot id: %@...", ad.slotId];
     self.grantedReward = YES;
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad did replay for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad did stall for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad did recover for slot id: %@...", ad.slotId];
 }
 
 @end
@@ -591,7 +555,7 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToLoadAdViewAdWithError: error];
 }
 
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
+- (void)fiveCustomLayoutAd:(FADAdViewCustomLayout *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"%@ ad failed to show for slot id: %@ with error: %ld", self.adFormat.label, ad.slotId, errorCode];
     
@@ -606,60 +570,37 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
+- (void)fiveCustomLayoutAdDidImpression:(FADAdViewCustomLayout *)ad
 {
     [self.parentAdapter log: @"%@ ad impression tracked for slot id: %@...", self.adFormat.label, ad.slotId];
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad
+- (void)fiveCustomLayoutAdDidClick:(FADAdViewCustomLayout *)ad
 {
     [self.parentAdapter log: @"%@ ad clicked for slot id: %@...", self.adFormat.label, ad.slotId];
     [self.delegate didClickAdViewAd];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad
+- (void)fiveCustomLayoutAdViewDidRemove:(FADAdViewCustomLayout *)ad
 {
     [self.parentAdapter log: @"%@ ad hidden for slot id: %@...", self.adFormat.label, ad.slotId];
     [self.delegate didHideAdViewAd];
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad
+- (void)fiveCustomLayoutAdDidPlay:(FADAdViewCustomLayout *)ad
 {
-    [self.parentAdapter log: @"%@ ad shown for slot id: %@...", self.adFormat.label, ad.slotId];
-    
-    // NOTE: Called for video-only adview ads.
-    [self.delegate didDisplayAdViewAd];
+    [self.parentAdapter log: @"%@ ad did play for slot id: %@...", self.adFormat.label, ad.slotId];
 }
 
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad
+- (void)fiveCustomLayoutAdDidPause:(FADAdViewCustomLayout *)ad
 {
     [self.parentAdapter log: @"%@ ad did pause for slot id: %@...", self.adFormat.label, ad.slotId];
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"%@ ad did resume for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad
+- (void)fiveCustomLayoutAdDidViewThrough:(FADAdViewCustomLayout *)ad
 {
     [self.parentAdapter log: @"%@ ad completed for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"%@ ad did replay for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"%@ ad did stall for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"%@ ad did recover for slot id: %@...", self.adFormat.label, ad.slotId];
 }
 
 @end
@@ -692,7 +633,7 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToLoadAdViewAdWithError: error];
 }
 
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
+- (void)fiveNativeAd:(FADNative *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Native %@ ad showed for slot id: %@... with error: %ld", self.adFormat.label, ad.slotId, errorCode];
     
@@ -706,60 +647,37 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidImpression:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native %@ ad impression tracked for slot id: %@...", self.adFormat.label, ad.slotId];
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidClick:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native %@ ad clicked for slot id: %@...", self.adFormat.label, ad.slotId];
     [self.delegate didClickAdViewAd];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad
+- (void)fiveNativeAdViewDidRemove:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native %@ ad hidden for slot id: %@...", self.adFormat.label, ad.slotId];
     [self.delegate didHideAdViewAd];
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidPlay:(FADNative *)ad
 {
-    [self.parentAdapter log: @"Native %@ ad shown for slot id: %@...", self.adFormat.label, ad.slotId];
-    
-    // NOTE: Called for video-only native adview ads.
-    [self.delegate didDisplayAdViewAd];
+    [self.parentAdapter log: @"Native %@ ad did play for slot id: %@...", self.adFormat.label, ad.slotId];
 }
 
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidPause:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native %@ ad did pause for slot id: %@...", self.adFormat.label, ad.slotId];
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native %@ ad did resume for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidViewThrough:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native %@ ad completed for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native %@ ad did replay for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native %@ ad did stall for slot id: %@...", self.adFormat.label, ad.slotId];
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native %@ ad did recover for slot id: %@...", self.adFormat.label, ad.slotId];
 }
 
 - (void)renderCustomNativeBanner
@@ -913,59 +831,41 @@ static ALAtomicBoolean *ALLineInitialized;
     [self.delegate didFailToLoadNativeAdWithError: error];
 }
 
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad
+- (void)fiveNativeAd:(FADNative *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
+{
+    [self.parentAdapter log: @"Native ad failed to show ad for slot id: %@... with error: %ld", ad.slotId, errorCode];
+}
+
+- (void)fiveNativeAdDidImpression:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native ad impression tracked for slot id: %@...", ad.slotId];
     [self.delegate didDisplayNativeAdWithExtraInfo: nil];
 }
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidClick:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native ad clicked for slot id: %@...", ad.slotId];
     [self.delegate didClickNativeAd];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad
+- (void)fiveNativeAdViewDidRemove:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native ad hidden for slot id: %@...", ad.slotId];
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidPlay:(FADNative *)ad
 {
-    [self.parentAdapter log: @"Native ad shown for slot id: %@...", ad.slotId];
-    
-    // NOTE: Called for video-only native adview ads.
-    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+    [self.parentAdapter log: @"Native ad did play for slot id: %@...", ad.slotId];
 }
 
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidPause:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native ad did pause for slot id: %@...", ad.slotId];
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native ad did resume for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad
+- (void)fiveNativeAdDidViewThrough:(FADNative *)ad
 {
     [self.parentAdapter log: @"Native ad completed for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native ad did replay for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native ad did stall for slot id: %@...", ad.slotId];
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native ad did recover for slot id: %@...", ad.slotId];
 }
 
 @end
