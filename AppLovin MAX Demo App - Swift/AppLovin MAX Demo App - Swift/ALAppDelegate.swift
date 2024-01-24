@@ -16,11 +16,22 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
-        #warning("Make sure to add your AppLovin SDK key in the Info.plist under the \"AppLovinSDKKey\" key")
+        // If you want to test your own AppLovin SDK key,
+        // update the value in Info.plist under the \"AppLovinSdkKey\" key, and update the package name to your app's name.
+        
+        // Enable test mode by default for the current device.
+        let currentIDFV = UIDevice.current.identifierForVendor?.uuidString
+        let settings = ALSdkSettings()
+        
+        if let currentIDFV
+        {
+            settings.testDeviceAdvertisingIdentifiers = [currentIDFV]
+        }
         
         // Initialize the AppLovin SDK
-        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
-        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
+        let sdk = ALSdk.shared(with: settings)!
+        sdk.mediationProvider = ALMediationProviderMAX
+        sdk.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             
             // Initialize Adjust SDK
