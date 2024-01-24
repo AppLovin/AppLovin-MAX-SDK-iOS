@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.5.0.0
+* Certified with Mintegral SDK 7.5.5.
+
 ## 7.5.4.0.2
 * Add `kMTGErrorCodeSocketInvalidStatus` and `kMTGErrorCodeSocketInvalidContent` error codes to error mapping.
 

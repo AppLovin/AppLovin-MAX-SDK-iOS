@@ -6,6 +6,7 @@
 #import "ALMintegralMediationAdapter.h"
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDK/MTGErrorCodeConstant.h>
+#import <MTGSDK/MTGAdChoicesView.h>
 #import <MTGSDKBidding/MTGBiddingSDK.h>
 #import <MTGSDKNewInterstitial/MTGSDKNewInterstitial.h>
 #import <MTGSDKNewInterstitial/MTGNewInterstitialAdManager.h>
@@ -15,7 +16,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.5.4.0.2"
+#define ADAPTER_VERSION @"7.5.5.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
