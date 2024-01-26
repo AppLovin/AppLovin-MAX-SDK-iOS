@@ -21,7 +21,7 @@
     NSString *currentIDFV = UIDevice.currentDevice.identifierForVendor.UUIDString;
     ALSdkSettings *settings = [[ALSdkSettings alloc] init];
     
-    if ( currentIDFV && currentIDFV.length > 0 )
+    if ( currentIDFV.length > 0 )
     {
         settings.testDeviceAdvertisingIdentifiers = @[currentIDFV];
     }
