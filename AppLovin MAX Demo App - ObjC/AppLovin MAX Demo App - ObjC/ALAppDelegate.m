@@ -14,11 +14,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#warning - Make sure to add your AppLovin SDK key in the Info.plist under the "AppLovinSdkKey" key
+    // If you want to test your own AppLovin SDK key,
+    // update the value in Info.plist under the \"AppLovinSdkKey\" key, and update the package name to your app's name.
+    
+    // Enable test mode by default for the current device.
+    NSString *currentIDFV = UIDevice.currentDevice.identifierForVendor.UUIDString;
+    ALSdkSettings *settings = [[ALSdkSettings alloc] init];
+    
+    if ( currentIDFV.length > 0 )
+    {
+        settings.testDeviceAdvertisingIdentifiers = @[currentIDFV];
+    }
     
     // Initialize the AppLovin SDK
-    [ALSdk shared].mediationProvider = ALMediationProviderMAX;
-    [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
+    ALSdk *sdk = [ALSdk sharedWithSettings: settings];
+    sdk.mediationProvider = ALMediationProviderMAX;
+    [sdk initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
         // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         
         // Initialize Adjust SDK
