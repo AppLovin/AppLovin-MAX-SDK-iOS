@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.20240126.0
+* Certified with Line SDK 2.7.20240126.
+* Updated the minimum required iOS version to 12.0 to match Line SDK. 
+
 ## 2.7.20231115.1
 * Update event tracking methods since `FADAdViewEventListener` is deprecated.
 
