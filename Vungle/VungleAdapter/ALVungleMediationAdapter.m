@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.2.1.0"
+#define ADAPTER_VERSION @"7.2.1.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -463,7 +463,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     NSNumber *isDoNotSell = [parameters isDoNotSell];
     if ( isDoNotSell != nil )
     {
-        [VunglePrivacySettings setCCPAStatus: isDoNotSell.boolValue];
+        [VunglePrivacySettings setCCPAStatus: !isDoNotSell.boolValue];
     }
 }
 

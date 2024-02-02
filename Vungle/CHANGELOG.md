@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.2.1.1
+* Update to set CCPA flag correctly.
+
 ## 7.2.1.0
 * Certified with Vungle SDK 7.2.1.
 
