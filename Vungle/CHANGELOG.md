@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.2.2.0
+* Certified with Vungle SDK 7.2.2.
+* Updated the minimum required iOS version to 12.0 to match Vungle SDK. 
+
 ## 7.2.1.1
 * Update to set CCPA flag correctly.
 
