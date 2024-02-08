@@ -364,11 +364,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         if ( muted )
         {
-            [HyBid setVideoAudioStatus: HyBidAudioStatusMuted];
+            HyBidConstants.audioStatus = HyBidAudioStatusMuted;
         }
         else
         {
-            [HyBid setVideoAudioStatus: HyBidAudioStatusDefault];
+            HyBidConstants.audioStatus = HyBidAudioStatusDefault;
         }
     }
 }
