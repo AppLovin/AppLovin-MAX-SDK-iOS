@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"2.20.0.0"
+#define ADAPTER_VERSION @"2.21.1.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -284,7 +284,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     {
         NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
         NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
-        if ( isLocationCollectionEnabled )
+        if ( isLocationCollectionEnabled != nil )
         {
             // NOTE: iOS disables by defualt, whereas Android enables by default
             [HyBid setLocationUpdates: isLocationCollectionEnabled.boolValue];
@@ -300,7 +300,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     // Full context in this PR: https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/pull/57
     
     NSNumber *hasUserConsent = parameters.hasUserConsent;
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         // NOTE: verveGDPRConsentString can be nil, TCFv2 consent string, "1" or "0"
         NSString *verveGDPRConsentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
@@ -318,7 +318,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     }
     
     NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         [HyBid setCoppa: isAgeRestrictedUser.boolValue];
     }
@@ -364,11 +364,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         if ( muted )
         {
-            [HyBid setVideoAudioStatus: HyBidAudioStatusMuted];
+            HyBidConstants.audioStatus = HyBidAudioStatusMuted;
         }
         else
         {
-            [HyBid setVideoAudioStatus: HyBidAudioStatusDefault];
+            HyBidConstants.audioStatus = HyBidAudioStatusDefault;
         }
     }
 }
