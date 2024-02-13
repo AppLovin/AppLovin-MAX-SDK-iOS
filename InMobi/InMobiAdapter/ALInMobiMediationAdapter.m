@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.6.0.0"
+#define ADAPTER_VERSION @"10.6.4.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -443,7 +443,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     // Set user consent state. Note: this must be sent as true/false.
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         consentDict[IMCommonConstants.IM_PARTNER_GDPR_CONSENT_AVAILABLE] = hasUserConsent.boolValue ? @"true" : @"false";
     }
@@ -457,7 +457,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                      @"tp-ver" : [ALSdk version]} mutableCopy];
     
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser )
+    if ( isAgeRestrictedUser != nil )
     {
         [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
     }
@@ -470,7 +470,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
     
     NSNumber *isDoNotSell = [parameters isDoNotSell];
-    if ( isDoNotSell )
+    if ( isDoNotSell != nil )
     {
         [IMPrivacyCompliance setDoNotSell: isDoNotSell.boolValue];
     }

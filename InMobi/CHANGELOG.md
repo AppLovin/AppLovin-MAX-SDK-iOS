@@ -1,5 +1,8 @@
 # Changelog
 
+## 10.6.4.0
+* Certified with InMobi SDK 10.6.4.
+
 ## 10.6.0.0
 * Certified with InMobi SDK 10.6.0.
 
