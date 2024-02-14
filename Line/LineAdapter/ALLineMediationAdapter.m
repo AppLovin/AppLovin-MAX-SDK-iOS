@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.7.20240126.0"
+#define ADAPTER_VERSION @"2.7.20240214.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
