@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.2.2.0"
+#define ADAPTER_VERSION @"4.2.2.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -76,11 +76,10 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
         NSString *assetKey = [parameters.serverParameters al_stringForKey: @"asset_key"];
         [self log: @"Initializing Ogury with asset key: %@...", assetKey];
         
-        // Must pass the user consent before initializing SDK for personalized ads
-        [self updateUserConsent: parameters];
-        
         OguryConfigurationBuilder *configurationBuilder = [[OguryConfigurationBuilder alloc] initWithAssetKey: assetKey];
         [Ogury startWithConfiguration: [configurationBuilder build]];
+        
+        [self updateUserConsent: parameters];
         
         [self log: @"Ogury setup successful"];
         
@@ -319,7 +318,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     }
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent )
+    if ( hasUserConsent != nil )
     {
         [OguryChoiceManagerExternal setTransparencyAndConsentStatus: hasUserConsent.boolValue origin: @"CUSTOM" assetKey: assetKey];
     }
