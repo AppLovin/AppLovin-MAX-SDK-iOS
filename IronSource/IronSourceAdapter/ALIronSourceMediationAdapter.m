@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.7.0.0.0"
+#define ADAPTER_VERSION @"7.7.0.0.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -375,6 +375,8 @@
             adapterError = MAAdapterError.notInitialized;
             break;
         case 509: // No ads to show (Show Fail)
+        case 606: // There is no available ad to load
+        case 621: // No available ad to load
             adapterError = MAAdapterError.noFill;
             break;
         case 510: // Server Response Failed (Load Fail)

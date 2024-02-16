@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.7.0.0.1
+* Correctly map `No available ad to load` errors to MAX NO FILLs instead of unspecified errors.
+
 ## 7.7.0.0.0
 * Certified with IronSource SDK 7.7.0.0.
 
