@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"10.14.0.0"
+#define ADAPTER_VERSION @"11.0.1.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -291,11 +291,9 @@
     [self updateMuteStateFromResponseParameters: parameters];
     [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     [GADAppOpenAd loadWithAdUnitID: placementIdentifier
                            request: request
-                       orientation: orientation
                  completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         
         if ( error )
@@ -1215,7 +1213,7 @@
     if ( ![nativeAd.headline al_isValidString] )
     {
         [self.parentAdapter log: @"Native %@ ad failed to load: Google native ad is missing one or more required assets", self.adFormat.label];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
+        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
         
         return;
     }
