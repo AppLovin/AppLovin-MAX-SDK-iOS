@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"10.14.0.1"
+#define ADAPTER_VERSION @"11.0.1.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -317,11 +317,9 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
                                                        adFormat: MAAdFormat.appOpen
                                                  withParameters: parameters];
-        UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
         
         [GADAppOpenAd loadWithAdUnitID: placementIdentifier
                                request: request
-                           orientation: orientation
                      completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
             
             if ( error )
@@ -788,10 +786,10 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     {
         return GADAdFormatAppOpen;
     }
-    else
-    {
-        return GADAdFormatUnknown;
-    }
+    
+    [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
+    
+    return -1;
 }
 
 - (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
