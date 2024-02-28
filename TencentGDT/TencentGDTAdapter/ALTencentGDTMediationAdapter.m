@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.14.63.0"
+#define ADAPTER_VERSION @"4.14.70.0"
 
 /**
  * Interstitial Delegate
