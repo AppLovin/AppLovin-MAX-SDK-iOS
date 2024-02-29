@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.2.2.1"
+#define ADAPTER_VERSION @"4.2.3.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
