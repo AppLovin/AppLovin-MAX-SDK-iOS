@@ -15,6 +15,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Create the initialization configuration
+    // If you want to test your own AppLovin SDK key, update the value here and update the package name to your app's name.
     ALSdkInitializationConfiguration *configuration = [ALSdkInitializationConfiguration configurationWithSdkKey: @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF" builderBlock:^(ALSdkInitializationConfigurationBuilder *builder) {
 
         builder.mediationProvider = ALMediationProviderMAX;
@@ -35,7 +36,6 @@
         ADJConfig *adjustConfig = [ADJConfig configWithAppToken: @"{YourAppToken}" environment: ADJEnvironmentSandbox];
         [Adjust appDidLaunch: adjustConfig];
     }];
-
     
     UIColor *barTintColor = [UIColor colorWithRed: 10/255.0 green: 131/255.0 blue: 170/255.0 alpha: 1.0];
     if ( @available(iOS 15.0, *) )
