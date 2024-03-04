@@ -14,28 +14,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // If you want to test your own AppLovin SDK key,
-    // update the value in Info.plist under the \"AppLovinSdkKey\" key, and update the package name to your app's name.
-    
-    // Enable test mode by default for the current device.
-    NSString *currentIDFV = UIDevice.currentDevice.identifierForVendor.UUIDString;
-    ALSdkSettings *settings = [[ALSdkSettings alloc] init];
-    
-    if ( currentIDFV.length > 0 )
-    {
-        settings.testDeviceAdvertisingIdentifiers = @[currentIDFV];
-    }
-    
-    // Initialize the AppLovin SDK
-    ALSdk *sdk = [ALSdk sharedWithSettings: settings];
-    sdk.mediationProvider = ALMediationProviderMAX;
-    [sdk initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
+    // Create the initialization configuration
+    ALSdkInitializationConfiguration *configuration = [ALSdkInitializationConfiguration configurationWithSdkKey: @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF" builderBlock:^(ALSdkInitializationConfigurationBuilder *builder) {
+
+        builder.mediationProvider = ALMediationProviderMAX;
+        
+        // Enable test mode by default for the current device.
+        NSString *currentIDFV = UIDevice.currentDevice.identifierForVendor.UUIDString;
+        if ( currentIDFV.length > 0 )
+        {
+            builder.testDeviceAdvertisingIdentifiers = @[currentIDFV];
+        }
+    }];
+
+    // Initialize the SDK with the configuration
+    [[ALSdk shared] initializeWithConfiguration: configuration completionHandler:^(ALSdkConfiguration *configuration) {
         // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         
         // Initialize Adjust SDK
         ADJConfig *adjustConfig = [ADJConfig configWithAppToken: @"{YourAppToken}" environment: ADJEnvironmentSandbox];
         [Adjust appDidLaunch: adjustConfig];
     }];
+
     
     UIColor *barTintColor = [UIColor colorWithRed: 10/255.0 green: 131/255.0 blue: 170/255.0 alpha: 1.0];
     if ( @available(iOS 15.0, *) )
