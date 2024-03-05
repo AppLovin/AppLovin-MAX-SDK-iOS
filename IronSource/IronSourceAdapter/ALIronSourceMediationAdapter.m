@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"7.8.0.0.0"
+#define ADAPTER_VERSION @"7.8.0.0.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -25,12 +25,24 @@
 @interface ALIronSourceMediationAdapter ()
 @property (nonatomic, strong, readonly) ALIronSourceMediationAdapterRouter *router;
 @property (nonatomic, copy) NSString *routerPlacementIdentifier;
+@property (nonatomic, copy, nullable) NSString *adViewPlacementIdentifier;
 
 @property (nonatomic, strong) ALIronSourceMediationAdapterAdViewDelegate *adViewAdapterDelegate;
 @end
 
 @implementation ALIronSourceMediationAdapter
 @dynamic router;
+
+static NSMutableArray<NSString *> *ALLoadedAdViewPlacementIdentifiers;
+static NSObject *ALLoadedAdViewPlacementIdentifiersLock;
+
++ (void)initialize
+{
+    [super initialize];
+    
+    ALLoadedAdViewPlacementIdentifiers = [NSMutableArray array];
+    ALLoadedAdViewPlacementIdentifiersLock = [[NSObject alloc] init];
+}
 
 #pragma mark - MAAdapter Methods
 
@@ -90,6 +102,18 @@
 {
     self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
+    
+    if ( self.adViewPlacementIdentifier )
+    {
+        [self log: @"Destroying adview with instance ID: %@ ", self.adViewPlacementIdentifier];
+        
+        [IronSource destroyISDemandOnlyBannerWithInstanceId: self.adViewPlacementIdentifier];
+        
+        @synchronized ( ALLoadedAdViewPlacementIdentifiersLock )
+        {
+            [ALLoadedAdViewPlacementIdentifiers removeObject: self.adViewPlacementIdentifier];
+        }
+    }
     
     [self.router removeAdapter: self forPlacementIdentifier: self.routerPlacementIdentifier];
 }
@@ -259,11 +283,32 @@
 {
     NSString *bidResponse = parameters.bidResponse;
     BOOL isBiddingAd = [bidResponse al_isValidString];
-    NSString *instanceID = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading %@%@ ad for instance ID: %@", ( isBiddingAd ? @"bidding " : @"" ), adFormat.label, instanceID];
+    
+    [self log: @"Loading %@%@ ad for instance ID: %@", ( isBiddingAd ? @"bidding " : @"" ), adFormat.label, parameters.thirdPartyAdPlacementIdentifier];
+    
+    @synchronized ( ALLoadedAdViewPlacementIdentifiersLock )
+    {
+        // IronSource does not support b2b with same instance id for banners/MRECs
+        if ( [ALLoadedAdViewPlacementIdentifiers containsObject: parameters.thirdPartyAdPlacementIdentifier] )
+        {
+            [self log: @"AdView failed to load for instance ID: %@. An ad with the same instance ID is already loaded", parameters.thirdPartyAdPlacementIdentifier];
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: MAAdapterError.internalError.code
+                                                                        errorString: MAAdapterError.internalError.message
+                                                             thirdPartySdkErrorCode: 0
+                                                          thirdPartySdkErrorMessage: @"An ad with the same instance ID is already loaded"]];
+#pragma clang diagnostic pop
+            
+            return;
+        }
+    }
+    
+    self.adViewPlacementIdentifier = parameters.thirdPartyAdPlacementIdentifier; // Set it only if it is not an instance id of an already loaded ad to avoid destroying the currently showing ad
     
     self.adViewAdapterDelegate = [[ALIronSourceMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    [IronSource setISDemandOnlyBannerDelegate: self.adViewAdapterDelegate forInstanceId: instanceID];
+    [IronSource setISDemandOnlyBannerDelegate: self.adViewAdapterDelegate forInstanceId: self.adViewPlacementIdentifier];
     
     [self setPrivacySettingsWithParameters: parameters];
     
@@ -275,13 +320,13 @@
     if ( isBiddingAd )
     {
         [IronSource loadISDemandOnlyBannerWithAdm: bidResponse
-                                       instanceId: instanceID
+                                       instanceId: self.adViewPlacementIdentifier
                                    viewController: presentingViewController
                                              size: [self toISBannerSize: adFormat]];
     }
     else
     {
-        [IronSource loadISDemandOnlyBannerWithInstanceId: instanceID
+        [IronSource loadISDemandOnlyBannerWithInstanceId: self.adViewPlacementIdentifier
                                           viewController: presentingViewController
                                                     size: [self toISBannerSize: adFormat]];
     }
@@ -445,6 +490,11 @@
 
 - (void)bannerDidShow:(NSString *)instanceId
 {
+    @synchronized ( ALLoadedAdViewPlacementIdentifiersLock )
+    {
+        [ALLoadedAdViewPlacementIdentifiers addObject: instanceId];
+    }
+    
     [self.parentAdapter log: @"AdView shown for instance ID: %@", instanceId];
     [self.delegate didDisplayAdViewAd];
 }
