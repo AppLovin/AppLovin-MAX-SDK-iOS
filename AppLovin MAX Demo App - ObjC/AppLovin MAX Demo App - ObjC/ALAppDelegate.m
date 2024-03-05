@@ -12,12 +12,12 @@
 
 @implementation ALAppDelegate
 
+// If you want to test your own AppLovin SDK key, update the value here and update the package name to your app's name.
 static NSString *const YOUR_SDK_KEY = @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Create the initialization configuration
-    // If you want to test your own AppLovin SDK key, update the value here and update the package name to your app's name.
     ALSdkInitializationConfiguration *initConfig = [ALSdkInitializationConfiguration configurationWithSdkKey: YOUR_SDK_KEY builderBlock:^(ALSdkInitializationConfigurationBuilder *builder) {
 
         builder.mediationProvider = ALMediationProviderMAX;

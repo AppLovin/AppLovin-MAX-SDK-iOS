@@ -12,6 +12,7 @@ import UIKit
 
 class ALAppDelegate: UIResponder, UIApplicationDelegate
 {
+    // If you want to test your own AppLovin SDK key, update the value here and update the package name to your app's name.
     let YOUR_SDK_KEY = "05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF"
     
     var window: UIWindow?
@@ -19,7 +20,6 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
         // Create the initialization configuration
-        // If you want to test your own AppLovin SDK key, update the value here and update the package name to your app's name.
         let initConfig = ALSdkInitializationConfiguration(sdkKey: YOUR_SDK_KEY) { builder in
 
             builder.mediationProvider = ALMediationProviderMAX
