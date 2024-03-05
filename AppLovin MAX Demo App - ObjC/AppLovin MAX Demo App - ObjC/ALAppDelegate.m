@@ -12,24 +12,26 @@
 
 @implementation ALAppDelegate
 
+// If you want to test your own AppLovin SDK key, change the value here and update the bundle identifier in the xcodeproj.
+static NSString *const YOUR_SDK_KEY = @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF";
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // If you want to test your own AppLovin SDK key,
-    // update the value in Info.plist under the \"AppLovinSdkKey\" key, and update the package name to your app's name.
-    
-    // Enable test mode by default for the current device.
-    NSString *currentIDFV = UIDevice.currentDevice.identifierForVendor.UUIDString;
-    ALSdkSettings *settings = [[ALSdkSettings alloc] init];
-    
-    if ( currentIDFV.length > 0 )
-    {
-        settings.testDeviceAdvertisingIdentifiers = @[currentIDFV];
-    }
-    
-    // Initialize the AppLovin SDK
-    ALSdk *sdk = [ALSdk sharedWithSettings: settings];
-    sdk.mediationProvider = ALMediationProviderMAX;
-    [sdk initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
+    // Create the initialization configuration
+    ALSdkInitializationConfiguration *initConfig = [ALSdkInitializationConfiguration configurationWithSdkKey: YOUR_SDK_KEY builderBlock:^(ALSdkInitializationConfigurationBuilder *builder) {
+
+        builder.mediationProvider = ALMediationProviderMAX;
+        
+        // Enable test mode by default for the current device.
+        NSString *currentIDFV = UIDevice.currentDevice.identifierForVendor.UUIDString;
+        if ( currentIDFV.length > 0 )
+        {
+            builder.testDeviceAdvertisingIdentifiers = @[currentIDFV];
+        }
+    }];
+
+    // Initialize the SDK with the configuration
+    [[ALSdk shared] initializeWithConfiguration: initConfig completionHandler:^(ALSdkConfiguration *sdkConfig) {
         // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         
         // Initialize Adjust SDK
