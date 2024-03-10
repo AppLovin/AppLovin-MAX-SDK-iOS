@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.9.0.0.0
+* Certified with IronSource SDK 7.9.0.0.
+
 ## 7.8.0.0.1
 * Fixed to allow multiple banners/MRECs with same instanceId in a session to load by destroying previous banners/MRECs using `destroyISDemandOnlyBannerWithInstanceId:` API.
 
