@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.2.6.0
+* Certified with Fyber SDK 8.2.6.
+
 ## 8.2.5.2
 * Fix `-[__NSDictionaryM removeObjectForKey:] key cannot be nil` crash when spotID is `nil` in `adDidShowWithImpressionData:withAdRequest:` callback.
 
