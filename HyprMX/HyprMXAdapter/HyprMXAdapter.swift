@@ -33,7 +33,7 @@ final class HyprMXAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "HyprMX" }
     
-    override var adapterVersion: String { "6.3.0.1" }
+    override var adapterVersion: String { "6.3.0.1.0" }
 
     override var sdkVersion: String { HyprMX.versionString() }
 
