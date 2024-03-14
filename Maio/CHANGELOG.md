@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.4.0
+* Certified with Maio SDK 2.1.4.
+
 ## 2.1.3.0
 * Certified with Maio SDK 2.1.3.
 
