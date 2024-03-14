@@ -1,5 +1,8 @@
 # Changelog
 
+## 22.8.0.1
+* Downgrade Smaato SDK to 22.7.0.
+
 ## 22.8.0.0
 * Certified with Smaato SDK 22.8.0.
 
