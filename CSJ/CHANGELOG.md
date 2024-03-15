@@ -1,5 +1,13 @@
 # Changelog
 
+## 5.9.1.6.0
+* Certified with ByteDance China SDK 5.9.1.6.
+* Removed privacy APIs since they have been deprecated (https://www.csjplatform.com/supportcenter/5373).
+* Removed `configuration.logLevel` since it has been deprecated in favor of sending relevant information via callbacks.
+* Updated the dependency to `Ads-CN/BUAdSDK`.
+* Updated minimum Xcode requirement to 14.1.
+* Updated minimum iOS version to 11.0.
+
 ## 4.9.0.7.2
 * Updated minimum Xcode requirement to 14.0.
 * Fixed potential memory leaks by clearing delegates in `destroy:` method.   

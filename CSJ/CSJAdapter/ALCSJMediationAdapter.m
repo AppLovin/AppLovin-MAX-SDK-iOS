@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"4.9.0.7.2"
+#define ADAPTER_VERSION @"5.9.1.6.0"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -114,12 +114,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         
         configuration.appLogoImage = [self appIconImage];
         
-        if ( [parameters isTesting] )
-        {
-            configuration.logLevel = BUAdSDKLogLevelDebug;
-        }
-        
-        [self updateConsentWithParameters: parameters];
         [BUAdSDKManager setUserExtData: [self createUserExtData: parameters]];
         
         [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
@@ -200,8 +194,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
 {
     [self log: @"Collecting signal..."];
     
-    [self updateConsentWithParameters: parameters];
-    
     NSString *signal = [BUAdSDKManager getBiddingToken: nil];
     [delegate didCollectSignal: signal];
 }
@@ -213,8 +205,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@interstitial ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slotId];
-    
-    [self updateConsentWithParameters: parameters];
     
     // Determine whether we allow streaming or not - allow by default
     self.streaming = [parameters.serverParameters al_numberForKey: @"streaming" defaultValue: @(YES)].boolValue;
@@ -250,8 +240,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@app open ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slotId];
     
-    [self updateConsentWithParameters: parameters];
-    
     self.appOpenAd = [[BUSplashAd alloc] initWithSlotID: slotId adSize: [UIScreen mainScreen].bounds.size];
     self.appOpenAdDelegate = [[ALCSJAppOpenSplashAdDelegate alloc] initWithParentAdapter: self slotId: slotId andNotify: delegate];
     self.appOpenAd.delegate = self.appOpenAdDelegate;
@@ -282,8 +270,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@rewarded ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slotId];
-    
-    [self updateConsentWithParameters: parameters];
     
     // Determine whether we allow streaming or not - allow by default
     self.streaming = [parameters.serverParameters al_numberForKey: @"streaming" defaultValue: @(YES)].boolValue;
@@ -324,8 +310,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@%@%@ ad for slot id \"%@\"...", isNative ? @"native " : @"", [bidResponse al_isValidString] ? @"bidding " : @"", adFormat.label, slotId];
-    
-    [self updateConsentWithParameters: parameters];
     
     dispatchOnMainQueue(^{
         
@@ -383,8 +367,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@native ad for slot id \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", slotId];
     
-    [self updateConsentWithParameters: parameters];
-    
     BUAdSlot *slot = [[BUAdSlot alloc] init];
     slot.ID = slotId;
     slot.AdType = BUAdSlotAdTypeFeed;
@@ -413,27 +395,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
 - (NSString *)createUserExtData:(id<MAAdapterParameters>)parameters
 {
     return [NSString stringWithFormat: @"[{\"name\":\"mediation\",\"value\":\"MAX\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]", self.adapterVersion];
-}
-
-- (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
-{
-    NSNumber *hasUserConsent = parameters.hasUserConsent;
-    if ( hasUserConsent )
-    {
-        BUAdSDKManager.GDPR = hasUserConsent.boolValue ? 1 : 0;
-    }
-    
-    NSNumber *isAgeRestrictedUser = parameters.isAgeRestrictedUser;
-    if ( isAgeRestrictedUser )
-    {
-        BUAdSDKManager.coppa = isAgeRestrictedUser.boolValue ? 1 : 0;
-    }
-    
-    NSNumber *isDoNotSell = parameters.isDoNotSell;
-    if ( isDoNotSell )
-    {
-        BUAdSDKManager.CCPA = isDoNotSell.boolValue ? 1 : 0;
-    }
 }
 
 - (void)loadImageForURLString:(NSString *)urlString group:(dispatch_group_t)group successHandler:(void (^)(UIImage *image))successHandler;

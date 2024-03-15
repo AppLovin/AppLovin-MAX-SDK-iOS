@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationCSJAdapter'
-s.version = '4.9.0.7.2'
-s.platform = :ios, '10.0'
+s.version = '5.9.1.6.0'
+s.platform = :ios, '11.0'
 s.summary = 'CSJ adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
@@ -26,8 +26,9 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'Ads-CN/BUAdSDK_Compatible', '= 4.9.0.7'
+s.dependency 'Ads-CN/BUAdSDK', '= 5.9.1.6'
 s.dependency 'AppLovinSDK'
+s.swift_version = '5.0'
 
 s.pod_target_xcconfig =
 {
