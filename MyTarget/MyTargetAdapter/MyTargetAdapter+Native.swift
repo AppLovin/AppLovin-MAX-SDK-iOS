@@ -158,6 +158,11 @@ final class MyTargetNativeAdAdapterDelegate: NativeAdAdapterDelegate<MyTargetAda
     {
         logDebug("[\(adIdentifier)] Native ad choices icon loaded")
     }
+    
+    func onMediaLoadFailed(with nativeAd: MTRGNativeAd)
+    {
+        logDebug("[\(adIdentifier)] Native ad media load failed")
+    }
 }
 
 final class MyTargetNativeAd: MANativeAd
