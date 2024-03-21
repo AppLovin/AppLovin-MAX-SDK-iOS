@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.15.0.0
+* Certified with Facebook SDK 6.15.0.
+* Updated the minimum required iOS version to 12.0 to match Facebook SDK. 
+
 ## 6.14.0.1
 * Add back arm64 simulator slice to match Facebook SDK.
 
