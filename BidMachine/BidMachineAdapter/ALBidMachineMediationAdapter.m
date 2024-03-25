@@ -10,7 +10,7 @@
 #import <BidMachine/BidMachine.h>
 #import <BidMachineApiCore/BidMachineApiCore.h>
 
-#define ADAPTER_VERSION @"2.5.2.0.0"
+#define ADAPTER_VERSION @"2.5.3.0.0"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
