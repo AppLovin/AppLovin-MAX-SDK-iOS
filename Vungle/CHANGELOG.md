@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.3.0.0
+* Certified with Vungle SDK 7.3.0.
+
 ## 7.2.2.0
 * Certified with Vungle SDK 7.2.2.
 * Updated the minimum required iOS version to 12.0 to match Vungle SDK. 
