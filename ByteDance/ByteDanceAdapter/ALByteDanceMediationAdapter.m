@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"5.8.0.8.0"
+#define ADAPTER_VERSION @"5.8.0.8.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -204,8 +204,18 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     [self updateConsentWithParameters: parameters];
     
-    NSString *signal = [PAGSdk getBiddingToken: nil];
-    [delegate didCollectSignal: signal];
+    [PAGSdk getBiddingToken: nil completion:^(NSString *biddingToken) {
+        if ( [biddingToken al_isValidString] )
+        {
+            [self log: @"Signal collection successful"];
+            [delegate didCollectSignal: biddingToken];
+        }
+        else
+        {
+            [self log: @"Failed to collect signal"];
+            [delegate didFailToCollectSignalWithErrorMessage: nil];
+        }
+    }];
 }
 
 #pragma mark - Interstitial Methods
