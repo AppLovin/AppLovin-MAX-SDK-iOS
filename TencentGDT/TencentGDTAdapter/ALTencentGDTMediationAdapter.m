@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.14.70.0"
+#define ADAPTER_VERSION @"4.14.71.0"
 
 /**
  * Interstitial Delegate
@@ -482,7 +482,6 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
 {
     [self.parentAdapter log: @"Rewarded ad did expose"];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)gdt_rewardVideoAdDidClicked:(GDTRewardVideoAd *)rewardedVideoAd
@@ -500,7 +499,6 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
 - (void)gdt_rewardVideoAdDidPlayFinish:(GDTRewardVideoAd *)rewardedVideoAd
 {
     [self.parentAdapter log: @"Rewarded ad video did finish"];
-    [self.delegate didCompleteRewardedAdVideo];
 }
 
 - (void)gdt_rewardVideoAdDidClose:(GDTRewardVideoAd *)rewardedVideoAd
