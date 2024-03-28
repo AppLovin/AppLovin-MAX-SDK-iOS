@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1.0
+* Certified with LinkedIn SDK 1.2.1.
+
 ## 1.2.0.0
 * Certified with LinkedIn SDK 1.2.0.
 * Updated minimum iOS version to 11.0.
