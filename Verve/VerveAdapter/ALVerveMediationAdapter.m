@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"2.21.1.0"
+#define ADAPTER_VERSION @"2.21.2.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -504,7 +504,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 {
     [self.parentAdapter log: @"Rewarded ad did track impression"];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)rewardedDidTrackClick
@@ -522,7 +521,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 - (void)rewardedDidDismiss
 {
     [self.parentAdapter log: @"Rewarded ad did disappear"];
-    [self.delegate didCompleteRewardedAdVideo];
     
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
