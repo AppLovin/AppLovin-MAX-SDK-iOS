@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.6.0.0.0
+* Certified with Mintegral SDK 7.6.0.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+
 ## 7.5.9.0.0
 * Certified with Mintegral SDK 7.5.9.
 

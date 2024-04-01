@@ -16,7 +16,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.5.9.0.0"
+#define ADAPTER_VERSION @"7.6.0.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -1102,7 +1102,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Rewarded ad displayed"];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)onVideoAdShowFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withError:(NSError *)error
@@ -1134,8 +1133,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 - (void)onVideoAdDidClosed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId
 {
     [self.parentAdapter log: @"Rewarded ad hidden"];
-    
-    [self.delegate didCompleteRewardedAdVideo];
     
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
