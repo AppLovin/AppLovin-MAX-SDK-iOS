@@ -33,7 +33,6 @@
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", self.placementIdentifier];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
@@ -64,8 +63,6 @@
 
 - (void)adDidDismissFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
-    [self.delegate didCompleteRewardedAdVideo];
-    
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];
