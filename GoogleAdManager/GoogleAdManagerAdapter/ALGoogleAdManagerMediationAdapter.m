@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"11.2.0.0"
+#define ADAPTER_VERSION @"11.2.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -997,7 +997,6 @@
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded interstitial ad shown: %@", self.placementIdentifier];
-    [self.delegate didStartRewardedInterstitialAdVideo];
 }
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
@@ -1028,8 +1027,6 @@
 
 - (void)adDidDismissFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
-    [self.delegate didCompleteRewardedInterstitialAdVideo];
-    
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];
@@ -1062,7 +1059,6 @@
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", self.placementIdentifier];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
@@ -1093,8 +1089,6 @@
 
 - (void)adDidDismissFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
-    [self.delegate didCompleteRewardedAdVideo];
-    
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];

@@ -41,6 +41,7 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		25C7D2F12BAC7A1300955AA1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		630D5B37239730D300DA5E07 /* ALGoogleAdManagerMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGoogleAdManagerMediationAdapter.m; sourceTree = "<group>"; };
 		630D5B38239730D300DA5E07 /* ALGoogleAdManagerMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGoogleAdManagerMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CEF219BB5D400E3749A /* libGoogleAdManagerAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleAdManagerAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +112,7 @@
 			children = (
 				6A5A632F21C0872D00B755D7 /* AppLovinMediationGoogleAdManagerAdapter.podspec */,
 				6A5A632E21C0872C00B755D7 /* CHANGELOG.md */,
+				25C7D2F12BAC7A1300955AA1 /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
