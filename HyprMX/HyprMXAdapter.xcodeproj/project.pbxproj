@@ -47,6 +47,7 @@
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D9F22512526851B009B119E /* AppLovinMediationHyprMXAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationHyprMXAdapter.podspec; sourceTree = "<group>"; };
+		25C7D2F32BAC8B8C00955AA1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6A47612C2ACF65EB00A5DE5E /* HyprMXAdapter+Interstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyprMXAdapter+Interstitial.swift"; sourceTree = "<group>"; };
 		6A4C04772AD0B9E900327C63 /* HyprMXAdapter+Rewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyprMXAdapter+Rewarded.swift"; sourceTree = "<group>"; };
 		6A4C04792AD0BAEB00327C63 /* HyprMXAdapter+AdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyprMXAdapter+AdView.swift"; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 			children = (
 				1D9F22512526851B009B119E /* AppLovinMediationHyprMXAdapter.podspec */,
 				6A5A633A21C0875E00B755D7 /* CHANGELOG.md */,
+				25C7D2F32BAC8B8C00955AA1 /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

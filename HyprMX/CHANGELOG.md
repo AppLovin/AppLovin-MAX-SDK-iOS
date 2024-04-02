@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.0.1.1
+* Added Privacy Manifest defining use of UserDefaults.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+
 ## 6.3.0.1.0
 * Certified with HyprMX SDK 6.3.0.1.
 

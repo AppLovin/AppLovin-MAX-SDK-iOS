@@ -74,13 +74,10 @@ final class HyprMXRewardedAdapterDelegate: RewardedAdapterDelegate<HyprMXAdapter
     {
         log(adEvent: .displayed, id: placement.placementName)
         delegate?.didDisplayRewardedAd()
-        delegate?.didStartRewardedAdVideo()
     }
     
     func adDidClose(for placement: HyprMXPlacement, didFinishAd finished: Bool)
     {
-        delegate?.didCompleteRewardedAdVideo()
-        
         if hasGrantedReward || adapter.shouldAlwaysRewardUser
         {
             let reward = adapter.reward
