@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.3.0.0"
+#define ADAPTER_VERSION @"7.3.1.0"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -548,59 +548,59 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     switch ( vungleErrorCode )
     {
-        case 6: // SDK Not Initialized
+        case VungleErrorSdkNotInitialized:
             adapterError = MAAdapterError.notInitialized;
             break;
-        case 2: // Invalid AppID
-        case 201: // Invalid PlacementID
-        case 207: // Invalid Placement Type
-        case 222: // Invalid Placement load type
-        case 500: // BannerView: Invalid Size
-        case 30001: // Ad Publisher Mismatch
+        case VungleErrorInvalidAppID:
+        case VungleErrorInvalidPlacementID:
+        case VungleErrorPlacementAdTypeMismatch:
+        case VungleErrorInvalidWaterfallPlacementID:
+        case VungleErrorBannerViewInvalidSize:
+        case VungleErrorAdPublisherMismatch:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
-        case 119: // Json Encode Error
-        case 30002: // Ad Internal Integration Error
+        case VungleErrorJsonEncodeError:
+        case VungleErrorAdInternalIntegrationError:
             adapterError = MAAdapterError.internalError;
             break;
-        case 202: // Ad already Consumed
-        case 203: // Ad is already loading
-        case 204: // Ad already loaded
-        case 205: // Ad is playing
-        case 206: // Ad already failed loading
+        case VungleErrorAdConsumed:
+        case VungleErrorAdIsLoading:
+        case VungleErrorAdAlreadyLoaded:
+        case VungleErrorAdIsPlaying:
+        case VungleErrorAdAlreadyFailed:
             adapterError = MAAdapterError.invalidLoadState;
             break;
-        case 210: // Ad Not Loaded
+        case VungleErrorAdNotLoaded:
             adapterError = adPresentError ? MAAdapterError.adNotReady : MAAdapterError.invalidLoadState;
             break;
-        case 115: // Invalid IndexURL
-        case 302: // Invalid Ifa Status
-        case 305: // Mraid Bridge Error
-        case 400: // Concurrent Playback Unsupported
+        case VungleErrorInvalidIndexURL:
+        case VungleErrorInvalidIfaStatus:
+        case VungleErrorMraidBridgeError:
+        case VungleErrorConcurrentPlaybackUnsupported:
             adapterError = MAAdapterError.adDisplayFailedError;
             break;
-        case 212: // Placement Sleep
-        case 10001: // Ad No Fill
-        case 10002: // AdLoad Too Frequently
+        case VungleErrorPlacementSleep:
+        case VungleErrorAdNoFill:
+        case VungleErrorAdLoadTooFrequently:
             adapterError = MAAdapterError.noFill;
             break;
-        case 217: // Ad response timeOut
+        case VungleErrorAdResponseTimedOut:
             adapterError = MAAdapterError.timeout;
             break;
-        case 220: // Server busy with retry after timer.
-        case 221: // Load ad during Server busy with retry after timer.
-        case 20001: // Ad Server Error
+        case VungleErrorAdResponseRetryAfter:
+        case VungleErrorAdLoadFailRetryAfter:
+        case VungleErrorAdServerError:
             adapterError = MAAdapterError.serverError;
             break;
-        case 304: // Ad Expired
-        case 307: // Ad Expired on play call.
+        case VungleErrorAdExpired:
+        case VungleErrorAdExpiredOnPlay:
             adapterError = MAAdapterError.adExpiredError;
             break;
-        case 600: // Native Asset Error
+        case VungleErrorNativeAssetError:
             adapterError = MAAdapterError.missingRequiredNativeAdAssets;
             break;
-        case 2000: // webView WebContent Process Did Terminate
-        case 2001: // webView Failed Navigation
+        case VungleErrorWebViewWebContentProcessDidTerminate:
+        case VungleErrorWebViewFailedNavigation:
             adapterError = MAAdapterError.webViewError;
             break;
     }
@@ -823,7 +823,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)rewardedAdDidPresent:(VungleRewarded *)rewarded
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", rewarded.placementId];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)rewardedAdDidTrackImpression:(VungleRewarded *)rewarded
@@ -863,8 +862,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)rewardedAdDidClose:(VungleRewarded *)rewarded
 {
-    [self.delegate didCompleteRewardedAdVideo];
-    
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];

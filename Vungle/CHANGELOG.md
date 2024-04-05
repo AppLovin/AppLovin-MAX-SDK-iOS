@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.3.1.0
+* Certified with Vungle SDK 7.3.1.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+* Update error codes to use defined-constants from Vungle SDK.
+
 ## 7.3.0.0
 * Certified with Vungle SDK 7.3.0.
 
