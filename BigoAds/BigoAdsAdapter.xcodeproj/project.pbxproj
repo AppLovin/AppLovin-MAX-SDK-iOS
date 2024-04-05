@@ -1,0 +1,350 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		56A658F4AD04F4FEDDFF6481 /* Pods_BigoAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1ED5CC7259E9B39A29E6C04 /* Pods_BigoAdsAdapter.framework */; };
+		DE27198E2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = DE27198D2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.m */; };
+		DE27198F2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DE27198C2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.h */; };
+		DECF26F32B915FDD0047766E /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECF26F22B915FDD0047766E /* AppLovinSDK.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DE2719872B7BE770007F75F0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				DE27198F2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		035779E9F0D59E6F083AA089 /* Pods-BigoAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigoAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-BigoAdsAdapter/Pods-BigoAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		50C77797F6ED3562FFB983DA /* Pods-BigoAdsAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigoAdsAdapter.debug.xcconfig"; path = "Target Support Files/Pods-BigoAdsAdapter/Pods-BigoAdsAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		A1ED5CC7259E9B39A29E6C04 /* Pods_BigoAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BigoAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE2719892B7BE770007F75F0 /* libBigoAdsAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBigoAdsAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE27198C2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALBigoAdsMediationAdapter.h; sourceTree = "<group>"; };
+		DE27198D2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALBigoAdsMediationAdapter.m; sourceTree = "<group>"; };
+		DECF26EF2B9131DF0047766E /* AppLovinMediationBigoAdsAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationBigoAdsAdapter.podspec; sourceTree = "<group>"; };
+		DECF26F02B91325D0047766E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		DECF26F22B915FDD0047766E /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DE2719862B7BE770007F75F0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DECF26F32B915FDD0047766E /* AppLovinSDK.framework in Frameworks */,
+				56A658F4AD04F4FEDDFF6481 /* Pods_BigoAdsAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4AC827438718A86E9199F898 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				50C77797F6ED3562FFB983DA /* Pods-BigoAdsAdapter.debug.xcconfig */,
+				035779E9F0D59E6F083AA089 /* Pods-BigoAdsAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
+		DE2719802B7BE770007F75F0 = {
+			isa = PBXGroup;
+			children = (
+				DECF26F02B91325D0047766E /* CHANGELOG.md */,
+				DECF26EF2B9131DF0047766E /* AppLovinMediationBigoAdsAdapter.podspec */,
+				DE27198B2B7BE770007F75F0 /* BigoAdsAdapter */,
+				DE27198A2B7BE770007F75F0 /* Products */,
+				4AC827438718A86E9199F898 /* Pods */,
+				ECC9F647EE2885CC80B71636 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DE27198A2B7BE770007F75F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE2719892B7BE770007F75F0 /* libBigoAdsAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE27198B2B7BE770007F75F0 /* BigoAdsAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DE27198C2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.h */,
+				DE27198D2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.m */,
+			);
+			path = BigoAdsAdapter;
+			sourceTree = "<group>";
+		};
+		ECC9F647EE2885CC80B71636 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DECF26F22B915FDD0047766E /* AppLovinSDK.framework */,
+				A1ED5CC7259E9B39A29E6C04 /* Pods_BigoAdsAdapter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DE2719882B7BE770007F75F0 /* BigoAdsAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE2719922B7BE770007F75F0 /* Build configuration list for PBXNativeTarget "BigoAdsAdapter" */;
+			buildPhases = (
+				DF23E1129993A42787124C45 /* [CP] Check Pods Manifest.lock */,
+				DE2719852B7BE770007F75F0 /* Sources */,
+				DE2719862B7BE770007F75F0 /* Frameworks */,
+				DE2719872B7BE770007F75F0 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BigoAdsAdapter;
+			productName = BigoAds;
+			productReference = DE2719892B7BE770007F75F0 /* libBigoAdsAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DE2719812B7BE770007F75F0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					DE2719882B7BE770007F75F0 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+				};
+			};
+			buildConfigurationList = DE2719842B7BE770007F75F0 /* Build configuration list for PBXProject "BigoAdsAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DE2719802B7BE770007F75F0;
+			productRefGroup = DE27198A2B7BE770007F75F0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DE2719882B7BE770007F75F0 /* BigoAdsAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DF23E1129993A42787124C45 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BigoAdsAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DE2719852B7BE770007F75F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE27198E2B7BE770007F75F0 /* ALBigoAdsMediationAdapter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DE2719902B7BE770007F75F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DE2719912B7BE770007F75F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DE2719932B7BE770007F75F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50C77797F6ED3562FFB983DA /* Pods-BigoAdsAdapter.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7WXN7X228H;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DE2719942B7BE770007F75F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 035779E9F0D59E6F083AA089 /* Pods-BigoAdsAdapter.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7WXN7X228H;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DE2719842B7BE770007F75F0 /* Build configuration list for PBXProject "BigoAdsAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE2719902B7BE770007F75F0 /* Debug */,
+				DE2719912B7BE770007F75F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE2719922B7BE770007F75F0 /* Build configuration list for PBXNativeTarget "BigoAdsAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE2719932B7BE770007F75F0 /* Debug */,
+				DE2719942B7BE770007F75F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DE2719812B7BE770007F75F0 /* Project object */;
+}
