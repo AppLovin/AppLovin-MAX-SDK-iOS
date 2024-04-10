@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.0.1.2.0
+* Certified with ByteDance China SDK 6.0.1.2.
+
 ## 5.9.1.6.0
 * Certified with ByteDance China SDK 5.9.1.6.
 * Removed privacy APIs since they have been deprecated (https://www.csjplatform.com/supportcenter/5373).

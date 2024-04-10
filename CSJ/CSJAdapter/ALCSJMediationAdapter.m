@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"5.9.1.6.0"
+#define ADAPTER_VERSION @"6.0.1.2.0"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -563,7 +563,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     return self;
 }
 
-- (void)nativeExpressFullscreenVideoAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd
+- (void)nativeExpressFullscreenVideoAdDidLoad:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd
 {
     [self.parentAdapter log: @"Interstitial loaded: %@", self.slotId];
     
@@ -583,7 +583,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     }
 }
 
-- (void)nativeExpressFullscreenVideoAdDidDownLoadVideo:(BUFullscreenVideoAd *)fullscreenVideoAd
+- (void)nativeExpressFullscreenVideoAdDidDownLoadVideo:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd
 {
     [self.parentAdapter log: @"Interstitial cached: %@", self.slotId];
     
@@ -603,7 +603,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     }
 }
 
-- (void)nativeExpressFullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error
+- (void)nativeExpressFullscreenVideoAd:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error
 {
     MAAdapterError *adapterError = [ALCSJMediationAdapter toMaxError: error];
     [self.parentAdapter log: @"Interstitial failed to load with error: %@", adapterError];
@@ -615,13 +615,13 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Interstitial will be shown"];
 }
 
-- (void)nativeExpressFullscreenVideoAdDidVisible:(BUFullscreenVideoAd *)fullscreenVideoAd
+- (void)nativeExpressFullscreenVideoAdDidVisible:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd
 {
     [self.parentAdapter log: @"Interstitial shown"];
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)nativeExpressFullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd
+- (void)nativeExpressFullscreenVideoAdDidClick:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd
 {
     [self.parentAdapter log: @"Interstitial clicked"];
     [self.delegate didClickInterstitialAd];
@@ -637,7 +637,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Interstitial closed other controller"];
 }
 
-- (void)nativeExpressFullscreenVideoAdDidPlayFinish:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error
+- (void)nativeExpressFullscreenVideoAdDidPlayFinish:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error
 {
     if ( error )
     {
@@ -655,7 +655,7 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     [self.parentAdapter log: @"Interstitial will be closed"];
 }
 
-- (void)nativeExpressFullscreenVideoAdDidClose:(BUFullscreenVideoAd *)fullscreenVideoAd
+- (void)nativeExpressFullscreenVideoAdDidClose:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd
 {
     [self.parentAdapter log: @"Interstitial hidden"];
     [self.delegate didHideInterstitialAd];
