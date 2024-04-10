@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.9.0.0"
+#define ADAPTER_VERSION @"4.9.1.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -874,7 +874,6 @@ static NSString *ALAPSSDKVersion;
 - (void)interstitialDidPresentScreen:(nullable DTBAdInterstitialDispatcher *)interstitial
 {
     [self.parentAdapter d: @"Rewarded ad did present screen"];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)impressionFired
@@ -897,7 +896,6 @@ static NSString *ALAPSSDKVersion;
 - (void)videoPlaybackCompleted:(DTBAdInterstitialDispatcher *)interstitial
 {
     [self.parentAdapter d: @"Rewarded ad video playback completed"];
-    [self.delegate didCompleteRewardedAdVideo];
     
     self.grantedReward = YES;
 }
