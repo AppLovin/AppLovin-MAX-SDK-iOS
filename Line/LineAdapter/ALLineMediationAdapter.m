@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.7.20240318.0"
+#define ADAPTER_VERSION @"2.7.20240410.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -483,8 +483,6 @@ static ALAtomicBoolean *ALLineInitialized;
 
 - (void)fiveVideoRewardAdFullScreenDidClose:(FADVideoReward *)ad
 {
-    [self.delegate didCompleteRewardedAdVideo];
-    
     if ( ad.state != kFADStateError )
     {
         if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
@@ -502,7 +500,6 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)fiveVideoRewardAdFullScreenDidOpen:(FADVideoReward *)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown for slot id: %@...", ad.slotId];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)fiveVideoRewardAdDidPlay:(FADVideoReward *)ad
