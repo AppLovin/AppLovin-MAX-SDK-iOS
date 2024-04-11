@@ -1,5 +1,8 @@
 # Changelog
 
+## 22.8.3.0
+* Certified with Smaato SDK 22.8.3.
+
 ## 22.8.2.0
 * Certified with Smaato SDK 22.8.2.
 * Added Privacy Manifest defining use of NSUserDefaults.
