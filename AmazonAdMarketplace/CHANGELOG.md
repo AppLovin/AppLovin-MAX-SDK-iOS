@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.2.0
+* Certified with AmazonAdMarketplace SDK 4.9.2.
+
 ## 4.9.1.0
 * Certified with AmazonAdMarketplace SDK 4.9.1.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
