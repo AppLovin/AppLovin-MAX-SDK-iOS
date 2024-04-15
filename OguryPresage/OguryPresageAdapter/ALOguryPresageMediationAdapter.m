@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.2.3.0"
+#define ADAPTER_VERSION @"4.2.3.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -79,8 +79,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
         OguryConfigurationBuilder *configurationBuilder = [[OguryConfigurationBuilder alloc] initWithAssetKey: assetKey];
         [Ogury startWithConfiguration: [configurationBuilder build]];
         
-        [self updateUserConsent: parameters];
-        
         [self log: @"Ogury setup successful"];
         
         ALOguryPresageInitializationStatus = MAAdapterInitializationStatusInitializedUnknown;
@@ -125,8 +123,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     [self log: @"Collecting signal..."];
     
-    [self updateUserConsent: parameters];
-    
     NSString *signal = [OguryTokenService getBidderToken];
     [delegate didCollectSignal: signal];
 }
@@ -142,9 +138,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     self.interstitialAd = [[OguryInterstitialAd alloc] initWithAdUnitId: placementIdentifier];
     self.interstitialDelegate = [[ALOguryPresageMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier andNotify: delegate];
     self.interstitialAd.delegate = self.interstitialDelegate;
-    
-    // Update user consent before loading
-    [self updateUserConsent: parameters];
     
     if ( [self.interstitialAd isLoaded] )
     {
@@ -210,9 +203,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     self.rewardedAd = [[OguryOptinVideoAd alloc] initWithAdUnitId: placementIdentifier];
     self.rewardedAdDelegate = [[ALOguryPresageMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier andNotify: delegate];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
-    
-    // Update user consent before loading
-    [self updateUserConsent: parameters];
     
     if ( [self.rewardedAd isLoaded] )
     {
@@ -282,9 +272,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     self.adViewDelegate = [[ALOguryPresageMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier andNotify: delegate];
     self.adView.delegate = self.adViewDelegate;
     
-    // Update user consent before loading
-    [self updateUserConsent: parameters];
-    
     if ( [self.adView isLoaded] )
     {
         [self log: @"Ad is available already"];
@@ -304,25 +291,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 }
 
 #pragma mark - Shared Methods
-
-- (void)updateUserConsent:(id<MAAdapterParameters>)parameters
-{
-    NSString *assetKey = [parameters.serverParameters al_stringForKey: @"asset_key"];
-    
-    if ( ALSdk.versionCode >= 11040299 )
-    {
-        if ( parameters.consentString )
-        {
-            [OguryChoiceManagerExternal setConsentForTCFV2WithAssetKey: assetKey iabString: parameters.consentString andNonIABVendorsAccepted: @[]];
-        }
-    }
-    
-    NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent != nil )
-    {
-        [OguryChoiceManagerExternal setTransparencyAndConsentStatus: hasUserConsent.boolValue origin: @"CUSTOM" assetKey: assetKey];
-    }
-}
 
 + (MAAdapterError *)toMaxError:(OguryError *)oguryError
 {
@@ -498,7 +466,6 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     [self.parentAdapter log: @"Rewarded ad triggered impression: %@", self.placementIdentifier];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)didClickOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
@@ -508,9 +475,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 }
 
 - (void)didCloseOguryOptinVideoAd:(OguryOptinVideoAd *)optinVideo
-{
-    [self.delegate didCompleteRewardedAdVideo];
-    
+{ 
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];
