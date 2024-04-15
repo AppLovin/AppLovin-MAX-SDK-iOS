@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0.0
+* Certified with Verve SDK 3.0.0.
+* Updated the minimum required iOS version to 12.0 to match Verve SDK. 
+
 ## 2.21.2.0
 * Certified with Verve SDK 2.21.2.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
