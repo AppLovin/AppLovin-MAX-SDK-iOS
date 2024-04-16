@@ -46,7 +46,7 @@ extension MolocoAdapter: MAAdViewAdapter
                 
                 switch adFormat
                 {
-                case .banner:
+                case .banner, .leader:
                     adView = await Moloco.shared.createBanner(for: placementId, viewController: viewController, delegate: adViewDelegate)
                 case .mrec:
                     adView = await Moloco.shared.createMREC(for: placementId, viewController: viewController, delegate: adViewDelegate)
