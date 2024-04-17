@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.2.7.0"
+#define ADAPTER_VERSION @"8.2.8.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -634,7 +634,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     if ( currentTime == 0 )
     {
         [self.parentAdapter log: @"Rewarded video started"];
-        [self.delegate didStartRewardedAdVideo];
     }
 }
 
@@ -654,7 +653,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 - (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
 {
     [self.parentAdapter log: @"Rewarded video completed"];
-    [self.delegate didCompleteRewardedAdVideo];
 }
 
 @end

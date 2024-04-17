@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.2.8.0
+* Certified with Fyber SDK 8.2.8.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+
 ## 8.2.7.0
 * Certified with Fyber SDK 8.2.7.
 
