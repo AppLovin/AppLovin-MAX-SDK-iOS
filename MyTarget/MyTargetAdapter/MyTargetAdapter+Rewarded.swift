@@ -68,7 +68,6 @@ final class MyTargetRewardedAdapterDelegate: RewardedAdapterDelegate<MyTargetAda
     {
         log(adEvent: .displayed)
         delegate?.didDisplayRewardedAd()
-        delegate?.didStartRewardedAdVideo()
     }
     
     func onClick(with rewardedAd: MTRGRewardedAd)
