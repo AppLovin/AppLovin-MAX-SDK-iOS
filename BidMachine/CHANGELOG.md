@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.1.0.0
+* Certified with BidMachine SDK 2.6.1.
+
 ## 2.6.0.0.0
 * Certified with BidMachine SDK 2.6.0.
 
