@@ -20,7 +20,7 @@ struct ALMAXSwiftUIMRecAdView: View
         VStack {
             MAAdViewSwiftUIWrapper(adUnitIdentifier: "YOUR_AD_UNIT_ID",
                                    adFormat: .mrec,
-                                   sdk: ALSdk.shared()!,
+                                   sdk: ALSdk.shared(),
                                    didLoad: viewModel.didLoad,
                                    didFailToLoadAd: viewModel.didFailToLoadAd,
                                    didDisplay: viewModel.didDisplay,

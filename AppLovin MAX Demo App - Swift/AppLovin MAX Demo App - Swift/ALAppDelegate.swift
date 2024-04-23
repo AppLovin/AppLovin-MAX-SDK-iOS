@@ -32,7 +32,7 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
         }
 
         // Initialize the SDK with the configuration
-        ALSdk.shared()?.initialize(with: initConfig) { sdkConfig in
+        ALSdk.shared().initialize(with: initConfig) { sdkConfig in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             
             // Initialize Adjust SDK
