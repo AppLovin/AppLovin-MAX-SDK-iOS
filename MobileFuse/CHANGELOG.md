@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.4.0
+* Certified with MobileFuse SDK 1.7.4.
+* Replace deprecated API `MFAd.isAdReady` with new API `MFAd.isLoaded`.
+
 ## 1.7.3.0
 * Certified with MobileFuse SDK 1.7.3.
 

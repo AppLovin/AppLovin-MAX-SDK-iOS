@@ -16,7 +16,7 @@
 #import <MobileFuseSDK/MFRewardedAd.h>
 #import <MobileFuseSDK/MFNativeAd.h>
 
-#define ADAPTER_VERSION @"1.7.3.0"
+#define ADAPTER_VERSION @"1.7.4.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -245,7 +245,7 @@ static NSString *ALMobileFuseSDKVersion;
         
         return;
     }
-    else if ( ![self.interstitialAd isAdReady] )
+    else if ( ![self.interstitialAd isLoaded] )
     {
         [self log: @"Unable to show interstitial - ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
@@ -288,7 +288,7 @@ static NSString *ALMobileFuseSDKVersion;
         
         return;
     }
-    else if ( ![self.rewardedAd isAdReady] )
+    else if ( ![self.rewardedAd isLoaded] )
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
