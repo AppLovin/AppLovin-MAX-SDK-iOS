@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.7.1.0"
+#define ADAPTER_VERSION @"10.7.2.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -803,7 +803,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial
 {
     [self.parentAdapter log: @"Rewarded ad did show"];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)interstitialAdImpressed:(IMInterstitial *)interstitial
@@ -820,8 +819,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)interstitialDidDismiss:(IMInterstitial *)interstitial
 {
-    [self.delegate didCompleteRewardedAdVideo];
-    
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];
