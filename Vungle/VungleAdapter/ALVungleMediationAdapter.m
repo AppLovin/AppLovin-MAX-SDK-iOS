@@ -1018,6 +1018,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat, self.placementIdentifier];
     
+    // returns aspect ratio of media to be displayed. Will return 0.0 by default
+    CGFloat mediaContentAspectRatio = [nativeAd getMediaAspectRatio];
+    
     dispatchOnMainQueue(^{
         MediaView *mediaView = [[MediaView alloc] init];
         
@@ -1035,6 +1038,12 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             {
                 [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.sponsoredText];
             }
+            // Introduced in 11.4.0
+            if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+            {
+                [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
+            }
+
 #pragma clang diagnostic pop
         }];
         
@@ -1132,6 +1141,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     [self.parentAdapter log: @"Native ad loaded: %@", self.placementIdentifier];
     
+    // returns aspect ratio of media to be displayed. Will return 0.0 by default
+    CGFloat mediaContentAspectRatio = [nativeAd getMediaAspectRatio];
+
     dispatchOnMainQueue(^{
         MediaView *mediaView = [[MediaView alloc] init];
         
@@ -1148,6 +1160,12 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
             {
                 [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.sponsoredText];
+            }
+            
+            // Introduced in 11.4.0
+            if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
+            {
+                [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
             }
 #pragma clang diagnostic pop
         }];
