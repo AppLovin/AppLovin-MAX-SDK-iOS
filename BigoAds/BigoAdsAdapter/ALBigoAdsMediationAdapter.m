@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.2.2.0"
+#define ADAPTER_VERSION @"4.2.3.0"
 
 @interface ALBigoAdsMediationAdapterInterstitialAdDelegate : NSObject <BigoInterstitialAdLoaderDelegate, BigoAdInteractionDelegate>
 @property (nonatomic,   weak) ALBigoAdsMediationAdapter *parentAdapter;

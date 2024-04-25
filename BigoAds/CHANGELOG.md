@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.3.0
+* Certified with BigoAds SDK 4.2.3.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 4.2.2.0
 * Certified with BigoAds SDK 4.2.2.
 
