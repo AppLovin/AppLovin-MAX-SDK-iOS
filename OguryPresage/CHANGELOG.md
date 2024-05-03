@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.3.0.0
+* Certified with OguryPresage SDK 4.3.0.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 4.2.3.1
 * Remove privacy method calls as `[OguryChoiceManagerExternal setTransparencyAndConsentStatus:]` is deprecated and [OguryPresage SDK can collect TCF string directly from disk](https://ogury-ltd.gitbook.io/ios/ogury-choice-manager/third-party-consent-manager#case-a-your-cmp-is-compatible-with-the-iab-gdpr-consent-framework).
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
