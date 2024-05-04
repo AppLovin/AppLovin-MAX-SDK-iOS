@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"6.1.0.3"
+#define ADAPTER_VERSION @"7.0.0.0"
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -86,7 +86,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (NSString *)SDKVersion
 {
-    return [YMAMobileAds SDKVersion];
+    return [YMAMobileAds sdkVersion];
 }
 
 - (NSString *)adapterVersion
@@ -136,7 +136,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self log: @"Collecting signal..."];
     
-    [ALYandexBidderTokenLoader loadBidderTokenWithCompletionHandler:^(NSString *bidderToken) {
+    YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: [self toYandexAdType: parameters.adFormat]];
+    
+    [ALYandexBidderTokenLoader loadBidderTokenWithRequestConfiguration: configuration completionHandler:^(NSString *bidderToken) {
         [self log: @"Collected signal"];
         [delegate didCollectSignal: bidderToken];
     }];
@@ -309,6 +311,25 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     return [YMABannerAdSize fixedSizeWithWidth: adFormat.size.width height: adFormat.size.height];
 }
 
+- (YMAAdType)toYandexAdType:(MAAdFormat *)adFormat
+{
+    if ( adFormat == MAAdFormat.interstitial )
+    {
+        return YMAAdTypeInterstitial;
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        return YMAAdTypeRewarded;
+    }
+    else if ( [adFormat isAdViewAd] )
+    {
+        return YMAAdTypeBanner;
+    }
+    
+    [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
+    return -1;
+}
+
 + (MAAdapterError *)toMaxError:(NSError *)yandexError
 {
     YMAAdErrorCode yandexErrorCode = yandexError.code;
@@ -473,17 +494,15 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     if ( [self.parameters isTesting] )
     {
         [self.delegate didDisplayRewardedAd];
-        [self.delegate didStartRewardedAdVideo];
     }
 }
 
 // Note: This method is generally called with a 3 second delay after the ad has been displayed.
 //       This method is not called for test mode ads.
-- (void)rewardedAd:(YMARewardedAd *)rewardedAd didTrackImpressionWithData:(nullable id<YMAImpressionData>)impressionData
+- (void)rewardedAd:(YMARewardedAd *)rewardedAd didTrackImpressionWith:(id<YMAImpressionData>)impressionData
 {
     [self.parentAdapter log: @"Rewarded ad impression tracked"];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)rewardedAd:(YMARewardedAd *)rewardedAd didFailToShowWithError:(NSError *)error
@@ -515,7 +534,6 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 - (void)rewardedAdDidDismiss:(YMARewardedAd *)rewardedAd
 {
     [self.parentAdapter log: @"Rewarded ad hidden"];
-    [self.delegate didCompleteRewardedAdVideo];
     
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {

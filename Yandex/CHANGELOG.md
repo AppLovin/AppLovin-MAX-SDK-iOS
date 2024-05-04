@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.0.0.0
+* Certified with Yandex SDK 7.0.0.
+* Update to use new APIs for signal collection and SDK version retrieval.
+* Update to use new impression callback, `didTrackImpressionWith:`, for rewarded ads.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 6.1.0.3
 * Specified compatible version of Yandex dependency for republished SDK 6.1.0: VGSLCommonCore and VGSLNetworking (2.3.0).
 
