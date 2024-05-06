@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.4.0.0
+* Certified with GoogleAdManager SDK 11.4.0.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 11.3.0.0
 * Certified with GoogleAdManager SDK 11.3.0.
 
