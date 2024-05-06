@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.14.71.0"
+#define ADAPTER_VERSION @"4.14.76.0"
 
 /**
  * Interstitial Delegate
@@ -61,6 +61,7 @@
 @implementation ALTencentGDTMediationAdapter
 
 static ALAtomicBoolean *ALTencentGDTInitialized;
+static MAAdapterInitializationStatus ALTencentGDTInitializationStatus = NSIntegerMin;
 
 #pragma mark - Class Initialization
 
@@ -107,11 +108,41 @@ static ALAtomicBoolean *ALTencentGDTInitialized;
 {
     if ( [ALTencentGDTInitialized compareAndSet: NO update: YES] )
     {
+        ALTencentGDTInitializationStatus = MAAdapterInitializationStatusInitializing;
+        
         NSString *appId = [parameters.serverParameters al_stringForKey: @"app_id"];
-        [GDTSDKConfig registerAppId: appId];
+        [self log: @"Initializing Tencent SDK with app id: %@...", appId];
+        BOOL success = [GDTSDKConfig initWithAppId: appId];
+
+        if ( !success )
+        {
+            [self log: @"Tencent SDK failed to initialize"];
+            ALTencentGDTInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+            completionHandler(ALTencentGDTInitializationStatus, nil);
+            return;
+        }
+        
+        [GDTSDKConfig startWithCompletionHandler:^(BOOL success, NSError *error) {
+
+            if ( success )
+            {
+                [self log: @"Tencent SDK successfully finished initialization"];
+                ALTencentGDTInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
+                completionHandler(ALTencentGDTInitializationStatus, nil);
+            }
+            else
+            {
+                [self log: @"Tencent SDK failed to initialize with error: %@", error];
+                ALTencentGDTInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+                completionHandler(ALTencentGDTInitializationStatus, error.localizedDescription);
+            }
+        }];
     }
-    
-    completionHandler(MAAdapterInitializationStatusDoesNotApply, nil);
+    else
+    {
+        [self log: @"Tencent SDK already initialized"];
+        completionHandler(ALTencentGDTInitializationStatus, nil);
+    }
 }
 
 #pragma mark - Interstitial Adapter

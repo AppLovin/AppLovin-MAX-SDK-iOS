@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.14.76.0
+* Certified with TencentGDT SDK 4.14.76.
+* Updated minimum Xcode requirement to 15.0.
+* Updated deprecated APIs.
+
 ## 4.14.71.0
 * Certified with TencentGDT SDK 4.14.71.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
