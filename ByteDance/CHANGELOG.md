@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.9.0.8.0
+* Certified with ByteDance SDK 5.9.0.8.
+
 ## 5.9.0.7.0
 * Certified with ByteDance SDK 5.9.0.7.
 * Updated minimum Xcode requirement to 15.0.
