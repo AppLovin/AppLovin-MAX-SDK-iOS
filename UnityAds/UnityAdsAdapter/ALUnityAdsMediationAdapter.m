@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.10.0.0"
+#define ADAPTER_VERSION @"4.11.3.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -533,7 +533,6 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Rewarded ad placement \"%@\" displayed", placementId];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)unityAdsShowClick:(NSString *)placementId
@@ -545,7 +544,6 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 - (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state
 {
     [self.parentAdapter log: @"Rewarded ad placement \"%@\" hidden with completion state: %ld", placementId, state];
-    [self.delegate didCompleteRewardedAdVideo];
     if ( state == kUnityShowCompletionStateCompleted || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         [self.delegate didRewardUserWithReward: [self.parentAdapter reward]];

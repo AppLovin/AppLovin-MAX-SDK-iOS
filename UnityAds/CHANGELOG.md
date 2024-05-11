@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.11.3.0
+* Certified with UnityAds SDK 4.11.3.
+* Updated the minimum required iOS version to 12.0 to match UnityAds SDK. 
+
+## 4.11.0.0
+* Certified with UnityAds SDK 4.11.0.
+* Updated minimum Xcode requirement to 15.0.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+
 ## 4.10.0.0
 * Certified with UnityAds SDK 4.10.0.
 
