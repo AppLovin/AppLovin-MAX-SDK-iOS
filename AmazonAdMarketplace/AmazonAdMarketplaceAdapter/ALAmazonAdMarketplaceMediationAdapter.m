@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.9.3.0"
+#define ADAPTER_VERSION @"4.9.3.1"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -337,7 +337,8 @@ static NSString *ALAPSSDKVersion;
 
 - (void)failSignalCollectionWithError:(DTBAdErrorInfo *)adError andNotify:(id<MASignalCollectionDelegate>)delegate
 {
-    NSString *errorMessage = [NSString stringWithFormat: @"Signal collection failed: %d", adError.dtbAdError];
+    // Note: `adError.dtbAdError` is currently always 0, but if Amazon fixes it, this will start logging correct error information.
+    NSString *errorMessage = [NSString stringWithFormat: @"Signal collection failed: %@", [ALAmazonAdMarketplaceMediationAdapter stringFromDTBAdError: adError.dtbAdError]];
     [self failSignalCollectionWithErrorMessage: errorMessage andNotify: delegate];
 }
 
@@ -551,6 +552,25 @@ static NSString *ALAPSSDKVersion;
 #pragma clang diagnostic pop
 }
 
++ (NSString *)stringFromDTBAdError:(DTBAdError)error
+{
+    switch ( error )
+    {
+        case NETWORK_ERROR:
+            return @"NETWORK_ERROR";
+        case NETWORK_TIMEOUT:
+            return @"NETWORK_TIMEOUT";
+        case NO_FILL:
+            return @"NO_FILL";
+        case INTERNAL_ERROR:
+            return @"INTERNAL_ERROR";
+        case REQUEST_ERROR:
+            return @"REQUEST_ERROR";
+    }
+       
+    return @"UNKNOWN_ERROR";
+}
+
 - (void)setCreativeIdentifier:(NSString *)creativeId forAdFormat:(MAAdFormat *)adFormat
 {
     @synchronized ( ALAmazonCreativeIdentifiersLock )
@@ -694,9 +714,12 @@ static NSString *ALAPSSDKVersion;
     
     [ALUsedAmazonAdLoaderHashes addObject: @(dtbAdErrorInfo.dtbAdLoader.hash)];
     
-    [self.parentAdapter d: @"Signal failed to collect for ad loader: %@", dtbAdErrorInfo.dtbAdLoader];
+    // Note: `dtbAdErrorInfo.dtbAdError` also contains a `DTBAdError` object but it's always 0. Use `DTBAdError` directly from Amazon's callback to get a valid error code.
+    NSString *dtbAdErrorString = [ALAmazonAdMarketplaceMediationAdapter stringFromDTBAdError: error];
     
-    [self.parentAdapter failSignalCollectionWithError: dtbAdErrorInfo andNotify: self.delegate];
+    [self.parentAdapter d: @"Signal failed to collect for ad loader: %@ with error: %@", dtbAdErrorInfo.dtbAdLoader, dtbAdErrorString];
+    
+    [self.parentAdapter failSignalCollectionWithErrorMessage: dtbAdErrorString andNotify: self.delegate];
 }
 
 @end

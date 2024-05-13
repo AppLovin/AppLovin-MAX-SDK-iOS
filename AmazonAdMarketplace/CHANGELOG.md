@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.3.1
+* Add error type information to signal collection error logs.
+
 ## 4.9.3.0
 * Certified with AmazonAdMarketplace SDK 4.9.3.
 * Updated minimum Xcode requirement to 15.0.
