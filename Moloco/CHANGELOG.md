@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1.0
+* Certified with Moloco SDK 2.2.1.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 2.1.1.1
 * Add support for leaders.
 
