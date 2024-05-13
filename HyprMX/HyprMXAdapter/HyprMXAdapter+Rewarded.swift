@@ -32,51 +32,73 @@ extension HyprMXAdapter: MARewardedAdapter
         rewardedAd = placement
         rewardedDelegate = .init(adapter: self, delegate: delegate, parameters: parameters)
         
-        loadFullscreenAd(for: placement, parameters: parameters, delegate: rewardedDelegate)
+        let completionHandler: (Bool) -> () = { success in
+
+            guard success else
+            {
+                self.log(adEvent: .loadFailed(error: .noFill), id: placementId, adFormat: .rewarded)
+                delegate.didFailToLoadRewardedAdWithError(.noFill)
+                return
+            }
+
+            self.log(adEvent: .loaded, id: placementId, adFormat: .rewarded)
+            delegate.didLoadRewardedAd()
+        }
+
+        if parameters.isBidding
+        {
+            placement.loadAd(withBidResponse: parameters.bidResponse, completion: completionHandler)
+        }
+        else
+        {
+            placement.loadAd(completion: completionHandler)
+        }
     }
     
     func showRewardedAd(for parameters: MAAdapterResponseParameters, andNotify delegate: MARewardedAdapterDelegate)
     {
         log(adEvent: .showing, id: parameters.thirdPartyAdPlacementIdentifier, adFormat: .rewarded)
         
-        guard let rewardedAd, rewardedAd.isAdAvailable() else
+        guard let rewardedAd, rewardedAd.isAdAvailable else
         {
             log(adEvent: .notReady, id: parameters.thirdPartyAdPlacementIdentifier, adFormat: .rewarded)
             delegate.didFailToDisplayRewardedAdWithError(.adNotReady)
             return
         }
         
-        rewardedAd.showAd(from: presentingViewController(for: parameters))
+        rewardedAd.showAd(from: presentingViewController(for: parameters), delegate: rewardedDelegate)
     }
 }
 
-final class HyprMXRewardedAdapterDelegate: RewardedAdapterDelegate<HyprMXAdapter>, HyprMXPlacementDelegate
+final class HyprMXRewardedAdapterDelegate: RewardedAdapterDelegate<HyprMXAdapter>, HyprMXPlacementShowDelegate
 {
-    func adAvailable(for placement: HyprMXPlacement)
+    func adWillStart(placement: HyprMXPlacement)
     {
-        log(adEvent: .loaded, id: placement.placementName)
-        delegate?.didLoadRewardedAd()
+        log(adEvent: .willShow, id: placement.placementName)
     }
     
-    func adNotAvailable(for placement: HyprMXPlacement)
-    {
-        let adapterError = MAAdapterError.noFill
-        log(adEvent: .loadFailed(error: adapterError), id: placement.placementName)
-        delegate?.didFailToLoadRewardedAdWithError(adapterError)
-    }
-    
-    func adExpired(for placement: HyprMXPlacement)
-    {
-        log(adEvent: .expired, id: placement.placementName)
-    }
-    
-    func adWillStart(for placement: HyprMXPlacement)
+    func adImpression(placement: HyprMXPlacement)
     {
         log(adEvent: .displayed, id: placement.placementName)
         delegate?.didDisplayRewardedAd()
     }
     
-    func adDidClose(for placement: HyprMXPlacement, didFinishAd finished: Bool)
+    func adDisplay(error: NSError, placement: HyprMXPlacement)
+    {
+        let adapterError = MAAdapterError(adapterError: .adDisplayFailedError,
+                                          mediatedNetworkErrorCode: error.code,
+                                          mediatedNetworkErrorMessage: error.localizedDescription)
+        log(adEvent: .displayFailed(error: adapterError), id: placement.placementName)
+        delegate?.didFailToDisplayRewardedAdWithError(adapterError)
+    }
+    
+    func adDidReward(placement: HyprMXPlacement, rewardName: String?, rewardValue: Int)
+    {
+        log(adEvent: .grantedReward, id: placement.placementName, appending: "Reward: \(rewardValue) \(rewardName ?? "")")
+        setGrantedReward()
+    }
+    
+    func adDidClose(placement: HyprMXPlacement, finished: Bool)
     {
         if hasGrantedReward || adapter.shouldAlwaysRewardUser
         {
@@ -87,18 +109,5 @@ final class HyprMXRewardedAdapterDelegate: RewardedAdapterDelegate<HyprMXAdapter
         
         log(adEvent: .hidden, id: placement.placementName, appending: "didFinishAd: \(finished)")
         delegate?.didHideRewardedAd()
-    }
-    
-    func adDisplayError(_ error: Error, placement: HyprMXPlacement)
-    {
-        let adapterError = error.hyprMXAdapterError
-        log(adEvent: .displayFailed(error: adapterError), id: placement.placementName)
-        delegate?.didFailToDisplayRewardedAdWithError(adapterError)
-    }
-    
-    func adDidReward(for placement: HyprMXPlacement, rewardName: String?, rewardValue: Int)
-    {
-        log(adEvent: .grantedReward, id: placement.placementName, appending: "Reward: \(rewardValue) \(rewardName ?? "")")
-        setGrantedReward()
     }
 }

@@ -20,29 +20,35 @@ extension HyprMXAdapter: MAAdViewAdapter
         updatePrivacyStates(for: parameters)
         
         adViewDelegate = .init(adapter: self, delegate: delegate, adFormat: adFormat, parameters: parameters)
-        adView = .init(placementName: placementId, adSize: adFormat.hyprMXAdSize)
-        adView?.placementDelegate = adViewDelegate
+
+        let adView = HyprMXBannerView(placementName: placementId, adSize: adFormat.hyprMXAdSize)
+        adView.placementDelegate = adViewDelegate
+
+        self.adView = adView
         
-        adView?.loadAd()
+        adView.loadAd() { success in
+            
+            guard success else
+            {
+                self.log(adEvent: .loadFailed(error: .noFill), id: placementId, adFormat: adFormat)
+                delegate.didFailToLoadAdViewAdWithError(.noFill)
+                return
+            }
+            
+            self.log(adEvent: .loaded, id: placementId, adFormat: adFormat)
+            delegate.didLoadAd(forAdView: adView)
+        }
     }
 }
 
 final class HyprMXAdViewAdapterDelegate: AdViewAdapterDelegate<HyprMXAdapter>, HyprMXBannerDelegate
 {
-    func adDidLoad(_ bannerView: HyprMXBannerView)
+    func adImpression(_ bannerView: HyprMXBannerView)
     {
-        log(adEvent: .loaded, id: bannerView.placementName)
-        delegate?.didLoadAd(forAdView: bannerView)
+        log(adEvent: .displayed, id: bannerView.placementName)
         delegate?.didDisplayAdViewAd()
     }
 
-    func adFailed(toLoad bannerView: HyprMXBannerView, error: Error)
-    {
-        let adapterError = error.hyprMXAdapterError
-        log(adEvent: .loadFailed(error: adapterError), id: bannerView.placementName)
-        delegate?.didFailToLoadAdViewAdWithError(adapterError)
-    }
-    
     func adWasClicked(_ bannerView: HyprMXBannerView)
     {
         log(adEvent: .clicked, id: bannerView.placementName)
@@ -59,11 +65,6 @@ final class HyprMXAdViewAdapterDelegate: AdViewAdapterDelegate<HyprMXAdapter>, H
     {
         log(adEvent: .collapsed, id: bannerView.placementName)
         delegate?.didCollapseAdViewAd()
-    }
-
-    func adWillLeaveApplication(_ bannerView: HyprMXBannerView)
-    {
-        log(adEvent: .willLeaveApplication, id: bannerView.placementName)
     }
 }
 

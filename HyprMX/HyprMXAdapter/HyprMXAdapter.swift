@@ -12,11 +12,7 @@ import HyprMX
 @objc(ALHyprMXMediationAdapter)
 final class HyprMXAdapter: ALMediationAdapter
 {
-    private static let randomUserIdKey = "com.applovin.sdk.mediation.random_hyprmx_user_id"
-    
     // MARK: - Instance Properties
-    
-    var initializationCompletionHandler: MAAdapterInitializationCompletionHandler?
     
     // MARK: Ads
     
@@ -33,7 +29,7 @@ final class HyprMXAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "HyprMX" }
     
-    override var adapterVersion: String { "6.3.0.1.1" }
+    override var adapterVersion: String { "6.4.0.0.0" }
 
     override var sdkVersion: String { HyprMX.versionString() }
 
@@ -59,17 +55,7 @@ final class HyprMXAdapter: ALMediationAdapter
         }
         
         let distributorId = parameters.serverParameters["distributor_id"] as? String ?? ""
-        
-        // HyprMX requires userId to initialize -> generate a random one
-        var userId = sdk?.userIdentifier ?? ""
-        if userId.isEmpty
-        {
-            userId = UUID().uuidString.lowercased()
-            UserDefaults.standard.set(userId, forKey: HyprMXAdapter.randomUserIdKey)
-        }
-        
-        initializationCompletionHandler = completionHandler
-        
+
         log(lifecycleEvent: .initializing(parameters: ["distributorId": distributorId]))
         
         let logLevel = parameters.isTesting ? HYPRLogLevelVerbose : HYPRLogLevelError
@@ -77,23 +63,29 @@ final class HyprMXAdapter: ALMediationAdapter
         
         HyprMX.setMediationProvider(HyprMXMediationProviderApplovinMax, mediatorSDKVersion: ALSdk.version(), adapterVersion: adapterVersion)
         
-        // NOTE: HyprMX deals with CCPA via their UI
-        HyprMX.initialize(withDistributorId: distributorId,
-                          userId: userId,
-                          consentStatus: consentStatus(for: parameters),
-                          ageRestrictedUser: parameters.ageRestrictedUser?.boolValue ?? false,
-                          initializationDelegate: self)
+        updatePrivacyStates(for: parameters)
+        
+        HyprMX.initialize(distributorId) { success, error in
+
+            guard success else
+            {
+                self.log(lifecycleEvent: .initializeFailure(description: error?.localizedDescription))
+                completionHandler(.initializedFailure, error?.localizedDescription)
+                return
+            }
+
+            self.log(lifecycleEvent: .initializeSuccess())
+            completionHandler(.initializedSuccess, nil)
+        }
     }
 
     override func destroy()
     {
         log(lifecycleEvent: .destroy)
         
-        interstitialAd?.placementDelegate = nil
         interstitialAd = nil
         interstitialDelegate = nil
 
-        rewardedAd?.placementDelegate = nil
         rewardedAd = nil
         rewardedDelegate = nil
 
@@ -108,6 +100,13 @@ final class HyprMXAdapter: ALMediationAdapter
     {
         // NOTE: HyprMX requested to always set GDPR regardless of region.
         HyprMX.setConsentStatus(consentStatus(for: parameters))
+
+        if let isAgeRestrictedUser = parameters.ageRestrictedUser
+        {
+            HyprMX.setAgeRestrictedUser(isAgeRestrictedUser.boolValue)
+        }
+        
+        // NOTE: HyprMX deals with CCPA via their UI
     }
     
     private func consentStatus(for parameters: MAAdapterParameters) -> HyprConsentStatus
@@ -127,43 +126,6 @@ final class HyprMXAdapter: ALMediationAdapter
         {
             return CONSENT_STATUS_UNKNOWN
         }
-    }
-    
-    // MARK: Common Fullscreen Functions
-    
-    public func loadFullscreenAd(for placement: HyprMXPlacement, parameters: MAAdapterResponseParameters, delegate: HyprMXPlacementDelegate?)
-    {
-        placement.placementDelegate = delegate
-        
-        if parameters.isBidding
-        {
-            placement.loadAd(withBidResponse: parameters.bidResponse)
-        }
-        else
-        {
-            placement.loadAd()
-        }
-    }
-}
-
-// MARK: - HyprMXInitializationDelegate
-
-extension HyprMXAdapter: HyprMXInitializationDelegate
-{
-    func initializationDidComplete()
-    {
-        log(lifecycleEvent: .initializeSuccess())
-        
-        initializationCompletionHandler?(.initializedSuccess, nil)
-        initializationCompletionHandler = nil
-    }
-    
-    func initializationFailed()
-    {
-        log(lifecycleEvent: .initializeFailure())
-        
-        initializationCompletionHandler?(.initializedFailure, nil)
-        initializationCompletionHandler = nil
     }
 }
 

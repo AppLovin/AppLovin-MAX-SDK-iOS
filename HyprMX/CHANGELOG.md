@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.4.0.0.0
+* Certified with HyprMX SDK 6.4.0.
+* Update to use new initialization and delegate APIs.
+* Updated minimum Xcode requirement to 15.0.
+* Updated the minimum required iOS version to 12.0 to match HyprMX SDK. 
+
 ## 6.3.0.1.1
 * Added Privacy Manifest defining use of UserDefaults.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.

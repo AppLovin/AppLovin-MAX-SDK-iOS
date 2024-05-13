@@ -31,61 +31,70 @@ extension HyprMXAdapter: MAInterstitialAdapter
         
         interstitialAd = placement
         interstitialDelegate = .init(adapter: self, delegate: delegate, parameters: parameters)
-        
-        loadFullscreenAd(for: placement, parameters: parameters, delegate: interstitialDelegate)
+
+        let completionHandler: (Bool) -> () = { success in
+
+            guard success else
+            {
+                self.log(adEvent: .loadFailed(error: .noFill), id: placementId, adFormat: .interstitial)
+                delegate.didFailToLoadInterstitialAdWithError(.noFill)
+                return
+            }
+
+            self.log(adEvent: .loaded, id: placementId, adFormat: .interstitial)
+            delegate.didLoadInterstitialAd()
+        }
+
+        if parameters.isBidding
+        {
+            placement.loadAd(withBidResponse: parameters.bidResponse, completion: completionHandler)
+        }
+        else
+        {
+            placement.loadAd(completion: completionHandler)
+        }
     }
     
     public func showInterstitialAd(for parameters: MAAdapterResponseParameters, andNotify delegate: MAInterstitialAdapterDelegate)
     {
         log(adEvent: .showing, id: parameters.thirdPartyAdPlacementIdentifier, adFormat: .interstitial)
         
-        guard let interstitialAd, interstitialAd.isAdAvailable() else
+        guard let interstitialAd, interstitialAd.isAdAvailable else
         {
             log(adEvent: .notReady, id: parameters.thirdPartyAdPlacementIdentifier, adFormat: .interstitial)
             delegate.didFailToDisplayInterstitialAdWithError(.adNotReady)
             return
         }
         
-        interstitialAd.showAd(from: presentingViewController(for: parameters))
+        interstitialAd.showAd(from: presentingViewController(for: parameters), delegate: interstitialDelegate)
     }
 }
 
-final class HyprMXInterstitialAdapterDelegate: InterstitialAdapterDelegate<HyprMXAdapter>, HyprMXPlacementDelegate
+final class HyprMXInterstitialAdapterDelegate: InterstitialAdapterDelegate<HyprMXAdapter>, HyprMXPlacementShowDelegate
 {
-    func adAvailable(for placement: HyprMXPlacement)
+    func adWillStart(placement: HyprMXPlacement)
     {
-        log(adEvent: .loaded, id: placement.placementName)
-        delegate?.didLoadInterstitialAd()
+        log(adEvent: .willShow, id: placement.placementName)
     }
     
-    func adNotAvailable(for placement: HyprMXPlacement)
-    {
-        let adapterError = MAAdapterError.noFill
-        log(adEvent: .loadFailed(error: adapterError), id: placement.placementName)
-        delegate?.didFailToLoadInterstitialAdWithError(adapterError)
-    }
-    
-    func adExpired(for placement: HyprMXPlacement)
-    {
-        log(adEvent: .expired, id: placement.placementName)
-    }
-    
-    func adWillStart(for placement: HyprMXPlacement)
+    func adImpression(placement: HyprMXPlacement)
     {
         log(adEvent: .displayed, id: placement.placementName)
         delegate?.didDisplayInterstitialAd()
     }
     
-    func adDidClose(for placement: HyprMXPlacement, didFinishAd finished: Bool)
+    func adDisplay(error: NSError, placement: HyprMXPlacement)
+    {
+        let adapterError = MAAdapterError(adapterError: .adDisplayFailedError,
+                                          mediatedNetworkErrorCode: error.code,
+                                          mediatedNetworkErrorMessage: error.localizedDescription)
+        log(adEvent: .displayFailed(error: adapterError), id: placement.placementName)
+        delegate?.didFailToDisplayInterstitialAdWithError(adapterError)
+    }
+    
+    func adDidClose(placement: HyprMXPlacement, finished: Bool)
     {
         log(adEvent: .hidden, id: placement.placementName, appending: "didFinishAd \(finished)")
         delegate?.didHideInterstitialAd()
-    }
-    
-    func adDisplayError(_ error: Error, placement: HyprMXPlacement)
-    {
-        let adapterError = error.hyprMXAdapterError
-        log(adEvent: .displayFailed(error: adapterError), id: placement.placementName)
-        delegate?.didFailToDisplayInterstitialAdWithError(adapterError)
     }
 }
