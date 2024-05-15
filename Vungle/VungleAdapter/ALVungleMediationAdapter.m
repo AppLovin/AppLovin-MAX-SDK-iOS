@@ -113,7 +113,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 {
     [self updateUserPrivacySettingsForParameters: parameters];
     
-    if ( [ALVungleInitialized compareAndSet: NO update: YES] )
+    if ( ![ALVungleInitialized get] && ALVungleIntializationStatus != MAAdapterInitializationStatusInitializing )
     {
         ALVungleIntializationStatus = MAAdapterInitializationStatusInitializing;
         
@@ -134,7 +134,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             else
             {
                 [self log: @"Vungle SDK initialized"];
-                
+                [ALVungleInitialized compareAndSet: NO update: YES];
                 ALVungleIntializationStatus = MAAdapterInitializationStatusInitializedSuccess;
                 completionHandler(ALVungleIntializationStatus, nil);
             }
