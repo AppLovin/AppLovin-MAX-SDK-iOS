@@ -1,5 +1,8 @@
 # Changelog
 
+## 11.5.0.0
+* Certified with Google SDK 11.5.0.
+
 ## 11.4.0.0
 * Certified with Google SDK 11.4.0.
 * Updated minimum Xcode requirement to 15.0.
