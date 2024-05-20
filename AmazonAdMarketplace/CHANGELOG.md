@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.4.0
+* Certified with AmazonAdMarketplace SDK 4.9.4.
+
 ## 4.9.3.1
 * Add error type information to signal collection error logs.
 
