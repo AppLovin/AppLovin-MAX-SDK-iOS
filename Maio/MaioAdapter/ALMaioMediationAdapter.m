@@ -9,7 +9,7 @@
 #import "ALMaioMediationAdapter.h"
 #import <Maio/Maio-Swift.h>
 
-#define ADAPTER_VERSION @"2.1.4.0"
+#define ADAPTER_VERSION @"2.1.4.1"
 
 @interface ALMaioMediationAdapterInterstitialAdDelegate : NSObject <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
 @property (nonatomic,   weak) ALMaioMediationAdapter *parentAdapter;
@@ -354,7 +354,6 @@
 {
     [self.parentAdapter log: @"Rewarded ad shown: %@", ad.request.zoneId];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)didClick:(MaioRewarded *)ad
@@ -372,8 +371,6 @@
 
 - (void)didClose:(MaioRewarded *)ad
 {
-    [self.delegate didCompleteRewardedAdVideo];
-    
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         MAReward *reward = [self.parentAdapter reward];
