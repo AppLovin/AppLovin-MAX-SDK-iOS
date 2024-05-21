@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.11.3.1
+* Fully re-written in Swift.
+* Updated minimum AppLovinSDK requirement to 12.0.0.
+
 ## 4.11.3.0
 * Certified with UnityAds SDK 4.11.3.
 * Updated the minimum required iOS version to 12.0 to match UnityAds SDK. 
