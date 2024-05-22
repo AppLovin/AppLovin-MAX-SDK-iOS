@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.0.1.0
+* Certified with Yandex SDK 7.0.1.
+
 ## 7.0.0.0
 * Certified with Yandex SDK 7.0.0.
 * Update to use new APIs for signal collection and SDK version retrieval.
