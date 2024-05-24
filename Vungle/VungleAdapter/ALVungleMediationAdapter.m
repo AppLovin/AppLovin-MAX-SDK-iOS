@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.3.2.0"
+#define ADAPTER_VERSION @"7.3.2.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -124,20 +124,22 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         [VungleAds initWithAppId: appID completion:^(NSError * _Nullable error) {
             if ( error )
             {
+                [ALVungleInitialized set: NO];
+
                 [self log: @"Vungle SDK failed to initialize with error: %@", error];
                 
                 ALVungleIntializationStatus = MAAdapterInitializationStatusInitializedFailure;
                 NSString *errorString = [NSString stringWithFormat: @"%ld:%@", (long) error.code, error.localizedDescription];
                 
                 completionHandler(ALVungleIntializationStatus, errorString);
+
+                return;
             }
-            else
-            {
-                [self log: @"Vungle SDK initialized"];
-                
-                ALVungleIntializationStatus = MAAdapterInitializationStatusInitializedSuccess;
-                completionHandler(ALVungleIntializationStatus, nil);
-            }
+
+            [self log: @"Vungle SDK initialized"];
+            
+            ALVungleIntializationStatus = MAAdapterInitializationStatusInitializedSuccess;
+            completionHandler(ALVungleIntializationStatus, nil);
         }];
     }
     else

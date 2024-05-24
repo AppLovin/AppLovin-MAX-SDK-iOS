@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.3.2.1
+* Allow SDK to re-initialize upon failure.
+
 ## 7.3.2.0
 * Certified with Vungle SDK 7.3.2.
 * Updated minimum Xcode requirement to 15.0.
