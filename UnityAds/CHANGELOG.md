@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.11.3.2
+* Revert Swift adapter implementation to prevent `swift::swift_abortRetainUnowned` crashes.
+
 ## 4.11.3.1
 * Fully re-written in Swift.
 * Updated minimum AppLovinSDK requirement to 12.0.0.

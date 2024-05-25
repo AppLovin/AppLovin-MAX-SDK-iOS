@@ -8,13 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		284EE922CC9F99F82F487361 /* Pods_UnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D11DF65A6810EF2D6642542 /* Pods_UnityAdsAdapter.framework */; };
-		60BCAD7C2BC6EA8A0028943C /* UnityAdsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCAD7B2BC6EA8A0028943C /* UnityAdsAdapter.swift */; };
-		60BCAD7E2BC6EBCD0028943C /* UnityAdsAdapter+Interstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCAD7D2BC6EBCD0028943C /* UnityAdsAdapter+Interstitial.swift */; };
-		60BCAD822BC6F1430028943C /* Error+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCAD812BC6F1430028943C /* Error+Extensions.swift */; };
-		60BCAD842BC6FC010028943C /* UnityAdsAdapter+Rewarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCAD832BC6FC010028943C /* UnityAdsAdapter+Rewarded.swift */; };
-		60BCAD862BC700E80028943C /* UnityAdsAdapter+AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCAD852BC700E80028943C /* UnityAdsAdapter+AdView.swift */; };
-		60BCAD882BC709C00028943C /* Log+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCAD872BC709C00028943C /* Log+Extensions.swift */; };
 		6A561D26219BED3300E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		6A561D2F219BF0F800E3749A /* ALUnityAdsMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561D2D219BF0F800E3749A /* ALUnityAdsMediationAdapter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,13 +42,9 @@
 		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		60BCAD7B2BC6EA8A0028943C /* UnityAdsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnityAdsAdapter.swift; sourceTree = "<group>"; };
-		60BCAD7D2BC6EBCD0028943C /* UnityAdsAdapter+Interstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnityAdsAdapter+Interstitial.swift"; sourceTree = "<group>"; };
-		60BCAD812BC6F1430028943C /* Error+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extensions.swift"; sourceTree = "<group>"; };
-		60BCAD832BC6FC010028943C /* UnityAdsAdapter+Rewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnityAdsAdapter+Rewarded.swift"; sourceTree = "<group>"; };
-		60BCAD852BC700E80028943C /* UnityAdsAdapter+AdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnityAdsAdapter+AdView.swift"; sourceTree = "<group>"; };
-		60BCAD872BC709C00028943C /* Log+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Log+Extensions.swift"; sourceTree = "<group>"; };
 		6A561D2B219BED3300E3749A /* libUnityAdsAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnityAdsAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A561D2D219BF0F800E3749A /* ALUnityAdsMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALUnityAdsMediationAdapter.m; sourceTree = "<group>"; };
+		6A561D2E219BF0F800E3749A /* ALUnityAdsMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALUnityAdsMediationAdapter.h; sourceTree = "<group>"; };
 		6A5A633821C0875500B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		6A5A633921C0875500B755D7 /* AppLovinMediationUnityAdsAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationUnityAdsAdapter.podspec; sourceTree = "<group>"; };
 		7D11DF65A6810EF2D6642542 /* Pods_UnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,23 +116,11 @@
 			path = "../../iOS-Workspace/Pods";
 			sourceTree = "<group>";
 		};
-		60BCAD802BC6F12D0028943C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				60BCAD812BC6F1430028943C /* Error+Extensions.swift */,
-				60BCAD872BC709C00028943C /* Log+Extensions.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
 		6A561D2C219BF0F800E3749A /* UnityAdsAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				60BCAD802BC6F12D0028943C /* Extensions */,
-				60BCAD7B2BC6EA8A0028943C /* UnityAdsAdapter.swift */,
-				60BCAD852BC700E80028943C /* UnityAdsAdapter+AdView.swift */,
-				60BCAD7D2BC6EBCD0028943C /* UnityAdsAdapter+Interstitial.swift */,
-				60BCAD832BC6FC010028943C /* UnityAdsAdapter+Rewarded.swift */,
+				6A561D2E219BF0F800E3749A /* ALUnityAdsMediationAdapter.h */,
+				6A561D2D219BF0F800E3749A /* ALUnityAdsMediationAdapter.m */,
 			);
 			path = UnityAdsAdapter;
 			sourceTree = "<group>";
@@ -186,7 +165,6 @@
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					6A561D23219BED3300E3749A = {
-						LastSwiftMigration = 1530;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -239,12 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60BCAD862BC700E80028943C /* UnityAdsAdapter+AdView.swift in Sources */,
-				60BCAD842BC6FC010028943C /* UnityAdsAdapter+Rewarded.swift in Sources */,
-				60BCAD7C2BC6EA8A0028943C /* UnityAdsAdapter.swift in Sources */,
-				60BCAD7E2BC6EBCD0028943C /* UnityAdsAdapter+Interstitial.swift in Sources */,
-				60BCAD822BC6F1430028943C /* Error+Extensions.swift in Sources */,
-				60BCAD882BC709C00028943C /* Log+Extensions.swift in Sources */,
+				6A561D2F219BF0F800E3749A /* ALUnityAdsMediationAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +342,6 @@
 			baseConfigurationReference = BA851BC5E3720440FA965DD9 /* Pods-UnityAdsAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
@@ -379,8 +351,6 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -390,7 +360,6 @@
 			baseConfigurationReference = 13CE56CE5041C47D110DBEC6 /* Pods-UnityAdsAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
@@ -400,7 +369,6 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
