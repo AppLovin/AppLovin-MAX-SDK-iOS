@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.6.6.0.0
+* Certified with Mintegral SDK 7.6.6.
+
 ## 7.6.4.0.0
 * Certified with Mintegral SDK 7.6.4.
 * Updated minimum Xcode requirement to 15.0.
