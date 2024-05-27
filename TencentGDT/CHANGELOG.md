@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.14.80.0
+* Certified with TencentGDT SDK 4.14.80.
+
 ## 4.14.76.0
 * Certified with TencentGDT SDK 4.14.76.
 * Updated minimum Xcode requirement to 15.0.
