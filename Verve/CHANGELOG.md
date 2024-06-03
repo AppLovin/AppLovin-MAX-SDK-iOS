@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1.0
+* Certified with Verve SDK 3.0.1.
+* Updated the minimum required iOS version to 12.0 to match Verve SDK. 
+
 ## 3.0.0.1
 * Downgrade Verve iOS SDK to v2.21.2 due to issues in v3.0.0, which includes the ATOM SDK, causing AppLovin INTER/RV ads to break. The ATOM SDK should be disabled if included manually.
 * Updated minimum Xcode requirement to 15.0.
