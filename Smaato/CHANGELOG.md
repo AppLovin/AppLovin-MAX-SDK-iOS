@@ -1,5 +1,10 @@
 # Changelog
 
+## 22.8.4.0
+* Certified with Smaato SDK 22.8.4.
+* Remove deprecated callbacks `didStartRewardedAdVideo`, `didCompleteRewardedAdVideo`.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 22.8.3.0
 * Certified with Smaato SDK 22.8.3.
 

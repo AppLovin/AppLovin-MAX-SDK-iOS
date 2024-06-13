@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.8.3.0"
+#define ADAPTER_VERSION @"22.8.4.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -770,7 +770,6 @@
 - (void)rewardedInterstitialDidStart:(SMARewardedInterstitial *)rewardedInterstitial
 {
     [self log: @"Reward ad video started"];
-    [self didStartRewardedVideoForPlacementIdentifier: rewardedInterstitial.adSpaceId];
 }
 
 - (void)rewardedInterstitialDidClick:(SMARewardedInterstitial *)rewardedInterstitial
@@ -787,7 +786,6 @@
 - (void)rewardedInterstitialDidReward:(SMARewardedInterstitial *)rewardedInterstitial
 {
     [self log: @"Rewarded ad video completed"];
-    [self didCompleteRewardedVideoForPlacementIdentifier: rewardedInterstitial.adSpaceId];
     
     self.grantedReward = YES;
 }
