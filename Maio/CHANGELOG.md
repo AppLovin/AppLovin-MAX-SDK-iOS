@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.5.0
+* Certified with Maio SDK 2.1.5.
+
 ## 2.1.4.1
 * Updated minimum Xcode requirement to 15.0.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
