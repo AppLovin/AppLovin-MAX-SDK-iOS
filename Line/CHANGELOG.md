@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.8.20240612.0
+* Certified with Line SDK 2.8.20240612.
+* Updated deprecated API usages.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 2.7.20240411.0
 * Certified with Line SDK 2.7.20240411.
 

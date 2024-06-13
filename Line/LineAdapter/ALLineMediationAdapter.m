@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.7.20240411.0"
+#define ADAPTER_VERSION @"2.8.20240612.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -197,7 +197,7 @@ static ALAtomicBoolean *ALLineInitialized;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing interstitial ad for slot id: %@...", slotId];
     
-    [self.interstitialAd show];
+    [self.interstitialAd showWithViewController: parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow]];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -221,7 +221,8 @@ static ALAtomicBoolean *ALLineInitialized;
     [self log: @"Showing rewarded ad for slot id: %@...", slotId];
     
     [self configureRewardForParameters: parameters];
-    [self.rewardedAd show];
+
+    [self.rewardedAd showWithViewController: parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow]];
 }
 
 #pragma mark - MAAdViewAdapter Methods
