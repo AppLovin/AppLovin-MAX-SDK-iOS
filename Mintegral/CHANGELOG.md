@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.6.7.0.0
+* Certified with Mintegral SDK 7.6.7.
+
 ## 7.6.6.0.0
 * Certified with Mintegral SDK 7.6.6.
 
