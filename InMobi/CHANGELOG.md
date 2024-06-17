@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.7.4.0
+* Certified with InMobi SDK 10.7.4.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 10.7.2.0
 * Certified with InMobi SDK 10.7.2.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
