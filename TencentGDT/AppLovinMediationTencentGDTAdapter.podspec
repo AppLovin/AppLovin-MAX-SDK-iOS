@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationTencentGDTAdapter'
-s.version = '4.14.80.0'
+s.version = '4.14.81.0'
 s.platform = :ios, '11.0'
 s.summary = 'TencentGDT adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'GDTMobSDK', '= 4.14.80'
+s.dependency 'GDTMobSDK', '= 4.14.81'
 s.dependency 'AppLovinSDK'
 s.swift_version = '5.0'
 
