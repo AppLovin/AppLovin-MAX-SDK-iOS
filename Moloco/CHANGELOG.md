@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.0.0
+* Certified with Moloco SDK 3.0.0.
+
 ## 2.2.1.0
 * Certified with Moloco SDK 2.2.1.
 * Updated minimum Xcode requirement to 15.0.

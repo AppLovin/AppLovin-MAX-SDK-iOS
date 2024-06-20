@@ -35,7 +35,7 @@ final class MolocoAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Moloco" }
     
-    override var adapterVersion: String { "2.2.1.0" }
+    override var adapterVersion: String { "3.0.0.0" }
     
     override var sdkVersion: String { Moloco.shared.sdkVersion }
         
@@ -52,16 +52,16 @@ final class MolocoAdapter: ALMediationAdapter
         
         log(lifecycleEvent: .initializing())
                 
-        Moloco.shared.initialize(initParams: .init(appKey: appKey, mediator: .max)) { [weak self] success, error in
+        Moloco.shared.initialize(initParams: .init(appKey: appKey, mediator: .max)) { success, error in
             
             if !success || error != nil
             {
-                self?.log(lifecycleEvent: .initializeFailure(description: error?.localizedDescription))
+                self.log(lifecycleEvent: .initializeFailure(description: error?.localizedDescription))
                 completionHandler(.initializedFailure, error?.localizedDescription)
                 return
             }
             
-            self?.log(lifecycleEvent: .initializeSuccess())
+            self.log(lifecycleEvent: .initializeSuccess())
             completionHandler(.initializedSuccess, nil)
         }
     }
@@ -125,7 +125,16 @@ extension MolocoAdapter: MASignalProvider
         
         updatePrivacyStates(for: parameters)
         
-        Moloco.shared.getBidToken { signal in
+        Moloco.shared.getBidToken { signal, error in
+            
+            if let error
+            {
+                self.log(signalEvent: .collectionFailed(description: error.localizedDescription))
+                delegate.didFailToCollectSignalWithErrorMessage(error.localizedDescription)
+                return
+            }
+            
+            self.log(signalEvent: .collectionSuccess)
             delegate.didCollectSignal(signal)
         }
     }
