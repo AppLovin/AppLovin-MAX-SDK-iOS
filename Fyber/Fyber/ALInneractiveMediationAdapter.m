@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.2.8.0"
+#define ADAPTER_VERSION @"8.3.0.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -84,8 +84,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing Inneractive SDK with app id: %@...", appID];
-        
-        [IASDKCore sharedInstance].userID = self.sdk.userIdentifier;
         [IASDKCore sharedInstance].mediationType = [[IAMediationMax alloc] init];
         
         // Passing extra info such as creative id supported in 6.15.0+
@@ -419,8 +417,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 
 - (void)updateUserInfoWithRequestParameters:(id<MAAdapterParameters>)requestParameters
 {
-    [IASDKCore sharedInstance].userID = self.sdk.userIdentifier;
-    
     NSNumber *hasUserConsent = [requestParameters hasUserConsent];
     if ( hasUserConsent != nil )
     {

@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.3.0.0
+* Certified with Fyber SDK 8.3.0.
+* Remove deprecated API usages.
+* Updated minimum Xcode requirement to 15.0.
+* Updated the minimum required iOS version to 12.0 to match Fyber SDK. 
+
 ## 8.2.8.0
 * Certified with Fyber SDK 8.2.8.
 * Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
