@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.4.1.0.0
+* Certified with HyprMX SDK 6.4.1.
+
 ## 6.4.0.0.0
 * Certified with HyprMX SDK 6.4.0.
 * Update to use new initialization and delegate APIs.
