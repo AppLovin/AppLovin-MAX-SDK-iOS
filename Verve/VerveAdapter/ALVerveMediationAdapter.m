@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"3.0.1.0"
+#define ADAPTER_VERSION @"3.0.2.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
