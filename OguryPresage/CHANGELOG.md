@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.0.0
+* Certified with OguryPresage SDK 4.4.0.
+
 ## 4.3.0.0
 * Certified with OguryPresage SDK 4.3.0.
 * Updated minimum Xcode requirement to 15.0.
