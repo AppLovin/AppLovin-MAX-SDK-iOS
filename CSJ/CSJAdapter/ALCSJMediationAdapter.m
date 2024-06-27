@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"6.0.1.2.0"
+#define ADAPTER_VERSION @"6.1.3.4.0"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -186,16 +186,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     self.nativeAdManager = nil;
     self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
-}
-
-#pragma mark - Signal Collection
-
-- (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
-{
-    [self log: @"Collecting signal..."];
-    
-    NSString *signal = [BUAdSDKManager getBiddingToken: nil];
-    [delegate didCollectSignal: signal];
 }
 
 #pragma mark - Interstitial Methods
@@ -518,10 +508,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         case BUErrorCodeDRRenderEngineError:
         case BUErrorCodeDRRenderContextError:
         case BUErrorCodeDRRenderItemNotExist:
-        case BUErrorCodeDynamic_1_JSContextEmpty:
-        case BUErrorCodeDynamic_1_ParseError:
-        case BUErrorCodeDynamic_1_Timeout:
-        case BUErrorCodeDynamic_1_SubComponentNotExist:
         case BUErrorCodeDynamic_2_ParseError:
         case BUErrorCodeDynamic_2_Timeout:
         case BUErrorCodeDynamic_2_SubComponentNotExist:

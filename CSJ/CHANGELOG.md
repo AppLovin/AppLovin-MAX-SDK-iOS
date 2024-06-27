@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.1.3.4.0
+* Certified with CSJ SDK 6.1.3.4.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 6.0.1.2.0
 * Certified with ByteDance China SDK 6.0.1.2.
 

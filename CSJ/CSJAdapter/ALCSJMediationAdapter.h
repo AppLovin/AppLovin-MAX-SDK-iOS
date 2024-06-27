@@ -8,6 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALCSJMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, MAAppOpenAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
+@interface ALCSJMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, MAAppOpenAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 @end
