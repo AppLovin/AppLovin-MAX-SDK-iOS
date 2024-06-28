@@ -11,7 +11,7 @@
 #import <OguryAds/OguryAds.h>
 #import <OguryChoiceManager/OguryChoiceManager.h>
 
-#define ADAPTER_VERSION @"4.4.0.0"
+#define ADAPTER_VERSION @"4.4.0.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -135,7 +135,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@interstitial ad \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", placementIdentifier];
     
-    self.interstitialAd = [[OguryInterstitialAd alloc] initWithAdUnitId: placementIdentifier];
+    self.interstitialAd = [[OguryInterstitialAd alloc] initWithAdUnitId: placementIdentifier mediation: [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version]];
     self.interstitialDelegate = [[ALOguryPresageMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier andNotify: delegate];
     self.interstitialAd.delegate = self.interstitialDelegate;
     
@@ -200,7 +200,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@rewarded ad: %@...", [bidResponse al_isValidString] ? @"bidding " : @"", placementIdentifier];
     
-    self.rewardedAd = [[OguryOptinVideoAd alloc] initWithAdUnitId: placementIdentifier];
+    self.rewardedAd = [[OguryOptinVideoAd alloc] initWithAdUnitId: placementIdentifier mediation: [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version]];
     self.rewardedAdDelegate = [[ALOguryPresageMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier andNotify: delegate];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
     
@@ -268,7 +268,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     NSString *bidResponse = parameters.bidResponse;
     [self log: @"Loading %@%@ ad: %@...", [bidResponse al_isValidString] ? @"bidding " : @"", adFormat.label, placementIdentifier];
     
-    self.adView = [[OguryBannerAd alloc] initWithAdUnitId: placementIdentifier];
+    self.adView = [[OguryBannerAd alloc] initWithAdUnitId: placementIdentifier mediation: [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version]];
     self.adViewDelegate = [[ALOguryPresageMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier andNotify: delegate];
     self.adView.delegate = self.adViewDelegate;
     
