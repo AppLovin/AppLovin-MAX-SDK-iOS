@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.2.3.0"
+#define ADAPTER_VERSION @"4.2.3.1"
 
 @interface ALBigoAdsMediationAdapterInterstitialAdDelegate : NSObject <BigoInterstitialAdLoaderDelegate, BigoAdInteractionDelegate>
 @property (nonatomic,   weak) ALBigoAdsMediationAdapter *parentAdapter;
@@ -861,7 +861,7 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         return;
     }
     
-    [ad setAdInteractionDelegate: self.parentAdapter.nativeAdAdapterDelegate];
+    [ad setAdInteractionDelegate: self.parentAdapter.nativeAdViewAdapterDelegate];
     self.parentAdapter.nativeAd = ad;
     
     UIImageView *iconView = [[UIImageView alloc] init];

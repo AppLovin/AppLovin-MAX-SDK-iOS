@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.3.1
+* Fix native ad view ad not triggering callbacks.
+
 ## 4.2.3.0
 * Certified with BigoAds SDK 4.2.3.
 * Updated minimum Xcode requirement to 15.0.
