@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.7.4.0"
+#define ADAPTER_VERSION @"10.7.4.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -460,6 +460,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( isAgeRestrictedUser != nil )
     {
         [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
+    }
+    
+    NSDictionary *localParamDict = [parameters localExtraParameters];
+    NSDictionary *inmobiDict = localParamDict[@"inmobi"];
+    
+    if (inmobiDict != nil) {
+        [extras addEntriesFromDictionary:inmobiDict];
     }
     
     return extras;
