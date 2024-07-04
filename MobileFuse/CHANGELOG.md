@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.5.0
+* Certified with MobileFuse SDK 1.7.5.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 1.7.4.0
 * Certified with MobileFuse SDK 1.7.4.
 * Replace deprecated API `MFAd.isAdReady` with new API `MFAd.isLoaded`.
