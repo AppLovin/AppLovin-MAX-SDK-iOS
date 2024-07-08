@@ -11,6 +11,7 @@
 		6237A0B82AA91D1A00DC0675 /* MolocoAdapter+AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6237A0B72AA91D1A00DC0675 /* MolocoAdapter+AdView.swift */; };
 		623A41592AAA6E98009B7980 /* MolocoAdapter+Interstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623A41582AAA6E98009B7980 /* MolocoAdapter+Interstitial.swift */; };
 		626B0EB32B92803D00CE1212 /* Native+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B0EB22B92803D00CE1212 /* Native+Utils.swift */; };
+		62839FB62C33267A0080F5F5 /* Log+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62839FB52C33267A0080F5F5 /* Log+Extensions.swift */; };
 		62A462DD2AAA7D95002731A9 /* MolocoAdapter+Rewarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A462DC2AAA7D95002731A9 /* MolocoAdapter+Rewarded.swift */; };
 		62DC144F2B90641E00C95A94 /* MolocoAdapter+Native.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DC144E2B90641E00C95A94 /* MolocoAdapter+Native.swift */; };
 		62E8E6262AA8EB59005AC90F /* MolocoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E8E6252AA8EB59005AC90F /* MolocoAdapter.swift */; };
@@ -51,6 +52,7 @@
 		6237A0B72AA91D1A00DC0675 /* MolocoAdapter+AdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MolocoAdapter+AdView.swift"; sourceTree = "<group>"; };
 		623A41582AAA6E98009B7980 /* MolocoAdapter+Interstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MolocoAdapter+Interstitial.swift"; sourceTree = "<group>"; };
 		626B0EB22B92803D00CE1212 /* Native+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Native+Utils.swift"; sourceTree = "<group>"; };
+		62839FB52C33267A0080F5F5 /* Log+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Log+Extensions.swift"; sourceTree = "<group>"; };
 		62A462DC2AAA7D95002731A9 /* MolocoAdapter+Rewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MolocoAdapter+Rewarded.swift"; sourceTree = "<group>"; };
 		62DC144E2B90641E00C95A94 /* MolocoAdapter+Native.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MolocoAdapter+Native.swift"; sourceTree = "<group>"; };
 		62E8E6252AA8EB59005AC90F /* MolocoAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoAdapter.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				62F6694B2AAFD7020073E95F /* Error+Extensions.swift */,
+				62839FB52C33267A0080F5F5 /* Log+Extensions.swift */,
 				626B0EB22B92803D00CE1212 /* Native+Utils.swift */,
 			);
 			name = Extensions;
@@ -246,6 +249,7 @@
 				626B0EB32B92803D00CE1212 /* Native+Utils.swift in Sources */,
 				62A462DD2AAA7D95002731A9 /* MolocoAdapter+Rewarded.swift in Sources */,
 				6237A0B82AA91D1A00DC0675 /* MolocoAdapter+AdView.swift in Sources */,
+				62839FB62C33267A0080F5F5 /* Log+Extensions.swift in Sources */,
 				62DC144F2B90641E00C95A94 /* MolocoAdapter+Native.swift in Sources */,
 				62F6694C2AAFD7020073E95F /* Error+Extensions.swift in Sources */,
 				623A41592AAA6E98009B7980 /* MolocoAdapter+Interstitial.swift in Sources */,
@@ -307,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -363,7 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -384,7 +388,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -406,7 +410,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

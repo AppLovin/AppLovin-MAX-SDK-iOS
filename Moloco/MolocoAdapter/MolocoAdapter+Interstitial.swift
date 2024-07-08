@@ -9,10 +9,19 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 extension MolocoAdapter: MAInterstitialAdapter
 {
     func loadInterstitialAd(for parameters: MAAdapterResponseParameters, andNotify delegate: MAInterstitialAdapterDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard #available(iOS 13.0, *) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToLoadInterstitialAdWithError(.unspecified)
+            return
+        }
+        
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         
         log(adEvent: .loading(), id: placementId, adFormat: .interstitial)
@@ -38,7 +47,7 @@ extension MolocoAdapter: MAInterstitialAdapter
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         
         log(adEvent: .showing, id: placementId, adFormat: .interstitial)
-
+        
         guard let interstitialAd, interstitialAd.isReady else
         {
             log(adEvent: .notReady, id: placementId, adFormat: .interstitial)
@@ -52,6 +61,7 @@ extension MolocoAdapter: MAInterstitialAdapter
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoInterstitialAdapterDelegate: InterstitialAdapterDelegate<MolocoAdapter>, MolocoInterstitialDelegate
 {
     func didLoad(ad: MolocoAd)

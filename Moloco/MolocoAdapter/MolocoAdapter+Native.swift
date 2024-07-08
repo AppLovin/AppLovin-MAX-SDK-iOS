@@ -9,10 +9,19 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 extension MolocoAdapter: MANativeAdAdapter
 {
     func loadNativeAd(for parameters: MAAdapterResponseParameters, andNotify delegate: MANativeAdAdapterDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard #available(iOS 13.0, *) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToLoadNativeAdWithError(.unspecified)
+            return
+        }
+        
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         
         log(adEvent: .loading(), id: placementId, adFormat: .native)
@@ -34,6 +43,7 @@ extension MolocoAdapter: MANativeAdAdapter
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>, MolocoNativeAdDelegate
 {
     func didLoad(ad: MolocoAd)
@@ -62,7 +72,7 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
         }
         
         nativeAd.show(in: ALUtils.topViewControllerFromKeyWindow())
-                                
+        
         let maxNativeAd = MAMolocoNativeAd(adapter: adapter, adFormat: adFormat) { builder in
             builder.title = assets.title
             builder.body = assets.description

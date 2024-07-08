@@ -9,10 +9,19 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 extension MolocoAdapter: MARewardedAdapter
 {
     func loadRewardedAd(for parameters: MAAdapterResponseParameters, andNotify delegate: MARewardedAdapterDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard #available(iOS 13.0, *) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToLoadRewardedAdWithError(.unspecified)
+            return
+        }
+        
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         
         log(adEvent: .loading(), id: placementId, adFormat: .rewarded)
@@ -38,7 +47,7 @@ extension MolocoAdapter: MARewardedAdapter
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         
         log(adEvent: .showing, id: placementId, adFormat: .rewarded)
-
+        
         guard let rewardedAd, rewardedAd.isReady else
         {
             log(adEvent: .notReady, id: placementId, adFormat: .rewarded)
@@ -54,6 +63,7 @@ extension MolocoAdapter: MARewardedAdapter
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoRewardedAdapterDelegate: RewardedAdapterDelegate<MolocoAdapter>, MolocoRewardedDelegate
 {
     func didLoad(ad: MolocoAd)

@@ -9,15 +9,24 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 extension MolocoAdapter: MAAdViewAdapter
 {
     func loadAdViewAd(for parameters: MAAdapterResponseParameters, adFormat: MAAdFormat, andNotify delegate: MAAdViewAdapterDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard #available(iOS 13.0, *) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToLoadAdViewAdWithError(.unspecified)
+            return
+        }
+        
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         let isNative = parameters.serverParameters["is_native"] as? Bool ?? false
         
         log(adEvent: .loading(), id: placementId, adFormat: adFormat)
-
+        
         updatePrivacyStates(for: parameters)
         
         if isNative
@@ -67,6 +76,7 @@ extension MolocoAdapter: MAAdViewAdapter
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoAdViewAdapterDelegate: AdViewAdapterDelegate<MolocoAdapter>, MolocoBannerDelegate
 {
     func didLoad(ad: MolocoAd)
@@ -116,6 +126,7 @@ final class MolocoAdViewAdapterDelegate: AdViewAdapterDelegate<MolocoAdapter>, M
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<MolocoAdapter>, MolocoNativeAdDelegate
 {
     func didLoad(ad: MolocoAd)
@@ -155,7 +166,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
             builder.mediaView = assets.videoView ?? UIImageView(image: assets.mainImage)
             builder.mainImage = assets.mainImage.map { .init(image: $0) }
         }
-                
+        
         let nativeAdView = MANativeAdView(from: adapter.nativeAdViewAd, withTemplate: templateName)
         adapter.nativeAdViewAd?.prepare(forInteractionClickableViews: nativeAdView.clickableViews, withContainer: nativeAdView)
         

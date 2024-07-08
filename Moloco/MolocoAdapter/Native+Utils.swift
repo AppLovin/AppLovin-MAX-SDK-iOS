@@ -9,6 +9,7 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 final class MAMolocoNativeAd: MANativeAd
 {
     private unowned let adapter: MolocoAdapter
