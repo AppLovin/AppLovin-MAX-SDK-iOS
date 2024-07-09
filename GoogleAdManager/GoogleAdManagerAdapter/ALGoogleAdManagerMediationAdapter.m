@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"11.6.0.0"
+#define ADAPTER_VERSION @"11.6.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -1271,12 +1271,12 @@
         if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
         {
             [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                                withObject: self.parentAdapter.nativeAdView
+                                withObject: maxNativeAdView
                                 withObject: @{@"creative_id" : responseId}];
         }
         else
         {
-            [self.delegate didLoadAdForAdView: self.parentAdapter.nativeAdView];
+            [self.delegate didLoadAdForAdView: maxNativeAdView];
         }
     });
 }
