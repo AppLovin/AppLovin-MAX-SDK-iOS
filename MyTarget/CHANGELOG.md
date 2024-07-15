@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.21.5.0
+* Certified with MyTarget SDK 5.21.5.
+
 ## 5.21.4.0
 * Certified with MyTarget SDK 5.21.4.
 
