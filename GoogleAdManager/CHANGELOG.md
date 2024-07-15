@@ -1,5 +1,8 @@
 # Changelog
 
+## 11.7.0.0
+* Certified with GoogleAdManager SDK 11.7.0.
+
 ## 11.6.0.1
 * Fixed an issue where native assets within native banners were not displaying correctly.
 
