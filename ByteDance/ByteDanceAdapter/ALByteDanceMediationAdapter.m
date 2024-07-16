@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"5.9.0.9.0"
+#define ADAPTER_VERSION @"6.0.0.5.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -142,7 +142,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     else
     {
-        [self log: @"Pangle SDK already initialized"];
+        [self log: @"Pangle SDK attempted initialization already - marking initialization as %ld", ALByteDanceInitializationStatus];
         completionHandler(ALByteDanceInitializationStatus, nil);
     }
 }
@@ -205,16 +205,8 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     [self updateConsentWithParameters: parameters];
     
     [PAGSdk getBiddingToken: nil completion:^(NSString *biddingToken) {
-        if ( [biddingToken al_isValidString] )
-        {
-            [self log: @"Signal collection successful"];
-            [delegate didCollectSignal: biddingToken];
-        }
-        else
-        {
-            [self log: @"Failed to collect signal"];
-            [delegate didFailToCollectSignalWithErrorMessage: nil];
-        }
+        [self log: @"Signal collection successful"];
+        [delegate didCollectSignal: biddingToken];
     }];
 }
 
