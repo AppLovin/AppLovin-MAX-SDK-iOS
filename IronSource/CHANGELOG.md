@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.1.0.0.1
+* Add support for bidding.
+
 ## 8.1.0.0.0
 * Certified with IronSource SDK 8.1.0.0.
 * Updated minimum Xcode requirement to 15.0.
