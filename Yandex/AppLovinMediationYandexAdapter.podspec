@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'YandexMobileAds', '= 7.0.1'
+s.dependency 'YandexMobileAds', '= 7.3.0'
 s.dependency 'AppLovinSDK'
 s.swift_version = '5.9'
 
