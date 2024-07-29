@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.0
+* Certified with BidMachine SDK 3.0.0.
+
 ## 2.7.0.0.0
 * Certified with BidMachine SDK 2.7.0.
 * Updated minimum Xcode requirement to 15.0.

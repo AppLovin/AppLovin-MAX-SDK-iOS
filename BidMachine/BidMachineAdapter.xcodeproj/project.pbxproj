@@ -46,9 +46,9 @@
 		6A5A633B21C0875E00B755D7 /* AppLovinMediationBidMachineAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationBidMachineAdapter.podspec; sourceTree = "<group>"; };
 		6A9A772821A4F43A00151D7A /* ALBidMachineMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALBidMachineMediationAdapter.m; sourceTree = "<group>"; };
 		6A9A772921A4F43A00151D7A /* ALBidMachineMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALBidMachineMediationAdapter.h; sourceTree = "<group>"; };
-		ADB887ED63152218EE7B9162 /* Pods-BidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.debug.xcconfig"; path = "Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		ADB887ED63152218EE7B9162 /* Pods-BidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.debug.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/BidMachine/Pods/Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		B3F23B71FB1BCE02880EFB6D /* Pods_BidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C94A5817B1EF58C9ED086606 /* Pods-BidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.release.xcconfig"; path = "Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		C94A5817B1EF58C9ED086606 /* Pods-BidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.release.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/BidMachine/Pods/Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
