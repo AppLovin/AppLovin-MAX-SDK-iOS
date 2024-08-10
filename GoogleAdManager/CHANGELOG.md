@@ -1,5 +1,8 @@
 # Changelog
 
+## 11.7.0.1
+* Add support for [inline adaptive banner ads](https://developers.applovin.com/en/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners).
+
 ## 11.7.0.0
 * Certified with GoogleAdManager SDK 11.7.0.
 
