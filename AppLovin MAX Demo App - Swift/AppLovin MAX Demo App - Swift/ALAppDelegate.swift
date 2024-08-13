@@ -8,6 +8,7 @@
 
 import Adjust
 import AppLovinSDK
+import DTBiOSSDK
 import UIKit
 
 class ALAppDelegate: UIResponder, UIApplicationDelegate
@@ -19,6 +20,14 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
+        // External Amazon integrations must initialize their SDK alongside ours
+        DTBAds.sharedInstance().setAppKey("2fef16ec-579e-4840-ad50-eb26ebb07f36")
+        DTBAds.sharedInstance().setAdNetworkInfo(DTBAdNetworkInfo(networkName: DTBADNETWORK_MAX))
+        DTBAds.sharedInstance().mraidPolicy = DTBMRAIDPolicy.init(rawValue: 4)
+        DTBAds.sharedInstance().mraidCustomVersions = ["1.0", "2.0", "3.0"]
+        DTBAds.sharedInstance().setLogLevel(DTBLogLevelAll)
+        DTBAds.sharedInstance().testMode = true
+        
         // Create the initialization configuration
         let initConfig = ALSdkInitializationConfiguration(sdkKey: YOUR_SDK_KEY) { builder in
 

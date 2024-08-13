@@ -7,6 +7,7 @@
 //
 
 import AppLovinSDK
+import DTBiOSSDK
 import SwiftUI
 
 @available(iOS 13.0, *)
@@ -15,6 +16,9 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
     let adUnitIdentifier: String
     let adFormat: MAAdFormat
     let sdk: ALSdk
+    
+    @Binding var shouldLoadAd: Bool
+    @Binding var isAmazonAd: Bool
     
     // MAAdViewAdDelegate methods
     var didLoad: ((MAAd) -> ())? = nil
@@ -32,6 +36,12 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
     // MAAdRevenueDelegate method
     var didPayRevenue: ((MAAd) -> ())? = nil
     
+    // DTBAdCallback methods
+    var onSuccess: ((DTBAdResponse) -> ())?
+    var onFailure: ((DTBAdError, DTBAdErrorInfo?) -> ())?
+    
+    @State private var isLoadingAd = false
+    
     func makeUIView(context: Context) -> MAAdView
     {
         let adView = MAAdView(adUnitIdentifier: adUnitIdentifier, adFormat: adFormat, sdk: sdk)
@@ -43,13 +53,55 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
         // Set background or background color for AdViews to be fully functional
         adView.backgroundColor = .black
         
-        // Load the first ad
-        adView.loadAd()
-        
+        context.coordinator.adView = adView
         return adView
     }
     
-    func updateUIView(_ uiView: MAAdView, context: Context) {}
+    func updateUIView(_ uiView: MAAdView, context: Context)
+    {
+        if shouldLoadAd && !isLoadingAd
+        {
+            if isAmazonAd
+            {
+                let amazonAdSlotId: String
+                let adFormat: MAAdFormat
+                
+                if UIDevice.current.userInterfaceIdiom == .pad
+                {
+                    amazonAdSlotId = "AMAZON_LEADER_SLOT_ID"
+                    adFormat = MAAdFormat.leader
+                }
+                else
+                {
+                    amazonAdSlotId = "fb055f7f-c9a7-4ff5-9333-b56ce41bbe28"
+                    adFormat = MAAdFormat.banner
+                }
+                    
+                let rawSize = adFormat.size
+                let size = DTBAdSize(bannerAdSizeWithWidth: Int(rawSize.width),
+                                     height: Int(rawSize.height),
+                                     andSlotUUID: amazonAdSlotId)!
+                    
+                let adLoader = DTBAdLoader()
+                adLoader.setAdSizes([size])
+                    
+                if ALPrivacySettings.isDoNotSellSet()
+                {
+                    adLoader.putCustomTarget(ALPrivacySettings.isDoNotSell() ? "1YY" : "1YN", withKey: "aps_privacy")
+                }
+                else
+                {
+                    adLoader.putCustomTarget("1--", withKey: "aps_privacy")
+                }
+                    
+                adLoader.loadAd(context.coordinator)
+            }
+            else
+            {
+                uiView.loadAd()
+            }
+        }
+    }
     
     func makeCoordinator() -> Coordinator
     {
@@ -60,9 +112,10 @@ struct MAAdViewSwiftUIWrapper: UIViewRepresentable
 @available(iOS 13.0, *)
 extension MAAdViewSwiftUIWrapper
 {
-    class Coordinator: NSObject, MAAdViewAdDelegate, MAAdRequestDelegate, MAAdRevenueDelegate
+    class Coordinator: NSObject, MAAdViewAdDelegate, MAAdRequestDelegate, MAAdRevenueDelegate, DTBAdCallback
     {
         private let parent: MAAdViewSwiftUIWrapper
+        var adView: MAAdView?
         
         init(parent: MAAdViewSwiftUIWrapper)
         {
@@ -71,16 +124,19 @@ extension MAAdViewSwiftUIWrapper
         
         func didStartAdRequest(forAdUnitIdentifier adUnitIdentifier: String)
         {
+            parent.isLoadingAd = true
             parent.didStartAdRequest?(adUnitIdentifier)
         }
         
         func didLoad(_ ad: MAAd)
         {
+            parent.isLoadingAd = false
             parent.didLoad?(ad)
         }
         
         func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError)
         {
+            parent.isLoadingAd = false
             parent.didFailToLoadAd?(adUnitIdentifier, error)
         }
         
@@ -117,6 +173,21 @@ extension MAAdViewSwiftUIWrapper
         func didPayRevenue(for ad: MAAd)
         {
             parent.didPayRevenue?(ad)
+        }
+        
+        // Handle DTBAdCallbacks
+        func onSuccess(_ adResponse: DTBAdResponse!)
+        {
+            parent.onSuccess?(adResponse)
+            
+            adView?.setLocalExtraParameterForKey("amazon_ad_response", value: adResponse)
+        }
+        
+        func onFailure(_ error: DTBAdError, dtbAdErrorInfo: DTBAdErrorInfo!)
+        {
+            parent.onFailure?(error, dtbAdErrorInfo)
+            
+            adView?.setLocalExtraParameterForKey("amazon_ad_error", value: dtbAdErrorInfo)
         }
     }
 }
