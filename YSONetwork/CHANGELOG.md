@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.25.1
+* Add implementation for `ALYsoNetworkMediationAdapter` to support existing YSO Network integrations.
+
 ## 1.1.25.0
 * Certified with YSO Network SDK 1.1.25.
 
