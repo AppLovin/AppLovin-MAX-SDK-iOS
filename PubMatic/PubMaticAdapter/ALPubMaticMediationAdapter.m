@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"3.7.0.0"
+#define ADAPTER_VERSION @"3.8.0.0"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -410,15 +410,14 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)interstitialDidRecordImpression:(POBInterstitial *)interstitial
 {
+    // NOTE: This may fire on load, depending on the demand source
     [self.parentAdapter log: @"Interstitial impression"];
     [self.delegate didDisplayInterstitialAd];
 }
 
 - (void)interstitial:(POBInterstitial *)interstitial didFailToShowAdWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                  thirdPartySdkErrorCode: error.code
-                                               thirdPartySdkErrorMessage: error.localizedDescription];
+    MAAdapterError *adapterError = [ALPubMaticMediationAdapter toMaxError: error];
     [self.parentAdapter log: @"Interstitial failed to show with error: %@", adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -463,17 +462,16 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     [self.delegate didFailToLoadRewardedAdWithError: adapterError];
 }
 
-- (void)rewardedAdDidPresentAd:(POBRewardedAd *)rewardedAd
+- (void)rewardedAdDidRecordImpression:(POBRewardedAd *)rewardedAd
 {
-    [self.parentAdapter log: @"Rewarded ad presented"];
+    // NOTE: This may fire on load, depending on the demand source
+    [self.parentAdapter log: @"Rewarded ad impression"];
     [self.delegate didDisplayRewardedAd];
 }
 
 - (void)rewardedAd:(POBRewardedAd *)rewardedAd didFailToShowAdWithError:(NSError *)error
 {
-    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                  thirdPartySdkErrorCode: error.code
-                                               thirdPartySdkErrorMessage: error.localizedDescription];
+    MAAdapterError *adapterError = [ALPubMaticMediationAdapter toMaxError: error];
     [self.parentAdapter log: @"Rewarded ad failed to show with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -536,7 +534,8 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)bannerViewDidRecordImpression:(POBBannerView *)bannerView
 {
-    [self.parentAdapter log: @"Ad view shown"];
+    // NOTE: This may fire on load, depending on the demand source
+    [self.parentAdapter log: @"Ad view impression"];
     [self.delegate didDisplayAdViewAd];
 }
 
