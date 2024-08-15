@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.1.0"
+#define ADAPTER_VERSION @"8.3.1.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -170,15 +170,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     [self updateUserInfoWithRequestParameters: parameters];
     
     NSString *signal = [FMPBiddingManager sharedInstance].biddingToken;
-    if ( [signal al_isValidString] )
-    {
-        [delegate didCollectSignal: signal];
-    }
-    else
-    {
-        [self log: @"Failed to collect signal"];
-        [delegate didFailToCollectSignalWithErrorMessage: nil];
-    }
+    [delegate didCollectSignal: signal];
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -635,15 +627,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
 {
-    [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                          errorString: @"Ad Display Failed"
-                                                               thirdPartySdkErrorCode: error.code
-                                                            thirdPartySdkErrorMessage: error.localizedDescription]];
-#pragma clang diagnostic pop
+    [self.parentAdapter log: @"Rewarded video is interrupted and buffering with error: %@", error];
 }
 
 - (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
