@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.7.0.0"
+#define ADAPTER_VERSION @"9.7.0.1"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -134,21 +134,39 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     self.adViewDelegate = nil;
 }
 
+#pragma mark - MASignalProvider Methods
+
+- (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    [self log: @"Collecting signal..."];
+    
+    NSString *signal = [Chartboost bidderToken];
+    [delegate didCollectSignal: signal];
+}
+
 #pragma mark - MAInterstitialAdapter Methods
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     // Determine placement
     NSString *location = [self locationFromParameters: parameters];
-    
-    [self log: @"Loading interstitial ad for location \"%@\"...", location];
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBidding = [bidResponse al_isValidString];
+    [self log: @"Loading %@interstitial ad for location \"%@\"...", isBidding ? @"bidding " : @"", location];
     
     [self updateUserConsentForParameters: parameters];
     
     self.interstitialDelegate = [[ALChartboostInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd = [[CHBInterstitial alloc] initWithLocation: location mediation: self.mediationInfo delegate: self.interstitialDelegate];
     
-    [self.interstitialAd cache];
+    if ( isBidding )
+    {
+        [self.interstitialAd cacheBidResponse: bidResponse];
+    }
+    else
+    {
+        [self.interstitialAd cache];
+    }
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -188,14 +206,23 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
     NSString *location = [self locationFromParameters: parameters];
-    [self log: @"Loading rewarded ad for location \"%@\"...", location];
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBidding = [bidResponse al_isValidString];
+    [self log: @"Loading %@rewarded ad for location \"%@\"...", isBidding ? @"bidding " : @"", location];
     
     [self updateUserConsentForParameters: parameters];
     
     self.rewardedDelegate = [[ALChartboostRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd = [[CHBRewarded alloc] initWithLocation: location mediation: self.mediationInfo delegate: self.rewardedDelegate];
     
-    [self.rewardedAd cache];
+    if ( isBidding )
+    {
+        [self.rewardedAd cacheBidResponse: bidResponse];
+    }
+    else
+    {
+        [self.rewardedAd cache];
+    }
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -240,7 +267,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *location = [self locationFromParameters: parameters];
-    [self log: @"Loading %@ ad for location \"%@\"...", adFormat.label, location];
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBidding = [bidResponse al_isValidString];
+    [self log: @"Loading %@%@ ad for location \"%@\"...", isBidding ? @"bidding " : @"", adFormat.label, location];
     
     [self updateUserConsentForParameters: parameters];
     
@@ -250,7 +279,14 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
                                         mediation: self.mediationInfo
                                          delegate: self.adViewDelegate];
     
-    [self.adView cache];
+    if ( isBidding )
+    {
+        [self.adView cacheBidResponse: bidResponse];
+    }
+    else
+    {
+        [self.adView cache];
+    }
 }
 
 #pragma mark - GDPR
@@ -269,6 +305,12 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         CHBCCPAConsent ccpaConsent = isDoNotSell.boolValue ? CHBCCPAConsentOptOutSale : CHBCCPAConsentOptInSale;
         [Chartboost addDataUseConsent: [CHBCCPADataUseConsent ccpaConsent: ccpaConsent]];
+    }
+    
+    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
+    if ( isAgeRestrictedUser != nil )
+    {
+        [Chartboost addDataUseConsent: [CHBCOPPADataUseConsent isChildDirected: isAgeRestrictedUser.boolValue]];
     }
 }
 
@@ -333,6 +375,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         case CHBShowErrorCodeInternalError:
         case CHBShowErrorCodePresentationFailure:
+        case CHBShowErrorCodeAssetsFailure:
             adapterError = MAAdapterError.internalError;
             break;
         case CHBShowErrorCodeSessionNotStarted:
@@ -346,6 +389,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
         case CHBShowErrorCodeNoViewController:
             adapterError = MAAdapterError.missingViewController;
+            break;
+        case CHBShowErrorCodeNoAdInstance:
+            adapterError = MAAdapterError.invalidConfiguration;
             break;
     }
     
@@ -548,8 +594,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self.parentAdapter log: @"Rewarded shown: %@", event.ad.location];
-        
-        [self.delegate didStartRewardedAdVideo];
     }
 }
 
@@ -585,7 +629,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)didEarnReward:(CHBRewardEvent *)event
 {
     [self.parentAdapter log: @"Rewarded complete \"%@\" with reward: %d", event.ad.location, event.reward];
-    [self.delegate didCompleteRewardedAdVideo];
     
     self.grantedReward = YES;
 }
@@ -707,11 +750,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"%@ ad clicked: %@", self.adFormat.label, event.ad.location];
         [self.delegate didClickAdViewAd];
     }
-}
-
-- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(CHBClickError *)error
-{
-    [self.parentAdapter log: @"%@ ad did finish handling click: %@", self.adFormat.label, event.ad.location];
 }
 
 @end

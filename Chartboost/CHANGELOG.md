@@ -1,5 +1,13 @@
 # Changelog
 
+## 9.7.0.1
+* Add bidding support for banners, leaders, MRECs, interstitial and rewarded ads.
+* Add COPPA support.
+* Updated minimum Xcode requirement to 15.0.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+* Update error code mapping.
+* Remove deprecated API usages.
+
 ## 9.7.0.0
 * Certified with Chartboost SDK 9.7.0.
 
