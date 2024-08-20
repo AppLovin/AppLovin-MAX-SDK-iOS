@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.21.7.0
+* Certified with MyTarget SDK 5.21.7.
+
 ## 5.21.6.0
 * Certified with MyTarget SDK 5.21.6.
 * Updated minimum Xcode requirement to 15.3 to match MyTarget SDK.
