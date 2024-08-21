@@ -16,9 +16,8 @@ The [Swift Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/maste
 1. Open a Terminal window in the directory of the desired project: `AppLovin MAX Demo App - Swift` or `AppLovin MAX Demo App - ObjC`.
 2. Install the latest SDK with CocoaPods using `pod install --repo-update`.
 3. Open the newly generated Xcode workspace file using `YOUR_PROJECT_NAME.xcworkspace`.
-4. Update the `AppLovinSdkKey` value in the `Info.plist` file with the Applovin SDK key associated with your account.
-5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
-6. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
+4. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
+5. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
 
 <img src="https://github.com/user-attachments/assets/8021c2c9-e55f-4e1d-9763-c7382b4eedaa" height="500" />
 
