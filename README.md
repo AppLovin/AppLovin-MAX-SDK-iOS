@@ -1,33 +1,50 @@
 # AppLovin MAX SDK
 
-## Overview
-MAX is AppLovin's in-app monetization solution.
+Welcome to the AppLovin MAX SDK, your gateway to unlocking the full potential of in-app monetization.
 
-Move beyond the traditional monetization solution and integrate MAX. MAX is a single unbiased auction where advertisers get equal access to all ad inventory and bid simultaneously, which drives more competition and higher CPMs for you. You can read more about it [here](https://www.applovin.com/max-header-bidding).
+MAX features a unified auction, premium demand, and customization options allowing you to maximize revenue from in-app advertising. With support for 25+ ad networks and custom integrations, MAX makes it easy to drive higher CPMs and optimize your monetization strategy. 
+Learn [more about MAX](https://www.applovin.com/max/) on the AppLovin website.
 
-Please check out our [documentation](https://developers.applovin.com/en/ios/overview/integration) to get started on integrating and enabling mediated networks using our guides.
+This `AppLovin-MAX-SDK-iOS` repository contains:
+1. Example source code for using MAX
+2. Open source mediation adapters
 
-## Demo Apps
-To get started with the demo apps, follow the instructions below:
+## Examples
+### Demo App
+The [Swift Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift) and [Objective-C Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC) are sample projects demonstrating how to mediate ads using AppLovin MAX. To get started with the demo apps, follow the instructions below:
 
-1. Open a Terminal window in the directory of the desired project: `DemoApp-ObjC` or `DemoApp-Swift`.
+1. Open a Terminal window in the directory of the desired project: `AppLovin MAX Demo App - Swift` or `AppLovin MAX Demo App - ObjC`.
 2. Install the latest SDK with CocoaPods using `pod install --repo-update`.
 3. Open the newly generated Xcode workspace file using `YOUR_PROJECT_NAME.xcworkspace`.
 4. Update the `AppLovinSdkKey` value in the `Info.plist` file with the Applovin SDK key associated with your account.
 5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
 6. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
 
-<img src="https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/assets/144739628/f7317eea-ea0d-47ef-ade3-7ed0a7ca6493" width="300" height="700" />
+<img src="https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/assets/144739628/f7317eea-ea0d-47ef-ade3-7ed0a7ca6493" height="500" />
 
-## Error Codes
-| Code          | Description   |
-| ------------- |:-------------:|
-| -1            | Indicates an unspecified error with one of the mediated network SDKs. |
-| 204           | Indicates that no ads are currently eligible for your device. |
-| -1001         | Indicates that the ad request timed out (usually due to poor connectivity). |
-| -1009         | Indicates that the device is not connected to the internet (e.g. airplane mode). |
-| -5001         | Indicates that the ad failed to load due to various reasons (such as no networks being able to fill). |
-| -5201         | Indicates an internal state error with the AppLovin MAX SDK. |
+### Demo Ad Formats
+The Swift/Obj-C demo apps have examples of implementing the following ad formats.
+|   |   |   |
+|---|---|---|
+| App Open     | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/App%20Open%20Ads) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/App%20Open%20Ads) |
+| Banner       | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Banners) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Banners) |
+| Interstitial | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Interstitials) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Interstitials) |
+| MREC         | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/MRECs) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/MRECs) |
+| Native       | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Native%20Ads) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Native%20Ads) |
+| Rewarded     | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Rewarded) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Rewarded) |
 
-## Support
-We recommend using GitHub to file issues. For feature requests, improvements, questions or any other integration issues using MAX Mediation by AppLovin, contact us via our support page https://monetization-support.applovin.com/hc/en-us.
+
+
+## Mediation Adapters
+There are 25+ open source adapters mediating with the AppLovin SDK. A [list of adapters](https://www.applovin.com/partners/) are available on our AppLovin partners page, filtered by MAX monetization partner.
+
+## Getting Started
+Ready to get started? Refer to our [documentation](https://developers.applovin.com/en/ios/overview/integration) for step-by-step guides on integrating MAX and enabling mediated networks in your app.
+
+## GitHub Issue Tracker
+To file bugs, make feature requests, or suggest improvements for MAX, please use [GitHub's issue tracker](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues).
+
+For questions or further support, please contact us via our [AppLovin support page](https://monetization-support.applovin.com/hc/en-us).
+
+## License
+[AppLovin License](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/LICENSE.md)
