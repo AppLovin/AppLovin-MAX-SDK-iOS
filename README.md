@@ -45,6 +45,3 @@ Ready to get started? Refer to our [documentation](https://developers.applovin.c
 To file bugs, make feature requests, or suggest improvements for MAX, please use [GitHub's issue tracker](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues).
 
 For questions or further support, please contact us via our [AppLovin support page](https://monetization-support.applovin.com/hc/en-us).
-
-## License
-[AppLovin License](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/LICENSE.md)
