@@ -2,7 +2,7 @@
 
 Welcome to the AppLovin MAX SDK, your gateway to unlocking the full potential of in-app monetization.
 
-MAX features a unified auction, premium demand, and customization options allowing you to maximize revenue from in-app advertising. With support for 25+ ad networks and custom integrations, MAX makes it easy to drive higher CPMs and optimize your monetization strategy. 
+MAX features a unified auction, premium demand, and various ad formats allowing you to maximize revenue from in-app advertising. With support for 25+ ad networks and custom integrations, MAX makes it easy to drive higher CPMs and optimize your monetization strategy. 
 Learn [more about MAX](https://www.applovin.com/max/) on the AppLovin website.
 
 This `AppLovin-MAX-SDK-iOS` repository contains:
@@ -20,7 +20,7 @@ The [Swift Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/maste
 5. Update the bundle identifier with your own unique identifier associated with the application you will create (or already created, if it is an existing app) in the MAX dashboard.
 6. Update the unique MAX ad unit id value within the view controller code. Each ad format will correspond to a unique MAX ad unit ID you created in the Applovin dashboard for the bundle id used before.
 
-<img src="https://github.com/user-attachments/assets/b8f67b25-dfb8-4443-82dc-d57f1ecf2eeb" height="500" />
+<img src="https://github.com/user-attachments/assets/8021c2c9-e55f-4e1d-9763-c7382b4eedaa" height="500" />
 
 ### Demo Ad Formats
 The Swift/Obj-C demo apps have examples of implementing the following ad formats.
