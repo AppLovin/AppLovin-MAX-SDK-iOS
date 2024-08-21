@@ -23,14 +23,14 @@ The [Swift Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/maste
 
 ### Demo Ad Formats
 The Swift/Obj-C demo apps have examples of implementing the following ad formats.
-|   |   |   |
-|---|---|---|
-| App Open     | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/App%20Open%20Ads) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/App%20Open%20Ads) |
+| Ad Formats   | Swift | Obj-C |
+|--------------|-------|-------|
+| App Open     | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/App%20Open%20Ads/ALMAXAppOpenAdViewController.swift) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/App%20Open%20Ads/ALMAXAppOpenAdViewController.m) |
 | Banner       | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Banners) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Banners) |
-| Interstitial | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Interstitials) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Interstitials) |
+| Interstitial | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Interstitials/ALMAXInterstitialAdViewController.swift) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Interstitials/ALMAXInterstitialAdViewController.m) |
 | MREC         | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/MRECs) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/MRECs) |
 | Native       | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Native%20Ads) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Native%20Ads) |
-| Rewarded     | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Rewarded) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Rewarded) |
+| Rewarded     | [Swift](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/AppLovin%20MAX%20Demo%20App%20-%20Swift/AppLovin%20MAX%20Demo%20App%20-%20Swift/MAX/Rewarded/ALMAXRewardedAdViewController.swift) | [Obj-C](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/blob/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC/AppLovin%20MAX%20Demo%20App%20-%20ObjC/MAX/Rewarded/ALMAXRewardedAdViewController.m) |
 
 ## Mediation Adapters
 There are 25+ open source adapters mediating with the AppLovin SDK. A [list of adapters](https://www.applovin.com/partners/) are available on our AppLovin partners page, filtered by MAX monetization partner.
@@ -41,4 +41,4 @@ Ready to get started? Refer to our [documentation](https://developers.applovin.c
 ## GitHub Issue Tracker
 To file bugs, make feature requests, or suggest improvements for MAX, please use [GitHub's issue tracker](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues).
 
-For questions or further support, please contact us via our [AppLovin support page](https://monetization-support.applovin.com/hc/en-us).
+For questions or further support, please contact us via our [AppLovin support page](https://support.applovin.com/hc/en-us).
