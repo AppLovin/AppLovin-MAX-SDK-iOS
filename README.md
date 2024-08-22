@@ -1,6 +1,9 @@
 <div align="center">
   <a href="https://www.applovin.com/max/">
-    <img src="https://www.applovin.com/wp-content/uploads/2023/06/logo_home_products_max.svg" alt="MAX Logo" height="70"/>
+    <picture>
+      <source srcset="https://github.com/user-attachments/assets/7f699bf4-710e-44be-ac35-6cf55785797d" media="(prefers-color-scheme: dark)">
+      <img src="https://github.com/user-attachments/assets/5fe1ae3d-6620-45fa-aadc-f9fc16ed6d5e" alt="MAX Logo" height="70">
+    </picture>
   </a>
 </div>
 
