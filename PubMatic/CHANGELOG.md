@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.9.0.0
+* Certified with PubMatic SDK 3.9.0.
+
 ## 3.8.0.0
 * Certified with PubMatic SDK 3.8.0.
 * Changed event mapping for rewarded ad impressions to match other ad types.
