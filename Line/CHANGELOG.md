@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.20240827.0
+* Certified with Line SDK 2.8.20240827.
+
 ## 2.8.20240612.0
 * Certified with Line SDK 2.8.20240612.
 * Updated deprecated API usages.
