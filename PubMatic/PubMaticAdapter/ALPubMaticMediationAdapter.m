@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"3.9.0.0"
+#define ADAPTER_VERSION @"3.9.0.1"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -257,7 +257,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
     if ( isAgeRestrictedUser != nil )
     {
-        [OpenWrapSDK setCoppaEnabled: isAgeRestrictedUser];
+        [OpenWrapSDK setCoppaEnabled: isAgeRestrictedUser.boolValue];
     }
 }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.3.2.0
+* Certified with Fyber SDK 8.3.2.
+
 ## 8.3.1.1
 * Remove String validation for signal.
 * Remove calling `didFailToDisplayRewardedAdWithError:` in the `IAVideoContentController :videoInterruptedWithError:` callback which occurs when the ad video is buffering.

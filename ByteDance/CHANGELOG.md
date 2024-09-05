@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0.7.0
+* Certified with ByteDance SDK 6.2.0.7.
+
+## 6.2.0.6.0
+* Certified with ByteDance SDK 6.2.0.6.
+
 ## 6.2.0.5.0
 * Certified with ByteDance SDK 6.2.0.5.
 * Updated minimum iOS version to 12.0 to match ByteDance SDK.
