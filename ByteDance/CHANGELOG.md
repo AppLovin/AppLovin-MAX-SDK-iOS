@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.2.0.7.1
+* Downgrade ByteDance SDK to 6.2.0.6 because `Ads-Global 6.2.0.7` Pod was deleted.
+
 ## 6.2.0.7.0
 * Certified with ByteDance SDK 6.2.0.7.
 
