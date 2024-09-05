@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"8.2.0.0.0"
+#define ADAPTER_VERSION @"8.3.0.0.0"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -96,10 +96,7 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
             [IronSource setLogDelegate: self.router];
         }
         
-        if ( [parameters.serverParameters al_numberForKey: @"set_mediation_identifier"].boolValue )
-        {
-            [IronSource setMediationType: self.mediationTag];
-        }
+        [IronSource setMediationType: [NSString stringWithFormat:@"MAX%luSDK%lu", self.adapterVersionCode, ALSdk.versionCode]];
         
         [self setPrivacySettingsWithParameters: parameters];
         
@@ -159,6 +156,32 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
 - (NSString *)adapterVersion
 {
     return ADAPTER_VERSION;
+}
+
+- (NSUInteger)adapterVersionCode
+{
+    NSString *simplifiedVersionString = [self.adapterVersion stringByReplacingOccurrencesOfString: @"[^0-9.]+"
+                                                                                       withString: @""
+                                                                                          options: NSRegularExpressionSearch
+                                                                                            range: NSMakeRange(0, self.adapterVersion.length)];
+    NSArray<NSString *> *versionNums = [simplifiedVersionString componentsSeparatedByString: @"."];
+    
+    NSUInteger versionCode = 0;
+    for ( NSString *num in versionNums )
+    {
+        versionCode *= 100;
+        
+        if ( versionCode != 0 && num.length > 2 )
+        {
+            versionCode += [num substringToIndex: 2].intValue;
+        }
+        else
+        {
+            versionCode += num.intValue;
+        }
+    }
+    
+    return versionCode;
 }
 
 - (void)destroy
