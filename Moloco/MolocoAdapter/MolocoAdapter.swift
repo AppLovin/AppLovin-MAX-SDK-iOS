@@ -36,7 +36,7 @@ final class MolocoAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Moloco" }
     
-    override var adapterVersion: String { "3.1.2.0" }
+    override var adapterVersion: String { "3.1.3.0" }
     
     override var sdkVersion: String { Moloco.shared.sdkVersion }
     
