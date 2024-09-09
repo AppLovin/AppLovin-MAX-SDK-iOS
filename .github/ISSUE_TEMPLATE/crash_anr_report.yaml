@@ -19,12 +19,12 @@ body:
       placeholder: "e.g., iOS 15, iPhone X, etc."
     validations:
       required: true
-  - type: textarea
+  - type: input
     attributes:
       label: "Crashes per Day"
     validations:
       required: true
-  - type: textarea
+  - type: input
     attributes:
       label: "Percentage of Users Affected"
     validations:
