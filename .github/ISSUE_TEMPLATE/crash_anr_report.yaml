@@ -1,4 +1,4 @@
-name: Crash/ANR Report
+name: Crash Report
 description: Report a problem
 labels: [bug]
 body:
@@ -22,11 +22,13 @@ body:
   - type: input
     attributes:
       label: "Crashes per Day"
+      description: "What is the number of crashes per day?"
     validations:
       required: true
   - type: input
     attributes:
       label: "Percentage of Users Affected"
+      description: "What percentage of the total number of users is experiencing the crash?"
     validations:
       required: true
   - type: textarea

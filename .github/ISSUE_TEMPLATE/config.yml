@@ -1,7 +1,7 @@
 blank_issues_enabled: true
 contact_links:
   - name: Documentation
-    url: https://developers.applovin.com
+    url: https://developers.applovin.com/en/max/ios/overview/integration
     about: Documentation for the AppLovin MAX SDK for iOS
   - name: Support
     url: https://developers.applovin.com
