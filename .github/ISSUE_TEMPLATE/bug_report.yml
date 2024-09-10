@@ -39,7 +39,6 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: version
     attributes:
       label: "Reproducible on demo app"
       description: Please try and reproduce the issue in the [demo app](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS)
