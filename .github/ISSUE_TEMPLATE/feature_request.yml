@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        *Before reporting, search our [existing issues](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues?q=is%3Aissue) and [changelog](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/releases) to see if the issue has already been addressed.*
+        *Before requesting, search our [existing issues](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/issues?q=is%3Aissue) and [changelog](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/releases) to see if the feature has already been addressed.*
   - type: textarea
     attributes:
       label: "Feature Description"
