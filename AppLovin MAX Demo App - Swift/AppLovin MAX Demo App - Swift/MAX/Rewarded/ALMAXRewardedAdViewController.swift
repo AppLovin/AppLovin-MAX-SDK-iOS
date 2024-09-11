@@ -82,10 +82,6 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
     
     // MARK: MARewardedAdDelegate Protocol
     
-    func didStartRewardedVideo(for ad: MAAd) { logCallback() }
-    
-    func didCompleteRewardedVideo(for ad: MAAd) { logCallback() }
-    
     func didRewardUser(for ad: MAAd, with reward: MAReward)
     {
         // Rewarded ad was displayed and user should receive the reward
