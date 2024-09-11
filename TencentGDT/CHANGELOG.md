@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.15.02.0
+* Certified with TencentGDT SDK 4.15.02.
+
 ## 4.15.00.0
 * Certified with TencentGDT SDK 4.15.00.
 
