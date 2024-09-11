@@ -29,7 +29,7 @@ body:
   - type: input
     attributes:
       label: "Percentage of Users Affected"
-      description: "What percentage of the total number of users is experiencing the crash?"
+      description: "What percentage of users are experiencing the crash?"
     validations:
       required: true
   - type: textarea
