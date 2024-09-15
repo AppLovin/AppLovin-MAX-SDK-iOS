@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"11.9.0.0"
+#define ADAPTER_VERSION @"11.9.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -204,7 +204,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     [self log: @"Loading interstitial ad: %@...", placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GAMInterstitialAd loadWithAdManagerAdUnitID: placementIdentifier
@@ -290,7 +289,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     [self log: @"Loading app open ad: %@...", placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GADAppOpenAd loadWithAdUnitID: placementIdentifier
@@ -370,7 +368,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     [self log: @"Loading rewarded interstitial ad: %@...", placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GADRewardedInterstitialAd loadWithAdUnitID: placementIdentifier
@@ -462,7 +459,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     [self log: @"Loading rewarded ad: %@...", placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GADRewardedAd loadWithAdUnitID: placementIdentifier
@@ -545,7 +541,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
     [self log: @"Loading %@%@ ad: %@...", ( isNative ? @"native " : @"" ), adFormat.label, placementIdentifier];
     
-    [self setRequestConfigurationWithParameters: parameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
     if ( isNative )
@@ -598,7 +593,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading native ad: %@...", placementIdentifier];
     
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
     GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
@@ -709,7 +703,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 {
     CGFloat bannerWidth = [self adaptiveBannerWidthFromParameters: parameters];
     __block GADAdSize adSize;
-
+    
     if ( [self isInlineAdaptiveBannerFromParameters: parameters] )
     {
         CGFloat inlineMaxHeight = [self inlineAdaptiveBannerMaxHeightFromParameters: parameters];
@@ -749,13 +743,10 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (CGFloat)adaptiveBannerWidthFromParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( ALSdk.versionCode >= 11000000 )
+    NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
+    if ( customWidth != nil )
     {
-        NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
-        if ( customWidth != nil )
-        {
-            return customWidth.floatValue;
-        }
+        return customWidth.floatValue;
     }
     
     UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
@@ -763,11 +754,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     CGRect frame = UIEdgeInsetsInsetRect(window.frame, window.safeAreaInsets);
     
     return CGRectGetWidth(frame);
-}
-
-- (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
-{
-    [GADMobileAds sharedInstance].requestConfiguration.tagForChildDirectedTreatment = [parameters isAgeRestrictedUser];
 }
 
 - (GAMRequest *)createAdRequestWithParameters:(id<MAAdapterParameters>)parameters
@@ -807,39 +793,36 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"gad_rdp"];
     }
     
-    if ( ALSdk.versionCode >= 11000000 )
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    
+    NSString *maxAdContentRating = [localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
+    if ( [maxAdContentRating al_isValidString] )
     {
-        NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
-        
-        NSString *maxAdContentRating = [localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
-        if ( [maxAdContentRating al_isValidString] )
-        {
-            extraParameters[@"max_ad_content_rating"] = maxAdContentRating;
-        }
-        
-        NSString *contentURL = [localExtraParameters al_stringForKey: @"google_content_url"];
-        if ( [contentURL al_isValidString] )
-        {
-            request.contentURL = contentURL;
-        }
-        
-        NSArray *neighbouringContentURLStrings = [localExtraParameters al_arrayForKey: @"google_neighbouring_content_url_strings"];
-        if ( neighbouringContentURLStrings )
-        {
-            request.neighboringContentURLStrings = neighbouringContentURLStrings;
-        }
-        
-        NSString *publisherProvidedId = [localExtraParameters al_stringForKey: @"ppid"];
-        if ( [publisherProvidedId al_isValidString] )
-        {
-            request.publisherProvidedID = publisherProvidedId;
-        }
-        
-        NSDictionary<NSString *, NSString *> *customTargetingData = [localExtraParameters al_dictionaryForKey: @"custom_targeting"];
-        if ( customTargetingData )
-        {
-            request.customTargeting = customTargetingData;
-        }
+        extraParameters[@"max_ad_content_rating"] = maxAdContentRating;
+    }
+    
+    NSString *contentURL = [localExtraParameters al_stringForKey: @"google_content_url"];
+    if ( [contentURL al_isValidString] )
+    {
+        request.contentURL = contentURL;
+    }
+    
+    NSArray *neighbouringContentURLStrings = [localExtraParameters al_arrayForKey: @"google_neighbouring_content_url_strings"];
+    if ( neighbouringContentURLStrings )
+    {
+        request.neighboringContentURLStrings = neighbouringContentURLStrings;
+    }
+    
+    NSString *publisherProvidedId = [localExtraParameters al_stringForKey: @"ppid"];
+    if ( [publisherProvidedId al_isValidString] )
+    {
+        request.publisherProvidedID = publisherProvidedId;
+    }
+    
+    NSDictionary<NSString *, NSString *> *customTargetingData = [localExtraParameters al_dictionaryForKey: @"custom_targeting"];
+    if ( customTargetingData )
+    {
+        request.customTargeting = customTargetingData;
     }
     
     extras.additionalParameters = extraParameters;
@@ -875,16 +858,10 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 - (NSInteger)adChoicesPlacementFromParameters:(id<MAAdapterParameters>)parameters
 {
     // Publishers can set via nativeAdLoader.setLocalExtraParameterForKey("gam_ad_choices_placement", value: Int)
-    // Note: This feature requires AppLovin v11.0.0+
-    if ( ALSdk.versionCode >= 11000000 )
-    {
-        NSDictionary<NSString *, id> *localExtraParams = parameters.localExtraParameters;
-        id adChoicesPlacementObj = localExtraParams ? localExtraParams[@"gam_ad_choices_placement"] : nil;
-        
-        return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
-    }
+    NSDictionary<NSString *, id> *localExtraParams = parameters.localExtraParameters;
+    id adChoicesPlacementObj = localExtraParams ? localExtraParams[@"gam_ad_choices_placement"] : nil;
     
-    return GADAdChoicesPositionTopRightCorner;
+    return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
 }
 
 - (BOOL)isValidAdChoicesPlacement:(id)placementObj
@@ -1454,13 +1431,13 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         {
             [builder performSelector: @selector(setMainImage:) withObject: mainImage];
         }
-
+        
         // Introduced in 11.4.0
         if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
         {
             [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
         }
-
+        
         // Introduced in 11.7.0
         if ( [builder respondsToSelector: @selector(setStarRating:)] )
         {
@@ -1519,11 +1496,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         self.gadNativeAdViewTag = gadNativeAdViewTag;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    [self prepareForInteractionClickableViews: @[] withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
