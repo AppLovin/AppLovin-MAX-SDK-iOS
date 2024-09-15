@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"11.9.0.0"
+#define ADAPTER_VERSION @"11.9.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -63,9 +63,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     if ( [ALGoogleInitialized compareAndSet: NO update: YES] )
     {
         ALGoogleInitializatationStatus = MAAdapterInitializationStatusInitializing;
-        
-        // Ads may be preloaded by the Mobile Ads SDK or mediation partner SDKs upon calling startWithCompletionHandler:. So set request configuration with parameters (like consent)
-        [self setRequestConfigurationWithParameters: parameters];
         
         // Prevent AdMob SDK from auto-initing its adapters in AB testing environments.
         // NOTE: If MAX makes an ad request to AdMob, and the AdMob account has AL enabled (e.g. AppLovin Bidding) _and_ detects the AdMob<->AppLovin adapter, AdMob will still attempt to initialize AppLovin
@@ -144,7 +141,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *adRequest = [self createAdRequestForBiddingAd: YES
                                                      adFormat: parameters.adFormat
                                                withParameters: parameters];
@@ -184,7 +180,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     [self log: @"Loading %@interstitial ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
                                                    adFormat: MAAdFormat.interstitial
                                              withParameters: parameters];
@@ -266,7 +261,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     [self log: @"Loading %@app open %@ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), ( isInterstitial ? @"interstitial " : @"" ), placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     
     if ( isInterstitial )
     {
@@ -397,7 +391,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     [self log: @"Loading %@rewarded interstitial ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
                                                    adFormat: MAAdFormat.rewardedInterstitial
                                              withParameters: parameters];
@@ -482,7 +475,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     [self log: @"Loading %@rewarded ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
                                                    adFormat: MAAdFormat.rewarded
                                              withParameters: parameters];
@@ -569,7 +561,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
     [self log: @"Loading %@%@%@ ad: %@...", ( isBiddingAd ? @"bidding " : @""), ( isNative ? @"native " : @"" ), adFormat.label, placementIdentifier];
     
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
                                                    adFormat: adFormat
                                              withParameters: parameters];
@@ -626,7 +617,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     [self log: @"Loading %@native ad: %@...", ( isBiddingAd ? @"bidding " : @""), placementIdentifier];
     
-    [self setRequestConfigurationWithParameters: parameters];
     GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
                                                    adFormat: MAAdFormat.native
                                              withParameters: parameters];
@@ -739,7 +729,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 {
     CGFloat bannerWidth = [self adaptiveBannerWidthFromParameters: parameters];
     __block GADAdSize adSize;
-
+    
     if ( [self isInlineAdaptiveBannerFromParameters: parameters] )
     {
         CGFloat inlineMaxHeight = [self inlineAdaptiveBannerMaxHeightFromParameters: parameters];
@@ -779,13 +769,10 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (CGFloat)adaptiveBannerWidthFromParameters:(id<MAAdapterParameters>)parameters
 {
-    if ( ALSdk.versionCode >= 11000000 )
+    NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
+    if ( customWidth != nil )
     {
-        NSNumber *customWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
-        if ( customWidth != nil )
-        {
-            return customWidth.floatValue;
-        }
+        return customWidth.floatValue;
     }
     
     UIViewController *viewController = [ALUtils topViewControllerFromKeyWindow];
@@ -830,11 +817,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     return -1;
 }
 
-- (void)setRequestConfigurationWithParameters:(id<MAAdapterParameters>)parameters
-{
-    [GADMobileAds sharedInstance].requestConfiguration.tagForChildDirectedTreatment = [parameters isAgeRestrictedUser];
-}
-
 - (GADRequest *)createAdRequestForBiddingAd:(BOOL)isBiddingAd
                                    adFormat:(MAAdFormat *)adFormat
                              withParameters:(id<MAAdapterParameters>)parameters
@@ -855,7 +837,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         // Requested by Google for signal collection
         extraParameters[@"query_info_type"] = isDv360Bidding ? @"requester_type_3" : @"requester_type_2";
         
-        if ( ALSdk.versionCode >= 11000000 && [adFormat isAdViewAd] )
+        if ( [adFormat isAdViewAd] )
         {
             BOOL isAdaptiveBanner = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
             if ( isAdaptiveBanner )
@@ -909,27 +891,24 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"gad_rdp"];
     }
     
-    if ( ALSdk.versionCode >= 11000000 )
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    
+    NSString *maxAdContentRating = [localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
+    if ( [maxAdContentRating al_isValidString] )
     {
-        NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
-        
-        NSString *maxAdContentRating = [localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
-        if ( [maxAdContentRating al_isValidString] )
-        {
-            extraParameters[@"max_ad_content_rating"] = maxAdContentRating;
-        }
-        
-        NSString *contentURL = [localExtraParameters al_stringForKey: @"google_content_url"];
-        if ( [contentURL al_isValidString] )
-        {
-            request.contentURL = contentURL;
-        }
-        
-        NSArray *neighbouringContentURLStrings = [localExtraParameters al_arrayForKey: @"google_neighbouring_content_url_strings"];
-        if ( neighbouringContentURLStrings )
-        {
-            request.neighboringContentURLStrings = neighbouringContentURLStrings;
-        }
+        extraParameters[@"max_ad_content_rating"] = maxAdContentRating;
+    }
+    
+    NSString *contentURL = [localExtraParameters al_stringForKey: @"google_content_url"];
+    if ( [contentURL al_isValidString] )
+    {
+        request.contentURL = contentURL;
+    }
+    
+    NSArray *neighbouringContentURLStrings = [localExtraParameters al_arrayForKey: @"google_neighbouring_content_url_strings"];
+    if ( neighbouringContentURLStrings )
+    {
+        request.neighboringContentURLStrings = neighbouringContentURLStrings;
     }
     
     GADExtras *extras = [[GADExtras alloc] init];
@@ -966,16 +945,10 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 - (NSInteger)adChoicesPlacementFromParameters:(id<MAAdapterParameters>)parameters
 {
     // Publishers can set via nativeAdLoader.setLocalExtraParameterForKey("admob_ad_choices_placement", value: Int)
-    // Note: This feature requires AppLovin v11.0.0+
-    if ( ALSdk.versionCode >= 11000000 )
-    {
-        NSDictionary<NSString *, id> *localExtraParams = parameters.localExtraParameters;
-        id adChoicesPlacementObj = localExtraParams ? localExtraParams[@"admob_ad_choices_placement"] : nil;
-        
-        return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
-    }
+    NSDictionary<NSString *, id> *localExtraParams = parameters.localExtraParameters;
+    id adChoicesPlacementObj = localExtraParams ? localExtraParams[@"admob_ad_choices_placement"] : nil;
     
-    return GADAdChoicesPositionTopRightCorner;
+    return [self isValidAdChoicesPlacement: adChoicesPlacementObj] ? ((NSNumber *) adChoicesPlacementObj).integerValue : GADAdChoicesPositionTopRightCorner;
 }
 
 - (BOOL)isValidAdChoicesPlacement:(id)placementObj

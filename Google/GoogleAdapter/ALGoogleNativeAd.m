@@ -40,11 +40,6 @@
     return self;
 }
 
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    [self prepareForInteractionClickableViews: @[] withContainer: maxNativeAdView];
-}
-
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
 {
     GADNativeAd *nativeAd = self.parentAdapter.nativeAd;
