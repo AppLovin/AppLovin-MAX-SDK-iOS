@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.2.0"
+#define ADAPTER_VERSION @"8.3.2.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -435,16 +435,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     else
     {
         [[IASDKCore sharedInstance] setCCPAString: @"1---"];
-    }
-    
-    NSNumber *isAgeRestrictedUser = [requestParameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        [[IASDKCore sharedInstance] setCoppaApplies: isAgeRestrictedUser.boolValue ? IACoppaAppliesTypeGiven : IACoppaAppliesTypeDenied];
-    }
-    else
-    {
-        [[IASDKCore sharedInstance] setCoppaApplies: IACoppaAppliesTypeUnknown];
     }
 }
 
