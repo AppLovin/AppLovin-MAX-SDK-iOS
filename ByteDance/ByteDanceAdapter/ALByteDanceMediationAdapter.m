@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"6.2.0.7.1"
+#define ADAPTER_VERSION @"6.2.0.7.2"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -694,12 +694,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         configuration.GDPRConsent = hasUserConsent.boolValue ? PAGGDPRConsentTypeConsent : PAGGDPRConsentTypeNoConsent;
     }
     
-    NSNumber *isAgeRestrictedUser = parameters.isAgeRestrictedUser;
-    if ( isAgeRestrictedUser != nil )
-    {
-        configuration.childDirected = isAgeRestrictedUser.boolValue ? PAGChildDirectedTypeChild : PAGChildDirectedTypeNonChild;
-    }
-    
     NSNumber *isDoNotSell = parameters.isDoNotSell;
     if ( isDoNotSell != nil )
     {
@@ -1105,38 +1099,18 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     return self;
 }
 
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(MANativeAdView *)container
 {
     PAGLNativeAd *nativeAd = self.parentAdapter.nativeAd;
     if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
-        return;
+        return NO;
     }
     
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
+    [nativeAd registerContainer: container withClickableViews: clickableViews];
     
-    [nativeAd registerContainer: maxNativeAdView withClickableViews: clickableViews];
+    return YES;
 }
 
 @end
