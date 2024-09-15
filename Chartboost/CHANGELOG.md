@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.7.0.2
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
 ## 9.7.0.1
 * Add bidding support for banners, leaders, MRECs, interstitial and rewarded ads.
 * Add COPPA support.
