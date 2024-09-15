@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.15.2.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
 ## 6.15.2.0
 * Certified with Facebook SDK 6.15.2.
 * Updated minimum Xcode requirement to 15.3 to match Facebook SDK.

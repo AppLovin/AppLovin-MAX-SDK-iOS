@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.15.2.0"
+#define ADAPTER_VERSION @"6.15.2.1"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -453,12 +453,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // FBAdSettings is apparently not thread-safe on iOS - and may occassionally crash :/
     @synchronized ( ALFBAdSettingsLock )
     {
-        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-        if ( isAgeRestrictedUser != nil )
-        {
-            FBAdSettings.mixedAudience = isAgeRestrictedUser.boolValue;
-        }
-        
         NSString *testDevicesString = parameters.serverParameters[@"test_device_ids"];
         if ( [testDevicesString al_isValidString] )
         {
@@ -957,11 +951,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         if ( [templateName containsString: @"vertical"] )
         {
-            if ( ALSdk.versionCode < 6140500 )
-            {
-                [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-            }
-            
             if ( [templateName isEqualToString: @"vertical"] )
             {
                 NSString *verticalTemplateName = ( self.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
@@ -971,10 +960,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             {
                 maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
             }
-        }
-        else if ( ALSdk.versionCode < 6140500 )
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: [templateName al_isValidString] ? templateName : @"no_body_banner_template"];
         }
         else
         {
@@ -995,20 +980,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         {
             [clickableViews addObject: maxNativeAdView.callToActionButton];
         }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ( maxNativeAd.iconView && maxNativeAdView.iconContentView )
+        if ( maxNativeAd.iconView )
         {
-            [clickableViews addObject: maxNativeAdView.iconContentView];
+            [clickableViews addObject: maxNativeAd.iconView];
         }
-#pragma clang diagnostic pop
         if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
         {
             [clickableViews addObject: maxNativeAdView.mediaContentView];
         }
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
         // Introduced in 10.4.0
         if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
         {
@@ -1019,7 +999,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
                 [clickableViews addObject: advertiserLabel];
             }
         }
-#pragma clang diagnostic pop
         
         [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
                                                       mediaView: mediaView
@@ -1153,47 +1132,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         self.parentAdapter = parentAdapter;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    // Introduced in 10.4.0
-    if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
-    {
-        id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
-        id advertiser = [self performSelector: @selector(advertiser)];
-        if ( [advertiser al_isValidString] && advertiserLabel )
-        {
-            [clickableViews addObject: advertiserLabel];
-        }
-    }
-#pragma clang diagnostic pop
-    
-    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
