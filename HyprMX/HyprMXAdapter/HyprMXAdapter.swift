@@ -29,7 +29,7 @@ final class HyprMXAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "HyprMX" }
     
-    override var adapterVersion: String { "6.4.1.0.0" }
+    override var adapterVersion: String { "6.4.1.0.1" }
 
     override var sdkVersion: String { HyprMX.versionString() }
 
@@ -100,11 +100,6 @@ final class HyprMXAdapter: ALMediationAdapter
     {
         // NOTE: HyprMX requested to always set GDPR regardless of region.
         HyprMX.setConsentStatus(consentStatus(for: parameters))
-
-        if let isAgeRestrictedUser = parameters.ageRestrictedUser
-        {
-            HyprMX.setAgeRestrictedUser(isAgeRestrictedUser.boolValue)
-        }
         
         // NOTE: HyprMX deals with CCPA via their UI
     }
