@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"3.0.0.0.0"
+#define ADAPTER_VERSION @"3.0.0.0.1"
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -533,12 +533,6 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [BidMachineSdk.shared.regulationInfo populate:^(id<BidMachineRegulationInfoBuilderProtocol> builder) {
         regulationBuilder = builder;
     }];
-    
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        [regulationBuilder withCOPPA: isAgeRestrictedUser.boolValue];
-    }
     
     if ( ALSdk.versionCode >= 11040299 )
     {
@@ -1100,33 +1094,6 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         self.parameters = parameters;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
-    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(MANativeAdView *)container
