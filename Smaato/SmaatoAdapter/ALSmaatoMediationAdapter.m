@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.8.4.0"
+#define ADAPTER_VERSION @"22.8.4.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -109,7 +109,6 @@
         [self log: @"Initializing Smaato SDK with publisher id: %@...", pubID];
         
         [self removeUnsupportedUserConsent];
-        [self updateAgeRestrictedUser: parameters];
         
         // NOTE: This does not work atm
         [self updateLocationCollectionEnabled: parameters];
@@ -162,7 +161,6 @@
 {
     [self log: @"Collecting signal..."];
     
-    [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
     NSString *signal = [SmaatoSDK collectSignals];
@@ -181,7 +179,6 @@
     self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@%@%@ ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), ( isNative ? @"native " : @"" ), adFormat.label, self.placementIdentifier];
     
-    [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
     if ( isNative )
@@ -252,7 +249,6 @@
     self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@interstitial ad for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), self.placementIdentifier];
     
-    [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
     [self.router addInterstitialAdapter: self
@@ -332,7 +328,6 @@
     self.placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@rewarded ad for placement: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), self.placementIdentifier];
     
-    [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
     [self.router addRewardedAdapter: self
@@ -415,7 +410,6 @@
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@ad: %@...", ( [bidResponse al_isValidString] ? @"bidding " : @"" ), placementIdentifier];
     
-    [self updateAgeRestrictedUser: parameters];
     [self updateLocationCollectionEnabled: parameters];
     
     SMANativeAdRequest *nativeAdRequest = [[SMANativeAdRequest alloc] initWithAdSpaceId: placementIdentifier];
@@ -467,25 +461,13 @@
 // TODO: Add local params support on init
 - (void)updateLocationCollectionEnabled:(id<MAAdapterParameters>)parameters
 {
-    if ( ALSdk.versionCode >= 11000000 )
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
+    if ( isLocationCollectionEnabled != nil )
     {
-        NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
-        NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
-        if ( isLocationCollectionEnabled != nil )
-        {
-            [self log: @"Setting location collection enabled: %@", isLocationCollectionEnabled];
-            // NOTE: According to docs - this is disabled by default
-            SmaatoSDK.gpsEnabled = isLocationCollectionEnabled.boolValue;
-        }
-    }
-}
-
-- (void)updateAgeRestrictedUser:(id<MAAdapterParameters>)parameters
-{
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        SmaatoSDK.requireCoppaCompliantAds = isAgeRestrictedUser.boolValue;
+        [self log: @"Setting location collection enabled: %@", isLocationCollectionEnabled];
+        // NOTE: According to docs - this is disabled by default
+        SmaatoSDK.gpsEnabled = isLocationCollectionEnabled.boolValue;
     }
 }
 
@@ -1139,12 +1121,6 @@
         self.parentAdapter = parentAdapter;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    NSArray<UIView *> *clickableViews = [ALSmaatoMediationAdapter clickableViewsForNativeAd: self nativeAdView: maxNativeAdView];
-    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container

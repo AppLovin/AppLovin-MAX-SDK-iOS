@@ -1,5 +1,10 @@
 # Changelog
 
+## 22.8.4.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
 ## 22.8.4.0
 * Certified with Smaato SDK 22.8.4.
 * Remove deprecated callbacks `didStartRewardedAdVideo`, `didCompleteRewardedAdVideo`.
