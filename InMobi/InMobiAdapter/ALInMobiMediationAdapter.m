@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.7.5.0"
+#define ADAPTER_VERSION @"10.7.5.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -453,16 +453,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
 {
-    NSMutableDictionary *extras = [@{@"tp"     : @"c_applovin",
-                                     @"tp-ver" : [ALSdk version]} mutableCopy];
-    
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        [extras setObject: isAgeRestrictedUser forKey: @"coppa"];
-    }
-    
-    return extras;
+    return @{@"tp"     : @"c_applovin",
+             @"tp-ver" : [ALSdk version]};   
 }
 
 - (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
@@ -1141,11 +1133,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return self;
 }
 
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    [self prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
-}
-
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
 {
     IMNative *nativeAd = self.parentAdapter.nativeAd;
@@ -1184,8 +1171,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)clickNativeView
 {
-    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];
-    
+    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];    
     [self.parentAdapter.nativeAd reportAdClickAndOpenLandingPage];
 }
 

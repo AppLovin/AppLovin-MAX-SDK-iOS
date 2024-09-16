@@ -1,5 +1,10 @@
 # Changelog
 
+## 10.7.5.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
 ## 10.7.5.0
 * Certified with InMobi SDK 10.7.5.
 
