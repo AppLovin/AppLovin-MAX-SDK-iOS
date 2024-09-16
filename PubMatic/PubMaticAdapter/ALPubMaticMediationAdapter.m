@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"3.9.0.1"
+#define ADAPTER_VERSION @"3.9.0.2"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -130,8 +130,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 {
     [self log: @"Collecting signal..."];
     
-    [self updateAdSettingsWithParameters: parameters];
-
     POBAdFormat adFormat = [self POBAdFormatFromAdFormat: parameters.adFormat];
     POBSignalConfig *signalConfig = [[POBSignalConfig alloc] initWithAdFormat: adFormat];
     NSString *bidToken = [POBSignalGenerator generateSignalForBiddingHost: POBSDKBiddingHostALMAX
@@ -150,8 +148,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     
     [self log: @"Loading interstitial ad: %@...", adUnitId];
     
-    [self updateAdSettingsWithParameters: parameters];
-
     self.interstitialAdDelegate = [[ALPubMaticMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self
                                                                                                       andNotify: delegate];
     self.interstitialAd = [[POBInterstitial alloc] initWithPublisherId: publisherId
@@ -190,8 +186,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     
     [self log: @"Loading rewarded ad: %@...", adUnitId];
     
-    [self updateAdSettingsWithParameters: parameters];
-
     self.rewardedAdDelegate = [[ALPubMaticMediationAdapterRewardedDelegate alloc] initWithParentAdapter: self
                                                                                               andNotify: delegate];
     self.rewardedAd = [POBRewardedAd rewardedAdWithPublisherId: publisherId
@@ -235,8 +229,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     
     [self log: @"Loading %@ ad: %@...", adFormat.label, adUnitId];
     
-    [self updateAdSettingsWithParameters: parameters];
-
     self.adViewDelegate = [[ALPubMaticMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
                                                                                            format: adFormat
                                                                                         andNotify: delegate];
@@ -251,15 +243,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 }
 
 #pragma mark - Shared Methods
-
-- (void)updateAdSettingsWithParameters:(id<MAAdapterParameters>)parameters
-{
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        [OpenWrapSDK setCoppaEnabled: isAgeRestrictedUser.boolValue];
-    }
-}
 
 - (NSString *)publisherIdFromParameters:(id<MAAdapterParameters>)parameters
 {

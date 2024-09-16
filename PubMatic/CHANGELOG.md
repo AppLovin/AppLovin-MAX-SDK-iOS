@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.0.2
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
 ## 3.9.0.1
 * Add support for COPPA.
 
