@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.4.1.0"
+#define ADAPTER_VERSION @"7.4.1.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -459,12 +459,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     {
         [VunglePrivacySettings setGDPRStatus: hasUserConsent.boolValue];
         [VunglePrivacySettings setGDPRMessageVersion: @""];
-    }
-    
-    NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        [VunglePrivacySettings setCOPPAStatus: isAgeRestrictedUser.boolValue];
     }
     
     NSNumber *isDoNotSell = [parameters isDoNotSell];
@@ -1195,11 +1189,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         self.parentAdapter = parentAdapter;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    [self prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
