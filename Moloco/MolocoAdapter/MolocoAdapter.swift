@@ -36,7 +36,7 @@ final class MolocoAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Moloco" }
     
-    override var adapterVersion: String { "3.1.3.0" }
+    override var adapterVersion: String { "3.1.3.1" }
     
     override var sdkVersion: String { Moloco.shared.sdkVersion }
     
@@ -110,11 +110,6 @@ final class MolocoAdapter: ALMediationAdapter
         if let userConsent = parameters.userConsent
         {
             MolocoPrivacySettings.hasUserConsent = userConsent.boolValue
-        }
-        
-        if let isAgeRestrictedUser = parameters.ageRestrictedUser
-        {
-            MolocoPrivacySettings.isAgeRestrictedUser = isAgeRestrictedUser.boolValue
         }
         
         if let isDoNotSell = parameters.doNotSell
