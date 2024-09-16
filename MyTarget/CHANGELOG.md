@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.21.7.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
 ## 5.21.7.0
 * Certified with MyTarget SDK 5.21.7.
 
