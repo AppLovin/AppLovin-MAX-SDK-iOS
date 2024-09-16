@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"3.0.4.0"
+#define ADAPTER_VERSION @"3.0.4.1"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -280,15 +280,12 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 
 - (void)updateLocationCollectionEnabled:(id<MAAdapterParameters>)parameters
 {
-    if ( ALSdk.versionCode >= 11000000 )
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
+    if ( isLocationCollectionEnabled != nil )
     {
-        NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
-        NSNumber *isLocationCollectionEnabled = [localExtraParameters al_numberForKey: @"is_location_collection_enabled"];
-        if ( isLocationCollectionEnabled != nil )
-        {
-            // NOTE: iOS disables by defualt, whereas Android enables by default
-            [HyBid setLocationUpdates: isLocationCollectionEnabled.boolValue];
-        }
+        // NOTE: iOS disables by defualt, whereas Android enables by default
+        [HyBid setLocationUpdates: isLocationCollectionEnabled.boolValue];
     }
 }
 
@@ -315,12 +312,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         {
             [[HyBidUserDataManager sharedInstance] setIABGDPRConsentString: @"1"];
         }
-    }
-    
-    NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;
-    if ( isAgeRestrictedUser != nil )
-    {
-        [HyBid setCoppa: isAgeRestrictedUser.boolValue];
     }
     
     NSString *verveUSPrivacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
