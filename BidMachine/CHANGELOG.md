@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.1.0.0
+* Certified with BidMachine SDK 3.0.1.
+
 ## 3.0.0.0.1
 * Add AppLovin MAX SDK version 13.0.0+ as a CocoaPods dependency.
 * Removed COPPA support.
