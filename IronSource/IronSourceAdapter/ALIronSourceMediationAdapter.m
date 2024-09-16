@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"8.3.0.0.0"
+#define ADAPTER_VERSION @"8.3.0.0.1"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -105,12 +105,6 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
         {
             // NOTE: `setMetaData` must be called _before_ initializing their SDK
             [IronSource setMetaDataWithKey: @"do_not_sell" value: isDoNotSell.boolValue ? @"YES" : @"NO"];
-        }
-        
-        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-        if ( isAgeRestrictedUser != nil )
-        {
-            [IronSource setMetaDataWithKey: @"is_child_directed" value: isAgeRestrictedUser.boolValue ? @"YES" : @"NO"];
         }
         
         [self updateIronSourceDelegates];
