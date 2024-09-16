@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.7.2.0.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
 ## 7.7.2.0.0
 * Certified with Mintegral SDK 7.7.2.
 
