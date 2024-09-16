@@ -34,7 +34,7 @@ final class MyTargetAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "myTarget" }
     
-    override var adapterVersion: String { "5.21.7.1" }
+    override var adapterVersion: String { "5.21.8.0" }
     
     override var sdkVersion: String { MTRGVersion.currentVersion() }
     
