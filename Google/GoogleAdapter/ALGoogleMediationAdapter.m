@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"11.9.0.1"
+#define ADAPTER_VERSION @"11.10.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
