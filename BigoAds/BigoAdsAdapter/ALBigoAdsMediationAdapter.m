@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.2.3.1"
+#define ADAPTER_VERSION @"4.5.1.0"
 
 @interface ALBigoAdsMediationAdapterInterstitialAdDelegate : NSObject <BigoInterstitialAdLoaderDelegate, BigoAdInteractionDelegate>
 @property (nonatomic,   weak) ALBigoAdsMediationAdapter *parentAdapter;
@@ -180,7 +180,7 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (NSString *)SDKVersion
 {
-    return [BigoAdSdk.sharedInstance getSDKVersion];
+    return [BigoAdSdk.sharedInstance getSDKVersionName];
 }
 
 - (NSString *)adapterVersion
@@ -864,18 +864,14 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     [ad setAdInteractionDelegate: self.parentAdapter.nativeAdViewAdapterDelegate];
     self.parentAdapter.nativeAd = ad;
     
-    UIImageView *iconView = [[UIImageView alloc] init];
-    BigoAdOptionsView *optionsView = [[BigoAdOptionsView alloc] init];
-    BigoAdMediaView *mediaView = [[BigoAdMediaView alloc] init];
-    
     MANativeAd *maxNativeAd = [[MABigoAdsNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: self.adFormat builderBlock:^(MANativeAdBuilder *builder) {
         builder.title = ad.title;
         builder.advertiser = ad.advertiser;
         builder.body = ad.adDescription;
         builder.callToAction = ad.callToAction;
-        builder.iconView = iconView;
-        builder.optionsView = optionsView;
-        builder.mediaView = mediaView;
+        builder.iconView = [[UIImageView alloc] init];
+        builder.optionsView = [[BigoAdOptionsView alloc] init];
+        builder.mediaView = [[BigoAdMediaView alloc] init];
     }];
     
     MANativeAdView *maxNativeAdView;
@@ -966,18 +962,14 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         return;
     }
     
-    UIImageView *iconView = [[UIImageView alloc] init];
-    BigoAdOptionsView *optionsView = [[BigoAdOptionsView alloc] init];
-    BigoAdMediaView *mediaView = [[BigoAdMediaView alloc] init];
-    
     MANativeAd *maxNativeAd = [[MABigoAdsNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
         builder.title = ad.title;
         builder.advertiser = ad.advertiser;
         builder.body = ad.adDescription;
         builder.callToAction = ad.callToAction;
-        builder.iconView = iconView;
-        builder.optionsView = optionsView;
-        builder.mediaView = mediaView;
+        builder.iconView = [[UIImageView alloc] init];
+        builder.optionsView = [[BigoAdOptionsView alloc] init];
+        builder.mediaView = [[BigoAdMediaView alloc] init];
     }];
     
     [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
@@ -1042,11 +1034,7 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     }
     
     UIImageView *iconView;
-    if ( maxNativeAdView.iconContentView )
-    {
-        iconView = (UIImageView *) self.iconView;
-    }
-    else if ( maxNativeAdView.iconImageView )
+    if ( maxNativeAdView.iconImageView )
     {
         iconView = maxNativeAdView.iconImageView;
     }
