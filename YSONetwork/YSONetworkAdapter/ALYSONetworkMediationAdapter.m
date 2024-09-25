@@ -10,7 +10,7 @@
 #import <YsoNetwork/YsoNetwork.h>
 #import <YsoNetwork/YsoNetwork-Swift.h>
 
-#define ADAPTER_VERSION @"1.1.28.0"
+#define ADAPTER_VERSION @"1.1.29.0"
 
 // NOTE: YSO initially named their adapter ALYsoNetworkMediationAdapter but iOS/Apple convention should be ALYSONetworkMediationAdapter. We will support both naming conventions.
 @interface ALYsoNetworkMediationAdapter : ALYSONetworkMediationAdapter
