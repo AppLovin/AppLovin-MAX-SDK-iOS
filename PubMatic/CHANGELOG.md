@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.9.0.3
+* Unity only: Fix an issue with OpenWrapSDK PodSpec being incorrectly marked as static.
+
 ## 3.9.0.2
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.

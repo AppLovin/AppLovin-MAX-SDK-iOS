@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"3.9.0.2"
+#define ADAPTER_VERSION @"3.9.0.3"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
