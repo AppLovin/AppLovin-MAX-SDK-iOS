@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"8.3.0.0.1"
+#define ADAPTER_VERSION @"8.3.0.0.2"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -244,13 +244,6 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     }
     else
     {
-        if ( [IronSource hasISDemandOnlyInterstitial: instanceID] )
-        {
-            [self log: @"Ad is available already for instance ID: %@", instanceID];
-            [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
-            return;
-        }
-
         [self updateIronSourceDelegates];
         
         // Create a format specific router identifier to ensure that the router can distinguish between them.
@@ -258,6 +251,13 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
         [self.router addInterstitialAdapter: self
                                    delegate: delegate
                      forPlacementIdentifier: self.routerPlacementIdentifier];
+        
+        if ( [IronSource hasISDemandOnlyInterstitial: instanceID] )
+        {
+            [self log: @"Ad is available already for instance ID: %@", instanceID];
+            [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
+            return;
+        }
         
         [IronSource loadISDemandOnlyInterstitial: instanceID];
     }
@@ -288,6 +288,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     }
     else
     {
+        [self updateIronSourceDelegates];
+        [self.router addShowingAdapter: self];
+
         if ( ![IronSource hasISDemandOnlyInterstitial: instanceID] )
         {
             [self log: @"Unable to show ironSource interstitial - no ad loaded for instance ID: %@", instanceID];
@@ -300,9 +303,6 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
             
         }
         
-        [self updateIronSourceDelegates];
-        [self.router addShowingAdapter: self];
-
         UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [IronSource showISDemandOnlyInterstitial: presentingViewController instanceId: instanceID];
     }
@@ -327,18 +327,18 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     }
     else
     {
+        [self updateIronSourceDelegates];
+        
+        // Create a format specific router identifier to ensure that the router can distinguish between them.
+        self.routerPlacementIdentifier = [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID];
+        [self.router addRewardedAdapter: self delegate: delegate forPlacementIdentifier: self.routerPlacementIdentifier];
+        
         if ( [IronSource hasISDemandOnlyRewardedVideo: instanceID] )
         {
             [self log: @"Ad is available already for instance ID: %@", instanceID];
             [self.router didLoadAdForPlacementIdentifier: self.routerPlacementIdentifier];
             return;
         }
-        
-        [self updateIronSourceDelegates];
-        
-        // Create a format specific router identifier to ensure that the router can distinguish between them.
-        self.routerPlacementIdentifier = [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID];
-        [self.router addRewardedAdapter: self delegate: delegate forPlacementIdentifier: self.routerPlacementIdentifier];
         
         [IronSource loadISDemandOnlyRewardedVideo: instanceID];
     }
@@ -356,11 +356,11 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
         if ( !self.biddingRewardedAd || !self.biddingRewardedAd.isReadyToShow )
         {
             [self log: @"Unable to show ironSource bidding rewarded - no ad loaded for instance ID: %@", instanceID];
-            [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID]
-                                                            error: [MAAdapterError errorWithCode: -4205
-                                                                                     errorString: @"Ad Display Failed"
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+            [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
+                                                                             errorString: @"Ad Display Failed"
+                                                                mediatedNetworkErrorCode: 0
+                                                             mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+            
             return;
         }
         
@@ -373,6 +373,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     }
     else
     {
+        [self updateIronSourceDelegates];
+        [self.router addShowingAdapter: self];
+
         if ( ![IronSource hasISDemandOnlyRewardedVideo: instanceID] )
         {
             [self log: @"Unable to show ironSource rewarded - no ad loaded for instance ID: %@", instanceID];
@@ -384,9 +387,6 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
             return;
         }
         
-        [self updateIronSourceDelegates];
-        [self.router addShowingAdapter: self];
-
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
 
