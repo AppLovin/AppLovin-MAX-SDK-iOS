@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.2.0.9.0
+* Certified with ByteDance SDK 6.2.0.9.
+
 ## 6.2.0.7.3
 * Certified with ByteDance SDK 6.2.0.7, as the `Ads-Global 6.2.0.7` Pod is added back.
 
