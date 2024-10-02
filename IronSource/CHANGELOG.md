@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.4.0.0.0
+* Certified with IronSource SDK 8.4.0.0.
+
 ## 8.3.0.0.2
 * Fixed delegate setup timing for fullscreen ad loads.
 
