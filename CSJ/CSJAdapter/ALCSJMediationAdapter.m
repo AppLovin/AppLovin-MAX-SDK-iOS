@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"6.1.3.4.0"
+#define ADAPTER_VERSION @"6.4.1.0.0"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -517,8 +517,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         case BUUnionHardCodeError:
         case BUUnionPreviewFlowInvalid:
         case BUErrorCodeUndefined:
-        case BUErrorSlotAB_Disable:
-        case BUErrorSlotAB_EmptyResult:
         case BUErrorCodeResource:
             adapterError = MAAdapterError.internalError;
             break;
@@ -1291,37 +1289,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
         self.parentAdapter = parentAdapter;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.advertiser al_isValidString] && maxNativeAdView.advertiserLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.advertiserLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
-    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container

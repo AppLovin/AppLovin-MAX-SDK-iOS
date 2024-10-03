@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.4.1.0.0
+* Certified with CSJ SDK 6.4.1.0.
+* Remove deprecated native API usages.
+* Remove `BUErrorSlotAB_Disable` and `BUErrorSlotAB_EmptyResult` from error mapping.
+
 ## 6.1.3.4.0
 * Certified with CSJ SDK 6.1.3.4.
 * Updated minimum Xcode requirement to 15.0.
