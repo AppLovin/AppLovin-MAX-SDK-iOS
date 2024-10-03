@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.0.0
+* PubMatic SDK version bumped up to 4.0.0.
+
 ## 3.9.0.3
 * Unity only: Fix an issue with OpenWrapSDK PodSpec being incorrectly marked as static.
 
