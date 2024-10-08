@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.7.8.0
+* Certified with InMobi SDK 10.7.8.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
 ## 10.7.5.1
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.
