@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.0.1
+* Add back x86_64 simulator slice to match Yandex SDK.
+
 ## 7.5.0.0
 * Certified with Yandex SDK 7.5.0.
 
