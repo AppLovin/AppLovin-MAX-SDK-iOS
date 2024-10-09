@@ -17,7 +17,7 @@
 #import <MobileFuseSDK/MFNativeAd.h>
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
 
-#define ADAPTER_VERSION @"1.8.0.0"
+#define ADAPTER_VERSION @"1.8.0.1"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -391,11 +391,6 @@ static NSString *ALMobileFuseSDKVersion;
     else
     {
         [privacyPreferences setUsPrivacyConsentString: @"1---"];
-    }
-    
-    if ( parameters.consentString )
-    {
-        [privacyPreferences setIabConsentString: parameters.consentString];
     }
     
     [MobileFuse setPrivacyPreferences: privacyPreferences];
