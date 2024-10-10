@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.2.0
+* Certified with Vungle SDK 7.4.2.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
 ## 7.4.1.1
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.
