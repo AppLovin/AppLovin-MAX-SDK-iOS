@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.7.3.0.0
+* Certified with Mintegral SDK 7.7.3.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
 ## 7.7.2.0.1
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.

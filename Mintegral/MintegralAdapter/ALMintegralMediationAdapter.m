@@ -16,7 +16,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.7.2.0.1"
+#define ADAPTER_VERSION @"7.7.3.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -1525,22 +1525,12 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
                 builder.icon = iconImage;
+                builder.mainImage = mainImage;
                 builder.optionsView = adChoicesView;
-                
-                if ( ALSdk.versionCode >= 11040299 )
-                {
-                    [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-                }
                 builder.mediaView = mediaView;
             }];
             
-            // To compile SOURCE code with < 11.0.0 before SDK is merged so we can push adapter
-            if ( [self.delegate respondsToSelector: @selector(didLoadAdForNativeAd:withExtraInfo:)] )
-            {
-                [self.delegate performSelector: @selector(didLoadAdForNativeAd:withExtraInfo:)
-                                    withObject: maxNativeAd
-                                    withObject: @{}];
-            }
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: @{}];
         });
     });
 }
