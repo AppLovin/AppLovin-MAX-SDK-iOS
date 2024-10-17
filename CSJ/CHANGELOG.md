@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.4.1.7.0
+* Certified with CSJ SDK 6.4.1.7.
+
 ## 6.4.1.0.0
 * Certified with CSJ SDK 6.4.1.0.
 * Remove deprecated native API usages.
