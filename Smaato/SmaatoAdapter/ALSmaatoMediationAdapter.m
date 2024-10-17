@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.9.0.0"
+#define ADAPTER_VERSION @"22.9.1.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -796,12 +796,9 @@
 
 - (void)didLoadAdForCreativeIdentifier:(nullable NSString *)creativeIdentifier placementIdentifier:(NSString *)placementIdentifier
 {
-    // Passing extra info such as creative id supported in 6.15.0+
-    if ( ALSdk.versionCode >= 6150000 && [creativeIdentifier al_isValidString] )
+    if ( [creativeIdentifier al_isValidString] )
     {
-        [self performSelector: @selector(didLoadAdForPlacementIdentifier:withExtraInfo:)
-                   withObject: placementIdentifier
-                   withObject: @{@"creative_id" : creativeIdentifier}];
+        [self didLoadAdForPlacementIdentifier: placementIdentifier withExtraInfo: @{@"creative_id" : creativeIdentifier}];
     }
     else
     {
@@ -835,12 +832,9 @@
 {
     [self.parentAdapter log: @"AdView loaded"];
     
-    // Passing extra info such as creative id supported in 6.15.0+
-    if ( ALSdk.versionCode >= 6150000 && [bannerView.sci al_isValidString] )
+    if ( [bannerView.sci al_isValidString] )
     {
-        [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                            withObject: bannerView
-                            withObject: @{@"creative_id" : bannerView.sci}];
+        [self.delegate didLoadAdForAdView:bannerView withExtraInfo: @{@"creative_id" : bannerView.sci}];
     }
     else
     {
@@ -1040,6 +1034,7 @@
         MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
             
             builder.title = assets.title;
+            builder.advertiser = assets.sponsored;
             builder.body = assets.mainText;
             builder.callToAction = assets.cta;
             
@@ -1056,22 +1051,11 @@
                     UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: image.image];
                     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
                     builder.mediaView = mediaImageView;
-                    if ( ALSdk.versionCode >= 11040299 )
-                    {
-                        MANativeAdImage *mainImage = [[MANativeAdImage alloc] initWithImage: image.image];
-                        [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-                    }
+                    
+                    MANativeAdImage *mainImage = [[MANativeAdImage alloc] initWithImage: image.image];
+                    builder.mainImage = mainImage;
                 }
             }
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                [builder performSelector: @selector(setAdvertiser:) withObject: assets.sponsored];
-            }
-#pragma clang diagnostic pop
         }];
         
         [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
