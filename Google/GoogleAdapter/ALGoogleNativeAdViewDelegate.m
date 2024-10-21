@@ -105,11 +105,9 @@
         [self.parentAdapter.nativeAdView al_pinToSuperview];
         
         NSString *responseId = nativeAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                                withObject: maxNativeAdView
-                                withObject: @{@"creative_id" : responseId}];
+            [self.delegate didLoadAdForAdView: maxNativeAdView withExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {

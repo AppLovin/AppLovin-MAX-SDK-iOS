@@ -34,31 +34,22 @@
 {
     [self.parentAdapter log: @"%@ ad loaded: %@", self.adFormat.label, bannerView.adUnitID];
     
-    if ( ALSdk.versionCode >= 6150000 )
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
+    
+    NSString *responseId = bannerView.responseInfo.responseIdentifier;
+    if ( [responseId al_isValidString] )
     {
-        NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
-        
-        NSString *responseId = bannerView.responseInfo.responseIdentifier;
-        if ( [responseId al_isValidString] )
-        {
-            extraInfo[@"creative_id"] = responseId;
-        }
-        
-        CGSize adSize = bannerView.adSize.size;
-        if ( !CGSizeEqualToSize(CGSizeZero, adSize) )
-        {
-            extraInfo[@"ad_width"] = @(adSize.width);
-            extraInfo[@"ad_height"] = @(adSize.height);
-        }
-        
-        [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                            withObject: bannerView
-                            withObject: extraInfo];
+        extraInfo[@"creative_id"] = responseId;
     }
-    else
+    
+    CGSize adSize = bannerView.adSize.size;
+    if ( !CGSizeEqualToSize(CGSizeZero, adSize) )
     {
-        [self.delegate didLoadAdForAdView: bannerView];
+        extraInfo[@"ad_width"] = @(adSize.width);
+        extraInfo[@"ad_height"] = @(adSize.height);
     }
+    
+    [self.delegate didLoadAdForAdView: bannerView withExtraInfo: extraInfo];
 }
 
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error

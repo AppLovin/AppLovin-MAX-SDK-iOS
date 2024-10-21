@@ -16,7 +16,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"11.10.0.0"
+#define ADAPTER_VERSION @"11.11.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -214,10 +214,9 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         self.interstitialAd.fullScreenContentDelegate = self.interstitialDelegate;
         
         NSString *responseId = self.interstitialAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [delegate performSelector: @selector(didLoadInterstitialAdWithExtraInfo:)
-                           withObject: @{@"creative_id" : responseId}];
+            [delegate didLoadInterstitialAdWithExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
@@ -425,10 +424,9 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         self.rewardedInterstitialAd.fullScreenContentDelegate = self.rewardedInterstitialDelegate;
         
         NSString *responseId = self.rewardedInterstitialAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [delegate performSelector: @selector(didLoadRewardedInterstitialAdWithExtraInfo:)
-                           withObject: @{@"creative_id" : responseId}];
+            [delegate didLoadRewardedInterstitialAdWithExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
@@ -509,10 +507,9 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         self.rewardedAd.fullScreenContentDelegate = self.rewardedDelegate;
         
         NSString *responseId = self.rewardedAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [delegate performSelector: @selector(didLoadRewardedAdWithExtraInfo:)
-                           withObject: @{@"creative_id" : responseId}];
+            [delegate didLoadRewardedAdWithExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
