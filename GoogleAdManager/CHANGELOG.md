@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.11.0.0
+* Certified with GoogleAdManager SDK 11.11.0.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
 ## 11.10.0.0
 * Certified with GoogleAdManager SDK 11.10.0.
 

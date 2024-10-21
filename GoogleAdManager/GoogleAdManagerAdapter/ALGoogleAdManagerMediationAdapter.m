@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"11.10.0.0"
+#define ADAPTER_VERSION @"11.11.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -236,10 +236,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         self.interstitialAd.fullScreenContentDelegate = self.interstitialAdapterDelegate;
         
         NSString *responseId = self.interstitialAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [delegate performSelector: @selector(didLoadInterstitialAdWithExtraInfo:)
-                           withObject: @{@"creative_id" : responseId}];
+            [delegate didLoadInterstitialAdWithExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
@@ -400,10 +399,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         self.rewardedInterstitialAd.fullScreenContentDelegate = self.rewardedInterstitialAdapterDelegate;
         
         NSString *responseId = self.rewardedInterstitialAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [delegate performSelector: @selector(didLoadRewardedInterstitialAdWithExtraInfo:)
-                           withObject: @{@"creative_id" : responseId}];
+            [delegate didLoadRewardedInterstitialAdWithExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
@@ -491,10 +489,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         self.rewardedAd.fullScreenContentDelegate = self.rewardedAdapterDelegate;
         
         NSString *responseId = self.rewardedAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [delegate performSelector: @selector(didLoadRewardedAdWithExtraInfo:)
-                           withObject: @{@"creative_id" : responseId}];
+            [delegate didLoadRewardedAdWithExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
@@ -1136,31 +1133,22 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 {
     [self.parentAdapter log: @"%@ ad loaded: %@", self.adFormat.label, bannerView.adUnitID];
     
-    if ( ALSdk.versionCode >= 6150000 )
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
+    
+    NSString *responseId = bannerView.responseInfo.responseIdentifier;
+    if ( [responseId al_isValidString] )
     {
-        NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
-        
-        NSString *responseId = bannerView.responseInfo.responseIdentifier;
-        if ( [responseId al_isValidString] )
-        {
-            extraInfo[@"creative_id"] = responseId;
-        }
-        
-        CGSize adSize = bannerView.adSize.size;
-        if ( !CGSizeEqualToSize(CGSizeZero, adSize) )
-        {
-            extraInfo[@"ad_width"] = @(adSize.width);
-            extraInfo[@"ad_height"] = @(adSize.height);
-        }
-        
-        [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                            withObject: bannerView
-                            withObject: extraInfo];
+        extraInfo[@"creative_id"] = responseId;
     }
-    else
+    
+    CGSize adSize = bannerView.adSize.size;
+    if ( !CGSizeEqualToSize(CGSizeZero, adSize) )
     {
-        [self.delegate didLoadAdForAdView: bannerView];
+        extraInfo[@"ad_width"] = @(adSize.width);
+        extraInfo[@"ad_height"] = @(adSize.height);
     }
+    
+    [self.delegate didLoadAdForAdView: bannerView withExtraInfo: extraInfo];
 }
 
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error
@@ -1282,11 +1270,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         [self.parentAdapter.nativeAdView al_pinToSuperview];
         
         NSString *responseId = nativeAd.responseInfo.responseIdentifier;
-        if ( ALSdk.versionCode >= 6150000 && [responseId al_isValidString] )
+        if ( [responseId al_isValidString] )
         {
-            [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                                withObject: maxNativeAdView
-                                withObject: @{@"creative_id" : responseId}];
+            [self.delegate didLoadAdForAdView: maxNativeAdView withExtraInfo: @{@"creative_id" : responseId}];
         }
         else
         {
@@ -1406,6 +1392,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
                                                                           builderBlock:^(MANativeAdBuilder *builder) {
         
         builder.title = nativeAd.headline;
+        builder.advertiser = nativeAd.advertiser;
         builder.body = nativeAd.body;
         builder.callToAction = nativeAd.callToAction;
         
@@ -1418,32 +1405,10 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
             builder.icon = [[MANativeAdImage alloc] initWithURL: nativeAd.icon.imageURL];
         }
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 10.4.0
-        if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-        {
-            [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.advertiser];
-        }
-        
+        builder.mainImage = mainImage;
         builder.mediaView = mediaView;
-        if ( ALSdk.versionCode >= 11040299 )
-        {
-            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-        }
-        
-        // Introduced in 11.4.0
-        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
-        {
-            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
-        }
-        
-        // Introduced in 11.7.0
-        if ( [builder respondsToSelector: @selector(setStarRating:)] )
-        {
-            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
-        }
-#pragma clang diagnostic pop
+        builder.mediaContentAspectRatio = mediaContentAspectRatio;
+        builder.starRating = nativeAd.starRating;
     }];
     
     NSString *responseId = nativeAd.responseInfo.responseIdentifier;
