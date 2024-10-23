@@ -14,7 +14,14 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.5.1.0"
+#define ADAPTER_VERSION @"4.5.1.1"
+
+#define TITLE_LABEL_TAG          1
+#define MEDIA_VIEW_CONTAINER_TAG 2
+#define ICON_VIEW_TAG            3
+#define BODY_VIEW_TAG            4
+#define CALL_TO_ACTION_VIEW_TAG  5
+#define ADVERTISER_VIEW_TAG      8
 
 @interface ALBigoAdsMediationAdapterInterstitialAdDelegate : NSObject <BigoInterstitialAdLoaderDelegate, BigoAdInteractionDelegate>
 @property (nonatomic,   weak) ALBigoAdsMediationAdapter *parentAdapter;
@@ -423,6 +430,16 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         self.adLoader.ext = ALMediationInfo;
         
         BigoAdSize *adSize = [self adSizeFromAdFormat: adFormat];
+        if ( !adSize )
+        {
+            MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.errorCodeInvalidConfiguration
+                                                             errorString: [NSString stringWithFormat: @"Unsupported ad format: %@", adFormat]];
+            [self log: @"%@ ad failed to load with error: %@", adFormat, adapterError];
+            [delegate didFailToLoadAdViewAdWithError: adapterError];
+            
+            return;
+        }
+        
         BigoBannerAdRequest *request = [[BigoBannerAdRequest alloc] initWithSlotId: slotId adSizes: @[adSize]];
         [request setServerBidPayload: parameters.bidResponse];
         [self.adLoader loadAd: request];
@@ -475,9 +492,7 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     }
     else
     {
-        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
-        
-        return BigoAdSize.BANNER;
+        return nil;
     }
 }
 
@@ -1025,32 +1040,81 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         return NO;
     }
     
-    MANativeAdView *maxNativeAdView = (MANativeAdView *) container;
-    
-    BigoAdMediaView *mediaView;
-    if ( maxNativeAdView.mediaContentView )
+    // Native integrations
+    if ( [container isKindOfClass: [MANativeAdView class]] )
     {
-        mediaView = (BigoAdMediaView *) self.mediaView;
-    }
+        MANativeAdView *maxNativeAdView = (MANativeAdView *) container;
     
-    UIImageView *iconView;
-    if ( maxNativeAdView.iconImageView )
+        BigoAdMediaView *mediaView;
+        if ( maxNativeAdView.mediaContentView )
+        {
+            mediaView = (BigoAdMediaView *) self.mediaView;
+        }
+    
+        UIImageView *iconView;
+        if ( maxNativeAdView.iconImageView )
+        {
+            iconView = maxNativeAdView.iconImageView;
+        }
+    
+        BigoAdOptionsView *optionsView;
+        if ( maxNativeAdView.optionsContentView )
+        {
+            optionsView = (BigoAdOptionsView *) self.optionsView;
+        }
+    
+        [nativeAd registerViewForInteraction: container
+                                   mediaView: mediaView
+                                  adIconView: iconView
+                               adOptionsView: optionsView
+                              clickableViews: clickableViews];
+    }
+    // Plugins
+    else
     {
-        iconView = maxNativeAdView.iconImageView;
+        UIImageView *iconView;
+        BigoAdMediaView *mediaView;
+      
+        for ( UIView *view in clickableViews )
+        {
+            if ( view.tag == TITLE_LABEL_TAG )
+            {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagTitle;
+            }
+            else if ( view.tag == ICON_VIEW_TAG )
+            {
+                iconView = (UIImageView *) view;
+                // The native ad icon image view will be added to the asset icon view.
+                if ( iconView.subviews.count > 0 )
+                {
+                    iconView = (UIImageView *) iconView.subviews[0];
+                }
+            }
+            else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
+            {
+                mediaView = (BigoAdMediaView *) self.mediaView;
+            }
+            else if ( view.tag == BODY_VIEW_TAG )
+            {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagDescription;
+            }
+            else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
+            {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagCallToAction;
+            }
+            else if ( view.tag == ADVERTISER_VIEW_TAG )
+            {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagSponsored;
+            }
+        }
+
+        [nativeAd registerViewForInteraction: container
+                                   mediaView: mediaView
+                                  adIconView: iconView
+                               adOptionsView: nil
+                              clickableViews: clickableViews];
     }
-    
-    BigoAdOptionsView *optionsView;
-    if ( maxNativeAdView.optionsContentView )
-    {
-        optionsView = (BigoAdOptionsView *) self.optionsView;
-    }
-    
-    [nativeAd registerViewForInteraction: container
-                               mediaView: mediaView
-                              adIconView: iconView
-                           adOptionsView: optionsView
-                          clickableViews: clickableViews];
-    
+
     return YES;
 }
 

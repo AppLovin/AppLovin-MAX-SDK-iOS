@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.5.1.1
+* Add support for native ads in external plugins. Requires minimum React Native Plugin 8.0.4 or Flutter Plugin 4.0.2.
+* Explicitly fail ad load with code `-5202` if unable to map ad view ad format to that of the network's.
+
 ## 4.5.1.0
 * Certified with BigoAds SDK 4.5.1.
 * Updated the minimum required iOS version to 12.0 in Pod Spec to match BigoAds SDK.
