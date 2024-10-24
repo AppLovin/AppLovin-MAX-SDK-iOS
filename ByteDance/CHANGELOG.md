@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.0.6.0
+* Updated to the internal dependency from `Ads-Global/BUAdSDK_Compatible` to `Ads-Global`.
+* Certified with ByteDance SDK 6.3.0.6.
+
 ## 6.2.0.9.0
 * Certified with ByteDance SDK 6.2.0.9.
 
