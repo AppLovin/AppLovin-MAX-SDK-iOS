@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.7.0.2"
+#define ADAPTER_VERSION @"9.8.0.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -449,11 +449,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         [self.parentAdapter log: @"Interstitial loaded: %@", event.ad.location];
         
-        // Passing extra info such as creative id supported in 6.15.0+
-        if ( ALSdk.versionCode >= 6150000 && [event.adID al_isValidString] )
+        if ( [event.adID al_isValidString] )
         {
-            [self.delegate performSelector: @selector(didLoadInterstitialAdWithExtraInfo:)
-                                withObject: @{@"creative_id" : event.adID}];
+            [self.delegate didLoadInterstitialAdWithExtraInfo: @{@"creative_id" : event.adID}];
         }
         else
         {
@@ -553,10 +551,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"Rewarded loaded: %@", event.ad.location];
         
         // Passing extra info such as creative id supported in 6.15.0+
-        if ( ALSdk.versionCode >= 6150000 && [event.adID al_isValidString] )
+        if ( [event.adID al_isValidString] )
         {
-            [self.delegate performSelector: @selector(didLoadRewardedAdWithExtraInfo:)
-                                withObject: @{@"creative_id" : event.adID}];
+            [self.delegate didLoadRewardedAdWithExtraInfo: @{@"creative_id" : event.adID}];
         }
         else
         {
@@ -677,11 +674,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         CHBBanner *adView = (CHBBanner *) event.ad;
         
         // Passing extra info such as creative id supported in 6.15.0+
-        if ( ALSdk.versionCode >= 6150000 && [event.adID al_isValidString] )
+        if ( [event.adID al_isValidString] )
         {
-            [self.delegate performSelector: @selector(didLoadAdForAdView:withExtraInfo:)
-                                withObject: adView
-                                withObject: @{@"creative_id" : event.adID}];
+            [self.delegate didLoadAdForAdView: adView withExtraInfo:@{@"creative_id" : event.adID}];
         }
         else
         {
