@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.4.2.0"
+#define ADAPTER_VERSION @"7.4.2.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -30,11 +30,12 @@
 - (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALVungleMediationAdapterAdViewDelegate : NSObject <VungleBannerDelegate>
+@interface ALVungleMediationAdapterAdViewAdDelegate : NSObject <VungleBannerViewDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
 @property (nonatomic, strong) MAAdFormat *adFormat;
 @property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+@property (nonatomic, assign, getter=hasAdLoaded) BOOL adLoaded;
 - (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter
                                format:(MAAdFormat *)adFormat
                            parameters:(id<MAAdapterResponseParameters>)parameters
@@ -84,9 +85,8 @@
 @property (nonatomic, strong) ALVungleMediationAdapterRewardedAdDelegate *rewardedAdDelegate;
 
 // AdView
-@property (nonatomic, strong) VungleBanner *adView;
-@property (nonatomic, strong) UIView *adViewContainer;
-@property (nonatomic, strong) ALVungleMediationAdapterAdViewDelegate *adViewDelegate;
+@property (nonatomic, strong) VungleBannerView *adViewAd;
+@property (nonatomic, strong) ALVungleMediationAdapterAdViewAdDelegate *adViewAdDelegate;
 
 // Native Ad
 @property (nonatomic, strong) VungleNative *nativeAd;
@@ -172,10 +172,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.rewardedAd = nil;
     self.rewardedAdDelegate = nil;
     
-    self.adView.delegate = nil;
-    self.adView = nil;
-    self.adViewDelegate = nil;
-    self.adViewContainer = nil;
+    self.adViewAd.delegate = nil;
+    self.adViewAd = nil;
+    self.adViewAdDelegate = nil;
     
     [self.nativeAd unregisterView];
     self.nativeAd.delegate = nil;
@@ -404,18 +403,17 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
     else
     {
-        BannerSize adSize = [self adSizeFromAdFormat: adFormat];
+        VungleAdSize *adSize = [self adSizeFromAdFormat: adFormat];
         
-        self.adView = [[VungleBanner alloc] initWithPlacementId: placementIdentifier size: adSize];
-        self.adViewDelegate = [[ALVungleMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                             format: adFormat
-                                                                                         parameters: parameters
-                                                                                          andNotify: delegate];
-        self.adView.delegate = self.adViewDelegate;
+        self.adViewAd = [[VungleBannerView alloc] initWithPlacementId: placementIdentifier vungleAdSize: adSize];
         
-        self.adViewContainer = [[UIView alloc] initWithFrame: (CGRect) { CGPointZero, adFormat.size }];
+        self.adViewAdDelegate = [[ALVungleMediationAdapterAdViewAdDelegate alloc] initWithParentAdapter: self
+                                                                                                 format: adFormat
+                                                                                             parameters: parameters
+                                                                                              andNotify: delegate];
+        self.adViewAd.delegate = self.adViewAdDelegate;
         
-        [self.adView load: bidResponse];
+        [self.adViewAd load: bidResponse];
     }
 }
 
@@ -510,24 +508,24 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     return clickableViews;
 }
 
-- (BannerSize)adSizeFromAdFormat:(MAAdFormat *)adFormat
+- (VungleAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
 {
     if ( adFormat == MAAdFormat.banner )
     {
-        return BannerSizeRegular;
+        return [VungleAdSize VungleAdSizeBannerRegular];
     }
     else if ( adFormat == MAAdFormat.leader )
     {
-        return BannerSizeLeaderboard;
+        return [VungleAdSize VungleAdSizeLeaderboard];
     }
     else if ( adFormat == MAAdFormat.mrec )
     {
-        return BannerSizeMrec;
+        return [VungleAdSize VungleAdSizeMREC];
     }
     else
     {
         [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
-        return BannerSizeRegular;
+        return [VungleAdSize VungleAdSizeBannerRegular];
     }
 }
 
@@ -867,7 +865,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 @end
 
-@implementation ALVungleMediationAdapterAdViewDelegate
+@implementation ALVungleMediationAdapterAdViewAdDelegate
 
 - (instancetype)initWithParentAdapter:(ALVungleMediationAdapter *)parentAdapter
                                format:(MAAdFormat *)adFormat
@@ -885,80 +883,74 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     return self;
 }
 
-- (void)bannerAdDidLoad:(VungleBanner *)banner
+- (void)bannerAdDidLoad:(VungleBannerView *)adView
 {
-    [self.parentAdapter log: @"AdView loaded: %@", banner.placementId];
+    [self.parentAdapter log: @"AdView loaded: %@", adView.placementId];
+    self.adLoaded = YES;
     
-    NSString *creativeIdentifier = banner.creativeId;
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
+    
+    NSString *creativeIdentifier = adView.creativeId;
     if ( [creativeIdentifier al_isValidString] )
     {
-        [self.delegate didLoadAdForAdView: self.parentAdapter.adViewContainer withExtraInfo: @{@"creative_id" : creativeIdentifier}];
-    }
-    else
-    {
-        [self.delegate didLoadAdForAdView: self.parentAdapter.adViewContainer];
+        extraInfo[@"creative_id"] = creativeIdentifier;
     }
     
-    if ( [banner canPlayAd] )
+    [self.delegate didLoadAdForAdView: adView withExtraInfo: extraInfo];
+}
+
+- (void)bannerAdWillPresent:(VungleBannerView *)adView
+{
+    [self.parentAdapter log: @"AdView ad will present %@", adView.placementId];
+}
+
+- (void)bannerAdDidPresent:(VungleBannerView *)adView
+{
+    [self.parentAdapter log: @"AdView ad shown %@", adView.placementId];
+}
+
+- (void)bannerAdDidFail:(VungleBannerView *)adView withError:(NSError *)error
+{
+    BOOL isAdPresentError = [self hasAdLoaded];
+    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: isAdPresentError];
+    
+    if ( isAdPresentError )
     {
-        [banner presentOn: self.parentAdapter.adViewContainer];
+        [self.parentAdapter log: @"AdView failed to present with error: %@", adapterError];
+        [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
     }
     else
     {
-        [self.parentAdapter log: @"Failed to load ad view ad: ad not ready"];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.adNotReady];
+        [self.parentAdapter log: @"AdView failed to load with error: %@", adapterError];
+        [self.delegate didFailToLoadAdViewAdWithError: adapterError];
     }
 }
 
-- (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error
+- (void)bannerAdDidTrackImpression:(VungleBannerView *)adView
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: NO];
-    [self.parentAdapter log: @"AdView failed to load with error: %@", adapterError];
-    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
-}
-
-- (void)bannerAdWillPresent:(VungleBanner *)banner
-{
-    [self.parentAdapter log: @"AdView ad will present %@", banner.placementId];
-}
-
-- (void)bannerAdDidPresent:(VungleBanner *)banner
-{
-    [self.parentAdapter log: @"AdView ad shown %@", banner.placementId];
-}
-
-- (void)bannerAdDidTrackImpression:(VungleBanner *)banner
-{
-    [self.parentAdapter log: @"AdView ad impression tracked %@", banner.placementId];
+    [self.parentAdapter log: @"AdView ad impression tracked %@", adView.placementId];
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)bannerAdDidClick:(VungleBanner *)banner
+- (void)bannerAdDidClick:(VungleBannerView *)adView
 {
-    [self.parentAdapter log: @"AdView ad clicked %@", banner.placementId];
+    [self.parentAdapter log: @"AdView ad clicked %@", adView.placementId];
     [self.delegate didClickAdViewAd];
 }
 
-- (void)bannerAdWillLeaveApplication:(VungleBanner *)banner
+- (void)bannerAdWillLeaveApplication:(VungleBannerView *)adView
 {
-    [self.parentAdapter log: @"AdView ad will leave application %@", banner.placementId];
+    [self.parentAdapter log: @"AdView ad will leave application %@", adView.placementId];
 }
 
-- (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error
+- (void)bannerAdWillClose:(VungleBannerView *)adView
 {
-    MAAdapterError *adapterError = [ALVungleMediationAdapter toMaxError: error isAdPresentError: YES];
-    [self.parentAdapter log: @"AdView ad failed to present with error: %@", adapterError];
-    [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
+    [self.parentAdapter log: @"AdView ad will close %@", adView.placementId];
 }
 
-- (void)bannerAdWillClose:(VungleBanner *)banner
+- (void)bannerAdDidClose:(VungleBannerView *)adView
 {
-    [self.parentAdapter log: @"AdView ad will close %@", banner.placementId];
-}
-
-- (void)bannerAdDidClose:(VungleBanner *)banner
-{
-    [self.parentAdapter log: @"AdView ad hidden %@", banner.placementId];
+    [self.parentAdapter log: @"AdView ad hidden %@", adView.placementId];
     [self.delegate didHideAdViewAd];
 }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.4.2.1
+* Updated deprecated ad view APIs.
+
 ## 7.4.2.0
 * Certified with Vungle SDK 7.4.2.
 * Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
