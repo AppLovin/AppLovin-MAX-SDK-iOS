@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.0.1.0"
+#define ADAPTER_VERSION @"4.1.0.0"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -131,6 +131,14 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     [self log: @"Collecting signal..."];
     
     POBAdFormat adFormat = [self POBAdFormatFromAdFormat: parameters.adFormat];
+    if ( adFormat == -1 )
+    {
+        [self log: @"Signal collection failed with error: Unsupported ad format: %@", parameters.adFormat];
+        [delegate didFailToCollectSignalWithErrorMessage: [NSString stringWithFormat: @"Unsupported ad format: %@", parameters.adFormat]];
+        
+        return;
+    }
+    
     POBSignalConfig *signalConfig = [[POBSignalConfig alloc] initWithAdFormat: adFormat];
     NSString *bidToken = [POBSignalGenerator generateSignalForBiddingHost: POBSDKBiddingHostALMAX
                                                                 andConfig: signalConfig];
@@ -304,8 +312,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     }
     else
     {
-        [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
-        return POBAdFormatBanner;
+        return -1;
     }
 }
 

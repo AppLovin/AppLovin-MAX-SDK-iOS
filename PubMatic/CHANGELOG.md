@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.0.0
+* Certified with PubMatic SDK 4.1.0.
+* Removed exception throwing if unable to map ad format to that of the network's.
+
 ## 4.0.1.0
 * Certified with PubMatic SDK 4.0.1.
 
