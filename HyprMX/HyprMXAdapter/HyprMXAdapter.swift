@@ -12,6 +12,9 @@ import HyprMX
 @objc(ALHyprMXMediationAdapter)
 final class HyprMXAdapter: ALMediationAdapter
 {
+    private static let initialized = ALAtomicBoolean()
+    private static var initializationStatus: MAAdapterInitializationStatus = .adapterNotInitialized
+
     // MARK: - Instance Properties
     
     // MARK: Ads
@@ -29,33 +32,22 @@ final class HyprMXAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "HyprMX" }
     
-    override var adapterVersion: String { "6.4.1.0.1" }
+    override var adapterVersion: String { "6.4.1.0.2" }
 
     override var sdkVersion: String { HyprMX.versionString() }
 
     override func initialize(with parameters: MAAdapterInitializationParameters, completionHandler: @escaping MAAdapterInitializationCompletionHandler)
     {
-        guard HyprMX.initializationStatus() == NOT_INITIALIZED else
+        guard Self.initialized.compareAndSet(false, update: true) else
         {
-            switch HyprMX.initializationStatus()
-            {
-            case INITIALIZATION_COMPLETE:
-                completionHandler(.initializedSuccess, nil)
-            case INITIALIZATION_FAILED:
-                completionHandler(.initializedFailure, nil)
-            case INITIALIZING:
-                completionHandler(.initializing, nil)
-            case NOT_INITIALIZED:
-                completionHandler(.adapterNotInitialized, nil)
-            default:
-                completionHandler(.initializedUnknown, nil)
-            }
-            
+            completionHandler(Self.initializationStatus, nil)
             return
         }
         
         let distributorId = parameters.serverParameters["distributor_id"] as? String ?? ""
 
+        Self.initializationStatus = .initializing
+        
         log(lifecycleEvent: .initializing(parameters: ["distributorId": distributorId]))
         
         let logLevel = parameters.isTesting ? HYPRLogLevelVerbose : HYPRLogLevelError
@@ -70,12 +62,17 @@ final class HyprMXAdapter: ALMediationAdapter
             guard success else
             {
                 self.log(lifecycleEvent: .initializeFailure(description: error?.localizedDescription))
-                completionHandler(.initializedFailure, error?.localizedDescription)
+                
+                Self.initializationStatus = .initializedFailure
+                completionHandler(Self.initializationStatus, error?.localizedDescription)
+                
                 return
             }
 
             self.log(lifecycleEvent: .initializeSuccess())
-            completionHandler(.initializedSuccess, nil)
+            
+            Self.initializationStatus = .initializedSuccess
+            completionHandler(Self.initializationStatus, nil)
         }
     }
 

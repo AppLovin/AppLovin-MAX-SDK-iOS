@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.4.1.0.2
+* Added a guard to attempt HyprMX SDK initialization only once to match other adapters and avoid HyprMX SDK initialization errors.
+
 ## 6.4.1.0.1
 * Removed unnecessary Privacy Manifest.
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
