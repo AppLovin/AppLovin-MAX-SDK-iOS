@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.5.0.3
+* Add support for native ads in external plugins (e.g. React Native / Flutter).
+
+## 7.5.0.2
+* Add support for native ads.
+* Removed exception throwing if unable to map ad format to that of the network's.
+
 ## 7.5.0.1
 * Add back x86_64 simulator slice to match Yandex SDK.
 

@@ -9,7 +9,14 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"7.5.0.1"
+#define ADAPTER_VERSION @"7.5.0.3"
+
+#define TITLE_LABEL_TAG          1
+#define MEDIA_VIEW_CONTAINER_TAG 2
+#define ICON_VIEW_TAG            3
+#define BODY_VIEW_TAG            4
+#define CALL_TO_ACTION_VIEW_TAG  5
+#define ADVERTISER_VIEW_TAG      8
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -53,6 +60,31 @@
 
 @end
 
+/**
+ * Dedicated delegate object for Yandex Native ads.
+ */
+@interface ALYandexMediationAdapterNativeAdDelegate : NSObject <YMANativeAdDelegate, YMANativeAdLoaderDelegate>
+
+@property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter
+                       withParameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+
+@end
+
+@interface MAYandexNativeAd : MANativeAd
+
+@property (nonatomic, strong) id<YMANativeAd> nativeAd;
+@property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
+
+@end
+
 @interface ALYandexMediationAdapter ()
 
 // Interstitial
@@ -68,6 +100,11 @@
 // AdView
 @property (nonatomic, strong) YMAAdView *adView;
 @property (nonatomic, strong) ALYandexMediationAdapterAdViewDelegate *adViewAdapterDelegate;
+
+// Native
+@property (nonatomic, strong) id<YMANativeAd> nativeAd;
+@property (nonatomic, strong) YMANativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) ALYandexMediationAdapterNativeAdDelegate *nativeAdapterDelegate;
 
 @end
 
@@ -128,6 +165,13 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     self.adView = nil;
     self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
+    
+    self.nativeAd.delegate = nil;
+    self.nativeAd = nil;
+    self.nativeAdapterDelegate.delegate = nil;
+    self.nativeAdapterDelegate = nil;
+    self.nativeAdLoader.delegate = nil;
+    self.nativeAdLoader = nil;
 }
 
 #pragma mark - Signal Collection
@@ -136,7 +180,16 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self log: @"Collecting signal..."];
     
-    YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: [self toYandexAdType: parameters.adFormat]];
+    YMAAdType yandexAdType = [self toYandexAdType: parameters.adFormat];
+    if ( yandexAdType == -1 )
+    {
+        [self log: @"Signal collection failed with error: Unsupported ad format: %@", parameters.adFormat];
+        [delegate didFailToCollectSignalWithErrorMessage: [NSString stringWithFormat: @"Unsupported ad format: %@", parameters.adFormat]];
+        
+        return;
+    }
+    
+    YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: yandexAdType];
     
     [ALYandexBidderTokenLoader loadBidderTokenWithRequestConfiguration: configuration completionHandler:^(NSString *bidderToken) {
         [self log: @"Collected signal"];
@@ -266,6 +319,22 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self.adView loadAdWithRequest: [self createAdRequestWithParameters: parameters]];
 }
 
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading %@native ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementId];
+    
+    [self updateUserConsent: parameters];
+    
+    self.nativeAdLoader = [[YMANativeAdLoader alloc] init];
+    self.nativeAdapterDelegate = [[ALYandexMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self withParameters: parameters andNotify: delegate];
+    self.nativeAdLoader.delegate = self.nativeAdapterDelegate;
+    
+    [self.nativeAdLoader loadAdWithRequestConfiguration: [self createNativeAdRequestConfigurationForPlacementId: placementId parameters: parameters]];
+}
+
 #pragma mark - Helper Methods
 
 - (void)updateUserConsent:(id<MAAdapterParameters>)parameters
@@ -306,6 +375,20 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     return configuration;
 }
 
+- (YMAMutableNativeAdRequestConfiguration *)createNativeAdRequestConfigurationForPlacementId:(NSString *)placementId parameters:(id<MAAdapterResponseParameters>)parameters
+{
+    NSDictionary *adRequestParameters = @{@"adapter_network_name" : @"applovin",
+                                          @"adapter_version" : ADAPTER_VERSION,
+                                          @"adapter_network_sdk_version" : ALSdk.version};
+    
+    YMAMutableNativeAdRequestConfiguration *configuration = [[YMAMutableNativeAdRequestConfiguration alloc] initWithAdUnitID: placementId];
+    configuration.parameters = adRequestParameters;
+    
+    configuration.biddingData = parameters.bidResponse;
+    
+    return configuration;
+}
+
 - (YMABannerAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
 {
     return [YMABannerAdSize fixedSizeWithWidth: adFormat.size.width height: adFormat.size.height];
@@ -325,8 +408,11 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     {
         return YMAAdTypeBanner;
     }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return YMAAdTypeNative;
+    }
     
-    [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
     return -1;
 }
 
@@ -610,6 +696,199 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self.parentAdapter log: @"AdView ad impression tracked"];
     [self.delegate didDisplayAdViewAd];
+}
+
+@end
+
+#pragma mark - ALYandexMediationAdapterNativeAdDelegate
+
+@implementation ALYandexMediationAdapterNativeAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter
+                       withParameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.parameters = parameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeAdLoader:(YMANativeAdLoader *)loader didFailLoadingWithError:(NSError *)error
+{
+    [self.parentAdapter log: @"Native ad failed to load with error code %ld and description: %@", error.code, error.description];
+    
+    MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)nativeAdLoader:(YMANativeAdLoader *)loader didLoadAd:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad loaded"];
+    self.parentAdapter.nativeAd = ad;
+    ad.delegate = self.parentAdapter.nativeAdapterDelegate;
+    YMANativeAdAssets *assets = ad.adAssets;
+    MANativeAd *maxNativeAd = [[MAYandexNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+        builder.title = assets.title;
+        builder.advertiser = assets.domain;
+        builder.body = assets.body;
+        builder.callToAction = assets.callToAction;
+        builder.icon = [[MANativeAdImage alloc] initWithImage: assets.icon.imageValue];
+        builder.mainImage = [[MANativeAdImage alloc] initWithImage: assets.image.imageValue];
+        builder.optionsView = [[UIButton alloc] init];
+        builder.mediaView = [[YMANativeMediaView alloc] init];
+        builder.mediaContentAspectRatio = assets.media.aspectRatio;
+        builder.starRating = assets.rating;
+    }];
+    
+    [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+}
+
+- (void)nativeAd:(id<YMANativeAd>)ad willPresentScreen:(UIViewController *)viewController
+{
+    [self.parentAdapter log: @"Native ad clicked and in-app browser opened"];
+}
+
+- (void)nativeAd:(id<YMANativeAd>)ad didTrackImpressionWithData:(id<YMAImpressionData>)impressionData
+{
+    [self.parentAdapter log: @"Native ad impression tracked"];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)nativeAdDidClick:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad clicked"];
+    [self.delegate didClickNativeAd];
+}
+
+- (void)nativeAdWillLeaveApplication:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad clicked and left application"];
+}
+
+- (void)nativeAd:(id<YMANativeAd>)ad didDismissScreen:(UIViewController *)viewController
+{
+    [self.parentAdapter log: @"Native ad in-app browser closed"];
+}
+
+- (void)closeNativeAd:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad closed"];
+}
+
+@end
+
+#pragma mark - MAYandexNativeAd
+
+@implementation MAYandexNativeAd
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+{
+    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    if ( self ) {
+        self.parentAdapter = parentAdapter;
+    }
+    return self;
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    id<YMANativeAd> nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    YMANativeAdViewData *viewData = [[YMANativeAdViewData alloc] init];
+    
+    // Native integrations
+    if ( [container isKindOfClass: [MANativeAdView class]] )
+    {
+        MANativeAdView *maxNativeAdView = (MANativeAdView *) container;
+        
+        viewData.titleLabel = maxNativeAdView.titleLabel;
+        viewData.domainLabel = maxNativeAdView.advertiserLabel;
+        viewData.bodyLabel = maxNativeAdView.bodyLabel;
+        viewData.callToActionButton = maxNativeAdView.callToActionButton;
+        viewData.iconImageView = maxNativeAdView.iconImageView;
+        viewData.feedbackButton = (UIButton *) self.optionsView;
+        
+        if ( [self.mediaView isKindOfClass: [YMANativeMediaView class]] )
+        {
+            viewData.mediaView = (YMANativeMediaView *) self.mediaView;
+        }
+    }
+    // Plugins
+    else
+    {
+        for ( UIView *view in clickableViews )
+        {
+            if ( view.tag == TITLE_LABEL_TAG )
+            {
+                viewData.titleLabel = [self yandexAssetViewOfClass: [UILabel class] forParent: view];
+            }
+            else if ( view.tag == ICON_VIEW_TAG )
+            {
+                viewData.iconImageView = (UIImageView *) view;
+                // The native ad icon image view will be added to the asset icon view.
+                if ( view.subviews.count > 0 )
+                {
+                    viewData.iconImageView = (UIImageView *) view.subviews[0];
+                }
+            }
+            else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
+            {
+                if ( [self.mediaView isKindOfClass: [YMANativeMediaView class]] )
+                {
+                    viewData.mediaView = (YMANativeMediaView *) self.mediaView;
+                }
+            }
+            else if ( view.tag == BODY_VIEW_TAG )
+            {
+                viewData.bodyLabel = [self yandexAssetViewOfClass: [UILabel class] forParent: view];
+            }
+            else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
+            {
+                viewData.callToActionButton = [self yandexAssetViewOfClass: [UIButton class] forParent: view];
+            }
+            else if ( view.tag == ADVERTISER_VIEW_TAG )
+            {
+                viewData.domainLabel = [self yandexAssetViewOfClass: [UILabel class] forParent: view];
+            }
+        }
+    }
+    
+    NSError *error;
+    BOOL success = [nativeAd bindAdToView: container viewData: viewData error: &error];
+    if ( !success )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views with error code %ld and description: %@", error.code, error.description];
+        return NO;
+    }
+    
+    return YES;
+}
+
+/**
+ * Creates a dummy asset view based on Yandex API class requirements and the asset view type.
+ */
+- (id)yandexAssetViewOfClass:(Class)aClass forParent:(UIView *)parentView
+{
+    UIView *assetView = [[aClass alloc] init];
+    
+    // Set the view's alpha to make it essentially invisible but interactable, as the plugin's asset view manages actual content presentation.
+    assetView.alpha = 0.011f;
+    
+    [parentView addSubview: assetView];
+    [assetView al_pinToSuperview];
+    
+    return assetView;
 }
 
 @end
