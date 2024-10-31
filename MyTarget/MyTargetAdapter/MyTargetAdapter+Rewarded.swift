@@ -70,6 +70,12 @@ final class MyTargetRewardedAdapterDelegate: RewardedAdapterDelegate<MyTargetAda
         delegate?.didDisplayRewardedAd()
     }
     
+    func onFailedToShow(with rewardedAd: MTRGRewardedAd)
+    {
+        log(adEvent: .displayFailed(error: .adDisplayFailedError))
+        delegate?.didFailToDisplayRewardedAdWithError(.adDisplayFailedError)
+    }
+    
     func onClick(with rewardedAd: MTRGRewardedAd)
     {
         log(adEvent: .clicked)

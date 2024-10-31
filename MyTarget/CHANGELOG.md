@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.21.9.1
+* Implement `onFailedToShow()` callbacks for interstitial and rewarded ads.
+
 ## 5.21.9.0
 * Certified with MyTarget SDK 5.21.9.
 
