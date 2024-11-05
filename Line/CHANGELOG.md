@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.20241105.0
+* Certified with Line SDK 2.9.20241105.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
 ## 2.8.20240827.1
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.

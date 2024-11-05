@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.8.20240827.1"
+#define ADAPTER_VERSION @"2.9.20241105.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -793,19 +793,11 @@ static ALAtomicBoolean *ALLineInitialized;
             
             MANativeAd *maxNativeAd = [[MALineNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
                 builder.title = nativeAd.getAdTitle;
+                builder.advertiser = nativeAd.getAdvertiserName;
                 builder.body = nativeAd.getDescriptionText;
                 builder.callToAction = nativeAd.getButtonText;
                 builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
                 builder.mediaView = nativeAd.getAdMainView;
-                
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-                // Introduced in 10.4.0
-                if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-                {
-                    [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.getAdvertiserName];
-                }
-#pragma clang diagnostic pop
             }];
             
             [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
