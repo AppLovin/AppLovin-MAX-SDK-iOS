@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.20241106.0
+* Certified with Line SDK 2.9.20241106.
+
 ## 2.9.20241105.0
 * Certified with Line SDK 2.9.20241105.
 * Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
