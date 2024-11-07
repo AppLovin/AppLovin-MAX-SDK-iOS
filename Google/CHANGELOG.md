@@ -1,5 +1,8 @@
 # Changelog
 
+## 11.12.0.0
+* Certified with Google SDK 11.12.0.
+
 ## 11.11.0.0
 * Certified with Google SDK 11.11.0.
 * Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
