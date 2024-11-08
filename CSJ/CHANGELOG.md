@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.4.3.2.0
+* Certified with CSJ SDK 6.4.3.2.
+
 ## 6.4.2.7.0
 * Certified with CSJ SDK 6.4.2.7.
 
