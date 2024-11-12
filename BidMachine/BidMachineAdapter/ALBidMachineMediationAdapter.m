@@ -9,7 +9,14 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"3.0.1.0.0"
+#define ADAPTER_VERSION @"3.0.1.0.1"
+
+#define TITLE_LABEL_TAG          1
+#define MEDIA_VIEW_CONTAINER_TAG 2
+#define ICON_VIEW_TAG            3
+#define BODY_VIEW_TAG            4
+#define CALL_TO_ACTION_VIEW_TAG  5
+#define ADVERTISER_VIEW_TAG      8
 
 @interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
@@ -53,6 +60,15 @@
 @interface MABidMachineNativeAdRendering : NSObject <BidMachineNativeAdRendering>
 @property (nonatomic, weak) MANativeAdView *adView;
 - (instancetype)initWithNativeAdView:(MANativeAdView *)adView;
+@end
+
+@interface MABidMachineNativeAdPluginRendering : NSObject <BidMachineNativeAdRendering>
+@property (nonatomic, strong) UILabel *callToActionLabel;
+@property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, weak) UIImageView *iconView;
+@property (nonatomic, weak) UIView *mediaContainerView;
+@property (nonatomic, weak) UIView *adChoiceView;
 @end
 
 @interface ALBidMachineMediationAdapter ()
@@ -153,6 +169,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self updateSettings: parameters];
     
     BidMachinePlacementFormat bidMachinePlacementFormat = [self bidMachinePlacementFormatFromAdFormat: parameters.adFormat];
+    if ( bidMachinePlacementFormat == BidMachinePlacementFormatUnknown )
+    {
+        [self log: @"Signal collection failed with error: Unsupported ad format: %@", parameters.adFormat];
+        [delegate didFailToCollectSignalWithErrorMessage: [NSString stringWithFormat: @"Unsupported ad format: %@", parameters.adFormat]];
+        
+        return;
+    }
+    
     [BidMachineSdk.shared tokenWith: bidMachinePlacementFormat completion:^(NSString *_Nullable signal) {
         [self log: @"Signal collection successful with%@ valid signal", [signal al_isValidString] ? @"" : @"out"];
         [delegate didCollectSignal: signal];
@@ -334,6 +358,15 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self updateSettings: parameters];
     
     BidMachinePlacementFormat format = [self bidMachinePlacementFormatFromAdFormat: adFormat];
+    if ( format == BidMachinePlacementFormatUnknown )
+    {
+        MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.errorCodeInvalidConfiguration
+                                                         errorString: [NSString stringWithFormat: @"Unsupported ad format: %@", adFormat]];
+        [self log: @"AdView ad failed to load with error: %@", adapterError];
+        [delegate didFailToLoadAdViewAdWithError: adapterError];
+
+        return;
+    }
     
     NSError *configurationError = nil;
     id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: format error: &configurationError];
@@ -522,7 +555,6 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     }
     else
     {
-        [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
         return BidMachinePlacementFormatUnknown;
     }
 }
@@ -640,6 +672,10 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 {
     return nil;
 }
+
+@end
+
+@implementation MABidMachineNativeAdPluginRendering
 
 @end
 
@@ -988,8 +1024,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( nativeAd.main && [nativeAd.main al_isValidURL] )
     {
         [self.parentAdapter log: @"Fetching native ad main image: %@", nativeAd.main];
+        mainImageView = [[UIImageView alloc] init];
         [self.parentAdapter loadImageForURLString: nativeAd.main group: group successHandler:^(UIImage *image) {
-            mainImageView = [[UIImageView alloc] initWithImage: image];
+            mainImageView.image = image;
             mainImage = [[MANativeAdImage alloc] initWithImage: image];
         }];
     }
@@ -1006,10 +1043,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             builder.body = nativeAd.body;
             builder.callToAction = nativeAd.cta;
             builder.icon = iconImage;
-            if ( ALSdk.versionCode >= 11040299 )
-            {
-                [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-            }
+            builder.mainImage = mainImage;
             builder.mediaView = mainImageView;
         }];
         
@@ -1108,10 +1142,55 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     NSError *error = nil;
     
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
-    
-    MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: container];
-    self.parentAdapter.nativeAd.controller = [ALUtils topViewControllerFromKeyWindow];
-    [self.parentAdapter.nativeAd presentAd: container : adRendering error: &error];
+
+    // Native integrations
+    if ( [container isKindOfClass: [MANativeAdView class]] )
+    {
+        MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: container];
+        self.parentAdapter.nativeAd.controller = [ALUtils topViewControllerFromKeyWindow];
+        [self.parentAdapter.nativeAd presentAd: container : adRendering error: &error];
+    }
+    // Plugins
+    else
+    {
+        NSMutableArray *assetsForInteraction = [NSMutableArray array];
+        MABidMachineNativeAdPluginRendering *adPluginRendering = [[MABidMachineNativeAdPluginRendering alloc] init];
+
+        for ( UIView *view in clickableViews )
+        {
+            if ( view.tag == TITLE_LABEL_TAG )
+            {
+                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeTitleLabel)];
+                adPluginRendering.titleLabel = [self bidMachineAssetViewOfClass: [UILabel class] forParent: view];
+            }
+            else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
+            {
+                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeMediaContainerView)];
+                adPluginRendering.mediaContainerView = view;
+            }
+            else if ( view.tag == ICON_VIEW_TAG )
+            {
+                if ( [view isKindOfClass: [UIImageView class]] )
+                {
+                    [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeIconView)];
+                    adPluginRendering.iconView = (UIImageView *) view;
+                }
+            }
+            else if ( view.tag == BODY_VIEW_TAG )
+            {
+                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeDescriptionLabel)];
+                adPluginRendering.descriptionLabel = [self bidMachineAssetViewOfClass: [UILabel class] forParent: view];
+            }
+            else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
+            {
+                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeCallToActionLabel)];
+                adPluginRendering.callToActionLabel = [self bidMachineAssetViewOfClass: [UILabel class] forParent: view];
+            }
+        }
+        
+        [self.parentAdapter.nativeAd registerAssetsForInteraction: assetsForInteraction];
+        [self.parentAdapter.nativeAd presentAd: container : adPluginRendering error: &error];
+    }
     
     if ( error )
     {
@@ -1120,6 +1199,22 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     }
     
     return YES;
+}
+
+/**
+ * Creates a dummy asset view based on BidMachine API class requirements and the asset view type.
+ */
+- (id)bidMachineAssetViewOfClass:(Class)aClass forParent:(UIView *)parentView
+{
+    UIView *assetView = [[aClass alloc] init];
+    
+    // Set the view's alpha to make it essentially invisible but interactable, as the plugin's asset view manages actual content presentation.
+    assetView.alpha = 0.011f;
+    
+    [parentView addSubview: assetView];
+    [assetView al_pinToSuperview];
+    
+    return assetView;
 }
 
 @end
