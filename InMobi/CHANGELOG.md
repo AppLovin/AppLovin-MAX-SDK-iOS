@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.8.0.0
+* Certified with InMobi SDK 10.8.0.
+* Removed redundant log output when initialization was already completed.
+
 ## 10.7.8.0
 * Certified with InMobi SDK 10.7.8.
 * Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
