@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"6.3.0.9.0"
+#define ADAPTER_VERSION @"6.3.1.0.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -142,7 +142,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     else
     {
-        [self log: @"Pangle SDK attempted initialization already - marking initialization as %ld", ALByteDanceInitializationStatus];
         completionHandler(ALByteDanceInitializationStatus, nil);
     }
 }

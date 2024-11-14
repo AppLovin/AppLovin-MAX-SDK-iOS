@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.1.0.0
+* Certified with ByteDance SDK 6.3.1.0.
+* Removed redundant log output when initialization was already completed.
+
 ## 6.3.0.9.0
 * Certified with ByteDance SDK 6.3.0.9.
 
