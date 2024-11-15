@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.15.2.1"
+#define ADAPTER_VERSION @"6.16.0.0"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -148,7 +148,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
     else
     {
-        [self log: @"Facebook attempted initialization already - marking initialization as %ld", ALFacebookSDKInitializationStatus];
         completionHandler(ALFacebookSDKInitializationStatus, nil);
     }
 }
@@ -565,6 +564,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.headline;
+            builder.advertiser = nativeAd.advertiserName;
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
@@ -574,37 +574,21 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             adOptionsView.backgroundColor = UIColor.clearColor;
             builder.optionsView = adOptionsView;
             
-            CGFloat mediaContentAspectRatio = 0.0f;
             if ( self.nativeBannerAd )
             {
                 // Facebook true native banners do not provide media views so use icon asset in place of it
                 UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: nativeAd.iconImage];
                 builder.mediaView = mediaImageView;
                 
-                mediaContentAspectRatio = nativeAd.iconImage.size.width / nativeAd.iconImage.size.height;
+                builder.mediaContentAspectRatio = nativeAd.iconImage.size.width / nativeAd.iconImage.size.height;
             }
             else
             {
                 FBMediaView *mediaView = [[FBMediaView alloc] init];
                 builder.mediaView = mediaView;
                 
-                mediaContentAspectRatio = mediaView.aspectRatio;
+                builder.mediaContentAspectRatio = mediaView.aspectRatio;
             }
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                builder.advertiser = nativeAd.advertiserName;
-            }
-            
-            // Introduced in 11.4.0
-            if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
-            {
-                [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
-            }
-#pragma clang diagnostic pop
         }];
         
         [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
@@ -926,6 +910,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = self.parentAdapter.nativeAd.headline;
+            builder.advertiser = self.parentAdapter.nativeAd.advertiserName;
             builder.body = self.parentAdapter.nativeAd.bodyText;
             builder.callToAction = self.parentAdapter.nativeAd.callToAction;
             builder.iconView = iconView;
@@ -935,15 +920,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             adOptionsView.nativeAd = self.parentAdapter.nativeAd;
             adOptionsView.backgroundColor = UIColor.clearColor;
             builder.optionsView = adOptionsView;
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                builder.advertiser = self.parentAdapter.nativeAd.advertiserName;
-            }
-#pragma clang diagnostic pop
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
@@ -988,16 +964,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         {
             [clickableViews addObject: maxNativeAdView.mediaContentView];
         }
-        
-        // Introduced in 10.4.0
-        if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
+        if ( [maxNativeAd.advertiser al_isValidString] && maxNativeAdView.advertiserLabel )
         {
-            id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
-            id advertiser = [maxNativeAd performSelector: @selector(advertiser)];
-            if ( [advertiser al_isValidString] && advertiserLabel )
-            {
-                [clickableViews addObject: advertiserLabel];
-            }
+            [clickableViews addObject: maxNativeAdView.advertiserLabel];
         }
         
         [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView

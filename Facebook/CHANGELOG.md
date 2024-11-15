@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.16.0.0
+* Certified with Facebook SDK 6.16.0. (Unity adapter to be released after Unity Cloud Build has support for Xcode 16.0)
+* Updated minimum Xcode requirement to 16.0 to match Facebook SDK.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+* Removed redundant log output when initialization was already completed.
+
 ## 6.15.2.1
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.
