@@ -34,7 +34,7 @@ final class MyTargetAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "myTarget" }
     
-    override var adapterVersion: String { "5.21.9.1" }
+    override var adapterVersion: String { "5.22.0.0" }
     
     override var sdkVersion: String { MTRGVersion.currentVersion() }
     
@@ -42,7 +42,6 @@ final class MyTargetAdapter: ALMediationAdapter
     {
         guard Self.initialized.compareAndSet(false, update: true) else
         {
-            log(lifecycleEvent: .alreadyInitialized)
             completionHandler(.doesNotApply, nil)
             return
         }

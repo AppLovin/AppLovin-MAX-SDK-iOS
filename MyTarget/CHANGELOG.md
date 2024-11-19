@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.22.0.0
+* Certified with MyTarget SDK 5.22.0.
+* Removed redundant log output when initialization was already completed.
+
 ## 5.21.9.1
 * Implement `onFailedToShow()` callbacks for interstitial and rewarded ads.
 
