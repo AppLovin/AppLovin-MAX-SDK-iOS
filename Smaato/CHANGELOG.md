@@ -1,5 +1,8 @@
 # Changelog
 
+## 22.9.2.0
+* Certified with Smaato SDK 22.9.2.
+
 ## 22.9.1.0
 * Certified with Smaato SDK 22.9.1.
 * Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
