@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.4.0.0
+* Certified with Moloco SDK 3.4.0.
+* Removed redundant log output when initialization was already completed.
+
 ## 3.3.1.0
 * Certified with Moloco SDK 3.3.1.
 
