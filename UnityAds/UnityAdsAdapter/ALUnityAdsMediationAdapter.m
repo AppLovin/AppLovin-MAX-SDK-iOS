@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.12.4.0"
+#define ADAPTER_VERSION @"4.12.5.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -84,7 +84,6 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     }
     else
     {
-        [self log: @"UnityAds SDK already initialized"];
         completionHandler(ALUnityAdsInitializationStatus, nil);
     }
 }
