@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"8.4.0.0.0"
+#define ADAPTER_VERSION @"8.5.0.0.0"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -137,7 +137,6 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     }
     else
     {
-        [self log: @"IronSource attempted initialization already - marking initialization as %ld", ALIronSourceInitializationStatus];
         completionHandler(ALIronSourceInitializationStatus, nil);
     }
 }

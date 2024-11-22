@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.5.0.0.0
+* Certified with IronSource SDK 8.5.0.0.
+* Removed redundant log output when initialization was already completed.
+
 ## 8.4.0.0.0
 * Certified with IronSource SDK 8.4.0.0.
 
