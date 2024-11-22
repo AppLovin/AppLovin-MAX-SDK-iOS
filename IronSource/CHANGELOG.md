@@ -2,6 +2,7 @@
 
 ## 8.5.0.0.0
 * Certified with IronSource SDK 8.5.0.0.
+* Updated minimum Xcode requirement to 15.3.
 * Removed redundant log output when initialization was already completed.
 
 ## 8.4.0.0.0
