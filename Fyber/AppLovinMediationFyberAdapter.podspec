@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationFyberAdapter'
-s.version = '8.3.2.1'
+s.version = '8.3.3.0'
 s.platform = :ios, '12.0'
 s.summary = 'Fyber adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'Fyber_Marketplace_SDK', '= 8.3.2'
+s.dependency 'Fyber_Marketplace_SDK', '= {ADAPTER_SDK_VERSION}'
 s.dependency 'AppLovinSDK', '>= 13.0.0'
 s.swift_version = '5.0'
 

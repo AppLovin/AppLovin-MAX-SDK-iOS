@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.3.3.0
+* Certified with Fyber SDK 8.3.3.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+* Removed redundant log output when initialization was already completed.
+
 ## 8.3.2.1
 * Requires minimum AppLovin MAX SDK version be 13.0.0.
 * Removed COPPA support.
