@@ -10,7 +10,7 @@
 #import <HyBid.h>
 #import <HyBid-Generated-Interace-Swift.h>
 
-#define ADAPTER_VERSION @"3.1.3.0"
+#define ADAPTER_VERSION @"3.1.4.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -91,7 +91,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     }
     else
     {
-        [self log: @"Verve attempted to intialize already - marking initialization as %ld", ALVerveInitializationStatus];
         completionHandler(ALVerveInitializationStatus, nil);
     }
 }
