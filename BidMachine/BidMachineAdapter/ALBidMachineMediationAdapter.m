@@ -1148,6 +1148,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: container];
         self.parentAdapter.nativeAd.controller = [ALUtils topViewControllerFromKeyWindow];
+        [self.parentAdapter.nativeAd registerDefaultAssetsForInteraction];
         [self.parentAdapter.nativeAd presentAd: container : adRendering error: &error];
     }
     // Plugins
