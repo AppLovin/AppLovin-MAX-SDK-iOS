@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.1.0.0"
+#define ADAPTER_VERSION @"4.2.0.0"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -89,7 +89,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     }
     else
     {
-        [self log: @"PubMatic initialization already started: %ld", ALPubMaticInitializationStatus];
         completionHandler(ALPubMaticInitializationStatus, nil);
     }
 }
