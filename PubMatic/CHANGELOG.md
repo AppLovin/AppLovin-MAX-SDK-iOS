@@ -1,8 +1,11 @@
 # Changelog
 
+## 4.2.0.1
+* Updated PubMatic SDK adapter to use bidder specific APIs to load banner, interstitial and rewarded ads.
+
 ## 4.2.0.0
 * Certified with PubMatic SDK 4.2.0.
-* Updated PubMatic SDK adapter to use bidder specific APIs to load banner, interstitial and rewarded ads.
+* Removed redundant log output when initialization was already completed.
 
 ## 4.1.0.0
 * Certified with PubMatic SDK 4.1.0.
