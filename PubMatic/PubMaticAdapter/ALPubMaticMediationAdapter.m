@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.1.0.0"
+#define ADAPTER_VERSION @"4.2.0.0"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -150,17 +150,13 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *publisherId = [self publisherIdFromParameters: parameters];
-    NSNumber *profileId = [self profileIdFromParameters: parameters];
     NSString *adUnitId = [self adUnitIdFromParameters: parameters];
     
     [self log: @"Loading interstitial ad: %@...", adUnitId];
     
     self.interstitialAdDelegate = [[ALPubMaticMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self
                                                                                                       andNotify: delegate];
-    self.interstitialAd = [[POBInterstitial alloc] initWithPublisherId: publisherId
-                                                             profileId: profileId
-                                                              adUnitId: adUnitId];
+    self.interstitialAd = [[POBInterstitial alloc] init];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
     
     [self.interstitialAd loadAdWithResponse: parameters.bidResponse];
@@ -188,17 +184,13 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *publisherId = [self publisherIdFromParameters: parameters];
-    NSNumber *profileId = [self profileIdFromParameters: parameters];
     NSString *adUnitId = [self adUnitIdFromParameters: parameters];
     
     [self log: @"Loading rewarded ad: %@...", adUnitId];
     
     self.rewardedAdDelegate = [[ALPubMaticMediationAdapterRewardedDelegate alloc] initWithParentAdapter: self
                                                                                               andNotify: delegate];
-    self.rewardedAd = [POBRewardedAd rewardedAdWithPublisherId: publisherId
-                                                     profileId: profileId
-                                                      adUnitId: adUnitId];
+    self.rewardedAd = [[POBRewardedAd alloc] init];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
     
     [self.rewardedAd loadAdWithResponse: parameters.bidResponse];
@@ -230,20 +222,14 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
                          adFormat:(MAAdFormat *)adFormat
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
-    NSString *publisherId = [self publisherIdFromParameters: parameters];
-    NSNumber *profileId = [self profileIdFromParameters: parameters];
     NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    POBAdSize *adSize = [self POBAdSizeFromAdFormat: adFormat];
     
     [self log: @"Loading %@ ad: %@...", adFormat.label, adUnitId];
     
     self.adViewDelegate = [[ALPubMaticMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
                                                                                            format: adFormat
                                                                                         andNotify: delegate];
-    self.adView = [[POBBannerView alloc] initWithPublisherId: publisherId
-                                                   profileId: profileId
-                                                    adUnitId: adUnitId
-                                                     adSizes: @[adSize]];
+    self.adView = [[POBBannerView alloc] init];
     self.adView.delegate = self.adViewDelegate;
     
     [self.adView loadAdWithResponse: parameters.bidResponse];
