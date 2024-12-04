@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.2.0.0"
+#define ADAPTER_VERSION @"4.2.0.1"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -66,8 +66,8 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     {
         ALPubMaticInitializationStatus = MAAdapterInitializationStatusInitializing;
         
-        NSString *publisherId = [self publisherIdFromParameters: parameters];
-        NSNumber *profileId = [self profileIdFromParameters: parameters];
+        NSString *publisherId = [parameters.serverParameters al_stringForKey: @"publisher_id"];
+        NSNumber *profileId = [parameters.serverParameters al_numberForKey: @"profile_id"];
         
         OpenWrapSDKConfig *config = [[OpenWrapSDKConfig alloc] initWithPublisherId: publisherId andProfileIds: @[profileId]];
         
@@ -149,17 +149,11 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *publisherId = [self publisherIdFromParameters: parameters];
-    NSNumber *profileId = [self profileIdFromParameters: parameters];
-    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    
-    [self log: @"Loading interstitial ad: %@...", adUnitId];
+    [self log: @"Loading interstitial ad"];
     
     self.interstitialAdDelegate = [[ALPubMaticMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self
                                                                                                       andNotify: delegate];
-    self.interstitialAd = [[POBInterstitial alloc] initWithPublisherId: publisherId
-                                                             profileId: profileId
-                                                              adUnitId: adUnitId];
+    self.interstitialAd = [[POBInterstitial alloc] init];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
     
     [self.interstitialAd loadAdWithResponse: parameters.bidResponse];
@@ -167,8 +161,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    [self log: @"Showing interstitial ad: %@...", adUnitId];
+    [self log: @"Showing interstitial ad"];
     
     if ( ![self.interstitialAd isReady] )
     {
@@ -187,17 +180,11 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *publisherId = [self publisherIdFromParameters: parameters];
-    NSNumber *profileId = [self profileIdFromParameters: parameters];
-    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    
-    [self log: @"Loading rewarded ad: %@...", adUnitId];
+    [self log: @"Loading rewarded ad"];
     
     self.rewardedAdDelegate = [[ALPubMaticMediationAdapterRewardedDelegate alloc] initWithParentAdapter: self
                                                                                               andNotify: delegate];
-    self.rewardedAd = [POBRewardedAd rewardedAdWithPublisherId: publisherId
-                                                     profileId: profileId
-                                                      adUnitId: adUnitId];
+    self.rewardedAd = [[POBRewardedAd alloc] init];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
     
     [self.rewardedAd loadAdWithResponse: parameters.bidResponse];
@@ -205,8 +192,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    [self log: @"Showing rewarded ad: %@...", adUnitId];
+    [self log: @"Showing rewarded ad"];
     
     if ( ![self.rewardedAd isReady] )
     {
@@ -229,20 +215,12 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
                          adFormat:(MAAdFormat *)adFormat
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
-    NSString *publisherId = [self publisherIdFromParameters: parameters];
-    NSNumber *profileId = [self profileIdFromParameters: parameters];
-    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    POBAdSize *adSize = [self POBAdSizeFromAdFormat: adFormat];
-    
-    [self log: @"Loading %@ ad: %@...", adFormat.label, adUnitId];
+    [self log: @"Loading %@ ad", adFormat.label];
     
     self.adViewDelegate = [[ALPubMaticMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
                                                                                            format: adFormat
                                                                                         andNotify: delegate];
-    self.adView = [[POBBannerView alloc] initWithPublisherId: publisherId
-                                                   profileId: profileId
-                                                    adUnitId: adUnitId
-                                                     adSizes: @[adSize]];
+    self.adView = [[POBBannerView alloc] init];
     self.adView.delegate = self.adViewDelegate;
     
     [self.adView loadAdWithResponse: parameters.bidResponse];
@@ -250,42 +228,6 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 }
 
 #pragma mark - Shared Methods
-
-- (NSString *)publisherIdFromParameters:(id<MAAdapterParameters>)parameters
-{
-    return [parameters.serverParameters al_stringForKey: @"publisher_id"];
-}
-
-- (NSNumber *)profileIdFromParameters:(id<MAAdapterParameters>)parameters
-{
-    return [parameters.serverParameters al_numberForKey: @"profile_id"];
-}
-
-- (NSString *)adUnitIdFromParameters:(id<MAAdapterResponseParameters>)parameters
-{
-    return parameters.thirdPartyAdPlacementIdentifier;
-}
-
-- (POBAdSize *)POBAdSizeFromAdFormat:(MAAdFormat *)adFormat
-{
-    if ( adFormat == MAAdFormat.banner )
-    {
-        return POBBannerAdSize320x50;
-    }
-    else if ( adFormat == MAAdFormat.leader )
-    {
-        return POBBannerAdSize768x90;
-    }
-    else if ( adFormat == MAAdFormat.mrec )
-    {
-        return POBBannerAdSize300x250;
-    }
-    else
-    {
-        [NSException raise: NSInvalidArgumentException format: @"Invalid ad format: %@", adFormat];
-        return POBBannerAdSize320x50;
-    }
-}
 
 - (POBAdFormat)POBAdFormatFromAdFormat:(MAAdFormat *)adFormat
 {
