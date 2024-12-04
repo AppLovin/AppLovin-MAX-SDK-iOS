@@ -1,5 +1,8 @@
 # Changelog
 
+## 11.13.0.0
+* Certified with Google SDK 11.13.0.
+
 ## 11.12.0.0
 * Certified with Google SDK 11.12.0.
 
