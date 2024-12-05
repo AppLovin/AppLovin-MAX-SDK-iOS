@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.2.0
+* Certified with MobileFuse SDK 1.8.2.
+
 ## 1.8.1.0
 * Certified with MobileFuse SDK 1.8.1.
 * Removed redundant log output when initialization was already completed.

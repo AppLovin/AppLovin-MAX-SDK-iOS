@@ -17,7 +17,7 @@
 #import <MobileFuseSDK/MFNativeAd.h>
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
 
-#define ADAPTER_VERSION @"1.8.1.0"
+#define ADAPTER_VERSION @"1.8.2.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
