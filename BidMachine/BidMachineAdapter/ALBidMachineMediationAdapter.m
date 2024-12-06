@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine.h>
 
-#define ADAPTER_VERSION @"3.1.1.0.0"
+#define ADAPTER_VERSION @"3.1.1.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -1148,6 +1148,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: container];
         self.parentAdapter.nativeAd.controller = [ALUtils topViewControllerFromKeyWindow];
+        [self.parentAdapter.nativeAd registerDefaultAssetsForInteraction];
         [self.parentAdapter.nativeAd presentAd: container : adRendering error: &error];
     }
     // Plugins

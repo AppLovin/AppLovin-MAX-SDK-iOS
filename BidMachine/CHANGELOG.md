@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.1.0.1
+* Fix asset views in a native ad not clickable.
+
 ## 3.1.1.0.0
 * Certified with BidMachine SDK 3.1.1.
 
