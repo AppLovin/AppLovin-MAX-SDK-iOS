@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.8.0.0
+* Certified with Yandex SDK 7.8.0.
+
 ## 7.5.0.3
 * Add support for native ads in external plugins (e.g. React Native / Flutter).
 
