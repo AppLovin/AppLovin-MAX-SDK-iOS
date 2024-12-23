@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.10.1.0"
+#define ADAPTER_VERSION @"4.10.2.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
