@@ -12,7 +12,7 @@
 #import "GDTUnifiedInterstitialAd.h"
 #import "GDTRewardVideoAd.h"
 
-#define ADAPTER_VERSION @"4.15.10.0"
+#define ADAPTER_VERSION @"4.15.20.0"
 
 /**
  * Interstitial Delegate
@@ -140,7 +140,6 @@ static MAAdapterInitializationStatus ALTencentGDTInitializationStatus = NSIntege
     }
     else
     {
-        [self log: @"Tencent SDK already initialized"];
         completionHandler(ALTencentGDTInitializationStatus, nil);
     }
 }
