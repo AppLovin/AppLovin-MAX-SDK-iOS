@@ -10,7 +10,7 @@
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 
-#define ADAPTER_VERSION @"5.0.1.0"
+#define ADAPTER_VERSION @"5.0.2.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -78,7 +78,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
             {
                 [self log: @"Ogury SDK failed to initialize with error: %@", error];
                 ALOguryPresageInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
-                completionHandler(ALOguryPresageInitializationStatus, nil);
+                completionHandler(ALOguryPresageInitializationStatus, error.localizedDescription);
                 return;
             }
             
