@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationVungleAdapter'
-s.version = '7.4.3.0'
+s.version = '7.4.4.0'
 s.platform = :ios, '12.0'
 s.summary = 'Vungle adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
