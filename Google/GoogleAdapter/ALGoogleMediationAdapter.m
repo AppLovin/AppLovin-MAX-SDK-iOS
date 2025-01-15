@@ -11,19 +11,17 @@
 #import "ALGoogleInterstitialDelegate.h"
 #import "ALGoogleAppOpenDelegate.h"
 #import "ALGoogleRewardedDelegate.h"
-#import "ALGoogleRewardedInterstitialDelegate.h"
 #import "ALGoogleAdViewDelegate.h"
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"11.13.0.0"
+#define ADAPTER_VERSION @"11.13.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
 @property (nonatomic, strong) GADInterstitialAd *interstitialAd;
 @property (nonatomic, strong) GADAppOpenAd *appOpenAd;
 @property (nonatomic, strong) GADInterstitialAd *appOpenInterstitialAd;
-@property (nonatomic, strong) GADRewardedInterstitialAd *rewardedInterstitialAd;
 @property (nonatomic, strong) GADRewardedAd *rewardedAd;
 @property (nonatomic, strong) GADBannerView *adView;
 @property (nonatomic, strong) GADNativeAdView *nativeAdView;
@@ -33,7 +31,6 @@
 @property (nonatomic, strong) ALGoogleInterstitialDelegate *interstitialDelegate;
 @property (nonatomic, strong) ALGoogleAppOpenDelegate *appOpenDelegate;
 @property (nonatomic, strong) ALGoogleAppOpenDelegate *appOpenInterstitialAdDelegate;
-@property (nonatomic, strong) ALGoogleRewardedInterstitialDelegate *rewardedInterstitialDelegate;
 @property (nonatomic, strong) ALGoogleRewardedDelegate *rewardedDelegate;
 @property (nonatomic, strong) ALGoogleAdViewDelegate *adViewDelegate;
 @property (nonatomic, strong) ALGoogleNativeAdViewDelegate *nativeAdViewDelegate;
@@ -110,10 +107,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     self.appOpenInterstitialAd.fullScreenContentDelegate = nil;
     self.appOpenInterstitialAd = nil;
     self.appOpenInterstitialAdDelegate = nil;
-    
-    self.rewardedInterstitialAd.fullScreenContentDelegate = nil;
-    self.rewardedInterstitialAd = nil;
-    self.rewardedInterstitialDelegate = nil;
     
     self.rewardedAd.fullScreenContentDelegate = nil;
     self.rewardedAd = nil;
@@ -381,89 +374,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     }
 }
 
-#pragma mark - MARewardedInterstitialAdapter Methods
-
-- (void)loadRewardedInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
-    [self log: @"Loading %@rewarded interstitial ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
-    
-    [self updateMuteStateFromResponseParameters: parameters];
-    GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                   adFormat: MAAdFormat.rewardedInterstitial
-                                             withParameters: parameters];
-    
-    [GADRewardedInterstitialAd loadWithAdUnitID: placementIdentifier
-                                        request: request
-                              completionHandler:^(GADRewardedInterstitialAd * _Nullable rewardedInterstitialAd, NSError * _Nullable error) {
-        
-        if ( error )
-        {
-            MAAdapterError *adapterError = [ALGoogleMediationAdapter toMaxError: error];
-            [self log: @"Rewarded interstitial ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
-            [delegate didFailToLoadRewardedInterstitialAdWithError: adapterError];
-            
-            return;
-        }
-        
-        if ( !rewardedInterstitialAd )
-        {
-            [self log: @"Rewarded interstitial ad (%@) failed to load: ad is nil", placementIdentifier];
-            [delegate didFailToLoadRewardedInterstitialAdWithError: MAAdapterError.adNotReady];
-            
-            return;
-        }
-        
-        [self log: @"Rewarded interstitial ad loaded: %@", placementIdentifier];
-        
-        self.rewardedInterstitialAd = rewardedInterstitialAd;
-        self.rewardedInterstitialDelegate = [[ALGoogleRewardedInterstitialDelegate alloc] initWithParentAdapter: self
-                                                                                            placementIdentifier: placementIdentifier
-                                                                                                      andNotify: delegate];
-        self.rewardedInterstitialAd.fullScreenContentDelegate = self.rewardedInterstitialDelegate;
-        
-        NSString *responseId = self.rewardedInterstitialAd.responseInfo.responseIdentifier;
-        if ( [responseId al_isValidString] )
-        {
-            [delegate didLoadRewardedInterstitialAdWithExtraInfo: @{@"creative_id" : responseId}];
-        }
-        else
-        {
-            [delegate didLoadRewardedInterstitialAd];
-        }
-    }];
-}
-
-- (void)showRewardedInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing rewarded interstitial ad: %@...", placementIdentifier];
-    
-    if ( self.rewardedInterstitialAd )
-    {
-        [self configureRewardForParameters: parameters];
-        
-        UIViewController *presentingViewController = [self presentingViewControllerForParameters: parameters];
-        [self.rewardedInterstitialAd presentFromRootViewController: presentingViewController userDidEarnRewardHandler:^{
-            [self log: @"Rewarded interstitial ad user earned reward: %@", placementIdentifier];
-            self.rewardedInterstitialDelegate.grantedReward = YES;
-        }];
-    }
-    else
-    {
-        [self log: @"Rewarded interstitial ad failed to show: %@", placementIdentifier];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                                     errorString: @"Ad Display Failed"
-                                                                          thirdPartySdkErrorCode: 0
-                                                                       thirdPartySdkErrorMessage: @"Rewarded Interstitial ad not ready"]];
-#pragma clang diagnostic pop
-    }
-}
-
 #pragma mark - MARewardedAdapter Methods
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -699,16 +609,18 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
                isAdaptiveBanner:(BOOL)isAdaptiveBanner
                      parameters:(id<MAAdapterParameters>)parameters
 {
-    if ( adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader )
+    if ( isAdaptiveBanner && [self isAdaptiveAdFormat: adFormat parameters: parameters] )
     {
-        if ( isAdaptiveBanner )
-        {
-            return [self adaptiveAdSizeFromParameters: parameters];
-        }
-        else
-        {
-            return adFormat == MAAdFormat.banner ? GADAdSizeBanner : GADAdSizeLeaderboard;
-        }
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+    
+    if ( adFormat == MAAdFormat.banner )
+    {
+        return GADAdSizeBanner;
+    }
+    else if ( adFormat == MAAdFormat.leader )
+    {
+        return GADAdSizeLeaderboard;
     }
     else if ( adFormat == MAAdFormat.mrec )
     {
@@ -743,7 +655,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
             });
         }
     }
-    else // Return anchored size by default.
+    else // Return anchored size by default
     {
         dispatchSyncOnMainQueue(^{
             adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(bannerWidth);
@@ -751,6 +663,13 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     }
     
     return adSize;
+}
+
+- (BOOL)isAdaptiveAdFormat:(MAAdFormat *)adFormat parameters:(id<MAAdapterParameters>)parameters
+{
+    // Adaptive banners must be inline for MRECs
+    BOOL isInlineAdaptiveMRec = ( adFormat == MAAdFormat.mrec ) && [self isInlineAdaptiveBannerFromParameters: parameters];
+    return isInlineAdaptiveMRec || adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader;
 }
 
 - (BOOL)isInlineAdaptiveBannerFromParameters:(id<MAAdapterParameters>)parameters
@@ -799,10 +718,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     {
         return GADAdFormatRewarded;
     }
-    else if ( adFormat == MAAdFormat.rewardedInterstitial )
-    {
-        return GADAdFormatRewardedInterstitial;
-    }
     // NOTE: App open ads were added in AppLovin v11.5.0 and must be checked after all the other ad formats to avoid throwing an exception
     else if ( adFormat == MAAdFormat.appOpen )
     {
@@ -840,7 +755,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
             if ( isAdaptiveBanner )
             {
                 GADAdSize adaptiveAdSize = [self adSizeFromAdFormat: adFormat
-                                                   isAdaptiveBanner: isAdaptiveBanner
+                                                   isAdaptiveBanner: YES
                                                          parameters: parameters];
                 extraParameters[@"adaptive_banner_w"] = @(adaptiveAdSize.size.width);
                 extraParameters[@"adaptive_banner_h"] = @(adaptiveAdSize.size.height);
