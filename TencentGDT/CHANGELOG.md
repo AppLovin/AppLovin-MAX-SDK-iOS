@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.15.21.0
+* Certified with TencentGDT SDK 4.15.21.
+
 ## 4.15.20.0
 * Certified with TencentGDT SDK 4.15.20.
 * Removed redundant log output when initialization was already completed.
