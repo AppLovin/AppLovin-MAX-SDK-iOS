@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"4.10.2.0"
+#define ADAPTER_VERSION @"5.0.0.0"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -273,6 +273,17 @@ static NSString *ALAPSSDKVersion;
                                                                                          parameters: parameters
                                                                                            adFormat: adFormat
                                                                                           andNotify: delegate];
+
+    DTBAdNetworkInfo *currentAdNetworkInfo = [adLoader getAdNetworkInfo];
+    if ( currentAdNetworkInfo.adNetworkNameEnumValue != DTBADNETWORK_MAX )
+    {
+        DTBAdNetworkInfo *adNetworkInfo = [[DTBAdNetworkInfo alloc] initWithNetworkName: DTBADNETWORK_MAX];
+        [adNetworkInfo logAdNetworkTypeMismatchWithExpectedAdNetworkName: adNetworkInfo.adNetworkName
+                                                     receivedNetworkName: currentAdNetworkInfo.adNetworkName];
+        
+        [adLoader updateAdNetworkInfo: adNetworkInfo];
+    }
+
     [adLoader loadAd: self.signalCollectionDelegate];
 }
 
