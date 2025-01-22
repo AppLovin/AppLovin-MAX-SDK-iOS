@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.6.1.2.0
+* Certified with CSJ SDK 6.6.1.2.
+
+## 6.4.3.7.0
+* Certified with CSJ SDK 6.4.3.7.
+* Removed redundant log output when initialization was already completed.
+
 ## 6.4.3.2.0
 * Certified with CSJ SDK 6.4.3.2.
 

@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"6.4.3.2.0"
+#define ADAPTER_VERSION @"6.6.1.2.0"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -135,7 +135,6 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
     }
     else
     {
-        [self log: @"CSJ SDK already initialized"];
         completionHandler(ALCSJInitializationStatus, nil);
     }
 }

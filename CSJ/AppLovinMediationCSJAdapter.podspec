@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationCSJAdapter'
-s.version = '6.4.3.2.0'
+s.version = '6.6.1.2.0'
 s.platform = :ios, '11.0'
 s.summary = 'CSJ adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
