@@ -21,7 +21,6 @@
 
 @property (nonatomic, strong) GADInterstitialAd *interstitialAd;
 @property (nonatomic, strong) GADAppOpenAd *appOpenAd;
-@property (nonatomic, strong) GADInterstitialAd *appOpenInterstitialAd;
 @property (nonatomic, strong) GADRewardedAd *rewardedAd;
 @property (nonatomic, strong) GADBannerView *adView;
 @property (nonatomic, strong) GADNativeAdView *nativeAdView;
@@ -30,7 +29,6 @@
 
 @property (nonatomic, strong) ALGoogleInterstitialDelegate *interstitialDelegate;
 @property (nonatomic, strong) ALGoogleAppOpenDelegate *appOpenDelegate;
-@property (nonatomic, strong) ALGoogleAppOpenDelegate *appOpenInterstitialAdDelegate;
 @property (nonatomic, strong) ALGoogleRewardedDelegate *rewardedDelegate;
 @property (nonatomic, strong) ALGoogleAdViewDelegate *adViewDelegate;
 @property (nonatomic, strong) ALGoogleNativeAdViewDelegate *nativeAdViewDelegate;
@@ -104,10 +102,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     self.appOpenAd = nil;
     self.appOpenDelegate = nil;
     
-    self.appOpenInterstitialAd.fullScreenContentDelegate = nil;
-    self.appOpenInterstitialAd = nil;
-    self.appOpenInterstitialAdDelegate = nil;
-    
     self.rewardedAd.fullScreenContentDelegate = nil;
     self.rewardedAd = nil;
     self.rewardedDelegate = nil;
@@ -122,7 +116,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
-    // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
+    // Remove the view from MANativeAdView in case the publisher decides to re-use the native ad view.
     [self.nativeAdView removeFromSuperview];
     self.nativeAdView = nil;
     
@@ -134,13 +128,8 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
-    GADRequest *adRequest = [self createAdRequestForBiddingAd: YES
-                                                     adFormat: parameters.adFormat
-                                               withParameters: parameters];
-    
-    [GADQueryInfo createQueryInfoWithRequest: adRequest
-                                    adFormat: [self adFormatFromParameters: parameters]
-                           completionHandler:^(GADQueryInfo *_Nullable queryInfo, NSError *_Nullable error) {
+    GADSignalRequest *signalRequest = [self createSignalRequestForAdFormat: parameters.adFormat withParameters: parameters];
+    [GADMobileAds generateSignal: signalRequest completionHandler:^(GADSignal *_Nullable signal, NSError *_Nullable error) {
         
         if ( error )
         {
@@ -150,17 +139,8 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
             return;
         }
         
-        if ( !queryInfo )
-        {
-            NSString *errorMessage = @"Unexpected error - query info is nil";
-            [self log: @"Signal collection failed with error: %@", errorMessage];
-            [delegate didFailToCollectSignalWithErrorMessage: errorMessage];
-            
-            return;
-        }
-        
         [self log: @"Signal collection successful"];
-        [delegate didCollectSignal: queryInfo.query];
+        [delegate didCollectSignal: signal.signalString];
     }];
 }
 
@@ -168,23 +148,18 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
-    [self log: @"Loading %@interstitial ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
+    [self log: @"Loading %@interstitial ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                   adFormat: MAAdFormat.interstitial
-                                             withParameters: parameters];
     
-    [GADInterstitialAd loadWithAdUnitID: placementIdentifier
-                                request: request
-                      completionHandler:^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
+    GADInterstitialAdLoadCompletionHandler loadHandler = ^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
         
         if ( error )
         {
             MAAdapterError *adapterError = [ALGoogleMediationAdapter toMaxError: error];
-            [self log: @"Interstitial ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
+            [self log: @"Interstitial ad (%@) failed to load with error: %@", placementId, adapterError];
             [delegate didFailToLoadInterstitialAdWithError: adapterError];
             
             return;
@@ -192,17 +167,17 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         
         if ( !interstitialAd )
         {
-            [self log: @"Interstitial ad (%@) failed to load: ad is nil", placementIdentifier];
+            [self log: @"Interstitial ad (%@) failed to load: ad is nil", placementId];
             [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.adNotReady];
             
             return;
         }
         
-        [self log: @"Interstitial ad loaded: %@", placementIdentifier];
+        [self log: @"Interstitial ad loaded: %@", placementId];
         
         self.interstitialAd = interstitialAd;
         self.interstitialDelegate = [[ALGoogleInterstitialDelegate alloc] initWithParentAdapter: self
-                                                                            placementIdentifier: placementIdentifier
+                                                                            placementIdentifier: placementId
                                                                                       andNotify: delegate];
         self.interstitialAd.fullScreenContentDelegate = self.interstitialDelegate;
         
@@ -215,13 +190,25 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         {
             [delegate didLoadInterstitialAd];
         }
-    }];
+    };
+    
+    if ( isBiddingAd )
+    {
+        [GADInterstitialAd loadWithAdResponseString: parameters.bidResponse completionHandler: loadHandler];
+    }
+    else
+    {
+        GADRequest *request = [self createAdRequestForAdFormat: MAAdFormat.interstitial withParameters: parameters];
+        [GADInterstitialAd loadWithAdUnitID: placementId
+                                    request: request
+                          completionHandler: loadHandler];
+    }
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing interstitial ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing interstitial ad: %@...", placementId];
     
     if ( self.interstitialAd )
     {
@@ -230,7 +217,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     }
     else
     {
-        [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
+        [self log: @"Interstitial ad failed to show: %@", placementId];
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -246,127 +233,76 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
-    BOOL isInterstitial = [parameters.serverParameters al_boolForKey: @"is_inter_placement"];
-    
-    [self log: @"Loading %@app open %@ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), ( isInterstitial ? @"interstitial " : @"" ), placementIdentifier];
+    [self log: @"Loading %@app open ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
     [self updateMuteStateFromResponseParameters: parameters];
     
-    if ( isInterstitial )
-    {
-        GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                       adFormat: MAAdFormat.interstitial
-                                                 withParameters: parameters];
+    GADAppOpenAdLoadCompletionHandler loadHandler = ^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         
-        [GADInterstitialAd loadWithAdUnitID: placementIdentifier
-                                    request: request
-                          completionHandler:^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
+        if ( error )
+        {
+            MAAdapterError *adapterError = [ALGoogleMediationAdapter toMaxError: error];
+            [self log: @"App open ad (%@) failed to load with error: %@", placementId, adapterError];
+            [delegate didFailToLoadAppOpenAdWithError: adapterError];
             
-            if ( error )
-            {
-                MAAdapterError *adapterError = [ALGoogleMediationAdapter toMaxError: error];
-                [self log: @"App open interstitial ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
-                [delegate didFailToLoadAppOpenAdWithError: adapterError];
-                
-                return;
-            }
+            return;
+        }
+        
+        if ( !appOpenAd )
+        {
+            [self log: @"App open ad (%@) failed to load: ad is nil", placementId];
+            [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.adNotReady];
             
-            if ( !interstitialAd )
-            {
-                [self log: @"App open interstitial ad (%@) failed to load: ad is nil", placementIdentifier];
-                [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.adNotReady];
-                
-                return;
-            }
-            
-            [self log: @"App open interstitial ad loaded: %@", placementIdentifier];
-            
-            self.appOpenInterstitialAd = interstitialAd;
-            self.appOpenInterstitialAdDelegate = [[ALGoogleAppOpenDelegate alloc] initWithParentAdapter: self
-                                                                                    placementIdentifier: placementIdentifier
-                                                                                              andNotify: delegate];
-            self.appOpenInterstitialAd.fullScreenContentDelegate = self.appOpenInterstitialAdDelegate;
-            
-            NSString *responseId = self.appOpenInterstitialAd.responseInfo.responseIdentifier;
-            if ( [responseId al_isValidString] )
-            {
-                [delegate didLoadAppOpenAdWithExtraInfo: @{@"creative_id" : responseId}];
-            }
-            else
-            {
-                [delegate didLoadAppOpenAd];
-            }
-        }];
+            return;
+        }
+        
+        [self log: @"App open ad loaded: %@", placementId];
+        
+        self.appOpenAd = appOpenAd;
+        self.appOpenDelegate = [[ALGoogleAppOpenDelegate alloc] initWithParentAdapter: self
+                                                                  placementIdentifier: placementId
+                                                                            andNotify: delegate];
+        self.appOpenAd.fullScreenContentDelegate = self.appOpenDelegate;
+        
+        NSString *responseId = self.appOpenAd.responseInfo.responseIdentifier;
+        if ( [responseId al_isValidString] )
+        {
+            [delegate didLoadAppOpenAdWithExtraInfo: @{@"creative_id" : responseId}];
+        }
+        else
+        {
+            [delegate didLoadAppOpenAd];
+        }
+    };
+    
+    if ( isBiddingAd )
+    {
+        [GADAppOpenAd loadWithAdResponseString: parameters.bidResponse completionHandler: loadHandler];
     }
     else
     {
-        GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                       adFormat: MAAdFormat.appOpen
-                                                 withParameters: parameters];
-        
-        [GADAppOpenAd loadWithAdUnitID: placementIdentifier
+        GADRequest *request = [self createAdRequestForAdFormat: MAAdFormat.appOpen withParameters: parameters];
+        [GADAppOpenAd loadWithAdUnitID: placementId
                                request: request
-                     completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
-            
-            if ( error )
-            {
-                MAAdapterError *adapterError = [ALGoogleMediationAdapter toMaxError: error];
-                [self log: @"App open ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
-                [delegate didFailToLoadAppOpenAdWithError: adapterError];
-                
-                return;
-            }
-            
-            if ( !appOpenAd )
-            {
-                [self log: @"App open ad (%@) failed to load: ad is nil", placementIdentifier];
-                [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.adNotReady];
-                
-                return;
-            }
-            
-            [self log: @"App open ad loaded: %@", placementIdentifier];
-            
-            self.appOpenAd = appOpenAd;
-            self.appOpenDelegate = [[ALGoogleAppOpenDelegate alloc] initWithParentAdapter: self
-                                                                      placementIdentifier: placementIdentifier
-                                                                                andNotify: delegate];
-            self.appOpenAd.fullScreenContentDelegate = self.appOpenDelegate;
-            
-            NSString *responseId = self.appOpenAd.responseInfo.responseIdentifier;
-            if ( [responseId al_isValidString] )
-            {
-                [delegate didLoadAppOpenAdWithExtraInfo: @{@"creative_id" : responseId}];
-            }
-            else
-            {
-                [delegate didLoadAppOpenAd];
-            }
-        }];
+                     completionHandler: loadHandler];
     }
 }
 
 - (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    BOOL isInterstitial = [parameters.serverParameters al_boolForKey: @"is_inter_placement"];
-    [self log: @"Showing app open %@ad: %@...", ( isInterstitial ? @"interstitial " : @"" ), placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing app open ad: %@...", placementId];
     
-    if ( self.appOpenInterstitialAd )
-    {
-        UIViewController *presentingViewController = [self presentingViewControllerForParameters: parameters];
-        [self.appOpenInterstitialAd presentFromRootViewController: presentingViewController];
-    }
-    else if ( self.appOpenAd )
+    if ( self.appOpenAd )
     {
         UIViewController *presentingViewController = [self presentingViewControllerForParameters: parameters];
         [self.appOpenAd presentFromRootViewController: presentingViewController];
     }
     else
     {
-        [self log: @"App open ad failed to show: %@", placementIdentifier];
+        [self log: @"App open ad failed to show: %@", placementId];
         [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
                                                                         errorString: @"Ad Display Failed"
                                                            mediatedNetworkErrorCode: 0
@@ -378,23 +314,18 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
-    [self log: @"Loading %@rewarded ad: %@...", ( isBiddingAd ? @"bidding " : @"" ), placementIdentifier];
+    [self log: @"Loading %@rewarded ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
     [self updateMuteStateFromResponseParameters: parameters];
-    GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                   adFormat: MAAdFormat.rewarded
-                                             withParameters: parameters];
     
-    [GADRewardedAd loadWithAdUnitID: placementIdentifier
-                            request: request
-                  completionHandler:^(GADRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
+    GADRewardedAdLoadCompletionHandler loadHandler = ^(GADRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
         
         if ( error )
         {
             MAAdapterError *adapterError = [ALGoogleMediationAdapter toMaxError: error];
-            [self log: @"Rewarded ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
+            [self log: @"Rewarded ad (%@) failed to load with error: %@", placementId, adapterError];
             [delegate didFailToLoadRewardedAdWithError: adapterError];
             
             return;
@@ -402,17 +333,17 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         
         if ( !rewardedAd )
         {
-            [self log: @"Rewarded ad (%@) failed to load: ad is nil", placementIdentifier];
+            [self log: @"Rewarded ad (%@) failed to load: ad is nil", placementId];
             [delegate didFailToLoadRewardedAdWithError: MAAdapterError.adNotReady];
             
             return;
         }
         
-        [self log: @"Rewarded ad loaded: %@", placementIdentifier];
+        [self log: @"Rewarded ad loaded: %@", placementId];
         
         self.rewardedAd = rewardedAd;
         self.rewardedDelegate = [[ALGoogleRewardedDelegate alloc] initWithParentAdapter: self
-                                                                    placementIdentifier: placementIdentifier
+                                                                    placementIdentifier: placementId
                                                                               andNotify: delegate];
         self.rewardedAd.fullScreenContentDelegate = self.rewardedDelegate;
         
@@ -425,13 +356,25 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         {
             [delegate didLoadRewardedAd];
         }
-    }];
+    };
+    
+    if ( isBiddingAd )
+    {
+        [GADRewardedAd loadWithAdResponseString: parameters.bidResponse completionHandler: loadHandler];
+    }
+    else
+    {
+        GADRequest *request = [self createAdRequestForAdFormat: MAAdFormat.rewarded withParameters: parameters];
+        [GADRewardedAd loadWithAdUnitID: placementId
+                                request: request
+                      completionHandler: loadHandler];
+    }
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing rewarded ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing rewarded ad: %@...", placementId];
     
     if ( self.rewardedAd )
     {
@@ -439,13 +382,13 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
         
         UIViewController *presentingViewController = [self presentingViewControllerForParameters: parameters];
         [self.rewardedAd presentFromRootViewController: presentingViewController userDidEarnRewardHandler:^{
-            [self log: @"Rewarded ad user earned reward: %@", placementIdentifier];
+            [self log: @"Rewarded ad user earned reward: %@", placementId];
             self.rewardedDelegate.grantedReward = YES;
         }];
     }
     else
     {
-        [self log: @"Rewarded ad failed to show: %@", placementIdentifier];
+        [self log: @"Rewarded ad failed to show: %@", placementId];
         
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -463,56 +406,69 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
                          adFormat:(MAAdFormat *)adFormat
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
-    [self log: @"Loading %@%@%@ ad: %@...", ( isBiddingAd ? @"bidding " : @""), ( isNative ? @"native " : @"" ), adFormat.label, placementIdentifier];
+    [self log: @"Loading %@%@%@ ad: %@...", (isBiddingAd ? @"bidding " : @""), (isNative ? @"native " : @""), adFormat.label, placementId];
     
-    GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                   adFormat: adFormat
-                                             withParameters: parameters];
-    
-    if ( isNative )
+    if ( isBiddingAd )
     {
-        GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
-        nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
-        
-        GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
-        nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = (adFormat == MAAdFormat.mrec); // MRECs can handle multiple images via AdMob's media view
-        
-        self.nativeAdViewDelegate = [[ALGoogleNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                       adFormat: adFormat
-                                                                               serverParameters: parameters.serverParameters
-                                                                                      andNotify: delegate];
-        // Fetching the top view controller needs to be on the main queue
-        dispatchOnMainQueue(^{
-            self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
-                                                     rootViewController: [ALUtils topViewControllerFromKeyWindow]
-                                                                adTypes: @[GADAdLoaderAdTypeNative]
-                                                                options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
-            self.nativeAdLoader.delegate = self.nativeAdViewDelegate;
-            
-            [self.nativeAdLoader loadRequest: request];
-        });
-    }
-    else
-    {
-        // Check if adaptive banner sizes should be used
-        BOOL isAdaptiveBanner = [parameters.serverParameters al_boolForKey: @"adaptive_banner" defaultValue: NO];
-        
-        GADAdSize adSize = [self adSizeFromAdFormat: adFormat
-                                   isAdaptiveBanner: isAdaptiveBanner
-                                         parameters: parameters];
-        self.adView = [[GADBannerView alloc] initWithAdSize: adSize];
-        self.adView.frame = (CGRect) {.size = adSize.size};
-        self.adView.adUnitID = placementIdentifier;
+        self.adView = [[GADBannerView alloc] init];
+        self.adView.adUnitID = placementId;
         self.adView.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         self.adViewDelegate = [[ALGoogleAdViewDelegate alloc] initWithParentAdapter: self
                                                                            adFormat: adFormat
                                                                           andNotify: delegate];
         self.adView.delegate = self.adViewDelegate;
         
-        [self.adView loadRequest: request];
+        [self.adView loadWithAdResponseString: parameters.bidResponse];
+    }
+    else
+    {
+        GADRequest *request = [self createAdRequestForAdFormat: adFormat withParameters: parameters];
+        
+        if ( isNative )
+        {
+            GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
+            nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
+            
+            GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
+            nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = (adFormat == MAAdFormat.mrec); // MRECs can handle multiple images via AdMob's media view
+            
+            self.nativeAdViewDelegate = [[ALGoogleNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                           adFormat: adFormat
+                                                                                   serverParameters: parameters.serverParameters
+                                                                                          andNotify: delegate];
+            // Fetching the top view controller needs to be on the main queue
+            dispatchOnMainQueue(^{
+                self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementId
+                                                         rootViewController: [ALUtils topViewControllerFromKeyWindow]
+                                                                    adTypes: @[GADAdLoaderAdTypeNative]
+                                                                    options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
+                self.nativeAdLoader.delegate = self.nativeAdViewDelegate;
+                
+                [self.nativeAdLoader loadRequest: request];
+            });
+        }
+        else
+        {
+            // Check if adaptive banner sizes should be used
+            BOOL isAdaptiveBanner = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+            
+            GADAdSize adSize = [self adSizeFromAdFormat: adFormat
+                                       isAdaptiveBanner: isAdaptiveBanner
+                                             parameters: parameters];
+            self.adView = [[GADBannerView alloc] initWithAdSize: adSize];
+            self.adView.frame = (CGRect) {.size = adSize.size};
+            self.adView.adUnitID = placementId;
+            self.adView.rootViewController = [ALUtils topViewControllerFromKeyWindow];
+            self.adViewDelegate = [[ALGoogleAdViewDelegate alloc] initWithParentAdapter: self
+                                                                               adFormat: adFormat
+                                                                              andNotify: delegate];
+            self.adView.delegate = self.adViewDelegate;
+            
+            [self.adView loadRequest: request];
+        }
     }
 }
 
@@ -520,37 +476,48 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
-    [self log: @"Loading %@native ad: %@...", ( isBiddingAd ? @"bidding " : @""), placementIdentifier];
-    
-    GADRequest *request = [self createAdRequestForBiddingAd: isBiddingAd
-                                                   adFormat: MAAdFormat.native
-                                             withParameters: parameters];
-    
-    GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
-    nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
-    
-    GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
-    
-    // Medium templates can handle multiple images via AdMob's media view
-    NSString *templateName = [parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
-    nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = [templateName containsString: @"medium"];
+    [self log: @"Loading %@native ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
     self.nativeAdDelegate = [[ALGoogleNativeAdDelegate alloc] initWithParentAdapter: self
                                                                          parameters: parameters
                                                                           andNotify: delegate];
     
-    // Fetching the top view controller needs to be on the main queue
-    dispatchOnMainQueue(^{
-        self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
-                                                 rootViewController: [ALUtils topViewControllerFromKeyWindow]
-                                                            adTypes: @[GADAdLoaderAdTypeNative]
-                                                            options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
-        self.nativeAdLoader.delegate = self.nativeAdDelegate;
+    if ( isBiddingAd )
+    {
+        // Fetching the top view controller needs to be on the main queue
+        dispatchOnMainQueue(^{
+            self.nativeAdLoader = [[GADAdLoader alloc] initWithRootViewController: [ALUtils topViewControllerFromKeyWindow]];
+            self.nativeAdLoader.delegate = self.nativeAdDelegate;
+            
+            [self.nativeAdLoader loadWithAdResponseString: parameters.bidResponse];
+        });
+    }
+    else
+    {
+        GADRequest *request = [self createAdRequestForAdFormat: MAAdFormat.native withParameters: parameters];
         
-        [self.nativeAdLoader loadRequest: request];
-    });
+        GADNativeAdViewAdOptions *nativeAdViewOptions = [[GADNativeAdViewAdOptions alloc] init];
+        nativeAdViewOptions.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
+        
+        GADNativeAdImageAdLoaderOptions *nativeAdImageAdLoaderOptions = [[GADNativeAdImageAdLoaderOptions alloc] init];
+        
+        // Medium templates can handle multiple images via AdMob's media view
+        NSString *templateName = [parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        nativeAdImageAdLoaderOptions.shouldRequestMultipleImages = [templateName containsString: @"medium"];
+        
+        // Fetching the top view controller needs to be on the main queue
+        dispatchOnMainQueue(^{
+            self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementId
+                                                     rootViewController: [ALUtils topViewControllerFromKeyWindow]
+                                                                adTypes: @[GADAdLoaderAdTypeNative]
+                                                                options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
+            self.nativeAdLoader.delegate = self.nativeAdDelegate;
+            
+            [self.nativeAdLoader loadRequest: request];
+        });
+    }
 }
 
 #pragma mark - Shared Methods
@@ -567,7 +534,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
             break;
         case GADErrorNoFill:
         case GADErrorMediationAdapterError: /* Considered no fill by AdMob, might be a bug */
-        case GADErrorMediationNoFill:
             adapterError = MAAdapterError.noFill;
             break;
         case GADErrorNetworkError:
@@ -629,7 +595,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     else
     {
         [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
-        
         return GADAdSizeBanner;
     }
 }
@@ -729,62 +694,107 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     return -1;
 }
 
-- (GADRequest *)createAdRequestForBiddingAd:(BOOL)isBiddingAd
-                                   adFormat:(MAAdFormat *)adFormat
-                             withParameters:(id<MAAdapterParameters>)parameters
+- (GADSignalRequest *)createSignalRequestForAdFormat:(MAAdFormat *)adFormat withParameters:(id<MASignalCollectionParameters>)parameters
 {
-    GADRequest *request = [GADRequest request];
     NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
+    
+    NSString *bidderType = [serverParameters al_stringForKey: @"bidder" defaultValue: @""];
+    BOOL isDv360Bidding = [@"dv360" al_isEqualToStringIgnoringCase: bidderType];
+    NSString *signalType = isDv360Bidding ? @"requester_type_3" : @"requester_type_2";
+    
+    GADSignalRequest *request;
+    NSMutableDictionary<NSString *, id> *extraParams = [NSMutableDictionary dictionary];
+    
+    if ( [adFormat isAdViewAd] )
+    {
+        request = [[GADBannerSignalRequest alloc] initWithSignalType: signalType];
+        
+        BOOL isAdaptiveBanner = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        GADAdSize adSize = [self adSizeFromAdFormat: adFormat
+                                   isAdaptiveBanner: isAdaptiveBanner
+                                         parameters: parameters];
+        ((GADBannerSignalRequest *) request).adSize = adSize;
+    }
+    else if ( adFormat == MAAdFormat.interstitial )
+    {
+        request = [[GADInterstitialSignalRequest alloc] initWithSignalType: signalType];
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        request = [[GADRewardedSignalRequest alloc] initWithSignalType: signalType];
+    }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        GADNativeSignalRequest *nativeSignalRequest = [[GADNativeSignalRequest alloc] initWithSignalType: signalType];
+        nativeSignalRequest.preferredAdChoicesPosition = [self adChoicesPlacementFromParameters: parameters];
+        nativeSignalRequest.adLoaderAdTypes = [NSSet setWithObject: GADAdLoaderAdTypeNative];
+        
+        // Medium templates can handle multiple images via AdMob's media view
+        NSString *templateName = [parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        nativeSignalRequest.shouldRequestMultipleImages = [templateName containsString: @"medium"];
+        
+        request = nativeSignalRequest;
+    }
+    // NOTE: App open ads were added in AppLovin v11.5.0 and must be checked after all the other ad formats to avoid throwing an exception
+    else if ( adFormat == MAAdFormat.appOpen )
+    {
+        request = [[GADAppOpenSignalRequest alloc] initWithSignalType: signalType];
+    }
+    else
+    {
+        [NSException raise: NSInvalidArgumentException
+                    format: @"Unable to generate signal request class due to unsupported ad format: %@", adFormat];
+    }
+    
+    request.requestAgent = isDv360Bidding ? @"applovin_dv360" : @"applovin";
+    
+    // NOTE: TBD on how to pass this
+    //extraParams[@"placement_req_id"] = eventIdentifier;
+    
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
+    if ( hasUserConsent && !hasUserConsent.boolValue )
+    {
+        extraParams[@"npa"] = @"1"; // Non-personalized ads
+    }
+    
+    NSNumber *isDoNotSell = [parameters isDoNotSell];
+    if ( isDoNotSell && isDoNotSell.boolValue )
+    {
+        // Restrict data processing - https://developers.google.com/admob/ios/ccpa
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"gad_rdp"];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"gad_rdp"];
+    }
+    
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    
+    NSString *contentURL = [localExtraParameters al_stringForKey: @"google_content_url"];
+    if ( [contentURL al_isValidString] )
+    {
+        request.contentURL = contentURL;
+    }
+    
+    NSArray *neighbouringContentURLStrings = [localExtraParameters al_arrayForKey: @"google_neighbouring_content_url_strings"];
+    if ( neighbouringContentURLStrings )
+    {
+        request.neighboringContentURLStrings = neighbouringContentURLStrings;
+    }
+    
+    GADExtras *extras = [[GADExtras alloc] init];
+    extras.additionalParameters = extraParams;
+    [request registerAdNetworkExtras: extras];
+    
+    return request;
+}
+
+- (GADRequest *)createAdRequestForAdFormat:(MAAdFormat *)adFormat withParameters:(id<MAAdapterParameters>)parameters
+{
     NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 5];
-    BOOL isDv360Bidding = NO;
     
-    if ( isBiddingAd )
-    {
-        NSString *bidderType = [serverParameters al_stringForKey: @"bidder" defaultValue: @""];
-        if ( [@"dv360" al_isEqualToStringIgnoringCase: bidderType] )
-        {
-            isDv360Bidding = YES;
-        }
-        
-        // Requested by Google for signal collection
-        extraParameters[@"query_info_type"] = isDv360Bidding ? @"requester_type_3" : @"requester_type_2";
-        
-        if ( [adFormat isAdViewAd] )
-        {
-            BOOL isAdaptiveBanner = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
-            if ( isAdaptiveBanner )
-            {
-                GADAdSize adaptiveAdSize = [self adSizeFromAdFormat: adFormat
-                                                   isAdaptiveBanner: YES
-                                                         parameters: parameters];
-                extraParameters[@"adaptive_banner_w"] = @(adaptiveAdSize.size.width);
-                extraParameters[@"adaptive_banner_h"] = @(adaptiveAdSize.size.height);
-            }
-        }
-        
-        if ( [parameters respondsToSelector: @selector(bidResponse)] )
-        {
-            NSString *bidResponse = ((id<MAAdapterResponseParameters>) parameters).bidResponse;
-            if ( [bidResponse al_isValidString] )
-            {
-                request.adString = bidResponse;
-            }
-        }
-    }
-    
-    if ( [serverParameters al_numberForKey: @"set_mediation_identifier" defaultValue: @(YES)].boolValue )
-    {
-        // Use "applovin" instead of mediationTag for Google's specs
-        // "applovin_dv360" is for DV360_BIDDING, which is a separate bidder from regular ADMOB_BIDDING
-        [request setRequestAgent: isDv360Bidding ? @"applovin_dv360" : @"applovin"];
-    }
-    
-    // Use event id as AdMob's placement request id - https://app.asana.com/0/1126394401843426/1200682332716267
-    NSString *eventIdentifier = [serverParameters al_stringForKey: @"event_id"];
-    if ( [eventIdentifier al_isValidString] )
-    {
-        extraParameters[@"placement_req_id"] = eventIdentifier;
-    }
+    GADRequest *request = [GADRequest request];
+    [request setRequestAgent: @"applovin"];
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
