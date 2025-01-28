@@ -154,8 +154,6 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
             return
         }
         
-        nativeAd.show(in: ALUtils.topViewControllerFromKeyWindow())
-        
         adapter.nativeAdViewAd = MAMolocoNativeAd(adapter: adapter, adFormat: adFormat) { builder in
             builder.title = assets.title
             builder.body = assets.description
@@ -171,6 +169,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         adapter.nativeAdViewAd?.prepare(forInteractionClickableViews: nativeAdView.clickableViews, withContainer: nativeAdView)
         
         delegate?.didLoadAd(forAdView: nativeAdView)
+        nativeAd.handleImpression()
     }
     
     func failToLoad(ad: MolocoAd, with error: Error?)
@@ -180,7 +179,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         delegate?.didFailToLoadAdViewAdWithError(adapterError)
     }
     
-    func didShow(ad: MolocoAd)
+    func didHandleImpression(ad: MolocoAd)
     {
         adapter.log(adEvent: .displayed, adFormat: adFormat)
         delegate?.didDisplayAdViewAd()
@@ -193,7 +192,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         delegate?.didFailToDisplayAdViewAdWithError(adapterError)
     }
     
-    func didClick(on ad: MolocoAd)
+    func didHandleClick(ad: MolocoAd)
     {
         adapter.log(adEvent: .clicked, adFormat: adFormat)
         delegate?.didClickAdViewAd()
@@ -204,4 +203,8 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         adapter.log(adEvent: .hidden, adFormat: adFormat)
         delegate?.didHideAdViewAd()
     }
+    
+    // Deprecated Delegate Methods
+    func didShow(ad: MolocoAd) { }
+    func didClick(on ad: MolocoAd) { }
 }

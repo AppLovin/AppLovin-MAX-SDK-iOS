@@ -71,8 +71,6 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
             return
         }
         
-        nativeAd.show(in: ALUtils.topViewControllerFromKeyWindow())
-        
         let maxNativeAd = MAMolocoNativeAd(adapter: adapter, adFormat: adFormat) { builder in
             builder.title = assets.title
             builder.body = assets.description
@@ -94,7 +92,7 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
         delegate?.didFailToLoadNativeAdWithError(adapterError)
     }
     
-    func didShow(ad: MolocoAd)
+    func didHandleImpression(ad: MolocoAd)
     {
         log(adEvent: .displayed)
         delegate?.didDisplayNativeAd(withExtraInfo: nil)
@@ -106,7 +104,7 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
         log(adEvent: .displayFailed(error: adapterError))
     }
     
-    func didClick(on ad: MolocoAd)
+    func didHandleClick(ad: MolocoAd)
     {
         log(adEvent: .clicked)
         delegate?.didClickNativeAd()
@@ -116,4 +114,8 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
     {
         log(adEvent: .hidden)
     }
+    
+    // Deprecated Delegate Methods
+    func didShow(ad: MolocoAd) { }
+    func didClick(on ad: MolocoAd) { }
 }
