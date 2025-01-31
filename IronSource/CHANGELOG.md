@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.6.1.0.0
+* Certified with IronSource SDK 8.6.1.0.
+
 ## 8.6.0.0.0
 * Certified with IronSource SDK 8.6.0.0.
 * Updated minimum Xcode requirement to 16.0 to match IronSource SDK.

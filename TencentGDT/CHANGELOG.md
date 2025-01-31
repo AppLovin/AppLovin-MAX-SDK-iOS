@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.15.21.1
+* Downgrade TencentGDT SDK to 4.15.10 because `GDTMobSDK` Pod versions 4.15.21 and 4.15.20 were deleted.
+
 ## 4.15.21.0
 * Certified with TencentGDT SDK 4.15.21.
 

@@ -16,7 +16,7 @@ final class MAMolocoNativeAd: MANativeAd
     private let adFormat: MAAdFormat
     
     private var clickGestures: [UIGestureRecognizer] = []
-        
+    
     init(adapter: MolocoAdapter, adFormat: MAAdFormat, builder: (MANativeAdBuilder) -> ())
     {
         self.adapter = adapter
@@ -39,13 +39,18 @@ final class MAMolocoNativeAd: MANativeAd
         }
         
         adapter.log(adEvent: .preparingViewsForInteraction(views: clickableViews, container: container), adFormat: adFormat)
-
+        
         clickableViews.forEach { view in
             let clickGesture = UITapGestureRecognizer(target: self, action: #selector(clickNativeView))
             view.addGestureRecognizer(clickGesture)
             clickGestures.append(clickGesture)
         }
-
+        
+        if adFormat == .native
+        {
+            adapter.nativeAd?.handleImpression()
+        }
+        
         return true
     }
     
