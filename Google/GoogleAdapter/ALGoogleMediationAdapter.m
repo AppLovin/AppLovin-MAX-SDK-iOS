@@ -748,9 +748,6 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     
     request.requestAgent = isDv360Bidding ? @"applovin_dv360" : @"applovin";
     
-    // NOTE: TBD on how to pass this
-    //extraParams[@"placement_req_id"] = eventIdentifier;
-    
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
     {
@@ -791,10 +788,11 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (GADRequest *)createAdRequestForAdFormat:(MAAdFormat *)adFormat withParameters:(id<MAAdapterParameters>)parameters
 {
-    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 5];
-    
     GADRequest *request = [GADRequest request];
     [request setRequestAgent: @"applovin"];
+    
+    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 5];
+    extraParameters[@"placement_req_id"] = [parameters.serverParameters al_stringForKey: @"event_id"];
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
