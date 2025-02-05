@@ -791,8 +791,13 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     GADRequest *request = [GADRequest request];
     [request setRequestAgent: @"applovin"];
     
-    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 5];
-    extraParameters[@"placement_req_id"] = [parameters.serverParameters al_stringForKey: @"event_id"];
+    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionary];
+    
+    NSString *eventId = [parameters.serverParameters al_stringForKey: @"event_id"];
+    if ( [eventId al_isValidString] )
+    {
+        extraParameters[@"placement_req_id"] = eventId;
+    }
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
