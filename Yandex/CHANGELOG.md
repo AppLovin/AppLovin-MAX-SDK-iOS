@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.10.0.1
+* Corrected certification for Yandex SDK 7.10.0.
+
 ## 7.10.0.0
 * Certified with Yandex SDK 7.10.0.
 
