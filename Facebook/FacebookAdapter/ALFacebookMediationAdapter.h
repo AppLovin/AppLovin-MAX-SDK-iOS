@@ -8,6 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface ALFacebookMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, MARewardedAdapter, MARewardedInterstitialAdapter, MAAdViewAdapter, MANativeAdAdapter, MASignalProvider>
+@interface ALFacebookMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter, MASignalProvider>
 
 @end

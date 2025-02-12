@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.16.0.0"
+#define ADAPTER_VERSION @"6.16.0.1"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -24,12 +24,6 @@
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
-@end
-@interface ALFacebookMediationAdapterRewardedInterAdDelegate : NSObject <FBRewardedVideoAdDelegate>
-@property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
-@property (nonatomic, strong) id<MARewardedInterstitialAdapterDelegate> delegate;
-@property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate;
 @end
 
 @interface ALFacebookMediationAdapterAdViewDelegate : NSObject <FBAdViewDelegate>
@@ -80,14 +74,12 @@
 
 @property (nonatomic, strong) FBInterstitialAd *interstitialAd;
 @property (nonatomic, strong) FBRewardedVideoAd *rewardedVideoAd;
-@property (nonatomic, strong) FBRewardedVideoAd *rewardedInterAd;
 @property (nonatomic, strong) FBAdView *adView;
 @property (nonatomic, strong) FBNativeAd *nativeAd;
 @property (nonatomic, strong) FBNativeBannerAd *nativeBannerAd;
 
 @property (nonatomic, strong) ALFacebookMediationAdapterInterstitialAdDelegate *interstitialAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterRewardedVideoAdDelegate *rewardedAdapterDelegate;
-@property (nonatomic, strong) ALFacebookMediationAdapterRewardedInterAdDelegate *rewardedInterAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterAdViewDelegate *adViewAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterNativeAdViewAdDelegate *nativeAdViewAdAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterNativeAdDelegate *nativeAdAdapterDelegate;
@@ -171,11 +163,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
     
-    self.rewardedInterAd.delegate = nil;
-    self.rewardedInterAd = nil;
-    self.rewardedInterAdapterDelegate.delegate = nil;
-    self.rewardedInterAdapterDelegate = nil;
-    
     self.rewardedVideoAd.delegate = nil;
     self.rewardedVideoAd = nil;
     self.rewardedAdapterDelegate.delegate = nil;
@@ -253,60 +240,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     {
         [self log: @"Unable to show interstitial ad: ad is not valid - marking as expired"];
         [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
-    }
-}
-
-#pragma mark - MARewardedInterstitial Methods
-
-- (void)loadRewardedInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    [self log: @"Loading rewarded interstitial ad: %@...", parameters.thirdPartyAdPlacementIdentifier];
-    
-    [self updateAdSettingsWithParameters: parameters];
-    
-    self.rewardedInterAd = [[FBRewardedVideoAd alloc] initWithPlacementID: parameters.thirdPartyAdPlacementIdentifier];
-    self.rewardedInterAd.adExperienceConfig = [[FBAdExperienceConfig alloc] initWithAdExperienceType: FBAdExperienceTypeRewardedInterstitial];
-    self.rewardedInterAdapterDelegate = [[ALFacebookMediationAdapterRewardedInterAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.rewardedInterAd.delegate = self.rewardedInterAdapterDelegate;
-    
-    if ( [self.rewardedInterAd isAdValid] )
-    {
-        [self log: @"A rewarded interstitial ad has been loaded already"];
-        [delegate didLoadRewardedInterstitialAd];
-    }
-    else
-    {
-        [self log: @"Loading bidding rewarded interstitial ad..."];
-        [self.rewardedInterAd loadAdWithBidPayload: parameters.bidResponse];
-    }
-}
-
-- (void)showRewardedInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    [self log: @"Showing rewarded interstitial ad: %@...", parameters.thirdPartyAdPlacementIdentifier];
-    
-    // Check if ad is already expired or invalidated, and do not show ad if that is the case. You will not get paid to show an invalidated ad.
-    if ( [self.rewardedInterAd isAdValid] )
-    {
-        // Configure reward from server.
-        [self configureRewardForParameters: parameters];
-        
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
-        [self.rewardedInterAd showAdFromRootViewController: presentingViewController];
-    }
-    else
-    {
-        [self log: @"Unable to show rewarded interstitial ad: ad is not valid - marking as expired"];
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: MAAdapterError.adExpiredError];
     }
 }
 
@@ -639,67 +572,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 {
     [self.parentAdapter log: @"Interstitial ad hidden: %@", interstitialAd.placementID];
     [self.delegate didHideInterstitialAd];
-}
-
-@end
-
-@implementation ALFacebookMediationAdapterRewardedInterAdDelegate
-
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    self = [super init];
-    if ( self )
-    {
-        self.parentAdapter = parentAdapter;
-        self.delegate = delegate;
-    }
-    return self;
-}
-
-- (void)rewardedVideoAdDidLoad:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial ad loaded: %@", rewardedVideoAd.placementID];
-    [self.delegate didLoadRewardedInterstitialAd];
-}
-
-- (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error
-{
-    MAAdapterError *adapterError = [ALFacebookMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Rewarded interstitial ad (%@) failed to load with error: %@", rewardedVideoAd.placementID, adapterError];
-    [self.delegate didFailToLoadRewardedInterstitialAdWithError: adapterError];
-}
-
-- (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
-    {
-        MAReward *reward = [self.parentAdapter reward];
-        [self.parentAdapter log: @"Rewarded user with reward: %@", reward];
-        [self.delegate didRewardUserWithReward: reward];
-    }
-    
-    [self.parentAdapter log: @"Rewarded interstitial ad hidden: %@", rewardedVideoAd.placementID];
-    [self.delegate didHideRewardedInterstitialAd];
-}
-
-- (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial ad clicked: %@", rewardedVideoAd.placementID];
-    [self.delegate didClickRewardedInterstitialAd];
-}
-
-- (void)rewardedVideoAdVideoComplete:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial video completed: %@", rewardedVideoAd.placementID];
-    
-    self.grantedReward = YES;
-}
-
-- (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial video started: %@", rewardedVideoAd.placementID];
-    
-    [self.delegate didDisplayRewardedInterstitialAd];
 }
 
 @end

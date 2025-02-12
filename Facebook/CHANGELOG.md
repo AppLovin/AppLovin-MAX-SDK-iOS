@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.16.0.1
+* Remove support for rewarded interstitial ads.
+
 ## 6.16.0.0
 * Certified with Facebook SDK 6.16.0. (Unity adapter to be released after Unity Cloud Build has support for Xcode 16.0)
 * Updated minimum Xcode requirement to 16.0 to match Facebook SDK.
