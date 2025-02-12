@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.7.0.0.0
+* Certified with IronSource SDK 8.7.0.0.
+* Updated minimum iOS version to 13.0 to match IronSource SDK.
+
 ## 8.6.1.0.0
 * Certified with IronSource SDK 8.6.1.0.
 
