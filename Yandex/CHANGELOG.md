@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.10.1.0
+* Certified with Yandex SDK 7.10.1.
+* Updated minimum Xcode requirement to 16.0 to match Yandex SDK.
+
 ## 7.10.0.1
 * Corrected certification for Yandex SDK 7.10.0.
 
