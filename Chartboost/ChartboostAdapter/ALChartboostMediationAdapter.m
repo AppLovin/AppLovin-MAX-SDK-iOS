@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.8.0.0"
+#define ADAPTER_VERSION @"9.8.1.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -74,17 +74,18 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         NSString *appSignature = [serverParameters al_stringForKey: @"app_signature"];
         
         [Chartboost startWithAppID: appID appSignature: appSignature completion:^(CHBStartError *error) {
-            if ( !error )
+            
+            if ( error )
             {
-                [self log: @"Chartboost SDK initialized"];
-                ALChartboostInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
-            }
-            else
-            {
-                [self log: @"Chartboost SDK failed to initialize"];
+                [self log: @"Chartboost SDK failed to initialize with error: %@", error];
                 ALChartboostInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+                completionHandler(ALChartboostInitializationStatus, error.localizedDescription);
+                
+                return;
             }
             
+            [self log: @"Chartboost SDK initialized"];
+            ALChartboostInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
             completionHandler(ALChartboostInitializationStatus, nil);
         }];
         
@@ -98,7 +99,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     }
     else
     {
-        [self log: @"Chartboost SDK already initialized"];
         completionHandler(ALChartboostInitializationStatus, nil);
     }
 }
