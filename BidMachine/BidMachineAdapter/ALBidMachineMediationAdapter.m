@@ -7,9 +7,9 @@
 //
 
 #import "ALBidMachineMediationAdapter.h"
-#import <BidMachine/BidMachine.h>
+#import <BidMachine/BidMachine-Swift.h>
 
-#define ADAPTER_VERSION @"3.1.2.0.0"
+#define ADAPTER_VERSION @"3.2.0.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -549,7 +549,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         return BidMachinePlacementFormatInterstitial;
     }
-    else if ( adFormat == MAAdFormat.rewarded || adFormat == MAAdFormat.rewardedInterstitial )
+    else if ( adFormat == MAAdFormat.rewarded )
     {
         return BidMachinePlacementFormatRewarded;
     }
