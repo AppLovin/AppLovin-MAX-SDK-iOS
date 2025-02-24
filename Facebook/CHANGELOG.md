@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.17.0.0
+* Certified with Facebook SDK 6.17.0.
+
 ## 6.16.0.1
 * Remove support for rewarded interstitial ads.
 
