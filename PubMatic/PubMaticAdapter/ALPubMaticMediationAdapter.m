@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.4.0.0"
+#define ADAPTER_VERSION @"4.4.0.1"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -139,6 +139,8 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     }
     
     POBSignalConfig *signalConfig = [[POBSignalConfig alloc] initWithAdFormat: adFormat];
+    signalConfig.gpid = parameters.adUnitIdentifier;
+
     NSString *bidToken = [POBSignalGenerator generateSignalForBiddingHost: POBSDKBiddingHostALMAX
                                                                 andConfig: signalConfig];
     
