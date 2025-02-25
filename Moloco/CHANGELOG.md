@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.7.0.0
+* Certified with Moloco SDK 3.7.0.
+
 ## 3.6.0.1
 * Updated minimum iOS version to iOS 12.0.
 
