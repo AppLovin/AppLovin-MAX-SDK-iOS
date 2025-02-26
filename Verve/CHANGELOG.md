@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.2.0.0
+* Certified with Verve SDK 3.2.0.
+
 ## 3.1.4.0
 * Certified with Verve SDK 3.1.4.
 * Removed redundant log output when initialization was already completed.

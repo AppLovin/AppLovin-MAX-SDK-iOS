@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D5748D821C79E13004C8981 /* ALVerveMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALVerveMediationAdapter.m */; };
+		552253F31CB48753C11D6CFB /* Pods_VerveAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97EE0B0E8EA1CFC4AE5DB3E7 /* Pods_VerveAdapter.framework */; };
 		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,10 +42,13 @@
 		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D9C1065270EA081006CA163 /* AppLovinMediationVerveAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationVerveAdapter.podspec; sourceTree = "<group>"; };
+		1ED0D0CAF3129E72AF4A76F5 /* Pods-VerveAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VerveAdapter.debug.xcconfig"; path = "Target Support Files/Pods-VerveAdapter/Pods-VerveAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		6A561CD5219BB58300E3749A /* ALVerveMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALVerveMediationAdapter.m; sourceTree = "<group>"; };
 		6A561CD6219BB58300E3749A /* ALVerveMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALVerveMediationAdapter.h; sourceTree = "<group>"; };
 		6A561CEF219BB5D400E3749A /* libVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A5A632E21C0872C00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
+		97EE0B0E8EA1CFC4AE5DB3E7 /* Pods_VerveAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VerveAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBB8BCD4580B4EAA0A8E275B /* Pods-VerveAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VerveAdapter.release.xcconfig"; path = "Target Support Files/Pods-VerveAdapter/Pods-VerveAdapter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,12 +57,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
+				552253F31CB48753C11D6CFB /* Pods_VerveAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19589E3B65FBF352939E5912 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1ED0D0CAF3129E72AF4A76F5 /* Pods-VerveAdapter.debug.xcconfig */,
+				EBB8BCD4580B4EAA0A8E275B /* Pods-VerveAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = "../../iOS-Workspace/Pods";
+			sourceTree = "<group>";
+		};
 		1D2303A61FBCF4C7001939D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +92,7 @@
 				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
 				1D9AE8E821423C7E00080475 /* UIKit.framework */,
 				1D9AE8E721423C7E00080475 /* WebKit.framework */,
+				97EE0B0E8EA1CFC4AE5DB3E7 /* Pods_VerveAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +104,7 @@
 				6A12947F21C086760052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
+				19589E3B65FBF352939E5912 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -124,6 +141,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A561CEC219BB5D400E3749A /* Build configuration list for PBXNativeTarget "VerveAdapter" */;
 			buildPhases = (
+				E299DA99C0341F7F733064B6 /* [CP] Check Pods Manifest.lock */,
 				6A561CE7219BB5D400E3749A /* Sources */,
 				6A561CE9219BB5D400E3749A /* Frameworks */,
 				6A561CEB219BB5D400E3749A /* Copy Files */,
@@ -168,6 +186,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E299DA99C0341F7F733064B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VerveAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A561CE7219BB5D400E3749A /* Sources */ = {
@@ -300,50 +343,36 @@
 		};
 		6A561CED219BB5D400E3749A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1ED0D0CAF3129E72AF4A76F5 /* Pods-VerveAdapter.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$PROJECT_DIR/../../iOS-Workspace/Pods/**",
-					"$PROJECT_DIR/../../Library/Developer/Xcode/DerivedData/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6A561CEE219BB5D400E3749A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBB8BCD4580B4EAA0A8E275B /* Pods-VerveAdapter.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = X8JXXK4FF5;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$PROJECT_DIR/../../iOS-Workspace/Pods/**",
-					"$PROJECT_DIR/../../Library/Developer/Xcode/DerivedData/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
