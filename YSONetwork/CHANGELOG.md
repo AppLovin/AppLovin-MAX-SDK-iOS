@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.31.0
+* Certified with YSONetwork SDK 1.1.31.
+* Removed redundant log output when initialization was already completed.
+
 ## 1.1.29.0
 * Certified with YSO Network SDK 1.1.29.
 

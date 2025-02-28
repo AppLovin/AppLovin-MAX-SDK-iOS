@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationYSONetworkAdapter'
-s.version = '1.1.29.0'
+s.version = '1.1.31.0'
 s.platform = :ios, '12.0'
 s.summary = 'YSO Network adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -26,7 +26,7 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'YsoNetworkSDK', '= 1.1.29'
+s.dependency 'YsoNetworkSDK', '= {ADAPTER_SDK_VERSION}'
 s.dependency 'AppLovinSDK'
 s.swift_version = '5.0'
 
