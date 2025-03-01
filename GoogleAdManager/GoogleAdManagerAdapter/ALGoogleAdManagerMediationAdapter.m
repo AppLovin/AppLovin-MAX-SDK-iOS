@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"11.13.0.1"
+#define ADAPTER_VERSION @"12.0.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -169,7 +169,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
-    // Remove the view from MANativeAdView in case the publisher decies to re-use the native ad view.
+    // Remove the view from MANativeAdView in case the publisher decides to re-use the native ad view.
     [self.nativeAdView removeFromSuperview];
     self.nativeAdView = nil;
     
@@ -183,20 +183,20 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading interstitial ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading interstitial ad: %@...", placementId];
     
     [self updateMuteStateFromResponseParameters: parameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
-    [GAMInterstitialAd loadWithAdManagerAdUnitID: placementIdentifier
+    [GAMInterstitialAd loadWithAdManagerAdUnitID: placementId
                                          request: request
                                completionHandler:^(GAMInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
         
         if ( error )
         {
             MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
-            [self log: @"Interstitial ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
+            [self log: @"Interstitial ad (%@) failed to load with error: %@", placementId, adapterError];
             [delegate didFailToLoadInterstitialAdWithError: adapterError];
             
             return;
@@ -204,17 +204,17 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         
         if ( !interstitialAd )
         {
-            [self log: @"Interstitial ad (%@) failed to load: ad is nil", placementIdentifier];
+            [self log: @"Interstitial ad (%@) failed to load: ad is nil", placementId];
             [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.adNotReady];
             
             return;
         }
         
-        [self log: @"Interstitial ad loaded: %@", placementIdentifier];
+        [self log: @"Interstitial ad loaded: %@", placementId];
         
         self.interstitialAd = interstitialAd;
         self.interstitialAdapterDelegate = [[ALGoogleAdManagerInterstitialDelegate alloc] initWithParentAdapter: self
-                                                                                            placementIdentifier: placementIdentifier
+                                                                                            placementIdentifier: placementId
                                                                                                       andNotify: delegate];
         self.interstitialAd.fullScreenContentDelegate = self.interstitialAdapterDelegate;
         
@@ -232,34 +232,22 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing interstitial ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing interstitial ad: %@...", placementId];
     
     if ( self.interstitialAd )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = [self presentingViewControllerForParameters: parameters];
         [self.interstitialAd presentFromRootViewController: presentingViewController];
     }
     else
     {
-        [self log: @"Interstitial ad failed to show: %@", placementIdentifier];
+        [self log: @"Interstitial ad failed to show: %@", placementId];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                             mediatedNetworkErrorCode: 0
+                                          mediatedNetworkErrorMessage: @"Interstitial ad not ready"];
+        [delegate didFailToDisplayInterstitialAdWithError: error];
     }
 }
 
@@ -267,20 +255,20 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading app open ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading app open ad: %@...", placementId];
     
     [self updateMuteStateFromResponseParameters: parameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
-    [GADAppOpenAd loadWithAdUnitID: placementIdentifier
+    [GADAppOpenAd loadWithAdUnitID: placementId
                            request: request
                  completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         
         if ( error )
         {
             MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
-            [self log: @"App open ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
+            [self log: @"App open ad (%@) failed to load with error: %@", placementId, adapterError];
             [delegate didFailToLoadAppOpenAdWithError: adapterError];
             
             return;
@@ -288,17 +276,17 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         
         if ( !appOpenAd )
         {
-            [self log: @"App open ad (%@) failed to load: ad is nil", placementIdentifier];
+            [self log: @"App open ad (%@) failed to load: ad is nil", placementId];
             [delegate didFailToLoadAppOpenAdWithError: MAAdapterError.adNotReady];
             
             return;
         }
         
-        [self log: @"App open ad loaded: %@", placementIdentifier];
+        [self log: @"App open ad loaded: %@", placementId];
         
         self.appOpenAd = appOpenAd;
         self.appOpenAdapterDelegate = [[ALGoogleAdManagerAppOpenDelegate alloc] initWithParentAdapter: self
-                                                                                  placementIdentifier: placementIdentifier
+                                                                                  placementIdentifier: placementId
                                                                                             andNotify: delegate];
         self.appOpenAd.fullScreenContentDelegate = self.appOpenAdapterDelegate;
         
@@ -316,29 +304,22 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegateTemp>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing app open ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing app open ad: %@...", placementId];
     
     if ( self.appOpenAd )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
+        UIViewController *presentingViewController = [self presentingViewControllerForParameters: parameters];
         [self.appOpenAd presentFromRootViewController: presentingViewController];
     }
     else
     {
-        [self log: @"App open ad failed to show: %@", placementIdentifier];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                        errorString: @"Ad Display Failed"
-                                                           mediatedNetworkErrorCode: 0
-                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
+        [self log: @"App open ad failed to show: %@", placementId];
+        
+        MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                             mediatedNetworkErrorCode: 0
+                                          mediatedNetworkErrorMessage: @"App open ad not ready"];
+        [delegate didFailToDisplayAppOpenAdWithError: error];
     }
 }
 
@@ -346,20 +327,20 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading rewarded ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading rewarded ad: %@...", placementId];
     
     [self updateMuteStateFromResponseParameters: parameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
-    [GADRewardedAd loadWithAdUnitID: placementIdentifier
+    [GADRewardedAd loadWithAdUnitID: placementId
                             request: request
                   completionHandler:^(GADRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
         
         if ( error )
         {
             MAAdapterError *adapterError = [ALGoogleAdManagerMediationAdapter toMaxError: error];
-            [self log: @"Rewarded ad (%@) failed to load with error: %@", placementIdentifier, adapterError];
+            [self log: @"Rewarded ad (%@) failed to load with error: %@", placementId, adapterError];
             [delegate didFailToLoadRewardedAdWithError: adapterError];
             
             return;
@@ -367,17 +348,17 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         
         if ( !rewardedAd )
         {
-            [self log: @"Rewarded ad (%@) failed to load: ad is nil", placementIdentifier];
+            [self log: @"Rewarded ad (%@) failed to load: ad is nil", placementId];
             [delegate didFailToLoadRewardedAdWithError: MAAdapterError.adNotReady];
             
             return;
         }
         
-        [self log: @"Rewarded ad loaded: %@", placementIdentifier];
+        [self log: @"Rewarded ad loaded: %@", placementId];
         
         self.rewardedAd = rewardedAd;
         self.rewardedAdapterDelegate = [[ALGoogleAdManagerRewardedDelegate alloc] initWithParentAdapter: self
-                                                                                    placementIdentifier: placementIdentifier
+                                                                                    placementIdentifier: placementId
                                                                                               andNotify: delegate];
         self.rewardedAd.fullScreenContentDelegate = self.rewardedAdapterDelegate;
         
@@ -395,29 +376,26 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Showing rewarded ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Showing rewarded ad: %@...", placementId];
     
     if ( self.rewardedAd )
     {
         [self configureRewardForParameters: parameters];
-        [self.rewardedAd presentFromRootViewController: [ALUtils topViewControllerFromKeyWindow] userDidEarnRewardHandler:^{
+        [self.rewardedAd presentFromRootViewController: [self presentingViewControllerForParameters: parameters] userDidEarnRewardHandler:^{
             
-            [self log: @"Rewarded ad user earned reward: %@", placementIdentifier];
+            [self log: @"Rewarded ad user earned reward: %@", placementId];
             self.rewardedAdapterDelegate.grantedReward = YES;
         }];
     }
     else
     {
-        [self log: @"Rewarded ad failed to show: %@", placementIdentifier];
+        [self log: @"Rewarded ad failed to show: %@", placementId];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                             mediatedNetworkErrorCode: 0
+                                          mediatedNetworkErrorMessage: @"Rewarded ad not ready"];
+        [delegate didFailToDisplayRewardedAdWithError: error];
     }
 }
 
@@ -427,9 +405,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
                          adFormat:(MAAdFormat *)adFormat
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
-    [self log: @"Loading %@%@ ad: %@...", ( isNative ? @"native " : @"" ), adFormat.label, placementIdentifier];
+    [self log: @"Loading %@%@ ad: %@...", ( isNative ? @"native " : @"" ), adFormat.label, placementId];
     
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
@@ -448,7 +426,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         
         // Fetching the top view controller needs to be on the main queue
         dispatchOnMainQueue(^{
-            self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
+            self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementId
                                                      rootViewController: [ALUtils topViewControllerFromKeyWindow]
                                                                 adTypes: @[GADAdLoaderAdTypeNative]
                                                                 options: @[adViewAdOptions, nativeAdImageAdLoaderOptions]];
@@ -465,7 +443,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
                                          parameters: parameters];
         self.adView = [[GAMBannerView alloc] initWithAdSize: adSize];
         self.adView.frame = CGRectMake(0, 0, adSize.size.width, adSize.size.height);
-        self.adView.adUnitID = placementIdentifier;
+        self.adView.adUnitID = placementId;
         self.adView.rootViewController = [ALUtils topViewControllerFromKeyWindow];
         self.adViewAdapterDelegate = [[ALGoogleAdManagerAdViewDelegate alloc] initWithParentAdapter: self
                                                                                            adFormat: adFormat
@@ -478,10 +456,10 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 #pragma mark - MANativeAdAdapter Methods
 
-- (void)loadNativeAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MANativeAdAdapterDelegate>)delegate
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
-    NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading native ad: %@...", placementIdentifier];
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading native ad: %@...", placementId];
     
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
@@ -500,7 +478,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     
     // Fetching the top view controller needs to be on the main queue
     dispatchOnMainQueue(^{
-        self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementIdentifier
+        self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: placementId
                                                  rootViewController: [ALUtils topViewControllerFromKeyWindow]
                                                             adTypes: @[GADAdLoaderAdTypeNative]
                                                             options: @[nativeAdViewOptions, nativeAdImageAdLoaderOptions]];
@@ -524,7 +502,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
             break;
         case GADErrorNoFill:
         case GADErrorMediationAdapterError: /* Considered no fill by AdMob, might be a bug */
-        case GADErrorMediationNoFill:
             adapterError = MAAdapterError.noFill;
             break;
         case GADErrorNetworkError:
@@ -532,7 +509,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
             break;
         case GADErrorServerError:
         case GADErrorMediationDataError:
-        case GADErrorReceivedInvalidResponse:
+        case GADErrorReceivedInvalidAdString:
             adapterError = MAAdapterError.serverError;
             break;
         case GADErrorOSVersionTooLow:
@@ -553,13 +530,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: googleAdManagerErrorCode
-               thirdPartySdkErrorMessage: googleAdManagerError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: googleAdManagerErrorCode
+                     mediatedNetworkErrorMessage: googleAdManagerError.localizedDescription];
 }
 
 - (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat
@@ -658,23 +631,16 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 - (GAMRequest *)createAdRequestWithParameters:(id<MAAdapterParameters>)parameters
 {
     GAMRequest *request = [GAMRequest request];
+    [request setRequestAgent: self.mediationTag];
     
-    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-    if ( [serverParameters al_numberForKey: @"set_mediation_identifier" defaultValue: @(YES)].boolValue )
+    NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionary];
+    
+    NSString *eventId = [parameters.serverParameters al_stringForKey: @"event_id"];
+    if ( [eventId al_isValidString] )
     {
-        [request setRequestAgent: self.mediationTag];
+        extraParameters[@"placement_req_id"] = eventId;
     }
-    
-    GADExtras *extras = [[GADExtras alloc] init];
-    NSMutableDictionary<NSString *, NSString *> *extraParameters = [NSMutableDictionary dictionaryWithCapacity: 2];
-    
-    // Use event id as AdMob's placement request id
-    NSString *eventIdentifier = [serverParameters al_stringForKey: @"event_id"];
-    if ( [eventIdentifier al_isValidString] )
-    {
-        extraParameters[@"placement_req_id"] = eventIdentifier;
-    }
-    
+
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
     {
@@ -724,6 +690,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         request.customTargeting = customTargetingData;
     }
     
+    GADExtras *extras = [[GADExtras alloc] init];
     extras.additionalParameters = extraParameters;
     [request registerAdNetworkExtras: extras];
     
@@ -778,6 +745,11 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     return NO;
 }
 
+- (UIViewController *)presentingViewControllerForParameters:(id<MAAdapterResponseParameters>)parameters
+{
+    return parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+}
+
 @end
 
 @implementation ALGoogleAdManagerInterstitialDelegate
@@ -803,14 +775,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
-    
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -859,14 +826,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
-    
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"App open ad (%@) failed to show with error: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
 }
@@ -914,14 +876,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 
 - (void)ad:(id<GADFullScreenPresentingAd>)ad didFailToPresentFullScreenContentWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
-    
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];    
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.0.0.0
+* Certified with GoogleAdManager SDK 12.0.0.
+
 ## 11.13.0.1
 * Add support for [inline adaptive banners in MRECs](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners-in-mrecs).
 * Remove support for rewarded interstitial ads.
