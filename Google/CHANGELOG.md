@@ -1,5 +1,10 @@
 # Changelog
 
+## 12.0.0.0
+* Certified with Google SDK 12.0.0.
+* Update to new bidding APIs.
+* Remove support for the interstitial option of app open ads.
+
 ## 11.13.0.1
 * Add support for [inline adaptive banners in MRECs](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners-in-mrecs).
 * Remove support for rewarded interstitial ads.
