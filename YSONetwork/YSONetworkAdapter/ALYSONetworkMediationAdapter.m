@@ -10,7 +10,7 @@
 #import <YsoNetwork/YsoNetwork.h>
 #import <YsoNetwork/YsoNetwork-Swift.h>
 
-#define ADAPTER_VERSION @"1.1.31.0"
+#define ADAPTER_VERSION @"1.1.31.1"
 
 // NOTE: YSO initially named their adapter ALYsoNetworkMediationAdapter but iOS/Apple convention should be ALYSONetworkMediationAdapter. We will support both naming conventions.
 @interface ALYsoNetworkMediationAdapter : ALYSONetworkMediationAdapter
@@ -241,6 +241,9 @@ static MAAdapterInitializationStatus ALYSONetworkInitializationStatus = NSIntege
     MAAdapterError *adapterError = MAAdapterError.unspecified;
     switch ( error )
     {
+        case e_ActionErrorNone:
+            adapterError = MAAdapterError.unspecified;
+            break;
         case e_ActionErrorSdkNotInitialized:
             adapterError = MAAdapterError.notInitialized;
             break;
@@ -258,6 +261,9 @@ static MAAdapterInitializationStatus ALYSONetworkInitializationStatus = NSIntege
             break;
         case e_ActionErrorServer:
             adapterError = MAAdapterError.serverError;
+            break;
+        case e_ActionErrorInternal:
+            adapterError = MAAdapterError.internalError;
             break;
     }
     
