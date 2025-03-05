@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.1.0.0
+* Certified with Google SDK 12.1.0.
+
 ## 12.0.0.0
 * Certified with Google SDK 12.0.0.
 * Update to new bidding APIs.

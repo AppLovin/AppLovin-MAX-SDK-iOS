@@ -15,7 +15,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"12.0.0.0"
+#define ADAPTER_VERSION @"12.1.0.0"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -219,13 +219,10 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     {
         [self log: @"Interstitial ad failed to show: %@", placementId];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                             mediatedNetworkErrorCode: 0
+                                          mediatedNetworkErrorMessage: @"Interstitial ad not ready"];
+        [delegate didFailToDisplayInterstitialAdWithError: error];
     }
 }
 
@@ -303,10 +300,11 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     else
     {
         [self log: @"App open ad failed to show: %@", placementId];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                        errorString: @"Ad Display Failed"
-                                                           mediatedNetworkErrorCode: 0
-                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
+        
+        MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                             mediatedNetworkErrorCode: 0
+                                          mediatedNetworkErrorMessage: @"App open ad not ready"];
+        [delegate didFailToDisplayAppOpenAdWithError: error];
     }
 }
 
@@ -390,13 +388,10 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     {
         [self log: @"Rewarded ad failed to show: %@", placementId];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                             mediatedNetworkErrorCode: 0
+                                          mediatedNetworkErrorMessage: @"Rewarded ad not ready"];
+        [delegate didFailToDisplayRewardedAdWithError: error];
     }
 }
 
@@ -562,13 +557,9 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: googleAdsErrorCode
-               thirdPartySdkErrorMessage: googleAdsError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: googleAdsErrorCode
+                     mediatedNetworkErrorMessage: googleAdsError.localizedDescription];
 }
 
 - (GADAdSize)adSizeFromAdFormat:(MAAdFormat *)adFormat
@@ -893,14 +884,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 
 - (UIViewController *)presentingViewControllerForParameters:(id<MAAdapterResponseParameters>)parameters
 {
-    if ( ALSdk.versionCode >= 11020199 )
-    {
-        return parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-    }
-    else
-    {
-        return [ALUtils topViewControllerFromKeyWindow];
-    }
+    return parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
 @end

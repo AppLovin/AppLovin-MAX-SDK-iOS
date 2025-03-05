@@ -57,7 +57,7 @@
     if ( isTemplateAd && ![nativeAd.headline al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
