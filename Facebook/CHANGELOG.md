@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.17.1.0
+* Certified with Facebook SDK 6.17.1.
+
 ## 6.17.0.0
 * Certified with Facebook SDK 6.17.0.
 
