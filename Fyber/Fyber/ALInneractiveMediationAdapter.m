@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.5.0"
+#define ADAPTER_VERSION @"8.3.5.1"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -509,10 +509,11 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     return self.parentAdapter.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
-- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+- (void)IAAdDidExpire:(nullable IAUnitController *)unitController
 {
-    [self.parentAdapter log: @"Interstitial clicked"];
-    [self.delegate didClickInterstitialAd];
+    // Fyber SDK triggers this callback when attempting to display an expired ad. Fail the ad display to ensure that the ad display cycle is complete.
+    [self.parentAdapter log: @"Interstitial expired"];
+    [self.delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
 }
 
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
@@ -531,6 +532,12 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         [self.delegate didDisplayInterstitialAd];
     }
+}
+
+- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+{
+    [self.parentAdapter log: @"Interstitial clicked"];
+    [self.delegate didClickInterstitialAd];
 }
 
 - (void)IAUnitControllerDidDismissFullscreen:(nullable IAUnitController *)unitController
@@ -559,10 +566,11 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     return self.parentAdapter.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
-- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+- (void)IAAdDidExpire:(nullable IAUnitController *)unitController
 {
-    [self.parentAdapter log: @"Rewarded ad clicked"];
-    [self.delegate didClickRewardedAd];
+    // Fyber SDK triggers this callback when attempting to display an expired ad. Fail the ad display to ensure that the ad display cycle is complete.
+    [self.parentAdapter log: @"Rewarded ad expired"];
+    [self.delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
 }
 
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
@@ -583,6 +591,30 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     }
 }
 
+- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoProgressUpdatedWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
+{
+    if ( currentTime == 0 )
+    {
+        [self.parentAdapter log: @"Rewarded video started"];
+    }
+}
+
+- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+{
+    [self.parentAdapter log: @"Rewarded ad clicked"];
+    [self.delegate didClickRewardedAd];
+}
+
+- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
+{
+    [self.parentAdapter log: @"Rewarded video is interrupted and buffering with error: %@", error];
+}
+
+- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
+{
+    [self.parentAdapter log: @"Rewarded video completed"];
+}
+
 - (void)IAAdDidReward:(IAUnitController *)unitController
 {
     [self.parentAdapter log: @"User earned reward"];
@@ -600,24 +632,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     
     [self.parentAdapter log: @"Rewarded ad hidden"];
     [self.delegate didHideRewardedAd];
-}
-
-- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoProgressUpdatedWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
-{
-    if ( currentTime == 0 )
-    {
-        [self.parentAdapter log: @"Rewarded video started"];
-    }
-}
-
-- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
-{
-    [self.parentAdapter log: @"Rewarded video is interrupted and buffering with error: %@", error];
-}
-
-- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
-{
-    [self.parentAdapter log: @"Rewarded video completed"];
 }
 
 @end
@@ -640,12 +654,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     return [ALUtils topViewControllerFromKeyWindow];
 }
 
-- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
-{
-    [self.parentAdapter log: @"AdView clicked"];
-    [self.delegate didClickAdViewAd];
-}
-
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
 {
     [self.parentAdapter log: @"AdView shown"];
@@ -654,6 +662,12 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         [self.delegate didDisplayAdViewAd];
     }
+}
+
+- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+{
+    [self.parentAdapter log: @"AdView clicked"];
+    [self.delegate didClickAdViewAd];
 }
 
 - (void)IAMRAIDContentController:(nullable IAMRAIDContentController *)contentController MRAIDAdDidExpandToFrame:(CGRect)frame
