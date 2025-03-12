@@ -1,5 +1,9 @@
 # Changelog
 
+## 12.2.0.0
+* Certified with Google SDK 12.2.0.
+* Updated minimum Xcode requirement to 16.0 to match Google SDK.
+
 ## 12.1.0.0
 * Certified with Google SDK 12.1.0.
 
