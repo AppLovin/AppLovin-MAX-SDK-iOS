@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.9.3.0
+* Certified with Smaato SDK 22.9.3.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 22.9.2.0
 * Certified with Smaato SDK 22.9.2.
 

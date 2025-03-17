@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationSmaatoAdapter'
-s.version = '22.9.2.0'
+s.version = '22.9.3.0'
 s.platform = :ios, '11.0'
 s.summary = 'Smaato adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

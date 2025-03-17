@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.9.2.0"
+#define ADAPTER_VERSION @"22.9.3.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -294,29 +294,15 @@
     self.interstitialAd = [self.router interstitialAdForPlacementIdentifier: placementIdentifier];
     if ( [self.interstitialAd availableForPresentation] )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialAd showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Interstitial ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205
-                                                                                                            errorString: @"Ad Display Failed"
-                                                                                                 thirdPartySdkErrorCode: 0
-                                                                                              thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                                                       mediatedNetworkErrorCode: 0
+                                                                                                    mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -376,29 +362,15 @@
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.rewardedAd showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithCode: -4205
-                                                                                                            errorString: @"Ad Display Failed"
-                                                                                                 thirdPartySdkErrorCode: 0
-                                                                                              thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                                                       mediatedNetworkErrorCode: 0
+                                                                                                    mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -511,13 +483,9 @@
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: smaatoErrorCode
-               thirdPartySdkErrorMessage: smaatoError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: smaatoErrorCode
+                     mediatedNetworkErrorMessage: smaatoError.localizedDescription];
 }
 
 - (nullable SMAAdRequestParams *)createBiddingAdRequestParamsFromBidResponse:(NSString *)bidResponse
@@ -913,7 +881,7 @@
     if ( ![assets.title al_isValidString] )
     {
         [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.format.label, nativeAd];
-        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -1026,7 +994,7 @@
         if ( isTemplateAd && ![assets.title al_isValidString] )
         {
             [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
-            [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+            [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
             
             return;
         }
