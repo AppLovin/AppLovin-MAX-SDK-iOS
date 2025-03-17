@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.0
+* Certified with BigoAds SDK 4.7.0.
+
 ## 4.6.0.0
 * Certified with BigoAds SDK 4.6.0.
 * Removed redundant log output when initialization was already completed.

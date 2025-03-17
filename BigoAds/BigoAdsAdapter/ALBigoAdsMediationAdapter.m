@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.6.0.0"
+#define ADAPTER_VERSION @"4.7.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -1043,25 +1043,25 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     if ( [container isKindOfClass: [MANativeAdView class]] )
     {
         MANativeAdView *maxNativeAdView = (MANativeAdView *) container;
-    
+        
         BigoAdMediaView *mediaView;
         if ( maxNativeAdView.mediaContentView )
         {
             mediaView = (BigoAdMediaView *) self.mediaView;
         }
-    
+        
         UIImageView *iconView;
         if ( maxNativeAdView.iconImageView )
         {
             iconView = maxNativeAdView.iconImageView;
         }
-    
+        
         BigoAdOptionsView *optionsView;
         if ( maxNativeAdView.optionsContentView )
         {
             optionsView = (BigoAdOptionsView *) self.optionsView;
         }
-    
+        
         [nativeAd registerViewForInteraction: container
                                    mediaView: mediaView
                                   adIconView: iconView
@@ -1073,7 +1073,7 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     {
         UIImageView *iconView;
         BigoAdMediaView *mediaView;
-      
+        
         for ( UIView *view in clickableViews )
         {
             if ( view.tag == TITLE_LABEL_TAG )
@@ -1106,14 +1106,14 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
                 view.bigoNativeAdViewTag = BigoNativeAdViewTagSponsored;
             }
         }
-
+        
         [nativeAd registerViewForInteraction: container
                                    mediaView: mediaView
                                   adIconView: iconView
                                adOptionsView: nil
                               clickableViews: clickableViews];
     }
-
+    
     return YES;
 }
 
