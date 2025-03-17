@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.5.1"
+#define ADAPTER_VERSION @"8.3.6.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -86,11 +86,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         [self log: @"Initializing Inneractive SDK with app id: %@...", appID];
         [IASDKCore sharedInstance].mediationType = [[IAMediationMax alloc] init];
         
-        // Passing extra info such as creative id supported in 6.15.0+
-        if ( ALSdk.versionCode >= 6150000 )
-        {
-            [IASDKCore sharedInstance].globalAdDelegate = ALInneractiveGlobalDelegate;
-        }
+        [IASDKCore sharedInstance].globalAdDelegate = ALInneractiveGlobalDelegate;
         
         [[IASDKCore sharedInstance] setMediationType: [[IAMediationMax alloc] init]];
         
@@ -231,10 +227,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     
     if ( self.interstitialAdSpot.activeUnitController == self.interstitialUnitController )
     {
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            self.presentingViewController = parameters.presentingViewController;
-        }
+        self.presentingViewController = parameters.presentingViewController;
         
         ALInneractiveCurrentlyShowingAdapters[parameters.thirdPartyAdPlacementIdentifier] = self;
         [self.interstitialUnitController showAdAnimated: YES completion: nil];
@@ -242,14 +235,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     else
     {
         [self log: @"Interstitial ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -321,24 +309,16 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            self.presentingViewController = parameters.presentingViewController;
-        }
+        self.presentingViewController = parameters.presentingViewController;
         
         [self.rewardedUnitController showAdAnimated: YES completion: nil];
     }
     else
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -414,12 +394,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         [[IASDKCore sharedInstance] clearGDPRConsentData];
     }
     
-    if ( ALSdk.versionCode >= 11040299 )
+    if ( requestParameters.consentString )
     {
-        if ( requestParameters.consentString )
-        {
-            [[IASDKCore sharedInstance] setGDPRConsentString: requestParameters.consentString];
-        }
+        [[IASDKCore sharedInstance] setGDPRConsentString: requestParameters.consentString];
     }
     
     NSNumber *isDoNotSell = [requestParameters isDoNotSell];
@@ -441,7 +418,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     }];
     
     NSDictionary *serverParameters = requestParameters.serverParameters;
-
+    
     if ( [serverParameters al_containsValueForKey: @"is_muted"] )
     {
         // Overwritten by `mute_state` setting, unless `mute_state` is disabled
@@ -480,13 +457,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: inneractiveErrorCode
-               thirdPartySdkErrorMessage: inneractiveError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: inneractiveErrorCode
+                     mediatedNetworkErrorMessage: inneractiveError.localizedDescription];
 }
 
 @end
@@ -520,18 +493,11 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 {
     [self.parentAdapter log: @"Interstitial shown"];
     
-    // Passing extra info such as creative id supported in 6.15.0+
-    if ( ALSdk.versionCode >= 6150000 )
-    {
-        dispatchOnMainQueueAfter(0.5, ^{
-            // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
-            [self.delegate didDisplayInterstitialAd];
-        });
-    }
-    else
-    {
+    dispatchOnMainQueueAfter(0.5, ^{
+        // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
         [self.delegate didDisplayInterstitialAd];
-    }
+    });
+    
 }
 
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
@@ -577,18 +543,10 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 {
     [self.parentAdapter log: @"Rewarded ad shown"];
     
-    // Passing extra info such as creative id supported in 6.15.0+
-    if ( ALSdk.versionCode >= 6150000 )
-    {
-        dispatchOnMainQueueAfter(0.5, ^{
-            // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
-            [self.delegate didDisplayRewardedAd];
-        });
-    }
-    else
-    {
+    dispatchOnMainQueueAfter(0.5, ^{
+        // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
         [self.delegate didDisplayRewardedAd];
-    }
+    });
 }
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoProgressUpdatedWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
@@ -657,11 +615,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
 {
     [self.parentAdapter log: @"AdView shown"];
-    
-    if ( ALSdk.versionCode < 6150000 )
-    {
-        [self.delegate didDisplayAdViewAd];
-    }
 }
 
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController

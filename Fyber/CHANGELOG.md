@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.3.6.0
+* Certified with Fyber SDK 8.3.6.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 8.3.5.1
 * Implement `IAAdDidExpire:` to handle ad exipiration by failing the ad display to ensure that the ad display cycle is complete.
 
