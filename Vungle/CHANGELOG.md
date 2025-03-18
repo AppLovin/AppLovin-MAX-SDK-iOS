@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.5.0
+* Certified with Vungle SDK 7.4.5.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 7.4.4.0
 * Certified with Vungle SDK 7.4.4.
 
