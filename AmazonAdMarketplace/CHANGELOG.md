@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.1.0.0
+* Certified with AmazonAdMarketplace SDK 5.1.0.
+
 ## 5.0.1.0
 * Certified with AmazonAdMarketplace SDK 5.0.1.
 
