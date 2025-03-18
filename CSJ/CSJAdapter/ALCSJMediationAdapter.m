@@ -9,7 +9,7 @@
 #import "ALCSJMediationAdapter.h"
 #import <BUAdSDK/BUAdSDK.h>
 
-#define ADAPTER_VERSION @"6.6.1.6.0"
+#define ADAPTER_VERSION @"6.7.0.8.0"
 
 @interface ALCSJInterstitialAdDelegate : NSObject <BUNativeExpressFullscreenVideoAdDelegate>
 @property (nonatomic,   weak) ALCSJMediationAdapter *parentAdapter;
@@ -524,10 +524,9 @@ static MAAdapterInitializationStatus ALCSJInitializationStatus = NSIntegerMin;
             break;
     }
     
-    return [MAAdapterError errorWithCode: adapterError.code
-                             errorString: adapterError.message
-                mediatedNetworkErrorCode: csjErrorCode
-             mediatedNetworkErrorMessage: csjError.localizedDescription];
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: csjErrorCode
+                     mediatedNetworkErrorMessage: csjError.localizedDescription];
 }
 
 @end

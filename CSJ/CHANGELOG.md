@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.7.0.8.0
+* Certified with CSJ SDK 6.7.0.8.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 11.5.2.
+
 ## 6.6.1.6.0
 * Certified with CSJ SDK 6.6.1.6.
 
