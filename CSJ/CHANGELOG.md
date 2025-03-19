@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.7.1.3.0
+* Certified with CSJ SDK 6.7.1.3.
+* Updated minimum iOS version to 12.0.
+
 ## 6.7.0.8.0
 * Certified with CSJ SDK 6.7.0.8.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 11.5.2.
