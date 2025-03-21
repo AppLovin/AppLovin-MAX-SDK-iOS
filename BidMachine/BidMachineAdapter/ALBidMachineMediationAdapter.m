@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine-Swift.h>
 
-#define ADAPTER_VERSION @"3.2.0.0.0"
+#define ADAPTER_VERSION @"3.2.1.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -197,13 +197,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( configurationError )
     {
         [self log: @"Interstitial ad failed to load with error: %@", configurationError];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToLoadInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                                       thirdPartySdkErrorCode: configurationError.code
-                                                                    thirdPartySdkErrorMessage: configurationError.localizedDescription]];
-#pragma clang diagnostic pop
+                                                                     mediatedNetworkErrorCode: configurationError.code
+                                                                  mediatedNetworkErrorMessage: configurationError.localizedDescription]];
         
         return;
     }
@@ -248,14 +244,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( ![self.interstitialAd canShow] )
     {
         [self log: @"Unable to show interstitial - ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         
         return;
     }
@@ -278,13 +269,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( configurationError )
     {
         [self log: @"Rewarded ad failed to load with error: %@", configurationError];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToLoadRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                                   thirdPartySdkErrorCode: configurationError.code
-                                                                thirdPartySdkErrorMessage: configurationError.localizedDescription]];
-#pragma clang diagnostic pop
+                                                                 mediatedNetworkErrorCode: configurationError.code
+                                                              mediatedNetworkErrorMessage: configurationError.localizedDescription]];
         
         return;
     }
@@ -329,14 +316,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( ![self.rewardedAd canShow] )
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         
         return;
     }
@@ -364,7 +346,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
                                                          errorString: [NSString stringWithFormat: @"Unsupported ad format: %@", adFormat]];
         [self log: @"AdView ad failed to load with error: %@", adapterError];
         [delegate didFailToLoadAdViewAdWithError: adapterError];
-
+        
         return;
     }
     
@@ -374,13 +356,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( configurationError )
     {
         [self log: @"AdView ad failed to load with error: %@", configurationError];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                                 thirdPartySdkErrorCode: configurationError.code
-                                                              thirdPartySdkErrorMessage: configurationError.localizedDescription]];
-#pragma clang diagnostic pop
+                                                               mediatedNetworkErrorCode: configurationError.code
+                                                            mediatedNetworkErrorMessage: configurationError.localizedDescription]];
         
         return;
     }
@@ -434,13 +412,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( configurationError )
     {
         [self log: @"Native ad failed to load with error: %@", configurationError];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                                 thirdPartySdkErrorCode: configurationError.code
-                                                              thirdPartySdkErrorMessage: configurationError.localizedDescription]];
-#pragma clang diagnostic pop
+                                                               mediatedNetworkErrorCode: configurationError.code
+                                                            mediatedNetworkErrorMessage: configurationError.localizedDescription]];
         
         return;
     }
@@ -518,13 +492,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.code
-                             errorString: adapterError.message
-                  thirdPartySdkErrorCode: bidmachineErrorCode
-               thirdPartySdkErrorMessage: bidmachineError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: bidmachineErrorCode
+                     mediatedNetworkErrorMessage: bidmachineError.localizedDescription];
 }
 
 - (BidMachinePlacementFormat)bidMachinePlacementFormatFromAdFormat:(MAAdFormat *)adFormat
@@ -566,12 +536,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         regulationBuilder = builder;
     }];
     
-    if ( ALSdk.versionCode >= 11040299 )
+    if ( parameters.consentString )
     {
-        if ( parameters.consentString )
-        {
-            [regulationBuilder withGDPRConsentString: parameters.consentString];
-        }
+        [regulationBuilder withGDPRConsentString: parameters.consentString];
     }
     
     NSNumber *hasUserConsent = [parameters hasUserConsent];
@@ -1002,7 +969,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     if ( isTemplateAd && ![nativeAd.title al_isValidString] )
     {
         [self.parentAdapter log: @"Native ad (%@) does not have required assets.", nativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -1142,7 +1109,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     NSError *error = nil;
     
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
-
+    
     // Native integrations
     if ( [container isKindOfClass: [MANativeAdView class]] )
     {
@@ -1156,7 +1123,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         NSMutableArray *assetsForInteraction = [NSMutableArray array];
         MABidMachineNativeAdPluginRendering *adPluginRendering = [[MABidMachineNativeAdPluginRendering alloc] init];
-
+        
         for ( UIView *view in clickableViews )
         {
             if ( view.tag == TITLE_LABEL_TAG )
