@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.14.0.0"
+#define ADAPTER_VERSION @"4.14.1.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -158,15 +158,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         self.interstitialDelegate = [[ALUnityAdsInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     }
     
-    UIViewController *presentingViewController;
-    if ( ALSdk.versionCode >= 11020199 )
-    {
-        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-    }
-    else
-    {
-        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-    }
+    UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     
     [UnityAds show: presentingViewController
        placementId: placementIdentifier
@@ -207,15 +199,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     // Configure reward from server.
     [self configureRewardForParameters: parameters];
     
-    UIViewController *presentingViewController;
-    if ( ALSdk.versionCode >= 11020199 )
-    {
-        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-    }
-    else
-    {
-        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-    }
+    UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     
     [UnityAds show: presentingViewController
        placementId: placementIdentifier
@@ -320,13 +304,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             adapterError = MAAdapterError.invalidConfiguration;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: unityAdsBannerErrorCode
-               thirdPartySdkErrorMessage: @""];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: unityAdsBannerErrorCode
+                     mediatedNetworkErrorMessage: @""];
 }
 
 + (MAAdapterError *)toMaxErrorWithLoadError:(UnityAdsLoadError)unityAdsLoadError withMessage:(NSString *)message
@@ -351,13 +331,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: unityAdsLoadError
-               thirdPartySdkErrorMessage: message];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: unityAdsLoadError
+                     mediatedNetworkErrorMessage: message];
 }
 
 + (MAAdapterError *)toMaxErrorWithShowError:(UnityAdsShowError)unityAdsShowError withMessage:(NSString *)message
@@ -390,13 +366,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
             adapterError = MAAdapterError.timeout;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: unityAdsShowError
-               thirdPartySdkErrorMessage: message];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: unityAdsShowError
+                     mediatedNetworkErrorMessage: message];
 }
 
 #pragma mark - GDPR
@@ -478,13 +450,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Interstitial placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error
-                                       thirdPartySdkErrorMessage: message];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error
+                                             mediatedNetworkErrorMessage: message];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -547,13 +515,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self.parentAdapter log: @"Rewarded ad placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error
-                                       thirdPartySdkErrorMessage: message];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error
+                                             mediatedNetworkErrorMessage: message];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
