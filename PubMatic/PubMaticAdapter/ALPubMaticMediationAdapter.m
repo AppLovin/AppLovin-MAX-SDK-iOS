@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.4.0.1"
+#define ADAPTER_VERSION @"4.5.0.0"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -169,8 +169,8 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     {
         [self log: @"Interstitial ad failed to load - ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                          thirdPartySdkErrorCode: 0
-                                                                       thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         return;
     }
     
@@ -200,8 +200,8 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     {
         [self log: @"Rewarded ad failed to load - ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                      thirdPartySdkErrorCode: 0
-                                                                   thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         return;
     }
     

@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.5.0.0
+* Certified with PubMatic SDK 4.5.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 4.4.0.1
 * Updated to support gpid (Global Placement ID).
 
