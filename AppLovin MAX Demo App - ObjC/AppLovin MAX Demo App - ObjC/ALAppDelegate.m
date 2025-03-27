@@ -35,7 +35,7 @@ static NSString *const YOUR_SDK_KEY = @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5
         // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
         
         // Initialize Adjust SDK
-        ADJConfig *adjustConfig = [[ADJConfig alloc] initWithAppToken:@"{YourAppToekn}" environment:ADJEnvironmentSandbox] ;
+        ADJConfig *adjustConfig = [[ADJConfig alloc] initWithAppToken: @"{YourAppToken}" environment: ADJEnvironmentSandbox];
         [Adjust initSdk:adjustConfig];
     }];
     
