@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.7.1.6.0
+* Certified with CSJ SDK 6.7.1.6.
+
 ## 6.7.1.3.0
 * Certified with CSJ SDK 6.7.1.3.
 * Updated minimum iOS version to 12.0.
