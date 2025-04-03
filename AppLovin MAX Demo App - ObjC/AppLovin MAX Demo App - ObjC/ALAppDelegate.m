@@ -36,7 +36,7 @@ static NSString *const YOUR_SDK_KEY = @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5
         
         // Initialize Adjust SDK
         ADJConfig *adjustConfig = [[ADJConfig alloc] initWithAppToken: @"{YourAppToken}" environment: ADJEnvironmentSandbox];
-        [Adjust initSdk:adjustConfig];
+        [Adjust initSdk: adjustConfig];
     }];
     
     UIColor *barTintColor = [UIColor colorWithRed: 10/255.0 green: 131/255.0 blue: 170/255.0 alpha: 1.0];
