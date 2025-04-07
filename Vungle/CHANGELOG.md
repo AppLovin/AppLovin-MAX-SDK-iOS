@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.4.5.1
+* Add support for [adaptive banners](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#adaptive-banners) & inline adaptive ads in both [banners](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners) and [MRECs](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners-in-mrecs). Requires AppLovin MAX SDK 13.2.0 or higher.
+
 ## 7.4.5.0
 * Certified with Vungle SDK 7.4.5.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.

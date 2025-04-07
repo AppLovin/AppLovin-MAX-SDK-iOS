@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.4.5.0"
+#define ADAPTER_VERSION @"7.4.5.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -367,8 +367,17 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
     else
     {
-        VungleAdSize *adSize = [self adSizeFromAdFormat: adFormat];
+        // Check if adaptive ad view sizes should be used
+        BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+        if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+        {
+            [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Vungle adaptive ads"];
+            isAdaptiveAdViewEnabled = NO;
+        }
         
+        VungleAdSize *adSize = [self adSizeFromAdFormat: adFormat
+                                       isAdaptiveAdView: isAdaptiveAdViewEnabled
+                                             parameters: parameters];
         self.adViewAd = [[VungleBannerView alloc] initWithPlacementId: placementIdentifier vungleAdSize: adSize];
         
         self.adViewAdDelegate = [[ALVungleMediationAdapterAdViewAdDelegate alloc] initWithParentAdapter: self
@@ -473,7 +482,14 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 }
 
 - (VungleAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
+                    isAdaptiveAdView:(BOOL)isAdaptiveAdViewEnabled
+                          parameters:(id<MAAdapterParameters>)parameters
 {
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+    
     if ( adFormat == MAAdFormat.banner )
     {
         return [VungleAdSize VungleAdSizeBannerRegular];
@@ -491,6 +507,28 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
         return [VungleAdSize VungleAdSizeBannerRegular];
     }
+}
+
+- (VungleAdSize *)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaximumHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        if ( inlineMaximumHeight > 0 )
+        {
+            // NOTE: Inline adaptive ad will be a fixed height equal to inlineMaximumHeight. Dynamic maximum height will be supported once the Vungle iOS SDK respects the maximum height
+            return [VungleAdSize VungleAdSizeFromCGSize: CGSizeMake(adaptiveAdWidth, inlineMaximumHeight)];
+        }
+        
+        // If not specified, inline maximum height will be the device height according to current device orientation
+        return [VungleAdSize VungleAdSizeWithWidth: adaptiveAdWidth];
+    }
+    
+    // Return anchored size by default
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return [VungleAdSize VungleAdSizeFromCGSize: CGSizeMake(adaptiveAdWidth, anchoredHeight)];
 }
 
 + (MAAdapterError *)toMaxError:(nullable NSError *)vungleError isAdPresentError:(BOOL)adPresentError
@@ -855,6 +893,10 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     {
         extraInfo[@"creative_id"] = creativeIdentifier;
     }
+    
+    CGSize adSize = [adView getBannerSize];
+    extraInfo[@"ad_width"] = @(adSize.width);
+    extraInfo[@"ad_height"] = @(adSize.height);
     
     [self.delegate didLoadAdForAdView: adView withExtraInfo: extraInfo];
 }
