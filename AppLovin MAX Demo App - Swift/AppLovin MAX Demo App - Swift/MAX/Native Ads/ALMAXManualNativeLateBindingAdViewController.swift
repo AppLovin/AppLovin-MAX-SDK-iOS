@@ -6,7 +6,7 @@
 //  Copyright © 2022 AppLovin. All rights reserved.
 //
 
-import Adjust
+import AdjustSdk
 import AppLovinSDK
 import UIKit
 
@@ -149,7 +149,7 @@ extension ALMAXManualNativeLateBindingAdViewController: MAAdRevenueDelegate
     {
         logCallback()
         
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
+        let adjustAdRevenue = ADJAdRevenue(source: "applovin_max_sdk")!
         adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
         adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
         adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)

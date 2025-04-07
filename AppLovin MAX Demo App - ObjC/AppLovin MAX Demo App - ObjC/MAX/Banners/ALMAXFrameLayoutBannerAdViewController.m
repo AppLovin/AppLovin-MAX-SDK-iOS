@@ -7,7 +7,7 @@
 //
 
 #import "ALMAXFrameLayoutBannerAdViewController.h"
-#import <Adjust/Adjust.h>
+#import <AdjustSdk/AdjustSdk.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
 @interface ALMAXFrameLayoutBannerAdViewController()<MAAdViewAdDelegate, MAAdRevenueDelegate>
@@ -94,7 +94,7 @@
 {
     [self logCallback: __PRETTY_FUNCTION__];
     
-    ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: ADJAdRevenueSourceAppLovinMAX];
+    ADJAdRevenue *adjustAdRevenue = [[ADJAdRevenue alloc] initWithSource: @"applovin_max_sdk"];
     [adjustAdRevenue setRevenue: ad.revenue currency: @"USD"];
     [adjustAdRevenue setAdRevenueNetwork: ad.networkName];
     [adjustAdRevenue setAdRevenueUnit: ad.adUnitIdentifier];
