@@ -8,7 +8,7 @@
 #import "ALIronSourceMediationAdapter.h"
 #import <IronSource/IronSource.h>
 
-#define ADAPTER_VERSION @"8.7.0.0.0"
+#define ADAPTER_VERSION @"8.8.0.0.0"
 
 @interface ALIronSourceMediationAdapterRouter : ALMediationAdapterRouter <ISDemandOnlyInterstitialDelegate, ISDemandOnlyRewardedVideoDelegate, ISLogDelegate>
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
@@ -274,10 +274,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
         if ( !self.biddingInterstitialAd || !self.biddingInterstitialAd.isReadyToShow )
         {
             [self log: @"Unable to show ironSource bidding interstitial - no ad loaded for instance ID: %@", instanceID];
-            [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                                 errorString: @"Ad Display Failed"
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+            [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                            mediatedNetworkErrorCode: 0
+                                                                         mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
             return;
         }
         
@@ -289,15 +288,14 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     {
         [self updateIronSourceDelegates];
         [self.router addShowingAdapter: self];
-
+        
         if ( ![IronSource hasISDemandOnlyInterstitial: instanceID] )
         {
             [self log: @"Unable to show ironSource interstitial - no ad loaded for instance ID: %@", instanceID];
             [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceID]
-                                                            error: [MAAdapterError errorWithCode: -4205
-                                                                                     errorString: @"Ad Display Failed"
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                            error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                                mediatedNetworkErrorCode: 0
+                                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
             return;
             
         }
@@ -355,17 +353,16 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
         if ( !self.biddingRewardedAd || !self.biddingRewardedAd.isReadyToShow )
         {
             [self log: @"Unable to show ironSource bidding rewarded - no ad loaded for instance ID: %@", instanceID];
-            [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+            [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
             
             return;
         }
         
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
-
+        
         self.biddingRewardedAd.delegate = self.biddingRewardedAdDelegate;
         UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.biddingRewardedAd showFromViewController: presentingViewController];
@@ -374,21 +371,20 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     {
         [self updateIronSourceDelegates];
         [self.router addShowingAdapter: self];
-
+        
         if ( ![IronSource hasISDemandOnlyRewardedVideo: instanceID] )
         {
             [self log: @"Unable to show ironSource rewarded - no ad loaded for instance ID: %@", instanceID];
             [self.router didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceID]
-                                                            error: [MAAdapterError errorWithCode: -4205
-                                                                                     errorString: @"Ad Display Failed"
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                            error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                                mediatedNetworkErrorCode: 0
+                                                                             mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
             return;
         }
         
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
-
+        
         UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [IronSource showISDemandOnlyRewardedVideo: presentingViewController instanceId: instanceID];
     }
@@ -426,10 +422,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
             if ( [ALLoadedAdViewPlacementIdentifiers containsObject: instanceID] )
             {
                 [self log: @"AdView failed to load for instance ID: %@. An ad with the same instance ID is already loaded", parameters.thirdPartyAdPlacementIdentifier];
-                [delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: MAAdapterError.internalError.code
-                                                                            errorString: MAAdapterError.internalError.message
-                                                               mediatedNetworkErrorCode: 0
-                                                            mediatedNetworkErrorMessage: @"An ad with the same instance ID is already loaded"]];
+                [delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.internalError
+                                                                       mediatedNetworkErrorCode: 0
+                                                                    mediatedNetworkErrorMessage: @"An ad with the same instance ID is already loaded"]];
                 return;
             }
         }
@@ -474,7 +469,7 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
     ISAAdFormat *rewarded = [[ISAAdFormat alloc] initWithAdFormatType: ISAAdFormatTypeRewarded];
     ISAAdFormat *interstitial = [[ISAAdFormat alloc] initWithAdFormatType: ISAAdFormatTypeInterstitial];
     ISAAdFormat *banner = [[ISAAdFormat alloc] initWithAdFormatType: ISAAdFormatTypeBanner];
-
+    
     NSArray<NSString *> *adFormats = [parameters.serverParameters al_arrayForKey: @"init_ad_formats"];
     if ( adFormats.count == 0 )
     {
@@ -609,10 +604,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
             break;
     }
     
-    return [MAAdapterError errorWithCode: adapterError.code
-                             errorString: adapterError.message
-                mediatedNetworkErrorCode: ironSourceErrorCode
-             mediatedNetworkErrorMessage: ironSourceError.localizedDescription];
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: ironSourceErrorCode
+                     mediatedNetworkErrorMessage: ironSourceError.localizedDescription];
 }
 
 @end
@@ -703,10 +697,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
 {
     [self log: @"Interstitial failed to show for instance ID: %@ with error: %@", instanceId, error];
     [self didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter interstitialRouterIdentifierForInstanceID: instanceId]
-                                             error: [MAAdapterError errorWithCode: -4205
-                                                                      errorString: @"Ad Display Failed"
-                                                         mediatedNetworkErrorCode: error.code
-                                                      mediatedNetworkErrorMessage: error.localizedDescription]];
+                                             error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                 mediatedNetworkErrorCode: error.code
+                                                              mediatedNetworkErrorMessage: error.localizedDescription]];
 }
 
 - (void)didClickInterstitial:(NSString *)instanceId
@@ -779,10 +772,9 @@ static MAAdapterInitializationStatus ALIronSourceInitializationStatus = NSIntege
 {
     [self log: @"Rewarded ad failed to show for instance ID: %@ with error: %@", instanceId, error];
     [self didFailToDisplayAdForPlacementIdentifier: [ALIronSourceMediationAdapterRouter rewardedVideoRouterIdentifierForInstanceID: instanceId]
-                                             error: [MAAdapterError errorWithCode: -4205
-                                                                      errorString: @"Ad Display Failed"
-                                                         mediatedNetworkErrorCode: error.code
-                                                      mediatedNetworkErrorMessage: error.localizedDescription]];
+                                             error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                 mediatedNetworkErrorCode: error.code
+                                                              mediatedNetworkErrorMessage: error.localizedDescription]];
 }
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId

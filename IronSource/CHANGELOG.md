@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.8.0.0.0
+* Certified with IronSource SDK 8.8.0.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 8.7.0.0.0
 * Certified with IronSource SDK 8.7.0.0.
 * Updated minimum iOS version to 13.0 to match IronSource SDK.
