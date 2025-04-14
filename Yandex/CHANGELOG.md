@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.12.0.1
+* Update to use new APIs for ad targeting
+
 ## 7.12.0.0
 * Certified with Yandex SDK 7.12.0.
 

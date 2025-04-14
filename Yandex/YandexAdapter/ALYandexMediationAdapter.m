@@ -8,8 +8,9 @@
 
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
+#import <CoreLocation/CoreLocation.h>
 
-#define ADAPTER_VERSION @"7.12.0.0"
+#define ADAPTER_VERSION @"7.12.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -191,6 +192,13 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     
     YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: yandexAdType];
     
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    configuration.targetInfo.age = [self getAgeFromLocalExtraParametrs:localExtraParameters];
+    configuration.targetInfo.gender = [self getGenderFromLocalExtraParametrs:localExtraParameters];
+    configuration.targetInfo.location = [self getLocationFromLocalExtraParametrs:localExtraParameters];
+    configuration.targetInfo.contextQuery = [self getContextQueryFromLocalExtraParametrs:localExtraParameters];
+    configuration.targetInfo.contextTags = [self getContextTagsFromLocalExtraParametrs:localExtraParameters];
+    
     [ALYandexBidderTokenLoader loadBidderTokenWithRequestConfiguration: configuration completionHandler:^(NSString *bidderToken) {
         [self log: @"Collected signal"];
         [delegate didCollectSignal: bidderToken];
@@ -337,6 +345,40 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 }
 
 #pragma mark - Helper Methods
+
+- (nullable NSNumber *)getAgeFromLocalExtraParametrs:(NSDictionary<NSString *, id> *)parametrs {
+    return [parametrs al_numberForKey:@"yandex_age"];
+}
+
+- (nullable NSString *)getGenderFromLocalExtraParametrs:(NSDictionary<NSString *, id> *)parametrs {
+    return [parametrs al_stringForKey:@"yandex_gender"];
+}
+
+- (nullable CLLocation *)getLocationFromLocalExtraParametrs:(NSDictionary<NSString *, id> *)parametrs {
+    id object = [parametrs valueForKey:@"yandex_location"];
+    if (object != nil && [object isKindOfClass:[CLLocation class]]) {
+        return (CLLocation *)object;
+    }
+    return nil;
+}
+
+- (nullable NSString *)getContextQueryFromLocalExtraParametrs:(NSDictionary<NSString *, id> *)parametrs {
+    return [parametrs al_stringForKey:@"yandex_context_query"];
+}
+
+- (nullable NSArray<NSString *> *)getContextTagsFromLocalExtraParametrs:(NSDictionary<NSString *, id> *)parametrs {
+    NSArray *array = [parametrs al_arrayForKey:@"yandex_context_tags"];
+    if (!array) {
+        return nil;
+    }
+    NSMutableArray<NSString *> *result = [NSMutableArray array];
+    for (id object in array) {
+        if (object && [object isKindOfClass:[NSString class]]) {
+            [result addObject:object];
+        }
+    }
+    return result;
+}
 
 - (void)updateUserConsent:(id<MAAdapterParameters>)parameters
 {
