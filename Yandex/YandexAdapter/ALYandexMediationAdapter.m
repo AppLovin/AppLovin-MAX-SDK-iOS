@@ -10,7 +10,7 @@
 #import <YandexMobileAds/YandexMobileAds.h>
 #import <CoreLocation/CoreLocation.h>
 
-#define ADAPTER_VERSION @"7.12.0.1"
+#define ADAPTER_VERSION @"7.12.1.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2

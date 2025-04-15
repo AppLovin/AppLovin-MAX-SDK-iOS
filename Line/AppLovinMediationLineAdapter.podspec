@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationLineAdapter'
-s.version = '2.9.20241106.0'
+s.version = '2.9.20241106.1'
 s.platform = :ios, '12.0'
 s.summary = 'Line adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
