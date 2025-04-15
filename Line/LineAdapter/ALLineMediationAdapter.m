@@ -8,29 +8,29 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.9.20241106.0"
+#define ADAPTER_VERSION @"2.9.20241106.1"
 
-@interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADLoadDelegate, FADInterstitialEventListener>
+@interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterRewardedAdDelegate : NSObject <FADLoadDelegate, FADVideoRewardEventListener>
+@interface ALLineMediationAdapterRewardedAdDelegate : NSObject <FADVideoRewardEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterAdViewDelegate : NSObject <FADLoadDelegate, FADCustomLayoutEventListener>
+@interface ALLineMediationAdapterAdViewDelegate : NSObject <FADCustomLayoutEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 @property (nonatomic, strong) MAAdFormat *adFormat;
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterNativeAdViewDelegate : NSObject <FADLoadDelegate, FADNativeEventListener>
+@interface ALLineMediationAdapterNativeAdViewDelegate : NSObject <FADNativeEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 @property (nonatomic, strong) MAAdFormat *adFormat;
@@ -38,7 +38,7 @@
 - (instancetype)initWithParentAdapter:(ALLineMediationAdapter *)parentAdapter adFormat:(MAAdFormat *)adFormat serverParameters:(NSDictionary<NSString *, id> *)serverParameters andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALLineMediationAdapterNativeAdDelegate : NSObject <FADLoadDelegate, FADNativeEventListener>
+@interface ALLineMediationAdapterNativeAdDelegate : NSObject <FADNativeEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
@@ -52,6 +52,8 @@
 @end
 
 @interface ALLineMediationAdapter ()
+
+@property (nonatomic, strong) FADAdLoader *adLoader;
 
 // Interstitial
 @property (nonatomic, strong) ALLineMediationAdapterInterstitialAdDelegate *interstitialDelegate;
@@ -69,6 +71,7 @@
 // Native
 @property (nonatomic, strong) ALLineMediationAdapterNativeAdDelegate *nativeAdDelegate;
 @property (nonatomic, strong) FADNative *nativeAd;
+
 @end
 
 @implementation ALLineMediationAdapter
@@ -96,64 +99,21 @@ static ALAtomicBoolean *ALLineInitialized;
 
 - (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
 {
-    if ( [ALLineInitialized compareAndSet: NO update: YES] )
-    {
-        NSString *appId = [parameters.serverParameters al_stringForKey: @"app_id"];
-        [self log: @"Initializing Line SDK with app id: %@...", appId];
-        
-        FADConfig *config = [[FADConfig alloc] initWithAppId: appId];
-        [config setIsTest: [parameters isTesting]];
-        
-        NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-        // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-        if ( [serverParameters al_containsValueForKey: @"is_muted"] )
-        {
-            BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
-            [config enableSoundByDefault: !muted];
-        }
-        
-        //
-        // GDPR options
-        //
-        NSNumber *hasUserConsent = [parameters hasUserConsent];
-        if ( hasUserConsent != nil )
-        {
-            config.needGdprNonPersonalizedAdsTreatment = hasUserConsent.boolValue ? kFADNeedGdprNonPersonalizedAdsTreatmentFalse : kFADNeedGdprNonPersonalizedAdsTreatmentTrue;
-        }
-        
-        [FADSettings registerConfig: config];
-        completionHandler(MAAdapterInitializationStatusInitializedUnknown, nil);
-    }
-    else
-    {
-        if ( [FADSettings isConfigRegistered] )
-        {
-            [self log: @"Line SDK is already initialized"];
-            completionHandler(MAAdapterInitializationStatusInitializedUnknown, nil);
-        }
-        else
-        {
-            [self log: @"Line SDK still initializing"];
-            completionHandler(MAAdapterInitializationStatusInitializing, nil);
-        }
-    }
+    completionHandler(MAAdapterInitializationStatusDoesNotApply, nil);
 }
 
 - (void)destroy
 {
-    [self.interstitialAd setLoadDelegate: nil];
     [self.interstitialAd setEventListener: nil];
     self.interstitialAd = nil;
     self.interstitialDelegate.delegate = nil;
     self.interstitialDelegate = nil;
     
-    [self.rewardedAd setLoadDelegate: nil];
     [self.rewardedAd setEventListener: nil];
     self.rewardedAd = nil;
     self.rewardedDelegate.delegate = nil;
     self.rewardedDelegate = nil;
     
-    [self.adView setLoadDelegate: nil];
     [self.adView setEventListener: nil];
     self.adView = nil;
     self.adViewDelegate.delegate = nil;
@@ -161,11 +121,65 @@ static ALAtomicBoolean *ALLineInitialized;
     self.nativeAdViewDelegate.delegate = nil;
     self.nativeAdViewDelegate = nil;
     
-    [self.nativeAd setLoadDelegate: nil];
     [self.nativeAd setEventListener: nil];
     self.nativeAd = nil;
     self.nativeAdDelegate.delegate = nil;
     self.nativeAdDelegate = nil;
+    
+    self.adLoader = nil;
+}
+
+#pragma mark - MASignalProvider Methods
+
+- (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
+{
+    [self log: @"Collecting signal..."];
+    
+    NSString *adUnitId = parameters.adUnitIdentifier;
+    if ( ![adUnitId al_isValidString] )
+    {
+        NSString *errorMessage = @"invalid ad unit id";
+        [self log: @"Signal collection failed with error: %@", errorMessage];
+        [delegate didFailToCollectSignalWithErrorMessage: errorMessage];
+        
+        return;
+    }
+
+    NSDictionary<NSString *, NSString *> *credentials = parameters.serverParameters[@"placement_ids"] ?: @{};
+    NSString *slotId = credentials[adUnitId];
+    if ( ![slotId al_isValidString] )
+    {
+        NSString *errorMessage = @"invalid slot id ";
+        [self log: @"Signal collection failed with error: %@", errorMessage];
+        [delegate didFailToCollectSignalWithErrorMessage: errorMessage];
+        
+        return;
+    }
+
+    self.adLoader = [self retrieveAdLoader: parameters];
+    
+    [self.adLoader collectSignalWithSlotId: slotId withSignalCallback:^(NSString *_Nullable token, NSError *_Nullable error) {
+        
+        if ( error )
+        {
+            [self log: @"Signal collection failed with error: %@", error];
+            [delegate didFailToCollectSignalWithErrorMessage: error.localizedDescription];
+            
+            return;
+        }
+        
+        if ( ![token al_isValidString] )
+        {
+            NSString *errorMessage = @"Unexpected error - token is nil";
+            [self log: @"Signal collection failed with error: %@", errorMessage];
+            [delegate didFailToCollectSignalWithErrorMessage: errorMessage];
+            
+            return;
+        }
+        
+        [self log: @"Signal collection successful"];
+        [delegate didCollectSignal: token];
+    }];
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -173,14 +187,46 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading interstitial ad for slot id: %@...", slotId];
+    BOOL isBidding = [parameters.bidResponse al_isValidString];
+    [self log: @"Loading %@interstitial ad for slot id: %@...", (isBidding ? @"bidding " : @""), slotId];
     
-    self.interstitialDelegate = [[ALLineMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.interstitialAd = [[FADInterstitial alloc] initWithSlotId: slotId];
-    [self.interstitialAd setLoadDelegate: self.interstitialDelegate];
-    [self.interstitialAd setEventListener: self.interstitialDelegate];
+    void (^interstitialLoadCallback)(FADInterstitial *_Nullable, NSError *_Nullable) = ^(FADInterstitial *_Nullable ad, NSError *_Nullable error) {
+        
+        if ( error )
+        {
+            MAAdapterError *adapterError = [ALLineMediationAdapter toMaxError: error.code];
+            [self log: @"Interstitial ad failed to load with error: %@", adapterError];
+            [delegate didFailToLoadInterstitialAdWithError: adapterError];
+            
+            return;
+        }
+        
+        if ( !ad )
+        {
+            [self log: @"Interstitial ad (%@) NO FILL'd", ad.slotId];
+            [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.noFill];
+            
+            return;
+        }
+        
+        self.interstitialAd = ad;
+        
+        [self log: @"Interstitial ad loaded"];
+        [delegate didLoadInterstitialAd];
+    };
     
-    [self.interstitialAd loadAdAsync];
+    self.adLoader = [self retrieveAdLoader: parameters];
+
+    if ( isBidding )
+    {
+        FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: parameters.bidResponse withWatermark: nil];
+        [self.adLoader loadInterstitialAdWithBidData: bidData withLoadCallback: interstitialLoadCallback];
+    }
+    else
+    {
+        FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+        [self.adLoader loadInterstitialAdWithConfig: slotConfig withLoadCallback: interstitialLoadCallback];
+    }
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -188,6 +234,20 @@ static ALAtomicBoolean *ALLineInitialized;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing interstitial ad for slot id: %@...", slotId];
     
+    if ( !self.interstitialAd )
+    {
+        [self log: @"Interstitial ad failed to show for slot id: %@ - no ad loaded", slotId];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+        
+        return;
+
+    }
+    
+    self.interstitialDelegate = [[ALLineMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    [self.interstitialAd setEventListener: self.interstitialDelegate];
+
     [self.interstitialAd showWithViewController: parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow]];
 }
 
@@ -196,14 +256,46 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading rewarded ad for slot id: %@...", slotId];
+    BOOL isBidding = [parameters.bidResponse al_isValidString];
+    [self log: @"Loading %@rewarded ad for slot id: %@...", (isBidding ? @"bidding " : @""), slotId];
     
-    self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.rewardedAd = [[FADVideoReward alloc] initWithSlotId: slotId];
-    [self.rewardedAd setLoadDelegate: self.rewardedDelegate];
-    [self.rewardedAd setEventListener: self.rewardedDelegate];
+    void (^rewardedLoadCallback)(FADVideoReward *_Nullable, NSError *_Nullable) = ^(FADVideoReward *_Nullable ad, NSError *_Nullable error) {
+        
+        if ( error )
+        {
+            MAAdapterError *adapterError = [ALLineMediationAdapter toMaxError: error.code];
+            [self log: @"Rewarded ad failed to load with error: %@", adapterError];
+            [delegate didFailToLoadRewardedAdWithError: adapterError];
+            
+            return;
+        }
+        
+        if ( !ad )
+        {
+            [self log: @"Rewarded ad (%@) NO FILL'd", slotId];
+            [delegate didFailToLoadRewardedAdWithError: MAAdapterError.noFill];
+            
+            return;
+        }
+        
+        self.rewardedAd = ad;
+
+        [self log: @"Rewarded ad loaded"];
+        [delegate didLoadRewardedAd];
+    };
     
-    [self.rewardedAd loadAdAsync];
+    self.adLoader = [self retrieveAdLoader: parameters];
+    
+    if ( isBidding )
+    {
+        FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: parameters.bidResponse withWatermark: nil];
+        [self.adLoader loadRewardAdWithBidData: bidData withLoadCallback: rewardedLoadCallback];
+    }
+    else
+    {
+        FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+        [self.adLoader loadRewardAdWithConfig: slotConfig withLoadCallback: rewardedLoadCallback];
+    }
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -211,8 +303,21 @@ static ALAtomicBoolean *ALLineInitialized;
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing rewarded ad for slot id: %@...", slotId];
     
-    [self configureRewardForParameters: parameters];
+    if ( !self.rewardedAd )
+    {
+        [self log: @"Rewarded ad failed to show for slot id: %@ - no ad loaded", slotId];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+        
+        return;
+    }
+    
+    self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    [self.rewardedAd setEventListener: self.rewardedDelegate];
 
+    [self configureRewardForParameters: parameters];
+    
     [self.rewardedAd showWithViewController: parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow]];
 }
 
@@ -222,41 +327,108 @@ static ALAtomicBoolean *ALLineInitialized;
 {
     BOOL isNative = [parameters.serverParameters al_boolForKey: @"is_native"];
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
+    NSString *bidResponse = parameters.bidResponse;
+    BOOL isBidding = [bidResponse al_isValidString];
     
-    [self log: @"Loading %@%@ ad for slot id: %@...", isNative ? @"native " : @"", adFormat.label, slotId];
+    [self log: @"Loading %@%@%@ ad for slot id: %@...", (isNative ? @"native " : @""), (isBidding ? @"bidding " : @""), adFormat.label, slotId];
     
     dispatchOnMainQueue(^{
         
         if ( isNative )
         {
-            self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                                         adFormat: adFormat
-                                                                                                 serverParameters: parameters.serverParameters
-                                                                                                        andNotify: delegate];
-            self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-            [self.nativeAd setLoadDelegate: self.nativeAdViewDelegate];
-            [self.nativeAd setEventListener: self.nativeAdViewDelegate];
+            void (^nativeAdViewLoadCallback)(FADNative *_Nullable, NSError *_Nullable) = ^(FADNative *_Nullable ad, NSError *_Nullable error) {
+                
+                if ( error )
+                {
+                    MAAdapterError *adapterError = [ALLineMediationAdapter toMaxError: error.code];
+                    [self log: @"Native %@ ad failed to load with error: %@", adFormat.label, adapterError];
+                    [delegate didFailToLoadAdViewAdWithError: adapterError];
+                    
+                    return;
+                }
+                
+                if ( !ad )
+                {
+                    [self log: @"Native %@ ad (%@) NO FILL'd", adFormat.label, slotId];
+                    [delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
+                    
+                    return;
+                }
+                
+                self.nativeAdViewDelegate = [[ALLineMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                             adFormat: adFormat
+                                                                                                     serverParameters: parameters.serverParameters
+                                                                                                            andNotify: delegate];
+                self.nativeAd = ad;
+                [self.nativeAd setEventListener: self.nativeAdViewDelegate];
+                
+                // We always want to mute banners and MRECs
+                [self.nativeAd enableSound: NO];
+                
+                [self renderCustomNativeBanner: adFormat serverParameters: parameters.serverParameters andNotify: delegate];
+            };
             
-            // We always want to mute banners and MRECs
-            [self.nativeAd enableSound: NO];
-            
-            [self.nativeAd loadAdAsync];
+            self.adLoader = [self retrieveAdLoader: parameters];
+
+            if ( isBidding )
+            {
+                FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: bidResponse withWatermark: nil];
+                [self.adLoader loadNativeAdWithBidData: bidData withInitialWidth: adFormat.size.width withLoadCallback: nativeAdViewLoadCallback];
+            }
+            else
+            {
+                FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+                [self.adLoader loadNativeAdWithConfig: slotConfig withInitialWidth: adFormat.size.width withLoadCallback: nativeAdViewLoadCallback];
+            }
         }
         else
         {
-            self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormat: adFormat andNotify: delegate];
-            self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                             adFormat: adFormat
-                                                                                            andNotify: delegate];
-            self.adView = [[FADAdViewCustomLayout alloc] initWithSlotId: slotId width: CGRectGetWidth([UIScreen mainScreen].bounds)];
-            [self.adView setLoadDelegate: self.adViewDelegate];
-            [self.adView setEventListener: self.adViewDelegate];
-            self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
+            void (^adViewLoadCallback)(FADAdViewCustomLayout *_Nullable, NSError *_Nullable) = ^(FADAdViewCustomLayout *_Nullable ad, NSError *_Nullable error) {
+                
+                if ( error )
+                {
+                    MAAdapterError *adapterError = [ALLineMediationAdapter toMaxError: error.code];
+                    [self log: @"%@ ad failed to load with error: %@", adFormat.label, adapterError];
+                    [delegate didFailToLoadAdViewAdWithError: adapterError];
+                    
+                    return;
+                }
+                
+                if ( !ad )
+                {
+                    [self log: @"%@ ad (%@) NO FILL'd", adFormat.label, slotId];
+                    [delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
+                    
+                    return;
+                }
+                
+                self.adViewDelegate = [[ALLineMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                 adFormat: adFormat
+                                                                                                andNotify: delegate];
+                
+                self.adView = ad;
+                [self.adView setEventListener: self.adViewDelegate];
+                self.adView.frame = CGRectMake(0, 0, adFormat.size.width, adFormat.size.height);
+                
+                // We always want to mute banners and MRECs
+                [self.adView enableSound: NO];
+                
+                [self log: @"%@ ad loaded", adFormat.label];
+                [delegate didLoadAdForAdView: self.adView];
+            };
             
-            // We always want to mute banners and MRECs
-            [self.adView enableSound: NO];
-            
-            [self.adView loadAdAsync];
+            self.adLoader = [self retrieveAdLoader: parameters];
+
+            if ( isBidding )
+            {
+                FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: bidResponse withWatermark: nil];
+                [self.adLoader loadBannerAdWithBidData: bidData withInitialWidth: adFormat.size.width withLoadCallback: adViewLoadCallback];
+            }
+            else
+            {
+                FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+                [self.adLoader loadBannerAdWithConfig: slotConfig withInitialWidth: adFormat.size.width withLoadCallback: adViewLoadCallback];
+            }
         }
     });
 }
@@ -266,25 +438,132 @@ static ALAtomicBoolean *ALLineInitialized;
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
     NSString *slotId = parameters.thirdPartyAdPlacementIdentifier;
-    [self log: @"Loading native ad for slot id: %@...", slotId];
+    BOOL isBidding = [parameters.bidResponse al_isValidString];
+    [self log: @"Loading %@native ad for slot id: %@...", (isBidding ? @"bidding " : @""), slotId];
     
-    self.nativeAdDelegate = [[ALLineMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
-                                                                                 serverParameters: parameters.serverParameters
-                                                                                        andNotify: delegate];
-    dispatchOnMainQueue(^{
+    void (^nativeLoadCallback)(FADNative *_Nullable, NSError *_Nullable) = ^(FADNative *_Nullable loadedNativeAd, NSError *_Nullable error) {
         
-        self.nativeAd = [[FADNative alloc] initWithSlotId: slotId videoViewWidth: CGRectGetWidth([UIScreen mainScreen].bounds)];
-        [self.nativeAd setLoadDelegate: self.nativeAdDelegate];
+        [self log: @"Native ad loaded"];
+
+        if ( error )
+        {
+            MAAdapterError *adapterError = [ALLineMediationAdapter toMaxError: error.code];
+            [self log: @"Native ad failed to load with error: %@", adapterError];
+            [delegate didFailToLoadNativeAdWithError: adapterError];
+            
+            return;
+        }
+        
+        if ( !loadedNativeAd )
+        {
+            [self log: @"Native ad (%@) NO FILL'd", slotId];
+            [delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
+            
+            return;
+        }
+        
+        NSString *templateName = [parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        BOOL isTemplateAd = [templateName al_isValidString];
+        if ( isTemplateAd && ![loadedNativeAd.getAdTitle al_isValidString] )
+        {
+            [self e: @"Native ad (%@) does not have required assets.", loadedNativeAd];
+            [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+            
+            return;
+        }
+        
+        [loadedNativeAd loadIconImageAsyncWithBlock:^(UIImage *iconImage) {
+            // Ensure UI rendering is done on main queue
+            dispatchOnMainQueue(^{
+                
+                FADNative *nativeAd = self.nativeAd;
+                if ( !nativeAd )
+                {
+                    [self log: @"Native ad destroyed before assets finished load"];
+                    [delegate didFailToLoadNativeAdWithError: MAAdapterError.invalidLoadState];
+                    
+                    return;
+                }
+                
+                MANativeAd *maxNativeAd = [[MALineNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
+                    builder.title = nativeAd.getAdTitle;
+                    builder.advertiser = nativeAd.getAdvertiserName;
+                    builder.body = nativeAd.getDescriptionText;
+                    builder.callToAction = nativeAd.getButtonText;
+                    builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
+                    builder.mediaView = nativeAd.getAdMainView;
+                }];
+                
+                [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+            });
+        }];
+        
+        self.nativeAdDelegate = [[ALLineMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                     serverParameters: parameters.serverParameters
+                                                                                            andNotify: delegate];
+        self.nativeAd = loadedNativeAd;
         [self.nativeAd setEventListener: self.nativeAdDelegate];
         
         // We always want to mute banners and MRECs
         [self.nativeAd enableSound: NO];
-        
-        [self.nativeAd loadAdAsync];
-    });
+    };
+    
+    self.adLoader = [self retrieveAdLoader: parameters];
+
+    if ( isBidding )
+    {
+        FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: parameters.bidResponse withWatermark: nil];
+        [self.adLoader loadNativeAdWithBidData: bidData withLoadCallback: nativeLoadCallback];
+    }
+    else
+    {
+        FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+        [self.adLoader loadNativeAdWithConfig: slotConfig withInitialWidth: CGRectGetWidth([UIScreen mainScreen].bounds) withLoadCallback: nativeLoadCallback];
+    }
 }
 
 #pragma mark - Helper Methods
+
+- (FADAdLoader *)retrieveAdLoader:(id<MAAdapterParameters>)parameters
+{
+    NSError *error;
+    FADConfig *config = [self configFromParameters: parameters];
+    FADAdLoader *adLoader = [FADAdLoader adLoaderForConfig: config outError: &error];
+    
+    if ( error )
+    {
+        [NSException raise: NSInvalidArgumentException format: @"Failed to retrieve ad loader for ad unit id: %@, with error: %@", parameters.adUnitIdentifier, error.localizedDescription];
+    }
+    
+    return adLoader;
+}
+
+- (FADConfig *)configFromParameters:(id<MAAdapterParameters>)parameters
+{
+    NSString *appId = [parameters.serverParameters al_stringForKey: @"app_id"];
+    
+    FADConfig *config = [[FADConfig alloc] initWithAppId: appId];
+    config.isTest = [parameters isTesting];
+    
+    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
+    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+    {
+        BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
+        [config enableSoundByDefault: !muted];
+    }
+    
+    //
+    // GDPR options
+    //
+    NSNumber *hasUserConsent = [parameters hasUserConsent];
+    if ( hasUserConsent != nil )
+    {
+        config.needGdprNonPersonalizedAdsTreatment = hasUserConsent.boolValue ? kFADNeedGdprNonPersonalizedAdsTreatmentFalse : kFADNeedGdprNonPersonalizedAdsTreatmentTrue;
+    }
+    
+    return config;
+}
 
 + (MAAdapterError *)toMaxError:(FADErrorCode)lineAdsErrorCode
 {
@@ -301,6 +580,7 @@ static ALAtomicBoolean *ALLineInitialized;
             thirdPartySdkErrorMessage = @"Ad was not ready at display time. Please try again.";
             break;
         case kFADErrorBadAppId:
+        case kFADErrorCodeFormatMismatch:
             adapterError = MAAdapterError.invalidConfiguration;
             thirdPartySdkErrorMessage = @"Check if the OS type, PackageName, and issued AppID registered in FIVE Dashboard and the application settings match. Please be careful about blanks.";
             break;
@@ -310,7 +590,7 @@ static ALAtomicBoolean *ALLineInitialized;
             break;
         case kFADErrorInternalError:
             adapterError = MAAdapterError.internalError;
-            thirdPartySdkErrorMessage = @"Please contact us.";
+            thirdPartySdkErrorMessage = @"Unspecified.";
             break;
         case kFADErrorInvalidState:
             adapterError = MAAdapterError.invalidLoadState;
@@ -324,17 +604,83 @@ static ALAtomicBoolean *ALLineInitialized;
         case kFADErrorPlayerError:
         case kFADErrorNone:
             adapterError = MAAdapterError.unspecified;
-            thirdPartySdkErrorMessage = @"Please contact us.";
+            thirdPartySdkErrorMessage = @"Unspecified.";
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: lineAdsErrorCode
-               thirdPartySdkErrorMessage: thirdPartySdkErrorMessage];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: lineAdsErrorCode
+                     mediatedNetworkErrorMessage: thirdPartySdkErrorMessage];
+}
+
+- (void)renderCustomNativeBanner:(MAAdFormat *)adFormat serverParameters:(NSDictionary<NSString *, id> *)serverParameters andNotify:(id<MAAdViewAdapterDelegate>)delegate
+{
+    [self.nativeAd loadIconImageAsyncWithBlock:^(UIImage *iconImage) {
+        // Ensure UI rendering is done on main queue
+        dispatchOnMainQueue(^{
+            
+            FADNative *nativeAd = self.nativeAd;
+            if ( !nativeAd )
+            {
+                [self log: @"Ad destroyed before assets finished load"];
+                [delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidLoadState];
+                
+                return;
+            }
+            
+            MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: adFormat builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = nativeAd.getAdTitle;
+                builder.body = nativeAd.getDescriptionText;
+                builder.callToAction = nativeAd.getButtonText;
+                builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
+                builder.mediaView = nativeAd.getAdMainView;
+            }];
+            
+            // Backend will pass down `vertical` as the template to indicate using a vertical native template
+            NSString *templateName = [serverParameters al_stringForKey: @"template" defaultValue: @""];
+            if ( [templateName containsString: @"vertical"] && ALSdk.versionCode < 6140500 )
+            {
+                [self log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
+            }
+            
+            MANativeAdView *maxNativeAdView;
+            // Fallback case to be removed when backend sends down full template names for vertical native ads
+            if ( [templateName isEqualToString: @"vertical"] )
+            {
+                NSString *verticalTemplateName = ( adFormat == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
+                maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: verticalTemplateName];
+            }
+            else
+            {
+                maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
+            }
+            
+            NSMutableArray *clickableViews = [NSMutableArray array];
+            if ( [maxNativeAd.title al_isValidString] && maxNativeAdView.titleLabel )
+            {
+                [clickableViews addObject: maxNativeAdView.titleLabel];
+            }
+            if ( [maxNativeAd.body al_isValidString] && maxNativeAdView.bodyLabel )
+            {
+                [clickableViews addObject: maxNativeAdView.bodyLabel];
+            }
+            if ( [maxNativeAd.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
+            {
+                [clickableViews addObject: maxNativeAdView.callToActionButton];
+            }
+            if ( maxNativeAd.icon && maxNativeAdView.iconImageView )
+            {
+                [clickableViews addObject: maxNativeAdView.iconImageView];
+            }
+            if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
+            {
+                [clickableViews addObject: maxNativeAdView.mediaContentView];
+            }
+            
+            [nativeAd registerViewForInteraction: maxNativeAdView withInformationIconView: maxNativeAdView.iconImageView withClickableViews: clickableViews];
+            [delegate didLoadAdForAdView: maxNativeAdView];
+        });
+    }];
 }
 
 @end
@@ -352,31 +698,13 @@ static ALAtomicBoolean *ALLineInitialized;
     return self;
 }
 
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad loaded for slot id: %@...", ad.slotId];
-    [self.delegate didLoadInterstitialAd];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode
-{
-    [self.parentAdapter log: @"Interstitial ad failed to load for slot id: %@ with error: %ld", ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
-    [self.delegate didFailToLoadInterstitialAdWithError: error];
-}
-
 - (void)fiveInterstitialAd:(FADInterstitial *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Interstitial ad failed to show for slot id: %@ with error: %ld", ad.slotId, errorCode];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *error = [MAAdapterError errorWithCode: -4205
-                                              errorString: @"Ad Display Failed"
-                                   thirdPartySdkErrorCode: errorCode
-                                thirdPartySdkErrorMessage: @""];
-    
-#pragma clang diagnostic pop
+    MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                         mediatedNetworkErrorCode: errorCode
+                                      mediatedNetworkErrorMessage: @""];
     
     [self.delegate didFailToDisplayInterstitialAdWithError: error];
 }
@@ -433,30 +761,13 @@ static ALAtomicBoolean *ALLineInitialized;
     return self;
 }
 
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad loaded for slot id: %@...", ad.slotId];
-    [self.delegate didLoadRewardedAd];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode
-{
-    [self.parentAdapter log: @"Rewarded ad failed to load for slot id: %@ with error: %ld", ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
-    [self.delegate didFailToLoadRewardedAdWithError: error];
-}
-
 - (void)fiveVideoRewardAd:(FADVideoReward *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Rewarded ad failed to show for slot id: %@ with error: %ld", ad.slotId, errorCode];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *error = [MAAdapterError errorWithCode: -4205
-                                              errorString: @"Ad Display Failed"
-                                   thirdPartySdkErrorCode: errorCode
-                                thirdPartySdkErrorMessage: @""];
-#pragma clang diagnostic pop
+    MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                         mediatedNetworkErrorCode: errorCode
+                                      mediatedNetworkErrorMessage: @""];
     
     [self.delegate didFailToDisplayRewardedAdWithError: error];
 }
@@ -531,30 +842,13 @@ static ALAtomicBoolean *ALLineInitialized;
     return self;
 }
 
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"%@ ad loaded for slot id: %@...", self.adFormat.label, ad.slotId];
-    [self.delegate didLoadAdForAdView: self.parentAdapter.adView];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode
-{
-    [self.parentAdapter log: @"%@ ad failed to load for slot id: %@ with error: %ld", self.adFormat.label, ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
-    [self.delegate didFailToLoadAdViewAdWithError: error];
-}
-
 - (void)fiveCustomLayoutAd:(FADAdViewCustomLayout *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"%@ ad failed to show for slot id: %@ with error: %ld", self.adFormat.label, ad.slotId, errorCode];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *error = [MAAdapterError errorWithCode: -4205
-                                              errorString: @"Ad Display Failed"
-                                   thirdPartySdkErrorCode: errorCode
-                                thirdPartySdkErrorMessage: @""];
-#pragma clang diagnostic pop
+    MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                         mediatedNetworkErrorCode: errorCode
+                                      mediatedNetworkErrorMessage: @""];
     
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
@@ -609,30 +903,13 @@ static ALAtomicBoolean *ALLineInitialized;
     return self;
 }
 
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native %@ ad loaded for slot id: %@...", self.adFormat.label, ad.slotId];
-    [self renderCustomNativeBanner];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode
-{
-    [self.parentAdapter log: @"Native %@ ad loaded for slot id: %@... with error: %ld", self.adFormat.label, ad.slotId, errorCode];
-    MAAdapterError *error = [ALLineMediationAdapter toMaxError: errorCode];
-    [self.delegate didFailToLoadAdViewAdWithError: error];
-}
-
 - (void)fiveNativeAd:(FADNative *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode
 {
     [self.parentAdapter log: @"Native %@ ad showed for slot id: %@... with error: %ld", self.adFormat.label, ad.slotId, errorCode];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *error = [MAAdapterError errorWithCode: -4205
-                                              errorString: @"Ad Display Failed"
-                                   thirdPartySdkErrorCode: errorCode
-                                thirdPartySdkErrorMessage: @""];
-#pragma clang diagnostic pop
+    MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                         mediatedNetworkErrorCode: errorCode
+                                      mediatedNetworkErrorMessage: @""];
     [self.delegate didFailToDisplayAdViewAdWithError: error];
 }
 
@@ -694,10 +971,6 @@ static ALAtomicBoolean *ALLineInitialized;
             
             // Backend will pass down `vertical` as the template to indicate using a vertical native template
             NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
-            if ( [templateName containsString: @"vertical"] && ALSdk.versionCode < 6140500 )
-            {
-                [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-            }
             
             MANativeAdView *maxNativeAdView;
             // Fallback case to be removed when backend sends down full template names for vertical native ads
@@ -753,56 +1026,6 @@ static ALAtomicBoolean *ALLineInitialized;
         self.serverParameters = serverParameters;
     }
     return self;
-}
-
-- (void)fiveAdDidLoad:(id<FADAdInterface>)ad
-{
-    [self.parentAdapter log: @"Native ad loaded for slot id: %@...", ad.slotId];
-    
-    FADNative *loadedNativeAd = self.parentAdapter.nativeAd;
-    if ( !loadedNativeAd )
-    {
-        [self.parentAdapter log: @"Native ad destroyed before the ad successfully loaded: %@...", ad.slotId];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.invalidLoadState];
-        
-        return;
-    }
-    
-    NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
-    BOOL isTemplateAd = [templateName al_isValidString];
-    if ( isTemplateAd && ![loadedNativeAd.getAdTitle al_isValidString] )
-    {
-        [self.parentAdapter e: @"Native ad (%@) does not have required assets.", loadedNativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
-        
-        return;
-    }
-    
-    [loadedNativeAd loadIconImageAsyncWithBlock:^(UIImage *iconImage) {
-        // Ensure UI rendering is done on main queue
-        dispatchOnMainQueue(^{
-            
-            FADNative *nativeAd = self.parentAdapter.nativeAd;
-            if ( !nativeAd )
-            {
-                [self.parentAdapter log: @"Native ad destroyed before assets finished load for slot id: %@", ad.slotId];
-                [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.invalidLoadState];
-                
-                return;
-            }
-            
-            MANativeAd *maxNativeAd = [[MALineNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
-                builder.title = nativeAd.getAdTitle;
-                builder.advertiser = nativeAd.getAdvertiserName;
-                builder.body = nativeAd.getDescriptionText;
-                builder.callToAction = nativeAd.getButtonText;
-                builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
-                builder.mediaView = nativeAd.getAdMainView;
-            }];
-            
-            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
-        });
-    }];
 }
 
 - (void)fiveAd:(id<FADAdInterface>)ad didFailedToReceiveAdWithError:(FADErrorCode)errorCode

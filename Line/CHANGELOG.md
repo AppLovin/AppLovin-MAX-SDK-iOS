@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.9.20241106.1
+* Add support for bidding.
+* Removed redundant log output when initialization was already completed.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 2.9.20241106.0
 * Certified with Line SDK 2.9.20241106.
 
