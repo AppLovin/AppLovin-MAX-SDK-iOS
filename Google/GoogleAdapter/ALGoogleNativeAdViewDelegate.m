@@ -73,10 +73,6 @@
     }];
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
-    if ( [templateName containsString: @"vertical"] && ALSdk.versionCode < 6140500 )
-    {
-        [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-    }
     
     nativeAd.delegate = self;
     

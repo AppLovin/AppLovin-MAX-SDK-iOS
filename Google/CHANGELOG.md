@@ -1,5 +1,9 @@
 # Changelog
 
+## 12.3.0.0
+* Certified with Google SDK 12.3.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
 ## 12.2.0.0
 * Certified with Google SDK 12.2.0.
 * Updated minimum Xcode requirement to 16.0 to match Google SDK.
