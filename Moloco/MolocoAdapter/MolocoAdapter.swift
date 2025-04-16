@@ -36,7 +36,7 @@ final class MolocoAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Moloco" }
     
-    override var adapterVersion: String { "3.8.0.0" }
+    override var adapterVersion: String { "3.8.0.1" }
     
     override var sdkVersion: String { Moloco.shared.sdkVersion }
     
@@ -125,6 +125,14 @@ extension MolocoAdapter: MASignalProvider
 {
     func collectSignal(with parameters: MASignalCollectionParameters, andNotify delegate: MASignalCollectionDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard #available(iOS 13.0, *) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToCollectSignalWithErrorMessage("Moloco SDK does not support serving ads on iOS 12 and below")
+            return
+        }
+        
         log(signalEvent: .collecting)
         
         updatePrivacyStates(for: parameters)

@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.8.0.1
+* Added a guard to only allow signal collection starting from minimum iOS 13.
+
 ## 3.8.0.0
 * Certified with Moloco SDK 3.8.0.
 
