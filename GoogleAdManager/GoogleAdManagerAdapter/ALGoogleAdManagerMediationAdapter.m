@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"12.2.0.0"
+#define ADAPTER_VERSION @"12.3.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -640,7 +640,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     {
         extraParameters[@"placement_req_id"] = eventId;
     }
-
+    
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent && !hasUserConsent.boolValue )
     {
@@ -1035,10 +1035,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     }];
     
     NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
-    if ( [templateName containsString: @"vertical"] && ALSdk.versionCode < 6140500 )
-    {
-        [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-    }
     
     nativeAd.delegate = self;
     
