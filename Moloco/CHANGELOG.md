@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.8.0.2
+* Replaced availability checks with `ALUtils.isInclusiveVersion(_:forMinVersion:maxVersion:)` to suppress version warnings.
+
 ## 3.8.0.1
 * Added a guard to only allow signal collection starting from minimum iOS 13.
 

@@ -15,7 +15,7 @@ extension MolocoAdapter: MAAdViewAdapter
     func loadAdViewAd(for parameters: MAAdapterResponseParameters, adFormat: MAAdFormat, andNotify delegate: MAAdViewAdapterDelegate)
     {
         // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
-        guard #available(iOS 13.0, *) else
+        guard ALUtils.isInclusiveVersion(UIDevice.current.systemVersion, forMinVersion: "13.0", maxVersion: nil) else
         {
             log(customEvent: .unsupportedMinimumOS)
             delegate.didFailToLoadAdViewAdWithError(.unspecified)
