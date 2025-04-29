@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.0.0
+* Certified with Moloco SDK 3.9.0.
+* Updated minimum Xcode requirement to 16.0.
+
 ## 3.8.0.2
 * Replaced availability checks with `ALUtils.isInclusiveVersion(_:forMinVersion:maxVersion:)` to suppress version warnings.
 
