@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.4.5.1"
+#define ADAPTER_VERSION @"7.5.0.0"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -376,7 +376,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         }
         
         VungleAdSize *adSize = [self adSizeFromAdFormat: adFormat
-                                       isAdaptiveAdView: isAdaptiveAdViewEnabled
+                                isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
                                              parameters: parameters];
         self.adViewAd = [[VungleBannerView alloc] initWithPlacementId: placementIdentifier vungleAdSize: adSize];
         
@@ -482,7 +482,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 }
 
 - (VungleAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
-                    isAdaptiveAdView:(BOOL)isAdaptiveAdViewEnabled
+             isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
                           parameters:(id<MAAdapterParameters>)parameters
 {
     if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
