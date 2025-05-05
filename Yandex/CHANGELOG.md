@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.12.2.0
+* Certified with Yandex SDK 7.12.2.
+* Updated `YMABidderTokenLoader` usage to recommended initializer with mediation name.
+
 ## 7.12.1.0
 * Certified with Yandex SDK 7.12.1.
 

@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"7.12.1.0"
+#define ADAPTER_VERSION @"7.12.2.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -116,7 +116,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [super initialize];
     
-    ALYandexBidderTokenLoader = [[YMABidderTokenLoader alloc] init];
+    ALYandexBidderTokenLoader = [[YMABidderTokenLoader alloc] initWithMediationNetworkName: @"applovin"];
 }
 
 #pragma mark - MAAdapter Methods
