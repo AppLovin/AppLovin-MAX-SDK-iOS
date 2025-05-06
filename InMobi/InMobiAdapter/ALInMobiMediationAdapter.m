@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.8.2.0"
+#define ADAPTER_VERSION @"10.8.3.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -181,18 +181,15 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)destroy
 {
-    [self.adView cancel];
     self.adView.delegate = nil;
     self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
     
-    [self.interstitialAd cancel];
     self.interstitialAd.delegate = nil;
     self.interstitialAd = nil;
     self.interstitialAdDelegate.delegate = nil;
     self.interstitialAdDelegate = nil;
     
-    [self.rewardedAd cancel];
     self.rewardedAd.delegate = nil;
     self.rewardedAd = nil;
     self.rewardedAdDelegate.delegate = nil;
@@ -300,14 +297,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( !success )
     {
         [self log: @"Interstitial ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -335,14 +327,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( !success )
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -383,7 +370,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     IMInterstitial *interstitial = [[IMInterstitial alloc] initWithPlacementId: placementId delegate: delegate];
     interstitial.extras = [self extrasForParameters: parameters];
     
-    [self updatePrivacySettingsWithParameters: parameters]; 
+    [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -402,31 +389,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     if ( [interstitial isReady] )
     {
-        IMInterstitialAnimationType animationType = IMInterstitialAnimationTypeAsNone;
-        if ( [parameters.serverParameters al_containsValueForKey: @"animation_type"] )
-        {
-            NSString *value = [parameters.serverParameters al_stringForKey: @"animation_type"];
-            if ( [@"cover_vertical" al_isEqualToStringIgnoringCase: value] )
-            {
-                animationType = IMInterstitialAnimationTypeCoverVertical;
-            }
-            else if ( [@"flip_horizontal" al_isEqualToStringIgnoringCase: value] )
-            {
-                animationType = IMInterstitialAnimationTypeFlipHorizontal;
-            }
-        }
-        
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
-        [interstitial showFrom: presentingViewController with: animationType];
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        [interstitial showFrom: presentingViewController];
         
         return YES;
     }
@@ -453,7 +417,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
 {
     return @{@"tp"     : @"c_applovin",
-             @"tp-ver" : [ALSdk version]};   
+             @"tp-ver" : [ALSdk version]};
 }
 
 - (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
@@ -510,13 +474,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: inMobiErrorCode
-               thirdPartySdkErrorMessage: inMobiError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: inMobiErrorCode
+                     mediatedNetworkErrorMessage: inMobiError.localizedDescription];
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
@@ -680,13 +640,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Interstitial failed to display with error: %@", error];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -770,13 +726,9 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
@@ -860,7 +812,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( ![nativeAd.adTitle al_isValidString] )
     {
         [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.format.label, self.placementId];
-        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -885,11 +837,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         if ( [templateName containsString: @"vertical"] )
         {
-            if ( ALSdk.versionCode < 6140500 )
-            {
-                [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-            }
-            
             if ( [templateName isEqualToString: @"vertical"] )
             {
                 NSString *verticalTemplateName = ( self.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
@@ -900,10 +847,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                 maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: templateName];
             }
         }
-        else if ( ALSdk.versionCode < 6140500 )
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: [templateName al_isValidString] ? templateName : @"no_body_banner_template"];
-        }
         else
         {
             maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
@@ -911,7 +854,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         
         [self.parentAdapter.maxNativeAdViewAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
         
-        if ( ALSdk.versionCode >= 6150000 && [nativeAd.creativeId al_isValidString] )
+        if ( [nativeAd.creativeId al_isValidString] )
         {
             NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
             [self.delegate didLoadAdForAdView: maxNativeAdView withExtraInfo: extraInfo];
@@ -1016,7 +959,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     if ( isTemplateAd && ![nativeAd.adTitle al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -1155,7 +1098,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 - (void)clickNativeView
 {
-    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];    
+    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];
     [self.parentAdapter.nativeAd reportAdClickAndOpenLandingPage];
 }
 
