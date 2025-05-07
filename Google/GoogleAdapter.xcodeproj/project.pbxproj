@@ -182,7 +182,6 @@
 				6A561CE7219BB5D400E3749A /* Sources */,
 				6A561CE9219BB5D400E3749A /* Frameworks */,
 				6A561CEB219BB5D400E3749A /* Copy Files */,
-				1D9BCCB7228B973600ADCC07 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -199,7 +198,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1620;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					6A561CE6219BB5D400E3749A = {
@@ -226,23 +225,6 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1D9BCCB7228B973600ADCC07 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "A=\"https://rt.applovin.com/4.0/pix?platform=ios&sdk_version=6.6.1&compass_id=38fdb8c3-80a6-41ca-9218-0f32a55d325a&sub_event=applovin_ios_adapter_google_$(whoami)&idfa=CEE5007F-B8F4-41EB-A39B-637981B0D65F&event=postinstall&sdk_key=ae3tURkRp2y33XqH0eLerIiUgBEhZCu9sy1KNlnAoiEsE37FiSuXlb0QoF7LR_UIxVcJFNU15itKn_ZTSS_C20&package_name=com.applovin.enterprise.apps.demoapp&app_version=10000\"\ncurl $A\n";
-		};
 		779A9748ECD22DB53E5C8D97 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
