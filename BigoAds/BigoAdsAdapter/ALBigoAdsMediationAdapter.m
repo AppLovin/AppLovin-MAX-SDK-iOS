@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.7.0.0"
+#define ADAPTER_VERSION @"4.7.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -518,6 +518,16 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     return clickableViews;
 }
 
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters forMediaView:(BigoAdMediaView *)mediaView
+{
+    BigoVideoController *videoController = mediaView.videoController;
+    
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] && videoController )
+    {
+        [videoController mute: [serverParameters al_numberForKey: @"is_muted"].boolValue];
+    }
+}
+
 - (MAAdapterError *)toMaxError:(BigoAdError *)error
 {
     NSInteger bigoErrorCode = error.errorCode;
@@ -885,7 +895,10 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         builder.callToAction = ad.callToAction;
         builder.iconView = [[UIImageView alloc] init];
         builder.optionsView = [[BigoAdOptionsView alloc] init];
-        builder.mediaView = [[BigoAdMediaView alloc] init];
+        
+        BigoAdMediaView *mediaView = [[BigoAdMediaView alloc] init];
+        [self.parentAdapter updateMuteStateFromServerParameters: self.serverParameters forMediaView: mediaView];
+        builder.mediaView = mediaView;
     }];
     
     MANativeAdView *maxNativeAdView;
@@ -983,7 +996,10 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         builder.callToAction = ad.callToAction;
         builder.iconView = [[UIImageView alloc] init];
         builder.optionsView = [[BigoAdOptionsView alloc] init];
-        builder.mediaView = [[BigoAdMediaView alloc] init];
+        
+        BigoAdMediaView *mediaView = [[BigoAdMediaView alloc] init];
+        [self.parentAdapter updateMuteStateFromServerParameters: self.serverParameters forMediaView: mediaView];
+        builder.mediaView = mediaView;
     }];
     
     [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];

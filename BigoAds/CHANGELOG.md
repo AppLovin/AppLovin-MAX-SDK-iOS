@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.1
+* Add support for respecting mute state for native ads.
+
 ## 4.7.0.0
 * Certified with BigoAds SDK 4.7.0.
 
