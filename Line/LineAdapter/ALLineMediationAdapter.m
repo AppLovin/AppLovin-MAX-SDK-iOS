@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.9.20241106.1"
+#define ADAPTER_VERSION @"2.9.20250512.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -144,7 +144,7 @@ static ALAtomicBoolean *ALLineInitialized;
         
         return;
     }
-
+    
     NSDictionary<NSString *, NSString *> *credentials = parameters.serverParameters[@"placement_ids"] ?: @{};
     NSString *slotId = credentials[adUnitId];
     if ( ![slotId al_isValidString] )
@@ -155,7 +155,7 @@ static ALAtomicBoolean *ALLineInitialized;
         
         return;
     }
-
+    
     self.adLoader = [self retrieveAdLoader: parameters];
     
     [self.adLoader collectSignalWithSlotId: slotId withSignalCallback:^(NSString *_Nullable token, NSError *_Nullable error) {
@@ -216,7 +216,7 @@ static ALAtomicBoolean *ALLineInitialized;
     };
     
     self.adLoader = [self retrieveAdLoader: parameters];
-
+    
     if ( isBidding )
     {
         FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: parameters.bidResponse withWatermark: nil];
@@ -242,12 +242,12 @@ static ALAtomicBoolean *ALLineInitialized;
                                                                      mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         
         return;
-
+        
     }
     
     self.interstitialDelegate = [[ALLineMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     [self.interstitialAd setEventListener: self.interstitialDelegate];
-
+    
     [self.interstitialAd showWithViewController: parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow]];
 }
 
@@ -279,7 +279,7 @@ static ALAtomicBoolean *ALLineInitialized;
         }
         
         self.rewardedAd = ad;
-
+        
         [self log: @"Rewarded ad loaded"];
         [delegate didLoadRewardedAd];
     };
@@ -315,7 +315,7 @@ static ALAtomicBoolean *ALLineInitialized;
     
     self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     [self.rewardedAd setEventListener: self.rewardedDelegate];
-
+    
     [self configureRewardForParameters: parameters];
     
     [self.rewardedAd showWithViewController: parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow]];
@@ -369,7 +369,7 @@ static ALAtomicBoolean *ALLineInitialized;
             };
             
             self.adLoader = [self retrieveAdLoader: parameters];
-
+            
             if ( isBidding )
             {
                 FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: bidResponse withWatermark: nil];
@@ -418,7 +418,7 @@ static ALAtomicBoolean *ALLineInitialized;
             };
             
             self.adLoader = [self retrieveAdLoader: parameters];
-
+            
             if ( isBidding )
             {
                 FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: bidResponse withWatermark: nil];
@@ -444,7 +444,7 @@ static ALAtomicBoolean *ALLineInitialized;
     void (^nativeLoadCallback)(FADNative *_Nullable, NSError *_Nullable) = ^(FADNative *_Nullable loadedNativeAd, NSError *_Nullable error) {
         
         [self log: @"Native ad loaded"];
-
+        
         if ( error )
         {
             MAAdapterError *adapterError = [ALLineMediationAdapter toMaxError: error.code];
@@ -509,7 +509,7 @@ static ALAtomicBoolean *ALLineInitialized;
     };
     
     self.adLoader = [self retrieveAdLoader: parameters];
-
+    
     if ( isBidding )
     {
         FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: parameters.bidResponse withWatermark: nil];
@@ -522,7 +522,7 @@ static ALAtomicBoolean *ALLineInitialized;
     }
 }
 
-#pragma mark - Helper Methods
+#pragma mark - Shared Methods
 
 - (FADAdLoader *)retrieveAdLoader:(id<MAAdapterParameters>)parameters
 {
@@ -545,13 +545,7 @@ static ALAtomicBoolean *ALLineInitialized;
     FADConfig *config = [[FADConfig alloc] initWithAppId: appId];
     config.isTest = [parameters isTesting];
     
-    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
-    {
-        BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
-        [config enableSoundByDefault: !muted];
-    }
+    [self updateMuteStateFromServerParameters: parameters.serverParameters forConfig: config];
     
     //
     // GDPR options
@@ -563,6 +557,14 @@ static ALAtomicBoolean *ALLineInitialized;
     }
     
     return config;
+}
+
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters forConfig:(FADConfig *)config
+{
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+    {
+        [config enableSoundByDefault: ![serverParameters al_numberForKey: @"is_muted"].boolValue];
+    }
 }
 
 + (MAAdapterError *)toMaxError:(FADErrorCode)lineAdsErrorCode
@@ -786,16 +788,14 @@ static ALAtomicBoolean *ALLineInitialized;
 
 - (void)fiveVideoRewardAdFullScreenDidClose:(FADVideoReward *)ad
 {
-    if ( ad.state != kFADStateError )
+    if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {
-        if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
-        {
-            MAReward *reward = self.parentAdapter.reward;
-            
-            [self.parentAdapter log: @"Rewarded ad user with reward: %@ for slot id: %@...", reward, ad.slotId];
-            [self.delegate didRewardUserWithReward: reward];
-        }
+        MAReward *reward = self.parentAdapter.reward;
+        
+        [self.parentAdapter log: @"Rewarded ad user with reward: %@ for slot id: %@...", reward, ad.slotId];
+        [self.delegate didRewardUserWithReward: reward];
     }
+    
     [self.parentAdapter log: @"Rewarded ad hidden for slot id: %@...", ad.slotId];
     [self.delegate didHideRewardedAd];
 }

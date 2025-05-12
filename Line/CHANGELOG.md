@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.9.20250512.0
+* Certified with Line SDK 2.9.20250512.
+* Removed usage of deprecated `-[FADAdInterface state]` API to determine whether a reward should be granted.
+* Updated minimum iOS version to 13.0 to match Line SDK.
+
 ## 2.9.20241106.1
 * Add support for bidding.
 * Removed redundant log output when initialization was already completed.
