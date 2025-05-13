@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"7.12.2.0"
+#define ADAPTER_VERSION @"7.12.2.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -191,6 +191,21 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     
     YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: yandexAdType];
     
+    if (yandexAdType == YMAAdTypeBanner)
+    {
+        BOOL isAdaptiveAdViewEnabled = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+        {
+            [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Yandex adaptive ads"];
+            isAdaptiveAdViewEnabled = NO;
+        }
+        
+        YMABannerAdSize *adSize = [self yandexAdSizeFromAdFormat: parameters.adFormat
+                                         isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                      parameters: parameters];
+        configuration.bannerAdSize = adSize;
+    }
+    
     [ALYandexBidderTokenLoader loadBidderTokenWithRequestConfiguration: configuration completionHandler:^(NSString *bidderToken) {
         [self log: @"Collected signal"];
         [delegate didCollectSignal: bidderToken];
@@ -313,9 +328,20 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self updateUserConsent: parameters];
     
     self.adViewAdapterDelegate = [[ALYandexMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormatLabel: adFormat.label andNotify: delegate];
+    
+    BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+    if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+    {
+        [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Yandex adaptive ads"];
+        isAdaptiveAdViewEnabled = NO;
+    }
+    
+    YMABannerAdSize *adSize = [self yandexAdSizeFromAdFormat: adFormat
+                                     isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                  parameters: parameters];
+    
     // NOTE: iOS banner ads do not auto-refresh by default
-    self.adView = [[YMAAdView alloc] initWithAdUnitID: placementId
-                                               adSize: [self adSizeFromAdFormat: adFormat]];
+    self.adView = [[YMAAdView alloc] initWithAdUnitID: placementId adSize: adSize];
     self.adView.delegate = self.adViewAdapterDelegate;
     [self.adView loadAdWithRequest: [self createAdRequestWithParameters: parameters]];
 }
@@ -330,10 +356,14 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self updateUserConsent: parameters];
     
     self.nativeAdLoader = [[YMANativeAdLoader alloc] init];
-    self.nativeAdapterDelegate = [[ALYandexMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self withParameters: parameters andNotify: delegate];
+    self.nativeAdapterDelegate = [[ALYandexMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                          withParameters: parameters
+                                                                                               andNotify: delegate];
     self.nativeAdLoader.delegate = self.nativeAdapterDelegate;
     
-    [self.nativeAdLoader loadAdWithRequestConfiguration: [self createNativeAdRequestConfigurationForPlacementId: placementId parameters: parameters]];
+    YMAMutableNativeAdRequestConfiguration *config = [self createNativeAdRequestConfigurationForPlacementId: placementId
+                                                                                                 parameters: parameters];
+    [self.nativeAdLoader loadAdWithRequestConfiguration: config];
 }
 
 #pragma mark - Helper Methods
@@ -390,9 +420,42 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     return configuration;
 }
 
-- (YMABannerAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
+- (YMABannerAdSize *)yandexAdSizeFromAdFormat:(MAAdFormat *)adFormat
+                      isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                   parameters:(id<MAAdapterParameters>)parameters
 {
+    if ( ![adFormat isAdViewAd] )
+    {
+        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
+    }
+    
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+    
     return [YMABannerAdSize fixedSizeWithWidth: adFormat.size.width height: adFormat.size.height];
+}
+
+- (YMABannerAdSize *)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaximumHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        if ( inlineMaximumHeight > 0 )
+        {
+            return [YMABannerAdSize inlineSizeWithWidth: adaptiveAdWidth maxHeight: inlineMaximumHeight];
+        }
+        
+        CGFloat screenHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
+        return [YMABannerAdSize inlineSizeWithWidth: adaptiveAdWidth maxHeight: screenHeight];
+    }
+    
+    // Anchored banners use the default adaptive height
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return [YMABannerAdSize fixedSizeWithWidth: adaptiveAdWidth height: anchoredHeight];
 }
 
 - (YMAAdType)toYandexAdType:(MAAdFormat *)adFormat
@@ -655,7 +718,14 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 - (void)adViewDidLoad:(YMAAdView *)adView
 {
     [self.parentAdapter log: @"%@ ad loaded", self.adFormatLabel];
-    [self.delegate didLoadAdForAdView: adView];
+    
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 2];
+    
+    CGSize adSize = [adView adContentSize];
+    extraInfo[@"ad_width"] = @(adSize.width);
+    extraInfo[@"ad_height"] = @(adSize.height);
+    
+    [self.delegate didLoadAdForAdView: adView withExtraInfo: extraInfo];
 }
 
 - (void)adViewDidFailLoading:(YMAAdView *)adView error:(NSError *)error
