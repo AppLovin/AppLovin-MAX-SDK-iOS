@@ -17,7 +17,7 @@
 #import <MobileFuseSDK/MFNativeAd.h>
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
 
-#define ADAPTER_VERSION @"1.9.0.0"
+#define ADAPTER_VERSION @"1.9.1.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -248,10 +248,9 @@ static NSString *ALMobileFuseSDKVersion;
     else if ( ![self.interstitialAd isLoaded] )
     {
         [self log: @"Unable to show interstitial - ad not ready"];
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                mediatedNetworkErrorCode: 0
-                                                             mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
         
         return;
     }
@@ -291,10 +290,9 @@ static NSString *ALMobileFuseSDKVersion;
     else if ( ![self.rewardedAd isLoaded] )
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                            mediatedNetworkErrorCode: 0
-                                                         mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
         
         return;
     }
