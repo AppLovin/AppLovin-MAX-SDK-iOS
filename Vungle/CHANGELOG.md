@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.1.0
+* Certified with Vungle SDK 7.5.1.
+
 ## 7.5.0.0
 * Certified with Vungle SDK 7.5.0.
 * Updated minimum Xcode requirement to 16.0.
