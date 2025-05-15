@@ -367,17 +367,11 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
     else
     {
-        // Check if adaptive ad view sizes should be used
-        BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
-        if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
-        {
-            [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Vungle adaptive ads"];
-            isAdaptiveAdViewEnabled = NO;
-        }
-        
         VungleAdSize *adSize = [self adSizeFromAdFormat: adFormat
-                                isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
-                                             parameters: parameters];
+                                             parameters: parameters
+                                // Below parameter is needed to check if the vungle supports adaptive for this placementID
+                                // Only inline type on Vungle side supports adaptive.
+                                isVungleAdaptiveEnabled:[VungleAds isInLine:placementIdentifier]];
         self.adViewAd = [[VungleBannerView alloc] initWithPlacementId: placementIdentifier vungleAdSize: adSize];
         
         self.adViewAdDelegate = [[ALVungleMediationAdapterAdViewAdDelegate alloc] initWithParentAdapter: self
@@ -482,10 +476,10 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 }
 
 - (VungleAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
-             isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
                           parameters:(id<MAAdapterParameters>)parameters
+             isVungleAdaptiveEnabled:(BOOL)isVungleAdaptiveEnabled
 {
-    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    if ( isVungleAdaptiveEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
     {
         return [self adaptiveAdSizeFromParameters: parameters];
     }
