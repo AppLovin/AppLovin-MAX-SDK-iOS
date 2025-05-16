@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.6.0.0
+* Certified with Verve SDK 3.6.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Removed mute logic because the `setVideoAudioStatus:` API was deprecated and removed in HyBid SDK 3.0.0+.
+
 ## 3.2.0.0
 * Certified with Verve SDK 3.2.0.
 

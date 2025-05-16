@@ -8,13 +8,14 @@
 
 #import "ALVerveMediationAdapter.h"
 #import <HyBid/HyBid.h>
+
 #if __has_include(<HyBid/HyBid-Swift.h>)
-    #import <HyBid/HyBid-Swift.h>
+#import <HyBid/HyBid-Swift.h>
 #else
-    #import "HyBid-Swift.h"
+#import "HyBid-Swift.h"
 #endif
 
-#define ADAPTER_VERSION @"3.2.0.0"
+#define ADAPTER_VERSION @"3.6.0.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -156,7 +157,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
-    [self updateMuteStateForParameters: parameters];
     
     self.interstitialAdapterDelegate = [[ALVerveMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithDelegate: self.interstitialAdapterDelegate];
@@ -170,29 +170,15 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     if ( [self.interstitialAd isReady] )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialAd showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Interstitial ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -212,7 +198,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
-    [self updateMuteStateForParameters: parameters];
     
     self.rewardedAdapterDelegate = [[ALVerveMediationAdapterRewardedAdsDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd = [[HyBidRewardedAd alloc] initWithDelegate: self.rewardedAdapterDelegate];
@@ -228,29 +213,15 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     {
         [self configureRewardForParameters: parameters];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.rewardedAd showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -270,7 +241,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
-    [self updateMuteStateForParameters: parameters];
     
     self.adViewAd = [[HyBidAdView alloc] initWithSize: [self sizeFromAdFormat: adFormat]];
     self.adViewAdapterDelegate = [[ALVerveMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
@@ -350,23 +320,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     }
 }
 
-- (void)updateMuteStateForParameters:(id<MAAdapterResponseParameters>)parameters
-{
-    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
-    {
-        BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
-        if ( muted )
-        {
-            HyBidConstants.audioStatus = HyBidAudioStatusMuted;
-        }
-        else
-        {
-            HyBidConstants.audioStatus = HyBidAudioStatusDefault;
-        }
-    }
-}
-
 + (MAAdapterError *)toMaxError:(NSError *)verveError
 {
     NSInteger verveErrorCode = verveError.code;
@@ -409,13 +362,9 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: verveErrorCode
-               thirdPartySdkErrorMessage: verveError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: verveErrorCode
+                     mediatedNetworkErrorMessage: verveError.localizedDescription];
 }
 
 @end
