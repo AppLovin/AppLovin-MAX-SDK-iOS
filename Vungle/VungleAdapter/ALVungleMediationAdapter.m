@@ -367,7 +367,17 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
     else
     {
+        
+        // Check if adaptive ad view sizes should be used
+        BOOL isAdaptiveAdViewEnabled = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+        {
+            [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Vungle adaptive ads"];
+            isAdaptiveAdViewEnabled = NO;
+        }
+        
         VungleAdSize *adSize = [self adSizeFromAdFormat: adFormat
+                                isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
                                              parameters: parameters
                                 // Below parameter is needed to check if the vungle supports adaptive for this placementID
                                 // Only inline type on Vungle side supports adaptive.
@@ -476,10 +486,11 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 }
 
 - (VungleAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
+             isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
                           parameters:(id<MAAdapterParameters>)parameters
              isVungleAdaptiveEnabled:(BOOL)isVungleAdaptiveEnabled
 {
-    if ( isVungleAdaptiveEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    if ( isAdaptiveAdViewEnabled && isVungleAdaptiveEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
     {
         return [self adaptiveAdSizeFromParameters: parameters];
     }
