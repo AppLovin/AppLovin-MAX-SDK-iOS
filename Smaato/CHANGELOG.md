@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.9.3.1
+* Updated minimum iOS version to 12.0.
+* Removed requirement of the title asset for native banners and MRECs.
+
 ## 22.9.3.0
 * Certified with Smaato SDK 22.9.3.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.

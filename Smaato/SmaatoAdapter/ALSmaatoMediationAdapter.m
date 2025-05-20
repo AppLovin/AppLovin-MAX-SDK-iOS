@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.9.3.0"
+#define ADAPTER_VERSION @"22.9.3.1"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -878,13 +878,6 @@
     self.parentAdapter.nativeAdRenderer = renderer;
     
     SMANativeAdAssets *assets = renderer.nativeAssets;
-    if ( ![assets.title al_isValidString] )
-    {
-        [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.format.label, nativeAd];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
-        
-        return;
-    }
     
     dispatchOnMainQueue(^{
         MANativeAd *maxNativeAd = [[MASmaatoNativeAd alloc] initWithParentAdapter: self.parentAdapter adFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
