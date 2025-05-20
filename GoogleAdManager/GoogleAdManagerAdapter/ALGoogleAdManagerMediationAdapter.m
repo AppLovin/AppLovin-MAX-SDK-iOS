@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"12.4.0.0"
+#define ADAPTER_VERSION @"12.4.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -186,7 +186,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading interstitial ad: %@...", placementId];
     
-    [self updateMuteStateFromResponseParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GAMInterstitialAd loadWithAdManagerAdUnitID: placementId
@@ -258,7 +258,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading app open ad: %@...", placementId];
     
-    [self updateMuteStateFromResponseParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     GADRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GADAppOpenAd loadWithAdUnitID: placementId
@@ -330,7 +330,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading rewarded ad: %@...", placementId];
     
-    [self updateMuteStateFromResponseParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     GAMRequest *request = [self createAdRequestWithParameters: parameters];
     
     [GADRewardedAd loadWithAdUnitID: placementId
@@ -700,11 +700,9 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 /**
  * Update the global mute state for Ad Manager - must be done _before_ ad load to restrict inventory which requires playing with volume.
  */
-- (void)updateMuteStateFromResponseParameters:(id<MAAdapterResponseParameters>)responseParameters
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters
 {
-    NSDictionary *serverParameters = responseParameters.serverParameters;
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] ) // Introduced in 6.10.0
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
     {
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         [[GADMobileAds sharedInstance] setApplicationMuted: muted];
@@ -878,7 +876,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
-                                             mediatedNetworkErrorMessage: error.localizedDescription];    
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show: %@", self.placementIdentifier, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -1002,14 +1000,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
 - (void)adLoader:(GADAdLoader *)adLoader didReceiveNativeAd:(GADNativeAd *)nativeAd
 {
     [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat.label, adLoader.adUnitID];
-    
-    if ( ![nativeAd.headline al_isValidString] )
-    {
-        [self.parentAdapter log: @"Native %@ ad failed to load: Google native ad is missing one or more required assets", self.adFormat.label];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
-        
-        return;
-    }
     
     GADMediaView *gadMediaView = [[GADMediaView alloc] init];
     MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: self.adFormat builderBlock:^(MANativeAdBuilder *builder) {
