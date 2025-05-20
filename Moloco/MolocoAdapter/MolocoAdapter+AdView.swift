@@ -147,12 +147,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         
         adapter.log(adEvent: .loaded, adFormat: adFormat)
         
-        guard let assets = nativeAd.assets, !assets.title.isEmpty else
-        {
-            adapter.log(adEvent: .missingRequiredAssets, adFormat: adFormat)
-            delegate?.didFailToLoadAdViewAdWithError(.missingRequiredNativeAdAssets)
-            return
-        }
+        guard let assets = nativeAd.assets else { return }
         
         adapter.nativeAdViewAd = MAMolocoNativeAd(adapter: adapter, adFormat: adFormat) { builder in
             builder.title = assets.title

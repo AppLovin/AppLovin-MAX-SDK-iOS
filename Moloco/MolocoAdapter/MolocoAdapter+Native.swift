@@ -64,12 +64,7 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
         
         log(adEvent: .loaded)
         
-        guard let assets = nativeAd.assets, !assets.title.isEmpty else
-        {
-            log(adEvent: .missingRequiredAssets)
-            delegate?.didFailToLoadNativeAdWithError(.missingRequiredNativeAdAssets)
-            return
-        }
+        guard let assets = nativeAd.assets else { return }
         
         let maxNativeAd = MAMolocoNativeAd(adapter: adapter, adFormat: adFormat) { builder in
             builder.title = assets.title
