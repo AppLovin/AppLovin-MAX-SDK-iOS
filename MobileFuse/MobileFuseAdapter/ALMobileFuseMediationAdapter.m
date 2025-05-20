@@ -17,7 +17,7 @@
 #import <MobileFuseSDK/MFNativeAd.h>
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
 
-#define ADAPTER_VERSION @"1.9.2.0"
+#define ADAPTER_VERSION @"1.9.2.1"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -755,14 +755,6 @@ static NSString *ALMobileFuseSDKVersion;
     MFNativeAd *nativeAd = (MFNativeAd *) ad;
     
     [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat.label, nativeAd.placementId];
-    
-    if ( ![nativeAd hasTitle] )
-    {
-        [self.parentAdapter e: @"Native %@ ad does not have required assets: %@", self.adFormat.label, nativeAd];
-        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError missingRequiredNativeAdAssets]];
-        
-        return;
-    }
     
     self.parentAdapter.nativeAd = nativeAd;
     
