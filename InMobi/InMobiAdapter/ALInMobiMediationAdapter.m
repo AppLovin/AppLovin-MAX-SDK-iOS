@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.8.3.0"
+#define ADAPTER_VERSION @"10.8.3.1"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -805,14 +805,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [self.parentAdapter log: @"Native %@ ad failed to load: no fill", self.format.label];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
-        
-        return;
-    }
-    
-    if ( ![nativeAd.adTitle al_isValidString] )
-    {
-        [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.format.label, self.placementId];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
