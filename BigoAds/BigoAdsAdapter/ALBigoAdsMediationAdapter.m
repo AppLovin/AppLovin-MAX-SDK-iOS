@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.7.0.1"
+#define ADAPTER_VERSION @"4.7.0.2"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -873,14 +873,6 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     {
         [self.parentAdapter log: @"Native %@ ad (%@) can't be nil.", self.adFormat.label, ad];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
-        
-        return;
-    }
-    
-    if ( ![ad.title al_isValidString] )
-    {
-        [self.parentAdapter log: @"Native %@ ad (%@) does not have required assets.", self.adFormat, ad];
-        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError missingRequiredNativeAdAssets]];
         
         return;
     }
