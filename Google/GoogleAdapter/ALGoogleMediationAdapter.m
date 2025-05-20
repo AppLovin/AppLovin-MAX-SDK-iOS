@@ -15,7 +15,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"12.4.0.0"
+#define ADAPTER_VERSION @"12.4.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -152,7 +152,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     [self log: @"Loading %@interstitial ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
-    [self updateMuteStateFromResponseParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     
     GADInterstitialAdLoadCompletionHandler loadHandler = ^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
         
@@ -234,7 +234,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     [self log: @"Loading %@app open ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
-    [self updateMuteStateFromResponseParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     
     GADAppOpenAdLoadCompletionHandler loadHandler = ^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         
@@ -316,7 +316,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     BOOL isBiddingAd = [parameters.bidResponse al_isValidString];
     [self log: @"Loading %@rewarded ad: %@...", (isBiddingAd ? @"bidding " : @""), placementId];
     
-    [self updateMuteStateFromResponseParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     
     GADRewardedAdLoadCompletionHandler loadHandler = ^(GADRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
         
@@ -837,11 +837,9 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
 /**
  * Update the global mute state for AdMob - must be done _before_ ad load to restrict inventory which requires playing with volume.
  */
-- (void)updateMuteStateFromResponseParameters:(id<MAAdapterResponseParameters>)responseParameters
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters
 {
-    NSDictionary *serverParameters = responseParameters.serverParameters;
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] ) // Introduced in 6.10.0
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
     {
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         [[GADMobileAds sharedInstance] setApplicationMuted: muted];
