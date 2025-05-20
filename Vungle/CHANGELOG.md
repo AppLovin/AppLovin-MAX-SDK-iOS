@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.1.1
+* Removed requirement of the title asset for native banners and MRECs.
+
 ## 7.5.1.0
 * Certified with Vungle SDK 7.5.1.
 

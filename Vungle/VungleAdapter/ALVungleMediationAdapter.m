@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.5.1.0"
+#define ADAPTER_VERSION @"7.5.1.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -983,14 +983,6 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     {
         [self.parentAdapter log: @"Native %@ ad failed to load: no fill", self.adFormat];
         [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.noFill];
-        
-        return;
-    }
-    
-    if ( ![nativeAd.title al_isValidString] )
-    {
-        [self.parentAdapter e: @"Native %@ ad (%@) does not have required assets.", self.adFormat, nativeAd];
-        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
