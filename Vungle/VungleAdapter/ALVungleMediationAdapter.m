@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.5.1.1"
+#define ADAPTER_VERSION @"7.5.1.2"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -368,7 +368,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     else
     {
         // Check if adaptive ad view sizes should be used
-        BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+        BOOL isAdaptiveAdViewEnabled = [self isAdaptiveAdViewEnabledForParameters: parameters];
         if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
         {
             [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Vungle adaptive ads"];
@@ -421,6 +421,21 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (BOOL)shouldFailAdLoadWhenSDKNotInitialized:(id<MAAdapterResponseParameters>)parameters
 {
     return [parameters.serverParameters al_boolForKey: @"fail_ad_load_when_sdk_not_initialized" defaultValue: YES];
+}
+
+- (BOOL)isAdaptiveAdViewEnabledForParameters:(id<MAAdapterResponseParameters>)parameters
+{
+    if ( ![parameters.serverParameters al_boolForKey: @"adaptive_banner"] ) return NO;
+    
+    if ( [VungleAds isInLine: parameters.thirdPartyAdPlacementIdentifier] )
+    {
+        return YES;
+    }
+    else
+    {
+        [self userError: @"Please use a Vungle inline placement ID in order to use Vungle adaptive ads"];
+        return NO;
+    }
 }
 
 - (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters
