@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.8.1.0"
+#define ADAPTER_VERSION @"9.9.0.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -175,29 +175,15 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     
     if ( [self.interstitialAd isCached] )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialAd showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Interstitial ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
     }
 }
 
@@ -234,29 +220,15 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.rewardedAd showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
     }
 }
 
@@ -352,13 +324,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: chartBoostCacheErrorCode
-               thirdPartySdkErrorMessage: chartBoostCacheError.description];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: chartBoostCacheErrorCode
+                     mediatedNetworkErrorMessage: chartBoostCacheError.description];
 }
 
 - (MAAdapterError *)toMaxErrorFromCHBShowError:(CHBShowError *)chartBoostShowError
@@ -389,13 +357,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: chartBoostShowErrorCode
-               thirdPartySdkErrorMessage: chartBoostShowError.description];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: chartBoostShowErrorCode
+                     mediatedNetworkErrorMessage: chartBoostShowError.description];
 }
 
 - (CHBBannerSize)sizeFromAdFormat:(MAAdFormat *)adFormat
@@ -469,13 +433,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                         errorString: @"Ad Display Failed"
-                                              thirdPartySdkErrorCode: error.code
-                                           thirdPartySdkErrorMessage: error.description];
-#pragma clang diagnostic pop
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.description];
         
         [self.parentAdapter log: @"Interstitial failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -489,7 +449,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)didRecordImpression:(CHBImpressionEvent *)event
 {
     [self.parentAdapter log: @"Interstitial impression tracked: %@", event.ad.location];
-
+    
     NSString *creativeID = event.adID;
     if ( [creativeID al_isValidString] )
     {
@@ -571,13 +531,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                         errorString: @"Ad Display Failed"
-                                              thirdPartySdkErrorCode: error.code
-                                           thirdPartySdkErrorMessage: error.description];
-#pragma clang diagnostic pop
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.description];
         
         [self.parentAdapter log: @"Rewarded failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
@@ -591,7 +547,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)didRecordImpression:(CHBImpressionEvent *)event
 {
     [self.parentAdapter log: @"Rewarded impression tracked: %@", event.ad.location];
-
+    
     NSString *creativeID = event.adID;
     if ( [creativeID al_isValidString] )
     {
@@ -696,13 +652,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                         errorString: @"Ad Display Failed"
-                                              thirdPartySdkErrorCode: error.code
-                                           thirdPartySdkErrorMessage: error.description];
-#pragma clang diagnostic pop
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.description];
         
         [self.parentAdapter log: @"%@ ad failed \"%@\" to show with error: %@", self.adFormat.label, event.ad.location, error];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];

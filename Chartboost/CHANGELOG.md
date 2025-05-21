@@ -1,5 +1,10 @@
 # Changelog
 
+## 9.9.0.0
+* Certified with Chartboost SDK 9.9.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Updated minimum iOS version to 12.0.
+
 ## 9.8.1.0
 * Certified with Chartboost SDK 9.8.1.
 * Removed redundant log output when initialization was already completed.
