@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.5.0.0
+* Certified with Google SDK 12.5.0.
+
 ## 12.4.0.1
 * Removed requirement of the title asset for native banners and MRECs.
 
