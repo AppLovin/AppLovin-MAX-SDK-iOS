@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.6.0"
+#define ADAPTER_VERSION @"8.3.7.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -417,16 +417,17 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         builder.timeout = [requestParameters.serverParameters al_numberForKey: @"load_timeout" defaultValue: @(10.0f)].al_timeIntervalValue;
     }];
     
-    NSDictionary *serverParameters = requestParameters.serverParameters;
-    
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
-    {
-        // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-        // NOTE: Does not work for rewarded ads
-        [IASDKCore sharedInstance].muteAudio = [serverParameters al_numberForKey: @"is_muted"].boolValue; // Introduced in 6.10.0
-    }
+    [self updateMuteStateFromServerParameters: requestParameters.serverParameters];
     
     return request;
+}
+
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters
+{
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+    {
+        [IASDKCore sharedInstance].muteAudio = [serverParameters al_numberForKey: @"is_muted"].boolValue;
+    }
 }
 
 + (MAAdapterError *)toMaxError:(NSError *)inneractiveError

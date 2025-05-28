@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.3.7.0
+* Certified with Fyber SDK 8.3.7.
+* Updated minimum iOS version to 13.0 to match Fyber SDK.
+
 ## 8.3.6.0
 * Certified with Fyber SDK 8.3.6.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
