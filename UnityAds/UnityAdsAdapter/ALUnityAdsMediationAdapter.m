@@ -122,7 +122,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     [self updatePrivacyConsent: parameters];
     
-    [UnityAds getToken:^(NSString *signal) {
+    UnityAdsTokenConfiguration *configuration = [UnityAdsTokenConfiguration newWithAdFormat: [self toUnityAdFormat:parameters.adFormat]];
+    [UnityAds getTokenWith: configuration completion: ^(NSString *signal) {
         [self log: @"Signal collected"];
         [delegate didCollectSignal: signal];
     }];
@@ -369,6 +370,19 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     return [MAAdapterError errorWithAdapterError: adapterError
                         mediatedNetworkErrorCode: unityAdsShowError
                      mediatedNetworkErrorMessage: message];
+}
+
+- (UnityAdsAdFormat)toUnityAdFormat:(MAAdFormat*)adFormat {
+    UnityAdsAdFormat format = UnityAdsAdFormatInterstitial;
+    if ( [adFormat isAdViewAd] )
+    {
+        format = UnityAdsAdFormatBanner;
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        format = UnityAdsAdFormatRewarded;
+    }
+    return format;
 }
 
 #pragma mark - GDPR
