@@ -121,12 +121,21 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [self log: @"Collecting signal..."];
     
     [self updatePrivacyConsent: parameters];
+     
+    void (^completionHandler)(NSString *signal) = ^(NSString *signal) {
+        [self log:@"Signal collected"];
+        [delegate didCollectSignal:signal];
+    };
     
-    UnityAdsTokenConfiguration *configuration = [UnityAdsTokenConfiguration newWithAdFormat: [self toUnityAdFormat:parameters.adFormat]];
-    [UnityAds getTokenWith: configuration completion: ^(NSString *signal) {
-        [self log: @"Signal collected"];
-        [delegate didCollectSignal: signal];
-    }];
+    UnityAdsTokenConfiguration *configuration = [self tokenConfigurationWithAdFormat:parameters.adFormat];
+    if ( configuration != nil )
+    {
+        [UnityAds getTokenWith: configuration completion: completionHandler];
+    }
+    else
+    {
+        [UnityAds getToken: completionHandler];
+    }
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -372,17 +381,21 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
                      mediatedNetworkErrorMessage: message];
 }
 
-- (UnityAdsAdFormat)toUnityAdFormat:(MAAdFormat*)adFormat {
-    UnityAdsAdFormat format = UnityAdsAdFormatInterstitial;
+- (UnityAdsTokenConfiguration*)tokenConfigurationWithAdFormat:(MAAdFormat*)adFormat {
+    UnityAdsTokenConfiguration *configuration;
     if ( [adFormat isAdViewAd] )
     {
-        format = UnityAdsAdFormatBanner;
+        configuration = [UnityAdsTokenConfiguration newWithAdFormat: UnityAdsAdFormatBanner];
     }
-    else if ( adFormat == MAAdFormat.rewarded )
+    else if ( adFormat == MAAdFormat.rewarded || adFormat == MAAdFormat.rewardedInterstitial )
     {
-        format = UnityAdsAdFormatRewarded;
+        configuration = [UnityAdsTokenConfiguration newWithAdFormat: UnityAdsAdFormatRewarded];
     }
-    return format;
+    else if ( adFormat == MAAdFormat.interstitial )
+    {
+        configuration = [UnityAdsTokenConfiguration newWithAdFormat: UnityAdsAdFormatInterstitial];
+    }
+    return configuration;
 }
 
 #pragma mark - GDPR
