@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.15.0.0
+* Certified with UnityAds SDK 4.15.0.
+* Updated minimum Xcode requirement to 16.1 to match UnityAds SDK.
+* Updated to use Unity Ads's new `+[UnityAds getTokenWith:completion:]` API that supports Ad Format for signal collection.
+
 ## 4.14.2.0
 * Certified with UnityAds SDK 4.14.2.
 

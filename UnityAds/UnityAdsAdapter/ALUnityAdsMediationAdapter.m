@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.14.2.0"
+#define ADAPTER_VERSION @"4.15.0.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -122,7 +122,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     [self updatePrivacyConsent: parameters];
     
-    [UnityAds getToken:^(NSString *signal) {
+    UnityAdsAdFormat unityAdFormat = [self adFormatFromParameters: parameters];
+    [UnityAds getTokenWith: [UnityAdsTokenConfiguration newWithAdFormat: unityAdFormat] completion:^(NSString *signal) {
         [self log: @"Signal collected"];
         [delegate didCollectSignal: signal];
     }];
@@ -256,6 +257,28 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     }
     
     return options;
+}
+
+- (UnityAdsAdFormat)adFormatFromParameters:(id<MASignalCollectionParameters>)parameters
+{
+    MAAdFormat *adFormat = parameters.adFormat;
+    
+    if ( [adFormat isAdViewAd] )
+    {
+        return UnityAdsAdFormatBanner;
+    }
+    else if ( adFormat == MAAdFormat.interstitial )
+    {
+        return UnityAdsAdFormatInterstitial;
+    }
+    else if ( adFormat == MAAdFormat.rewarded )
+    {
+        return UnityAdsAdFormatRewarded;
+    }
+    
+    [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
+    
+    return -1;
 }
 
 - (CGSize)bannerSizeFromAdFormat:(MAAdFormat *)adFormat
