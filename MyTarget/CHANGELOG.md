@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.31.1.0
+* Certified with MyTarget SDK 5.31.1.
+
 ## 5.31.0.0
 * Certified with MyTarget SDK 5.31.0.
 
