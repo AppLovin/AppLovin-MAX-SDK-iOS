@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.7.0.2"
+#define ADAPTER_VERSION @"4.8.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -278,7 +278,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     if ( [self.interstitialAd isExpired] )
     {
         [self log: @"Unable to show interstitial ad for slot id: %@ - ad expired", slotId];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
     else
     {
@@ -325,7 +327,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     if ( [self.appOpenAd isExpired] )
     {
         [self log: @"Unable to show app open ad for slot id: %@ - ad expired", slotId];
-        [delegate didFailToDisplayAppOpenAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
     else
     {
@@ -372,7 +376,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     if ( [self.rewardedAd isExpired] )
     {
         [self log: @"Unable to show rewarded ad for slot id: %@ - ad expired", slotId];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
     else
     {
@@ -631,7 +637,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error
 {
-    MAAdapterError *adapterError = [self.parentAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.errorCode
+                                             mediatedNetworkErrorMessage: error.errorMsg];
     [self.parentAdapter log: @"Interstitial ad (%@) failed to show with error: %@", self.slotId, adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -688,7 +696,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error
 {
-    MAAdapterError *adapterError = [self.parentAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.errorCode
+                                             mediatedNetworkErrorMessage: error.errorMsg];
     [self.parentAdapter log: @"App open ad (%@) failed to show with error: %@", self.slotId, adapterError];
     [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
 }
@@ -758,7 +768,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error
 {
-    MAAdapterError *adapterError = [self.parentAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.errorCode
+                                             mediatedNetworkErrorMessage: error.errorMsg];
     [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", self.slotId, adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -832,7 +844,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error
 {
-    MAAdapterError *adapterError = [self.parentAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.errorCode
+                                             mediatedNetworkErrorMessage: error.errorMsg];
     [self.parentAdapter log: @"%@ ad (%@) failed to show with error: %@", self.adFormat.label, self.slotId, adapterError];
     [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
 }
@@ -924,7 +938,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error
 {
-    MAAdapterError *adapterError = [self.parentAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.errorCode
+                                             mediatedNetworkErrorMessage: error.errorMsg];
     [self.parentAdapter log: @"Native %@ ad (%@) failed to show with error: %@", self.adFormat.label, self.slotId, adapterError];
     [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
 }
@@ -1012,7 +1028,9 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error
 {
-    MAAdapterError *adapterError = [self.parentAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.errorCode
+                                             mediatedNetworkErrorMessage: error.errorMsg];
     [self.parentAdapter log: @"Native ad (%@) failed to show with error: %@", self.slotId, adapterError];
 }
 

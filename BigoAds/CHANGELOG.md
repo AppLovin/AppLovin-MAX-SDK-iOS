@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.8.0.0
+* Certified with BigoAds SDK 4.8.0.
+* Update ad display failed error code.
+
 ## 4.7.0.2
 * Removed requirement of the title asset for native banners and MRECs.
 
