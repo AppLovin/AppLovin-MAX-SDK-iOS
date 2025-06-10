@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"12.5.0.0"
+#define ADAPTER_VERSION @"12.6.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -245,8 +245,8 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         [self log: @"Interstitial ad failed to show: %@", placementId];
         
         MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                             mediatedNetworkErrorCode: 0
-                                          mediatedNetworkErrorMessage: @"Interstitial ad not ready"];
+                                             mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                          mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message];
         [delegate didFailToDisplayInterstitialAdWithError: error];
     }
 }
@@ -317,8 +317,8 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         [self log: @"App open ad failed to show: %@", placementId];
         
         MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                             mediatedNetworkErrorCode: 0
-                                          mediatedNetworkErrorMessage: @"App open ad not ready"];
+                                             mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                          mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message];
         [delegate didFailToDisplayAppOpenAdWithError: error];
     }
 }
@@ -393,8 +393,8 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
         [self log: @"Rewarded ad failed to show: %@", placementId];
         
         MAAdapterError *error = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                             mediatedNetworkErrorCode: 0
-                                          mediatedNetworkErrorMessage: @"Rewarded ad not ready"];
+                                             mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                          mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message];
         [delegate didFailToDisplayRewardedAdWithError: error];
     }
 }

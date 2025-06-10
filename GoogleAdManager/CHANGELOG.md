@@ -1,5 +1,9 @@
 # Changelog
 
+## 12.6.0.0
+* Certified with GoogleAdManager SDK 12.6.0.
+* Update ad display failed error code.
+
 ## 12.5.0.0
 * Certified with GoogleAdManager SDK 12.5.0.
 
