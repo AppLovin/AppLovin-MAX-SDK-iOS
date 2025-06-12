@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.1
+* Updated to use PubMatic's new `-loadAdWithResponse:forBiddingHost:` API that includes MAX as the bidding host.
+
 ## 4.7.0.0
 * Certified with PubMatic SDK 4.7.0.
 * Update ad display failed error code.

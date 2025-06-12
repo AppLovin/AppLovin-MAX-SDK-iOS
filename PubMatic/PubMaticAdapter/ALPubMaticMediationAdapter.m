@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.7.0.0"
+#define ADAPTER_VERSION @"4.7.0.1"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -158,7 +158,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.interstitialAd = [[POBInterstitial alloc] init];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
     
-    [self.interstitialAd loadAdWithResponse: parameters.bidResponse];
+    [self.interstitialAd loadAdWithResponse: parameters.bidResponse forBiddingHost: POBSDKBiddingHostALMAX];
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -189,7 +189,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.rewardedAd = [[POBRewardedAd alloc] init];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
     
-    [self.rewardedAd loadAdWithResponse: parameters.bidResponse];
+    [self.rewardedAd loadAdWithResponse: parameters.bidResponse forBiddingHost: POBSDKBiddingHostALMAX];
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -225,7 +225,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.adView = [[POBBannerView alloc] init];
     self.adView.delegate = self.adViewDelegate;
     
-    [self.adView loadAdWithResponse: parameters.bidResponse];
+    [self.adView loadAdWithResponse: parameters.bidResponse forBiddingHost: POBSDKBiddingHostALMAX];
     [self.adView pauseAutoRefresh];
 }
 
