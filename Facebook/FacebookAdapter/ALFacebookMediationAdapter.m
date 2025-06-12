@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.17.1.0"
+#define ADAPTER_VERSION @"6.20.0.0"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -224,22 +224,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // Check if ad is already expired or invalidated, and do not show ad if that is the case. You will not get paid to show an invalidated ad.
     if ( [self.interstitialAd isAdValid] )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
         [self log: @"Unable to show interstitial ad: ad is not valid - marking as expired"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
 }
 
@@ -278,22 +271,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.rewardedVideoAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
         [self log: @"Unable to show rewarded ad: ad is not valid - marking as expired"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
 }
 
@@ -452,13 +438,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: facebookErrorCode
-               thirdPartySdkErrorMessage: facebookError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: facebookErrorCode
+                     mediatedNetworkErrorMessage: facebookError.localizedDescription];
 }
 
 - (void)renderTrueNativeAd:(FBNativeAdBase *)nativeAd
@@ -487,7 +469,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     if ( isTemplateAd && ![nativeAd.headline al_isValidString] )
     {
         [self e: @"Native ad (%@) does not have required assets.", nativeAd];
-        [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
