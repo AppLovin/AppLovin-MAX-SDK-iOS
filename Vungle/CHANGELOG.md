@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.5.1.3
+* Distributed adapter as a static framework within the XCFramework.
+* Updated ad display failed error code.
+
 ## 7.5.1.2
 * Add check to enable adaptive ads only when using a Vungle inline ad placement identifier.
 
