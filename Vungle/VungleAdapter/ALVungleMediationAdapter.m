@@ -1033,6 +1033,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     [self.parentAdapter log: @"Native %@ ad loaded: %@", self.adFormat, self.placementIdentifier];
     
+    // returns aspect ratio of media to be displayed. Will return 0.0 by default
+    CGFloat mediaContentAspectRatio = [nativeAd getMediaAspectRatio];
+    
     dispatchOnMainQueue(^{
         MediaView *mediaView = [[MediaView alloc] init];
         
@@ -1043,6 +1046,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
             builder.mediaView = mediaView;
+            builder.mediaContentAspectRatio = mediaContentAspectRatio;
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
@@ -1139,6 +1143,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     
     [self.parentAdapter log: @"Native ad loaded: %@", self.placementIdentifier];
     
+    // returns aspect ratio of media to be displayed. Will return 0.0 by default
+    CGFloat mediaContentAspectRatio = [nativeAd getMediaAspectRatio];
+    
     dispatchOnMainQueue(^{
         MediaView *mediaView = [[MediaView alloc] init];
         
@@ -1149,6 +1156,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
             builder.mediaView = mediaView;
+            builder.mediaContentAspectRatio = mediaContentAspectRatio;
         }];
         
         NSString *creativeIdentifier = nativeAd.creativeId;
