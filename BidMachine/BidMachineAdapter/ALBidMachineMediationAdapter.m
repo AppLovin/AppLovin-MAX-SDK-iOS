@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine-Swift.h>
 
-#define ADAPTER_VERSION @"3.3.0.0.0"
+#define ADAPTER_VERSION @"3.3.0.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -245,8 +245,8 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         [self log: @"Unable to show interstitial - ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -317,8 +317,8 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -700,7 +700,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 - (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
 {
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Interstitial failed to present ad with error: %@", adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
@@ -807,7 +809,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 - (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
 {
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"Rewarded failed to present ad with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
@@ -914,7 +918,9 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 - (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
 {
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.parentAdapter log: @"AdView failed to present ad with error: %@", adapterError];
     [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
 }
