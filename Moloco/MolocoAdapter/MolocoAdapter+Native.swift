@@ -95,7 +95,9 @@ final class MolocoNativeAdapterDelegate: NativeAdAdapterDelegate<MolocoAdapter>,
     
     func failToShow(ad: MolocoAd, with error: Error?)
     {
-        let adapterError = error?.molocoNativeAdapterError ?? error?.molocoAdapterError ?? .unspecified
+        let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                               mediatedNetworkErrorCode: error?.code ?? MAAdapterError.unspecified.code.rawValue,
+                                               mediatedNetworkErrorMessage: error?.localizedDescription ?? MAAdapterError.unspecified.message)
         log(adEvent: .displayFailed(error: adapterError))
     }
     

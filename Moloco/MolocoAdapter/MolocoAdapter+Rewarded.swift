@@ -50,8 +50,11 @@ extension MolocoAdapter: MARewardedAdapter
         
         guard let rewardedAd, rewardedAd.isReady else
         {
+            let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                                   mediatedNetworkErrorCode: MAAdapterError.adNotReady.code.rawValue,
+                                                   mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message)
             log(adEvent: .notReady, id: placementId, adFormat: .rewarded)
-            delegate.didFailToDisplayRewardedAdWithError(.adNotReady)
+            delegate.didFailToDisplayRewardedAdWithError(adapterError)
             return
         }
         
@@ -87,7 +90,9 @@ final class MolocoRewardedAdapterDelegate: RewardedAdapterDelegate<MolocoAdapter
     
     func failToShow(ad: MolocoAd, with error: Error?)
     {
-        let adapterError = error?.molocoAdapterError ?? .unspecified
+        let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                               mediatedNetworkErrorCode: error?.code ?? MAAdapterError.unspecified.code.rawValue,
+                                               mediatedNetworkErrorMessage: error?.localizedDescription ?? MAAdapterError.unspecified.message)
         log(adEvent: .displayFailed(error: adapterError))
         delegate?.didFailToDisplayRewardedAdWithError(adapterError)
     }

@@ -50,8 +50,11 @@ extension MolocoAdapter: MAInterstitialAdapter
         
         guard let interstitialAd, interstitialAd.isReady else
         {
+            let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                       mediatedNetworkErrorCode: MAAdapterError.adNotReady.code.rawValue,
+                                    mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message)
             log(adEvent: .notReady, id: placementId, adFormat: .interstitial)
-            delegate.didFailToDisplayInterstitialAdWithError(.adNotReady)
+            delegate.didFailToDisplayInterstitialAdWithError(adapterError)
             return
         }
         
@@ -85,7 +88,9 @@ final class MolocoInterstitialAdapterDelegate: InterstitialAdapterDelegate<Moloc
     
     func failToShow(ad: MolocoAd, with error: Error?)
     {
-        let adapterError = error?.molocoAdapterError ?? .unspecified
+        let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                               mediatedNetworkErrorCode: error?.code ?? MAAdapterError.unspecified.code.rawValue,
+                                               mediatedNetworkErrorMessage: error?.localizedDescription ?? MAAdapterError.unspecified.message)
         log(adEvent: .displayFailed(error: adapterError))
         delegate?.didFailToDisplayInterstitialAdWithError(adapterError)
     }
