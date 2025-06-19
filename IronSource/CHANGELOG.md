@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.9.1.0.1
+* Updated minimum iOS version to 12.0 to match IronSource SDK.
+
 ## 8.9.1.0.0
 * Certified with IronSource SDK 8.9.1.0.
 * Replaced deprecated `IronSource` method calls with `IronSourceAds` equivalents.
