@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"7.13.0.0"
+#define ADAPTER_VERSION @"7.14.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -239,13 +239,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     {
         [self log: @"Interstitial ad failed to show - ad not ready"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -290,13 +286,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     {
         [self log: @"Rewarded ad failed to show - ad not ready"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -577,13 +569,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (void)interstitialAd:(YMAInterstitialAd *)interstitialAd didFailToShowWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     
     [self.parentAdapter log: @"Interstitial ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -657,13 +645,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (void)rewardedAd:(YMARewardedAd *)rewardedAd didFailToShowWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                               mediatedNetworkErrorCode: error.code
+                                            mediatedNetworkErrorMessage: error.localizedDescription];
     
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];

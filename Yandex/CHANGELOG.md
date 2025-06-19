@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.14.0.0
+* Certified with Yandex SDK 7.14.0.
+* Requires minimum AppLovin MAX SDK version be 11.4.0.
+* Updated ad display failed error code.
+
 ## 7.13.0.0
 * Certified with Yandex SDK 7.13.0.
 

@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationYandexAdapter'
-s.version = '7.13.0.0'
+s.version = '7.14.0.0'
 s.platform = :ios, '13.0'
 s.summary = 'Yandex adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -27,7 +27,7 @@ s.source =
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
 s.dependency 'YandexMobileAds', '= {ADAPTER_SDK_VERSION}'
-s.dependency 'AppLovinSDK'
+s.dependency 'AppLovinSDK', '>= 11.4.0'
 s.swift_version = '5.9.0'
 
 s.description = <<-DESC
