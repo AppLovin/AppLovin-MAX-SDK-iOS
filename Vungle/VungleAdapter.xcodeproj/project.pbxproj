@@ -394,7 +394,7 @@
                 LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
                 LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
                 MACH_O_TYPE = staticlib;
-                MARKETING_VERSION = 7.5.1.3;
+                MARKETING_VERSION = 7.5.1.4;
                 MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
                 MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
                 MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -432,7 +432,7 @@
                 LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
                 LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
                 MACH_O_TYPE = staticlib;
-                MARKETING_VERSION = 7.5.1.3;
+                MARKETING_VERSION = 7.5.1.4;
                 MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
                 MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
                 MTL_FAST_MATH = YES;

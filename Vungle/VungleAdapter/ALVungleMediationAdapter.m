@@ -9,7 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.5.1.3"
+#define ADAPTER_VERSION @"7.5.1.4"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
@@ -564,8 +564,19 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         case VungleErrorAdPublisherMismatch:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
+        case VungleErrorInvalidPlayParameter:
+            adapterError = MAAdapterError.missingViewController;
+            break;
         case VungleErrorJsonEncodeError:
         case VungleErrorAdInternalIntegrationError:
+        case VungleErrorConfigNotFoundError:
+        case VungleErrorInvalidRequestBuilderError:
+        case VungleErrorMraidJsWriteFailed:
+        case VungleErrorMraidDownloadJsError:
+        case VungleErrorMraidJsDoesNotExist:
+        case VungleErrorMraidJsCopyFailed:
+        case VungleErrorTemplateUnzipError:
+        case VungleErrorAssetWriteError:
             adapterError = MAAdapterError.internalError;
             break;
         case VungleErrorAdConsumed:
@@ -573,6 +584,21 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         case VungleErrorAdAlreadyLoaded:
         case VungleErrorAdIsPlaying:
         case VungleErrorAdAlreadyFailed:
+        case VungleErrorInvalidGzipBidPayload:
+        case VungleErrorInvalidBidPayload:
+        case VungleErrorInvalidJsonBidPayload:
+        case VungleErrorInvalidAdunitBidPayload:
+        case VungleErrorAdResponseEmpty:
+        case VungleErrorInvalidEventIDError:
+        case VungleErrorApiRequestError:
+        case VungleErrorApiResponseDataError:
+        case VungleErrorApiResponseDecodeError:
+        case VungleErrorApiFailedStatusCode:
+        case VungleErrorInvalidTemplateURL:
+        case VungleErrorInvalidAssetURL:
+        case VungleErrorAssetRequestError:
+        case VungleErrorAssetResponseDataError:
+        case VungleErrorAssetFailedStatusCode:
             adapterError = MAAdapterError.invalidLoadState;
             break;
         case VungleErrorAdNotLoaded:
@@ -582,6 +608,8 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
         case VungleErrorInvalidIfaStatus:
         case VungleErrorMraidBridgeError:
         case VungleErrorConcurrentPlaybackUnsupported:
+        case VungleErrorAdClosedTemplateError:
+        case VungleErrorAdClosedMissingHeartbeat:
             adapterError = MAAdapterError.adDisplayFailedError;
             break;
         case VungleErrorPlacementSleep:
@@ -606,6 +634,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             break;
         case VungleErrorWebViewWebContentProcessDidTerminate:
         case VungleErrorWebViewFailedNavigation:
+        case VungleErrorWebviewError:
             adapterError = MAAdapterError.webViewError;
             break;
     }
@@ -1017,6 +1046,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
+            builder.mediaContentAspectRatio = nativeAd.getMediaAspectRatio;
             builder.mediaView = mediaView;
         }];
         
@@ -1123,6 +1153,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
+            builder.mediaContentAspectRatio = nativeAd.getMediaAspectRatio;
             builder.mediaView = mediaView;
         }];
         

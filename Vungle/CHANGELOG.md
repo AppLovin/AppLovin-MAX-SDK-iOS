@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.5.1.4
+* Added additional Vungle's error code mappings.
+* Exposed `mediaContentAspectRatio` for native ads.
+
 ## 7.5.1.3
 * Distributed adapter as a static framework within the XCFramework.
 * Updated ad display failed error code.
