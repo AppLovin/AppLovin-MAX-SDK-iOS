@@ -33,15 +33,24 @@
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
+@interface ALPubMaticMediationAdapterNativeDelegate : NSObject <POBNativeAdLoaderDelegate, POBNativeAdDelegate>
+@property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALPubMaticMediationAdapter *)parentAdapter andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+@end
+
 @interface ALPubMaticMediationAdapter ()
 
 @property (nonatomic, strong) POBInterstitial *interstitialAd;
 @property (nonatomic, strong) POBRewardedAd *rewardedAd;
 @property (nonatomic, strong) POBBannerView *adView;
+@property (nonatomic, strong) POBNativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) id<POBNativeAd> nativeAd;
 
 @property (nonatomic, strong) ALPubMaticMediationAdapterInterstitialDelegate *interstitialAdDelegate;
 @property (nonatomic, strong) ALPubMaticMediationAdapterRewardedDelegate *rewardedAdDelegate;
 @property (nonatomic, strong) ALPubMaticMediationAdapterAdViewDelegate *adViewDelegate;
+@property (nonatomic, strong) ALPubMaticMediationAdapterNativeDelegate *nativeAdDelegate;
 
 @end
 
@@ -121,6 +130,11 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.adView = nil;
     self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
+    
+    self.nativeAdLoader = nil;
+    self.nativeAd = nil;
+    self.nativeAdDelegate.delegate = nil;
+    self.nativeAdDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -229,6 +243,22 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     [self.adView pauseAutoRefresh];
 }
 
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
+    
+    [self log: @"Loading native ad: %@...", adUnitId];
+    
+    self.nativeAdDelegate = [[ALPubMaticMediationAdapterNativeDelegate alloc] initWithParentAdapter: self
+                                                                                           andNotify: delegate];
+    self.nativeAdLoader = [[POBNativeAdLoader alloc] init];
+    self.nativeAdLoader.delegate = self.nativeAdDelegate;
+    
+    [self.nativeAdLoader loadAdWithResponse: parameters.bidResponse forBiddingHost: POBSDKBiddingHostALMAX];
+}
+
 #pragma mark - Shared Methods
 
 - (POBAdFormat)POBAdFormatFromAdFormat:(MAAdFormat *)adFormat
@@ -252,6 +282,10 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     else if ( adFormat == MAAdFormat.rewarded )
     {
         return POBAdFormatRewarded;
+    }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return POBAdFormatNative;
     }
     else
     {
@@ -484,6 +518,84 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (UIViewController *)bannerViewPresentationController
 {
+    return [ALUtils topViewControllerFromKeyWindow];
+}
+
+@end
+
+@implementation ALPubMaticMediationAdapterNativeDelegate
+
+- (instancetype)initWithParentAdapter:(ALPubMaticMediationAdapter *)parentAdapter andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+#pragma POBNativeAdLoaderDelegate Methods
+
+- (void)nativeAdLoader:(POBNativeAdLoader *)adLoader didReceiveAd:(id<POBNativeAd>)nativeAd
+{
+    [self.parentAdapter log: @"Native ad loaded"];
+    
+    self.parentAdapter.nativeAd = nativeAd;
+    [self.parentAdapter.nativeAd setAdDelegate: self];
+    
+    MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
+        
+        builder.title = nativeAd.titleAsset.text;
+        builder.body = nativeAd.descriptionAsset.value;
+        builder.callToAction = nativeAd.callToActionAsset.value;
+        
+        if (nativeAd.iconAsset.imageURL)
+        {
+            builder.icon = [[MANativeAdImage alloc] initWithURL:[NSURL URLWithString:nativeAd.iconAsset.imageURL]];
+        }
+        
+        if (nativeAd.mainImageAsset.imageURL)
+        {
+            builder.mainImage = [[MANativeAdImage alloc] initWithURL:[NSURL URLWithString:nativeAd.mainImageAsset.imageURL]];
+        }
+        
+        builder.advertiser = nativeAd.advertiserAsset.value;
+        
+        if (nativeAd.ratingAsset)
+        {
+            builder.starRating = [NSNumber numberWithInt:nativeAd.ratingAsset.value.intValue];
+        }
+        
+        builder.optionsView = nativeAd.adInfoIconView;
+    }];
+    
+    [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+}
+
+- (void)nativeAdLoader:(POBNativeAdLoader *)adLoader didFailToReceiveAdWithError:(NSError *)error
+{
+    MAAdapterError *adapterError = [ALPubMaticMediationAdapter toMaxError: error];
+    [self.parentAdapter log: @"Native ad failed to load with error: %@", adapterError];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+#pragma POBNativeAdDelegate Methods
+
+- (void)nativeAdDidRecordImpression:(id<POBNativeAd>)nativeAd
+{
+    [self.parentAdapter log: @"Native ad impression"];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)nativeAdDidRecordClick:(id<POBNativeAd>)nativeAd
+{
+    [self.parentAdapter log: @"Native ad clicked"];
+    [self.delegate didClickNativeAd];
+}
+
+- (nonnull UIViewController *)viewControllerForPresentingModal { 
     return [ALUtils topViewControllerFromKeyWindow];
 }
 
