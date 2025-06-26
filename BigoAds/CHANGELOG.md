@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.8.1.0
+* Certified with BigoAds SDK 4.8.1.
+
 ## 4.8.0.0
 * Certified with BigoAds SDK 4.8.0.
 * Update ad display failed error code.
