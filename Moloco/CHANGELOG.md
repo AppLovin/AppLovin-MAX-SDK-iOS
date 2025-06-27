@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.11.0.0
+* Certified with Moloco SDK 3.11.0.
+
 ## 3.10.1.0
 * Certified with Moloco SDK 3.10.1.
 * Update ad display failed error code.
