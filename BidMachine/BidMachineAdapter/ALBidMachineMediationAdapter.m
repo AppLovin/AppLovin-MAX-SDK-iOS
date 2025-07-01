@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine-Swift.h>
 
-#define ADAPTER_VERSION @"3.3.0.0.1"
+#define ADAPTER_VERSION @"3.3.0.0.2"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -169,15 +169,21 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self updateSettings: parameters];
     
     BidMachinePlacementFormat bidMachinePlacementFormat = [self bidMachinePlacementFormatFromAdFormat: parameters.adFormat];
-    if ( bidMachinePlacementFormat == BidMachinePlacementFormatUnknown )
+    
+    NSError *error;
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: bidMachinePlacementFormat
+                                                                   error: &error
+                                                                 builder: nil];
+
+    if ( !placement || error )
     {
-        [self log: @"Signal collection failed with error: Unsupported ad format: %@", parameters.adFormat];
-        [delegate didFailToCollectSignalWithErrorMessage: [NSString stringWithFormat: @"Unsupported ad format: %@", parameters.adFormat]];
+        [self log: @"Signal collection failed while retrieving placement with error: %@", error];
+        [delegate didFailToCollectSignalWithErrorMessage: error.localizedDescription];
         
         return;
     }
     
-    [BidMachineSdk.shared tokenWith: bidMachinePlacementFormat completion:^(NSString *_Nullable signal) {
+    [BidMachineSdk.shared tokenWithPlacement: placement completion:^(NSString *_Nullable signal) {
         [self log: @"Signal collection successful with%@ valid signal", [signal al_isValidString] ? @"" : @"out"];
         [delegate didCollectSignal: signal];
     }];
@@ -191,10 +197,12 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSError *configurationError = nil;
-    id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: BidMachinePlacementFormatInterstitial error: &configurationError];
+    NSError *configurationError;
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: BidMachinePlacementFormatInterstitial
+                                                                   error: &configurationError
+                                                                 builder: nil];
     
-    if ( configurationError )
+    if ( !placement || configurationError )
     {
         [self log: @"Interstitial ad failed to load with error: %@", configurationError];
         [delegate didFailToLoadInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
@@ -204,13 +212,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         return;
     }
     
-    [config populate:^(id<BidMachineRequestBuilderProtocol> builder) {
+    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
+                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
         [builder withPayload: parameters.bidResponse];
     }];
     
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared interstitial: config :^(BidMachineInterstitial *interstitialAd, NSError *error) {
+    [BidMachineSdk.shared interstitialWithRequest: request completion:^(BidMachineInterstitial *interstitialAd, NSError *error) {
         
         if ( error )
         {
@@ -263,10 +272,12 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSError *configurationError = nil;
-    id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: BidMachinePlacementFormatRewarded error: &configurationError];
+    NSError *configurationError;
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: BidMachinePlacementFormatRewarded
+                                                                   error: &configurationError
+                                                                 builder: nil];
     
-    if ( configurationError )
+    if ( !placement || configurationError )
     {
         [self log: @"Rewarded ad failed to load with error: %@", configurationError];
         [delegate didFailToLoadRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
@@ -276,13 +287,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         return;
     }
     
-    [config populate:^(id<BidMachineRequestBuilderProtocol> builder) {
+    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
+                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
         [builder withPayload: parameters.bidResponse];
     }];
     
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared rewarded: config :^(BidMachineRewarded *rewardedAd, NSError *error) {
+    [BidMachineSdk.shared rewardedWithRequest: request completion:^(BidMachineRewarded *rewardedAd, NSError *error) {
         
         if ( error )
         {
@@ -340,20 +352,13 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self updateSettings: parameters];
     
     BidMachinePlacementFormat format = [self bidMachinePlacementFormatFromAdFormat: adFormat];
-    if ( format == BidMachinePlacementFormatUnknown )
-    {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode: MAAdapterError.errorCodeInvalidConfiguration
-                                                         errorString: [NSString stringWithFormat: @"Unsupported ad format: %@", adFormat]];
-        [self log: @"AdView ad failed to load with error: %@", adapterError];
-        [delegate didFailToLoadAdViewAdWithError: adapterError];
-        
-        return;
-    }
     
-    NSError *configurationError = nil;
-    id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: format error: &configurationError];
+    NSError *configurationError;
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: format
+                                                                   error: &configurationError
+                                                                 builder: nil];
     
-    if ( configurationError )
+    if ( !placement || configurationError )
     {
         [self log: @"AdView ad failed to load with error: %@", configurationError];
         [delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
@@ -363,13 +368,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         return;
     }
     
-    [config populate:^(id<BidMachineRequestBuilderProtocol> builder) {
+    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
+                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
         [builder withPayload: parameters.bidResponse];
     }];
     
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared banner: config :^(BidMachineBanner *bannerAd, NSError *error) {
+    [BidMachineSdk.shared bannerWithRequest: request completion:^(BidMachineBanner *bannerAd, NSError *error) {
         
         if ( error )
         {
@@ -406,10 +412,12 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSError *configurationError = nil;
-    id<BidMachineRequestConfigurationProtocol> config = [BidMachineSdk.shared requestConfiguration: BidMachinePlacementFormatNative error: &configurationError];
+    NSError *configurationError;
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: BidMachinePlacementFormatNative
+                                                                   error: &configurationError
+                                                                 builder: nil];
     
-    if ( configurationError )
+    if ( !placement || configurationError )
     {
         [self log: @"Native ad failed to load with error: %@", configurationError];
         [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
@@ -419,13 +427,14 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         return;
     }
     
-    [config populate:^(id<BidMachineRequestBuilderProtocol> builder) {
+    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
+                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
         [builder withPayload: parameters.bidResponse];
     }];
     
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared native: config :^(BidMachineNative *nativeAd, NSError *error) {
+    [BidMachineSdk.shared nativeWithRequest: request completion:^(BidMachineNative *nativeAd, NSError *error) {
         
         if ( error )
         {

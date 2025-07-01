@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.3.0.0.2
+* Implement new signal collection and ad load APIs.
+
 ## 3.3.0.0.1
 * Distributed adapter as a static framework within the XCFramework.
 * Updated ad display failed error code.
