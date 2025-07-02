@@ -1,9 +1,14 @@
 # Changelog
 
+## 9.9.0.1
+* Implemented `didExpireAd:` in listeners to satisfy the updated Chartboost SDK callback interface.
+* Update error code mapping.
+
 ## 9.9.0.0
 * Certified with Chartboost SDK 9.9.0.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
 * Updated minimum iOS version to 12.0.
+* Updated ad display failed error code.
 
 ## 9.8.1.0
 * Certified with Chartboost SDK 9.8.1.

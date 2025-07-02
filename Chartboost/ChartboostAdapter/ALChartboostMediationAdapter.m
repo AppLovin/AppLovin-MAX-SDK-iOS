@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.9.0.0"
+#define ADAPTER_VERSION @"9.9.0.1"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -182,8 +182,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         [self log: @"Interstitial ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -227,8 +227,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         [self log: @"Rewarded ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -354,6 +354,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             break;
         case CHBShowErrorCodeNoAdInstance:
             adapterError = MAAdapterError.invalidConfiguration;
+        case CHBShowErrorCodeAdAlreadyVisible:
+            adapterError = MAAdapterError.adDisplayFailedError;
             break;
     }
     
@@ -480,6 +482,11 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     [self.delegate didHideInterstitialAd];
 }
 
+- (void)didExpireAd:(CHBExpirationEvent *)event
+{
+    [self.parentAdapter log: @"Interstitial ad expired"];
+}
+
 @end
 
 #pragma mark - CHBRewardedDelegate
@@ -597,6 +604,11 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     [self.delegate didHideRewardedAd];
 }
 
+- (void)didExpireAd:(CHBExpirationEvent *)event
+{
+    [self.parentAdapter log: @"Rewarded ad expired"];
+}
+
 @end
 
 #pragma mark - CHBBannerDelegate
@@ -691,6 +703,11 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         [self.parentAdapter log: @"%@ ad clicked: %@", self.adFormat.label, event.ad.location];
         [self.delegate didClickAdViewAd];
     }
+}
+
+- (void)didExpireAd:(CHBExpirationEvent *)event
+{
+    [self.parentAdapter log: @"AdView ad expired"];
 }
 
 @end
