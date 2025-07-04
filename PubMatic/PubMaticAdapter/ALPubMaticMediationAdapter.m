@@ -570,7 +570,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
         
         if (nativeAd.ratingAsset)
         {
-            builder.starRating = [NSNumber numberWithInt:nativeAd.ratingAsset.value.intValue];
+            builder.starRating = [NSNumber numberWithDouble:nativeAd.ratingAsset.value.doubleValue];
         }
         
         builder.optionsView = nativeAd.adInfoIconView;
