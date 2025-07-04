@@ -550,7 +550,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.parentAdapter.nativeAd = nativeAd;
     [self.parentAdapter.nativeAd setAdDelegate: self];
     
-    MANativeAd *maxNativeAd = [[MAPubMaticNativeAd alloc] initWithFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
+    MANativeAd *maxNativeAd = [[MAPubMaticNativeAd alloc] initWithParentAdapter:self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
         
         builder.title = nativeAd.titleAsset.text;
         builder.body = nativeAd.descriptionAsset.value;
