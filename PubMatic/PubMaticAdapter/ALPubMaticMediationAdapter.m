@@ -9,7 +9,7 @@
 #import "ALPubMaticMediationAdapter.h"
 #import <OpenWrapSDK/OpenWrapSDK.h>
 
-#define ADAPTER_VERSION @"4.7.0.1"
+#define ADAPTER_VERSION @"4.8.0.0"
 
 @interface ALPubMaticMediationAdapterInterstitialDelegate : NSObject <POBInterstitialDelegate>
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
@@ -37,6 +37,12 @@
 @property (nonatomic,   weak) ALPubMaticMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALPubMaticMediationAdapter *)parentAdapter andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+@end
+
+@interface MAPubMaticNativeAd : MANativeAd
+@property (nonatomic, weak) ALPubMaticMediationAdapter *parentAdapter;
+- (instancetype)initWithParentAdapter:(ALPubMaticMediationAdapter *)parentAdapter
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 @end
 
 @interface ALPubMaticMediationAdapter ()
@@ -131,6 +137,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.adViewDelegate.delegate = nil;
     self.adViewDelegate = nil;
     
+    self.nativeAdLoader.delegate = nil;
     self.nativeAdLoader = nil;
     self.nativeAd = nil;
     self.nativeAdDelegate.delegate = nil;
@@ -247,9 +254,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
 
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
-    NSString *adUnitId = [self adUnitIdFromParameters: parameters];
-    
-    [self log: @"Loading native ad: %@...", adUnitId];
+    [self log: @"Loading native ad"];
     
     self.nativeAdDelegate = [[ALPubMaticMediationAdapterNativeDelegate alloc] initWithParentAdapter: self
                                                                                            andNotify: delegate];
@@ -545,7 +550,7 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     self.parentAdapter.nativeAd = nativeAd;
     [self.parentAdapter.nativeAd setAdDelegate: self];
     
-    MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
+    MANativeAd *maxNativeAd = [[MAPubMaticNativeAd alloc] initWithFormat: MAAdFormat.native builderBlock:^(MANativeAdBuilder *builder) {
         
         builder.title = nativeAd.titleAsset.text;
         builder.body = nativeAd.descriptionAsset.value;
@@ -595,8 +600,46 @@ static MAAdapterInitializationStatus ALPubMaticInitializationStatus = NSIntegerM
     [self.delegate didClickNativeAd];
 }
 
+- (void)nativeAd:(id<POBNativeAd>)nativeAd didRecordClickForAsset:(NSInteger)assetId {
+    [self.parentAdapter log: @"Native ad asset clicked"];
+    [self.delegate didClickNativeAd];
+}
+
 - (nonnull UIViewController *)viewControllerForPresentingModal { 
     return [ALUtils topViewControllerFromKeyWindow];
+}
+
+@end
+
+@implementation MAPubMaticNativeAd
+
+- (instancetype)initWithParentAdapter:(ALPubMaticMediationAdapter *)parentAdapter
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+{
+    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+    }
+    return self;
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    id<POBNativeAd> nativeAd = self.parentAdapter.nativeAd;
+    
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
+    
+    // Register native ad's container & clickable views for tracking imp/clicks
+    [nativeAd registerViewForInteractions:container clickableViews:clickableViews];
+    
+    return YES;
 }
 
 @end
