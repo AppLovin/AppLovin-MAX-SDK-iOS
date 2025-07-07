@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationPubMaticAdapter'
-s.version = '4.7.0.1'
+s.version = '4.8.0.0'
 s.platform = :ios, '12.0'
 s.summary = 'PubMatic adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"

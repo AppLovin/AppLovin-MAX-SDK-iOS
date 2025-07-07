@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.8.0.0
+* Certified with PubMatic SDK 4.8.0.
+* Added support for native ads.
+
 ## 4.7.0.1
 * Updated to use PubMatic's new `-loadAdWithResponse:forBiddingHost:` API that includes MAX as the bidding host.
 
