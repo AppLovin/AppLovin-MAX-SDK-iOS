@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.0.7.0
+* Certified with ByteDance SDK 7.4.0.7.
+* Removed `appLogoImage` for app open ads.
+
 ## 7.2.0.5.0
 * Certified with ByteDance SDK 7.2.0.5.
 

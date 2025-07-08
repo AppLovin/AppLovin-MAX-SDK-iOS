@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"7.2.0.5.0"
+#define ADAPTER_VERSION @"7.4.0.7.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -108,16 +108,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing Pangle SDK with app id: %@...", appID];
         configuration.appID = appID;
-        
-        UIImage *appIconImage = [self appIconImage];
-        if ( !appIconImage )
-        {
-            [self log: @"App icon could not be found"];
-        }
-        else
-        {
-            configuration.appLogoImage = appIconImage;
-        }
         
         if ( [parameters isTesting] )
         {
@@ -792,14 +782,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     // Return anchored size by default
     return PAGCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(adaptiveAdWidth);
-}
-
-- (nullable UIImage *)appIconImage
-{
-    NSDictionary *icons = [[NSBundle mainBundle] infoDictionary][@"CFBundleIcons"];
-    NSDictionary *primary = icons[@"CFBundlePrimaryIcon"];
-    NSArray *files = primary[@"CFBundleIconFiles"];
-    return [UIImage imageNamed: files.lastObject];
 }
 
 // Error code were sourced from https://www.pangleglobal.com/integration/error-code & old sdk class BUErrorCode
