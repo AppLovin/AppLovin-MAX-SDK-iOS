@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.15.1.1
+* Distributed as a static framework within the XCFramework.
+
 ## 4.15.1.0
 * Certified with UnityAds SDK 4.15.1.
 
