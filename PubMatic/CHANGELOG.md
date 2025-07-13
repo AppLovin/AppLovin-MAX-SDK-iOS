@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.2
+* Distributed as a static framework within the XCFramework.
+
 ## 4.7.0.1
 * Updated to use PubMatic's new `-loadAdWithResponse:forBiddingHost:` API that includes MAX as the bidding host.
 
