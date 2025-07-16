@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.3.8.0
+* Certified with Fyber SDK 8.3.8.
+* Update ad display failed error code.
+
 ## 8.3.7.0
 * Certified with Fyber SDK 8.3.7.
 * Updated minimum iOS version to 13.0 to match Fyber SDK.

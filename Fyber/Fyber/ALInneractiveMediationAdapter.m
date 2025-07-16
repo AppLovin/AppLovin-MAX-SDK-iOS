@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.7.0"
+#define ADAPTER_VERSION @"8.3.8.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -236,8 +236,8 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         [self log: @"Interstitial ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -317,8 +317,8 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         [self log: @"Rewarded ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -537,7 +537,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
 {
     // Fyber SDK triggers this callback when attempting to display an expired ad. Fail the ad display to ensure that the ad display cycle is complete.
     [self.parentAdapter log: @"Rewarded ad expired"];
-    [self.delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
+    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                     mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                  mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
 }
 
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
