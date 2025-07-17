@@ -1,5 +1,8 @@
 # Changelog
 
+## 9.9.1.0
+* Certified with Chartboost SDK 9.9.1.
+
 ## 9.9.0.1
 * Implemented `didExpireAd:` in listeners to satisfy the updated Chartboost SDK callback interface.
 * Update error code mapping.
