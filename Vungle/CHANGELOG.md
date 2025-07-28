@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.2.0
+* Certified with Vungle SDK 7.5.2.
+
 ## 7.5.1.4
 * Added additional Vungle's error code mappings.
 * Exposed `mediaContentAspectRatio` for native ads.
