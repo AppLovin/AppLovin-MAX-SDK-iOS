@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.8.0.0
+* Certified with PubMatic SDK 4.8.0.
+
 ## 4.7.0.2
 * Distributed as a static framework within the XCFramework.
 

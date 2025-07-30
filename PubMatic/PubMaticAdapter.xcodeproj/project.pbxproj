@@ -10,6 +10,7 @@
 		252257002E1EE9170094E383 /* ALPubMaticMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C0B34F2CBDA7300027222A /* ALPubMaticMediationAdapter.m */; };
 		252257012E1EE91B0094E383 /* ALPubMaticMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25C0B34E2CBDA7300027222A /* ALPubMaticMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		252257132E1EF4CD0094E383 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 252257122E1EF4CD0094E383 /* AppLovinSDK.framework */; };
+		25FCB2E12E26E3BC0025F901 /* AppLovinMediationPubMaticAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FCB2E02E26E3BC0025F901 /* AppLovinMediationPubMaticAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ACD6A4A77F36F6D5EC7205D /* Pods_PubMaticAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489D72F3CC108B5F7FD484C1 /* Pods_PubMaticAdapter.framework */; };
 /* End PBXBuildFile section */
 
@@ -19,11 +20,11 @@
 		25C0B33F2CBDA6EE0027222A /* AppLovinMediationPubMaticAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationPubMaticAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25C0B34E2CBDA7300027222A /* ALPubMaticMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALPubMaticMediationAdapter.h; sourceTree = "<group>"; };
 		25C0B34F2CBDA7300027222A /* ALPubMaticMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALPubMaticMediationAdapter.m; sourceTree = "<group>"; };
+		25FCB2E02E26E3BC0025F901 /* AppLovinMediationPubMaticAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationPubMaticAdapter.h; sourceTree = "<group>"; };
 		489D72F3CC108B5F7FD484C1 /* Pods_PubMaticAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PubMaticAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69704AFA424039EBB01AD65F /* Pods-PubMaticAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PubMaticAdapter.release.xcconfig"; path = "Target Support Files/Pods-PubMaticAdapter/Pods-PubMaticAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		6A5A632C21C0872300B755D7 /* AppLovinMediationPubMaticAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationPubMaticAdapter.podspec; sourceTree = "<group>"; };
 		6A5A632D21C0872300B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +71,7 @@
 		25C0B3512CBDA7300027222A /* PubMaticAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				25FCB2E02E26E3BC0025F901 /* AppLovinMediationPubMaticAdapter.h */,
 				25C0B34E2CBDA7300027222A /* ALPubMaticMediationAdapter.h */,
 				25C0B34F2CBDA7300027222A /* ALPubMaticMediationAdapter.m */,
 			);
@@ -103,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				252257012E1EE91B0094E383 /* ALPubMaticMediationAdapter.h in Headers */,
+				25FCB2E12E26E3BC0025F901 /* AppLovinMediationPubMaticAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +136,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					25C0B33E2CBDA6EE0027222A = {
@@ -229,8 +232,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -243,6 +246,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -258,12 +262,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 AppLovin. All rights reserved.";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.7.0.2;
+				MARKETING_VERSION = 4.8.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
@@ -309,8 +315,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEFINES_MODULE = YES;
@@ -319,8 +325,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -330,12 +338,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 AppLovin. All rights reserved.";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.7.0.2;
+				MARKETING_VERSION = 4.8.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_NAME = AppLovinMediationPubMaticAdapter;
