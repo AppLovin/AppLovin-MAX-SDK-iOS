@@ -2,6 +2,7 @@
 
 ## 4.16.0.0
 * Certified with UnityAds SDK 4.16.0.
+* Updated the minimum required iOS version to 13.0 in Pod Spec to match UnityAds SDK.
 
 ## 4.15.1.1
 * Distributed as a static framework within the XCFramework.
