@@ -10,6 +10,7 @@
 		25C0B39C2CBDA80C0027222A /* ALUnityAdsMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C0B3992CBDA80C0027222A /* ALUnityAdsMediationAdapter.m */; };
 		25C0B39D2CBDA80C0027222A /* ALUnityAdsMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25C0B3982CBDA80C0027222A /* ALUnityAdsMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25C0B39F2CBDA8230027222A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		25FCB2E52E26E3E20025F901 /* AppLovinMediationUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FCB2E42E26E3E20025F901 /* AppLovinMediationUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9C504E0E109DAA15C00DD660 /* Pods_UnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53AE7C68DA8897E0AAC40A7 /* Pods_UnityAdsAdapter.framework */; };
 /* End PBXBuildFile section */
 
@@ -19,6 +20,7 @@
 		25C0B38C2CBDA7FE0027222A /* AppLovinMediationUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25C0B3982CBDA80C0027222A /* ALUnityAdsMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALUnityAdsMediationAdapter.h; sourceTree = "<group>"; };
 		25C0B3992CBDA80C0027222A /* ALUnityAdsMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALUnityAdsMediationAdapter.m; sourceTree = "<group>"; };
+		25FCB2E42E26E3E20025F901 /* AppLovinMediationUnityAdsAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationUnityAdsAdapter.h; sourceTree = "<group>"; };
 		55C4A51F488895401AD91BCA /* Pods-UnityAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnityAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-UnityAdsAdapter/Pods-UnityAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		6A5A633821C0875500B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		6A5A633921C0875500B755D7 /* AppLovinMediationUnityAdsAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationUnityAdsAdapter.podspec; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 		25C0B39B2CBDA80C0027222A /* UnityAdsAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				25FCB2E42E26E3E20025F901 /* AppLovinMediationUnityAdsAdapter.h */,
 				25C0B3982CBDA80C0027222A /* ALUnityAdsMediationAdapter.h */,
 				25C0B3992CBDA80C0027222A /* ALUnityAdsMediationAdapter.m */,
 			);
@@ -102,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25C0B39D2CBDA80C0027222A /* ALUnityAdsMediationAdapter.h in Headers */,
+				25FCB2E52E26E3E20025F901 /* AppLovinMediationUnityAdsAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +137,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					25C0B38B2CBDA7FE0027222A = {
@@ -246,8 +250,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -260,6 +264,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -275,12 +280,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 AppLovin. All rights reserved.";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.15.1.1;
+				MARKETING_VERSION = 4.16.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
@@ -326,8 +333,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEFINES_MODULE = YES;
@@ -336,8 +343,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -347,12 +356,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 AppLovin. All rights reserved.";
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.15.1.1;
+				MARKETING_VERSION = 4.16.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_NAME = AppLovinMediationUnityAdsAdapter;
