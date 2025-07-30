@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.7.9.0.0
+* Certified with Mintegral SDK 7.7.9.
+* Updated ad display failed error code.
+  
 ## 7.7.8.0.0
 * Certified with Mintegral SDK 7.7.8.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.

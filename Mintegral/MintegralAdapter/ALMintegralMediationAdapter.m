@@ -16,7 +16,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.7.8.0.0"
+#define ADAPTER_VERSION @"7.7.9.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -294,8 +294,8 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         [self log: @"Unable to show interstitial - no ad loaded..."];
         
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -324,8 +324,8 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Unable to show app open ad - no ad loaded..."];
         [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                   mediatedNetworkErrorCode: 0
-                                                                mediatedNetworkErrorMessage: @"App open ad not ready"]];
+                                                                   mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -428,8 +428,8 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Unable to show rewarded ad - no ad loaded..."];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
