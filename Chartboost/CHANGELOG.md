@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.9.2.0
+* Certified with Chartboost SDK 9.9.2.
+* Distributed as a static framework within the XCFramework.
+
 ## 9.9.1.0
 * Certified with Chartboost SDK 9.9.1.
 
