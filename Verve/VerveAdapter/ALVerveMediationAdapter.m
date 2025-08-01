@@ -15,7 +15,7 @@
 #import "HyBid-Swift.h"
 #endif
 
-#define ADAPTER_VERSION @"3.6.0.0"
+#define ADAPTER_VERSION @"3.6.1.0"
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -177,8 +177,8 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     {
         [self log: @"Interstitial ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -220,8 +220,8 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     {
         [self log: @"Rewarded ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 

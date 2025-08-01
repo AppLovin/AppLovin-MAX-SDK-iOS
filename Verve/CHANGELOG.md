@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.6.1.0
+* Certified with Verve SDK 3.6.1.
+* Distributed as a static framework within the XCFramework.
+* Updated ad display failed error code.
+  
 ## 3.6.0.0
 * Certified with Verve SDK 3.6.0.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
