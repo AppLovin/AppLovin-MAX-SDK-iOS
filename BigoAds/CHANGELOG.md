@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.9.0.0
+* Certified with BigoAds SDK 4.9.0.
+* Distributed as a static framework within the XCFramework.
+
 ## 4.8.1.0
 * Certified with BigoAds SDK 4.8.1.
 
