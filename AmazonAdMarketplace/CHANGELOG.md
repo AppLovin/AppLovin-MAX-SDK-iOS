@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.3.0.0
+* Certified with AmazonAdMarketplace SDK 5.3.0.
+* Distributed as a static framework within the XCFramework.
+* Updated ad display failed error code.
+
 ## 5.2.0.0
 * Certified with AmazonAdMarketplace SDK 5.2.0.
 * Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version v11.7.0+.

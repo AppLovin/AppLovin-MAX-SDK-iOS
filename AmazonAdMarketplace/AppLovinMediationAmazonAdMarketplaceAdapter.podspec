@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationAmazonAdMarketplaceAdapter'
-s.version = '5.2.0.0'
+s.version = '5.3.0.0'
 s.platform = :ios, '12.0'
 s.summary = 'Amazon Publisher Services adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
@@ -11,7 +11,7 @@ s.license =
   :type => 'Commercial License',
   :text => <<-LICENSE
 
-Copyright 2022 AppLovin Corp. All rights reserved.
+Copyright 2025 AppLovin Corp. All rights reserved.
 
 The AppLovin MAX SDK is available under a commercial license (https://www.applovin.com/eula).
 
