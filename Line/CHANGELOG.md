@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.9.20250805.0
+* Certified with Line SDK 2.9.20250805.
+* Distributed as a static framework within the XCFramework.
+* Update ad display failed error code.
+
 ## 2.9.20250512.0
 * Certified with Line SDK 2.9.20250512.
 * Removed usage of deprecated `-[FADAdInterface state]` API to determine whether a reward should be granted.

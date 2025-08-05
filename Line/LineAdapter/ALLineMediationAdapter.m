@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.9.20250512.0"
+#define ADAPTER_VERSION @"2.9.20250805.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -238,8 +238,8 @@ static ALAtomicBoolean *ALLineInitialized;
     {
         [self log: @"Interstitial ad failed to show for slot id: %@ - no ad loaded", slotId];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
         
@@ -307,8 +307,8 @@ static ALAtomicBoolean *ALLineInitialized;
     {
         [self log: @"Rewarded ad failed to show for slot id: %@ - no ad loaded", slotId];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
