@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.1.1.0
+* Certified with ByteDance SDK 7.4.1.1.
+* Distributed as a static framework within the XCFramework.
+
 ## 7.4.1.0.0
 * Certified with ByteDance SDK 7.4.1.0.
 
