@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationMolocoAdapter'
-s.version = '3.12.0.0'
+s.version = '3.12.1.0'
 s.platform = :ios, '12.0' # Note: Minimum iOS version set to 12.0 to allow publishers to integrate without increasing their minimum version requirement. Ads will serve on iOS 13.0+.
 s.summary = 'Moloco adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
