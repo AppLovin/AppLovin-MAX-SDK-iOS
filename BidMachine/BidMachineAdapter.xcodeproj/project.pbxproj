@@ -3,42 +3,28 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		25E013472CBD97B30049569E /* ALBidMachineMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9A772921A4F43A00151D7A /* ALBidMachineMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25E013482CBD97BA0049569E /* ALBidMachineMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A772821A4F43A00151D7A /* ALBidMachineMediationAdapter.m */; };
 		25E013492CBD97BF0049569E /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		E31CB1E3B9F0241B3186E7E1 /* Pods_AppLovinMediationBidMachineAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8B743ED137C6C01E5AFC8B /* Pods_AppLovinMediationBidMachineAdapter.framework */; };
+		25FCB2C32E26DE8E0025F901 /* AppLovinMediationBidMachineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FCB2C22E26DE8E0025F901 /* AppLovinMediationBidMachineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6300C7F48267E000BE82E76 /* Pods_BidMachineAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68D92FC681970D59B4BF509 /* Pods_BidMachineAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		18BCE1FEA25BB8ABD7EC1BC8 /* Pods-AppLovinMediationBidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovinMediationBidMachineAdapter.debug.xcconfig"; path = "Target Support Files/Pods-AppLovinMediationBidMachineAdapter/Pods-AppLovinMediationBidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D9AE8E221423C7D00080475 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		1D9AE8E321423C7D00080475 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		1D9AE8E421423C7D00080475 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E521423C7E00080475 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E621423C7E00080475 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		1D9AE8E721423C7E00080475 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E821423C7E00080475 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E921423C7E00080475 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1D9AE8EB21423C7E00080475 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		1D9AE8EC21423C7E00080475 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		25E0133B2CBD97660049569E /* AppLovinMediationBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25FCB2C22E26DE8E0025F901 /* AppLovinMediationBidMachineAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationBidMachineAdapter.h; sourceTree = "<group>"; };
+		5A9B60CEE3531B99A2B33674 /* Pods-BidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.debug.xcconfig"; path = "Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		5D28098574FF9A2E47B1D7F8 /* Pods-BidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BidMachineAdapter.release.xcconfig"; path = "Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		6A5A633A21C0875E00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		6A5A633B21C0875E00B755D7 /* AppLovinMediationBidMachineAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationBidMachineAdapter.podspec; sourceTree = "<group>"; };
 		6A9A772821A4F43A00151D7A /* ALBidMachineMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALBidMachineMediationAdapter.m; sourceTree = "<group>"; };
 		6A9A772921A4F43A00151D7A /* ALBidMachineMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALBidMachineMediationAdapter.h; sourceTree = "<group>"; };
-		6D9B69CAEBE0D46261EDB70E /* Pods-Adapters-BidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Adapters-BidMachineAdapter.debug.xcconfig"; path = "Target Support Files/Pods-Adapters-BidMachineAdapter/Pods-Adapters-BidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		7C8B743ED137C6C01E5AFC8B /* Pods_AppLovinMediationBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLovinMediationBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		86D2AC3A0E7BDFCBBBC651F2 /* Pods-Adapters-BidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Adapters-BidMachineAdapter.release.xcconfig"; path = "Target Support Files/Pods-Adapters-BidMachineAdapter/Pods-Adapters-BidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		A383E13E45452CE8563E3A93 /* Pods-AppLovinMediationBidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovinMediationBidMachineAdapter.release.xcconfig"; path = "Target Support Files/Pods-AppLovinMediationBidMachineAdapter/Pods-AppLovinMediationBidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		D68D92FC681970D59B4BF509 /* Pods_BidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +33,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25E013492CBD97BF0049569E /* AppLovinSDK.framework in Frameworks */,
-				E31CB1E3B9F0241B3186E7E1 /* Pods_AppLovinMediationBidMachineAdapter.framework in Frameworks */,
+				E6300C7F48267E000BE82E76 /* Pods_BidMachineAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,21 +44,7 @@
 			isa = PBXGroup;
 			children = (
 				1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */,
-				1D9AE8FC21423C9200080475 /* QuartzCore.framework */,
-				1D9AE8EB21423C7E00080475 /* AdSupport.framework */,
-				1D9AE8EC21423C7E00080475 /* AVFoundation.framework */,
-				1D9AE8E921423C7E00080475 /* AVKit.framework */,
-				1D9AE8E221423C7D00080475 /* CFNetwork.framework */,
-				1D9AE8EE21423C7E00080475 /* CoreData.framework */,
-				1D9AE8E421423C7D00080475 /* CoreFoundation.framework */,
-				1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */,
-				1D9AE8E521423C7E00080475 /* Foundation.framework */,
-				1D9AE8E621423C7E00080475 /* MediaPlayer.framework */,
-				1D9AE8E321423C7D00080475 /* SafariServices.framework */,
-				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
-				1D9AE8E821423C7E00080475 /* UIKit.framework */,
-				1D9AE8E721423C7E00080475 /* WebKit.framework */,
-				7C8B743ED137C6C01E5AFC8B /* Pods_AppLovinMediationBidMachineAdapter.framework */,
+				D68D92FC681970D59B4BF509 /* Pods_BidMachineAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -108,6 +80,7 @@
 		6A9A772721A4F43A00151D7A /* BidMachineAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				25FCB2C22E26DE8E0025F901 /* AppLovinMediationBidMachineAdapter.h */,
 				6A9A772921A4F43A00151D7A /* ALBidMachineMediationAdapter.h */,
 				6A9A772821A4F43A00151D7A /* ALBidMachineMediationAdapter.m */,
 			);
@@ -117,10 +90,8 @@
 		B1DF109E71BB9FA3DE10DC86 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6D9B69CAEBE0D46261EDB70E /* Pods-Adapters-BidMachineAdapter.debug.xcconfig */,
-				86D2AC3A0E7BDFCBBBC651F2 /* Pods-Adapters-BidMachineAdapter.release.xcconfig */,
-				18BCE1FEA25BB8ABD7EC1BC8 /* Pods-AppLovinMediationBidMachineAdapter.debug.xcconfig */,
-				A383E13E45452CE8563E3A93 /* Pods-AppLovinMediationBidMachineAdapter.release.xcconfig */,
+				5A9B60CEE3531B99A2B33674 /* Pods-BidMachineAdapter.debug.xcconfig */,
+				5D28098574FF9A2E47B1D7F8 /* Pods-BidMachineAdapter.release.xcconfig */,
 			);
 			name = Pods;
 			path = "../../iOS-Workspace/Pods";
@@ -133,6 +104,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25FCB2C32E26DE8E0025F901 /* AppLovinMediationBidMachineAdapter.h in Headers */,
 				25E013472CBD97B30049569E /* ALBidMachineMediationAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,22 +112,21 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		25E0133A2CBD97660049569E /* AppLovinMediationBidMachineAdapter */ = {
+		25E0133A2CBD97660049569E /* BidMachineAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 25E013402CBD97660049569E /* Build configuration list for PBXNativeTarget "AppLovinMediationBidMachineAdapter" */;
+			buildConfigurationList = 25E013402CBD97660049569E /* Build configuration list for PBXNativeTarget "BidMachineAdapter" */;
 			buildPhases = (
 				672801941318A3462331CA44 /* [CP] Check Pods Manifest.lock */,
 				25E013362CBD97660049569E /* Headers */,
 				25E013372CBD97660049569E /* Sources */,
 				25E013382CBD97660049569E /* Frameworks */,
-				25E013392CBD97660049569E /* Resources */,
 				C45D86FCDB56CAFE1595B682 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = AppLovinMediationBidMachineAdapter;
+			name = BidMachineAdapter;
 			productName = AppLovinMediationBidMachineAdapter;
 			productReference = 25E0133B2CBD97660049569E /* AppLovinMediationBidMachineAdapter.framework */;
 			productType = "com.apple.product-type.framework";
@@ -166,7 +137,7 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
 					25E0133A2CBD97660049569E = {
@@ -176,7 +147,7 @@
 				};
 			};
 			buildConfigurationList = 1D97FB801FBCF38B00D6C309 /* Build configuration list for PBXProject "BidMachineAdapter" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -188,20 +159,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				25E0133A2CBD97660049569E /* AppLovinMediationBidMachineAdapter */,
+				25E0133A2CBD97660049569E /* BidMachineAdapter */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		25E013392CBD97660049569E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		672801941318A3462331CA44 /* [CP] Check Pods Manifest.lock */ = {
@@ -219,7 +180,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AppLovinMediationBidMachineAdapter-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-BidMachineAdapter-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -231,23 +192,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppLovinMediationBidMachineAdapter/Pods-AppLovinMediationBidMachineAdapter-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/BidMachine/BidMachine.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/StackModules/StackModules.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/StackModules/StackProductPresentation.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/StackModules/StackRendering.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BidMachine.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StackModules.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StackProductPresentation.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StackRendering.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppLovinMediationBidMachineAdapter/Pods-AppLovinMediationBidMachineAdapter-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BidMachineAdapter/Pods-BidMachineAdapter-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -267,13 +221,13 @@
 		1D97FB8C1FBCF38B00D6C309 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -296,12 +250,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -316,23 +279,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 3.3.0.0.2;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = AppLovinMediationBidMachineAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		1D97FB8D1FBCF38B00D6C309 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -355,12 +333,20 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -369,86 +355,41 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 3.3.0.0.2;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_NAME = AppLovinMediationBidMachineAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		25E013412CBD97660049569E /* Debug */ = {
+		25D8615B2E21D32900A4008B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18BCE1FEA25BB8ABD7EC1BC8 /* Pods-AppLovinMediationBidMachineAdapter.debug.xcconfig */;
+			baseConfigurationReference = 5A9B60CEE3531B99A2B33674 /* Pods-BidMachineAdapter.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 AppLovin. All rights reserved.";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.3.0.0.2;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.BidMachineAdapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		25E013422CBD97660049569E /* Release */ = {
+		25D8615C2E21D32900A4008B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A383E13E45452CE8563E3A93 /* Pods-AppLovinMediationBidMachineAdapter.release.xcconfig */;
+			baseConfigurationReference = 5D28098574FF9A2E47B1D7F8 /* Pods-BidMachineAdapter.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = LUDVB6Z3BS;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 AppLovin. All rights reserved.";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.3.0.0.2;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.BidMachineAdapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -464,11 +405,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		25E013402CBD97660049569E /* Build configuration list for PBXNativeTarget "AppLovinMediationBidMachineAdapter" */ = {
+		25E013402CBD97660049569E /* Build configuration list for PBXNativeTarget "BidMachineAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				25E013412CBD97660049569E /* Debug */,
-				25E013422CBD97660049569E /* Release */,
+				25D8615B2E21D32900A4008B /* Debug */,
+				25D8615C2E21D32900A4008B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
