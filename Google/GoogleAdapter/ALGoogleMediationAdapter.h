@@ -8,11 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAdsDefines.h>
-#import <GoogleMobileAds/GADAdFormat.h>
-#import <GoogleMobileAds/GADRequest.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ALGoogleMediationAdapter : ALMediationAdapter <MASignalProvider, MAInterstitialAdapter, MAAppOpenAdapter, MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>

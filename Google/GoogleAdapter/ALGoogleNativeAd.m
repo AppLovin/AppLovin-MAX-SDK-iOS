@@ -7,6 +7,7 @@
 //
 
 #import "ALGoogleNativeAd.h"
+#import <GoogleMobileAds/GADNativeAd.h>
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
