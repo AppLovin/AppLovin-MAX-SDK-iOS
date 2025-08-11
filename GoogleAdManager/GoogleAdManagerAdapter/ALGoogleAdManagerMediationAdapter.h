@@ -8,11 +8,6 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAdsDefines.h>
-#import <GoogleMobileAds/GADAdFormat.h>
-#import <GoogleMobileAds/GADRequest.h>
-
 @interface ALGoogleAdManagerMediationAdapter : ALMediationAdapter <MAInterstitialAdapter, /* MAAppOpenAdapter */ MARewardedAdapter, MAAdViewAdapter, MANativeAdAdapter>
 
 @end

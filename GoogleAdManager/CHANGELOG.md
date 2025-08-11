@@ -1,5 +1,9 @@
 # Changelog
 
+## 12.9.0.0
+* Certified with GoogleAdManager SDK 12.9.0.
+* Distributed as a static framework within the XCFramework.
+
 ## 12.8.0.0
 * Certified with GoogleAdManager SDK 12.8.0.
 
