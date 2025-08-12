@@ -10,7 +10,7 @@
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 
-#define ADAPTER_VERSION @"5.0.2.0"
+#define ADAPTER_VERSION @"5.1.0.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -198,13 +198,9 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     {
         [self log: @"Interstitial ad not ready"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -267,13 +263,9 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     {
         [self log: @"Rewarded ad not ready"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -397,7 +389,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     }
     return self;
 }
- 
+
 - (void)interstitialAdDidLoad:(OguryInterstitialAd *)interstitial
 {
     [self.parentAdapter log: @"Interstitial loaded: %@", self.placementIdentifier];
@@ -426,13 +418,9 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     if ( error.type == OguryAdErrorTypeShow )
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+        MAAdapterError *maxError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.localizedDescription];
         
         [self.parentAdapter log: @"Interstitial (%@) failed to show with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToDisplayInterstitialAdWithError: maxError];
@@ -504,13 +492,9 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     if ( error.type == OguryAdErrorTypeShow )
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+        MAAdapterError *maxError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                               mediatedNetworkErrorCode: error.code
+                                            mediatedNetworkErrorMessage: error.localizedDescription];
         
         [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToDisplayRewardedAdWithError: maxError];
@@ -538,7 +522,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     }
     return self;
 }
- 
+
 - (void)bannerAdViewDidLoad:(OguryBannerAdView *)banner
 {
     [self.parentAdapter log: @"AdView loaded: %@", self.placementIdentifier];
@@ -566,13 +550,9 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
 {
     if ( error.type == OguryAdErrorTypeShow )
     {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        MAAdapterError *maxError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+        MAAdapterError *maxError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.localizedDescription];
         
         [self.parentAdapter log: @"AdView (%@) failed to show with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToDisplayAdViewAdWithError: maxError];

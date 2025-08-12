@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.1.0.0
+* Certified with OguryPresage SDK 5.1.0.
+* Distributed as a static framework within the XCFramework.
+* Updated ad display failed error code.
+
 ## 5.0.2.0
 * Certified with OguryPresage SDK 5.0.2.
 
