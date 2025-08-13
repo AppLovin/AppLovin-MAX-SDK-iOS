@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.9.2.0"
+#define ADAPTER_VERSION @"9.9.2.1"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -173,7 +173,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     [self log: @"Showing interstitial ad for location \"%@\"...", parameters.thirdPartyAdPlacementIdentifier];
     
-    if ( [self.interstitialAd isCached] )
+    // NOTE: Do not use `isCached:` since it does not reliably indicate ad readiness.
+    if ( self.interstitialAd )
     {
         UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialAd showFromViewController: presentingViewController];
@@ -215,7 +216,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     [self log: @"Showing rewarded ad for location \"%@\"...", parameters.thirdPartyAdPlacementIdentifier];
     
-    if ( [self.rewardedAd isCached] )
+    // NOTE: Do not use `isCached:` since it does not reliably indicate ad readiness.
+    if ( self.rewardedAd )
     {
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
