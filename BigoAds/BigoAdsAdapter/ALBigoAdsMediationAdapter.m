@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.9.1.0"
+#define ADAPTER_VERSION @"4.9.1.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -328,8 +328,8 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     {
         [self log: @"Unable to show app open ad for slot id: %@ - ad expired", slotId];
         [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
-                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
+                                                                   mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
     else
     {
@@ -1056,6 +1056,21 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     return self;
 }
 
+- (void)updateTagsForNativeAdView:(MANativeAdView *)maxNativeAdView
+{
+    maxNativeAdView.titleLabel.bigoNativeAdViewTag = BigoNativeAdViewTagTitle;
+    maxNativeAdView.advertiserLabel.bigoNativeAdViewTag = BigoNativeAdViewTagSponsored;
+    maxNativeAdView.bodyLabel.bigoNativeAdViewTag = BigoNativeAdViewTagDescription;
+    maxNativeAdView.iconImageView.bigoNativeAdViewTag = BigoNativeAdViewTagIcon;
+    maxNativeAdView.optionsContentView.bigoNativeAdViewTag = BigoNativeAdViewTagOption;
+    maxNativeAdView.mediaContentView.bigoNativeAdViewTag = BigoNativeAdViewTagMedia;
+    
+    if ( maxNativeAdView.callToActionButton )
+    {
+        maxNativeAdView.callToActionButton.bigoNativeAdViewTag = BigoNativeAdViewTagCallToAction;
+    }
+}
+
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
 {
     BigoNativeAd *nativeAd = self.parentAdapter.nativeAd;
@@ -1070,23 +1085,12 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
     {
         MANativeAdView *maxNativeAdView = (MANativeAdView *) container;
         
-        BigoAdMediaView *mediaView;
-        if ( maxNativeAdView.mediaContentView )
-        {
-            mediaView = (BigoAdMediaView *) self.mediaView;
-        }
+        // Set Bigo tags on individual views to make them clickable
+        [self updateTagsForNativeAdView: maxNativeAdView];
         
-        UIImageView *iconView;
-        if ( maxNativeAdView.iconImageView )
-        {
-            iconView = maxNativeAdView.iconImageView;
-        }
-        
-        BigoAdOptionsView *optionsView;
-        if ( maxNativeAdView.optionsContentView )
-        {
-            optionsView = (BigoAdOptionsView *) self.optionsView;
-        }
+        BigoAdMediaView *mediaView = (BigoAdMediaView *) self.mediaView;
+        UIImageView *iconView = maxNativeAdView.iconImageView;
+        BigoAdOptionsView *optionsView = (BigoAdOptionsView *) self.optionsView;
         
         [nativeAd registerViewForInteraction: container
                                    mediaView: mediaView
@@ -1102,12 +1106,22 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
         
         for ( UIView *view in clickableViews )
         {
+            // Set Bigo tags on individual views to make them clickable
             if ( view.tag == TITLE_LABEL_TAG )
             {
                 view.bigoNativeAdViewTag = BigoNativeAdViewTagTitle;
             }
+            else if ( view.tag == ADVERTISER_VIEW_TAG )
+            {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagSponsored;
+            }
+            else if ( view.tag == BODY_VIEW_TAG )
+            {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagDescription;
+            }
             else if ( view.tag == ICON_VIEW_TAG )
             {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagIcon;
                 iconView = (UIImageView *) view;
                 // The native ad icon image view will be added to the asset icon view.
                 if ( iconView.subviews.count > 0 )
@@ -1117,19 +1131,12 @@ static MAAdapterInitializationStatus ALBigoAdsInitializationStatus = NSIntegerMi
             }
             else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
             {
+                view.bigoNativeAdViewTag = BigoNativeAdViewTagMedia;
                 mediaView = (BigoAdMediaView *) self.mediaView;
-            }
-            else if ( view.tag == BODY_VIEW_TAG )
-            {
-                view.bigoNativeAdViewTag = BigoNativeAdViewTagDescription;
             }
             else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
             {
                 view.bigoNativeAdViewTag = BigoNativeAdViewTagCallToAction;
-            }
-            else if ( view.tag == ADVERTISER_VIEW_TAG )
-            {
-                view.bigoNativeAdViewTag = BigoNativeAdViewTagSponsored;
             }
         }
         
