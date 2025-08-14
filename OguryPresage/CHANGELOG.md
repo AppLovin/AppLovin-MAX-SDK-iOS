@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.1.0.1
+* Updated to pass adapter version to the `OguryMediation` object.
+
 ## 5.1.0.0
 * Certified with OguryPresage SDK 5.1.0.
 * Distributed as a static framework within the XCFramework.

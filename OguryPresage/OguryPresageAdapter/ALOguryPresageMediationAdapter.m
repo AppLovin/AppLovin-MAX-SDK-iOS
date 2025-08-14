@@ -10,7 +10,7 @@
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 
-#define ADAPTER_VERSION @"5.1.0.0"
+#define ADAPTER_VERSION @"5.1.0.1"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
@@ -53,12 +53,14 @@
 @implementation ALOguryPresageMediationAdapter
 static ALAtomicBoolean *ALOguryPresageInitialized;
 static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSIntegerMin;
+static OguryMediation *ALOguryPresageMediationInfo;
 
 + (void)initialize
 {
     [super initialize];
     
     ALOguryPresageInitialized = [[ALAtomicBoolean alloc] init];
+    ALOguryPresageMediationInfo = [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version adapterVersion: ADAPTER_VERSION];
 }
 
 #pragma mark - MAAdapter Methods
@@ -151,7 +153,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     [self log: @"Loading %@interstitial ad \"%@\"...", [bidResponse al_isValidString] ? @"bidding " : @"", placementIdentifier];
     
     self.interstitialAd = [[OguryInterstitialAd alloc] initWithAdUnitId: placementIdentifier
-                                                              mediation: [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version]];
+                                                              mediation: ALOguryPresageMediationInfo];
     self.interstitialDelegate = [[ALOguryPresageMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self
                                                                                               placementIdentifier: placementIdentifier
                                                                                                         andNotify: delegate];
@@ -213,7 +215,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     [self log: @"Loading %@rewarded ad: %@...", [bidResponse al_isValidString] ? @"bidding " : @"", placementIdentifier];
     
     self.rewardedAd = [[OguryRewardedAd alloc] initWithAdUnitId: placementIdentifier
-                                                      mediation: [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version]];
+                                                      mediation: ALOguryPresageMediationInfo];
     self.rewardedAdDelegate = [[ALOguryPresageMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self
                                                                                           placementIdentifier: placementIdentifier
                                                                                                     andNotify: delegate];
@@ -279,7 +281,7 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     
     self.adView = [[OguryBannerAdView alloc] initWithAdUnitId: placementIdentifier
                                                          size: [self sizeFromAdFormat: adFormat]
-                                                    mediation: [[OguryMediation alloc] initWithName: @"AppLovin MAX" version: ALSdk.version]];
+                                                    mediation: ALOguryPresageMediationInfo];
     self.adViewDelegate = [[ALOguryPresageMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
                                                                                   placementIdentifier: placementIdentifier
                                                                                             andNotify: delegate];
@@ -419,8 +421,8 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     if ( error.type == OguryAdErrorTypeShow )
     {
         MAAdapterError *maxError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                    mediatedNetworkErrorCode: error.code
-                                                 mediatedNetworkErrorMessage: error.localizedDescription];
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
         
         [self.parentAdapter log: @"Interstitial (%@) failed to show with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToDisplayInterstitialAdWithError: maxError];
@@ -493,8 +495,8 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     if ( error.type == OguryAdErrorTypeShow )
     {
         MAAdapterError *maxError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                               mediatedNetworkErrorCode: error.code
-                                            mediatedNetworkErrorMessage: error.localizedDescription];
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
         
         [self.parentAdapter log: @"Rewarded ad (%@) failed to show with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToDisplayRewardedAdWithError: maxError];
@@ -551,8 +553,8 @@ static MAAdapterInitializationStatus ALOguryPresageInitializationStatus = NSInte
     if ( error.type == OguryAdErrorTypeShow )
     {
         MAAdapterError *maxError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                    mediatedNetworkErrorCode: error.code
-                                                 mediatedNetworkErrorMessage: error.localizedDescription];
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
         
         [self.parentAdapter log: @"AdView (%@) failed to show with error: %@", self.placementIdentifier, maxError];
         [self.delegate didFailToDisplayAdViewAdWithError: maxError];
