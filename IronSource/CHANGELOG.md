@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.10.0.0.1
+* Updated pod dependency to target the more specific `IronSourceSDK/Ads` subspec rather than the umbrella `IronSourceSDK`.
+* Distributed as a static framework within the XCFramework.
+
 ## 8.10.0.0.0
 * Certified with IronSource SDK 8.10.0.0.
 
