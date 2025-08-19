@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.3.0
+* Certified with BigoAds SDK 4.9.3.
+
 ## 4.9.1.1
 * Fixed native ad view clickability issues where only media view and advertiser view were clickable.
 
