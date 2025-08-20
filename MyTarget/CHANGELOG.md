@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.34.1.0
+* Certified with MyTarget SDK 5.34.1.
+
 ## 5.34.0.0
 * Certified with MyTarget SDK 5.34.0.
 * Distributed as a static framework within the XCFramework.
