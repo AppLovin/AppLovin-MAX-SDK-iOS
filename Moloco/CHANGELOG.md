@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.13.0.0
+* Certified with Moloco SDK 3.13.0.
+
 ## 3.12.1.0
 * Certified with Moloco SDK 3.12.1.
 * Distributed as a static framework within the XCFramework.
