@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.20250825.0
+* Certified with Line SDK 2.9.20250825.
+
 ## 2.9.20250805.0
 * Certified with Line SDK 2.9.20250805.
 * Distributed as a static framework within the XCFramework.
