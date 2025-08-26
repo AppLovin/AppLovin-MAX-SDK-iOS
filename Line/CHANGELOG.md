@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.20250825.1
+* Fixed potential rewarded callback failures for rewarded ads by setting the event listener at ad load instead of show. 
+
 ## 2.9.20250825.0
 * Certified with Line SDK 2.9.20250825.
 

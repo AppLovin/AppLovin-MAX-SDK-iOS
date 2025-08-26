@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.9.20250825.0"
+#define ADAPTER_VERSION @"2.9.20250825.1"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -279,6 +279,8 @@ static ALAtomicBoolean *ALLineInitialized;
         }
         
         self.rewardedAd = ad;
+        self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        [self.rewardedAd setEventListener: self.rewardedDelegate];
         
         [self log: @"Rewarded ad loaded"];
         [delegate didLoadRewardedAd];
@@ -312,9 +314,6 @@ static ALAtomicBoolean *ALLineInitialized;
         
         return;
     }
-    
-    self.rewardedDelegate = [[ALLineMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    [self.rewardedAd setEventListener: self.rewardedDelegate];
     
     [self configureRewardForParameters: parameters];
     
