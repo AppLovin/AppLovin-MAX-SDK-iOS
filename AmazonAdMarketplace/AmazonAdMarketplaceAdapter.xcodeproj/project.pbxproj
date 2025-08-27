@@ -117,6 +117,7 @@
 			buildConfigurationList = 2508DAFB2CBD7B86000A1324 /* Build configuration list for PBXNativeTarget "AmazonAdMarketplaceAdapter" */;
 			buildPhases = (
 				8964DA47D65CC3FDA241998D /* [CP] Check Pods Manifest.lock */,
+				35373439666464612D653835 /* Set Version String */,
 				2508DAF12CBD7B86000A1324 /* Headers */,
 				2508DAF22CBD7B86000A1324 /* Sources */,
 				2508DAF32CBD7B86000A1324 /* Frameworks */,
@@ -164,6 +165,26 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		35373439666464612D653835 /* Set Version String */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version String";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/usr/bin/env bash\n\nIFS='.' read -ra VERSION_PARTS <<< \"$MARKETING_VERSION\"\n\n# Get the last component (build number)\nLAST_INDEX=$((${#VERSION_PARTS[@]} - 1))\nBUILD_NUMBER=${VERSION_PARTS[$LAST_INDEX]}\n\n# Build version code from all components except the last\nVERSION_CODE=${VERSION_PARTS[0]}\nfor ((i=1; i<$LAST_INDEX; i++)); do\n    VERSION_CODE=\"${VERSION_CODE}$(printf \"%02d\" ${VERSION_PARTS[$i]})\"\ndone\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${VERSION_CODE}.0.${BUILD_NUMBER}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8964DA47D65CC3FDA241998D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -269,7 +290,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 5.2.0.0;
+				MARKETING_VERSION = 5.3.1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				ONLY_ACTIVE_ARCH = YES;
@@ -345,7 +366,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 5.2.0.0;
+				MARKETING_VERSION = 5.3.1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_NAME = AppLovinMediationAmazonAdMarketplaceAdapter;
