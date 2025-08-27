@@ -17,7 +17,7 @@
 #import <MobileFuseSDK/MFNativeAd.h>
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
 
-#define ADAPTER_VERSION @"1.9.2.1"
+#define ADAPTER_VERSION @"1.9.3.0"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -241,7 +241,9 @@ static NSString *ALMobileFuseSDKVersion;
     if ( [self.interstitialAd isExpired] )
     {
         [self log: @"Unable to show interstitial - ad expired"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
         
         return;
     }
@@ -249,8 +251,8 @@ static NSString *ALMobileFuseSDKVersion;
     {
         [self log: @"Unable to show interstitial - ad not ready"];
         [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -283,7 +285,9 @@ static NSString *ALMobileFuseSDKVersion;
     if ( [self.rewardedAd isExpired] )
     {
         [self log: @"Unable to show rewarded ad - ad expired"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
         
         return;
     }
@@ -291,8 +295,8 @@ static NSString *ALMobileFuseSDKVersion;
     {
         [self log: @"Unable to show rewarded ad - ad not ready"];
         [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                    mediatedNetworkErrorCode: 0
-                                                                 mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -551,15 +555,17 @@ static NSString *ALMobileFuseSDKVersion;
 
 - (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
-    
     if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
         [self.parentAdapter log: @"Interstitial ad failed to load with error: %@", adapterError];
         [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
     }
     else
     {
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.localizedDescription];
         [self.parentAdapter log: @"Interstitial ad failed to display with error: %@", adapterError];
         [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
     }
@@ -633,15 +639,17 @@ static NSString *ALMobileFuseSDKVersion;
 
 - (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
-    
     if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
         [self.parentAdapter log: @"Rewarded ad failed to load with error: %@", adapterError];
         [self.delegate didFailToLoadRewardedAdWithError: adapterError];
     }
     else
     {
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.localizedDescription];
         [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
         [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
     }
@@ -714,15 +722,17 @@ static NSString *ALMobileFuseSDKVersion;
 
 - (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
-    
     if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
         [self.parentAdapter log: @"AdView ad failed to load with error: %@", adapterError];
         [self.delegate didFailToLoadAdViewAdWithError: adapterError];
     }
     else
     {
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.localizedDescription];
         [self.parentAdapter log: @"AdView ad failed to display with error: %@", adapterError];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
     }
@@ -810,15 +820,17 @@ static NSString *ALMobileFuseSDKVersion;
 
 - (void)onAdError:(MFAd *)ad withError:(MFAdError *)error;
 {
-    MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
-    
     if ( error.code == MFAdErrorCodeAdAlreadyLoaded || error.code == MFAdErrorCodeAdLoadError )
     {
+        MAAdapterError *adapterError = [ALMobileFuseMediationAdapter toMaxError: error];
         [self.parentAdapter log: @"Native %@ ad failed to load with error: %@", self.adFormat.label, adapterError];
         [self.delegate didFailToLoadAdViewAdWithError: adapterError];
     }
     else
     {
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode: error.code
+                                                 mediatedNetworkErrorMessage: error.localizedDescription];
         [self.parentAdapter log: @"Native %@ ad failed to display with error: %@", self.adFormat.label, adapterError];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
     }
