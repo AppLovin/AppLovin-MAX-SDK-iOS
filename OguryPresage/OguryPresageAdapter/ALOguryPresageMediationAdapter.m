@@ -10,7 +10,7 @@
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 
-#define ADAPTER_VERSION @"5.1.0.1"
+#define ADAPTER_VERSION @"5.1.1.0"
 
 @interface ALOguryPresageMediationAdapterInterstitialDelegate : NSObject <OguryInterstitialAdDelegate>
 @property (nonatomic,   weak) ALOguryPresageMediationAdapter *parentAdapter;
