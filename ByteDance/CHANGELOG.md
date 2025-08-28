@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.5.0.7.1
+* Downgrade ByteDance SDK to 7.4.1.3 to fix the issue in `Ads-Global 7.4.1.1` Pod.
+
 ## 7.5.0.7.0
 * Certified with ByteDance SDK 7.5.0.7.
 
