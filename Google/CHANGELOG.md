@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.10.0.0
+* Certified with Google SDK 12.10.0.
+
 ## 12.9.0.0
 * Certified with Google SDK 12.9.0.
 * Distributed as a static framework within the XCFramework.
