@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.20250912.0
+* Certified with Line SDK 2.9.20250912.
+* Removed usage of deprecated `needGdprNonPersonalizedAdsTreatment` property.
+
 ## 2.9.20250825.1
 * Fixed potential rewarded callback failures for rewarded ads by setting the event listener at ad load instead of show. 
 

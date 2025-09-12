@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.9.20250825.1"
+#define ADAPTER_VERSION @"2.9.20250912.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -545,15 +545,6 @@ static ALAtomicBoolean *ALLineInitialized;
     config.isTest = [parameters isTesting];
     
     [self updateMuteStateFromServerParameters: parameters.serverParameters forConfig: config];
-    
-    //
-    // GDPR options
-    //
-    NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent != nil )
-    {
-        config.needGdprNonPersonalizedAdsTreatment = hasUserConsent.boolValue ? kFADNeedGdprNonPersonalizedAdsTreatmentFalse : kFADNeedGdprNonPersonalizedAdsTreatmentTrue;
-    }
     
     return config;
 }
