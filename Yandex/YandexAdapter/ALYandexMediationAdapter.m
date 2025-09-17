@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"7.15.1.0"
+#define ADAPTER_VERSION @"7.16.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -484,6 +484,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
         case YMAAdErrorCodeAdTypeMismatch:
         case YMAAdErrorCodeAdSizeMismatch:
         case YMAAdErrorCodeInvalidSDKConfiguration:
+        case YMAAdErrorCodeMissingSKAdNetworkIdentifier:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
         case YMAAdErrorCodeNoFill:
@@ -646,8 +647,8 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 - (void)rewardedAd:(YMARewardedAd *)rewardedAd didFailToShowWithError:(NSError *)error
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                               mediatedNetworkErrorCode: error.code
-                                            mediatedNetworkErrorMessage: error.localizedDescription];
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];

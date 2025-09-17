@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.16.0.0
+* Certified with Yandex SDK 7.16.0.
+* Updated error code mapping.
+* Distributed as a static framework within the XCFramework.
+
 ## 7.15.1.0
 * Certified with Yandex SDK 7.15.1.
 
