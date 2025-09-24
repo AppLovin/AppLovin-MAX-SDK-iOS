@@ -1,5 +1,9 @@
 # Changelog
 
+## 10.8.8.0
+* Certified with InMobi SDK 10.8.8.
+* Distributed as a static framework within the XCFramework.
+
 ## 10.8.6.0
 * Certified with InMobi SDK 10.8.6.
 * Update ad display failed error code.
