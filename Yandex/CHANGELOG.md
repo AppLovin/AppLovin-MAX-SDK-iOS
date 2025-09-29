@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.16.1.0
+* Certified with Yandex SDK 7.16.1.
+
 ## 7.16.0.0
 * Certified with Yandex SDK 7.16.0.
 * Updated error code mapping.
@@ -26,7 +29,7 @@
 * Certified with Yandex SDK 7.12.3.
 
 ## 7.12.2.1
-* Add support for [adaptive banners](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#adaptive-banners) & inline adaptive ads in both [banners](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners) and [MRECs](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs). Requires AppLovin MAX SDK 13.2.0 or higher.
+* Add support for [adaptive banners](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#adaptive-banners) & inline adaptive ads in both [banners](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners) and [MRECs](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs). Requires AppLovin MAX SDK 13.2.0 or higher.
 
 ## 7.12.2.0
 * Certified with Yandex SDK 7.12.2.
