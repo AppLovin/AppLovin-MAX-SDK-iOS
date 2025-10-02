@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.12.0.0
+* Certified with GoogleAdManager SDK 12.12.0.
+
 ## 12.11.0.0
 * Certified with GoogleAdManager SDK 12.11.0.
 
@@ -44,7 +47,7 @@
 * Certified with GoogleAdManager SDK 12.0.0.
 
 ## 11.13.0.1
-* Add support for [inline adaptive banners in MRECs](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners-in-mrecs).
+* Add support for [inline adaptive banners in MRECs](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs).
 * Remove support for rewarded interstitial ads.
 
 ## 11.13.0.0
@@ -73,7 +76,7 @@
 * Updated minimum Xcode requirement to 15.3 to match GoogleAdManager SDK.
 
 ## 11.7.0.1
-* Add support for [inline adaptive banner ads](https://developers.applovin.com/en/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners).
+* Add support for [inline adaptive banner ads](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners).
 
 ## 11.7.0.0
 * Certified with GoogleAdManager SDK 11.7.0.
