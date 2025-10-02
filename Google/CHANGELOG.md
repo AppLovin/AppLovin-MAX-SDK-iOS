@@ -1,5 +1,8 @@
 # Changelog
 
+## 12.12.0.0
+* Certified with Google SDK 12.12.0.
+
 ## 12.11.0.0
 * Certified with Google SDK 12.11.0.
 
@@ -46,7 +49,7 @@
 * Remove support for the interstitial option of app open ads.
 
 ## 11.13.0.1
-* Add support for [inline adaptive banners in MRECs](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners-in-mrecs).
+* Add support for [inline adaptive banners in MRECs](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs).
 * Remove support for rewarded interstitial ads.
 
 ## 11.13.0.0
@@ -75,7 +78,7 @@
 * Updated minimum Xcode requirement to 15.3 to match Google SDK.
 
 ## 11.7.0.1
-* Add support for [inline adaptive banner ads](https://developers.applovin.com/en/ios/ad-formats/banner-and-mrec-ads/#inline-adaptive-banners).
+* Add support for [inline adaptive banner ads](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners).
 
 ## 11.7.0.0
 * Certified with Google SDK 11.7.0.
