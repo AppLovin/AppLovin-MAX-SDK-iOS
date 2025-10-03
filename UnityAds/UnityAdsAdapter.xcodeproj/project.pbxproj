@@ -117,6 +117,7 @@
 			buildConfigurationList = 25C0B3912CBDA7FE0027222A /* Build configuration list for PBXNativeTarget "UnityAdsAdapter" */;
 			buildPhases = (
 				818E83C1FAF10385BD65D43E /* [CP] Check Pods Manifest.lock */,
+				34353063333431362D626232 /* Set Version String */,
 				25C0B3872CBDA7FE0027222A /* Headers */,
 				25C0B3882CBDA7FE0027222A /* Sources */,
 				25C0B3892CBDA7FE0027222A /* Frameworks */,
@@ -165,6 +166,26 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		34353063333431362D626232 /* Set Version String */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version String";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/usr/bin/env bash\n\nIFS='.' read -ra VERSION_PARTS <<< \"$MARKETING_VERSION\"\n\n# Get the last component (build number)\nLAST_INDEX=$((${#VERSION_PARTS[@]} - 1))\nBUILD_NUMBER=${VERSION_PARTS[$LAST_INDEX]}\n\n# Build version code from all components except the last\nVERSION_CODE=${VERSION_PARTS[0]}\nfor ((i=1; i<$LAST_INDEX; i++)); do\n    VERSION_CODE=\"${VERSION_CODE}$(printf \"%02d\" ${VERSION_PARTS[$i]})\"\ndone\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${VERSION_CODE}.0.${BUILD_NUMBER}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"";
+			showEnvVarsInLog = 0;
+		};
 		818E83C1FAF10385BD65D43E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -287,7 +308,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.16.0.0;
+				MARKETING_VERSION = 4.16.2.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
@@ -363,7 +384,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.16.0.0;
+				MARKETING_VERSION = 4.16.2.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_NAME = AppLovinMediationUnityAdsAdapter;
