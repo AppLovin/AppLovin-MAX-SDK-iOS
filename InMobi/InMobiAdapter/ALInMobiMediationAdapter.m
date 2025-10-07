@@ -795,7 +795,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             builder.callToAction = nativeAd.adCtaText;
             builder.icon = [[MANativeAdImage alloc] initWithImage:nativeAd.adIcon.imageview.image];
             builder.mediaView = [nativeAd getMediaView];
-            builder.mediaContentAspectRatio = 1.0;
             builder.starRating = @(nativeAd.adRating.doubleValue);
         }];
         
@@ -997,7 +996,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             builder.icon = [[MANativeAdImage alloc] initWithImage:nativeAd.adIcon.imageview.image];
             builder.mediaView = [nativeAd getMediaView];
             builder.starRating = @(nativeAd.adRating.doubleValue);
-            builder.mediaContentAspectRatio = 1.0;
         }];
         
         NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
