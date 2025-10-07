@@ -1,5 +1,49 @@
 # Changelog
 
+## 1.9.3.0
+* Certified with MobileFuse SDK 1.9.3.
+* Distributed as a static framework within the XCFramework.
+* Updated ad display failed error code.
+  
+## 1.9.2.1
+* Removed requirement of the title asset for native banners and MRECs.
+
+## 1.9.2.0
+* Certified with MobileFuse SDK 1.9.2.
+
+## 1.9.1.0
+* Certified with MobileFuse SDK 1.9.1.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Updated minimum iOS version to 12.0.
+
+## 1.9.0.0
+* Certified with MobileFuse SDK 1.9.0.
+
+## 1.8.2.0
+* Certified with MobileFuse SDK 1.8.2.
+
+## 1.8.1.0
+* Certified with MobileFuse SDK 1.8.1.
+* Removed redundant log output when initialization was already completed.
+
+## 1.8.0.1
+* Remove passing in of consent string as it has been deprecated.
+
+## 1.8.0.0
+* Certified with MobileFuse SDK 1.8.0.
+
+## 1.7.6.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
+## 1.7.6.0
+* Certified with MobileFuse SDK 1.7.6.
+
+## 1.7.5.0
+* Certified with MobileFuse SDK 1.7.5.
+* Updated minimum Xcode requirement to 15.0.
+
 ## 1.7.4.0
 * Certified with MobileFuse SDK 1.7.4.
 * Replace deprecated API `MFAd.isAdReady` with new API `MFAd.isLoaded`.

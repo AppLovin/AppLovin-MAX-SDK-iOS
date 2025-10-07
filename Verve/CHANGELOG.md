@@ -1,5 +1,42 @@
 # Changelog
 
+## 3.6.1.0
+* Certified with Verve SDK 3.6.1.
+* Distributed as a static framework within the XCFramework.
+* Updated ad display failed error code.
+  
+## 3.6.0.0
+* Certified with Verve SDK 3.6.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Removed mute logic because the `setVideoAudioStatus:` API was deprecated and removed in HyBid SDK 3.0.0+.
+
+## 3.2.0.0
+* Certified with Verve SDK 3.2.0.
+
+## 3.1.4.0
+* Certified with Verve SDK 3.1.4.
+* Removed redundant log output when initialization was already completed.
+
+## 3.1.3.0
+* Certified with Verve SDK 3.1.3.
+
+## 3.1.2.0
+* Certified with Verve SDK 3.1.2.
+
+## 3.1.1.0
+* Certified with Verve SDK 3.1.1.
+
+## 3.1.0.0
+* Certified with Verve SDK 3.1.0.
+
+## 3.0.4.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
+## 3.0.4.0
+* Certified with Verve SDK 3.0.4.
+
 ## 3.0.2.0
 * Certified with Verve SDK 3.0.2.
 

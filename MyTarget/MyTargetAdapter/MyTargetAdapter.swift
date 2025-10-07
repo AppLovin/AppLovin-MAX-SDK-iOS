@@ -34,7 +34,7 @@ final class MyTargetAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "myTarget" }
     
-    override var adapterVersion: String { "5.21.4.0" }
+    override var adapterVersion: String { "5.36.0.0" }
     
     override var sdkVersion: String { MTRGVersion.currentVersion() }
     
@@ -42,7 +42,6 @@ final class MyTargetAdapter: ALMediationAdapter
     {
         guard Self.initialized.compareAndSet(false, update: true) else
         {
-            log(lifecycleEvent: .alreadyInitialized)
             completionHandler(.doesNotApply, nil)
             return
         }
@@ -92,11 +91,6 @@ final class MyTargetAdapter: ALMediationAdapter
         if let hasUserConsent = parameters.userConsent?.boolValue
         {
             MTRGPrivacy.setUserConsent(hasUserConsent)
-        }
-        
-        if let isAgeRestrictedUser = parameters.ageRestrictedUser?.boolValue
-        {
-            MTRGPrivacy.setUserAgeRestricted(isAgeRestrictedUser)
         }
         
         if let isDoNotSell = parameters.doNotSell?.boolValue

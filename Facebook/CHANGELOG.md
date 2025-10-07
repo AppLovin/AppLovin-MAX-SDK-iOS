@@ -1,5 +1,37 @@
 # Changelog
 
+## 6.20.1.0
+* Certified with Facebook SDK 6.20.1.
+
+## 6.20.0.0
+* Certified with Facebook SDK 6.20.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Updated ad display failed error code.
+
+## 6.17.1.0
+* Certified with Facebook SDK 6.17.1.
+
+## 6.17.0.0
+* Certified with Facebook SDK 6.17.0.
+
+## 6.16.0.1
+* Remove support for rewarded interstitial ads.
+
+## 6.16.0.0
+* Certified with Facebook SDK 6.16.0. (Unity adapter to be released after Unity Cloud Build has support for Xcode 16.0)
+* Updated minimum Xcode requirement to 16.0 to match Facebook SDK.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+* Removed redundant log output when initialization was already completed.
+
+## 6.15.2.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
+## 6.15.2.0
+* Certified with Facebook SDK 6.15.2.
+* Updated minimum Xcode requirement to 15.3 to match Facebook SDK.
+
 ## 6.15.1.0
 * Certified with Facebook SDK 6.15.1.
 * Updated minimum Xcode requirement to 15.0.

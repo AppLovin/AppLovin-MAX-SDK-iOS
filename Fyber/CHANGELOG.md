@@ -1,5 +1,45 @@
 # Changelog
 
+## 8.3.8.0
+* Certified with Fyber SDK 8.3.8.
+* Update ad display failed error code.
+
+## 8.3.7.0
+* Certified with Fyber SDK 8.3.7.
+* Updated minimum iOS version to 13.0 to match Fyber SDK.
+
+## 8.3.6.0
+* Certified with Fyber SDK 8.3.6.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
+## 8.3.5.1
+* Implement `IAAdDidExpire:` to handle ad expiration by failing the ad display to ensure that the ad display cycle is complete.
+
+## 8.3.5.0
+* Certified with Fyber SDK 8.3.5.
+
+## 8.3.4.0
+* Certified with Fyber SDK 8.3.4.
+
+## 8.3.3.0
+* Certified with Fyber SDK 8.3.3.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+* Removed redundant log output when initialization was already completed.
+
+## 8.3.2.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
+## 8.3.2.0
+* Certified with Fyber SDK 8.3.2.
+
+## 8.3.1.1
+* Remove String validation for signal.
+* Remove calling `didFailToDisplayRewardedAdWithError:` in the `IAVideoContentController :videoInterruptedWithError:` callback which occurs when the ad video is buffering.
+
+## 8.3.1.0
+* Certified with Fyber SDK 8.3.1.
+
 ## 8.3.0.0
 * Certified with Fyber SDK 8.3.0.
 * Remove deprecated API usages.

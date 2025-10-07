@@ -1,5 +1,96 @@
 # Changelog
 
+## 5.36.0.0
+* Certified with MyTarget SDK 5.36.0.
+
+## 5.35.1.0
+* Certified with MyTarget SDK 5.35.1.
+
+## 5.35.0.0
+* Certified with MyTarget SDK 5.35.0.
+
+## 5.34.2.0
+* Certified with MyTarget SDK 5.34.2.
+
+## 5.34.1.0
+* Certified with MyTarget SDK 5.34.1.
+
+## 5.34.0.0
+* Certified with MyTarget SDK 5.34.0.
+* Distributed as a static framework within the XCFramework.
+
+## 5.33.0.0
+* Certified with MyTarget SDK 5.33.0.
+
+## 5.32.1.0
+* Certified with MyTarget SDK 5.32.1.
+
+## 5.32.0.0
+* Certified with MyTarget SDK 5.32.0.
+
+## 5.31.1.0
+* Certified with MyTarget SDK 5.31.1.
+
+## 5.31.0.0
+* Certified with MyTarget SDK 5.31.0.
+
+## 5.30.0.0
+* Certified with MyTarget SDK 5.30.0.
+
+## 5.29.1.0
+* Certified with MyTarget SDK 5.29.1.
+
+## 5.28.0.0
+* Certified with MyTarget SDK 5.28.0.
+
+## 5.27.0.0
+* Certified with MyTarget SDK 5.27.0.
+
+## 5.26.0.0
+* Certified with MyTarget SDK 5.26.0.
+
+## 5.25.1.0
+* Certified with MyTarget SDK 5.25.1.
+
+## 5.25.0.0
+* Certified with MyTarget SDK 5.25.0.
+
+## 5.24.1.0
+* Certified with MyTarget SDK 5.24.1.
+
+## 5.24.0.0
+* Certified with MyTarget SDK 5.24.0.
+
+## 5.23.0.0
+* Certified with MyTarget SDK 5.23.0.
+
+## 5.22.0.0
+* Certified with MyTarget SDK 5.22.0.
+* Removed redundant log output when initialization was already completed.
+
+## 5.21.9.1
+* Implement `onFailedToShow()` callbacks for interstitial and rewarded ads.
+
+## 5.21.9.0
+* Certified with MyTarget SDK 5.21.9.
+
+## 5.21.8.0
+* Certified with MyTarget SDK 5.21.8.
+
+## 5.21.7.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
+## 5.21.7.0
+* Certified with MyTarget SDK 5.21.7.
+
+## 5.21.6.0
+* Certified with MyTarget SDK 5.21.6.
+* Updated minimum Xcode requirement to 15.3 to match MyTarget SDK.
+
+## 5.21.5.0
+* Certified with MyTarget SDK 5.21.5.
+
 ## 5.21.4.0
 * Certified with MyTarget SDK 5.21.4.
 

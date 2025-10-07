@@ -9,7 +9,14 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
-#define ADAPTER_VERSION @"7.0.1.0"
+#define ADAPTER_VERSION @"7.16.1.0"
+
+#define TITLE_LABEL_TAG          1
+#define MEDIA_VIEW_CONTAINER_TAG 2
+#define ICON_VIEW_TAG            3
+#define BODY_VIEW_TAG            4
+#define CALL_TO_ACTION_VIEW_TAG  5
+#define ADVERTISER_VIEW_TAG      8
 
 /**
  * Dedicated delegate object for Yandex interstitial ads.
@@ -53,6 +60,31 @@
 
 @end
 
+/**
+ * Dedicated delegate object for Yandex Native ads.
+ */
+@interface ALYandexMediationAdapterNativeAdDelegate : NSObject <YMANativeAdDelegate, YMANativeAdLoaderDelegate>
+
+@property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter
+                       withParameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+
+@end
+
+@interface MAYandexNativeAd : MANativeAd
+
+@property (nonatomic, strong) id<YMANativeAd> nativeAd;
+@property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
+
+@end
+
 @interface ALYandexMediationAdapter ()
 
 // Interstitial
@@ -69,6 +101,11 @@
 @property (nonatomic, strong) YMAAdView *adView;
 @property (nonatomic, strong) ALYandexMediationAdapterAdViewDelegate *adViewAdapterDelegate;
 
+// Native
+@property (nonatomic, strong) id<YMANativeAd> nativeAd;
+@property (nonatomic, strong) YMANativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) ALYandexMediationAdapterNativeAdDelegate *nativeAdapterDelegate;
+
 @end
 
 @implementation ALYandexMediationAdapter
@@ -79,7 +116,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [super initialize];
     
-    ALYandexBidderTokenLoader = [[YMABidderTokenLoader alloc] init];
+    ALYandexBidderTokenLoader = [[YMABidderTokenLoader alloc] initWithMediationNetworkName: @"applovin"];
 }
 
 #pragma mark - MAAdapter Methods
@@ -128,6 +165,13 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     self.adView = nil;
     self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
+    
+    self.nativeAd.delegate = nil;
+    self.nativeAd = nil;
+    self.nativeAdapterDelegate.delegate = nil;
+    self.nativeAdapterDelegate = nil;
+    self.nativeAdLoader.delegate = nil;
+    self.nativeAdLoader = nil;
 }
 
 #pragma mark - Signal Collection
@@ -136,7 +180,31 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self log: @"Collecting signal..."];
     
-    YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: [self toYandexAdType: parameters.adFormat]];
+    YMAAdType yandexAdType = [self toYandexAdType: parameters.adFormat];
+    if ( yandexAdType == -1 )
+    {
+        [self log: @"Signal collection failed with error: Unsupported ad format: %@", parameters.adFormat];
+        [delegate didFailToCollectSignalWithErrorMessage: [NSString stringWithFormat: @"Unsupported ad format: %@", parameters.adFormat]];
+        
+        return;
+    }
+    
+    YMABidderTokenRequestConfiguration *configuration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType: yandexAdType];
+    
+    if (yandexAdType == YMAAdTypeBanner)
+    {
+        BOOL isAdaptiveAdViewEnabled = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+        {
+            [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Yandex adaptive ads"];
+            isAdaptiveAdViewEnabled = NO;
+        }
+        
+        YMABannerAdSize *adSize = [self yandexAdSizeFromAdFormat: parameters.adFormat
+                                         isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                      parameters: parameters];
+        configuration.bannerAdSize = adSize;
+    }
     
     [ALYandexBidderTokenLoader loadBidderTokenWithRequestConfiguration: configuration completionHandler:^(NSString *bidderToken) {
         [self log: @"Collected signal"];
@@ -171,13 +239,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     {
         [self log: @"Interstitial ad failed to show - ad not ready"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -222,13 +286,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     {
         [self log: @"Rewarded ad failed to show - ad not ready"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -253,17 +313,49 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (void)loadAdViewAdForParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
+    // NOTE: Native banners and MRECs are not supported due to the Yandex SDK's requirement for a media view.
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Loading %@%@ ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), adFormat.label, placementId];
     
     [self updateUserConsent: parameters];
     
     self.adViewAdapterDelegate = [[ALYandexMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self adFormatLabel: adFormat.label andNotify: delegate];
+    
+    BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+    if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+    {
+        [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Yandex adaptive ads"];
+        isAdaptiveAdViewEnabled = NO;
+    }
+    
+    YMABannerAdSize *adSize = [self yandexAdSizeFromAdFormat: adFormat
+                                     isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                  parameters: parameters];
+    
     // NOTE: iOS banner ads do not auto-refresh by default
-    self.adView = [[YMAAdView alloc] initWithAdUnitID: placementId
-                                               adSize: [self adSizeFromAdFormat: adFormat]];
+    self.adView = [[YMAAdView alloc] initWithAdUnitID: placementId adSize: adSize];
     self.adView.delegate = self.adViewAdapterDelegate;
     [self.adView loadAdWithRequest: [self createAdRequestWithParameters: parameters]];
+}
+
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading %@native ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementId];
+    
+    [self updateUserConsent: parameters];
+    
+    self.nativeAdLoader = [[YMANativeAdLoader alloc] init];
+    self.nativeAdapterDelegate = [[ALYandexMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                          withParameters: parameters
+                                                                                               andNotify: delegate];
+    self.nativeAdLoader.delegate = self.nativeAdapterDelegate;
+    
+    YMAMutableNativeAdRequestConfiguration *config = [self createNativeAdRequestConfigurationForPlacementId: placementId
+                                                                                                 parameters: parameters];
+    [self.nativeAdLoader loadAdWithRequestConfiguration: config];
 }
 
 #pragma mark - Helper Methods
@@ -306,9 +398,56 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     return configuration;
 }
 
-- (YMABannerAdSize *)adSizeFromAdFormat:(MAAdFormat *)adFormat
+- (YMAMutableNativeAdRequestConfiguration *)createNativeAdRequestConfigurationForPlacementId:(NSString *)placementId parameters:(id<MAAdapterResponseParameters>)parameters
 {
+    NSDictionary *adRequestParameters = @{@"adapter_network_name" : @"applovin",
+                                          @"adapter_version" : ADAPTER_VERSION,
+                                          @"adapter_network_sdk_version" : ALSdk.version};
+    
+    YMAMutableNativeAdRequestConfiguration *configuration = [[YMAMutableNativeAdRequestConfiguration alloc] initWithAdUnitID: placementId];
+    configuration.parameters = adRequestParameters;
+    
+    configuration.biddingData = parameters.bidResponse;
+    
+    return configuration;
+}
+
+- (YMABannerAdSize *)yandexAdSizeFromAdFormat:(MAAdFormat *)adFormat
+                      isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                   parameters:(id<MAAdapterParameters>)parameters
+{
+    if ( ![adFormat isAdViewAd] )
+    {
+        [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
+    }
+    
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+    
     return [YMABannerAdSize fixedSizeWithWidth: adFormat.size.width height: adFormat.size.height];
+}
+
+- (YMABannerAdSize *)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaximumHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        if ( inlineMaximumHeight > 0 )
+        {
+            return [YMABannerAdSize inlineSizeWithWidth: adaptiveAdWidth maxHeight: inlineMaximumHeight];
+        }
+        
+        CGFloat screenHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
+        return [YMABannerAdSize inlineSizeWithWidth: adaptiveAdWidth maxHeight: screenHeight];
+    }
+    
+    // Anchored banners use the default adaptive height
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return [YMABannerAdSize fixedSizeWithWidth: adaptiveAdWidth height: anchoredHeight];
 }
 
 - (YMAAdType)toYandexAdType:(MAAdFormat *)adFormat
@@ -325,8 +464,11 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     {
         return YMAAdTypeBanner;
     }
+    else if ( adFormat == MAAdFormat.native )
+    {
+        return YMAAdTypeNative;
+    }
     
-    [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
     return -1;
 }
 
@@ -342,6 +484,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
         case YMAAdErrorCodeAdTypeMismatch:
         case YMAAdErrorCodeAdSizeMismatch:
         case YMAAdErrorCodeInvalidSDKConfiguration:
+        case YMAAdErrorCodeMissingSKAdNetworkIdentifier:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
         case YMAAdErrorCodeNoFill:
@@ -427,13 +570,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (void)interstitialAd:(YMAInterstitialAd *)interstitialAd didFailToShowWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     
     [self.parentAdapter log: @"Interstitial ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -507,13 +646,9 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 
 - (void)rewardedAd:(YMARewardedAd *)rewardedAd didFailToShowWithError:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     
     [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", adapterError];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
@@ -568,7 +703,14 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 - (void)adViewDidLoad:(YMAAdView *)adView
 {
     [self.parentAdapter log: @"%@ ad loaded", self.adFormatLabel];
-    [self.delegate didLoadAdForAdView: adView];
+    
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 2];
+    
+    CGSize adSize = [adView adContentSize];
+    extraInfo[@"ad_width"] = @(adSize.width);
+    extraInfo[@"ad_height"] = @(adSize.height);
+    
+    [self.delegate didLoadAdForAdView: adView withExtraInfo: extraInfo];
 }
 
 - (void)adViewDidFailLoading:(YMAAdView *)adView error:(NSError *)error
@@ -610,6 +752,199 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
 {
     [self.parentAdapter log: @"AdView ad impression tracked"];
     [self.delegate didDisplayAdViewAd];
+}
+
+@end
+
+#pragma mark - ALYandexMediationAdapterNativeAdDelegate
+
+@implementation ALYandexMediationAdapterNativeAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter
+                       withParameters:(id<MAAdapterResponseParameters>)parameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.parameters = parameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeAdLoader:(YMANativeAdLoader *)loader didFailLoadingWithError:(NSError *)error
+{
+    [self.parentAdapter log: @"Native ad failed to load with error code %ld and description: %@", error.code, error.description];
+    
+    MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)nativeAdLoader:(YMANativeAdLoader *)loader didLoadAd:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad loaded"];
+    self.parentAdapter.nativeAd = ad;
+    ad.delegate = self.parentAdapter.nativeAdapterDelegate;
+    YMANativeAdAssets *assets = ad.adAssets;
+    MANativeAd *maxNativeAd = [[MAYandexNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+        builder.title = assets.title;
+        builder.advertiser = assets.domain;
+        builder.body = assets.body;
+        builder.callToAction = assets.callToAction;
+        builder.icon = [[MANativeAdImage alloc] initWithImage: assets.icon.imageValue];
+        builder.mainImage = [[MANativeAdImage alloc] initWithImage: assets.image.imageValue];
+        builder.optionsView = [[UIButton alloc] init];
+        builder.mediaView = [[YMANativeMediaView alloc] init];
+        builder.mediaContentAspectRatio = assets.media.aspectRatio;
+        builder.starRating = assets.rating;
+    }];
+    
+    [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+}
+
+- (void)nativeAd:(id<YMANativeAd>)ad willPresentScreen:(UIViewController *)viewController
+{
+    [self.parentAdapter log: @"Native ad clicked and in-app browser opened"];
+}
+
+- (void)nativeAd:(id<YMANativeAd>)ad didTrackImpressionWithData:(id<YMAImpressionData>)impressionData
+{
+    [self.parentAdapter log: @"Native ad impression tracked"];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)nativeAdDidClick:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad clicked"];
+    [self.delegate didClickNativeAd];
+}
+
+- (void)nativeAdWillLeaveApplication:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad clicked and left application"];
+}
+
+- (void)nativeAd:(id<YMANativeAd>)ad didDismissScreen:(UIViewController *)viewController
+{
+    [self.parentAdapter log: @"Native ad in-app browser closed"];
+}
+
+- (void)closeNativeAd:(id<YMANativeAd>)ad
+{
+    [self.parentAdapter log: @"Native ad closed"];
+}
+
+@end
+
+#pragma mark - MAYandexNativeAd
+
+@implementation MAYandexNativeAd
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter
+                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+{
+    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    if ( self ) {
+        self.parentAdapter = parentAdapter;
+    }
+    return self;
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    id<YMANativeAd> nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+    
+    YMANativeAdViewData *viewData = [[YMANativeAdViewData alloc] init];
+    
+    // Native integrations
+    if ( [container isKindOfClass: [MANativeAdView class]] )
+    {
+        MANativeAdView *maxNativeAdView = (MANativeAdView *) container;
+        
+        viewData.titleLabel = maxNativeAdView.titleLabel;
+        viewData.domainLabel = maxNativeAdView.advertiserLabel;
+        viewData.bodyLabel = maxNativeAdView.bodyLabel;
+        viewData.callToActionButton = maxNativeAdView.callToActionButton;
+        viewData.iconImageView = maxNativeAdView.iconImageView;
+        viewData.feedbackButton = (UIButton *) self.optionsView;
+        
+        if ( [self.mediaView isKindOfClass: [YMANativeMediaView class]] )
+        {
+            viewData.mediaView = (YMANativeMediaView *) self.mediaView;
+        }
+    }
+    // Plugins
+    else
+    {
+        for ( UIView *view in clickableViews )
+        {
+            if ( view.tag == TITLE_LABEL_TAG )
+            {
+                viewData.titleLabel = [self yandexAssetViewOfClass: [UILabel class] forParent: view];
+            }
+            else if ( view.tag == ICON_VIEW_TAG )
+            {
+                viewData.iconImageView = (UIImageView *) view;
+                // The native ad icon image view will be added to the asset icon view.
+                if ( view.subviews.count > 0 )
+                {
+                    viewData.iconImageView = (UIImageView *) view.subviews[0];
+                }
+            }
+            else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
+            {
+                if ( [self.mediaView isKindOfClass: [YMANativeMediaView class]] )
+                {
+                    viewData.mediaView = (YMANativeMediaView *) self.mediaView;
+                }
+            }
+            else if ( view.tag == BODY_VIEW_TAG )
+            {
+                viewData.bodyLabel = [self yandexAssetViewOfClass: [UILabel class] forParent: view];
+            }
+            else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
+            {
+                viewData.callToActionButton = [self yandexAssetViewOfClass: [UIButton class] forParent: view];
+            }
+            else if ( view.tag == ADVERTISER_VIEW_TAG )
+            {
+                viewData.domainLabel = [self yandexAssetViewOfClass: [UILabel class] forParent: view];
+            }
+        }
+    }
+    
+    NSError *error;
+    BOOL success = [nativeAd bindAdToView: container viewData: viewData error: &error];
+    if ( !success )
+    {
+        [self.parentAdapter e: @"Failed to register native ad views with error code %ld and description: %@", error.code, error.description];
+        return NO;
+    }
+    
+    return YES;
+}
+
+/**
+ * Creates a dummy asset view based on Yandex API class requirements and the asset view type.
+ */
+- (id)yandexAssetViewOfClass:(Class)aClass forParent:(UIView *)parentView
+{
+    UIView *assetView = [[aClass alloc] init];
+    
+    // Set the view's alpha to make it essentially invisible but interactable, as the plugin's asset view manages actual content presentation.
+    assetView.alpha = 0.011f;
+    
+    [parentView addSubview: assetView];
+    [assetView al_pinToSuperview];
+    
+    return assetView;
 }
 
 @end

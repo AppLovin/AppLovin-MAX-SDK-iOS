@@ -1,5 +1,72 @@
 # Changelog
 
+## 9.0.0.0.0
+* Certified with IronSource SDK 9.0.0.0.
+
+## 8.11.0.0.0
+* Certified with IronSource SDK 8.11.0.0.
+
+## 8.10.0.0.1
+* Updated pod dependency to target the more specific `IronSourceSDK/Ads` subspec rather than the umbrella `IronSourceSDK`.
+* Distributed as a static framework within the XCFramework.
+
+## 8.10.0.0.0
+* Certified with IronSource SDK 8.10.0.0.
+
+## 8.9.1.0.1
+* Updated minimum iOS version to 12.0 to match IronSource SDK.
+
+## 8.9.1.0.0
+* Certified with IronSource SDK 8.9.1.0.
+* Replaced deprecated `IronSource` method calls with `IronSourceAds` equivalents.
+* Update ad display failed error code.
+
+## 8.9.0.0.0
+* Certified with IronSource SDK 8.9.0.0.
+
+## 8.8.0.0.0
+* Certified with IronSource SDK 8.8.0.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
+## 8.7.0.0.0
+* Certified with IronSource SDK 8.7.0.0.
+* Updated minimum iOS version to 13.0 to match IronSource SDK.
+
+## 8.6.1.0.0
+* Certified with IronSource SDK 8.6.1.0.
+
+## 8.6.0.0.0
+* Certified with IronSource SDK 8.6.0.0.
+* Updated minimum Xcode requirement to 16.0 to match IronSource SDK.
+
+## 8.5.1.0.0
+* Certified with IronSource SDK 8.5.1.0.
+
+## 8.5.0.0.0
+* Certified with IronSource SDK 8.5.0.0.
+* Updated minimum Xcode requirement to 15.3.
+* Removed redundant log output when initialization was already completed.
+
+## 8.4.0.0.0
+* Certified with IronSource SDK 8.4.0.0.
+
+## 8.3.0.0.2
+* Fixed delegate setup timing for fullscreen ad loads.
+
+## 8.3.0.0.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
+## 8.3.0.0.0
+* Certified with IronSource SDK 8.3.0.0.
+* Add support for passing mediation type to SDK.
+
+## 8.2.0.0.0
+* Certified with IronSource SDK 8.2.0.0.
+
+## 8.1.0.0.1
+* Add support for bidding.
+
 ## 8.1.0.0.0
 * Certified with IronSource SDK 8.1.0.0.
 * Updated minimum Xcode requirement to 15.0.

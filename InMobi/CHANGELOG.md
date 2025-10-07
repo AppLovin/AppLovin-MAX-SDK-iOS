@@ -1,5 +1,40 @@
 # Changelog
 
+## 10.8.8.0
+* Certified with InMobi SDK 10.8.8.
+* Distributed as a static framework within the XCFramework.
+
+## 10.8.6.0
+* Certified with InMobi SDK 10.8.6.
+* Update ad display failed error code.
+
+## 10.8.3.1
+* Removed requirement of the title asset for native banners and MRECs.
+
+## 10.8.3.0
+* Certified with InMobi SDK 10.8.3.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Fix API deprecation warnings.
+
+## 10.8.2.0
+* Certified with InMobi SDK 10.8.2.
+
+## 10.8.0.0
+* Certified with InMobi SDK 10.8.0.
+* Removed redundant log output when initialization was already completed.
+
+## 10.7.8.0
+* Certified with InMobi SDK 10.7.8.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
+## 10.7.5.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
+## 10.7.5.0
+* Certified with InMobi SDK 10.7.5.
+
 ## 10.7.4.0
 * Certified with InMobi SDK 10.7.4.
 * Updated minimum Xcode requirement to 15.0.

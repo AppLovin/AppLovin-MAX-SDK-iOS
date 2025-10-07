@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.15.1.0"
+#define ADAPTER_VERSION @"6.20.1.0"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -24,12 +24,6 @@
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
-@end
-@interface ALFacebookMediationAdapterRewardedInterAdDelegate : NSObject <FBRewardedVideoAdDelegate>
-@property (nonatomic,   weak) ALFacebookMediationAdapter *parentAdapter;
-@property (nonatomic, strong) id<MARewardedInterstitialAdapterDelegate> delegate;
-@property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate;
 @end
 
 @interface ALFacebookMediationAdapterAdViewDelegate : NSObject <FBAdViewDelegate>
@@ -80,14 +74,12 @@
 
 @property (nonatomic, strong) FBInterstitialAd *interstitialAd;
 @property (nonatomic, strong) FBRewardedVideoAd *rewardedVideoAd;
-@property (nonatomic, strong) FBRewardedVideoAd *rewardedInterAd;
 @property (nonatomic, strong) FBAdView *adView;
 @property (nonatomic, strong) FBNativeAd *nativeAd;
 @property (nonatomic, strong) FBNativeBannerAd *nativeBannerAd;
 
 @property (nonatomic, strong) ALFacebookMediationAdapterInterstitialAdDelegate *interstitialAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterRewardedVideoAdDelegate *rewardedAdapterDelegate;
-@property (nonatomic, strong) ALFacebookMediationAdapterRewardedInterAdDelegate *rewardedInterAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterAdViewDelegate *adViewAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterNativeAdViewAdDelegate *nativeAdViewAdAdapterDelegate;
 @property (nonatomic, strong) ALFacebookMediationAdapterNativeAdDelegate *nativeAdAdapterDelegate;
@@ -148,7 +140,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     }
     else
     {
-        [self log: @"Facebook attempted initialization already - marking initialization as %ld", ALFacebookSDKInitializationStatus];
         completionHandler(ALFacebookSDKInitializationStatus, nil);
     }
 }
@@ -171,11 +162,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     self.interstitialAd = nil;
     self.interstitialAdapterDelegate.delegate = nil;
     self.interstitialAdapterDelegate = nil;
-    
-    self.rewardedInterAd.delegate = nil;
-    self.rewardedInterAd = nil;
-    self.rewardedInterAdapterDelegate.delegate = nil;
-    self.rewardedInterAdapterDelegate = nil;
     
     self.rewardedVideoAd.delegate = nil;
     self.rewardedVideoAd = nil;
@@ -238,76 +224,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // Check if ad is already expired or invalidated, and do not show ad if that is the case. You will not get paid to show an invalidated ad.
     if ( [self.interstitialAd isAdValid] )
     {
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
         [self log: @"Unable to show interstitial ad: ad is not valid - marking as expired"];
-        [delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
-    }
-}
-
-#pragma mark - MARewardedInterstitial Methods
-
-- (void)loadRewardedInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    [self log: @"Loading rewarded interstitial ad: %@...", parameters.thirdPartyAdPlacementIdentifier];
-    
-    [self updateAdSettingsWithParameters: parameters];
-    
-    self.rewardedInterAd = [[FBRewardedVideoAd alloc] initWithPlacementID: parameters.thirdPartyAdPlacementIdentifier];
-    self.rewardedInterAd.adExperienceConfig = [[FBAdExperienceConfig alloc] initWithAdExperienceType: FBAdExperienceTypeRewardedInterstitial];
-    self.rewardedInterAdapterDelegate = [[ALFacebookMediationAdapterRewardedInterAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.rewardedInterAd.delegate = self.rewardedInterAdapterDelegate;
-    
-    if ( [self.rewardedInterAd isAdValid] )
-    {
-        [self log: @"A rewarded interstitial ad has been loaded already"];
-        [delegate didLoadRewardedInterstitialAd];
-    }
-    else
-    {
-        [self log: @"Loading bidding rewarded interstitial ad..."];
-        [self.rewardedInterAd loadAdWithBidPayload: parameters.bidResponse];
-    }
-}
-
-- (void)showRewardedInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    [self log: @"Showing rewarded interstitial ad: %@...", parameters.thirdPartyAdPlacementIdentifier];
-    
-    // Check if ad is already expired or invalidated, and do not show ad if that is the case. You will not get paid to show an invalidated ad.
-    if ( [self.rewardedInterAd isAdValid] )
-    {
-        // Configure reward from server.
-        [self configureRewardForParameters: parameters];
-        
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
-        [self.rewardedInterAd showAdFromRootViewController: presentingViewController];
-    }
-    else
-    {
-        [self log: @"Unable to show rewarded interstitial ad: ad is not valid - marking as expired"];
-        [delegate didFailToDisplayRewardedInterstitialAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
 }
 
@@ -346,22 +271,15 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.rewardedVideoAd showAdFromRootViewController: presentingViewController];
     }
     else
     {
         [self log: @"Unable to show rewarded ad: ad is not valid - marking as expired"];
-        [delegate didFailToDisplayRewardedAdWithError: MAAdapterError.adExpiredError];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
     }
 }
 
@@ -453,12 +371,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     // FBAdSettings is apparently not thread-safe on iOS - and may occassionally crash :/
     @synchronized ( ALFBAdSettingsLock )
     {
-        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-        if ( isAgeRestrictedUser != nil )
-        {
-            FBAdSettings.mixedAudience = isAgeRestrictedUser.boolValue;
-        }
-        
         NSString *testDevicesString = parameters.serverParameters[@"test_device_ids"];
         if ( [testDevicesString al_isValidString] )
         {
@@ -526,13 +438,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: facebookErrorCode
-               thirdPartySdkErrorMessage: facebookError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: facebookErrorCode
+                     mediatedNetworkErrorMessage: facebookError.localizedDescription];
 }
 
 - (void)renderTrueNativeAd:(FBNativeAdBase *)nativeAd
@@ -561,7 +469,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     if ( isTemplateAd && ![nativeAd.headline al_isValidString] )
     {
         [self e: @"Native ad (%@) does not have required assets.", nativeAd];
-        [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -571,6 +479,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         MANativeAd *maxNativeAd = [[MAFacebookNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.headline;
+            builder.advertiser = nativeAd.advertiserName;
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
@@ -580,37 +489,21 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             adOptionsView.backgroundColor = UIColor.clearColor;
             builder.optionsView = adOptionsView;
             
-            CGFloat mediaContentAspectRatio = 0.0f;
             if ( self.nativeBannerAd )
             {
                 // Facebook true native banners do not provide media views so use icon asset in place of it
                 UIImageView *mediaImageView = [[UIImageView alloc] initWithImage: nativeAd.iconImage];
                 builder.mediaView = mediaImageView;
                 
-                mediaContentAspectRatio = nativeAd.iconImage.size.width / nativeAd.iconImage.size.height;
+                builder.mediaContentAspectRatio = nativeAd.iconImage.size.width / nativeAd.iconImage.size.height;
             }
             else
             {
                 FBMediaView *mediaView = [[FBMediaView alloc] init];
                 builder.mediaView = mediaView;
                 
-                mediaContentAspectRatio = mediaView.aspectRatio;
+                builder.mediaContentAspectRatio = mediaView.aspectRatio;
             }
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                builder.advertiser = nativeAd.advertiserName;
-            }
-            
-            // Introduced in 11.4.0
-            if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
-            {
-                [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
-            }
-#pragma clang diagnostic pop
         }];
         
         [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
@@ -661,67 +554,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 {
     [self.parentAdapter log: @"Interstitial ad hidden: %@", interstitialAd.placementID];
     [self.delegate didHideInterstitialAd];
-}
-
-@end
-
-@implementation ALFacebookMediationAdapterRewardedInterAdDelegate
-
-- (instancetype)initWithParentAdapter:(ALFacebookMediationAdapter *)parentAdapter andNotify:(id<MARewardedInterstitialAdapterDelegate>)delegate
-{
-    self = [super init];
-    if ( self )
-    {
-        self.parentAdapter = parentAdapter;
-        self.delegate = delegate;
-    }
-    return self;
-}
-
-- (void)rewardedVideoAdDidLoad:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial ad loaded: %@", rewardedVideoAd.placementID];
-    [self.delegate didLoadRewardedInterstitialAd];
-}
-
-- (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error
-{
-    MAAdapterError *adapterError = [ALFacebookMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Rewarded interstitial ad (%@) failed to load with error: %@", rewardedVideoAd.placementID, adapterError];
-    [self.delegate didFailToLoadRewardedInterstitialAdWithError: adapterError];
-}
-
-- (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
-    {
-        MAReward *reward = [self.parentAdapter reward];
-        [self.parentAdapter log: @"Rewarded user with reward: %@", reward];
-        [self.delegate didRewardUserWithReward: reward];
-    }
-    
-    [self.parentAdapter log: @"Rewarded interstitial ad hidden: %@", rewardedVideoAd.placementID];
-    [self.delegate didHideRewardedInterstitialAd];
-}
-
-- (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial ad clicked: %@", rewardedVideoAd.placementID];
-    [self.delegate didClickRewardedInterstitialAd];
-}
-
-- (void)rewardedVideoAdVideoComplete:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial video completed: %@", rewardedVideoAd.placementID];
-    
-    self.grantedReward = YES;
-}
-
-- (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd
-{
-    [self.parentAdapter log: @"Rewarded interstitial video started: %@", rewardedVideoAd.placementID];
-    
-    [self.delegate didDisplayRewardedInterstitialAd];
 }
 
 @end
@@ -932,6 +764,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         
         MANativeAd *maxNativeAd = [[MANativeAd alloc] initWithFormat: self.format builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = self.parentAdapter.nativeAd.headline;
+            builder.advertiser = self.parentAdapter.nativeAd.advertiserName;
             builder.body = self.parentAdapter.nativeAd.bodyText;
             builder.callToAction = self.parentAdapter.nativeAd.callToAction;
             builder.iconView = iconView;
@@ -941,15 +774,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             adOptionsView.nativeAd = self.parentAdapter.nativeAd;
             adOptionsView.backgroundColor = UIColor.clearColor;
             builder.optionsView = adOptionsView;
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            // Introduced in 10.4.0
-            if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-            {
-                builder.advertiser = self.parentAdapter.nativeAd.advertiserName;
-            }
-#pragma clang diagnostic pop
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
@@ -957,11 +781,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
         if ( [templateName containsString: @"vertical"] )
         {
-            if ( ALSdk.versionCode < 6140500 )
-            {
-                [self.parentAdapter log: @"Vertical native banners are only supported on MAX SDK 6.14.5 and above. Default native template will be used."];
-            }
-            
             if ( [templateName isEqualToString: @"vertical"] )
             {
                 NSString *verticalTemplateName = ( self.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
@@ -971,10 +790,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             {
                 maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: templateName];
             }
-        }
-        else if ( ALSdk.versionCode < 6140500 )
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: maxNativeAd withTemplate: [templateName al_isValidString] ? templateName : @"no_body_banner_template"];
         }
         else
         {
@@ -995,31 +810,18 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         {
             [clickableViews addObject: maxNativeAdView.callToActionButton];
         }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ( maxNativeAd.iconView && maxNativeAdView.iconContentView )
+        if ( maxNativeAd.iconView )
         {
-            [clickableViews addObject: maxNativeAdView.iconContentView];
+            [clickableViews addObject: maxNativeAd.iconView];
         }
-#pragma clang diagnostic pop
         if ( maxNativeAd.mediaView && maxNativeAdView.mediaContentView )
         {
             [clickableViews addObject: maxNativeAdView.mediaContentView];
         }
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 10.4.0
-        if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
+        if ( [maxNativeAd.advertiser al_isValidString] && maxNativeAdView.advertiserLabel )
         {
-            id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
-            id advertiser = [maxNativeAd performSelector: @selector(advertiser)];
-            if ( [advertiser al_isValidString] && advertiserLabel )
-            {
-                [clickableViews addObject: advertiserLabel];
-            }
+            [clickableViews addObject: maxNativeAdView.advertiserLabel];
         }
-#pragma clang diagnostic pop
         
         [self.parentAdapter.nativeAd registerViewForInteraction: maxNativeAdView
                                                       mediaView: mediaView
@@ -1153,47 +955,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         self.parentAdapter = parentAdapter;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    // Introduced in 10.4.0
-    if ( [maxNativeAdView respondsToSelector: @selector(advertiserLabel)] && [self respondsToSelector: @selector(advertiser)] )
-    {
-        id advertiserLabel = [maxNativeAdView performSelector: @selector(advertiserLabel)];
-        id advertiser = [self performSelector: @selector(advertiser)];
-        if ( [advertiser al_isValidString] && advertiserLabel )
-        {
-            [clickableViews addObject: advertiserLabel];
-        }
-    }
-#pragma clang diagnostic pop
-    
-    [self prepareForInteractionClickableViews: clickableViews withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container

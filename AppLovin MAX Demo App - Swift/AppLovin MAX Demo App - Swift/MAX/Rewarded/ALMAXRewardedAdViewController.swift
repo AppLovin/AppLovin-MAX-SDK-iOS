@@ -6,7 +6,7 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-import Adjust
+import AdjustSdk
 import AppLovinSDK
 import UIKit
 
@@ -82,10 +82,6 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
     
     // MARK: MARewardedAdDelegate Protocol
     
-    func didStartRewardedVideo(for ad: MAAd) { logCallback() }
-    
-    func didCompleteRewardedVideo(for ad: MAAd) { logCallback() }
-    
     func didRewardUser(for ad: MAAd, with reward: MAReward)
     {
         // Rewarded ad was displayed and user should receive the reward
@@ -98,7 +94,7 @@ class ALMAXRewardedAdViewController: ALBaseAdViewController, MARewardedAdDelegat
     {
         logCallback()
         
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
+        let adjustAdRevenue = ADJAdRevenue(source: "applovin_max_sdk")!
         adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
         adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
         adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)

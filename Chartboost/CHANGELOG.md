@@ -1,5 +1,51 @@
 # Changelog
 
+## 9.10.0.0
+* Certified with Chartboost SDK 9.10.0.
+
+## 9.9.3.0
+* Certified with Chartboost SDK 9.9.3.
+
+## 9.9.2.1
+* Removed `isCached` checks to prevent valid ads from being blocked.
+
+## 9.9.2.0
+* Certified with Chartboost SDK 9.9.2.
+* Distributed as a static framework within the XCFramework.
+
+## 9.9.1.0
+* Certified with Chartboost SDK 9.9.1.
+
+## 9.9.0.1
+* Implemented `didExpireAd:` in listeners to satisfy the updated Chartboost SDK callback interface.
+* Update error code mapping.
+
+## 9.9.0.0
+* Certified with Chartboost SDK 9.9.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Updated minimum iOS version to 12.0.
+* Updated ad display failed error code.
+
+## 9.8.1.0
+* Certified with Chartboost SDK 9.8.1.
+* Removed redundant log output when initialization was already completed.
+
+## 9.8.0.0
+* Certified with Chartboost SDK 9.8.0.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
+## 9.7.0.2
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
+## 9.7.0.1
+* Add bidding support for banners, leaders, MRECs, interstitial and rewarded ads.
+* Add COPPA support.
+* Updated minimum Xcode requirement to 15.0.
+* Remove deprecated callbacks `didStartRewardedAdVideo` and `didCompleteRewardedAdVideo`.
+* Update error code mapping.
+* Remove deprecated API usages.
+
 ## 9.7.0.0
 * Certified with Chartboost SDK 9.7.0.
 

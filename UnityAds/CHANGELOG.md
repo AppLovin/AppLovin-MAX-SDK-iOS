@@ -1,5 +1,65 @@
 # Changelog
 
+## 4.16.2.0
+* Certified with UnityAds SDK 4.16.2.
+
+## 4.16.1.0
+* Certified with UnityAds SDK 4.16.1.
+
+## 4.16.0.0
+* Certified with UnityAds SDK 4.16.0.
+* Updated the minimum required iOS version to 13.0 in Pod Spec to match UnityAds SDK.
+
+## 4.15.1.1
+* Distributed as a static framework within the XCFramework.
+
+## 4.15.1.0
+* Certified with UnityAds SDK 4.15.1.
+
+## 4.15.0.0
+* Certified with UnityAds SDK 4.15.0.
+* Updated minimum Xcode requirement to 16.1 to match UnityAds SDK.
+* Updated to use Unity Ads's new `+[UnityAds getTokenWith:completion:]` API that supports Ad Format for signal collection.
+
+## 4.14.2.0
+* Certified with UnityAds SDK 4.14.2.
+
+## 4.14.1.0
+* Certified with UnityAds SDK 4.14.1.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
+## 4.14.0.0
+* Certified with UnityAds SDK 4.14.0.
+
+## 4.13.2.0
+* Certified with UnityAds SDK 4.13.2.
+
+## 4.13.1.0
+* Certified with UnityAds SDK 4.13.1.
+
+## 4.13.0.0
+* Certified with UnityAds SDK 4.13.0.
+
+## 4.12.5.0
+* Certified with UnityAds SDK 4.12.5.
+* Removed redundant log output when initialization was already completed.
+
+## 4.12.4.0
+* Certified with UnityAds SDK 4.12.4.
+
+## 4.12.3.0
+* Certified with UnityAds SDK 4.12.3.
+
+## 4.12.2.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+
+## 4.12.2.0
+* Certified with UnityAds SDK 4.12.2.
+
+## 4.12.1.0
+* Certified with UnityAds SDK 4.12.1.
+
 ## 4.12.0.0
 * Certified with UnityAds SDK 4.12.0.
 

@@ -7,6 +7,7 @@
 //
 
 #import "ALGoogleNativeAd.h"
+#import <GoogleMobileAds/GADNativeAd.h>
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -38,11 +39,6 @@
         self.gadNativeAdViewTag = gadNativeAdViewTag;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    [self prepareForInteractionClickableViews: @[] withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container

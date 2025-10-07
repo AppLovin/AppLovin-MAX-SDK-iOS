@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"5.9.0.9.0"
+#define ADAPTER_VERSION @"7.6.0.6.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -84,6 +84,7 @@
 
 @implementation ALByteDanceMediationAdapter
 static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 10.0;
+static NSString *const               kMaxExchangeID = @"105";
 static ALAtomicBoolean              *ALByteDanceInitialized;
 static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSIntegerMin;
 
@@ -102,20 +103,11 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         
         PAGConfig *configuration = [PAGConfig shareConfig];
         configuration.userDataString = [self createUserDataStringWithParameters: parameters isInitializing: YES];
+        configuration.adxID = kMaxExchangeID;
         
         NSString *appID = [parameters.serverParameters al_stringForKey: @"app_id"];
         [self log: @"Initializing Pangle SDK with app id: %@...", appID];
         configuration.appID = appID;
-        
-        UIImage *appIconImage = [self appIconImage];
-        if ( !appIconImage )
-        {
-            [self log: @"App icon could not be found"];
-        }
-        else
-        {
-            configuration.appLogoImage = appIconImage;
-        }
         
         if ( [parameters isTesting] )
         {
@@ -142,7 +134,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
     else
     {
-        [self log: @"Pangle SDK already initialized"];
         completionHandler(ALByteDanceInitializationStatus, nil);
     }
 }
@@ -204,17 +195,11 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     [self updateConsentWithParameters: parameters];
     
-    [PAGSdk getBiddingToken: nil completion:^(NSString *biddingToken) {
-        if ( [biddingToken al_isValidString] )
-        {
-            [self log: @"Signal collection successful"];
-            [delegate didCollectSignal: biddingToken];
-        }
-        else
-        {
-            [self log: @"Failed to collect signal"];
-            [delegate didFailToCollectSignalWithErrorMessage: nil];
-        }
+    PAGBiddingRequest *request = [self createSignalRequestForAdFormat: parameters.adFormat withParameters: parameters];
+    
+    [PAGSdk getBiddingTokenWithRequest: request completion:^(NSString *biddingToken) {
+        [self log: @"Signal collection successful"];
+        [delegate didCollectSignal: biddingToken];
     }];
 }
 
@@ -529,7 +514,11 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         }
         else
         {
-            PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize: [self bannerAdSizeForAdFormat: adFormat]];
+            BOOL isAdaptiveAdViewEnabled = [self isAdaptiveBannerEnabledFromParameters: parameters.serverParameters];
+            PAGBannerAdSize adSize = [self bannerAdSizeFromAdFormat: adFormat
+                                            isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                         parameters: parameters];
+            PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize: adSize];
             
             if ( isBidding )
             {
@@ -565,7 +554,13 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
                 self.adViewAdDelegate = [[ALByteDanceAdViewAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
                 self.adViewAd.delegate = self.adViewAdDelegate;
                 
-                [delegate didLoadAdForAdView: ad.bannerView];
+                NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 2];
+                
+                CGSize adSize = ad.adSize.size;
+                extraInfo[@"ad_width"] = @(adSize.width);
+                extraInfo[@"ad_height"] = @(adSize.height);
+                
+                [delegate didLoadAdForAdView: ad.bannerView withExtraInfo: extraInfo];
             }];
         }
     });
@@ -650,7 +645,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             
             UIView *optionsView = self.nativeAdRelatedView.logoADImageView;
             UIView *mediaView = self.nativeAdRelatedView.mediaView;
-
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 // Timeout tasks if incomplete within the given time
@@ -702,16 +697,10 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
         configuration.GDPRConsent = hasUserConsent.boolValue ? PAGGDPRConsentTypeConsent : PAGGDPRConsentTypeNoConsent;
     }
     
-    NSNumber *isAgeRestrictedUser = parameters.isAgeRestrictedUser;
-    if ( isAgeRestrictedUser != nil )
-    {
-        configuration.childDirected = isAgeRestrictedUser.boolValue ? PAGChildDirectedTypeChild : PAGChildDirectedTypeNonChild;
-    }
-    
     NSNumber *isDoNotSell = parameters.isDoNotSell;
     if ( isDoNotSell != nil )
     {
-        configuration.doNotSell = isDoNotSell.boolValue ? PAGDoNotSellTypeNotSell : PAGDoNotSellTypeSell;
+        configuration.PAConsent = isDoNotSell.boolValue ? PAGPAConsentTypeNoConsent : PAGPAConsentTypeConsent;
     }
 }
 
@@ -748,8 +737,15 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     });
 }
 
-- (PAGBannerAdSize)bannerAdSizeForAdFormat:(MAAdFormat *)adFormat
+- (PAGBannerAdSize)bannerAdSizeFromAdFormat:(MAAdFormat *)adFormat
+                    isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                 parameters:(id<MAAdapterParameters>)parameters
 {
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+    
     if ( adFormat == MAAdFormat.banner )
     {
         return kPAGBannerSize320x50;
@@ -769,12 +765,23 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     }
 }
 
-- (nullable UIImage *)appIconImage
+- (PAGBannerAdSize)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
 {
-    NSDictionary *icons = [[NSBundle mainBundle] infoDictionary][@"CFBundleIcons"];
-    NSDictionary *primary = icons[@"CFBundlePrimaryIcon"];
-    NSArray *files = primary[@"CFBundleIconFiles"];
-    return [UIImage imageNamed: files.lastObject];
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaximumHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        if ( inlineMaximumHeight > 0 )
+        {
+            return PAGInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(adaptiveAdWidth, inlineMaximumHeight);
+        }
+        
+        return PAGCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(adaptiveAdWidth);
+    }
+    
+    // Return anchored size by default
+    return PAGCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(adaptiveAdWidth);
 }
 
 // Error code were sourced from https://www.pangleglobal.com/integration/error-code & old sdk class BUErrorCode
@@ -871,13 +878,52 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: pangleErrorCode
-               thirdPartySdkErrorMessage: pangleError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: pangleErrorCode
+                     mediatedNetworkErrorMessage: pangleError.localizedDescription];
+}
+
+- (PAGBiddingRequest *)createSignalRequestForAdFormat:(MAAdFormat *)adFormat withParameters:(id<MASignalCollectionParameters>)parameters
+{
+    PAGBiddingRequest *request = [[PAGBiddingRequest alloc] init];
+    
+    if ( [parameters.adFormat isAdViewAd] )
+    {
+        BOOL isAdaptiveAdViewEnabled = [self isAdaptiveBannerEnabledFromParameters: parameters.localExtraParameters];
+        PAGBannerAdSize adSize = [self bannerAdSizeFromAdFormat: parameters.adFormat
+                                        isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                     parameters: parameters];
+        request.bannerSize = adSize;
+    }
+    
+    request.adxID = kMaxExchangeID;
+    
+    NSString *adUnitId = parameters.adUnitIdentifier;
+    NSDictionary<NSString *, NSString *> *credentials = parameters.serverParameters[@"placement_ids"] ?: @{};
+    NSString *slotId = credentials[adUnitId];
+    if ( [slotId al_isValidString] )
+    {
+        request.slotID = slotId;
+    }
+    else
+    {
+        [self log: @"No valid slot ID found during signal collection"];
+    }
+    
+    return request;
+}
+
+- (BOOL)isAdaptiveBannerEnabledFromParameters:(NSDictionary<NSString *, id> *)parameters
+{
+    BOOL isAdaptiveBannerEnabled = [parameters al_boolForKey: @"adaptive_banner"];
+    
+    if ( isAdaptiveBannerEnabled && ALSdk.versionCode < 13020099 )
+    {
+        [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Pangle adaptive ads"];
+        return NO;
+    }
+    
+    return isAdaptiveBannerEnabled;
 }
 
 @end
@@ -1113,38 +1159,18 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     return self;
 }
 
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(MANativeAdView *)container
 {
     PAGLNativeAd *nativeAd = self.parentAdapter.nativeAd;
     if ( !nativeAd )
     {
         [self.parentAdapter e: @"Failed to register native ad views for interaction: native ad is nil."];
-        return;
+        return NO;
     }
     
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( [self.title al_isValidString] && maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( [self.body al_isValidString] && maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( [self.callToAction al_isValidString] && maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( self.icon && maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    if ( self.mediaView && maxNativeAdView.mediaContentView )
-    {
-        [clickableViews addObject: maxNativeAdView.mediaContentView];
-    }
+    [nativeAd registerContainer: container withClickableViews: clickableViews];
     
-    [nativeAd registerContainer: maxNativeAdView withClickableViews: clickableViews];
+    return YES;
 }
 
 @end

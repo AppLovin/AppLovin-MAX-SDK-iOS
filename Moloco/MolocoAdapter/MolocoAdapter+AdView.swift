@@ -9,15 +9,24 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 extension MolocoAdapter: MAAdViewAdapter
 {
     func loadAdViewAd(for parameters: MAAdapterResponseParameters, adFormat: MAAdFormat, andNotify delegate: MAAdViewAdapterDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard ALUtils.isInclusiveVersion(UIDevice.current.systemVersion, forMinVersion: "13.0", maxVersion: nil) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToLoadAdViewAdWithError(.unspecified)
+            return
+        }
+        
         let placementId = parameters.thirdPartyAdPlacementIdentifier
         let isNative = parameters.serverParameters["is_native"] as? Bool ?? false
         
         log(adEvent: .loading(), id: placementId, adFormat: adFormat)
-
+        
         updatePrivacyStates(for: parameters)
         
         if isNative
@@ -67,6 +76,7 @@ extension MolocoAdapter: MAAdViewAdapter
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoAdViewAdapterDelegate: AdViewAdapterDelegate<MolocoAdapter>, MolocoBannerDelegate
 {
     func didLoad(ad: MolocoAd)
@@ -98,7 +108,9 @@ final class MolocoAdViewAdapterDelegate: AdViewAdapterDelegate<MolocoAdapter>, M
     
     func failToShow(ad: MolocoAd, with error: Error?)
     {
-        let adapterError = error?.molocoAdapterError ?? .unspecified
+        let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                               mediatedNetworkErrorCode: error?.code ?? MAAdapterError.unspecified.code.rawValue,
+                                               mediatedNetworkErrorMessage: error?.localizedDescription ?? MAAdapterError.unspecified.message)
         log(adEvent: .displayFailed(error: adapterError))
         delegate?.didFailToDisplayAdViewAdWithError(adapterError)
     }
@@ -116,6 +128,7 @@ final class MolocoAdViewAdapterDelegate: AdViewAdapterDelegate<MolocoAdapter>, M
     }
 }
 
+@available(iOS 13.0, *)
 final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<MolocoAdapter>, MolocoNativeAdDelegate
 {
     func didLoad(ad: MolocoAd)
@@ -136,14 +149,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         
         adapter.log(adEvent: .loaded, adFormat: adFormat)
         
-        guard let assets = nativeAd.assets, !assets.title.isEmpty else
-        {
-            adapter.log(adEvent: .missingRequiredAssets, adFormat: adFormat)
-            delegate?.didFailToLoadAdViewAdWithError(.missingRequiredNativeAdAssets)
-            return
-        }
-        
-        nativeAd.show(in: ALUtils.topViewControllerFromKeyWindow())
+        guard let assets = nativeAd.assets else { return }
         
         adapter.nativeAdViewAd = MAMolocoNativeAd(adapter: adapter, adFormat: adFormat) { builder in
             builder.title = assets.title
@@ -155,11 +161,12 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
             builder.mediaView = assets.videoView ?? UIImageView(image: assets.mainImage)
             builder.mainImage = assets.mainImage.map { .init(image: $0) }
         }
-                
+        
         let nativeAdView = MANativeAdView(from: adapter.nativeAdViewAd, withTemplate: templateName)
         adapter.nativeAdViewAd?.prepare(forInteractionClickableViews: nativeAdView.clickableViews, withContainer: nativeAdView)
         
         delegate?.didLoadAd(forAdView: nativeAdView)
+        nativeAd.handleImpression()
     }
     
     func failToLoad(ad: MolocoAd, with error: Error?)
@@ -169,7 +176,7 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         delegate?.didFailToLoadAdViewAdWithError(adapterError)
     }
     
-    func didShow(ad: MolocoAd)
+    func didHandleImpression(ad: MolocoAd)
     {
         adapter.log(adEvent: .displayed, adFormat: adFormat)
         delegate?.didDisplayAdViewAd()
@@ -177,12 +184,14 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
     
     func failToShow(ad: MolocoAd, with error: Error?)
     {
-        let adapterError = error?.molocoNativeAdapterError ?? error?.molocoAdapterError ?? .unspecified
+        let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
+                                               mediatedNetworkErrorCode: error?.code ?? MAAdapterError.unspecified.code.rawValue,
+                                               mediatedNetworkErrorMessage: error?.localizedDescription ?? MAAdapterError.unspecified.message)
         adapter.log(adEvent: .displayFailed(error: adapterError), adFormat: adFormat)
         delegate?.didFailToDisplayAdViewAdWithError(adapterError)
     }
     
-    func didClick(on ad: MolocoAd)
+    func didHandleClick(ad: MolocoAd)
     {
         adapter.log(adEvent: .clicked, adFormat: adFormat)
         delegate?.didClickAdViewAd()
@@ -193,4 +202,8 @@ final class MolocoNativeAdViewAdapterDelegate: NativeAdViewAdapterDelegate<Moloc
         adapter.log(adEvent: .hidden, adFormat: adFormat)
         delegate?.didHideAdViewAd()
     }
+    
+    // Deprecated Delegate Methods
+    func didShow(ad: MolocoAd) { }
+    func didClick(on ad: MolocoAd) { }
 }

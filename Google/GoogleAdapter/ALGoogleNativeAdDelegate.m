@@ -57,7 +57,7 @@
     if ( isTemplateAd && ![nativeAd.headline al_isValidString] )
     {
         [self.parentAdapter e: @"Native ad (%@) does not have required assets.", nativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -98,6 +98,7 @@
                                                                  builderBlock:^(MANativeAdBuilder *builder) {
         
         builder.title = nativeAd.headline;
+        builder.advertiser = nativeAd.advertiser;
         builder.body = nativeAd.body;
         builder.callToAction = nativeAd.callToAction;
         
@@ -110,32 +111,10 @@
             builder.icon = [[MANativeAdImage alloc] initWithURL: nativeAd.icon.imageURL];
         }
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        // Introduced in 10.4.0
-        if ( [builder respondsToSelector: @selector(setAdvertiser:)] )
-        {
-            [builder performSelector: @selector(setAdvertiser:) withObject: nativeAd.advertiser];
-        }
-        
+        builder.mainImage = mainImage;
         builder.mediaView = mediaView;
-        if ( ALSdk.versionCode >= 11040299 )
-        {
-            [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-        }
-
-        // Introduced in 11.4.0
-        if ( [builder respondsToSelector: @selector(setMediaContentAspectRatio:)] )
-        {
-            [builder performSelector: @selector(setMediaContentAspectRatio:) withObject: @(mediaContentAspectRatio)];
-        }
-
-        // Introduced in 11.7.0
-        if ( [builder respondsToSelector: @selector(setStarRating:)] )
-        {
-            [builder performSelector: @selector(setStarRating:) withObject: nativeAd.starRating];
-        }
-#pragma clang diagnostic pop
+        builder.mediaContentAspectRatio = mediaContentAspectRatio;
+        builder.starRating = nativeAd.starRating;
     }];
     
     NSString *responseId = nativeAd.responseInfo.responseIdentifier;

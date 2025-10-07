@@ -69,6 +69,12 @@ final class MyTargetInterstitialAdapterDelegate: InterstitialAdapterDelegate<MyT
         delegate?.didDisplayInterstitialAd()
     }
     
+    func onFailedToShow(with interstitialAd: MTRGInterstitialAd)
+    {
+        log(adEvent: .displayFailed(error: .adDisplayFailedError))
+        delegate?.didFailToDisplayInterstitialAdWithError(.adDisplayFailedError)
+    }
+    
     func onClick(with interstitialAd: MTRGInterstitialAd)
     {
         log(adEvent: .clicked)

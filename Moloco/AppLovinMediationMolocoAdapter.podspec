@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationMolocoAdapter'
-s.version = '3.0.0.0'
-s.platform = :ios, '13.0'
+s.version = '3.13.0.0'
+s.platform = :ios, '12.0' # Note: Minimum iOS version set to 12.0 to allow publishers to integrate without increasing their minimum version requirement. Ads will serve on iOS 13.0+.
 s.summary = 'Moloco adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license =
@@ -11,7 +11,7 @@ s.license =
   :type => 'Commercial License',
   :text => <<-LICENSE
 
-Copyright 2024 AppLovin Corp. All rights reserved.
+Copyright 2025 AppLovin Corp. All rights reserved.
 
 The AppLovin MAX SDK is available under a commercial license (https://www.applovin.com/eula).
 
@@ -26,8 +26,8 @@ s.source =
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'MolocoSDKiOS', '= 3.0.0'
-s.dependency 'AppLovinSDK', '>= 12.3.0'
+s.dependency 'MolocoSDKiOS', '= {ADAPTER_SDK_VERSION}'
+s.dependency 'AppLovinSDK', '>= 13.0.0'
 s.swift_version = '5.0'
 
 s.pod_target_xcconfig =
@@ -37,15 +37,7 @@ s.pod_target_xcconfig =
 
 s.description = <<-DESC
 
-AppLovin turns mobile into the medium of choice for advertisers.
-
-OUR MISSION
-
-Enable advertisers to make ROI-based marketing decisions and deliver relevant content on mobile.
-
-Our marketing platform reaches new users and matches them with relevant brands - ensuring you reach the users that are likely to engage.
-
-We deliver relevant content to over a billion mobile consumers every month. With AppLovin, advertisers attain their mobile marketing goals.
+AppLovin makes technologies that help businesses of every size connect to their ideal customers. The company provides end-to-end software and AI solutions for businesses to reach, monetize, and grow their global audiences. For more information about AppLovin, visit: www.applovin.com.
 
 DESC
 

@@ -16,7 +16,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"7.6.7.0.0"
+#define ADAPTER_VERSION @"7.7.9.0.0"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //
@@ -137,17 +137,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             mtgSDK.doNotTrackStatus = YES;
         }
         
-        // Has to be _before_ their SDK init as well
-        NSNumber *isAgeRestrictedUser = [parameters isAgeRestrictedUser];
-        if ( isAgeRestrictedUser != nil )
-        {
-            [mtgSDK setCoppa: isAgeRestrictedUser.boolValue ? MTGBoolYes : MTGBoolNo];
-        }
-        else
-        {
-            [mtgSDK setCoppa: MTGBoolUnknown];
-        }
-        
         [mtgSDK setAppID: appId ApiKey: appKey];
     });
     
@@ -232,8 +221,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 - (void)loadInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    BOOL shouldUpdateMuteState = [parameters.serverParameters al_containsValueForKey: @"is_muted"]; // Introduced in 6.10.0
+    BOOL shouldUpdateMuteState = [parameters.serverParameters al_containsValueForKey: @"is_muted"];
     BOOL muted = [parameters.serverParameters al_numberForKey: @"is_muted"].boolValue;
     
     self.interstitialDelegate = [[ALMintegralMediationAdapterInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
@@ -249,7 +237,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                                                                                                 unitId: unitId
                                                                                               delegate: self.interstitialDelegate];
         
-        // Update mute state if configured by backend
         if ( shouldUpdateMuteState ) self.bidInterstitialVideoManager.playVideoMute = muted;
         
         [self.bidInterstitialVideoManager loadAdWithBidToken: parameters.bidResponse];
@@ -278,7 +265,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         }
         else
         {
-            // Update mute state if configured by backend
             if ( shouldUpdateMuteState ) self.interstitialVideoManager.playVideoMute = muted;
             
             [self.interstitialVideoManager loadAd];
@@ -293,45 +279,23 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Showing bidding interstitial..."];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.bidInterstitialVideoManager showFromViewController: presentingViewController];
     }
     else if ( [self.interstitialVideoManager isAdReady] )
     {
         [self log: @"Showing mediated interstitial..."];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
-        
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         [self.interstitialVideoManager showFromViewController: presentingViewController];
     }
     else
     {
         [self log: @"Unable to show interstitial - no ad loaded..."];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -359,10 +323,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     if ( ![self.appOpenAd isBiddingADReadyToShow] )
     {
         [self log: @"Unable to show app open ad - no ad loaded..."];
-        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                        errorString: @"Ad Display Failed"
-                                                           mediatedNetworkErrorCode: 0
-                                                        mediatedNetworkErrorMessage: @"App open ad not ready"]];
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                   mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
         
         return;
     }
@@ -375,8 +338,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 - (void)loadRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
-    // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-    BOOL shouldUpdateMuteState = [parameters.serverParameters al_containsValueForKey: @"is_muted"]; // Introduced in 6.10.0
+    BOOL shouldUpdateMuteState = [parameters.serverParameters al_containsValueForKey: @"is_muted"];
     BOOL muted = [parameters.serverParameters al_numberForKey: @"is_muted"].boolValue;
     
     self.rewardedDelegate = [[ALMintegralMediationAdapterRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
@@ -410,7 +372,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             {
                 extraInfo = @{@"creative_id" : creativeId};
             }
-           
+            
             [delegate didLoadRewardedAdWithExtraInfo: extraInfo];
         }
         else
@@ -440,15 +402,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Showing bidding rewarded ad..."];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         
         [[MTGBidRewardAdManager sharedInstance] showVideoWithPlacementId: placementId
                                                                   unitId: unitId
@@ -461,15 +415,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     {
         [self log: @"Showing mediated rewarded ad..."];
         
-        UIViewController *presentingViewController;
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
-        }
-        else
-        {
-            presentingViewController = [ALUtils topViewControllerFromKeyWindow];
-        }
+        UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
         
         [[MTGRewardAdManager sharedInstance] showVideoWithPlacementId: placementId
                                                                unitId: unitId
@@ -481,14 +427,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     else
     {
         [self log: @"Unable to show rewarded ad - no ad loaded..."];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -611,6 +552,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         case EXCEPTION_UNIT_ADTYPE_ERROR:
         case EXCEPTION_APP_ID_EMPTY:
         case EXCEPTION_APP_NOT_FOUND:
+        case kMTGErrorCodeBannerSizeInvalid:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
         case kMTGErrorCodeNoAds:
@@ -662,13 +604,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: mintegralErrorCode
-               thirdPartySdkErrorMessage: mintegralError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: mintegralErrorCode
+                     mediatedNetworkErrorMessage: mintegralError.localizedDescription];
 }
 
 - (void)loadImageForURLString:(NSString *)urlString group:(dispatch_group_t)group successHandler:(void (^)(UIImage *image))successHandler;
@@ -847,13 +785,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Interstitial failed to show: %@", error];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -919,13 +853,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Interstitial failed to show: %@", error];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
@@ -994,13 +924,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 
 - (void)splashADShowFail:(MTGSplashAD *)splashAD error:(NSError *)error
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     
     [self.parentAdapter log: @"App open ad failed to show: %@", adapterError];
     [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
@@ -1108,13 +1034,9 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
 {
     [self.parentAdapter log: @"Rewarded ad failed to show: %@", error];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode: -4205
-                                                     errorString: @"Ad Display Failed"
-                                          thirdPartySdkErrorCode: error.code
-                                       thirdPartySdkErrorMessage: error.localizedDescription];
-#pragma clang diagnostic pop
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
@@ -1262,7 +1184,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     if ( ![campaign.appName al_isValidString] )
     {
         [self.parentAdapter log: @"Native %@ ad failed to load for unit id: %@ placement id: %@ with error: missing required assets", self.format.label, self.unitId, self.placementId];
-        [self.delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadAdViewAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -1448,7 +1370,7 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
     if ( isTemplateAd && ![campaign.appName al_isValidString] )
     {
         [self.parentAdapter log: @"Native ad failed to load for unit id: %@ placement id: %@ with error: missing required assets", self.unitId, self.placementId];
-        [self.delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithCode: -5400 errorString: @"Missing Native Ad Assets"]];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
         
         return;
     }
@@ -1536,22 +1458,12 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
                 builder.body = campaign.appDesc;
                 builder.callToAction = campaign.adCall;
                 builder.icon = iconImage;
+                builder.mainImage = mainImage;
                 builder.optionsView = adChoicesView;
-                
-                if ( ALSdk.versionCode >= 11040299 )
-                {
-                    [builder performSelector: @selector(setMainImage:) withObject: mainImage];
-                }
                 builder.mediaView = mediaView;
             }];
             
-            // To compile SOURCE code with < 11.0.0 before SDK is merged so we can push adapter
-            if ( [self.delegate respondsToSelector: @selector(didLoadAdForNativeAd:withExtraInfo:)] )
-            {
-                [self.delegate performSelector: @selector(didLoadAdForNativeAd:withExtraInfo:)
-                                    withObject: maxNativeAd
-                                    withObject: @{}];
-            }
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: @{}];
         });
     });
 }
@@ -1618,11 +1530,6 @@ static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 5.0; // Mintegral 
         self.parentAdapter = parentAdapter;
     }
     return self;
-}
-
-- (void)prepareViewForInteraction:(MANativeAdView *)maxNativeAdView
-{
-    [self prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
 }
 
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container

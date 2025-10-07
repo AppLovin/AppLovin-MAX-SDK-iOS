@@ -1,5 +1,88 @@
 # Changelog
 
+## 12.12.0.0
+* Certified with Google SDK 12.12.0.
+
+## 12.11.0.0
+* Certified with Google SDK 12.11.0.
+
+## 12.10.0.0
+* Certified with Google SDK 12.10.0.
+
+## 12.9.0.0
+* Certified with Google SDK 12.9.0.
+* Distributed as a static framework within the XCFramework.
+
+## 12.8.0.0
+* Certified with Google SDK 12.8.0.
+
+## 12.7.0.0
+* Certified with Google SDK 12.7.0.
+
+## 12.6.0.0
+* Certified with Google SDK 12.6.0.
+* Update ad display failed error code.
+
+## 12.5.0.0
+* Certified with Google SDK 12.5.0.
+
+## 12.4.0.1
+* Removed requirement of the title asset for native banners and MRECs.
+
+## 12.4.0.0
+* Certified with Google SDK 12.4.0.
+
+## 12.3.0.0
+* Certified with Google SDK 12.3.0.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
+## 12.2.0.0
+* Certified with Google SDK 12.2.0.
+* Updated minimum Xcode requirement to 16.0 to match Google SDK.
+
+## 12.1.0.0
+* Certified with Google SDK 12.1.0.
+
+## 12.0.0.0
+* Certified with Google SDK 12.0.0.
+* Update to new bidding APIs.
+* Remove support for the interstitial option of app open ads.
+
+## 11.13.0.1
+* Add support for [inline adaptive banners in MRECs](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs).
+* Remove support for rewarded interstitial ads.
+
+## 11.13.0.0
+* Certified with Google SDK 11.13.0.
+
+## 11.12.0.0
+* Certified with Google SDK 11.12.0.
+
+## 11.11.0.0
+* Certified with Google SDK 11.11.0.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
+## 11.10.0.0
+* Certified with Google SDK 11.10.0.
+
+## 11.9.0.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
+## 11.9.0.0
+* Certified with Google SDK 11.9.0.
+
+## 11.8.0.0
+* Certified with Google SDK 11.8.0.
+* Updated minimum Xcode requirement to 15.3 to match Google SDK.
+
+## 11.7.0.1
+* Add support for [inline adaptive banner ads](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners).
+
+## 11.7.0.0
+* Certified with Google SDK 11.7.0.
+
 ## 11.6.0.0
 * Certified with Google SDK 11.6.0.
 

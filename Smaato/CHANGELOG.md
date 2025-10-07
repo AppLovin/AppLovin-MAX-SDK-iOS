@@ -1,5 +1,28 @@
 # Changelog
 
+## 22.9.3.1
+* Updated minimum iOS version to 12.0.
+* Removed requirement of the title asset for native banners and MRECs.
+
+## 22.9.3.0
+* Certified with Smaato SDK 22.9.3.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+
+## 22.9.2.0
+* Certified with Smaato SDK 22.9.2.
+
+## 22.9.1.0
+* Certified with Smaato SDK 22.9.1.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
+## 22.9.0.0
+* Certified with Smaato SDK 22.9.0.
+
+## 22.8.4.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
 ## 22.8.4.0
 * Certified with Smaato SDK 22.8.4.
 * Remove deprecated callbacks `didStartRewardedAdVideo`, `didCompleteRewardedAdVideo`.

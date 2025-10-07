@@ -1,5 +1,51 @@
 # Changelog
 
+## 7.7.9.0.0
+* Certified with Mintegral SDK 7.7.9.
+* Updated ad display failed error code.
+  
+## 7.7.8.0.0
+* Certified with Mintegral SDK 7.7.8.
+* Removed deprecated code paths based on the minimum supported AppLovin MAX SDK version 13.0.0.
+* Updated minimum iOS version to 12.0.
+* Properly handle `kMTGErrorCodeBannerSizeInvalid` error code.
+
+## 7.7.7.0.0
+* Certified with Mintegral SDK 7.7.7.
+
+## 7.7.6.0.0
+* Certified with Mintegral SDK 7.7.6.
+
+## 7.7.5.0.0
+* Certified with Mintegral SDK 7.7.5.
+
+## 7.7.4.0.0
+* Certified with Mintegral SDK 7.7.4.
+
+## 7.7.3.0.0
+* Certified with Mintegral SDK 7.7.3.
+* Simplified API calls by removing selector checks; direct API calls are now safe with the updated min SDK version.
+
+## 7.7.2.0.1
+* Requires minimum AppLovin MAX SDK version be 13.0.0.
+* Removed COPPA support.
+* Remove deprecated native API usages.
+
+## 7.7.2.0.0
+* Certified with Mintegral SDK 7.7.2.
+
+## 7.7.1.0.0
+* Certified with Mintegral SDK 7.7.1.
+
+## 7.7.0.0.0
+* Certified with Mintegral SDK 7.7.0.
+
+## 7.6.9.0.0
+* Certified with Mintegral SDK 7.6.9.
+
+## 7.6.8.0.0
+* Certified with Mintegral SDK 7.6.8.
+
 ## 7.6.7.0.0
 * Certified with Mintegral SDK 7.6.7.
 

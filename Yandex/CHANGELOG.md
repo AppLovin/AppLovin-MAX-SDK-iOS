@@ -1,5 +1,84 @@
 # Changelog
 
+## 7.16.1.0
+* Certified with Yandex SDK 7.16.1.
+
+## 7.16.0.0
+* Certified with Yandex SDK 7.16.0.
+* Updated error code mapping.
+* Distributed as a static framework within the XCFramework.
+
+## 7.15.1.0
+* Certified with Yandex SDK 7.15.1.
+
+## 7.15.0.0
+* Certified with Yandex SDK 7.15.0.
+
+## 7.14.1.0
+* Certified with Yandex SDK 7.14.1.
+
+## 7.14.0.0
+* Certified with Yandex SDK 7.14.0.
+* Requires minimum AppLovin MAX SDK version be 11.4.0.
+* Updated ad display failed error code.
+
+## 7.13.0.0
+* Certified with Yandex SDK 7.13.0.
+
+## 7.12.3.0
+* Certified with Yandex SDK 7.12.3.
+
+## 7.12.2.1
+* Add support for [adaptive banners](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#adaptive-banners) & inline adaptive ads in both [banners](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners) and [MRECs](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs). Requires AppLovin MAX SDK 13.2.0 or higher.
+
+## 7.12.2.0
+* Certified with Yandex SDK 7.12.2.
+* Updated `YMABidderTokenLoader` usage to recommended initializer with mediation name.
+
+## 7.12.1.0
+* Certified with Yandex SDK 7.12.1.
+
+## 7.12.0.0
+* Certified with Yandex SDK 7.12.0.
+
+## 7.11.1.0
+* Certified with Yandex SDK 7.11.1.
+
+## 7.11.0.0
+* Certified with Yandex SDK 7.11.0.
+
+## 7.10.2.0
+* Certified with Yandex SDK 7.10.2.
+
+## 7.10.1.0
+* Certified with Yandex SDK 7.10.1.
+* Updated minimum Xcode requirement to 16.0 to match Yandex SDK.
+
+## 7.10.0.1
+* Corrected certification for Yandex SDK 7.10.0.
+
+## 7.10.0.0
+* Certified with Yandex SDK 7.10.0.
+
+## 7.8.0.0
+* Certified with Yandex SDK 7.8.0.
+
+## 7.5.0.3
+* Add support for native ads in external plugins (e.g. React Native / Flutter).
+
+## 7.5.0.2
+* Add support for native ads.
+* Removed exception throwing if unable to map ad format to that of the network's.
+
+## 7.5.0.1
+* Add back x86_64 simulator slice to match Yandex SDK.
+
+## 7.5.0.0
+* Certified with Yandex SDK 7.5.0.
+
+## 7.4.0.0
+* Certified with Yandex SDK 7.4.0.
+
 ## 7.0.1.0
 * Certified with Yandex SDK 7.0.1.
 

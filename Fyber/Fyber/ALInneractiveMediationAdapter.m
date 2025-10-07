@@ -9,7 +9,7 @@
 #import "ALInneractiveMediationAdapter.h"
 #import <IASDKCore/IASDKCore.h>
 
-#define ADAPTER_VERSION @"8.3.0.0"
+#define ADAPTER_VERSION @"8.3.8.0"
 
 @interface ALInneractiveMediationAdapterGlobalDelegate : NSObject <IAGlobalAdDelegate>
 @end
@@ -86,11 +86,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         [self log: @"Initializing Inneractive SDK with app id: %@...", appID];
         [IASDKCore sharedInstance].mediationType = [[IAMediationMax alloc] init];
         
-        // Passing extra info such as creative id supported in 6.15.0+
-        if ( ALSdk.versionCode >= 6150000 )
-        {
-            [IASDKCore sharedInstance].globalAdDelegate = ALInneractiveGlobalDelegate;
-        }
+        [IASDKCore sharedInstance].globalAdDelegate = ALInneractiveGlobalDelegate;
         
         [[IASDKCore sharedInstance] setMediationType: [[IAMediationMax alloc] init]];
         
@@ -112,11 +108,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     }
     else
     {
-        if ( [[IASDKCore sharedInstance] isInitialised] )
-        {
-            [self log: @"Inneractive SDK already initialized"];
-        }
-        
         completionHandler(ALInneractiveInitializationStatus, nil);
     }
 }
@@ -170,15 +161,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     [self updateUserInfoWithRequestParameters: parameters];
     
     NSString *signal = [FMPBiddingManager sharedInstance].biddingToken;
-    if ( [signal al_isValidString] )
-    {
-        [delegate didCollectSignal: signal];
-    }
-    else
-    {
-        [self log: @"Failed to collect signal"];
-        [delegate didFailToCollectSignalWithErrorMessage: nil];
-    }
+    [delegate didCollectSignal: signal];
 }
 
 #pragma mark - MAInterstitialAdapter Methods
@@ -244,10 +227,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     
     if ( self.interstitialAdSpot.activeUnitController == self.interstitialUnitController )
     {
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            self.presentingViewController = parameters.presentingViewController;
-        }
+        self.presentingViewController = parameters.presentingViewController;
         
         ALInneractiveCurrentlyShowingAdapters[parameters.thirdPartyAdPlacementIdentifier] = self;
         [self.interstitialUnitController showAdAnimated: YES completion: nil];
@@ -255,14 +235,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     else
     {
         [self log: @"Interstitial ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                             errorString: @"Ad Display Failed"
-                                                                  thirdPartySdkErrorCode: 0
-                                                               thirdPartySdkErrorMessage: @"Interstitial ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -334,24 +309,16 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         // Configure reward from server.
         [self configureRewardForParameters: parameters];
         
-        if ( ALSdk.versionCode >= 11020199 )
-        {
-            self.presentingViewController = parameters.presentingViewController;
-        }
+        self.presentingViewController = parameters.presentingViewController;
         
         [self.rewardedUnitController showAdAnimated: YES completion: nil];
     }
     else
     {
         [self log: @"Rewarded ad not ready"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                         errorString: @"Ad Display Failed"
-                                                              thirdPartySdkErrorCode: 0
-                                                           thirdPartySdkErrorMessage: @"Rewarded ad not ready"]];
-#pragma clang diagnostic pop
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -427,12 +394,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         [[IASDKCore sharedInstance] clearGDPRConsentData];
     }
     
-    if ( ALSdk.versionCode >= 11040299 )
+    if ( requestParameters.consentString )
     {
-        if ( requestParameters.consentString )
-        {
-            [[IASDKCore sharedInstance] setGDPRConsentString: requestParameters.consentString];
-        }
+        [[IASDKCore sharedInstance] setGDPRConsentString: requestParameters.consentString];
     }
     
     NSNumber *isDoNotSell = [requestParameters isDoNotSell];
@@ -444,16 +408,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         [[IASDKCore sharedInstance] setCCPAString: @"1---"];
     }
-    
-    NSNumber *isAgeRestrictedUser = [requestParameters isAgeRestrictedUser];
-    if ( isAgeRestrictedUser != nil )
-    {
-        [[IASDKCore sharedInstance] setCoppaApplies: isAgeRestrictedUser.boolValue ? IACoppaAppliesTypeGiven : IACoppaAppliesTypeDenied];
-    }
-    else
-    {
-        [[IASDKCore sharedInstance] setCoppaApplies: IACoppaAppliesTypeUnknown];
-    }
 }
 
 - (IAAdRequest *)createAdRequestWithRequestParameters:(id<MAAdapterResponseParameters>)requestParameters
@@ -463,16 +417,17 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
         builder.timeout = [requestParameters.serverParameters al_numberForKey: @"load_timeout" defaultValue: @(10.0f)].al_timeIntervalValue;
     }];
     
-    NSDictionary *serverParameters = requestParameters.serverParameters;
-
-    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
-    {
-        // Overwritten by `mute_state` setting, unless `mute_state` is disabled
-        // NOTE: Does not work for rewarded ads
-        [IASDKCore sharedInstance].muteAudio = [serverParameters al_numberForKey: @"is_muted"].boolValue; // Introduced in 6.10.0
-    }
+    [self updateMuteStateFromServerParameters: requestParameters.serverParameters];
     
     return request;
+}
+
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters
+{
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+    {
+        [IASDKCore sharedInstance].muteAudio = [serverParameters al_numberForKey: @"is_muted"].boolValue;
+    }
 }
 
 + (MAAdapterError *)toMaxError:(NSError *)inneractiveError
@@ -503,13 +458,9 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
             break;
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [MAAdapterError errorWithCode: adapterError.errorCode
-                             errorString: adapterError.errorMessage
-                  thirdPartySdkErrorCode: inneractiveErrorCode
-               thirdPartySdkErrorMessage: inneractiveError.localizedDescription];
-#pragma clang diagnostic pop
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: inneractiveErrorCode
+                     mediatedNetworkErrorMessage: inneractiveError.localizedDescription];
 }
 
 @end
@@ -532,28 +483,28 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     return self.parentAdapter.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
-- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+- (void)IAAdDidExpire:(nullable IAUnitController *)unitController
 {
-    [self.parentAdapter log: @"Interstitial clicked"];
-    [self.delegate didClickInterstitialAd];
+    // Fyber SDK triggers this callback when attempting to display an expired ad. Fail the ad display to ensure that the ad display cycle is complete.
+    [self.parentAdapter log: @"Interstitial expired"];
+    [self.delegate didFailToDisplayInterstitialAdWithError: MAAdapterError.adExpiredError];
 }
 
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
 {
     [self.parentAdapter log: @"Interstitial shown"];
     
-    // Passing extra info such as creative id supported in 6.15.0+
-    if ( ALSdk.versionCode >= 6150000 )
-    {
-        dispatchOnMainQueueAfter(0.5, ^{
-            // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
-            [self.delegate didDisplayInterstitialAd];
-        });
-    }
-    else
-    {
+    dispatchOnMainQueueAfter(0.5, ^{
+        // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
         [self.delegate didDisplayInterstitialAd];
-    }
+    });
+    
+}
+
+- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+{
+    [self.parentAdapter log: @"Interstitial clicked"];
+    [self.delegate didClickInterstitialAd];
 }
 
 - (void)IAUnitControllerDidDismissFullscreen:(nullable IAUnitController *)unitController
@@ -582,28 +533,47 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     return self.parentAdapter.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
 }
 
-- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+- (void)IAAdDidExpire:(nullable IAUnitController *)unitController
 {
-    [self.parentAdapter log: @"Rewarded ad clicked"];
-    [self.delegate didClickRewardedAd];
+    // Fyber SDK triggers this callback when attempting to display an expired ad. Fail the ad display to ensure that the ad display cycle is complete.
+    [self.parentAdapter log: @"Rewarded ad expired"];
+    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                     mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                  mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
 }
 
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
 {
     [self.parentAdapter log: @"Rewarded ad shown"];
     
-    // Passing extra info such as creative id supported in 6.15.0+
-    if ( ALSdk.versionCode >= 6150000 )
-    {
-        dispatchOnMainQueueAfter(0.5, ^{
-            // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
-            [self.delegate didDisplayRewardedAd];
-        });
-    }
-    else
-    {
+    dispatchOnMainQueueAfter(0.5, ^{
+        // Force callback after a bit in case impression data does not arrive - note SDK guards against duplicate callbacks
         [self.delegate didDisplayRewardedAd];
+    });
+}
+
+- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoProgressUpdatedWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
+{
+    if ( currentTime == 0 )
+    {
+        [self.parentAdapter log: @"Rewarded video started"];
     }
+}
+
+- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
+{
+    [self.parentAdapter log: @"Rewarded ad clicked"];
+    [self.delegate didClickRewardedAd];
+}
+
+- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
+{
+    [self.parentAdapter log: @"Rewarded video is interrupted and buffering with error: %@", error];
+}
+
+- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
+{
+    [self.parentAdapter log: @"Rewarded video completed"];
 }
 
 - (void)IAAdDidReward:(IAUnitController *)unitController
@@ -623,32 +593,6 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     
     [self.parentAdapter log: @"Rewarded ad hidden"];
     [self.delegate didHideRewardedAd];
-}
-
-- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoProgressUpdatedWithCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime
-{
-    if ( currentTime == 0 )
-    {
-        [self.parentAdapter log: @"Rewarded video started"];
-    }
-}
-
-- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController videoInterruptedWithError:(NSError *)error
-{
-    [self.parentAdapter log: @"Rewarded ad failed to display with error: %@", error];
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self.delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithCode: -4205
-                                                                          errorString: @"Ad Display Failed"
-                                                               thirdPartySdkErrorCode: error.code
-                                                            thirdPartySdkErrorMessage: error.localizedDescription]];
-#pragma clang diagnostic pop
-}
-
-- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController
-{
-    [self.parentAdapter log: @"Rewarded video completed"];
 }
 
 @end
@@ -671,20 +615,15 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     return [ALUtils topViewControllerFromKeyWindow];
 }
 
+- (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
+{
+    [self.parentAdapter log: @"AdView shown"];
+}
+
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController
 {
     [self.parentAdapter log: @"AdView clicked"];
     [self.delegate didClickAdViewAd];
-}
-
-- (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController
-{
-    [self.parentAdapter log: @"AdView shown"];
-    
-    if ( ALSdk.versionCode < 6150000 )
-    {
-        [self.delegate didDisplayAdViewAd];
-    }
 }
 
 - (void)IAMRAIDContentController:(nullable IAMRAIDContentController *)contentController MRAIDAdDidExpandToFrame:(CGRect)frame
@@ -718,8 +657,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         if ( [creativeID al_isValidString] )
         {
-            [adapter.interstitialDelegate.delegate performSelector: @selector(didDisplayInterstitialAdWithExtraInfo:)
-                                                        withObject: @{@"creative_id" : creativeID}];
+            [adapter.interstitialDelegate.delegate didDisplayInterstitialAdWithExtraInfo: @{@"creative_id" : creativeID}];
         }
         else
         {
@@ -730,8 +668,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         if ( [creativeID al_isValidString] )
         {
-            [adapter.rewardedDelegate.delegate performSelector: @selector(didDisplayRewardedAdWithExtraInfo:)
-                                                    withObject: @{@"creative_id" : creativeID}];
+            [adapter.rewardedDelegate.delegate didDisplayRewardedAdWithExtraInfo: @{@"creative_id" : creativeID}];
         }
         else
         {
@@ -742,8 +679,7 @@ static NSMutableDictionary<NSString *, ALInneractiveMediationAdapter *> *ALInner
     {
         if ( [creativeID al_isValidString] )
         {
-            [adapter.adViewDelegate.delegate performSelector: @selector(didDisplayAdViewAdWithExtraInfo:)
-                                                  withObject: @{@"creative_id" : creativeID}];
+            [adapter.adViewDelegate.delegate didDisplayAdViewAdWithExtraInfo: @{@"creative_id" : creativeID}];
         }
         else
         {

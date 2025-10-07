@@ -9,6 +9,7 @@
 import AppLovinSDK
 import MolocoSDK
 
+@available(iOS 13.0, *)
 @objc(ALMolocoMediationAdapter)
 final class MolocoAdapter: ALMediationAdapter
 {
@@ -35,23 +36,30 @@ final class MolocoAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Moloco" }
     
-    override var adapterVersion: String { "3.0.0.0" }
+    override var adapterVersion: String { "3.13.0.0" }
     
     override var sdkVersion: String { Moloco.shared.sdkVersion }
-        
+    
     override func initialize(with parameters: MAAdapterInitializationParameters, completionHandler: @escaping MAAdapterInitializationCompletionHandler)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard ALUtils.isInclusiveVersion(UIDevice.current.systemVersion, forMinVersion: "13.0", maxVersion: nil) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            completionHandler(.initializedFailure, "Moloco SDK does not support serving ads on iOS 12 and below")
+            return
+        }
+        
         guard Self.initialized.compareAndSet(false, update: true) else
         {
-            log(lifecycleEvent: .alreadyInitialized)
             completionHandler(.doesNotApply, nil)
             return
         }
-                
+        
         let appKey = parameters.serverParameters["app_key"] as? String ?? ""
         
         log(lifecycleEvent: .initializing())
-                
+        
         Moloco.shared.initialize(initParams: .init(appKey: appKey, mediator: .max)) { success, error in
             
             if !success || error != nil
@@ -103,11 +111,6 @@ final class MolocoAdapter: ALMediationAdapter
             MolocoPrivacySettings.hasUserConsent = userConsent.boolValue
         }
         
-        if let isAgeRestrictedUser = parameters.ageRestrictedUser
-        {
-            MolocoPrivacySettings.isAgeRestrictedUser = isAgeRestrictedUser.boolValue
-        }
-        
         if let isDoNotSell = parameters.doNotSell
         {
             MolocoPrivacySettings.isDoNotSell = isDoNotSell.boolValue
@@ -117,10 +120,19 @@ final class MolocoAdapter: ALMediationAdapter
 
 // MARK: - MASignalProvider
 
+@available(iOS 13.0, *)
 extension MolocoAdapter: MASignalProvider
 {
     func collectSignal(with parameters: MASignalCollectionParameters, andNotify delegate: MASignalCollectionDelegate)
     {
+        // NOTE: We need this extra guard because the SDK bypasses the @available check when this function is called from Objective-C
+        guard ALUtils.isInclusiveVersion(UIDevice.current.systemVersion, forMinVersion: "13.0", maxVersion: nil) else
+        {
+            log(customEvent: .unsupportedMinimumOS)
+            delegate.didFailToCollectSignalWithErrorMessage("Moloco SDK does not support serving ads on iOS 12 and below")
+            return
+        }
+        
         log(signalEvent: .collecting)
         
         updatePrivacyStates(for: parameters)
