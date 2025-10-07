@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.8.8.0"
+#define ADAPTER_VERSION @"11.0.0.0"
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -501,34 +501,6 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
 }
 
-- (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
-{
-    // We don't add CTA button here to avoid duplicate click callbacks
-    NSMutableArray *clickableViews = [NSMutableArray array];
-    if ( maxNativeAdView.titleLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.titleLabel];
-    }
-    if ( maxNativeAdView.advertiserLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.advertiserLabel];
-    }
-    if ( maxNativeAdView.bodyLabel )
-    {
-        [clickableViews addObject: maxNativeAdView.bodyLabel];
-    }
-    if ( maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
-    if ( maxNativeAdView.iconImageView )
-    {
-        [clickableViews addObject: maxNativeAdView.iconImageView];
-    }
-    
-    return clickableViews;
-}
-
 @end
 
 @implementation ALInMobiMediationAdapterAdViewDelegate
@@ -818,10 +790,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                                       adFormat: self.format
                                                                                   builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
+            builder.advertiser = nativeAd.advertiserName;
             builder.body = nativeAd.adDescription;
             builder.callToAction = nativeAd.adCtaText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
-            builder.mediaView = [[UIView alloc] init];
+            builder.icon = [[MANativeAdImage alloc] initWithImage:nativeAd.adIcon.imageview.image];
+            builder.mediaView = [nativeAd getMediaView];
+            builder.mediaContentAspectRatio = 1.0;
+            builder.starRating = @(nativeAd.adRating.doubleValue);
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
@@ -844,7 +819,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
         }
         
-        [self.parentAdapter.maxNativeAdViewAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
+        [self.parentAdapter.maxNativeAdViewAd prepareForInteractionClickableViews: [self clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
         
         if ( [nativeAd.creativeId al_isValidString] )
         {
@@ -856,6 +831,58 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
             [self.delegate didLoadAdForAdView: maxNativeAdView];
         }
     });
+}
+
+- (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
+{
+    IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView:maxNativeAdView];
+    // We don't add CTA button here to avoid duplicate click callbacks
+    NSMutableArray *clickableViews = [NSMutableArray array];
+    if ( maxNativeAdView.titleLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.titleLabel];
+        [builder setTitleView:maxNativeAdView.titleLabel];
+    }
+    if ( maxNativeAdView.advertiserLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.advertiserLabel];
+        [builder setAdvertiserView:maxNativeAdView.advertiserLabel];
+    }
+    if ( maxNativeAdView.bodyLabel )
+    {
+        [clickableViews addObject: maxNativeAdView.bodyLabel];
+        [builder setDescriptionView:maxNativeAdView.bodyLabel];
+    }
+    if ( maxNativeAdView.callToActionButton )
+    {
+        [clickableViews addObject: maxNativeAdView.callToActionButton];
+        [builder setCTAView:maxNativeAdView.callToActionButton];
+    }
+    if ( maxNativeAdView.iconImageView )
+    {
+        [clickableViews addObject: maxNativeAdView.iconImageView];
+        [builder setIconView:maxNativeAdView.iconImageView];
+    }
+    
+    if ( maxNativeAdView.mediaContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.mediaContentView];
+        //        [builder setMediaView:maxNativeAdView.mediaContentView];
+    }
+    if ( maxNativeAdView.starRatingContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.starRatingContentView];
+        [builder setRatingView:maxNativeAdView.starRatingContentView];
+    }
+    if ( maxNativeAdView.optionsContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.optionsContentView];
+    }
+    
+    IMNativeViewData * data = [builder build];
+    [self.parentAdapter.nativeAd registerViewForTracking:data];
+    
+    return clickableViews;
 }
 
 - (void)native:(IMNative *)native didFailToLoadWithError:(IMRequestStatus *)error
@@ -964,11 +991,13 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                          adFormat: MAAdFormat.native
                                                                      builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
+            builder.advertiser = nativeAd.advertiserName;
             builder.body = nativeAd.adDescription;
             builder.callToAction = nativeAd.adCtaText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
-            builder.mediaView = [[UIView alloc] init];
+            builder.icon = [[MANativeAdImage alloc] initWithImage:nativeAd.adIcon.imageview.image];
+            builder.mediaView = [nativeAd getMediaView];
             builder.starRating = @(nativeAd.adRating.doubleValue);
+            builder.mediaContentAspectRatio = 1.0;
         }];
         
         NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
@@ -1052,6 +1081,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return self;
 }
 
+
 - (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
 {
     IMNative *nativeAd = self.parentAdapter.nativeAd;
@@ -1061,37 +1091,20 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         return NO;
     }
     
-    UIView *mediaView = self.mediaView;
-    CGFloat primaryViewWidth = CGRectGetWidth(mediaView.frame);
+    MANativeAdView *nativeAdView = (MANativeAdView *)container;
     
-    // NOTE: InMobi's SDK returns primary view with a height that does not fit a banner, so scale media smaller specifically for horizontal banners (and not leaders/MRECs)
-    if ( self.adFormat == MAAdFormat.banner && CGRectGetWidth(mediaView.frame) > CGRectGetHeight(mediaView.frame) )
-    {
-        primaryViewWidth = CGRectGetHeight(mediaView.frame) * 16 / 9;
-    }
+    IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView:container];
+    [builder setTitleView:nativeAdView.titleLabel];
+    [builder setIconView:nativeAdView.iconImageView];
+    [builder setCTAView:nativeAdView.callToActionButton];
+    [builder setAdvertiserView:nativeAdView.advertiserLabel];
+    [builder setDescriptionView:nativeAdView.bodyLabel];
     
-    UIView *primaryView = [self.parentAdapter.nativeAd primaryViewOfWidth: primaryViewWidth];
-    UIView *inMobiContentView = primaryView.subviews[0];
-    
-    [mediaView addSubview: primaryView];
-    // Pin to super view to make it clickable and centered
-    [primaryView al_pinToSuperview];
-    [inMobiContentView al_pinToSuperview];
-    
-    // InMobi does not provide a method to bind views with landing url, so we need to do it manually
-    for ( UIView *clickableView in clickableViews )
-    {
-        UITapGestureRecognizer *clickGesture = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        [clickableView addGestureRecognizer: clickGesture];
-    }
+    IMNativeViewData * data = [builder build];
+    [self.parentAdapter.nativeAd registerViewForTracking:data];
     
     return YES;
 }
 
-- (void)clickNativeView
-{
-    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];
-    [self.parentAdapter.nativeAd reportAdClickAndOpenLandingPage];
-}
-
 @end
+
