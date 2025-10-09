@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.4.0.0
+* Certified with Fyber SDK 8.4.0.
+* Distributed as a static framework within the XCFramework.
+
 ## 8.3.8.0
 * Certified with Fyber SDK 8.3.8.
 * Update ad display failed error code.
