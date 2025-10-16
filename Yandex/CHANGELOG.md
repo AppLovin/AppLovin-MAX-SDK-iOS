@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.16.2.0
+* Certified with Yandex SDK 7.16.2.
+
 ## 7.16.1.0
 * Certified with Yandex SDK 7.16.1.
 
