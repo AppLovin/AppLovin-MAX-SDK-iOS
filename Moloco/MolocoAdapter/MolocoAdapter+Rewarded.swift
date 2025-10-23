@@ -30,7 +30,9 @@ extension MolocoAdapter: MARewardedAdapter
         
         Task {
             rewardedDelegate = .init(adapter: self, delegate: delegate, parameters: parameters)
-            rewardedAd = await Moloco.shared.createRewarded(for: placementId, delegate: rewardedDelegate)
+            rewardedAd = await Moloco.shared.createRewarded(params: .init(adUnit: placementId, mediation: "max"))
+            rewardedAd?.rewardedDelegate = rewardedDelegate
+            
             guard let rewardedAd else
             {
                 log(adEvent: .loadFailed(error: .invalidConfiguration), adFormat: .rewarded)

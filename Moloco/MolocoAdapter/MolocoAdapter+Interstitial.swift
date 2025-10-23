@@ -30,7 +30,9 @@ extension MolocoAdapter: MAInterstitialAdapter
         
         Task {
             interstitialDelegate = .init(adapter: self, delegate: delegate, parameters: parameters)
-            interstitialAd = await Moloco.shared.createInterstitial(for: placementId, delegate: interstitialDelegate)
+            interstitialAd = await Moloco.shared.createInterstitial(params: .init(adUnit: placementId, mediation: "max"))
+            interstitialAd?.interstitialDelegate = interstitialDelegate
+            
             guard let interstitialAd else
             {
                 log(adEvent: .loadFailed(error: .invalidConfiguration), adFormat: .interstitial)
@@ -51,8 +53,8 @@ extension MolocoAdapter: MAInterstitialAdapter
         guard let interstitialAd, interstitialAd.isReady else
         {
             let adapterError = MAAdapterError.init(adapterError: MAAdapterError.adDisplayFailedError,
-                                       mediatedNetworkErrorCode: MAAdapterError.adNotReady.code.rawValue,
-                                    mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message)
+                                                   mediatedNetworkErrorCode: MAAdapterError.adNotReady.code.rawValue,
+                                                   mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message)
             log(adEvent: .notReady, id: placementId, adFormat: .interstitial)
             delegate.didFailToDisplayInterstitialAdWithError(adapterError)
             return

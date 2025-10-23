@@ -36,7 +36,7 @@ final class MolocoAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Moloco" }
     
-    override var adapterVersion: String { "3.13.0.0" }
+    override var adapterVersion: String { "4.0.0.0" }
     
     override var sdkVersion: String { Moloco.shared.sdkVersion }
     
@@ -60,7 +60,7 @@ final class MolocoAdapter: ALMediationAdapter
         
         log(lifecycleEvent: .initializing())
         
-        Moloco.shared.initialize(initParams: .init(appKey: appKey, mediator: .max)) { success, error in
+        Moloco.shared.initialize(params: .init(appKey: appKey, mediation: "max")) { success, error in
             
             if !success || error != nil
             {
@@ -137,7 +137,7 @@ extension MolocoAdapter: MASignalProvider
         
         updatePrivacyStates(for: parameters)
         
-        Moloco.shared.getBidToken { signal, error in
+        Moloco.shared.getBidToken(params: .init(mediation: "max")) { signal, error in
             
             if let error
             {

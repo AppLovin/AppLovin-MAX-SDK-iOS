@@ -33,7 +33,8 @@ extension MolocoAdapter: MAAdViewAdapter
         {
             Task {
                 nativeAdViewAdDelegate = .init(adapter: self, delegate: delegate, adFormat: adFormat, parameters: parameters)
-                nativeAd = await Moloco.shared.createNativeAd(for: placementId, delegate: nativeAdViewAdDelegate)
+                nativeAd = await Moloco.shared.createNativeAd(params: .init(adUnit: placementId, mediation: "max"))
+                nativeAd?.delegate = nativeAdViewAdDelegate
                 guard let nativeAd else
                 {
                     log(adEvent: .loadFailed(error: .invalidConfiguration), adFormat: adFormat)
@@ -56,9 +57,9 @@ extension MolocoAdapter: MAAdViewAdapter
                 switch adFormat
                 {
                 case .banner, .leader:
-                    adView = await Moloco.shared.createBanner(for: placementId, viewController: viewController, delegate: adViewDelegate)
+                    adView = await Moloco.shared.createBanner(params: .init(adUnit: placementId, mediation: "max"), viewController: viewController)
                 case .mrec:
-                    adView = await Moloco.shared.createMREC(for: placementId, viewController: viewController, delegate: adViewDelegate)
+                    adView = await Moloco.shared.createMREC(params: .init(adUnit: placementId, mediation: "max"), viewController: viewController)
                 default:
                     break
                 }
@@ -68,6 +69,10 @@ extension MolocoAdapter: MAAdViewAdapter
                     log(adEvent: .loadFailed(error: .invalidConfiguration), adFormat: adFormat)
                     delegate.didFailToLoadAdViewAdWithError(.invalidConfiguration)
                     return
+                }
+                
+                await MainActor.run {
+                    adView.delegate = adViewDelegate
                 }
                 
                 await adView.load(bidResponse: parameters.bidResponse)

@@ -30,7 +30,8 @@ extension MolocoAdapter: MANativeAdAdapter
         
         Task {
             nativeAdDelegate = .init(adapter: self, delegate: delegate, parameters: parameters)
-            nativeAd = await Moloco.shared.createNativeAd(for: placementId, delegate: nativeAdDelegate)
+            nativeAd = await Moloco.shared.createNativeAd(params: .init(adUnit: placementId, mediation: "max"))
+            nativeAd?.delegate = nativeAdDelegate
             guard let nativeAd else
             {
                 log(adEvent: .loadFailed(error: .invalidConfiguration), adFormat: .native)
