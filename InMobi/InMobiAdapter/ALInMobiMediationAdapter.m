@@ -9,7 +9,15 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"10.8.8.0"
+#define ADAPTER_VERSION @"11.0.0.0"
+
+#define TITLE_LABEL_TAG          1
+#define MEDIA_VIEW_CONTAINER_TAG 2
+#define ICON_VIEW_TAG            3
+#define BODY_VIEW_TAG            4
+#define CALL_TO_ACTION_VIEW_TAG  5
+#define RATING_VIEW_TAG          6
+#define ADVERTISER_VIEW_TAG      8
 
 /**
  * Dedicated delegate object for InMobi AdView ads.
@@ -504,6 +512,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 - (NSArray<UIView *> *)clickableViewsForNativeAdView:(MANativeAdView *)maxNativeAdView
 {
     // We don't add CTA button here to avoid duplicate click callbacks
+    // CTA button is handled by InMobi SDK through registerViewForTracking:
     NSMutableArray *clickableViews = [NSMutableArray array];
     if ( maxNativeAdView.titleLabel )
     {
@@ -517,13 +526,21 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     {
         [clickableViews addObject: maxNativeAdView.bodyLabel];
     }
-    if ( maxNativeAdView.callToActionButton )
-    {
-        [clickableViews addObject: maxNativeAdView.callToActionButton];
-    }
     if ( maxNativeAdView.iconImageView )
     {
         [clickableViews addObject: maxNativeAdView.iconImageView];
+    }
+    if ( maxNativeAdView.mediaContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.mediaContentView];
+    }
+    if ( maxNativeAdView.starRatingContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.starRatingContentView];
+    }
+    if ( maxNativeAdView.optionsContentView )
+    {
+        [clickableViews addObject: maxNativeAdView.optionsContentView];
     }
     
     return clickableViews;
@@ -818,10 +835,12 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                                       adFormat: self.format
                                                                                   builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
+            builder.advertiser = nativeAd.advertiserName;
             builder.body = nativeAd.adDescription;
             builder.callToAction = nativeAd.adCtaText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
-            builder.mediaView = [[UIView alloc] init];
+            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon.imageview.image];
+            builder.mediaView = [nativeAd getMediaView];
+            builder.starRating = @(nativeAd.adRating.doubleValue);
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
@@ -964,10 +983,11 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                          adFormat: MAAdFormat.native
                                                                      builderBlock:^(MANativeAdBuilder *builder) {
             builder.title = nativeAd.adTitle;
+            builder.advertiser = nativeAd.advertiserName;
             builder.body = nativeAd.adDescription;
             builder.callToAction = nativeAd.adCtaText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon];
-            builder.mediaView = [[UIView alloc] init];
+            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon.imageview.image];
+            builder.mediaView = [nativeAd getMediaView];
             builder.starRating = @(nativeAd.adRating.doubleValue);
         }];
         
@@ -1061,37 +1081,80 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         return NO;
     }
     
-    UIView *mediaView = self.mediaView;
-    CGFloat primaryViewWidth = CGRectGetWidth(mediaView.frame);
-    
-    // NOTE: InMobi's SDK returns primary view with a height that does not fit a banner, so scale media smaller specifically for horizontal banners (and not leaders/MRECs)
-    if ( self.adFormat == MAAdFormat.banner && CGRectGetWidth(mediaView.frame) > CGRectGetHeight(mediaView.frame) )
+    // Native integrations
+    if ( [container isKindOfClass: [MANativeAdView class]] )
     {
-        primaryViewWidth = CGRectGetHeight(mediaView.frame) * 16 / 9;
+        MANativeAdView *nativeAdView = (MANativeAdView *) container;
+        
+        // Use new InMobi SDK 11.0.0 API for native ad view registration
+        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView: container];
+        if ( nativeAdView.titleLabel )
+        {
+            [builder setTitleView: nativeAdView.titleLabel];
+        }
+        if ( nativeAdView.advertiserLabel )
+        {
+            [builder setAdvertiserView: nativeAdView.advertiserLabel];
+        }
+        if ( nativeAdView.bodyLabel )
+        {
+            [builder setDescriptionView: nativeAdView.bodyLabel];
+        }
+        if ( nativeAdView.callToActionButton )
+        {
+            [builder setCTAView: nativeAdView.callToActionButton];
+        }
+        if ( nativeAdView.iconImageView )
+        {
+            [builder setIconView: nativeAdView.iconImageView];
+        }
+        if ( nativeAdView.starRatingContentView )
+        {
+            [builder setRatingView: nativeAdView.starRatingContentView];
+        }
+        
+        IMNativeViewData *data = [builder build];
+        [nativeAd registerViewForTracking: data];
     }
-    
-    UIView *primaryView = [self.parentAdapter.nativeAd primaryViewOfWidth: primaryViewWidth];
-    UIView *inMobiContentView = primaryView.subviews[0];
-    
-    [mediaView addSubview: primaryView];
-    // Pin to super view to make it clickable and centered
-    [primaryView al_pinToSuperview];
-    [inMobiContentView al_pinToSuperview];
-    
-    // InMobi does not provide a method to bind views with landing url, so we need to do it manually
-    for ( UIView *clickableView in clickableViews )
+    // Plugins
+    else
     {
-        UITapGestureRecognizer *clickGesture = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(clickNativeView)];
-        [clickableView addGestureRecognizer: clickGesture];
+        // Use new InMobi SDK 11.0.0 API for native ad view registration
+        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView: container];
+        
+        for ( UIView *view in clickableViews )
+        {
+            // Find views by tag for plugin integrations
+            if ( view.tag == TITLE_LABEL_TAG )
+            {
+                [builder setTitleView: (UILabel *) view];
+            }
+            else if ( view.tag == ADVERTISER_VIEW_TAG )
+            {
+                [builder setAdvertiserView: (UILabel *) view];
+            }
+            else if ( view.tag == BODY_VIEW_TAG )
+            {
+                [builder setDescriptionView: (UILabel *) view];
+            }
+            else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
+            {
+                [builder setCTAView: (UIButton *) view];
+            }
+            else if ( view.tag == ICON_VIEW_TAG )
+            {
+                [builder setIconView: (UIImageView *) view];
+            }
+            else if ( view.tag == RATING_VIEW_TAG )
+            {
+                [builder setRatingView: view];
+            }
+        }
+        
+        [nativeAd registerViewForTracking: [builder build]];
     }
     
     return YES;
-}
-
-- (void)clickNativeView
-{
-    [self.parentAdapter log: @"Native ad clicked from gesture recognizer"];
-    [self.parentAdapter.nativeAd reportAdClickAndOpenLandingPage];
 }
 
 @end

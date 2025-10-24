@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.0.0.0
+* Certified with InMobi SDK 11.1.0.
+* Updated to support InMobi new native ad integration API.
+
 ## 10.8.8.0
 * Certified with InMobi SDK 10.8.8.
 * Distributed as a static framework within the XCFramework.
