@@ -18,6 +18,7 @@
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
 
 #define ADAPTER_VERSION @"1.9.3.0"
+#define ADAPTER_NAME @"applovin_bidding"
 
 /**
  * Enum representing the list of MobileFuse SDK error codes in https://docs.mobilefuse.com/docs/error-codes.
@@ -130,6 +131,20 @@ static NSString *ALMobileFuseSDKVersion;
     ALMobileFuseInitialized = [[ALAtomicBoolean alloc] init];
 }
 
+- (void)setAdapterInfo
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if ([MobileFuseSettings respondsToSelector:@selector(setSdkAdapter:)]) {
+            [MobileFuseSettings setSdkAdapter:ADAPTER_NAME];
+        }
+
+        if ([MobileFuseSettings respondsToSelector:@selector(setSdkAdapterVersion:)]) {
+            [MobileFuseSettings setSdkAdapterVersion:ADAPTER_VERSION];
+        }
+    });
+}
+
 #pragma mark - MAAdapter Methods
 
 - (void)initializeWithParameters:(id<MAAdapterInitializationParameters>)parameters completionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
@@ -145,7 +160,9 @@ static NSString *ALMobileFuseSDKVersion;
             [MobileFuseSettings setTestMode: YES];
             [MobileFuse enableVerboseLogging];
         }
-        
+
+        [self setAdapterInfo];
+
         self.initializationDelegate = [[ALMobileFuseInitializationDelegate alloc] initWithParentAdapter: self completionHandler: completionHandler];
         
         [MobileFuse initWithDelegate: self.initializationDelegate];
@@ -206,7 +223,9 @@ static NSString *ALMobileFuseSDKVersion;
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
 {
     [self log: @"Collecting signal..."];
-    
+
+    [self setAdapterInfo];
+
     [self updatePrivacyPreferences: parameters];
     
     MFBiddingTokenRequest *request = [[MFBiddingTokenRequest alloc] init];
