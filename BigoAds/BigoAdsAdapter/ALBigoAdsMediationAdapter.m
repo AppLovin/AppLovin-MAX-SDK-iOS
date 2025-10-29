@@ -14,7 +14,7 @@
 #import <BigoADS/BigoNativeAdLoader.h>
 #import <BigoADS/BigoAdInteractionDelegate.h>
 
-#define ADAPTER_VERSION @"4.9.3.0"
+#define ADAPTER_VERSION @"5.0.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
