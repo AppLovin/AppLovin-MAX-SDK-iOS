@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.0.3.0.0
+* Certified with Mintegral SDK 8.0.3.
+
+## 8.0.2.0.0
+* Certified with Mintegral SDK 8.0.2.
+* Distributed as a static framework within the XCFramework.
+
 ## 7.7.9.0.0
 * Certified with Mintegral SDK 7.7.9.
 * Updated ad display failed error code.
