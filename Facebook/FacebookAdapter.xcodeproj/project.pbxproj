@@ -3,61 +3,37 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A561CDE219BB5A600E3749A /* ALFacebookMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD2219BB57900E3749A /* ALFacebookMediationAdapter.m */; };
-		6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		7C8759FD583562196EADF032 /* Pods_FacebookAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C837803BB252C30ECBC1D7 /* Pods_FacebookAdapter.framework */; };
+		252256FC2E1EE8CD0094E383 /* ALFacebookMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DF1D732CBD9D6200D90D83 /* ALFacebookMediationAdapter.m */; };
+		252256FD2E1EE8D00094E383 /* ALFacebookMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25DF1D722CBD9D6200D90D83 /* ALFacebookMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		252257072E1EF3980094E383 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 252257062E1EF3980094E383 /* AppLovinSDK.framework */; };
+		25FCB2CB2E26DEDB0025F901 /* AppLovinMediationFacebookAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FCB2CA2E26DEDB0025F901 /* AppLovinMediationFacebookAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AF1C3BF5EEE0632A827EE1C8 /* Pods_FacebookAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3E083A89A9CB29D4457F50 /* Pods_FacebookAdapter.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		6A561CE1219BB5A600E3749A /* Copy Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D9AE8E221423C7D00080475 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		1D9AE8E321423C7D00080475 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		1D9AE8E421423C7D00080475 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E521423C7E00080475 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E621423C7E00080475 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		1D9AE8E721423C7E00080475 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E821423C7E00080475 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E921423C7E00080475 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1D9AE8EB21423C7E00080475 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		1D9AE8EC21423C7E00080475 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		3820B792A002C5FDEE81B75D /* Pods-FacebookAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FacebookAdapter.release.xcconfig"; path = "Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		3E596E6CDFEEA64705EC3DFC /* Pods-FacebookAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FacebookAdapter.debug.xcconfig"; path = "Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		6A561CD1219BB57900E3749A /* ALFacebookMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALFacebookMediationAdapter.h; sourceTree = "<group>"; };
-		6A561CD2219BB57900E3749A /* ALFacebookMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALFacebookMediationAdapter.m; sourceTree = "<group>"; };
-		6A561CE5219BB5A600E3749A /* libFacebookAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFacebookAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0087F9999BFB5515C7DBC4C9 /* Pods-FacebookAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FacebookAdapter.debug.xcconfig"; path = "Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		252257062E1EF3980094E383 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25DF1D662CBD9D4A00D90D83 /* AppLovinMediationFacebookAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationFacebookAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25DF1D722CBD9D6200D90D83 /* ALFacebookMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALFacebookMediationAdapter.h; sourceTree = "<group>"; };
+		25DF1D732CBD9D6200D90D83 /* ALFacebookMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALFacebookMediationAdapter.m; sourceTree = "<group>"; };
+		25FCB2CA2E26DEDB0025F901 /* AppLovinMediationFacebookAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationFacebookAdapter.h; sourceTree = "<group>"; };
 		6A5A632C21C0872300B755D7 /* AppLovinMediationFacebookAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationFacebookAdapter.podspec; sourceTree = "<group>"; };
 		6A5A632D21C0872300B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		E4C837803BB252C30ECBC1D7 /* Pods_FacebookAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FacebookAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF3E083A89A9CB29D4457F50 /* Pods_FacebookAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FacebookAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5EBD4C79E72A16207429898 /* Pods-FacebookAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FacebookAdapter.release.xcconfig"; path = "Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6A561CDF219BB5A600E3749A /* Frameworks */ = {
+		FC6D6BBA3E3E82214400056A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A561CE0219BB5A600E3749A /* AppLovinSDK.framework in Frameworks */,
-				7C8759FD583562196EADF032 /* Pods_FacebookAdapter.framework in Frameworks */,
+				252257072E1EF3980094E383 /* AppLovinSDK.framework in Frameworks */,
+				AF1C3BF5EEE0632A827EE1C8 /* Pods_FacebookAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,22 +43,8 @@
 		1D2303A61FBCF4C7001939D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */,
-				1D9AE8FC21423C9200080475 /* QuartzCore.framework */,
-				1D9AE8EB21423C7E00080475 /* AdSupport.framework */,
-				1D9AE8EC21423C7E00080475 /* AVFoundation.framework */,
-				1D9AE8E921423C7E00080475 /* AVKit.framework */,
-				1D9AE8E221423C7D00080475 /* CFNetwork.framework */,
-				1D9AE8EE21423C7E00080475 /* CoreData.framework */,
-				1D9AE8E421423C7D00080475 /* CoreFoundation.framework */,
-				1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */,
-				1D9AE8E521423C7E00080475 /* Foundation.framework */,
-				1D9AE8E621423C7E00080475 /* MediaPlayer.framework */,
-				1D9AE8E321423C7D00080475 /* SafariServices.framework */,
-				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
-				1D9AE8E821423C7E00080475 /* UIKit.framework */,
-				1D9AE8E721423C7E00080475 /* WebKit.framework */,
-				E4C837803BB252C30ECBC1D7 /* Pods_FacebookAdapter.framework */,
+				252257062E1EF3980094E383 /* AppLovinSDK.framework */,
+				AF3E083A89A9CB29D4457F50 /* Pods_FacebookAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -90,7 +52,7 @@
 		1D97FB7C1FBCF38B00D6C309 = {
 			isa = PBXGroup;
 			children = (
-				6A561CD0219BB57900E3749A /* FacebookAdapter */,
+				25DF1D752CBD9D6200D90D83 /* FacebookAdapter */,
 				6A12947E21C086620052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
@@ -101,16 +63,26 @@
 		1D97FB861FBCF38B00D6C309 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A561CE5219BB5A600E3749A /* libFacebookAdapter.a */,
+				25DF1D662CBD9D4A00D90D83 /* AppLovinMediationFacebookAdapter.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		25DF1D752CBD9D6200D90D83 /* FacebookAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				25FCB2CA2E26DEDB0025F901 /* AppLovinMediationFacebookAdapter.h */,
+				25DF1D722CBD9D6200D90D83 /* ALFacebookMediationAdapter.h */,
+				25DF1D732CBD9D6200D90D83 /* ALFacebookMediationAdapter.m */,
+			);
+			path = FacebookAdapter;
 			sourceTree = "<group>";
 		};
 		2BD0934573B86BAABA36ADE0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3E596E6CDFEEA64705EC3DFC /* Pods-FacebookAdapter.debug.xcconfig */,
-				3820B792A002C5FDEE81B75D /* Pods-FacebookAdapter.release.xcconfig */,
+				0087F9999BFB5515C7DBC4C9 /* Pods-FacebookAdapter.debug.xcconfig */,
+				E5EBD4C79E72A16207429898 /* Pods-FacebookAdapter.release.xcconfig */,
 			);
 			name = Pods;
 			path = "../../iOS-Workspace/Pods";
@@ -125,35 +97,40 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6A561CD0219BB57900E3749A /* FacebookAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				6A561CD1219BB57900E3749A /* ALFacebookMediationAdapter.h */,
-				6A561CD2219BB57900E3749A /* ALFacebookMediationAdapter.m */,
-			);
-			path = FacebookAdapter;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		252256FA2E1EE8BA0094E383 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25FCB2CB2E26DEDB0025F901 /* AppLovinMediationFacebookAdapter.h in Headers */,
+				252256FD2E1EE8D00094E383 /* ALFacebookMediationAdapter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		6A561CDC219BB5A600E3749A /* FacebookAdapter */ = {
+		25DF1D652CBD9D4A00D90D83 /* FacebookAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A561CE2219BB5A600E3749A /* Build configuration list for PBXNativeTarget "FacebookAdapter" */;
+			buildConfigurationList = 25DF1D6B2CBD9D4A00D90D83 /* Build configuration list for PBXNativeTarget "FacebookAdapter" */;
 			buildPhases = (
 				386F90EBEB592827721ADB8F /* [CP] Check Pods Manifest.lock */,
-				6A561CDD219BB5A600E3749A /* Sources */,
-				6A561CDF219BB5A600E3749A /* Frameworks */,
-				6A561CE1219BB5A600E3749A /* Copy Files */,
+				37666633643336622D643162 /* Set Version String */,
+				252256FA2E1EE8BA0094E383 /* Headers */,
+				252256FB2E1EE8BD0094E383 /* Sources */,
+				FC6D6BBA3E3E82214400056A /* Frameworks */,
+				68A6394DF3DFA7426F296A56 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = FacebookAdapter;
-			productName = "Unity Plugin";
-			productReference = 6A561CE5219BB5A600E3749A /* libFacebookAdapter.a */;
-			productType = "com.apple.product-type.library.static";
+			productName = AppLovinMediationFacebookAdapter;
+			productReference = 25DF1D662CBD9D4A00D90D83 /* AppLovinMediationFacebookAdapter.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -161,16 +138,17 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
-					6A561CDC219BB5A600E3749A = {
-						ProvisioningStyle = Manual;
+					25DF1D652CBD9D4A00D90D83 = {
+						CreatedOnToolsVersion = 16.0;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 1D97FB801FBCF38B00D6C309 /* Build configuration list for PBXProject "FacebookAdapter" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -182,12 +160,32 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A561CDC219BB5A600E3749A /* FacebookAdapter */,
+				25DF1D652CBD9D4A00D90D83 /* FacebookAdapter */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		37666633643336622D643162 /* Set Version String */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version String";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/usr/bin/env bash\n\nIFS='.' read -ra VERSION_PARTS <<< \"$MARKETING_VERSION\"\n\n# Get the last component (build number)\nLAST_INDEX=$((${#VERSION_PARTS[@]} - 1))\nBUILD_NUMBER=${VERSION_PARTS[$LAST_INDEX]}\n\n# Build version code from all components except the last\nVERSION_CODE=${VERSION_PARTS[0]}\nfor ((i=1; i<$LAST_INDEX; i++)); do\n    VERSION_CODE=\"${VERSION_CODE}$(printf \"%02d\" ${VERSION_PARTS[$i]})\"\ndone\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${VERSION_CODE}.0.${BUILD_NUMBER}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"";
+			showEnvVarsInLog = 0;
+		};
 		386F90EBEB592827721ADB8F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -210,14 +208,31 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		68A6394DF3DFA7426F296A56 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FacebookAdapter/Pods-FacebookAdapter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6A561CDD219BB5A600E3749A /* Sources */ = {
+		252256FB2E1EE8BD0094E383 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A561CDE219BB5A600E3749A /* ALFacebookMediationAdapter.m in Sources */,
+				252256FC2E1EE8CD0094E383 /* ALFacebookMediationAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,13 +242,13 @@
 		1D97FB8C1FBCF38B00D6C309 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -256,12 +271,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -276,23 +300,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 6.21.0.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = AppLovinMediationFacebookAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		1D97FB8D1FBCF38B00D6C309 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -315,12 +354,20 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -329,73 +376,41 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 6.21.0.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_NAME = AppLovinMediationFacebookAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		6A561CE3219BB5A600E3749A /* Debug */ = {
+		25DF1D6C2CBD9D4A00D90D83 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E596E6CDFEEA64705EC3DFC /* Pods-FacebookAdapter.debug.xcconfig */;
+			baseConfigurationReference = 0087F9999BFB5515C7DBC4C9 /* Pods-FacebookAdapter.debug.xcconfig */;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = X8JXXK4FF5;
-				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/FBAudienceNetwork/Static\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBAudienceNetwork\"/**",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/BURelyFoundation\"",
-					"\"${PODS_ROOT}/Headers/Public/BURelyFoundation_Global\"",
-					"\"${PODS_ROOT}/Headers/Public/GDTMobSDK\"",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.FacebookAdapter;
 			};
 			name = Debug;
 		};
-		6A561CE4219BB5A600E3749A /* Release */ = {
+		25DF1D6D2CBD9D4A00D90D83 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3820B792A002C5FDEE81B75D /* Pods-FacebookAdapter.release.xcconfig */;
+			baseConfigurationReference = E5EBD4C79E72A16207429898 /* Pods-FacebookAdapter.release.xcconfig */;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = X8JXXK4FF5;
-				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/FBAudienceNetwork/Static\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBAudienceNetwork\"/**",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)/**",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/BURelyFoundation\"",
-					"\"${PODS_ROOT}/Headers/Public/BURelyFoundation_Global\"",
-					"\"${PODS_ROOT}/Headers/Public/GDTMobSDK\"",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.FacebookAdapter;
 			};
 			name = Release;
 		};
@@ -411,11 +426,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A561CE2219BB5A600E3749A /* Build configuration list for PBXNativeTarget "FacebookAdapter" */ = {
+		25DF1D6B2CBD9D4A00D90D83 /* Build configuration list for PBXNativeTarget "FacebookAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A561CE3219BB5A600E3749A /* Debug */,
-				6A561CE4219BB5A600E3749A /* Release */,
+				25DF1D6C2CBD9D4A00D90D83 /* Debug */,
+				25DF1D6D2CBD9D4A00D90D83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

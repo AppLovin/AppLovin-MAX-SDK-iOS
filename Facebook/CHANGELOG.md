@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.21.0.0
+* Certified with Facebook SDK 6.21.0.
+* Updated minimum iOS version to 13.0 to match Facebook SDK.
+* Updated minimum Xcode requirement to 26.0 to match Facebook SDK.
+* Specify Swift version 6.0 in the podspec to succesfully publish the Pod.
+* Distributed as a static framework within the XCFramework.
+
 ## 6.20.1.0
 * Certified with Facebook SDK 6.20.1.
 
