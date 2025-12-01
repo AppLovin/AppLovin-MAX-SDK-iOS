@@ -1,0 +1,14 @@
+HSADXSDK Binary Distribution
+Version: 1.0.57
+Build Date: 2025-11-03 13:37:16
+Build Type: Release
+Architecture: arm64 (Device), arm64 + x86_64 (Simulator)
+Includes: OMSDK-Static_Hungrystudio
+
+Dependencies (Not Included, Install via CocoaPods):
+- lottie-ios
+- MMKV
+- YYModel
+- SDWebImage
+
+For integration guide, please refer to INTEGRATION.md

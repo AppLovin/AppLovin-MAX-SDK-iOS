@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF224D45F577AEE9243717A1 /* Pods_HungryStudioAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E253011D31B0C9C8C6E4BF /* Pods_HungryStudioAdapter.framework */; };
 		HS0001012EDD80000049569E /* ALHungryStudioMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = HS0001022EDD80000049569E /* ALHungryStudioMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		HS0001032EDD80000049569E /* ALHungryStudioMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = HS0001042EDD80000049569E /* ALHungryStudioMediationAdapter.m */; };
 		HS0001052EDD80000049569E /* AppLovinMediationHungryStudioAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = HS0001062EDD80000049569E /* AppLovinMediationHungryStudioAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -16,6 +17,9 @@
 /* Begin PBXFileReference section */
 		041D04B62EDD94B100D4239B /* AppLovinMediationHungryStudioAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationHungryStudioAdapter.podspec; sourceTree = "<group>"; };
 		041D04B72EDD94B100D4239B /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		21E253011D31B0C9C8C6E4BF /* Pods_HungryStudioAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HungryStudioAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		31821E15CCF3461B0ED75A75 /* Pods-HungryStudioAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HungryStudioAdapter.debug.xcconfig"; path = "Target Support Files/Pods-HungryStudioAdapter/Pods-HungryStudioAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		3FC02CFF5471744F9FE014EA /* Pods-HungryStudioAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HungryStudioAdapter.release.xcconfig"; path = "Target Support Files/Pods-HungryStudioAdapter/Pods-HungryStudioAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		HS0001002EDD80000049569E /* AppLovinMediationHungryStudioAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationHungryStudioAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		HS0001022EDD80000049569E /* ALHungryStudioMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALHungryStudioMediationAdapter.h; sourceTree = "<group>"; };
 		HS0001042EDD80000049569E /* ALHungryStudioMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALHungryStudioMediationAdapter.m; sourceTree = "<group>"; };
@@ -29,12 +33,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				HS0001142EDD80000049569E /* AppLovinSDK.framework in Frameworks */,
+				FF224D45F577AEE9243717A1 /* Pods_HungryStudioAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D342F2E5565AC7122866A870 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				31821E15CCF3461B0ED75A75 /* Pods-HungryStudioAdapter.debug.xcconfig */,
+				3FC02CFF5471744F9FE014EA /* Pods-HungryStudioAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		HS0000E02EDD80000049569E = {
 			isa = PBXGroup;
 			children = (
@@ -42,6 +57,7 @@
 				HS0001102EDD80000049569E /* Supporting Files */,
 				HS0000E12EDD80000049569E /* Products */,
 				HS0001162EDD80000049569E /* Frameworks */,
+				D342F2E5565AC7122866A870 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				HS0001152EDD80000049569E /* AppLovinSDK.framework */,
+				21E253011D31B0C9C8C6E4BF /* Pods_HungryStudioAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -99,10 +116,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = HS0001112EDD80000049569E /* Build configuration list for PBXNativeTarget "HungryStudioAdapter" */;
 			buildPhases = (
+				465D22B929EAEA04A7A42DD3 /* [CP] Check Pods Manifest.lock */,
 				HS0000ED2EDD80000049569E /* Set Version String */,
 				HS0000EE2EDD80000049569E /* Headers */,
 				HS0000EF2EDD80000049569E /* Sources */,
 				HS0000F02EDD80000049569E /* Frameworks */,
+				329905A096CCE67A9274E5E5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -147,6 +166,45 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		329905A096CCE67A9274E5E5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HungryStudioAdapter/Pods-HungryStudioAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HungryStudioAdapter/Pods-HungryStudioAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HungryStudioAdapter/Pods-HungryStudioAdapter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		465D22B929EAEA04A7A42DD3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HungryStudioAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		HS0000ED2EDD80000049569E /* Set Version String */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -183,6 +241,7 @@
 /* Begin XCBuildConfiguration section */
 		HS0001122EDD80000049569E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31821E15CCF3461B0ED75A75 /* Pods-HungryStudioAdapter.debug.xcconfig */;
 			buildSettings = {
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.HungryStudioAdapter;
 			};
@@ -190,6 +249,7 @@
 		};
 		HS0001132EDD80000049569E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FC02CFF5471744F9FE014EA /* Pods-HungryStudioAdapter.release.xcconfig */;
 			buildSettings = {
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.HungryStudioAdapter;
 			};

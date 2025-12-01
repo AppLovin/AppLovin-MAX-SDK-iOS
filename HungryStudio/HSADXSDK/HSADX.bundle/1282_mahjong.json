@@ -1,0 +1,328 @@
+{
+    "code": 0,
+    "message": "",
+    "encryption": false,
+    "data": {
+        "abcfgs": "{\"ad_id_info\":[{\"exp_id\":538,\"exp_utype\":3,\"group_id\":4417,\"group_name\":\"实验组3\",\"layer_id\":261,\"pid\":19},{\"exp_id\":540,\"exp_utype\":3,\"group_id\":4430,\"group_name\":\"对照组2\",\"layer_id\":262,\"pid\":19},{\"exp_id\":560,\"exp_utype\":3,\"group_id\":4766,\"group_name\":\"实验组a\",\"layer_id\":270,\"pid\":19},{\"exp_id\":559,\"exp_utype\":3,\"group_id\":4763,\"group_name\":\"实验组a\",\"layer_id\":271,\"pid\":19},{\"exp_id\":765,\"exp_utype\":3,\"group_id\":9025,\"group_name\":\"实验52\",\"layer_id\":276,\"pid\":19},{\"exp_id\":781,\"exp_utype\":3,\"group_id\":7767,\"group_name\":\"实验组\",\"layer_id\":364,\"pid\":19},{\"exp_id\":810,\"exp_utype\":3,\"group_id\":8025,\"group_name\":\"实验组b\",\"layer_id\":380,\"pid\":19},{\"exp_id\":811,\"exp_utype\":3,\"group_id\":8031,\"group_name\":\"实验组c\",\"layer_id\":381,\"pid\":19},{\"exp_id\":818,\"exp_utype\":3,\"group_id\":8598,\"group_name\":\"实验23\",\"layer_id\":394,\"pid\":19},{\"exp_id\":914,\"exp_utype\":3,\"group_id\":9072,\"group_name\":\"实验组h\",\"layer_id\":415,\"pid\":19},{\"exp_id\":915,\"exp_utype\":3,\"group_id\":9078,\"group_name\":\"实验组a\",\"layer_id\":416,\"pid\":19}],\"algo_coef_bid\":1,\"algo_is_cvr_model\":true,\"algo_is_pctcvr_filter\":true,\"algo_model_adapter_predict_ecpm\":1,\"algo_pctcvr_threshold\":0.0019,\"algo_predict_ecpm_rank\":1,\"algorithm_predict_model_conf\":{\"layer_id\":\"predict_model\",\"para\":\"{\\\"model_conf\\\":{\\\"ctr\\\":\\\"ctr_v2\\\",\\\"cvr\\\":\\\"cvr_v4\\\"}}\",\"test_id\":\"\"},\"cross_playable_v3\":\"3\",\"dmp_0616\":\"104\",\"fs_click_0611\":\"true\",\"imp_frequency_0721\":8,\"imp_period_day_0722\":\"14\",\"imp_period_limit_0722\":\"11\",\"install_color_0701\":\"image03\",\"install_style_0701\":\"zoom\",\"is_muted_0611\":\"false\",\"template_duration_inter_v3\":5,\"template_duration_rw_v3\":30}",
+        "placements": [
+            {
+                "code": 200,
+                "placement": "1282",
+                "creatives": [
+                    {
+                        "crid": "101037",
+                        "a_id": null,
+                        "tag_id": null,
+                        "title": null,
+                        "description": null,
+                        "material_type": 7,
+                        "icon": null,
+                        "images": null,
+                        "video": null,
+                        "playable": null,
+                        "uni_tmpl": {
+                            "is_playable": 1,
+                            "is_mute": 1,
+                            "sections": [
+                                {
+                                    "materials": [
+                                        {
+                                            "playable": {
+                                                "control_btn": {
+                                                    "show_delay_ms": 1,
+                                                    "size": "",
+                                                    "style": ""
+                                                },
+                                                "is_muted": 1,
+                                                "type": 1,
+                                                "url": "mahjong003.html"
+                                            },
+                                            "type": 2
+                                        }
+                                    ],
+                                    "reward_min_play": 30,
+                                    "skip_delay": 5,
+                                    "type": 1
+                                },
+                                {
+                                    "materials": [
+                                        {
+                                            "image": {
+                                                "clickable_area_pct": 100,
+                                                "type": 1,
+                                                "url": "Mahjong_local_double_ec.gif"
+                                            },
+                                            "type": 5
+                                        }
+                                    ],
+                                    "skip_delay": 3,
+                                    "type": 2
+                                },
+                                {
+                                    "close_delay": 1,
+                                    "materials": [
+                                        {
+                                            "endcard": {
+                                                "btn_txt": "",
+                                                "clickable_area_pct": 0,
+                                                "control_btn": {
+                                                    "show_delay_ms": 1,
+                                                    "size": "25",
+                                                    "style": "Close"
+                                                },
+                                                "cta": {
+                                                    "background_color": "",
+                                                    "background_icon": "image03",
+                                                    "text": "",
+                                                    "text_color": "#ffffff"
+                                                },
+                                                "desc": "",
+                                                "icon": "",
+                                                "icon_clickable": 1,
+                                                "image": "Mahjong_local_ec.gif",
+                                                "image_btn": "http://hungry-cross.afafb.com/20250725/5bbb255c580bd51d6f5ceea23527939e.png",
+                                                "text_clickable": 1,
+                                                "title": "",
+                                                "type": 2,
+                                                "variant": "zoom"
+                                            },
+                                            "type": 4
+                                        }
+                                    ],
+                                    "type": 3
+                                }
+                            ]
+                        },
+                        "banner": null,
+                        "web_html": null,
+                        "dsp_name": "cross_ad",
+                        "bid_price": 4435,
+                        "expired_interval": 43200,
+                        "deeplink_url": "https://apps.apple.com/us/app/mahjong-royal-tiles/id6747492600",
+                        "landing_url": null,
+                        "open_app": "com.nebula.mahjongtile.ios",
+                        "open_app_id": "6747492600",
+                        "open_app_scheme": "fb63859274105638297",
+                        "impression_urls": [
+                            "https://hella-ping.afafb.com/v1/cross-imp?ab_info=%7B%22ad_id_info%22%3A%5B%7B%22exp_id%22%3A538%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4417%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%843%22%2C%22layer_id%22%3A261%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A540%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4430%2C%22group_name%22%3A%22%E5%AF%B9%E7%85%A7%E7%BB%842%22%2C%22layer_id%22%3A262%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A560%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4766%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84a%22%2C%22layer_id%22%3A270%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A559%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4763%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84a%22%2C%22layer_id%22%3A271%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A765%2C%22exp_utype%22%3A3%2C%22group_id%22%3A9025%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C52%22%2C%22layer_id%22%3A276%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A781%2C%22exp_utype%22%3A3%2C%22group_id%22%3A7767%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84%22%2C%22layer_id%22%3A364%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A810%2C%22exp_utype%22%3A3%2C%22group_id%22%3A8025%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84b%22%2C%22layer_id%22%3A380%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A811%2C%22exp_utype%22%3A3%2C%22group_id%22%3A8031%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84c%22%2C%22layer_id%22%3A381%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A818%2C%22exp_utype%22%3A3%2C%22group_id%22%3A8598%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C23%22%2C%22layer_id%22%3A394%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A914%2C%22exp_utype%22%3A3%2C%22group_id%22%3A9072%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84h%22%2C%22layer_id%22%3A415%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A915%2C%22exp_utype%22%3A3%2C%22group_id%22%3A9078%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84a%22%2C%22layer_id%22%3A416%2C%22pid%22%3A19%7D%5D%2C%22algo_coef_bid%22%3A1%2C%22algo_is_cvr_model%22%3Atrue%2C%22algo_is_pctcvr_filter%22%3Atrue%2C%22algo_model_adapter_predict_ecpm%22%3A1%2C%22algo_pctcvr_threshold%22%3A0.0019%2C%22algo_predict_ecpm_rank%22%3A1%2C%22algorithm_predict_model_conf%22%3A%7B%22layer_id%22%3A%22predict_model%22%2C%22para%22%3A%22%7B%5C%22model_conf%5C%22%3A%7B%5C%22ctr%5C%22%3A%5C%22ctr_v2%5C%22%2C%5C%22cvr%5C%22%3A%5C%22cvr_v4%5C%22%7D%7D%22%2C%22test_id%22%3A%22%22%7D%2C%22cross_playable_v3%22%3A%223%22%2C%22dmp_0616%22%3A%22104%22%2C%22fs_click_0611%22%3A%22true%22%2C%22imp_frequency_0721%22%3A8%2C%22imp_period_day_0722%22%3A%2214%22%2C%22imp_period_limit_0722%22%3A%2211%22%2C%22install_color_0701%22%3A%22image03%22%2C%22install_style_0701%22%3A%22zoom%22%2C%22is_muted_0611%22%3A%22false%22%2C%22template_duration_inter_v3%22%3A5%2C%22template_duration_rw_v3%22%3A30%7D&ad_type=5&bundle_id=com.blockpuzzle.us.ios&campaign_id=250725000008&carrier=NOCARRIER&country=CN&crid=101037&cross_ad_info=%7B%22campaign_id%22%3A%22250725000008%22%2C%22campaign_name%22%3A%22Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_005%22%2C%22creative_id%22%3A%22101037%22%2C%22creative_name%22%3A%22PA_005%E6%94%B9_zhb_Hungry%22%2C%22cross_ecpm%22%3A%224435%22%2C%22game_id%22%3A%22%22%2C%22is_cross_ad%22%3A%221%22%2C%22is_dsp_win_ecpm%22%3A%220%22%2C%22is_playable%22%3A%22false%22%2C%22mmp_pid%22%3A%22hungryads_int%22%2C%22pctr%22%3A%220.12950729%22%2C%22pcvr%22%3A%220.00342465%22%7D&cst=1749630526742&devicetype=4&distinct_id=606315DB-BFA5-4E06-B3CB-BA3C3DA231AC_179&dsp_country=CHN&dsp_group_id=cross_ad&dsp_id=7&dsp_name=cross_ad_default&idfa=0045a380-f6dc-489e-9957-7e585d3eaf0c&idfv=60D78D18-66E8-4217-BAFC-92BDE086D5C6&ip=106.120.53.114&language=zh&mcc=&model=iPhone12%2C1&network=2&os=ios&os_version=16.1&p_type=1&pid=1282&rid=e3815643-df48-4179-8395-22fb2b33a07e&sdk_ver=1.0.20&sid=80a7494e-fb46-491b-91d6-2535d3c1641f&ua=Mozilla%2F5.0+%28iPhone%3B+CPU+iPhone+OS+16_1+like+Mac+OS+X%29+AppleWebKit%2F605.1.15+%28KHTML%2C+like+Gecko%29+Mobile%2F15E148&vendor=Apple&ver=5.7.4&ver_n=10&ecpm=${CROSS_ECPM}"
+                        ],
+                        "adm_impression_urls": null,
+                        "click_urls": [
+                            "https://app.appsflyer.com/id6747492600?pid=hungryads_int&af_siteid=feed&c=Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_005&af_c_id=250725000008&af_ad_id=101037&af_adset=_DEFAULT&af_click_lookback=7d&af_ip=&af_ua={ua}&mmp=001&clickid={clickid}&advertising_id=&android_id=&idfa={idfa}&af_model={af_model}&af_os_version={af_os_version}&imei=&af_ad=PA_SD038&af_ad_type=rewarded_video&af_channel=hungry&af_click_lookback=7d&af_lang={af_lang}&redirect=false&distinct_id={distinct_id}&game_program_id={game_program_id}&program_id={program_id}"
+                        ],
+                        "burls": null,
+                        "nurls": null,
+                        "lurls": null,
+                        "ext": {
+                            "display_tmpl": 0,
+                            "endcard_tmpl": 0,
+                            "close_delay": 1,
+                            "play_skip_duration": 5,
+                            "rewarded_mix_play": 30,
+                            "video_mute": 1,
+                            "btn": "",
+                            "ext_info": null,
+                            "max_bid_cnt": 3,
+                            "enable_loss_macro_rep": 0,
+                            "skadn": null,
+                            "omsdk_enabled": null,
+                            "omsdk_native_vendorKey": null,
+                            "omsdk_native_script": null,
+                            "omsdk_native_param": null,
+                            "skoverlay": null,
+                            "skautostoreview": null,
+                            "cross_ad_campaign_id": "Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_005",
+                            "cross_ad_camp_id": "250725000008",
+                            "cross_ad_camp_name": "Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_005",
+                            "creative_id": "101037",
+                            "creative_name": "PA_005改_zhb_Hungry",
+                            "ad_params": "",
+                            "cross_params": {
+                                "af_ad": "PA_005改_zhb_Hungry",
+                                "af_ad_id": "101037",
+                                "af_ad_type": "interstitial",
+                                "af_adset": "_DEFAULT",
+                                "af_c_id": "250725000008",
+                                "af_channel": "block",
+                                "af_click_lookback": "7d",
+                                "af_ip": "106.120.53.114",
+                                "bundle_id": "com.blockpuzzle.us.ios",
+                                "clickid": "e3815643-df48-4179-8395-22fb2b33a07e",
+                                "distinct_id": "606315DB-BFA5-4E06-B3CB-BA3C3DA231AC_179",
+                                "game_id": "",
+                                "is_playable": "false",
+                                "pid": "hungrycross_int",
+                                "sid": "80a7494e-fb46-491b-91d6-2535d3c1641f"
+                            },
+                            "cross_app_id": "6747492600",
+                            "is_mmp_attr": 1,
+                            "mmp_pid": "hungryads_int"
+                        },
+                        "is_cross_ad": 1,
+                        "is_fs_click": 0,
+                        "is_offline_ad": 1
+                    },
+                    {
+                        "crid": "101036",
+                        "a_id": null,
+                        "tag_id": null,
+                        "title": null,
+                        "description": null,
+                        "material_type": 7,
+                        "icon": null,
+                        "images": null,
+                        "video": null,
+                        "playable": null,
+                        "uni_tmpl": {
+                            "is_playable": 1,
+                            "is_mute": 1,
+                            "sections": [
+                                {
+                                    "materials": [
+                                        {
+                                            "playable": {
+                                                "control_btn": {
+                                                    "show_delay_ms": 1,
+                                                    "size": "",
+                                                    "style": ""
+                                                },
+                                                "is_muted": 1,
+                                                "type": 1,
+                                                "url": "mahjong005.html"
+                                            },
+                                            "type": 2
+                                        }
+                                    ],
+                                    "reward_min_play": 30,
+                                    "skip_delay": 5,
+                                    "type": 1
+                                },
+                                {
+                                    "materials": [
+                                        {
+                                            "image": {
+                                                "clickable_area_pct": 100,
+                                                "type": 1,
+                                                "url": "Mahjong_local_double_ec.gif"
+                                            },
+                                            "type": 5
+                                        }
+                                    ],
+                                    "skip_delay": 3,
+                                    "type": 2
+                                },
+                                {
+                                    "close_delay": 1,
+                                    "materials": [
+                                        {
+                                            "endcard": {
+                                                "btn_txt": "",
+                                                "clickable_area_pct": 0,
+                                                "control_btn": {
+                                                    "show_delay_ms": 1,
+                                                    "size": "25",
+                                                    "style": "Close"
+                                                },
+                                                "cta": {
+                                                    "background_color": "",
+                                                    "background_icon": "image03",
+                                                    "text": "",
+                                                    "text_color": "#ffffff"
+                                                },
+                                                "desc": "",
+                                                "icon": "",
+                                                "icon_clickable": 1,
+                                                "image": "Mahjong_local_ec.gif",
+                                                "image_btn": "http://hungry-cross.afafb.com/20250725/5bbb255c580bd51d6f5ceea23527939e.png",
+                                                "text_clickable": 1,
+                                                "title": "",
+                                                "type": 2,
+                                                "variant": "zoom"
+                                            },
+                                            "type": 4
+                                        }
+                                    ],
+                                    "type": 3
+                                }
+                            ]
+                        },
+                        "banner": null,
+                        "web_html": null,
+                        "dsp_name": "cross_ad",
+                        "bid_price": 3059,
+                        "expired_interval": 43200,
+                        "deeplink_url": "https://apps.apple.com/us/app/mahjong-royal-tiles/id6747492600",
+                        "landing_url": null,
+                        "open_app": "com.nebula.mahjongtile.ios",
+                        "open_app_id": "6747492600",
+                        "open_app_scheme": "fb63859274105638297",
+                        "impression_urls": [
+                            "https://hella-ping.afafb.com/v1/cross-imp?ab_info=%7B%22ad_id_info%22%3A%5B%7B%22exp_id%22%3A538%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4417%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%843%22%2C%22layer_id%22%3A261%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A540%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4430%2C%22group_name%22%3A%22%E5%AF%B9%E7%85%A7%E7%BB%842%22%2C%22layer_id%22%3A262%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A560%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4766%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84a%22%2C%22layer_id%22%3A270%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A559%2C%22exp_utype%22%3A3%2C%22group_id%22%3A4763%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84a%22%2C%22layer_id%22%3A271%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A765%2C%22exp_utype%22%3A3%2C%22group_id%22%3A9025%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C52%22%2C%22layer_id%22%3A276%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A781%2C%22exp_utype%22%3A3%2C%22group_id%22%3A7767%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84%22%2C%22layer_id%22%3A364%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A810%2C%22exp_utype%22%3A3%2C%22group_id%22%3A8025%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84b%22%2C%22layer_id%22%3A380%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A811%2C%22exp_utype%22%3A3%2C%22group_id%22%3A8031%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84c%22%2C%22layer_id%22%3A381%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A818%2C%22exp_utype%22%3A3%2C%22group_id%22%3A8598%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C23%22%2C%22layer_id%22%3A394%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A914%2C%22exp_utype%22%3A3%2C%22group_id%22%3A9072%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84h%22%2C%22layer_id%22%3A415%2C%22pid%22%3A19%7D%2C%7B%22exp_id%22%3A915%2C%22exp_utype%22%3A3%2C%22group_id%22%3A9078%2C%22group_name%22%3A%22%E5%AE%9E%E9%AA%8C%E7%BB%84a%22%2C%22layer_id%22%3A416%2C%22pid%22%3A19%7D%5D%2C%22algo_coef_bid%22%3A1%2C%22algo_is_cvr_model%22%3Atrue%2C%22algo_is_pctcvr_filter%22%3Atrue%2C%22algo_model_adapter_predict_ecpm%22%3A1%2C%22algo_pctcvr_threshold%22%3A0.0019%2C%22algo_predict_ecpm_rank%22%3A1%2C%22algorithm_predict_model_conf%22%3A%7B%22layer_id%22%3A%22predict_model%22%2C%22para%22%3A%22%7B%5C%22model_conf%5C%22%3A%7B%5C%22ctr%5C%22%3A%5C%22ctr_v2%5C%22%2C%5C%22cvr%5C%22%3A%5C%22cvr_v4%5C%22%7D%7D%22%2C%22test_id%22%3A%22%22%7D%2C%22cross_playable_v3%22%3A%223%22%2C%22dmp_0616%22%3A%22104%22%2C%22fs_click_0611%22%3A%22true%22%2C%22imp_frequency_0721%22%3A8%2C%22imp_period_day_0722%22%3A%2214%22%2C%22imp_period_limit_0722%22%3A%2211%22%2C%22install_color_0701%22%3A%22image03%22%2C%22install_style_0701%22%3A%22zoom%22%2C%22is_muted_0611%22%3A%22false%22%2C%22template_duration_inter_v3%22%3A5%2C%22template_duration_rw_v3%22%3A30%7D&ad_type=5&bundle_id=com.blockpuzzle.us.ios&campaign_id=250725000007&carrier=NOCARRIER&country=CN&crid=101036&cross_ad_info=%7B%22campaign_id%22%3A%22250725000007%22%2C%22campaign_name%22%3A%22Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_003%22%2C%22creative_id%22%3A%22101036%22%2C%22creative_name%22%3A%22PA_003%E6%94%B9_zhb_Hungry%22%2C%22cross_ecpm%22%3A%223059%22%2C%22game_id%22%3A%22%22%2C%22is_cross_ad%22%3A%221%22%2C%22is_dsp_win_ecpm%22%3A%220%22%2C%22is_playable%22%3A%22false%22%2C%22mmp_pid%22%3A%22hungryads_int%22%2C%22pctr%22%3A%220.13155857%22%2C%22pcvr%22%3A%220.00232568%22%7D&cst=1749630526742&devicetype=4&distinct_id=606315DB-BFA5-4E06-B3CB-BA3C3DA231AC_179&dsp_country=CHN&dsp_group_id=cross_ad&dsp_id=7&dsp_name=cross_ad_default&idfa=0045a380-f6dc-489e-9957-7e585d3eaf0c&idfv=60D78D18-66E8-4217-BAFC-92BDE086D5C6&ip=106.120.53.114&language=zh&mcc=&model=iPhone12%2C1&network=2&os=ios&os_version=16.1&p_type=1&pid=1282&rid=e3815643-df48-4179-8395-22fb2b33a07e&sdk_ver=1.0.20&sid=80a7494e-fb46-491b-91d6-2535d3c1641f&ua=Mozilla%2F5.0+%28iPhone%3B+CPU+iPhone+OS+16_1+like+Mac+OS+X%29+AppleWebKit%2F605.1.15+%28KHTML%2C+like+Gecko%29+Mobile%2F15E148&vendor=Apple&ver=5.7.4&ver_n=10&ecpm=${CROSS_ECPM}"
+                        ],
+                        "adm_impression_urls": null,
+                        "click_urls": [
+                            "https://app.appsflyer.com/id6747492600?pid=hungryads_int&af_siteid=feed&c=Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_003&af_c_id=250725000007&af_ad_id=101036&af_adset=_DEFAULT&af_click_lookback=7d&af_ip=&af_ua={ua}&mmp=001&clickid={clickid}&advertising_id=&android_id=&idfa={idfa}&af_model={af_model}&af_os_version={af_os_version}&imei=&af_ad=PA_SD038&af_ad_type=rewarded_video&af_channel=hungry&af_click_lookback=7d&af_lang={af_lang}&redirect=false&distinct_id={distinct_id}&game_program_id={game_program_id}&program_id={program_id}"
+                        ],
+                        "burls": null,
+                        "nurls": null,
+                        "lurls": null,
+                        "ext": {
+                            "display_tmpl": 0,
+                            "endcard_tmpl": 0,
+                            "close_delay": 1,
+                            "play_skip_duration": 5,
+                            "rewarded_mix_play": 30,
+                            "video_mute": 1,
+                            "btn": "",
+                            "ext_info": null,
+                            "max_bid_cnt": 3,
+                            "enable_loss_macro_rep": 0,
+                            "skadn": null,
+                            "omsdk_enabled": null,
+                            "omsdk_native_vendorKey": null,
+                            "omsdk_native_script": null,
+                            "omsdk_native_param": null,
+                            "skoverlay": null,
+                            "skautostoreview": null,
+                            "cross_ad_campaign_id": "Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_003",
+                            "cross_ad_camp_id": "250725000007",
+                            "cross_ad_camp_name": "Mahjong-wwnoT1-zyh-adx0725-1282-IOS-250725-load-PA_003",
+                            "creative_id": "101036",
+                            "creative_name": "PA_003改_zhb_Hungry",
+                            "ad_params": "",
+                            "cross_params": {
+                                "af_ad": "PA_003改_zhb_Hungry",
+                                "af_ad_id": "101036",
+                                "af_ad_type": "interstitial",
+                                "af_adset": "_DEFAULT",
+                                "af_c_id": "250725000007",
+                                "af_channel": "block",
+                                "af_click_lookback": "7d",
+                                "af_ip": "106.120.53.114",
+                                "bundle_id": "com.blockpuzzle.us.ios",
+                                "clickid": "e3815643-df48-4179-8395-22fb2b33a07e",
+                                "distinct_id": "606315DB-BFA5-4E06-B3CB-BA3C3DA231AC_179",
+                                "game_id": "",
+                                "is_playable": "false",
+                                "pid": "hungrycross_int",
+                                "sid": "80a7494e-fb46-491b-91d6-2535d3c1641f"
+                            },
+                            "cross_app_id": "6747492600",
+                            "is_mmp_attr": 1,
+                            "mmp_pid": "hungryads_int"
+                        },
+                        "is_cross_ad": 1,
+                        "is_fs_click": 0,
+                        "is_offline_ad": 1
+                    }
+                ]
+            }
+        ],
+        "debug_info": {
+            "filter_ad_campaign_list": null
+        }
+    },
+    "s_r_t": 1753451378996,
+    "s_s_t": 1753451379011,
+    "trace_id": "e3815643-df48-4179-8395-22fb2b33a07e"
+}
