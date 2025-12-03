@@ -35,6 +35,8 @@
 #import "HSSError.h"
 #import "HSSMaxBiddingManager.h"
 #import "HSSBannerBaseView.h"
+#import "UIView+HSSUtils.h"
+#import "UIScreen+HSSafeArea.h"
 
 FOUNDATION_EXPORT double HSADXSDKVersionNumber;
 FOUNDATION_EXPORT const unsigned char HSADXSDKVersionString[];

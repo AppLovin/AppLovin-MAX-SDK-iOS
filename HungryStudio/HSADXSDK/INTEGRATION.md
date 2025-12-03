@@ -58,7 +58,7 @@ YourProject/
 在项目的 `Podfile` 中添加：
 
 ```ruby
-platform :ios, '11.0'
+platform :ios, '13.0'
 use_frameworks!
 
 target 'YourApp' do

@@ -6,11 +6,11 @@
 	<dict>
 		<key>Headers/HSADXSDK-umbrella.h</key>
 		<data>
-		EYF29TL342z2fs+EeClojph2oXo=
+		os3JcsQINLq6zAzQxXRMZPeEq2Y=
 		</data>
 		<key>Headers/HSADXSDK.h</key>
 		<data>
-		Z8ma9MjecWbY9iintSJD5W8tubI=
+		kFDrfkh5dd3Si4TPFyZRJ8OvjBw=
 		</data>
 		<key>Headers/HSSADXBannerView.h</key>
 		<data>
@@ -108,9 +108,17 @@
 		<data>
 		6WbZN5En+vhE7nNKL/KCFeocizc=
 		</data>
+		<key>Headers/UIScreen+HSSafeArea.h</key>
+		<data>
+		Tpy1ZtD3wtNYIrR2tYMp7X6vhA4=
+		</data>
+		<key>Headers/UIView+HSSUtils.h</key>
+		<data>
+		Ug8iWmN/60wm4pnM53YIPLv4hus=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		MhLXGMCVU0MkwIQvNTtwwvdCpzM=
+		wzT5qwY+CHAf+kjGXPSVrwbIfY8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -123,14 +131,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			j+uNC0h6YRo847WmvLBNY/dIsxk6g6wlm9gdF5yZNp8=
+			WUIGqwtOi0wacIbTwgsee8k6imVQHcn0jzAwCEBbkNQ=
 			</data>
 		</dict>
 		<key>Headers/HSADXSDK.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Y17N4d+f18BRMWJFOAIk1Rk+ajll6oiyvjDVlKKLPtM=
+			uiBCePto32XGfua29VtfPtxUSROJcsGuDnLtsbsfrTI=
 			</data>
 		</dict>
 		<key>Headers/HSSADXBannerView.h</key>
@@ -299,6 +307,20 @@
 			<key>hash2</key>
 			<data>
 			BfPEt1AW59cVu1UxekmfglQgfLWztBrqpYDDZihk0o8=
+			</data>
+		</dict>
+		<key>Headers/UIScreen+HSSafeArea.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SnsioKc722SE8aKmhgPSTLn8tU9WxutXydbVD7nRYrY=
+			</data>
+		</dict>
+		<key>Headers/UIView+HSSUtils.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			PVznRdhwRV4zw9atrjp837t1o7dpSEHmJnfj3Qj8RhU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
