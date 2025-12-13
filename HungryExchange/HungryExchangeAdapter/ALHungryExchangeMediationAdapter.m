@@ -78,11 +78,12 @@
                 builder.settings.debugMode = debugMode;
             }];
             [[HSSdk shared] initializeForBiddingWithConfiguration:configure completionHandler:^(HSSdkConfiguration * _Nonnull configuration) {
+                /// don't need to check [HSSDK shared].isInitialized, because it will always be true in this callback.
                 completionHandler(MAAdapterInitializationStatusInitializedSuccess, nil);
             }];
         } else {
             [self log:@"ALHungryExchangeMediationAdapter Initialization Failure !!!! appId is empty"];
-            completionHandler(MAAdapterInitializationStatusInitializedFailure, nil);
+            completionHandler(MAAdapterInitializationStatusInitializedFailure, @"HungryExchange SDK failed to initialize: missing required parameter 'app_id'");
         }
     } else {
         [self log:@"ALHungryExchangeMediationAdapter [HSSdk shared].initialized = YES, so HSSdk already initialized ALHungryExchangeMediationAdapter = %@", self];
@@ -153,8 +154,8 @@
         [self log:@"ALHungryExchangeMediationAdapter showInterstitialAdForParameters Interstitial ad failed to load - ad not ready !!!! "];
         if (delegate && [delegate respondsToSelector:@selector(didFailToDisplayInterstitialAdWithError:)]) {
             [delegate didFailToDisplayInterstitialAdWithError:[MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                            mediatedNetworkErrorCode: 0
-                                                                         mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                            mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                        mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message ? : @""]];
         }
         return;
     }
@@ -188,11 +189,12 @@
         [self log:@"ALHungryExchangeMediationAdapter showRewardedAdForParameters Rewarded ad failed to load - ad not ready !!!"];
         if (delegate && [delegate respondsToSelector:@selector(didFailToDisplayRewardedAdWithError:)]) {
             [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                        mediatedNetworkErrorCode: 0
-                                                                     mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message ? : @""]];
         }
         return;
     }
+    [self configureRewardForParameters:parameters];
     [self.rewardedAd showAdFromAdapter:YES];
 }
 
@@ -218,13 +220,6 @@
 #pragma mark - Shared Methods
 
 - (CGSize)sizeFromAdFormat:(MAAdFormat *)adFormat {
-    if ([adFormat isEqual:MAAdFormat.banner]) {
-        return CGSizeMake(320, 50);
-    } else if ([adFormat isEqual:MAAdFormat.leader]) {
-        return CGSizeMake(728, 90);
-    } else if ([adFormat isEqual:MAAdFormat.mrec]) {
-        return CGSizeMake(300, 250);
-    }
     return CGSizeMake(320, 50);
 }
 
@@ -268,9 +263,7 @@
     NSDictionary *extraDict = @{@"creative_id": (ad.adMaterial.cRid.length > 0) ? ad.adMaterial.cRid : @"",
                                 @"publisher_extra_info": customData
     };
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didLoadInterstitialAd)]) {
-        [self.delegate didLoadInterstitialAd];
-    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(didLoadInterstitialAdWithExtraInfo:)]) {
         [self.delegate didLoadInterstitialAdWithExtraInfo:extraDict];
     }
@@ -310,7 +303,9 @@
 
 - (void)didFailToDisplayAd:(HSSAd *)ad withError:(HSSError *)error {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didFailToDisplayInterstitialAdWithError:)]) {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode:0 errorString:@"display ad fail"];
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError:MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode:error.code
+                                                 mediatedNetworkErrorMessage:error.localizedDescription ? : @""];
         [self.delegate didFailToDisplayInterstitialAdWithError:adapterError];
     }
     [self.parentAdapter log:@"ALHungryExchangeMediationAdapterInterstitialAdDelegate didFailToDisplayAd error = %@", error];
@@ -354,7 +349,7 @@
         [self.delegate didLoadRewardedAdWithExtraInfo:extraDict];
     }
     
-    [self.parentAdapter log:@"ALHungryExchangeMediationAdapterRewardedAdDelegate didLoadInterstitialAd !!!"];
+    [self.parentAdapter log:@"ALHungryExchangeMediationAdapterRewardedAdDelegate didLoadRewardedAd !!!"];
 }
 
 - (void)didFailToLoadAdForAd:(HSSAd *)ad withError:(HSSError *)error {
@@ -374,7 +369,7 @@
 }
 
 - (void)didHideAd:(HSSAd *)ad {
-    if ([self hasGrantedReward] && [self.parentAdapter shouldAlwaysRewardUser]) {
+    if ([self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(didRewardUserWithReward:)]) {
             MAReward *reward = [self.parentAdapter reward];
             [self.delegate didRewardUserWithReward:reward];
@@ -396,15 +391,16 @@
 
 - (void)didFailToDisplayAd:(HSSAd *)ad withError:(HSSError *)error {
     if (self.delegate && [self.delegate respondsToSelector:@selector(didFailToDisplayRewardedAdWithError:)]) {
-        MAAdapterError *adapterError = [MAAdapterError errorWithCode:0 errorString:@"display ad fail"];
+        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError:MAAdapterError.adDisplayFailedError
+                                                    mediatedNetworkErrorCode:error.code
+                                                 mediatedNetworkErrorMessage:error.localizedDescription ? : @""];
         [self.delegate didFailToDisplayRewardedAdWithError:adapterError];
     }
     [self.parentAdapter log:@"ALHungryExchangeMediationAdapterRewardedAdDelegate didFailToDisplayAd error = %@", error];
 }
 
 #pragma mark - HSSRewardedAdDelegate
-
-- (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward {
+- (void)didRewardUserForAd:(HSSAd *)ad withReward:(HSSReward *)reward {
     self.grantedReward = YES;
     [self.parentAdapter log:@"ALHungryExchangeMediationAdapterRewardedAdDelegate Rewarded ad reward granted"];
 }
@@ -451,11 +447,7 @@
 }
 
 - (void)didFailToLoadBannerAdForAd:(HSSADXBannerView *)ad withError:(HSSError *)error {
-    NSString *errorString = @"";
-    if (error.userInfo && [error.userInfo isKindOfClass:NSDictionary.class] && NSLocalizedDescriptionKey && [NSLocalizedDescriptionKey isKindOfClass:NSString.class]) {
-        errorString = error.userInfo[NSLocalizedDescriptionKey];
-    }
-    MAAdapterError *adapterError = [MAAdapterError errorWithCode:error.code errorString:errorString];
+    MAAdapterError *adapterError = [self.parentAdapter toMaxError:error];
     if (self.delegate && [self.delegate respondsToSelector:@selector(didFailToLoadAdViewAdWithError:)]) {
         [self.delegate didFailToLoadAdViewAdWithError:adapterError];
         [self.parentAdapter log:@"ALHungryExchangeMediationAdapterAdViewDelegate didFailToLoadAdViewAdWithError adapterError = %@", adapterError];
@@ -486,6 +478,16 @@
     }
 }
 
+
+- (void)didFailToDisplayBannerAd:(HSSADXBannerView *)ad withError:(HSSError *)error {
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError:   MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription ? : @""];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didFailToDisplayAdViewAdWithError:)]) {
+        [self.parentAdapter log: @"ALHungryExchangeMediationAdapterAdViewDelegate didFailToDisplayAdViewAdWithError adapterError = %@", adapterError];
+        [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
+    }
+}
 
 @end
 
