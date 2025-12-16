@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.0.4.0.0
+* Certified with Mintegral SDK 8.0.4.
+
 ## 8.0.3.0.0
 * Certified with Mintegral SDK 8.0.3.
 * Distributed as a static framework within the XCFramework.
