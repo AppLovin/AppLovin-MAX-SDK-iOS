@@ -14,7 +14,7 @@
 #import <HSADXSDK/HSSRewardedAdDelegate.h>
 #import <HSADXSDK/HSSBannerAdDelegate.h>
 
-#define ADAPTER_VERSION @"1.0.0.0."
+#define ADAPTER_VERSION @"1.0.0.0"
 
 @interface ALHungryExchangeMediationAdapterInterstitialAdDelegate : NSObject <HSSAdDelegate>
 @property (nonatomic,   weak) ALHungryExchangeMediationAdapter *parentAdapter;
@@ -220,7 +220,15 @@
 #pragma mark - Shared Methods
 
 - (CGSize)sizeFromAdFormat:(MAAdFormat *)adFormat {
-    return CGSizeMake(320, 50);
+    if ([adFormat isEqual:MAAdFormat.banner]) {
+        return CGSizeMake(320, 50);
+    } else if ([adFormat isEqual:MAAdFormat.mrec]) {
+        return CGSizeMake(300, 50);
+    } else {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"Unsupported ad format: %@", adFormat];
+        return CGSizeMake(320, 50);
+    }
 }
 
 - (MAAdapterError *)toMaxError:(NSError *)error {
@@ -342,9 +350,7 @@
     NSDictionary *extraDict = @{@"creative_id": (ad.adMaterial.cRid.length > 0) ? ad.adMaterial.cRid : @"",
                                 @"publisher_extra_info": customData
     };
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didLoadRewardedAd)]) {
-        [self.delegate didLoadRewardedAd];
-    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(didLoadRewardedAdWithExtraInfo:)]) {
         [self.delegate didLoadRewardedAdWithExtraInfo:extraDict];
     }
