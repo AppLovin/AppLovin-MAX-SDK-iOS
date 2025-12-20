@@ -223,7 +223,7 @@
     if ([adFormat isEqual:MAAdFormat.banner]) {
         return CGSizeMake(320, 50);
     } else if ([adFormat isEqual:MAAdFormat.mrec]) {
-        return CGSizeMake(300, 50);
+        return CGSizeMake(300, 250);
     } else {
         [NSException raise:NSInvalidArgumentException
                     format:@"Unsupported ad format: %@", adFormat];
