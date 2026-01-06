@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.2.0.0
+* Certified with OguryPresage SDK 5.2.0.
+
 ## 5.1.1.0
 * Certified with OguryPresage SDK 5.1.1.
 
