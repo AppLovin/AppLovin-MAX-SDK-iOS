@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.6.3.1
+* Fixed the `nativeAdDidFailToLoad` callback.
+
 ## 7.6.3.0
 * Certified with Vungle SDK 7.6.3.
 
