@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationMyTargetAdapter'
-s.version = '5.38.0.0'
-s.platform = :ios, '12.4'
+s.version = '5.39.0.0'
+s.platform = :ios, '14'
 s.summary = 'MyTarget adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license = 
