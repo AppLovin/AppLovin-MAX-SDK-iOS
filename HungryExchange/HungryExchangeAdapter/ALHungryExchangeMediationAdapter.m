@@ -204,7 +204,9 @@
                         andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
-    CGSize adSize = [self sizeFromAdFormat:adFormat];
+    
+    BOOL isAdaptiveBanner = [self isAdaptiveBannerEnabledFromParameters:parameters.serverParameters];
+    CGSize adSize = [self bannerAdSizeFromAdFormat:adFormat isAdaptiveAdViewEnabled:isAdaptiveBanner parameters:parameters];
     self.adViewAd = [[HSSADXBannerView alloc] initWithPlacementId:placementIdentifier adSize:adSize];
     
     self.adViewAdapterDelegate = [[ALHungryExchangeMediationAdapterAdViewDelegate alloc] initWithParentAdapter:self
@@ -218,6 +220,58 @@
 }
 
 #pragma mark - Shared Methods
+
+- (BOOL)isAdaptiveBannerEnabledFromParameters:(NSDictionary<NSString *, id> *)parameters
+{
+    BOOL isAdaptiveBannerEnabled = [parameters al_boolForKey: @"adaptive_banner"];
+    
+    if ( isAdaptiveBannerEnabled && ALSdk.versionCode < 13020099 )
+    {
+        [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use HungryExchange adaptive ads"];
+        return NO;
+    }
+    
+    return isAdaptiveBannerEnabled;
+}
+
+- (CGSize)bannerAdSizeFromAdFormat:(MAAdFormat *)adFormat
+                    isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                 parameters:(id<MAAdapterParameters>)parameters
+{
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat:adFormat forParameters:parameters] )
+    {
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+    
+    return [self sizeFromAdFormat:adFormat];
+}
+
+- (CGSize)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    if (adaptiveAdWidth > screenWidth) {
+        adaptiveAdWidth = screenWidth;
+    }
+    
+    /// Calculate the height of the banner
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    CGFloat limitHeight = MIN(90.0, screenHeight * 0.15);
+    
+    CGFloat calculatedHeight = 0;
+    if (adaptiveAdWidth >= 728.0) {
+        calculatedHeight = 90.0;
+    } else {
+        /// Calculate the height of the banner for adaptive banner
+        calculatedHeight = round(adaptiveAdWidth / 320.0 * 50.0);
+    }
+    
+    /// Clamp the height to the limit height
+    CGFloat finalHeight = MAX(50.0, MIN(calculatedHeight, limitHeight));
+    
+    return CGSizeMake(adaptiveAdWidth, finalHeight);
+}
 
 - (CGSize)sizeFromAdFormat:(MAAdFormat *)adFormat {
     if ([adFormat isEqual:MAAdFormat.banner]) {
@@ -444,6 +498,8 @@
     };
     NSDictionary *extraDict = @{@"creative_id": (ad.crid.length > 0) ? ad.crid : @"",
                                 @"publisher_extra_info": customData,
+                                @"ad_width" : @(ad.bounds.size.width),
+                                @"ad_height" : @(ad.bounds.size.height)
     };
     if (self.delegate && [self.delegate respondsToSelector:@selector(didLoadAdForAdView:withExtraInfo:)]) {
         [self.delegate didLoadAdForAdView:ad withExtraInfo:extraDict];
