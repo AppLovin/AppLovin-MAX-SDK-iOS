@@ -1087,7 +1087,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         MANativeAdView *nativeAdView = (MANativeAdView *) container;
         
         // Use new InMobi SDK 11.0.0 API for native ad view registration
-        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView: container];
+        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithAdParentView: container];
         if ( nativeAdView.titleLabel )
         {
             [builder setTitleView: nativeAdView.titleLabel];
@@ -1120,7 +1120,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     else
     {
         // Use new InMobi SDK 11.0.0 API for native ad view registration
-        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView: container];
+        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithAdParentView: container];
         
         for ( UIView *view in clickableViews )
         {
