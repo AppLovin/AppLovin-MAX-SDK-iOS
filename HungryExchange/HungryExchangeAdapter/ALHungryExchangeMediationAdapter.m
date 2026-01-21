@@ -250,27 +250,8 @@
 {
     CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
     
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    if (adaptiveAdWidth > screenWidth) {
-        adaptiveAdWidth = screenWidth;
-    }
-    
-    /// Calculate the height of the banner
-    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-    CGFloat limitHeight = MIN(90.0, screenHeight * 0.15);
-    
-    CGFloat calculatedHeight = 0;
-    if (adaptiveAdWidth >= 728.0) {
-        calculatedHeight = 90.0;
-    } else {
-        /// Calculate the height of the banner for adaptive banner
-        calculatedHeight = round(adaptiveAdWidth / 320.0 * 50.0);
-    }
-    
-    /// Clamp the height to the limit height
-    CGFloat finalHeight = MAX(50.0, MIN(calculatedHeight, limitHeight));
-    
-    return CGSizeMake(adaptiveAdWidth, finalHeight);
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return CGSizeMake(adaptiveAdWidth, anchoredHeight);
 }
 
 - (CGSize)sizeFromAdFormat:(MAAdFormat *)adFormat {
