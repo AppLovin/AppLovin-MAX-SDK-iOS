@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2E3C91572EFABCA400B7E589 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3C91472EFABBF200B7E589 /* AppLovinSDK.framework */; platformFilter = ios; };
+		F86A69FD4B04D3A960D0DF59 /* Pods_SerafinoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05B0885F769FA5AC1C66B8 /* Pods_SerafinoAdapter.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		02825C0CC0E2E9B177648DA2 /* Pods-SerafinoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SerafinoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-SerafinoAdapter/Pods-SerafinoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		2E3C91472EFABBF200B7E589 /* AppLovinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppLovinSDK.framework; path = "../../../Library/Developer/Xcode/DerivedData/SerafinoAdapter-cvoxyfdwadjoymgkslyibenpafoc/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/AppLovinSDK/AppLovinSDK.framework"; sourceTree = "<group>"; };
+		2EC801B62EEAEAD300B4A1B3 /* AppLovinMediationSerafinoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationSerafinoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EC8081D2EEBC00400B4A1B3 /* AppLovinMediationSerafinoAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationSerafinoAdapter.podspec; sourceTree = "<group>"; };
+		2EC8081E2EEBC00400B4A1B3 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		9279110B5A798C02B6BAA281 /* Pods-SerafinoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SerafinoAdapter.release.xcconfig"; path = "Target Support Files/Pods-SerafinoAdapter/Pods-SerafinoAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		BF05B0885F769FA5AC1C66B8 /* Pods_SerafinoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SerafinoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2EC801B82EEAEAD300B4A1B3 /* SerafinoAdapter */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SerafinoAdapter;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EC801B32EEAEAD300B4A1B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E3C91572EFABCA400B7E589 /* AppLovinSDK.framework in Frameworks */,
+				F86A69FD4B04D3A960D0DF59 /* Pods_SerafinoAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1CAB70E18144E1646303442B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E3C91472EFABBF200B7E589 /* AppLovinSDK.framework */,
+				BF05B0885F769FA5AC1C66B8 /* Pods_SerafinoAdapter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C31E0A749AADE758403B84B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				02825C0CC0E2E9B177648DA2 /* Pods-SerafinoAdapter.debug.xcconfig */,
+				9279110B5A798C02B6BAA281 /* Pods-SerafinoAdapter.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		2EC801AC2EEAEAD300B4A1B3 = {
+			isa = PBXGroup;
+			children = (
+				2EC801B82EEAEAD300B4A1B3 /* SerafinoAdapter */,
+				2EC801B72EEAEAD300B4A1B3 /* Products */,
+				2C31E0A749AADE758403B84B /* Pods */,
+				1CAB70E18144E1646303442B /* Frameworks */,
+				2EC8081A2EEBBFDD00B4A1B3 /* Supporting Files */,
+			);
+			sourceTree = "<group>";
+		};
+		2EC801B72EEAEAD300B4A1B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2EC801B62EEAEAD300B4A1B3 /* AppLovinMediationSerafinoAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2EC8081A2EEBBFDD00B4A1B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2EC8081D2EEBC00400B4A1B3 /* AppLovinMediationSerafinoAdapter.podspec */,
+				2EC8081E2EEBC00400B4A1B3 /* CHANGELOG.md */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2EC801B12EEAEAD300B4A1B3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2EC801B52EEAEAD300B4A1B3 /* SerafinoAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EC801BC2EEAEAD300B4A1B3 /* Build configuration list for PBXNativeTarget "SerafinoAdapter" */;
+			buildPhases = (
+				F3F97DFCA89A1EE143130A62 /* [CP] Check Pods Manifest.lock */,
+				2EC801B12EEAEAD300B4A1B3 /* Headers */,
+				2EC801B22EEAEAD300B4A1B3 /* Sources */,
+				2EC801B32EEAEAD300B4A1B3 /* Frameworks */,
+				2EC801B42EEAEAD300B4A1B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2EC801B82EEAEAD300B4A1B3 /* SerafinoAdapter */,
+			);
+			name = SerafinoAdapter;
+			productName = SerafinoAdapter;
+			productReference = 2EC801B62EEAEAD300B4A1B3 /* AppLovinMediationSerafinoAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2EC801AD2EEAEAD300B4A1B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2610;
+				ORGANIZATIONNAME = AppLovin;
+				TargetAttributes = {
+					2EC801B52EEAEAD300B4A1B3 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 2EC801B02EEAEAD300B4A1B3 /* Build configuration list for PBXProject "SerafinoAdapter" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2EC801AC2EEAEAD300B4A1B3;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 2EC801B72EEAEAD300B4A1B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2EC801B52EEAEAD300B4A1B3 /* SerafinoAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2EC801B42EEAEAD300B4A1B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F3F97DFCA89A1EE143130A62 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SerafinoAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2EC801B22EEAEAD300B4A1B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2EC801BD2EEAEAD300B4A1B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02825C0CC0E2E9B177648DA2 /* Pods-SerafinoAdapter.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.SerafinoAdapter;
+				PRODUCT_NAME = AppLovinMediationSerafinoAdapter;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2EC801BE2EEAEAD300B4A1B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9279110B5A798C02B6BAA281 /* Pods-SerafinoAdapter.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.SerafinoAdapter;
+				PRODUCT_NAME = AppLovinMediationSerafinoAdapter;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2EC801BF2EEAEAD300B4A1B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2EC801C02EEAEAD300B4A1B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2EC801B02EEAEAD300B4A1B3 /* Build configuration list for PBXProject "SerafinoAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EC801BF2EEAEAD300B4A1B3 /* Debug */,
+				2EC801C02EEAEAD300B4A1B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2EC801BC2EEAEAD300B4A1B3 /* Build configuration list for PBXNativeTarget "SerafinoAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EC801BD2EEAEAD300B4A1B3 /* Debug */,
+				2EC801BE2EEAEAD300B4A1B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2EC801AD2EEAEAD300B4A1B3 /* Project object */;
+}
