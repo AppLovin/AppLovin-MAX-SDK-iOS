@@ -46,6 +46,19 @@
 @end
 
 /**
+ * Dedicated delegate object for Yandex app open ads.
+ */
+@interface ALYandexMediationAdapterAppOpenAdDelegate : NSObject <YMAAppOpenAdLoaderDelegate, YMAAppOpenAdDelegate>
+
+@property (nonatomic,   weak) ALYandexMediationAdapter *parentAdapter;
+@property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
+@property (nonatomic, strong) id<MAAppOpenAdapterDelegate> delegate;
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter withParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate;
+
+@end
+
+/**
  * Dedicated delegate object for Yandex AdView ads.
  */
 @interface ALYandexMediationAdapterAdViewDelegate : NSObject <YMAAdViewDelegate>
@@ -96,6 +109,11 @@
 @property (nonatomic, strong) YMARewardedAd *rewardedAd;
 @property (nonatomic, strong) ALYandexMediationAdapterRewardedAdDelegate *rewardedAdapterDelegate;
 @property (nonatomic, strong) YMARewardedAdLoader *rewardedAdLoader;
+
+// App Open
+@property (nonatomic, strong) YMAAppOpenAd *appOpenAd;
+@property (nonatomic, strong) ALYandexMediationAdapterAppOpenAdDelegate *appOpenAdapterDelegate;
+@property (nonatomic, strong) YMAAppOpenAdLoader *appOpenAdLoader;
 
 // AdView
 @property (nonatomic, strong) YMAAdView *adView;
@@ -161,6 +179,13 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     self.rewardedAdLoader.delegate = nil;
     self.rewardedAdLoader = nil;
     
+    self.appOpenAd.delegate = nil;
+    self.appOpenAd = nil;
+    self.appOpenAdapterDelegate.delegate = nil;
+    self.appOpenAdapterDelegate = nil;
+    self.appOpenAdLoader.delegate = nil;
+    self.appOpenAdLoader = nil;
+
     self.adView.delegate = nil;
     self.adView = nil;
     self.adViewAdapterDelegate.delegate = nil;
@@ -307,6 +332,53 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     }
     
     [self.rewardedAd showFromViewController: presentingViewController];
+}
+
+#pragma mark - MAAppOpenAdapter Methods
+
+- (void)loadAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+    [self log: @"Loading %@app open ad for placement id: %@...", ( [parameters.bidResponse al_isValidString] ? @"bidding " : @"" ), placementId];
+
+    [self updateUserConsent: parameters];
+
+    self.appOpenAdLoader = [[YMAAppOpenAdLoader alloc] init];
+    self.appOpenAdapterDelegate = [[ALYandexMediationAdapterAppOpenAdDelegate alloc] initWithParentAdapter: self
+                                                                                            withParameters: parameters
+                                                                                                 andNotify: delegate];
+    self.appOpenAdLoader.delegate = self.appOpenAdapterDelegate;
+
+    YMAMutableAdRequestConfiguration *configuration = [self createAdRequestConfigurationForPlacementId: placementId parameters: parameters];
+    [self.appOpenAdLoader loadAdWithRequestConfiguration: configuration];
+}
+
+- (void)showAppOpenAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    [self log: @"Showing app open ad..."];
+
+    if ( !self.appOpenAd )
+    {
+        [self log: @"App open ad failed to show - ad not ready"];
+
+        [delegate didFailToDisplayAppOpenAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
+
+        return;
+    }
+
+    UIViewController *presentingViewController;
+    if ( ALSdk.versionCode >= 11020199 )
+    {
+        presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+    }
+    else
+    {
+        presentingViewController = [ALUtils topViewControllerFromKeyWindow];
+    }
+
+    [self.appOpenAd showFromViewController: presentingViewController];
 }
 
 #pragma mark - MAAdViewAdapter Methods
@@ -459,6 +531,10 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     else if ( adFormat == MAAdFormat.rewarded )
     {
         return YMAAdTypeRewarded;
+    }
+    else if ( adFormat == MAAdFormat.appOpen )
+    {
+        return YMAAdTypeAppOpenAd;
     }
     else if ( [adFormat isAdViewAd] )
     {
@@ -678,6 +754,82 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     }
     
     [self.delegate didHideRewardedAd];
+}
+
+@end
+
+#pragma mark - ALYandexMediationAdapterAppOpenAdDelegate
+
+@implementation ALYandexMediationAdapterAppOpenAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALYandexMediationAdapter *)parentAdapter withParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAAppOpenAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parameters = parameters;
+        self.parentAdapter = parentAdapter;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)appOpenAdLoader:(YMAAppOpenAdLoader *)adLoader didLoad:(YMAAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open ad loaded"];
+    self.parentAdapter.appOpenAd = appOpenAd;
+    appOpenAd.delegate = self.parentAdapter.appOpenAdapterDelegate;
+    [self.delegate didLoadAppOpenAd];
+}
+
+- (void)appOpenAdLoader:(YMAAppOpenAdLoader *)adLoader didFailToLoadWithError:(YMAAdRequestError *)yandexError
+{
+    NSError *error = yandexError.error;
+    [self.parentAdapter log: @"App open ad failed to load with error code %ld and description: %@", error.code, error.description];
+
+    MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+    [self.delegate didFailToLoadAppOpenAdWithError: adapterError];
+}
+
+- (void)appOpenAdDidShow:(YMAAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open ad shown"];
+
+    // Fire callbacks here for test mode ads since onAdapterImpressionTracked() doesn't get called for them
+    if ( [self.parameters isTesting] )
+    {
+        [self.delegate didDisplayAppOpenAd];
+    }
+}
+
+// Note: This method is generally called with a 3 second delay after the ad has been displayed.
+//       This method is not called for test mode ads.
+- (void)appOpenAd:(YMAAppOpenAd *)appOpenAd didTrackImpressionWithData:(nullable id<YMAImpressionData>)impressionData
+{
+    [self.parentAdapter log: @"App open ad impression tracked"];
+    [self.delegate didDisplayAppOpenAd];
+}
+
+- (void)appOpenAd:(YMAAppOpenAd *)appOpenAd didFailToShowWithError:(NSError *)error
+{
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.localizedDescription];
+
+    [self.parentAdapter log: @"App open ad failed to display with error: %@", adapterError];
+    [self.delegate didFailToDisplayAppOpenAdWithError: adapterError];
+}
+
+- (void)appOpenAdDidClick:(YMAAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open ad clicked"];
+    [self.delegate didClickAppOpenAd];
+}
+
+- (void)appOpenAdDidDismiss:(YMAAppOpenAd *)appOpenAd
+{
+    [self.parentAdapter log: @"App open ad hidden"];
+    [self.delegate didHideAppOpenAd];
 }
 
 @end
