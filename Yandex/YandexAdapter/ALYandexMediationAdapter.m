@@ -174,6 +174,37 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     self.nativeAdLoader = nil;
 }
 
+- (nullable NSDictionary *)extraInfoForAdInfo:(nullable YMAAdInfo *)adInfo
+{
+    if ( adInfo == nil )
+    {
+        return nil;
+    }
+    NSArray<YMACreative *> *creatives = adInfo.creatives;
+    NSMutableArray<NSString *> *creativeIDs = [NSMutableArray array];
+    for ( YMACreative *creative in creatives )
+    {
+        NSString *creativeID = creative.creativeID;
+        if ( creativeID != nil && [creativeID al_isValidString] )
+        {
+            [creativeIDs addObject: creativeID];
+        }
+    }
+    return [self extraInfoForCreativeIDs: creativeIDs];
+}
+
+- (nullable NSDictionary *)extraInfoForCreativeIDs:(NSArray<NSString *> *)creativeIDs
+{
+    if ( creativeIDs.count == 0 )
+    {
+        return nil;
+    }
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    result[@"creative_id"] = [creativeIDs componentsJoinedByString: @","];
+    result[@"creative_ids"] = creativeIDs;
+    return result;
+}
+
 #pragma mark - Signal Collection
 
 - (void)collectSignalWithParameters:(id<MASignalCollectionParameters>)parameters andNotify:(id<MASignalCollectionDelegate>)delegate
@@ -537,7 +568,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self.parentAdapter log: @"Interstitial ad loaded"];
     self.parentAdapter.interstitialAd = interstitialAd;
     interstitialAd.delegate = self.parentAdapter.interstitialAdapterDelegate;
-    [self.delegate didLoadInterstitialAd];
+    [self.delegate didLoadInterstitialAdWithExtraInfo:[self.parentAdapter extraInfoForAdInfo: interstitialAd.adInfo]];
 }
 
 - (void)interstitialAdLoader:(YMAInterstitialAdLoader *)adLoader didFailToLoadWithError:(YMAAdRequestError *)yandexError
@@ -613,7 +644,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self.parentAdapter log: @"Rewarded ad loaded"];
     self.parentAdapter.rewardedAd = rewardedAd;
     rewardedAd.delegate = self.parentAdapter.rewardedAdapterDelegate;
-    [self.delegate didLoadRewardedAd];
+    [self.delegate didLoadRewardedAdWithExtraInfo:[self.parentAdapter extraInfoForAdInfo: rewardedAd.adInfo]];
 }
 
 - (void)rewardedAdLoader:(YMARewardedAdLoader *)adLoader didFailToLoadWithError:(YMAAdRequestError *)yandexError
@@ -709,6 +740,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     CGSize adSize = [adView adContentSize];
     extraInfo[@"ad_width"] = @(adSize.width);
     extraInfo[@"ad_height"] = @(adSize.height);
+    [extraInfo addEntriesFromDictionary:[self.parentAdapter extraInfoForAdInfo: adView.adInfo]];
     
     [self.delegate didLoadAdForAdView: adView withExtraInfo: extraInfo];
 }
@@ -800,8 +832,13 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
         builder.mediaContentAspectRatio = assets.media.aspectRatio;
         builder.starRating = assets.rating;
     }];
-    
-    [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+    NSDictionary *extraInfo = nil;
+    NSString *creativeID = ad.creativeID;
+    if ( creativeID != nil && [creativeID al_isValidString] )
+    {
+        extraInfo = [self.parentAdapter extraInfoForCreativeIDs: @[creativeID]];
+    }
+    [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
 }
 
 - (void)nativeAd:(id<YMANativeAd>)ad willPresentScreen:(UIViewController *)viewController
