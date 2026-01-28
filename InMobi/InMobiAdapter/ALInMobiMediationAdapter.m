@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"11.1.0.0"
+#define ADAPTER_VERSION @"11.1.1.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -1087,7 +1087,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
         MANativeAdView *nativeAdView = (MANativeAdView *) container;
         
         // Use new InMobi SDK 11.0.0 API for native ad view registration
-        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView: container];
+        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithAdParentView: container];
         if ( nativeAdView.titleLabel )
         {
             [builder setTitleView: nativeAdView.titleLabel];
@@ -1120,7 +1120,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     else
     {
         // Use new InMobi SDK 11.0.0 API for native ad view registration
-        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView: container];
+        IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithAdParentView: container];
         
         for ( UIView *view in clickableViews )
         {
