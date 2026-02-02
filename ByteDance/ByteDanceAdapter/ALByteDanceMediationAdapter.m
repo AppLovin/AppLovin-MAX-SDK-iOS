@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"7.8.5.8.0"
+#define ADAPTER_VERSION @"7.9.0.4.0"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -694,7 +694,7 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     NSNumber *hasUserConsent = parameters.hasUserConsent;
     if ( hasUserConsent != nil )
     {
-        configuration.GDPRConsent = hasUserConsent.boolValue ? PAGGDPRConsentTypeConsent : PAGGDPRConsentTypeNoConsent;
+        configuration.PAConsent = hasUserConsent.boolValue ? PAGPAConsentTypeConsent : PAGPAConsentTypeNoConsent;
     }
     
     NSNumber *isDoNotSell = parameters.isDoNotSell;
