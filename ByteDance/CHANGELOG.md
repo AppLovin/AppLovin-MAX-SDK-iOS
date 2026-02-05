@@ -1,6 +1,7 @@
 # Changelog
 ## 7.9.0.4.0
 * Certified with ByteDance SDK 7.9.0.4.
+* Manual configuration of GDPR information is no longer supported. Pangle will automatically read the settings from the CMP.
 
 ## 7.8.5.8.0
 * Certified with ByteDance SDK 7.8.5.8.
