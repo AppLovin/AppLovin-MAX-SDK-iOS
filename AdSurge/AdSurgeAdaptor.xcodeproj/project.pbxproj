@@ -6,92 +6,49 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		2E3C91572EFABCA400B7E589 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3C91472EFABBF200B7E589 /* AppLovinSDK.framework */; platformFilter = ios; };
-		F86A69FD4B04D3A960D0DF59 /* Pods_SerafinoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05B0885F769FA5AC1C66B8 /* Pods_SerafinoAdapter.framework */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		02825C0CC0E2E9B177648DA2 /* Pods-SerafinoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SerafinoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-SerafinoAdapter/Pods-SerafinoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		2E3C91472EFABBF200B7E589 /* AppLovinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppLovinSDK.framework; path = "../../../Library/Developer/Xcode/DerivedData/SerafinoAdapter-cvoxyfdwadjoymgkslyibenpafoc/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/AppLovinSDK/AppLovinSDK.framework"; sourceTree = "<group>"; };
-		2EC801B62EEAEAD300B4A1B3 /* AppLovinMediationSerafinoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationSerafinoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EC8081D2EEBC00400B4A1B3 /* AppLovinMediationSerafinoAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationSerafinoAdapter.podspec; sourceTree = "<group>"; };
-		2EC8081E2EEBC00400B4A1B3 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		9279110B5A798C02B6BAA281 /* Pods-SerafinoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SerafinoAdapter.release.xcconfig"; path = "Target Support Files/Pods-SerafinoAdapter/Pods-SerafinoAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		BF05B0885F769FA5AC1C66B8 /* Pods_SerafinoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SerafinoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FABD722F39BE8100907152 /* AppLovinMediationSerafinoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationSerafinoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2EC801B82EEAEAD300B4A1B3 /* SerafinoAdapter */ = {
+		46FABD742F39BE8100907152 /* AdSurgeAdaptor */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SerafinoAdapter;
+			path = AdSurgeAdaptor;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2EC801B32EEAEAD300B4A1B3 /* Frameworks */ = {
+		46FABD6F2F39BE8100907152 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E3C91572EFABCA400B7E589 /* AppLovinSDK.framework in Frameworks */,
-				F86A69FD4B04D3A960D0DF59 /* Pods_SerafinoAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1CAB70E18144E1646303442B /* Frameworks */ = {
+		46FABD682F39BE8100907152 = {
 			isa = PBXGroup;
 			children = (
-				2E3C91472EFABBF200B7E589 /* AppLovinSDK.framework */,
-				BF05B0885F769FA5AC1C66B8 /* Pods_SerafinoAdapter.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2C31E0A749AADE758403B84B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				02825C0CC0E2E9B177648DA2 /* Pods-SerafinoAdapter.debug.xcconfig */,
-				9279110B5A798C02B6BAA281 /* Pods-SerafinoAdapter.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		2EC801AC2EEAEAD300B4A1B3 = {
-			isa = PBXGroup;
-			children = (
-				2EC801B82EEAEAD300B4A1B3 /* SerafinoAdapter */,
-				2EC801B72EEAEAD300B4A1B3 /* Products */,
-				2C31E0A749AADE758403B84B /* Pods */,
-				1CAB70E18144E1646303442B /* Frameworks */,
-				2EC8081A2EEBBFDD00B4A1B3 /* Supporting Files */,
+				46FABD742F39BE8100907152 /* AdSurgeAdaptor */,
+				46FABD732F39BE8100907152 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		2EC801B72EEAEAD300B4A1B3 /* Products */ = {
+		46FABD732F39BE8100907152 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2EC801B62EEAEAD300B4A1B3 /* AppLovinMediationSerafinoAdapter.framework */,
+				46FABD722F39BE8100907152 /* AppLovinMediationSerafinoAdapter.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		2EC8081A2EEBBFDD00B4A1B3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2EC8081D2EEBC00400B4A1B3 /* AppLovinMediationSerafinoAdapter.podspec */,
-				2EC8081E2EEBC00400B4A1B3 /* CHANGELOG.md */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		2EC801B12EEAEAD300B4A1B3 /* Headers */ = {
+		46FABD6D2F39BE8100907152 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -101,63 +58,64 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2EC801B52EEAEAD300B4A1B3 /* SerafinoAdapter */ = {
+		46FABD712F39BE8100907152 /* AdSurgeAdaptor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2EC801BC2EEAEAD300B4A1B3 /* Build configuration list for PBXNativeTarget "SerafinoAdapter" */;
+			buildConfigurationList = 46FABD782F39BE8100907152 /* Build configuration list for PBXNativeTarget "AdSurgeAdaptor" */;
 			buildPhases = (
-				F3F97DFCA89A1EE143130A62 /* [CP] Check Pods Manifest.lock */,
-				2EC801B12EEAEAD300B4A1B3 /* Headers */,
-				2EC801B22EEAEAD300B4A1B3 /* Sources */,
-				2EC801B32EEAEAD300B4A1B3 /* Frameworks */,
-				2EC801B42EEAEAD300B4A1B3 /* Resources */,
+				46FABD6D2F39BE8100907152 /* Headers */,
+				46FABD6E2F39BE8100907152 /* Sources */,
+				46FABD6F2F39BE8100907152 /* Frameworks */,
+				46FABD702F39BE8100907152 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				2EC801B82EEAEAD300B4A1B3 /* SerafinoAdapter */,
+				46FABD742F39BE8100907152 /* AdSurgeAdaptor */,
 			);
-			name = SerafinoAdapter;
-			productName = SerafinoAdapter;
-			productReference = 2EC801B62EEAEAD300B4A1B3 /* AppLovinMediationSerafinoAdapter.framework */;
+			name = AdSurgeAdaptor;
+			packageProductDependencies = (
+			);
+			productName = AdSurgeAdaptor;
+			productReference = 46FABD722F39BE8100907152 /* AppLovinMediationSerafinoAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		2EC801AD2EEAEAD300B4A1B3 /* Project object */ = {
+		46FABD692F39BE8100907152 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 2610;
-				ORGANIZATIONNAME = AppLovin;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
-					2EC801B52EEAEAD300B4A1B3 = {
-						CreatedOnToolsVersion = 26.1.1;
+					46FABD712F39BE8100907152 = {
+						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
-			buildConfigurationList = 2EC801B02EEAEAD300B4A1B3 /* Build configuration list for PBXProject "SerafinoAdapter" */;
+			buildConfigurationList = 46FABD6C2F39BE8100907152 /* Build configuration list for PBXProject "AdSurgeAdaptor" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 2EC801AC2EEAEAD300B4A1B3;
+			mainGroup = 46FABD682F39BE8100907152;
+			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 2EC801B72EEAEAD300B4A1B3 /* Products */;
+			productRefGroup = 46FABD732F39BE8100907152 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2EC801B52EEAEAD300B4A1B3 /* SerafinoAdapter */,
+				46FABD712F39BE8100907152 /* AdSurgeAdaptor */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2EC801B42EEAEAD300B4A1B3 /* Resources */ = {
+		46FABD702F39BE8100907152 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -166,33 +124,8 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F3F97DFCA89A1EE143130A62 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SerafinoAdapter-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		2EC801B22EEAEAD300B4A1B3 /* Sources */ = {
+		46FABD6E2F39BE8100907152 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -202,9 +135,8 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		2EC801BD2EEAEAD300B4A1B3 /* Debug */ = {
+		46FABD792F39BE8100907152 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 02825C0CC0E2E9B177648DA2 /* Pods-SerafinoAdapter.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -225,7 +157,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.SerafinoAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.AdSurgeAdaptor;
 				PRODUCT_NAME = AppLovinMediationSerafinoAdapter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -235,9 +167,8 @@
 			};
 			name = Debug;
 		};
-		2EC801BE2EEAEAD300B4A1B3 /* Release */ = {
+		46FABD7A2F39BE8100907152 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9279110B5A798C02B6BAA281 /* Pods-SerafinoAdapter.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -258,7 +189,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.SerafinoAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.AdSurgeAdaptor;
 				PRODUCT_NAME = AppLovinMediationSerafinoAdapter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -268,7 +199,7 @@
 			};
 			name = Release;
 		};
-		2EC801BF2EEAEAD300B4A1B3 /* Debug */ = {
+		46FABD7B2F39BE8100907152 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -321,7 +252,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -332,7 +263,7 @@
 			};
 			name = Debug;
 		};
-		2EC801C02EEAEAD300B4A1B3 /* Release */ = {
+		46FABD7C2F39BE8100907152 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -379,7 +310,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -393,25 +324,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2EC801B02EEAEAD300B4A1B3 /* Build configuration list for PBXProject "SerafinoAdapter" */ = {
+		46FABD6C2F39BE8100907152 /* Build configuration list for PBXProject "AdSurgeAdaptor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2EC801BF2EEAEAD300B4A1B3 /* Debug */,
-				2EC801C02EEAEAD300B4A1B3 /* Release */,
+				46FABD7B2F39BE8100907152 /* Debug */,
+				46FABD7C2F39BE8100907152 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2EC801BC2EEAEAD300B4A1B3 /* Build configuration list for PBXNativeTarget "SerafinoAdapter" */ = {
+		46FABD782F39BE8100907152 /* Build configuration list for PBXNativeTarget "AdSurgeAdaptor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2EC801BD2EEAEAD300B4A1B3 /* Debug */,
-				2EC801BE2EEAEAD300B4A1B3 /* Release */,
+				46FABD792F39BE8100907152 /* Debug */,
+				46FABD7A2F39BE8100907152 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 2EC801AD2EEAEAD300B4A1B3 /* Project object */;
+	rootObject = 46FABD692F39BE8100907152 /* Project object */;
 }

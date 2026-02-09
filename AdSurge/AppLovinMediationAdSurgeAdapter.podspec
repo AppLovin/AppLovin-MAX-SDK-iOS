@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
-s.name = 'AppLovinMediationSerafinoAdapter'
-s.version = '1.4.0.0'
+s.name = 'AppLovinMediationAdSurgeAdapter'
+s.version = '1.6.0.0'
 s.platform = :ios, '12.0'
-s.summary = 'Serafino adapter used for mediation with the AppLovin MAX SDK'
+s.summary = 'AdSurge adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license =
 {
@@ -20,13 +20,13 @@ LICENSE
 
 s.source =
 {
-  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/serafino-adapter/#{s.name}-#{s.version}.zip",
+  :http => "https://artifacts.applovin.com/ios/com/applovin/mediation/adsurge-adapter/#{s.name}-#{s.version}.zip",
   :type => 'zip'
 }
 
 s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
 
-s.dependency 'SerafinoAdn', '= {ADAPTER_SDK_VERSION}'
+s.dependency 'AdSurgeADN', '= {ADAPTER_SDK_VERSION}'
 s.dependency 'AppLovinSDK', '>= 13.0.0'
 s.swift_version = '5.0'
 
