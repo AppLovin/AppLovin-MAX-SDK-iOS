@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"12.14.0.0"
+#define ADAPTER_VERSION @"13.0.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -166,7 +166,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     self.nativeAdLoader.delegate = nil;
     self.nativeAdLoader = nil;
     
-    [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
     // Remove the view from MANativeAdView in case the publisher decides to re-use the native ad view.
@@ -588,7 +587,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     else // Return anchored size by default
     {
         dispatchSyncOnMainQueue(^{
-            adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(bannerWidth);
+            adSize = GADLargeAnchoredAdaptiveBannerAdSizeWithWidth(bannerWidth);
         });
     }
     
@@ -715,7 +714,7 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
  */
 + (CGSize)currentOrientationAchoredAdaptiveBannerSizeWithWidth:(CGFloat)width
 {
-    GADAdSize adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width);
+    GADAdSize adSize = GADLargeAnchoredAdaptiveBannerAdSizeWithWidth(width);
     return adSize.size;
 }
 
