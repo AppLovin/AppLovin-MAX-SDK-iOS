@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"2.9.20251119.0"
+#define ADAPTER_VERSION @"3.0.0.0"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -89,7 +89,7 @@ static ALAtomicBoolean *ALLineInitialized;
 
 - (NSString *)SDKVersion
 {
-    return [FADSettings semanticVersion];
+    return [FADAdLoader semanticVersion];
 }
 
 - (NSString *)adapterVersion
