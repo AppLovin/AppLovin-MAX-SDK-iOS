@@ -1,5 +1,8 @@
 # Changelog
 
+## 13.0.0.1
+* Enable publishers to pass arbitrary values to `GAMRequest`.
+
 ## 13.0.0.0
 * Certified with GoogleAdManager SDK 13.0.0.
 
