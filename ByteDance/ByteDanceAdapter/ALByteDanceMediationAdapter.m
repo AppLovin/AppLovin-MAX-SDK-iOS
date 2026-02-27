@@ -9,7 +9,7 @@
 #import "ALByteDanceMediationAdapter.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 
-#define ADAPTER_VERSION @"7.9.0.6.0"
+#define ADAPTER_VERSION @"7.9.0.6.1"
 
 @interface ALByteDanceInterstitialAdDelegate : NSObject <PAGLInterstitialAdDelegate>
 @property (nonatomic,   weak) ALByteDanceMediationAdapter *parentAdapter;
@@ -197,7 +197,16 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
     
     PAGBiddingRequest *request = [self createSignalRequestForAdFormat: parameters.adFormat withParameters: parameters];
     
-    [PAGSdk getBiddingTokenWithRequest: request completion:^(NSString *biddingToken) {
+    [PAGSdk getBiddingTokenWithRequest: request completionHandler: ^(NSString * _Nullable biddingToken, NSError * _Nullable error) {
+        
+        if ( error )
+        {
+            [self log: @"Signal collection failed with error: %@", error];
+            [delegate didFailToCollectSignalWithErrorMessage: error.description];
+            
+            return;
+        }
+        
         [self log: @"Signal collection successful"];
         [delegate didCollectSignal: biddingToken];
     }];
@@ -690,12 +699,6 @@ static MAAdapterInitializationStatus ALByteDanceInitializationStatus = NSInteger
 - (void)updateConsentWithParameters:(id<MAAdapterParameters>)parameters
 {
     PAGConfig *configuration = [PAGConfig shareConfig];
-    
-    NSNumber *hasUserConsent = parameters.hasUserConsent;
-    if ( hasUserConsent != nil )
-    {
-        configuration.PAConsent = hasUserConsent.boolValue ? PAGPAConsentTypeConsent : PAGPAConsentTypeNoConsent;
-    }
     
     NSNumber *isDoNotSell = parameters.isDoNotSell;
     if ( isDoNotSell != nil )
