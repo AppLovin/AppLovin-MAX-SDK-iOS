@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.21.1.0
+* Certified with Facebook SDK 6.21.1.
+
 ## 6.21.0.0
 * Certified with Facebook SDK 6.21.0.
 * Updated minimum iOS version to 13.0 to match Facebook SDK.

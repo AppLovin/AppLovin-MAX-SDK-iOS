@@ -15,7 +15,7 @@
 #import "ALGoogleNativeAdViewDelegate.h"
 #import "ALGoogleNativeAdDelegate.h"
 
-#define ADAPTER_VERSION @"12.14.0.0"
+#define ADAPTER_VERSION @"13.1.0.1"
 
 @interface ALGoogleMediationAdapter ()
 
@@ -112,8 +112,7 @@ static MAAdapterInitializationStatus ALGoogleInitializatationStatus = NSIntegerM
     
     self.nativeAdLoader.delegate = nil;
     self.nativeAdLoader = nil;
-    
-    [self.nativeAd unregisterAdView];
+
     self.nativeAd = nil;
     
     // Remove the view from MANativeAdView in case the publisher decides to re-use the native ad view.

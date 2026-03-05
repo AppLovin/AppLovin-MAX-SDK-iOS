@@ -9,7 +9,7 @@
 #import "ALGoogleAdManagerMediationAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define ADAPTER_VERSION @"12.14.0.0"
+#define ADAPTER_VERSION @"13.1.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -166,7 +166,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     self.nativeAdLoader.delegate = nil;
     self.nativeAdLoader = nil;
     
-    [self.nativeAd unregisterAdView];
     self.nativeAd = nil;
     
     // Remove the view from MANativeAdView in case the publisher decides to re-use the native ad view.
@@ -635,6 +634,16 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     
     NSMutableDictionary<NSString *, id> *extraParameters = [NSMutableDictionary dictionary];
     
+    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
+    
+    // Enable publishers to pass arbitrary values to `GAMRequest`
+    NSDictionary<NSString *, id> *googleExtraParams = [localExtraParameters al_dictionaryForKey: @"google_extra_params"];
+    if ( googleExtraParams )
+    {
+        [self log: @"Adding google_extra_params to extra parameters: %@", googleExtraParams];
+        [extraParameters addEntriesFromDictionary: googleExtraParams];
+    }
+    
     NSString *eventId = [parameters.serverParameters al_stringForKey: @"event_id"];
     if ( [eventId al_isValidString] )
     {
@@ -657,8 +666,6 @@ static NSString *const kAdaptiveBannerTypeInline = @"inline";
     {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"gad_rdp"];
     }
-    
-    NSDictionary<NSString *, id> *localExtraParameters = parameters.localExtraParameters;
     
     NSString *maxAdContentRating = [localExtraParameters al_stringForKey: @"google_max_ad_content_rating"];
     if ( [maxAdContentRating al_isValidString] )
