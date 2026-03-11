@@ -431,9 +431,8 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (BOOL)isAdaptiveAdViewEnabledForParameters:(id<MAAdapterResponseParameters>)parameters
 {
     BOOL isAdaptiveServerParams = [parameters.serverParameters al_boolForKey: kALVungleAdaptiveBannerKey];
-    BOOL isAdaptiveLocalParams = [parameters.localExtraParameters al_boolForKey: kALVungleAdaptiveBannerKey];
     
-    if ( !isAdaptiveServerParams && !isAdaptiveLocalParams ) {
+    if ( !isAdaptiveServerParams ) {
         return NO;
     }
     
@@ -451,10 +450,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 - (void)logAdaptiveAdViewForBannerPlacement:(id<MAAdapterResponseParameters>)parameters adViewAd:(VungleBannerView *)adViewAd
 {
     BOOL isAdaptiveServerParams = [parameters.serverParameters al_boolForKey: kALVungleAdaptiveBannerKey];
-    BOOL isAdaptiveLocalParams = [parameters.localExtraParameters al_boolForKey: kALVungleAdaptiveBannerKey];
     BOOL isInlinePlacement = [VungleAds isInLine: parameters.thirdPartyAdPlacementIdentifier];
 
-    if ( ( isAdaptiveServerParams || isAdaptiveLocalParams ) && !isInlinePlacement ) {
+    if ( isAdaptiveServerParams && !isInlinePlacement ) {
         NSString *adaptiveType = [parameters.localExtraParameters al_stringForKey:@"adaptive_banner_type" defaultValue:@"adaptive"];
         adViewAd.adapterAdFormat = [NSString stringWithFormat:@"MAAdViewAdapter-%@", adaptiveType];
         // This is the case in which AdUnit is set to "adaptive", but Placement is not inline.
