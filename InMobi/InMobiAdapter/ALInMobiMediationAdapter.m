@@ -533,17 +533,21 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
 - (CGRect)rectForAdaptiveBannerWithParameters:(id<MAAdapterParameters>)parameters
 {
-    CGFloat width = [self adaptiveAdViewWidthFromParameters:parameters];
+    __block CGRect adSize;
+    dispatchSyncOnMainQueue(^{
+        CGFloat width = [self adaptiveAdViewWidthFromParameters:parameters];
 
-    if ([self isInlineAdaptiveAdViewForParameters:parameters])
-    {
-        CGFloat inlineMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters:parameters];
-        CGFloat height = (inlineMaxHeight > 0) ? inlineMaxHeight : [self getFallbackHightForInline];
-        return CGRectMake(0, 0, width, height);
-    }
+        if ([self isInlineAdaptiveAdViewForParameters:parameters])
+        {
+            CGFloat inlineMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters:parameters];
+            CGFloat height = (inlineMaxHeight > 0) ? inlineMaxHeight : [self getFallbackHightForInline];
+            adSize = CGRectMake(0, 0, width, height);
+        }
 
-    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth:width].height;
-    return CGRectMake(0, 0, width, anchoredHeight);
+        CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth:width].height;
+        adSize = CGRectMake(0, 0, width, anchoredHeight);
+    });
+    return adSize;
 }
 
 - (CGFloat)getFallbackHightForInline
