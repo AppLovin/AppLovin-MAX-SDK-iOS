@@ -542,10 +542,10 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
             CGFloat inlineMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters:parameters];
             CGFloat height = (inlineMaxHeight > 0) ? inlineMaxHeight : [self getFallbackHightForInline];
             adSize = CGRectMake(0, 0, width, height);
+        } else {
+            CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth:width].height;
+            adSize = CGRectMake(0, 0, width, anchoredHeight);
         }
-
-        CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth:width].height;
-        adSize = CGRectMake(0, 0, width, anchoredHeight);
     });
     return adSize;
 }
