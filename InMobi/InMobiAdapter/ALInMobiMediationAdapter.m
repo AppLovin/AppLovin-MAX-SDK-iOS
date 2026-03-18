@@ -130,6 +130,13 @@
 static ALAtomicBoolean              *ALInMobiInitialized;
 static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin;
 
+// String constants
+static NSString *const ADAPTIVE_BANNER = @"adaptive_banner";
+static NSString *const AB_AD_SLOT = @"ab-ad-slot";
+static NSString *const AB_TYPE = @"ab-type";
+static NSString *const ADAPTIVE_TYPE_INLINE = @"inline";
+static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
+
 + (void)initialize
 {
     [super initialize];
@@ -226,8 +233,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
     
     [self updatePrivacySettingsWithParameters: parameters];
-    
-    NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
+    NSDictionary<NSString *, id> *extras = [self extrasForParameters: parameters isAdaptiveParameterRequired: [self isAdaptiveEnabledForParameters:parameters adFormat:parameters.adFormat]];
+    NSString *signal = [IMSdk getTokenWithExtras: extras andKeywords: nil];
     [delegate didCollectSignal: signal];
 }
 
@@ -251,8 +258,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                                                      parameters: parameters
                                                                                                       andNotify: delegate];
         self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdViewDelegate];
-        self.nativeAd.extras = [self extrasForParameters: parameters];
-        
+        self.nativeAd.extras = [self extrasForParameters: parameters isAdaptiveParameterRequired: NO];
+
         if ( isBiddingAd )
         {
             [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
@@ -264,9 +271,12 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
     else
     {
-        CGRect frame = [self rectFromAdFormat: adFormat];
+        BOOL isAdaptiveBannerEnabled = [self isAdaptiveEnabledForParameters:parameters adFormat:adFormat];
+
+        CGRect frame = [self rectFromAdFormat: adFormat isAdaptiveBannerEnabled: isAdaptiveBannerEnabled parameters: parameters];
+
         self.adView = [[IMBanner alloc] initWithFrame: frame placementId: placementId];
-        self.adView.extras = [self extrasForParameters: parameters];
+        self.adView.extras = [self extrasForParameters: parameters isAdaptiveParameterRequired: isAdaptiveBannerEnabled];
         self.adView.transitionAnimation = UIViewAnimationTransitionNone;
         [self.adView shouldAutoRefresh: NO];
         
@@ -354,8 +364,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                                          parameters: parameters
                                                                                           andNotify: delegate];
     self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdDelegate];
-    self.nativeAd.extras = [self extrasForParameters: parameters];
-    
+    self.nativeAd.extras = [self extrasForParameters: parameters isAdaptiveParameterRequired:NO];
+
     [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *bidResponse = parameters.bidResponse;
@@ -376,8 +386,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                          andNotify:(id<IMInterstitialDelegate>)delegate
 {
     IMInterstitial *interstitial = [[IMInterstitial alloc] initWithPlacementId: placementId delegate: delegate];
-    interstitial.extras = [self extrasForParameters: parameters];
-    
+    interstitial.extras = [self extrasForParameters: parameters isAdaptiveParameterRequired:NO];
+
     [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *bidResponse = parameters.bidResponse;
@@ -422,10 +432,23 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return consentDict;
 }
 
-- (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
+- (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters isAdaptiveParameterRequired:(BOOL)isAdaptiveParameterRequired
 {
-    return @{@"tp"     : @"c_applovin",
-             @"tp-ver" : [ALSdk version]};
+    NSMutableDictionary<NSString *, id> *extras = [NSMutableDictionary dictionaryWithDictionary: @{
+        @"tp"     : @"c_applovin",
+        @"tp-ver" : [ALSdk version]
+    }];
+
+    // Pass adaptive banner parameters via extras (used for bidding signal collection and can be used by the network request).
+    if ( isAdaptiveParameterRequired )
+    {
+        CGRect rect = [self rectForAdaptiveBannerWithParameters:parameters];
+
+        extras[AB_AD_SLOT] = [NSString stringWithFormat:@"%@X%@", @(rect.size.width).stringValue, @(rect.size.height).stringValue];
+        extras[AB_TYPE] = [self isInlineAdaptiveAdViewForParameters:parameters] ? ADAPTIVE_TYPE_INLINE : ADAPTIVE_TYPE_ANCHORED;
+    }
+
+    return extras;
 }
 
 - (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
@@ -485,6 +508,48 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return [MAAdapterError errorWithAdapterError: adapterError
                         mediatedNetworkErrorCode: inMobiErrorCode
                      mediatedNetworkErrorMessage: inMobiError.localizedDescription];
+}
+
+
+#pragma mark - Adaptive Banner Helpers
+
+-(BOOL)isAdaptiveEnabledForParameters:(id<MAAdapterParameters>)parameters adFormat:(MAAdFormat *)format {
+    BOOL isEnabled = [parameters.localExtraParameters al_boolForKey: ADAPTIVE_BANNER defaultValue: NO];
+    BOOL isAdaptiveFormatEnabled = [self isAdaptiveAdViewFormat: format forParameters: parameters];
+    return isEnabled && isAdaptiveFormatEnabled;
+
+}
+
+- (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
+     isAdaptiveBannerEnabled:(BOOL)isAdaptiveBannerEnabled
+                 parameters:(id<MAAdapterParameters>)parameters
+{
+
+    if (isAdaptiveBannerEnabled) {
+        return [self rectForAdaptiveBannerWithParameters:parameters];
+    }
+    return [self rectFromAdFormat: adFormat];
+}
+
+- (CGRect)rectForAdaptiveBannerWithParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat width = [self adaptiveAdViewWidthFromParameters:parameters];
+
+    if ([self isInlineAdaptiveAdViewForParameters:parameters])
+    {
+        CGFloat inlineMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters:parameters];
+        CGFloat height = (inlineMaxHeight > 0) ? inlineMaxHeight : [self getFallbackHightForInline];
+        return CGRectMake(0, 0, width, height);
+    }
+
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth:width].height;
+    return CGRectMake(0, 0, width, anchoredHeight);
+}
+
+- (CGFloat)getFallbackHightForInline
+{
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    return (screenSize.height > 0) ? screenSize.height : 0;
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
