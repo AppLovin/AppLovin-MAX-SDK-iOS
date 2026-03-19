@@ -552,8 +552,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
 - (CGFloat)getFallbackHightForInline
 {
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    return (screenSize.height > 0) ? screenSize.height : 0;
+    return [UIScreen mainScreen].bounds.size.height;
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
