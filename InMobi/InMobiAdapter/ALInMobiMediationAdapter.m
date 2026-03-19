@@ -233,7 +233,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     }
     
     [self updatePrivacySettingsWithParameters: parameters];
-    NSDictionary<NSString *, id> *extras = [self extrasForParameters: parameters isAdaptiveParameterRequired: [self isAdaptiveEnabledForParameters:parameters adFormat:parameters.adFormat]];
+    NSDictionary<NSString *, id> *extras = [self extrasForParameters: parameters isAdaptiveParameterRequired: [self isAdaptiveEnabledForParameters:parameters adFormat:parameters.adFormat isForCollectSignals:YES]];
     NSString *signal = [IMSdk getTokenWithExtras: extras andKeywords: nil];
     [delegate didCollectSignal: signal];
 }
@@ -271,7 +271,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     }
     else
     {
-        BOOL isAdaptiveBannerEnabled = [self isAdaptiveEnabledForParameters:parameters adFormat:adFormat];
+        BOOL isAdaptiveBannerEnabled = [self isAdaptiveEnabledForParameters:parameters adFormat:adFormat isForCollectSignals:NO];
 
         CGRect frame = [self rectFromAdFormat: adFormat isAdaptiveBannerEnabled: isAdaptiveBannerEnabled parameters: parameters];
 
@@ -444,7 +444,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     {
         CGRect rect = [self rectForAdaptiveBannerWithParameters:parameters];
 
-        extras[AB_AD_SLOT] = [NSString stringWithFormat:@"%@X%@", @(rect.size.width).stringValue, @(rect.size.height).stringValue];
+        extras[AB_AD_SLOT] = [NSString stringWithFormat:@"%@x%@", @(rect.size.width).stringValue, @(rect.size.height).stringValue];
         extras[AB_TYPE] = [self isInlineAdaptiveAdViewForParameters:parameters] ? ADAPTIVE_TYPE_INLINE : ADAPTIVE_TYPE_ANCHORED;
     }
 
@@ -513,11 +513,15 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
 #pragma mark - Adaptive Banner Helpers
 
--(BOOL)isAdaptiveEnabledForParameters:(id<MAAdapterParameters>)parameters adFormat:(MAAdFormat *)format {
-    BOOL isEnabled = [parameters.localExtraParameters al_boolForKey: ADAPTIVE_BANNER defaultValue: NO];
+-(BOOL)isAdaptiveEnabledForParameters:(id<MAAdapterParameters>)parameters adFormat:(MAAdFormat *)format isForCollectSignals:(BOOL)isForCollectSignals {
+    BOOL isEnabled = NO;
+    if (isForCollectSignals) {
+        isEnabled = [parameters.localExtraParameters al_boolForKey: ADAPTIVE_BANNER defaultValue: NO];
+    } else {
+        isEnabled = [parameters.serverParameters al_boolForKey: ADAPTIVE_BANNER defaultValue: NO];
+    }
     BOOL isAdaptiveFormatEnabled = [self isAdaptiveAdViewFormat: format forParameters: parameters];
     return isEnabled && isAdaptiveFormatEnabled;
-
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
