@@ -449,18 +449,17 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
 - (void)logAdaptiveAdViewForBannerPlacement:(id<MAAdapterResponseParameters>)parameters adViewAd:(VungleBannerView *)adViewAd
 {
-    BOOL isAdaptiveServerParams = [parameters.serverParameters al_boolForKey: kALVungleAdaptiveBannerKey];
+    BOOL isAdaptiveAdView = [parameters.serverParameters al_boolForKey: kALVungleAdaptiveBannerKey];
     BOOL isInlinePlacement = [VungleAds isInLine: parameters.thirdPartyAdPlacementIdentifier];
-
-    if ( isAdaptiveServerParams && !isInlinePlacement ) {
-        NSString *adaptiveType = [parameters.localExtraParameters al_stringForKey:@"adaptive_banner_type" defaultValue:@"adaptive"];
-        adViewAd.adapterAdFormat = [NSString stringWithFormat:@"MAAdViewAdapter-%@", adaptiveType];
+    
+    if ( isAdaptiveAdView && !isInlinePlacement ) {
+        adViewAd.adapterAdFormat = [NSString stringWithFormat:@"MAAdViewAdapter-adaptive"];
         // This is the case in which AdUnit is set to "adaptive", but Placement is not inline.
-        NSNumber *adaptiveWidth = [parameters.localExtraParameters al_numberForKey: @"adaptive_banner_width"];
-        NSNumber *adaptiveMaxHeight = [parameters.localExtraParameters al_numberForKey: @"inline_adaptive_banner_max_height"];
-        NSString *adaptiveSizeMismatchMessage = [NSString stringWithFormat: @"AdaptiveBannerSizeMismatch:w-%@|maxh-%@",
-                                         adaptiveWidth ?: @"unknown",
-                                         adaptiveMaxHeight ?: @"unknown"];
+        CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+        CGFloat adaptiveAdMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        NSString *adaptiveSizeMismatchMessage = [NSString stringWithFormat: @"AdaptiveBannerSizeMismatch:w-%f|maxh-%f",
+                                                 adaptiveAdWidth,
+                                                 adaptiveAdMaxHeight];
         [VungleMediationLogger logErrorForAd:adViewAd message:adaptiveSizeMismatchMessage];
     }
 }
