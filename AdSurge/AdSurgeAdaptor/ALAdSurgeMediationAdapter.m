@@ -56,7 +56,6 @@
 @property (nonatomic, strong) ALAdSurgeInterstitialDelegate *interstitialDelegate;
 @property (nonatomic, strong) AdSurgeBannerAdView *adView;
 @property (nonatomic, strong) AdSurgeNativeAd *nativeAd;
-@property (nonatomic, strong) AdSurgeNativeAdView *nativeAdView;
 @property (nonatomic, strong) ALAdSurgeNativeDelegate *nativeDelegate;
 @property (nonatomic, strong) ALAdSurgeAdViewDelegate *adViewDelegate;
 
@@ -80,11 +79,6 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
     return ADAPTER_VERSION;
 }
 
-- (void)collectSignalWithParameters:(nonnull id<MASignalCollectionParameters>)parameters andNotify:(nonnull id<MASignalCollectionDelegate>)delegate {
-    [self log: @"Collecting signal..."];
-
-}
-
 - (void)destroy {
     [self log: @"Destroying..."];
     self.rewardedAd.delegate = nil;
@@ -97,8 +91,8 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
     self.interstitialDelegate.delegate = nil;
     self.interstitialDelegate = nil;
 
+    self.nativeAd.delegate = nil;
     self.nativeAd = nil;
-    self.nativeAdView = nil;
     self.nativeDelegate.delegate = nil;
     self.nativeDelegate = nil;
 
@@ -111,27 +105,43 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 - (void)initializeWithParameters:(nonnull id<MAAdapterInitializationParameters>)parameters
               completionHandler:(nonnull void (^)(MAAdapterInitializationStatus, NSString * _Nullable))completionHandler
 {
-    ALODCInitializationStatus = MAAdapterInitializationStatusInitializing;
+    if ( [ALODCInitialized compareAndSet: NO update: YES] )
+    {
+        ALODCInitializationStatus = MAAdapterInitializationStatusInitializing;
+
+        [self updateSettings: parameters];
+
+        AdSurgeSDKConfig *configuration = [[AdSurgeSDKConfig alloc] init];
+        configuration.appId = [parameters.serverParameters al_stringForKey: @"app_id"];
+        [self log: @"Initializing AdSurgeSDK with app id: %@...", configuration.appId];
+        [[AdSurgeAdSdk shared] initializeWithConfig:configuration completionHandler:^(BOOL success, AdSurgeError * _Nullable error) {
+            if (success) {
+                ALODCInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
+                [self log: @"AdSurgeSDK initialized"];
+            } else {
+                ALODCInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+                [self log: @"AdSurgeSDK failed to initialize with error: %@", error];
+            }
+            completionHandler(ALODCInitializationStatus, error ? error.message : nil);
+        }];
+    }
+    else
+    {
+        completionHandler(ALODCInitializationStatus, nil);
+    }
+}
+
+- (void)updateSettings:(id<MAAdapterParameters>)parameters
+{
     [AdSurgePrivacyConfiguration configuration].doNotSell = [parameters isDoNotSell];
     [AdSurgePrivacyConfiguration configuration].userConsent = [parameters hasUserConsent];
-    AdSurgeSDKConfig *configuration = [[AdSurgeSDKConfig alloc] init];
-    configuration.appId = [parameters.serverParameters al_stringForKey: @"app_id"];
-    [self log: @"Initializing AdSurgeSDK with app id: %@...", configuration.appId];
-    [[AdSurgeAdSdk shared] initializeWithConfig:configuration completionHandler:^(BOOL success, AdSurgeError * _Nullable error) {
-        if (success) {
-            ALODCInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
-            [self log: @"AdSurgeSDK initialized"];
-        } else {
-            ALODCInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
-            [self log: @"AdSurgeSDK failed to initialize with error: %@", error];
-        }
-        completionHandler(ALODCInitializationStatus, error ? error.message : nil);
-    }];
 }
 
 - (void)loadRewardedAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MARewardedAdapterDelegate>)delegate {
 
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+
+    [self updateSettings: parameters];
 
     self.rewardedAd = [[AdSurgeRewardedAd alloc] initWithAdUnitIdentifier:placementId];
     self.rewardedDelegate = [[ALAdSurgeRewardedDelegate alloc] initWithParentAdapter:self placementId:placementId andNotify:delegate];
@@ -143,6 +153,18 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 
 - (void)showRewardedAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MARewardedAdapterDelegate>)delegate {
     [self log: @"Showing rewarded ad with localExtraParameters:%@",parameters.localExtraParameters];
+
+    if ( !self.rewardedAd )
+    {
+        [self log: @"Rewarded ad failed to show - ad not ready"];
+
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
+
+        return;
+    }
+
     [self configureRewardForParameters:parameters];
     UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     if ([parameters.localExtraParameters isKindOfClass:[NSDictionary class]]) {
@@ -182,12 +204,16 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
         default:
             break;
     }
-    return adapterError;
+    return [MAAdapterError errorWithAdapterError: adapterError
+                        mediatedNetworkErrorCode: AdSurgeErrorCode
+                     mediatedNetworkErrorMessage: adSurgeError.message];
 }
 
 - (void)loadInterstitialAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MAInterstitialAdapterDelegate>)delegate {
 
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+
+    [self updateSettings: parameters];
 
     self.interstitialAd = [[AdSurgeInterstitialAd alloc] initWithAdUnitIdentifier:placementId];
     self.interstitialDelegate = [[ALAdSurgeInterstitialDelegate alloc] initWithParentAdapter:self placementId:placementId andNotify:delegate];
@@ -197,14 +223,27 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 }
 
 - (void)showInterstitialAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MAInterstitialAdapterDelegate>)delegate {
-    [self log: @"Showing rewarded ad..."];
-    [self configureRewardForParameters:parameters];
+    [self log: @"Showing interstitial ad..."];
+
+    if ( !self.interstitialAd )
+    {
+        [self log: @"Interstitial ad failed to show - ad not ready"];
+
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
+
+        return;
+    }
+
     UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     [self.interstitialAd showAdFromRootViewController:presentingViewController];
 }
 
 - (void)loadAdViewAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters adFormat:(nonnull MAAdFormat *)adFormat andNotify:(nonnull id<MAAdViewAdapterDelegate>)delegate {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+
+    [self updateSettings: parameters];
 
     self.adView = [[AdSurgeBannerAdView alloc] initWithAdUnitIdentifier:placementId];
     self.adViewDelegate = [[ALAdSurgeAdViewDelegate alloc] initWithParentAdapter:self placementId:placementId andNotify:delegate];
@@ -218,8 +257,10 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 
 - (void)loadNativeAdForParameters:(nonnull id<MAAdapterResponseParameters>)parameters andNotify:(nonnull id<MANativeAdAdapterDelegate>)delegate {
     NSString *placementId = parameters.thirdPartyAdPlacementIdentifier;
+
+    [self updateSettings: parameters];
+
     self.nativeAd = [[AdSurgeNativeAd alloc] initWithAdUnitIdentifier:placementId];
-    self.nativeAdView = [[AdSurgeNativeAdView alloc] init];
     self.nativeDelegate = [[ALAdSurgeNativeDelegate alloc] initWithParentAdapter:self placementId:placementId andNotify:delegate];
     self.nativeAd.delegate = self.nativeDelegate;
     UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
@@ -252,9 +293,9 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 }
 
 - (void)didDisplayAd:(AdSurgeAd *)ad withError:(AdSurgeError *)error {
-    [self.parentAdapter log: @"Rewarded ad display, error:%@", error.message];
-    MAAdapterError *adapterError = [ALAdSurgeAdapter toMaxError:error];
     if (error) {
+        [self.parentAdapter log: @"Rewarded ad display, error:%@", error.message];
+        MAAdapterError *adapterError = [ALAdSurgeAdapter toMaxError:error];
         [self.delegate didFailToDisplayRewardedAdWithError:adapterError];
     }
 }
@@ -321,9 +362,9 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 }
 
 - (void)didDisplayAd:(AdSurgeAd *)ad withError:(AdSurgeError *)error {
-    [self.parentAdapter log: @"Interstitial ad display, error:%@", error.message];
-    MAAdapterError *adapterError = [ALAdSurgeAdapter toMaxError:error];
     if (error) {
+        [self.parentAdapter log: @"Interstitial ad display, error:%@", error.message];
+        MAAdapterError *adapterError = [ALAdSurgeAdapter toMaxError:error];
         [self.delegate didFailToDisplayInterstitialAdWithError:adapterError];
     }
 }
@@ -417,6 +458,7 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
 
 - (void)didLoadAd:(AdSurgeAd *)ad {
     [self.parentAdapter log: @"Loaded Native ad"];
+
     AdSurgeNativeAd *myNativeAd = self.parentAdapter.nativeAd;
     NSString *iconUrlStr = myNativeAd.iconInfo.iconUrl;
     NSURL *iconURL = [NSURL URLWithString:iconUrlStr];
@@ -436,7 +478,6 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
     }else {
         [self.delegate didLoadAdForNativeAd:nativeAd withExtraInfo:nil];
     }
-
 }
 
 - (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(AdSurgeError *)error {
@@ -488,14 +529,6 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
         [nativeAdView setBodyView:maxNativeAdView.bodyLabel];
         [nativeAdView setCallToActionView:maxNativeAdView.callToActionButton];
         [nativeAdView setMediaView:self.mediaView];
-        [nativeAdView addSubview:maxNativeAdView.iconImageView];
-        [nativeAdView addSubview:maxNativeAdView.titleLabel];
-        [nativeAdView addSubview:maxNativeAdView.bodyLabel];
-        [nativeAdView addSubview:self.mediaView];
-        [nativeAdView addSubview:maxNativeAdView.callToActionButton];
-        [nativeAdView addSubview:maxNativeAdView.optionsContentView];
-        maxNativeAdView.mediaContentView = self.mediaView;
-
     }else {
         for ( UIView *clickableView in clickableViews ) {
             if ( clickableView.tag == TITLE_LABEL_TAG ) {
@@ -505,14 +538,11 @@ static MAAdapterInitializationStatus ALODCInitializationStatus = NSIntegerMin;
             }else if ( clickableView.tag == MEDIA_VIEW_CONTAINER_TAG ) {
                 // `self.mediaView` is created when ad is loaded
                 [nativeAdView setMediaView:self.mediaView];
-                [nativeAdView addSubview:self.mediaView];
-                continue;
             }else if ( clickableView.tag == BODY_VIEW_TAG ) {
                 [nativeAdView setBodyView:clickableView];
             }else if ( clickableView.tag == CALL_TO_ACTION_VIEW_TAG ) {
                 [nativeAdView setCallToActionView:clickableView];
             }
-            [nativeAdView addSubview:clickableView];
         }
 
     }
