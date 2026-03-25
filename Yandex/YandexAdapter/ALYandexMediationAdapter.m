@@ -542,7 +542,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)interstitialAd:(YMAInterstitialAd *)interstitialAd didFailToShow:(NSError *)error
+- (void)interstitialAd:(YMAInterstitialAd *)interstitialAd didFailToShowWithError:(NSError *)error
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
@@ -601,7 +601,7 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     [self.delegate didDisplayRewardedAd];
 }
 
-- (void)rewardedAd:(YMARewardedAd *)rewardedAd didFailToShow:(NSError *)error
+- (void)rewardedAd:(YMARewardedAd *)rewardedAd didFailToShowWithError:(NSError *)error
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
