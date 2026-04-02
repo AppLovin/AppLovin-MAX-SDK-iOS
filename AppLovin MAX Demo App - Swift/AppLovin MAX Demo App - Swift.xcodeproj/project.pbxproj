@@ -270,7 +270,7 @@
 				327A5740B44E574F21A6720C /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */,
 			);
 			name = Pods;
-			path = "../../iOS-Workspace/Pods";
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		DEEC21EF299EC36F002313FB /* App Open Ads */ = {
