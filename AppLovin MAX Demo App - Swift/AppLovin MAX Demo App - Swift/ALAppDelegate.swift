@@ -6,7 +6,7 @@
 //  Copyright © 2019 AppLovin. All rights reserved.
 //
 
-import AdjustSdk
+import Adjust
 import AppLovinSDK
 import UIKit
 
@@ -37,7 +37,7 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
             
             // Initialize Adjust SDK
             let adjustConfig = ADJConfig(appToken: "{YourAppToken}", environment: ADJEnvironmentSandbox)
-            Adjust.initSdk(adjustConfig)
+            Adjust.appDidLaunch(adjustConfig)
         }
         
         let barTintColor = UIColor.init(red: 10 / 255.0, green: 131 / 255.0, blue: 170 / 255.0, alpha: 1.0)

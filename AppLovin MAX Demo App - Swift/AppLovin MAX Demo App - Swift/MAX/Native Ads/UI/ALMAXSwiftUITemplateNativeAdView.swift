@@ -6,7 +6,7 @@
 //  Copyright © 2023 AppLovin. All rights reserved.
 //
 
-import AdjustSdk
+import Adjust
 import AppLovinSDK
 import SwiftUI
 
