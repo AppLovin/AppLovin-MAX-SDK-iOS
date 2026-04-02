@@ -14,7 +14,7 @@
 #import <SmaatoSDKNative/SmaatoSDKNative.h>
 #import <SmaatoSDKInAppBidding/SmaatoSDKInAppBidding.h>
 
-#define ADAPTER_VERSION @"22.9.3.1"
+#define ADAPTER_VERSION @"23.0.1.0"
 
 /**
  * Router for interstitial/rewarded ad events.
@@ -301,8 +301,8 @@
     {
         [self log: @"Interstitial ad not ready"];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                                                       mediatedNetworkErrorCode: 0
-                                                                                                    mediatedNetworkErrorMessage: @"Interstitial ad not ready"]];
+                                                                                                       mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                                                    mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 
@@ -369,8 +369,8 @@
     {
         [self log: @"Rewarded ad not ready"];
         [self.router didFailToDisplayAdForPlacementIdentifier: placementIdentifier error: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                                                                       mediatedNetworkErrorCode: 0
-                                                                                                    mediatedNetworkErrorMessage: @"Rewarded ad not ready"]];
+                                                                                                       mediatedNetworkErrorCode: MAAdapterError.adNotReady.code
+                                                                                                    mediatedNetworkErrorMessage: MAAdapterError.adNotReady.message]];
     }
 }
 

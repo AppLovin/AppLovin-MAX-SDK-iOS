@@ -3,62 +3,38 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		39B8BBD39AC8681906696AFB /* Pods_SmaatoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A21EAA40F2E3FD0EFB4B9B1 /* Pods_SmaatoAdapter.framework */; };
-		6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		6A69521223481D3D004C63D0 /* ALSmaatoMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A561CD5219BB58300E3749A /* ALSmaatoMediationAdapter.m */; };
+		25C0B36A2CBDA7720027222A /* ALSmaatoMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C0B3672CBDA7720027222A /* ALSmaatoMediationAdapter.m */; };
+		25C0B36B2CBDA7720027222A /* ALSmaatoMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25C0B3662CBDA7720027222A /* ALSmaatoMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25C0B36D2CBDA78E0027222A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		25FCB2E32E26E3CF0025F901 /* AppLovinMediationSmaatoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FCB2E22E26E3CF0025F901 /* AppLovinMediationSmaatoAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		94FE3D679E43E73DE835E7E4 /* Pods_SmaatoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7BF0A047906BC65E2D5E674 /* Pods_SmaatoAdapter.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		6A561CEB219BB5D400E3749A /* Copy Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D9AE8E221423C7D00080475 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		1D9AE8E321423C7D00080475 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		1D9AE8E421423C7D00080475 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E521423C7E00080475 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E621423C7E00080475 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		1D9AE8E721423C7E00080475 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E821423C7E00080475 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E921423C7E00080475 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1D9AE8EB21423C7E00080475 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		1D9AE8EC21423C7E00080475 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		25C0B35A2CBDA75E0027222A /* AppLovinMediationSmaatoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationSmaatoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25C0B3662CBDA7720027222A /* ALSmaatoMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALSmaatoMediationAdapter.h; sourceTree = "<group>"; };
+		25C0B3672CBDA7720027222A /* ALSmaatoMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALSmaatoMediationAdapter.m; sourceTree = "<group>"; };
 		25C7D2F22BAC7A1A00955AA1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		2C19B000D98DF5552977CEEF /* Pods-SmaatoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmaatoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-SmaatoAdapter/Pods-SmaatoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		3A21EAA40F2E3FD0EFB4B9B1 /* Pods_SmaatoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmaatoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A561CD5219BB58300E3749A /* ALSmaatoMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSmaatoMediationAdapter.m; sourceTree = "<group>"; };
-		6A561CD6219BB58300E3749A /* ALSmaatoMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSmaatoMediationAdapter.h; sourceTree = "<group>"; };
-		6A561CEF219BB5D400E3749A /* libSmaatoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmaatoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		25FCB2E22E26E3CF0025F901 /* AppLovinMediationSmaatoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationSmaatoAdapter.h; sourceTree = "<group>"; };
 		6A5A632E21C0872C00B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		6A5A632F21C0872D00B755D7 /* AppLovinMediationSmaatoAdapter.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppLovinMediationSmaatoAdapter.podspec; sourceTree = SOURCE_ROOT; };
-		B11168A1AF715863008DA6BB /* Pods-SmaatoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmaatoAdapter.release.xcconfig"; path = "Target Support Files/Pods-SmaatoAdapter/Pods-SmaatoAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		79DEDF58C619B2A4F38FA4AA /* Pods-SmaatoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmaatoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-SmaatoAdapter/Pods-SmaatoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		B7BF0A047906BC65E2D5E674 /* Pods_SmaatoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmaatoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D26ADB658A4108A4A10C51CB /* Pods-SmaatoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmaatoAdapter.release.xcconfig"; path = "Target Support Files/Pods-SmaatoAdapter/Pods-SmaatoAdapter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6A561CE9219BB5D400E3749A /* Frameworks */ = {
+		25C0B3572CBDA75E0027222A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A561CEA219BB5D400E3749A /* AppLovinSDK.framework in Frameworks */,
-				39B8BBD39AC8681906696AFB /* Pods_SmaatoAdapter.framework in Frameworks */,
+				25C0B36D2CBDA78E0027222A /* AppLovinSDK.framework in Frameworks */,
+				94FE3D679E43E73DE835E7E4 /* Pods_SmaatoAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,21 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */,
-				1D9AE8FC21423C9200080475 /* QuartzCore.framework */,
-				1D9AE8EB21423C7E00080475 /* AdSupport.framework */,
-				1D9AE8EC21423C7E00080475 /* AVFoundation.framework */,
-				1D9AE8E921423C7E00080475 /* AVKit.framework */,
-				1D9AE8E221423C7D00080475 /* CFNetwork.framework */,
-				1D9AE8EE21423C7E00080475 /* CoreData.framework */,
-				1D9AE8E421423C7D00080475 /* CoreFoundation.framework */,
-				1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */,
-				1D9AE8E521423C7E00080475 /* Foundation.framework */,
-				1D9AE8E621423C7E00080475 /* MediaPlayer.framework */,
-				1D9AE8E321423C7D00080475 /* SafariServices.framework */,
-				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
-				1D9AE8E821423C7E00080475 /* UIKit.framework */,
-				1D9AE8E721423C7E00080475 /* WebKit.framework */,
-				3A21EAA40F2E3FD0EFB4B9B1 /* Pods_SmaatoAdapter.framework */,
+				B7BF0A047906BC65E2D5E674 /* Pods_SmaatoAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,7 +53,7 @@
 		1D97FB7C1FBCF38B00D6C309 = {
 			isa = PBXGroup;
 			children = (
-				6A561CD4219BB58300E3749A /* SmaatoAdapter */,
+				25C0B3692CBDA7720027222A /* SmaatoAdapter */,
 				6A12947F21C086760052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
@@ -102,9 +64,19 @@
 		1D97FB861FBCF38B00D6C309 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6A561CEF219BB5D400E3749A /* libSmaatoAdapter.a */,
+				25C0B35A2CBDA75E0027222A /* AppLovinMediationSmaatoAdapter.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		25C0B3692CBDA7720027222A /* SmaatoAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				25FCB2E22E26E3CF0025F901 /* AppLovinMediationSmaatoAdapter.h */,
+				25C0B3662CBDA7720027222A /* ALSmaatoMediationAdapter.h */,
+				25C0B3672CBDA7720027222A /* ALSmaatoMediationAdapter.m */,
+			);
+			path = SmaatoAdapter;
 			sourceTree = "<group>";
 		};
 		6A12947F21C086760052F283 /* Supporting Files */ = {
@@ -117,20 +89,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6A561CD4219BB58300E3749A /* SmaatoAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				6A561CD6219BB58300E3749A /* ALSmaatoMediationAdapter.h */,
-				6A561CD5219BB58300E3749A /* ALSmaatoMediationAdapter.m */,
-			);
-			path = SmaatoAdapter;
-			sourceTree = "<group>";
-		};
 		C2B133456E10992933DD8A6E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2C19B000D98DF5552977CEEF /* Pods-SmaatoAdapter.debug.xcconfig */,
-				B11168A1AF715863008DA6BB /* Pods-SmaatoAdapter.release.xcconfig */,
+				79DEDF58C619B2A4F38FA4AA /* Pods-SmaatoAdapter.debug.xcconfig */,
+				D26ADB658A4108A4A10C51CB /* Pods-SmaatoAdapter.release.xcconfig */,
 			);
 			name = Pods;
 			path = "../../iOS-Workspace/Pods";
@@ -138,24 +101,37 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		25C0B3552CBDA75E0027222A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25FCB2E32E26E3CF0025F901 /* AppLovinMediationSmaatoAdapter.h in Headers */,
+				25C0B36B2CBDA7720027222A /* ALSmaatoMediationAdapter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		6A561CE6219BB5D400E3749A /* SmaatoAdapter */ = {
+		25C0B3592CBDA75E0027222A /* SmaatoAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A561CEC219BB5D400E3749A /* Build configuration list for PBXNativeTarget "SmaatoAdapter" */;
+			buildConfigurationList = 25C0B35F2CBDA75E0027222A /* Build configuration list for PBXNativeTarget "SmaatoAdapter" */;
 			buildPhases = (
-				1616CB0035458C9EAD9EB8D1 /* [CP] Check Pods Manifest.lock */,
-				6A561CE7219BB5D400E3749A /* Sources */,
-				6A561CE9219BB5D400E3749A /* Frameworks */,
-				6A561CEB219BB5D400E3749A /* Copy Files */,
+				822B6DC9370348B03D4C39EA /* [CP] Check Pods Manifest.lock */,
+				35616632356530632D383337 /* Set Version String */,
+				25C0B3552CBDA75E0027222A /* Headers */,
+				25C0B3562CBDA75E0027222A /* Sources */,
+				25C0B3572CBDA75E0027222A /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = SmaatoAdapter;
-			productName = "Unity Plugin";
-			productReference = 6A561CEF219BB5D400E3749A /* libSmaatoAdapter.a */;
-			productType = "com.apple.product-type.library.static";
+			productName = AppLovinMediationSmaatoAdapter;
+			productReference = 25C0B35A2CBDA75E0027222A /* AppLovinMediationSmaatoAdapter.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -163,16 +139,17 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
-					6A561CE6219BB5D400E3749A = {
-						ProvisioningStyle = Manual;
+					25C0B3592CBDA75E0027222A = {
+						CreatedOnToolsVersion = 16.0;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 1D97FB801FBCF38B00D6C309 /* Build configuration list for PBXProject "SmaatoAdapter" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -184,13 +161,33 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A561CE6219BB5D400E3749A /* SmaatoAdapter */,
+				25C0B3592CBDA75E0027222A /* SmaatoAdapter */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1616CB0035458C9EAD9EB8D1 /* [CP] Check Pods Manifest.lock */ = {
+		35616632356530632D383337 /* Set Version String */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version String";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/usr/bin/env bash\n\nIFS='.' read -ra VERSION_PARTS <<< \"$MARKETING_VERSION\"\n\n# Get the last component (build number)\nLAST_INDEX=$((${#VERSION_PARTS[@]} - 1))\nBUILD_NUMBER=${VERSION_PARTS[$LAST_INDEX]}\n\n# Build version code from all components except the last\nVERSION_CODE=${VERSION_PARTS[0]}\nfor ((i=1; i<$LAST_INDEX; i++)); do\n    VERSION_CODE=\"${VERSION_CODE}$(printf \"%02d\" ${VERSION_PARTS[$i]})\"\ndone\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${VERSION_CODE}.0.${BUILD_NUMBER}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"";
+			showEnvVarsInLog = 0;
+		};
+		822B6DC9370348B03D4C39EA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -215,11 +212,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6A561CE7219BB5D400E3749A /* Sources */ = {
+		25C0B3562CBDA75E0027222A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A69521223481D3D004C63D0 /* ALSmaatoMediationAdapter.m in Sources */,
+				25C0B36A2CBDA7720027222A /* ALSmaatoMediationAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,13 +226,13 @@
 		1D97FB8C1FBCF38B00D6C309 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -258,12 +255,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -278,23 +284,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 23.0.1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = AppLovinMediationSmaatoAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		1D97FB8D1FBCF38B00D6C309 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -317,12 +338,20 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -331,77 +360,41 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 23.0.1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_NAME = AppLovinMediationSmaatoAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		6A561CED219BB5D400E3749A /* Debug */ = {
+		25609B9D2E21D4F70055CBAD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C19B000D98DF5552977CEEF /* Pods-SmaatoAdapter.debug.xcconfig */;
+			baseConfigurationReference = 79DEDF58C619B2A4F38FA4AA /* Pods-SmaatoAdapter.debug.xcconfig */;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = X8JXXK4FF5;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/smaato-ios-sdk\"/**",
-					"\"${PODS_ROOT}/smaato-ios-sdk/vendor\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/InApp\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Banner\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Core\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Interstitial\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Native\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/OpenMeasurement\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Outstream\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/RewardedAds\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/RichMedia\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Video\"/**",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.SmaatoAdapter;
 			};
 			name = Debug;
 		};
-		6A561CEE219BB5D400E3749A /* Release */ = {
+		25609B9E2E21D4F70055CBAD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B11168A1AF715863008DA6BB /* Pods-SmaatoAdapter.release.xcconfig */;
+			baseConfigurationReference = D26ADB658A4108A4A10C51CB /* Pods-SmaatoAdapter.release.xcconfig */;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = X8JXXK4FF5;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/smaato-ios-sdk\"/**",
-					"\"${PODS_ROOT}/smaato-ios-sdk/vendor\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/InApp\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Banner\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Core\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Interstitial\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Native\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/OpenMeasurement\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Outstream\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/RewardedAds\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/RichMedia\"/**",
-					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/smaato-ios-sdk/Modules/Video\"/**",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.SmaatoAdapter;
 			};
 			name = Release;
 		};
@@ -417,11 +410,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A561CEC219BB5D400E3749A /* Build configuration list for PBXNativeTarget "SmaatoAdapter" */ = {
+		25C0B35F2CBDA75E0027222A /* Build configuration list for PBXNativeTarget "SmaatoAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A561CED219BB5D400E3749A /* Debug */,
-				6A561CEE219BB5D400E3749A /* Release */,
+				25609B9D2E21D4F70055CBAD /* Debug */,
+				25609B9E2E21D4F70055CBAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,5 +1,10 @@
 # Changelog
 
+## 23.0.1.0
+* Certified with Smaato SDK 23.0.1.
+* Distributed as a static framework within the XCFramework.
+* Updated ad display failed error code.
+
 ## 22.9.3.1
 * Updated minimum iOS version to 12.0.
 * Removed requirement of the title asset for native banners and MRECs.
