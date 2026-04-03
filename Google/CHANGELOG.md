@@ -1,5 +1,8 @@
 # Changelog
 
+## 13.2.0.0
+* Certified with Google SDK 13.2.0.
+
 ## 13.1.0.1
 * Reverted to legacy anchored adaptive banner API.
 
