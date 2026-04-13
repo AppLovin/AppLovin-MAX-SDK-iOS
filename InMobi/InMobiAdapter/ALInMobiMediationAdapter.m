@@ -273,7 +273,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     {
         BOOL isAdaptiveBannerEnabled = [self isAdaptiveEnabledForParameters:parameters adFormat:adFormat isForCollectSignals:NO];
 
-        CGRect frame = [self rectFromAdFormat: adFormat isAdaptiveBannerEnabled: isAdaptiveBannerEnabled parameters: parameters];
+        CGRect frame = [self rectFromAdFormat: adFormat];
 
         self.adView = [[IMBanner alloc] initWithFrame: frame placementId: placementId];
         self.adView.extras = [self extrasForParameters: parameters isAdaptiveParameterRequired: isAdaptiveBannerEnabled];
@@ -522,17 +522,6 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     }
     BOOL isAdaptiveFormatEnabled = [self isAdaptiveAdViewFormat: format forParameters: parameters];
     return isEnabled && isAdaptiveFormatEnabled;
-}
-
-- (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
-     isAdaptiveBannerEnabled:(BOOL)isAdaptiveBannerEnabled
-                 parameters:(id<MAAdapterParameters>)parameters
-{
-
-    if (isAdaptiveBannerEnabled) {
-        return [self rectForAdaptiveBannerWithParameters:parameters];
-    }
-    return [self rectFromAdFormat: adFormat];
 }
 
 - (CGRect)rectForAdaptiveBannerWithParameters:(id<MAAdapterParameters>)parameters
