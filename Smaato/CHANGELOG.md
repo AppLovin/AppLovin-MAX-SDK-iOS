@@ -1,5 +1,8 @@
 # Changelog
 
+## 23.1.0.0
+* Certified with Smaato SDK 23.1.0.
+
 ## 23.0.1.0
 * Certified with Smaato SDK 23.0.1.
 * Distributed as a static framework within the XCFramework.
