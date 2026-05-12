@@ -38,7 +38,7 @@ final class MAMolocoNativeAd: MANativeAd
             return false
         }
         
-        adapter.log(adEvent: .preparingViewsForInteraction(views: clickableViews, container: container), adFormat: adFormat)
+        adapter.log(adEvent: .preparingViewsForInteraction(views: [], container: container), adFormat: adFormat)
         
         clickableViews.forEach { view in
             let clickGesture = UITapGestureRecognizer(target: self, action: #selector(clickNativeView))
