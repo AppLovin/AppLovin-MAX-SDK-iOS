@@ -18,34 +18,20 @@ The AppLovin MAX SDK is available under a commercial license (https://www.applov
 LICENSE
 }
 
-s.source = 
-{ 
-  	:http => "https://artifacts.applovin.com/ios/com/applovin/mediation/hungryexchange-adapter/#{s.name}-#{s.version}.zip",
-  	:type => 'zip'
-}
+# 本地源码集成（Adapter 源码与 podspec 同目录的 HungryExchangeAdapter/ 下）
+s.source       = { :path => '.' }
+s.source_files = 'HungryExchangeAdapter/*.{h,m}'
 
-s.vendored_frameworks = "#{s.name}-#{s.version}/#{s.name}.xcframework"
+# HSADXSDK 是 static_framework，本 pod 必须同样声明为 static_framework
+s.static_framework = true
 
 s.dependency 'AppLovinSDK', '>= 13.0.0'
-
-s.dependency 'lottie-ios'
-s.dependency 'MMKV'
-s.dependency 'YYModel'
-s.dependency 'SDWebImage'
+s.dependency 'HSADXSDK'
 
 s.description = <<-DESC
-
-IMPORTANT: This adapter requires HSADXSDK to be manually integrated.
-
-The adapter requires the following dependencies (automatically installed):
-- lottie-ios (for animations)
-- MMKV (for storage)
-- YYModel (for data modeling)
-- SDWebImage (for image loading)
 
 AppLovin makes technologies that help businesses of every size connect to their ideal customers. The company provides end-to-end software and AI solutions for businesses to reach, monetize, and grow their global audiences. For more information about AppLovin, visit: www.applovin.com.
 
 DESC
 
 end
-
