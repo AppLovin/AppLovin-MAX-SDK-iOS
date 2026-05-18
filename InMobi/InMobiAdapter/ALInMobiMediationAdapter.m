@@ -528,7 +528,8 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 {
     __block CGRect adSize;
     dispatchSyncOnMainQueue(^{
-        CGFloat width = [self adaptiveAdViewWidthFromParameters:parameters];
+        CGFloat width = MIN([self adaptiveAdViewWidthFromParameters:parameters],
+                            [self getFallbackWidthForAdaptive]);
 
         if ([self isInlineAdaptiveAdViewForParameters:parameters])
         {
@@ -546,6 +547,11 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 - (CGFloat)getFallbackHightForInline
 {
     return [UIScreen mainScreen].bounds.size.height;
+}
+
+- (CGFloat)getFallbackWidthForAdaptive
+{
+    return [UIScreen mainScreen].bounds.size.width;
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
