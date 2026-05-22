@@ -11,25 +11,19 @@
 
 #define ADAPTER_VERSION @"4.19.0.0"
 
-@interface ALUnityAdsInitializationDelegate : NSObject <UnityAdsInitializationDelegate>
-@property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
-@property (nonatomic, copy, nullable) void(^completionHandler)(MAAdapterInitializationStatus, NSString *_Nullable);
-- (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andCompletionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler;
-@end
-
-@interface ALUnityAdsInterstitialDelegate : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
+@interface ALUnityAdsInterstitialShowDelegate : NSObject <UADSInterstitialShowDelegate>
 @property (nonatomic,   weak) ALUnityAdsMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALUnityAdsRewardedDelegate : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
+@interface ALUnityAdsRewardedShowDelegate : NSObject <UADSRewardedShowDelegate>
 @property (nonatomic,   weak) ALUnityAdsMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALUnityAdsAdViewDelegate : NSObject <UADSBannerViewDelegate>
+@interface ALUnityAdsAdViewDelegate : NSObject <UADSBannerAdDelegate>
 @property (nonatomic,   weak) ALUnityAdsMediationAdapter *parentAdapter;
 @property (nonatomic,   copy) NSString *placementIdentifier;
 @property (nonatomic,   weak) MAAdFormat *adFormat;
@@ -38,10 +32,11 @@
 @end
 
 @interface ALUnityAdsMediationAdapter ()
-@property (nonatomic, copy) NSString *biddingAdIdentifier;
-@property (nonatomic, strong) UADSBannerView *bannerAdView;
-@property (nonatomic, strong) ALUnityAdsInterstitialDelegate *interstitialDelegate;
-@property (nonatomic, strong) ALUnityAdsRewardedDelegate *rewardedDelegate;
+@property (nonatomic, strong) UADSInterstitialAd *interstitialAd;
+@property (nonatomic, strong) UADSRewardedAd *rewardedAd;
+@property (nonatomic, strong) UADSBannerAd *bannerAd;
+@property (nonatomic, strong) ALUnityAdsInterstitialShowDelegate *interstitialShowDelegate;
+@property (nonatomic, strong) ALUnityAdsRewardedShowDelegate *rewardedShowDelegate;
 @property (nonatomic, strong) ALUnityAdsAdViewDelegate *adViewDelegate;
 @end
 
@@ -61,31 +56,41 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 {
     [self updatePrivacyConsent: parameters];
     
-    if ( [ALUnityAdsInitialized compareAndSet: NO update: YES] )
-    {
-        NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
-        NSString *gameId = [serverParameters al_stringForKey: @"game_id"];
-        [self log: @"Initializing UnityAds SDK with game id: %@...", gameId];
-        
-        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-        [mediationMetaData setName: @"MAX"];
-        [mediationMetaData setVersion: [ALSdk version]];
-        [mediationMetaData set: @"adapter_version" value: ADAPTER_VERSION];
-        [mediationMetaData commit];
-        
-        [UnityAds setDebugMode: [parameters isTesting]];
-        
-        ALUnityAdsInitializationDelegate *initializationDelegate = [[ALUnityAdsInitializationDelegate alloc] initWithParentAdapter: self andCompletionHandler: completionHandler];
-        ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializing;
-        
-        [UnityAds initialize: gameId
-                    testMode: [parameters isTesting]
-      initializationDelegate: initializationDelegate];
-    }
-    else
-    {
+    if ([UnityAds isInitialized]) {
         completionHandler(ALUnityAdsInitializationStatus, nil);
+        return;
     }
+    
+    NSDictionary<NSString *, id> *serverParameters = parameters.serverParameters;
+    NSString *gameId = [serverParameters al_stringForKey: @"game_id"];
+    [self log: @"Initializing UnityAds SDK with game id: %@...", gameId];
+    
+    UADSInitializationConfigurationBuilder *builder = [[[UADSInitializationConfigurationBuilder alloc] initWithGameId: gameId]
+                                                       withTestMode: [parameters isTesting]];
+    builder = [builder withMediationInfo: self.mediationInfo];
+    
+    if ( [parameters isTesting] )
+    {
+        builder = [builder withLogLevel: UADSLogLevelDebug];
+    }
+    
+    ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializing;
+    
+    __weak typeof(self) weakSelf = self;
+    [UnityAds initialize: [builder build] completion:^(id<UnityAdsError> error) {
+        if ( error )
+        {
+            [weakSelf log: @"UnityAds SDK failed to initialize with error: %d %@", error.code, error.message];
+            ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+            completionHandler(ALUnityAdsInitializationStatus, error.message);
+        }
+        else
+        {
+            [weakSelf log: @"UnityAds SDK initialized"];
+            ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
+            completionHandler(ALUnityAdsInitializationStatus, nil);
+        }
+    }];
 }
 
 - (NSString *)SDKVersion
@@ -100,18 +105,17 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 - (void)destroy
 {
-    if ( self.bannerAdView )
-    {
-        self.bannerAdView.delegate = nil;
-        self.bannerAdView = nil;
-        self.adViewDelegate.delegate = nil;
-        self.adViewDelegate = nil;
-    }
+    self.interstitialAd = nil;
+    self.rewardedAd = nil;
+    self.bannerAd = nil;
     
-    self.interstitialDelegate.delegate = nil;
-    self.rewardedDelegate.delegate = nil;
-    self.interstitialDelegate = nil;
-    self.rewardedDelegate = nil;
+    self.interstitialShowDelegate.delegate = nil;
+    self.rewardedShowDelegate.delegate = nil;
+    self.adViewDelegate.delegate = nil;
+    
+    self.interstitialShowDelegate = nil;
+    self.rewardedShowDelegate = nil;
+    self.adViewDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -122,8 +126,18 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     [self updatePrivacyConsent: parameters];
     
-    UnityAdsAdFormat unityAdFormat = [self adFormatFromParameters: parameters];
-    [UnityAds getTokenWith: [UnityAdsTokenConfiguration newWithAdFormat: unityAdFormat] completion:^(NSString *signal) {
+    UADSAdFormat adFormat = [self adFormatFromParameters: parameters];
+    
+    UADSTokenConfigurationBuilder *builder = [[[UADSTokenConfigurationBuilder alloc] initWithAdFormat: adFormat]
+                                              withMediationInfo: self.mediationInfo];
+    
+    if ( adFormat == UADSAdFormatBanner )
+    {
+        MAAdFormat *maxAdFormat = parameters.adFormat;
+        builder = [builder withBannerSize: [self bannerSizeFromAdFormat: maxAdFormat]];
+    }
+    
+    [UnityAds getToken: [builder build] completion:^(NSString *signal) {
         [self log: @"Signal collected"];
         [delegate didCollectSignal: signal];
     }];
@@ -138,14 +152,33 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     [self updatePrivacyConsent: parameters];
     
-    self.interstitialDelegate = [[ALUnityAdsInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    self.interstitialShowDelegate = [[ALUnityAdsInterstitialShowDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     
-    // Every ad needs a random ID associated with each load and show
-    self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
+    UADSLoadConfigurationBuilder *builder = [[[UADSLoadConfigurationBuilder alloc] initWithPlacementId: placementIdentifier]
+                                             withMediationInfo: self.mediationInfo];
     
-    [UnityAds load: placementIdentifier
-           options: [self createAdLoadOptionsForParameters: parameters]
-      loadDelegate: self.interstitialDelegate];
+    NSString *bidResponse = parameters.bidResponse;
+    if ( [bidResponse al_isValidString] )
+    {
+        builder = [builder withAdMarkup: bidResponse];
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    [UADSInterstitialAd load: [builder build] completion:^(UADSInterstitialAd *ad, id<UnityAdsError> error) {
+        if ( error )
+        {
+            [weakSelf log: @"Interstitial placement \"%@\" failed to load with error: %d: %@", placementIdentifier, error.code, error.message];
+            MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithUnityAdsError: error];
+            [delegate didFailToLoadInterstitialAdWithError: adapterError];
+        }
+        else
+        {
+            [weakSelf log: @"Interstitial placement \"%@\" loaded", placementIdentifier];
+            weakSelf.interstitialAd = ad;
+            
+            [delegate didLoadInterstitialAd];
+        }
+    }];
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -153,18 +186,25 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing interstitial ad for placement \"%@\"...", placementIdentifier];
     
-    // Paranoia check
-    if ( !self.interstitialDelegate )
+    if ( !self.interstitialAd )
     {
-        self.interstitialDelegate = [[ALUnityAdsInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        [self log: @"Interstitial ad not ready for placement \"%@\"", placementIdentifier];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adNotReady
+                                                                        mediatedNetworkErrorCode: 0
+                                                                     mediatedNetworkErrorMessage: @"Ad not ready"]];
+        return;
+    }
+    
+    if ( !self.interstitialShowDelegate )
+    {
+        self.interstitialShowDelegate = [[ALUnityAdsInterstitialShowDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     }
     
     UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     
-    [UnityAds show: presentingViewController
-       placementId: placementIdentifier
-           options: [self createAdShowOptions]
-      showDelegate: self.interstitialDelegate];
+    UADSShowConfigurationBuilder *showConfig = [[[UADSShowConfigurationBuilder alloc] init] withViewController: presentingViewController];
+    
+    [self.interstitialAd show: [showConfig build] delegate: self.interstitialShowDelegate];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -176,14 +216,33 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     [self updatePrivacyConsent: parameters];
     
-    self.rewardedDelegate = [[ALUnityAdsRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    self.rewardedShowDelegate = [[ALUnityAdsRewardedShowDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     
-    // Every ad needs a random ID associated with each load and show
-    self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
+    UADSLoadConfigurationBuilder *builder = [[[UADSLoadConfigurationBuilder alloc] initWithPlacementId: placementIdentifier]
+                                             withMediationInfo: self.mediationInfo];
     
-    [UnityAds load: placementIdentifier
-           options: [self createAdLoadOptionsForParameters: parameters]
-      loadDelegate: self.rewardedDelegate];
+    NSString *bidResponse = parameters.bidResponse;
+    if ( [bidResponse al_isValidString] )
+    {
+        builder = [builder withAdMarkup: bidResponse];
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    [UADSRewardedAd load: [builder build] completion:^(UADSRewardedAd *ad, id<UnityAdsError> error) {
+        if ( error )
+        {
+            [weakSelf log: @"Rewarded ad placement \"%@\" failed to load with error: %d: %@", placementIdentifier, error.code, error.message];
+            MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithUnityAdsError: error];
+            [delegate didFailToLoadRewardedAdWithError: adapterError];
+        }
+        else
+        {
+            [weakSelf log: @"Rewarded ad placement \"%@\" loaded", placementIdentifier];
+            weakSelf.rewardedAd = ad;
+            
+            [delegate didLoadRewardedAd];
+        }
+    }];
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -191,21 +250,27 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     [self log: @"Showing rewarded ad for placement \"%@\"...", placementIdentifier];
     
-    // Paranoia check
-    if ( !self.rewardedDelegate )
+    if ( !self.rewardedAd )
     {
-        self.rewardedDelegate = [[ALUnityAdsRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        [self log: @"Rewarded ad not ready for placement \"%@\"", placementIdentifier];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adNotReady
+                                                                    mediatedNetworkErrorCode: 0
+                                                                 mediatedNetworkErrorMessage: @"Ad not ready"]];
+        return;
     }
     
-    // Configure reward from server.
+    if ( !self.rewardedShowDelegate )
+    {
+        self.rewardedShowDelegate = [[ALUnityAdsRewardedShowDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+    }
+    
     [self configureRewardForParameters: parameters];
     
     UIViewController *presentingViewController = parameters.presentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
     
-    [UnityAds show: presentingViewController
-       placementId: placementIdentifier
-           options: [self createAdShowOptions]
-      showDelegate: self.rewardedDelegate];
+    UADSShowConfigurationBuilder *showConfig = [[[UADSShowConfigurationBuilder alloc] init] withViewController: presentingViewController];
+    
+    [self.rewardedAd show: [showConfig build] delegate: self.rewardedShowDelegate];
 }
 
 #pragma mark - MAAdViewAdapter Methods
@@ -219,66 +284,65 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     [self updatePrivacyConsent: parameters];
     
-    // Every ad needs a random ID associated with each load and show
-    self.biddingAdIdentifier = [NSUUID UUID].UUIDString;
-    
     self.adViewDelegate = [[ALUnityAdsAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier adFormat: adFormat andNotify: delegate];
-    self.bannerAdView = [[UADSBannerView alloc] initWithPlacementId: placementIdentifier size: [self bannerSizeFromAdFormat: adFormat]];
-    self.bannerAdView.delegate = self.adViewDelegate;
-    [self.bannerAdView loadWithOptions: [self createAdLoadOptionsForParameters: parameters]];
-}
-
-#pragma mark - Shared Methods
-
-- (UADSLoadOptions *)createAdLoadOptionsForParameters:(id<MAAdapterResponseParameters>)parameters
-{
-    UADSLoadOptions *options = [[UADSLoadOptions alloc] init];
+    
+    CGSize bannerSize = [self bannerSizeFromAdFormat: adFormat];
+    
+    UADSBannerLoadConfigurationBuilder *builder = [[[UADSBannerLoadConfigurationBuilder alloc] initWithPlacementId: placementIdentifier
+                                                                                                        bannerSize: bannerSize
+                                                                                                          delegate: self.adViewDelegate] withMediationInfo: self.mediationInfo];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
     {
-        options.adMarkup = bidResponse;
+        builder = [builder withAdMarkup: bidResponse];
     }
     
-    if ( [self.biddingAdIdentifier al_isValidString] )
-    {
-        options.objectId = self.biddingAdIdentifier;
-    }
-    
-    return options;
+    __weak typeof(self) weakSelf = self;
+    [UADSBannerAd load: [builder build] completion:^(UADSBannerAd *ad, id<UnityAdsError> error) {
+        if ( error )
+        {
+            [weakSelf log: @"%@ ad placement \"%@\" failed to load with error: %d: %@", adFormat.label, placementIdentifier, error.code, error.message];
+            MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithUnityAdsError: error];
+            [delegate didFailToLoadAdViewAdWithError: adapterError];
+        }
+        else
+        {
+            [weakSelf log: @"%@ ad placement \"%@\" loaded", adFormat.label, placementIdentifier];
+            weakSelf.bannerAd = ad;
+            [delegate didLoadAdForAdView: ad.view];
+        }
+    }];
 }
 
-- (UADSShowOptions *)createAdShowOptions
-{
-    UADSShowOptions *options = [[UADSShowOptions alloc] init];
-    if ( [self.biddingAdIdentifier al_isValidString] )
-    {
-        options.objectId = self.biddingAdIdentifier;
-    }
-    
-    return options;
+#pragma mark - Shared Methods
+
+- (UADSMediationInfo *)mediationInfo {
+    return [[UADSMediationInfo alloc] initWithName: @"MAX"
+                                           version: [ALSdk version]
+                                    adapterVersion: ADAPTER_VERSION];
 }
 
-- (UnityAdsAdFormat)adFormatFromParameters:(id<MASignalCollectionParameters>)parameters
+- (UADSAdFormat)adFormatFromParameters:(id<MASignalCollectionParameters>)parameters
 {
     MAAdFormat *adFormat = parameters.adFormat;
     
     if ( [adFormat isAdViewAd] )
     {
-        return UnityAdsAdFormatBanner;
+        return UADSAdFormatBanner;
     }
     else if ( adFormat == MAAdFormat.interstitial )
     {
-        return UnityAdsAdFormatInterstitial;
+        return UADSAdFormatInterstitial;
     }
     else if ( adFormat == MAAdFormat.rewarded )
     {
-        return UnityAdsAdFormatRewarded;
+        return UADSAdFormatRewarded;
     }
     
     [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
     
-    return -1;
+    return UADSAdFormatUnspecified;
 }
 
 - (CGSize)bannerSizeFromAdFormat:(MAAdFormat *)adFormat
@@ -302,125 +366,100 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     }
 }
 
-+ (MAAdapterError *)toMaxError:(UADSBannerError *)unityAdsBannerError
++ (MAAdapterError *)toMaxErrorWithUnityAdsError:(id<UnityAdsError>)error
 {
-    UADSBannerErrorCode unityAdsBannerErrorCode = unityAdsBannerError.code;
     MAAdapterError *adapterError = MAAdapterError.unspecified;
-    switch ( unityAdsBannerErrorCode )
+    NSInteger errorCode = error.code;
+    
+    switch ( errorCode )
     {
-        case UADSBannerErrorCodeUnknown:
+            // Shared timeout error
+        case 2:
+            adapterError = MAAdapterError.timeout;
+            break;
+            
+            // Initialization errors (52000-52006)
+        case 52000: // Unknown error
             adapterError = MAAdapterError.unspecified;
             break;
-        case UADSBannerErrorCodeNativeError:
+        case 52001: // Invalid Game ID
+        case 52002: // Game ID mismatch
+            adapterError = MAAdapterError.invalidConfiguration;
+            break;
+        case 52003: // Internal protocol error
+        case 52004: // System error
             adapterError = MAAdapterError.internalError;
             break;
-        case UADSBannerErrorCodeWebViewError:
-            adapterError = MAAdapterError.webViewError;
-            break;
-        case UADSBannerErrorCodeNoFillError:
-            adapterError = MAAdapterError.noFill;
-            break;
-        case UADSBannerErrorInitializeFailed:
-            adapterError = MAAdapterError.notInitialized;
-            break;
-        case UADSBannerErrorInvalidArgument:
-            adapterError = MAAdapterError.invalidConfiguration;
-    }
-    
-    return [MAAdapterError errorWithAdapterError: adapterError
-                        mediatedNetworkErrorCode: unityAdsBannerErrorCode
-                     mediatedNetworkErrorMessage: @""];
-}
-
-+ (MAAdapterError *)toMaxErrorWithLoadError:(UnityAdsLoadError)unityAdsLoadError withMessage:(NSString *)message
-{
-    MAAdapterError *adapterError = MAAdapterError.unspecified;
-    switch ( unityAdsLoadError )
-    {
-        case kUnityAdsLoadErrorInitializeFailed:
-            adapterError = MAAdapterError.notInitialized;
-            break;
-        case kUnityAdsLoadErrorInternal:
-            adapterError = MAAdapterError.internalError;
-            break;
-        case kUnityAdsLoadErrorInvalidArgument:
-            adapterError = MAAdapterError.invalidConfiguration;
-            break;
-        case kUnityAdsLoadErrorNoFill:
-            adapterError = MAAdapterError.noFill;
-            break;
-        case kUnityAdsLoadErrorTimeout:
-            adapterError = MAAdapterError.timeout;
-            break;
-    }
-    
-    return [MAAdapterError errorWithAdapterError: adapterError
-                        mediatedNetworkErrorCode: unityAdsLoadError
-                     mediatedNetworkErrorMessage: message];
-}
-
-+ (MAAdapterError *)toMaxErrorWithShowError:(UnityAdsShowError)unityAdsShowError withMessage:(NSString *)message
-{
-    MAAdapterError *adapterError = MAAdapterError.unspecified;
-    switch ( unityAdsShowError )
-    {
-        case kUnityShowErrorNotInitialized:
-            adapterError = MAAdapterError.notInitialized;
-            break;
-        case kUnityShowErrorNotReady:
-            adapterError = MAAdapterError.adNotReady;
-            break;
-        case kUnityShowErrorVideoPlayerError:
-            adapterError = MAAdapterError.webViewError;
-            break;
-        case kUnityShowErrorInvalidArgument:
-            adapterError = MAAdapterError.invalidConfiguration;
-            break;
-        case kUnityShowErrorNoConnection:
+        case 52005: // Network error
             adapterError = MAAdapterError.noConnection;
             break;
-        case kUnityShowErrorAlreadyShowing:
-            adapterError = MAAdapterError.invalidLoadState;
-            break;
-        case kUnityShowErrorInternalError:
+        case 52006: // Insufficient storage
             adapterError = MAAdapterError.internalError;
             break;
-        case kUnityShowErrorTimeout:
-            adapterError = MAAdapterError.timeout;
+            
+            // Load errors (52100-52107)
+        case 52100: // No fill
+            adapterError = MAAdapterError.noFill;
+            break;
+        case 52101: // SDK not initialized
+            adapterError = MAAdapterError.notInitialized;
+            break;
+        case 52102: // Placement not found
+        case 52104: // Placement/format mismatch
+            adapterError = MAAdapterError.invalidConfiguration;
+            break;
+        case 52103: // Internal protocol error
+        case 52107: // Internal parsing error
+            adapterError = MAAdapterError.internalError;
+            break;
+        case 52105: // Network error
+            adapterError = MAAdapterError.noConnection;
+            break;
+        case 52106: // Insufficient storage
+            adapterError = MAAdapterError.internalError;
+            break;
+            
+            // Show errors (52200-52202)
+        case 52200: // Ad expired
+            adapterError = MAAdapterError.adExpiredError;
+            break;
+        case 52201: // Already showing
+            adapterError = MAAdapterError.invalidLoadState;
+            break;
+        case 52202: // Internal error
+            adapterError = MAAdapterError.internalError;
+            break;
+            
+        default:
+            adapterError = MAAdapterError.unspecified;
+            break;
     }
     
     return [MAAdapterError errorWithAdapterError: adapterError
-                        mediatedNetworkErrorCode: unityAdsShowError
-                     mediatedNetworkErrorMessage: message];
+                        mediatedNetworkErrorCode: errorCode
+                     mediatedNetworkErrorMessage: error.message ?: @""];
 }
 
-#pragma mark - GDPR
+#pragma mark - Privacy
 
 - (void)updatePrivacyConsent:(id<MAAdapterParameters>)parameters
 {
-    UADSMetaData *privacyConsentMetaData = [[UADSMetaData alloc] init];
     NSNumber *hasUserConsent = [parameters hasUserConsent];
     if ( hasUserConsent != nil )
     {
-        [privacyConsentMetaData set: @"gdpr.consent" value: @(hasUserConsent.boolValue)];
-        [privacyConsentMetaData commit];
+        [UnityAds setUserConsent: hasUserConsent.boolValue];
     }
     
-    // CCPA compliance - https://unityads.unity3d.com/help/legal/gdpr
     NSNumber *isDoNotSell = [parameters isDoNotSell];
     if ( isDoNotSell != nil )
     {
-        [privacyConsentMetaData set: @"privacy.consent" value: @(!isDoNotSell.boolValue)]; // isDoNotSell means user has opted out and is equivalent to NO.
-        [privacyConsentMetaData commit];
+        [UnityAds setUserOptOut: isDoNotSell.boolValue];
     }
-    
-    [privacyConsentMetaData set: @"privacy.mode" value: @"mixed"];
-    [privacyConsentMetaData commit];
 }
 
 @end
 
-@implementation ALUnityAdsInterstitialDelegate
+@implementation ALUnityAdsInterstitialShowDelegate
 
 - (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
@@ -433,55 +472,39 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     return self;
 }
 
-#pragma mark - UnityAdsLoadDelegate Methods
+#pragma mark - UADSInterstitialShowDelegate Methods
 
-- (void)unityAdsAdLoaded:(NSString *)placementId
+- (void)showDidStart:(UADSInterstitialAd *)unityAd
 {
-    [self.parentAdapter log: @"Interstitial placement \"%@\" loaded", placementId];
-    [self.delegate didLoadInterstitialAd];
-}
-
-- (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message
-{
-    [self.parentAdapter log: @"Interstitial placement \"%@\" failed to load with error: %ld: %@", placementId, error, message];
-    
-    MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithLoadError: error withMessage: message];
-    [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
-}
-
-#pragma mark - UnityAdsShowDelegate Methods
-
-- (void)unityAdsShowStart:(NSString *)placementId
-{
-    [self.parentAdapter log: @"Interstitial placement \"%@\" displayed", placementId];
+    [self.parentAdapter log: @"Interstitial ad displayed"];
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)unityAdsShowClick:(NSString *)placementId
+- (void)showDidClick:(UADSInterstitialAd *)unityAd
 {
-    [self.parentAdapter log: @"Interstitial placement \"%@\" clicked", placementId];
+    [self.parentAdapter log: @"Interstitial ad clicked"];
     [self.delegate didClickInterstitialAd];
 }
 
-- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state
+- (void)showDidComplete:(UADSInterstitialAd *)unityAd with:(UADSShowFinishState)finishState
 {
-    [self.parentAdapter log: @"Interstitial placement \"%@\" hidden with completion state: %ld", placementId, state];
+    [self.parentAdapter log: @"Interstitial ad hidden with finish state: %ld", (long)finishState];
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message
+- (void)showDidFail:(UADSInterstitialAd *)unityAd error:(id<UnityAdsError>)error
 {
-    [self.parentAdapter log: @"Interstitial placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
+    [self.parentAdapter log: @"Interstitial ad failed to display with error: %d: %@", error.code, error.message];
     
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                mediatedNetworkErrorCode: error
-                                             mediatedNetworkErrorMessage: message];
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.message ?: @""];
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
 @end
 
-@implementation ALUnityAdsRewardedDelegate
+@implementation ALUnityAdsRewardedShowDelegate
 
 - (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
@@ -494,54 +517,47 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     return self;
 }
 
-#pragma mark - UnityAdsLoadDelegate Methods
+#pragma mark - UADSRewardedShowDelegate Methods
 
-- (void)unityAdsAdLoaded:(NSString *)placementId
+- (void)showDidStart:(UADSRewardedAd *)unityAd
 {
-    [self.parentAdapter log: @"Rewarded ad placement \"%@\" loaded", placementId];
-    [self.delegate didLoadRewardedAd];
-}
-
-- (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message
-{
-    [self.parentAdapter log: @"Rewarded ad placement \"%@\" failed to load with error: %ld: %@", placementId, error, message];
-    
-    MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithLoadError: error withMessage: message];
-    [self.delegate didFailToLoadRewardedAdWithError: adapterError];
-}
-
-#pragma mark - UnityAdsShowDelegate Methods
-
-- (void)unityAdsShowStart:(NSString *)placementId
-{
-    [self.parentAdapter log: @"Rewarded ad placement \"%@\" displayed", placementId];
+    [self.parentAdapter log: @"Rewarded ad displayed"];
     [self.delegate didDisplayRewardedAd];
 }
 
-- (void)unityAdsShowClick:(NSString *)placementId
+- (void)showDidClick:(UADSRewardedAd *)unityAd
 {
-    [self.parentAdapter log: @"Rewarded ad placement \"%@\" clicked", placementId];
+    [self.parentAdapter log: @"Rewarded ad clicked"];
     [self.delegate didClickRewardedAd];
 }
 
-- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state
+- (void)showDidComplete:(UADSRewardedAd *)unityAd with:(UADSShowFinishState)finishState
 {
-    [self.parentAdapter log: @"Rewarded ad placement \"%@\" hidden with completion state: %ld", placementId, state];
-    if ( state == kUnityShowCompletionStateCompleted || [self.parentAdapter shouldAlwaysRewardUser] )
+    [self.parentAdapter log: @"Rewarded ad hidden with finish state: %ld", (long)finishState];
+    
+    if ( finishState == UADSShowFinishStateCompleted || [self.parentAdapter shouldAlwaysRewardUser] )
     {
         [self.delegate didRewardUserWithReward: [self.parentAdapter reward]];
     }
+    
     [self.delegate didHideRewardedAd];
 }
 
-- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message
+- (void)showDidFail:(UADSRewardedAd *)unityAd error:(id<UnityAdsError>)error
 {
-    [self.parentAdapter log: @"Rewarded ad placement \"%@\" failed to display with error: %ld: %@", placementId, error, message];
+    [self.parentAdapter log: @"Rewarded ad failed to display with error: %d: %@", error.code, error.message];
     
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                mediatedNetworkErrorCode: error
-                                             mediatedNetworkErrorMessage: message];
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.message ?: @""];
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
+}
+
+- (void)showDidReceiveReward:(UADSRewardedAd *)unityAd
+{
+    [self.parentAdapter log: @"Rewarded ad received reward callback"];
+    
+    [self.delegate didRewardUserWithReward:nil];
 }
 
 @end
@@ -561,78 +577,29 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     return self;
 }
 
-#pragma mark - UADSBannerDelegate Methods
+#pragma mark - UADSBannerAdDelegate Methods
 
-- (void)bannerViewDidLoad:(UADSBannerView *)bannerView
+- (void)bannerImpression:(UADSBannerAd *)banner
 {
-    [self.parentAdapter log: @"%@ ad placement \"%@\" loaded", self.adFormat.label, self.placementIdentifier];
-    [self.delegate didLoadAdForAdView: bannerView];
-}
-
-- (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error
-{
-    [self.parentAdapter log: @"%@ ad placement \"%@\" failed to load: %@", self.adFormat.label, self.placementIdentifier, error];
-    [self.delegate didFailToLoadAdViewAdWithError: [ALUnityAdsMediationAdapter toMaxError: error]];
-}
-
-- (void)bannerViewDidShow:(UADSBannerView *)bannerView
-{
-    [self.parentAdapter log: @"%@ ad placement \"%@\" shown", self.adFormat.label, self.placementIdentifier];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" displayed", self.adFormat.label, self.placementIdentifier];
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)bannerViewDidClick:(UADSBannerView *)bannerView
+- (void)bannerDidClick:(UADSBannerAd *)banner
 {
     [self.parentAdapter log: @"%@ ad placement \"%@\" clicked", self.adFormat.label, self.placementIdentifier];
     [self.delegate didClickAdViewAd];
 }
 
-- (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView
+- (void)bannerDidFailShow:(UADSBannerAd *)banner error:(id<UnityAdsError>)error
 {
-    [self.parentAdapter log: @"%@ ad placement \"%@\" left application", self.adFormat.label, self.placementIdentifier];
-}
-
-@end
-
-@implementation ALUnityAdsInitializationDelegate
-
-- (instancetype)initWithParentAdapter:(ALUnityAdsMediationAdapter *)parentAdapter andCompletionHandler:(void (^)(MAAdapterInitializationStatus, NSString *_Nullable))completionHandler
-{
-    self = [super init];
-    if ( self )
-    {
-        self.parentAdapter = parentAdapter;
-        self.completionHandler = completionHandler;
-    }
-    return self;
-}
-
-#pragma mark - UnityAdsInitializationDelegate Methods
-
-- (void)initializationComplete
-{
-    [self.parentAdapter log: @"UnityAds SDK initialized"];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" failed to show: %d: %@", self.adFormat.label, self.placementIdentifier, error.code, error.message];
     
-    ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
+    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                mediatedNetworkErrorCode: error.code
+                                             mediatedNetworkErrorMessage: error.message ?: @""];
     
-    if ( self.completionHandler )
-    {
-        self.completionHandler(ALUnityAdsInitializationStatus, nil);
-        self.completionHandler = nil;
-    }
-}
-
-- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(NSString *)message
-{
-    [self.parentAdapter log: @"UnityAds SDK failed to initialize with error: %@", message];
-    
-    ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
-    
-    if ( self.completionHandler )
-    {
-        self.completionHandler(ALUnityAdsInitializationStatus, message);
-        self.completionHandler = nil;
-    }
+    [self.delegate didFailToDisplayAdViewAdWithError:adapterError];
 }
 
 @end
