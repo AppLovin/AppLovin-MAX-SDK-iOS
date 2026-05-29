@@ -9,9 +9,7 @@
 #import "ALVungleMediationAdapter.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-#define ADAPTER_VERSION @"7.7.3.0"
-
-static NSString *const kALVungleAdaptiveBannerKey = @"adaptive_banner";
+#define ADAPTER_VERSION @"7.7.3.1"
 
 @interface ALVungleMediationAdapterInterstitialAdDelegate : NSObject <VungleInterstitialDelegate>
 @property (nonatomic,   weak) ALVungleMediationAdapter *parentAdapter;
