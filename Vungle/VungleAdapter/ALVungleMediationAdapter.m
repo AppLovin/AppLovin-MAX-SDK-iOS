@@ -99,6 +99,14 @@ static NSString *const kALVungleAdaptiveBannerKey = @"adaptive_banner";
 
 @implementation ALVungleMediationAdapter
 
+static NSString *const kALVungleAdapterAdFormatInterstitial   = @"MAInterstitialAdapter";
+static NSString *const kALVungleAdapterAdFormatAppOpen        = @"MAAppOpenAdapter";
+static NSString *const kALVungleAdapterAdFormatRewarded       = @"MARewardedAdapter";
+static NSString *const kALVungleAdapterAdFormatAdView         = @"MAAdViewAdapter";
+static NSString *const kALVungleAdapterAdFormatAdViewAdaptive = @"MAAdViewAdapter-adaptive";
+static NSString *const kALVungleAdapterAdFormatNative         = @"MANativeAdAdapter";
+static NSString *const kALVungleAdapterAdFormatNativeBanner   = @"MANativeAdAdapter-banner";
+
 static ALAtomicBoolean              *ALVungleInitialized;
 static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
 
@@ -213,7 +221,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.interstitialAd = [[VungleInterstitial alloc] initWithPlacementId: placementIdentifier];
     self.interstitialAdDelegate = [[ALVungleMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
-    self.interstitialAd.adapterAdFormat = @"MAInterstitialAdapter";
+    self.interstitialAd.adapterAdFormat = kALVungleAdapterAdFormatInterstitial;
     
     [self.interstitialAd load: bidResponse];
 }
@@ -240,7 +248,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.appOpenAdDelegate = [[ALVungleMediationAdapterAppOpenAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.appOpenAd = [[VungleInterstitial alloc] initWithPlacementId: placementIdentifier];
     self.appOpenAd.delegate = self.appOpenAdDelegate;
-    self.appOpenAd.adapterAdFormat = @"MAAppOpenAdapter";
+    self.appOpenAd.adapterAdFormat = kALVungleAdapterAdFormatAppOpen;
     
     [self.appOpenAd load: bidResponse];
 }
@@ -267,7 +275,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.rewardedAd = [[VungleRewarded alloc] initWithPlacementId: placementIdentifier];
     self.rewardedAdDelegate = [[ALVungleMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
-    self.rewardedAd.adapterAdFormat = @"MARewardedAdapter";
+    self.rewardedAd.adapterAdFormat = kALVungleAdapterAdFormatRewarded;
     
     [self.rewardedAd load: bidResponse];
 }
@@ -304,13 +312,22 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
                                                                                                          format: adFormat
                                                                                                      parameters: parameters
                                                                                                       andNotify: delegate];
-        [self loadVungleNativeAdForParameters: parameters andNotify: self.nativeAdViewDelegate isAdViewNative: YES];
+        [self loadVungleNativeAdForParameters: parameters
+                              adapterAdFormat: kALVungleAdapterAdFormatNativeBanner
+                                    andNotify: self.nativeAdViewDelegate];
     }
     else
     {
         // Check if adaptive ad view sizes should be used
-        BOOL isAdaptiveAdViewEnabled = [self isAdaptiveAdViewEnabledForParameters: parameters];
-        if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+        BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+        BOOL shouldLogSizeMismatch = NO;
+        if ( isAdaptiveAdViewEnabled && ![VungleAds isInLine: parameters.thirdPartyAdPlacementIdentifier] )
+        {
+            [self userError: @"Please use a Vungle inline placement ID in order to use Vungle adaptive ads"];
+            isAdaptiveAdViewEnabled = NO;
+            shouldLogSizeMismatch = YES;
+        }
+        else if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
         {
             [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Vungle adaptive ads"];
             isAdaptiveAdViewEnabled = NO;
@@ -326,9 +343,14 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
                                                                                              parameters: parameters
                                                                                               andNotify: delegate];
         self.adViewAd.delegate = self.adViewAdDelegate;
-        self.adViewAd.adapterAdFormat = @"MAAdViewAdapter";
-        [self logAdaptiveAdViewForBannerPlacement: parameters adViewAd:self.adViewAd];
+        self.adViewAd.adapterAdFormat = isAdaptiveAdViewEnabled ? kALVungleAdapterAdFormatAdViewAdaptive : kALVungleAdapterAdFormatAdView;
 
+        if ( shouldLogSizeMismatch )
+        {
+            // Log a size mismatch error since the ad unit is configured for adaptive but the placement is not inline
+            [self logAdaptiveSizeMismatchForParameters: parameters adViewAd: self.adViewAd];
+        }
+        
         [self.adViewAd load: bidResponse];
     }
 }
@@ -348,45 +370,20 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.nativeAdDelegate = [[ALVungleMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
                                                                                          parameters: parameters
                                                                                           andNotify: delegate];
-    [self loadVungleNativeAdForParameters: parameters andNotify: self.nativeAdDelegate isAdViewNative: NO];
+    [self loadVungleNativeAdForParameters: parameters
+                          adapterAdFormat: kALVungleAdapterAdFormatNative
+                                andNotify: self.nativeAdDelegate];
 }
 
 #pragma mark - Shared Methods
 
-- (BOOL)isAdaptiveAdViewEnabledForParameters:(id<MAAdapterResponseParameters>)parameters
+- (void)logAdaptiveSizeMismatchForParameters:(id<MAAdapterResponseParameters>)parameters adViewAd:(VungleBannerView *)adViewAd
 {
-    BOOL isAdaptiveServerParams = [parameters.serverParameters al_boolForKey: kALVungleAdaptiveBannerKey];
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    CGFloat adaptiveAdMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+    NSString *message = [NSString stringWithFormat: @"AdaptiveBannerSizeMismatch:w-%f|maxh-%f", adaptiveAdWidth, adaptiveAdMaxHeight];
     
-    if ( !isAdaptiveServerParams ) {
-        return NO;
-    }
-    
-    if ( [VungleAds isInLine: parameters.thirdPartyAdPlacementIdentifier] )
-    {
-        return YES;
-    }
-    else
-    {
-        [self userError: @"Please use a Vungle inline placement ID in order to use Vungle adaptive ads"];
-        return NO;
-    }
-}
-
-- (void)logAdaptiveAdViewForBannerPlacement:(id<MAAdapterResponseParameters>)parameters adViewAd:(VungleBannerView *)adViewAd
-{
-    BOOL isAdaptiveAdView = [parameters.serverParameters al_boolForKey: kALVungleAdaptiveBannerKey];
-    BOOL isInlinePlacement = [VungleAds isInLine: parameters.thirdPartyAdPlacementIdentifier];
-    
-    if ( isAdaptiveAdView && !isInlinePlacement ) {
-        adViewAd.adapterAdFormat = [NSString stringWithFormat:@"MAAdViewAdapter-adaptive"];
-        // This is the case in which AdUnit is set to "adaptive", but Placement is not inline.
-        CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
-        CGFloat adaptiveAdMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
-        NSString *adaptiveSizeMismatchMessage = [NSString stringWithFormat: @"AdaptiveBannerSizeMismatch:w-%f|maxh-%f",
-                                                 adaptiveAdWidth,
-                                                 adaptiveAdMaxHeight];
-        [VungleMediationLogger logErrorForAd:adViewAd message:adaptiveSizeMismatchMessage];
-    }
+    [VungleMediationLogger logErrorForAd: adViewAd message: message];
 }
 
 - (void)updateUserPrivacySettingsForParameters:(id<MAAdapterParameters>)parameters
@@ -405,7 +402,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     }
 }
 
-- (void)loadVungleNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<VungleNativeDelegate>)delegate isAdViewNative:(BOOL)isAdViewNative
+- (void)loadVungleNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters adapterAdFormat:(NSString *)adapterAdFormat andNotify:(id<VungleNativeDelegate>)delegate
 {
     NSString *placementIdentifier = parameters.thirdPartyAdPlacementIdentifier;
     NSString *bidResponse = parameters.bidResponse;
@@ -413,7 +410,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.nativeAd = [[VungleNative alloc] initWithPlacementId: placementIdentifier];
     self.nativeAd.delegate = delegate;
     self.nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
-    self.nativeAd.adapterAdFormat = isAdViewNative ? @"MANativeAdAdapter-banner" : @"MANativeAdAdapter";
+    self.nativeAd.adapterAdFormat = adapterAdFormat;
     [self.nativeAd load: bidResponse];
 }
 

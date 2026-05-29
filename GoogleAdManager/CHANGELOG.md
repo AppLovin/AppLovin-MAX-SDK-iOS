@@ -1,5 +1,14 @@
 # Changelog
 
+## 13.4.0.0
+* Certified with GoogleAdManager SDK 13.4.0.
+
+## 13.3.0.0
+* Certified with GoogleAdManager SDK 13.3.0.
+
+## 13.2.0.0
+* Certified with GoogleAdManager SDK 13.2.0.
+
 ## 13.1.0.1
 * Reverted to legacy anchored adaptive banner API.
 
