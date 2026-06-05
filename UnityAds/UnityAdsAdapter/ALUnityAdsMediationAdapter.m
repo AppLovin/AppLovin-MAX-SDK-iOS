@@ -287,7 +287,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     self.adViewDelegate = [[ALUnityAdsAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier adFormat: adFormat andNotify: delegate];
     
-    CGSize bannerSize = [self bannerSizeFromAdFormat: adFormat];
+    CGSize bannerSize = [self bannerSizeFromParameters: parameters adFormat: adFormat];
     
     UADSBannerLoadConfigurationBuilder *builder = [[[UADSBannerLoadConfigurationBuilder alloc] initWithPlacementId: placementIdentifier
                                                                                                         bannerSize: bannerSize
@@ -344,6 +344,41 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
     
     return UADSAdFormatUnspecified;
+}
+
+- (CGSize)bannerSizeFromParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat
+{
+    if ( adFormat == MAAdFormat.mrec )
+    {
+        return CGSizeMake(300, 250);
+    }
+
+    BOOL isAdaptiveBannerEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+    if ( isAdaptiveBannerEnabled )
+    {
+        CGFloat width = [self adaptiveAdViewWidthFromParameters: parameters];
+        if ( width <= 0 )
+        {
+            width = adFormat.size.width;
+        }
+
+        if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+        {
+            CGFloat maxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+            if ( maxHeight > 0 )
+            {
+                return CGSizeMake(width, maxHeight);
+            }
+
+            CGFloat screenHeight = CGRectGetHeight(UIScreen.mainScreen.bounds);
+            return CGSizeMake(width, screenHeight);
+        }
+
+        CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: width].height;
+        return CGSizeMake(width, anchoredHeight);
+    }
+
+    return [self bannerSizeFromAdFormat: adFormat];
 }
 
 - (CGSize)bannerSizeFromAdFormat:(MAAdFormat *)adFormat

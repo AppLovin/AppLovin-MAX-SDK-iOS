@@ -2,6 +2,7 @@
 
 ## 4.19.0.1
 * Updated the adapter to use the new UnityAds public API introduced in 4.19.0.
+* Add adaptive banner support (anchored and inline).
 
 ## 4.19.0.0
 * Certified with UnityAds SDK 4.19.0.
