@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0.0
+* Certified with Moloco SDK 4.7.0.
+
 ## 4.6.1.1
 * Updated `preparingViewsForInteraction` mediation logging to pass an empty views array for Moloco native ads to avoid crashes.
 
