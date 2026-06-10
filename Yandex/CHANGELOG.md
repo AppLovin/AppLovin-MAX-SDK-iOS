@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.1.0.1
+* Fixed a crash on iOS 26+ when loading ads by dispatching Yandex SDK completion handlers to the main queue.
+
+## 8.1.0.0
+* Certified with Yandex SDK 8.1.0.
+
 ## 8.0.0.0
 * Certified with Yandex SDK 8.0.0.
 * Updated minimum Xcode requirement to 26 to match Yandex SDK.

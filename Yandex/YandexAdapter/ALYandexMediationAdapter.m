@@ -9,7 +9,7 @@
 #import "ALYandexMediationAdapter.h"
 #import <YandexMobileAds/YandexMobileAds-Swift.h>
 
-#define ADAPTER_VERSION @"8.0.0.0"
+#define ADAPTER_VERSION @"8.1.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -215,25 +215,28 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     
     [self.interstitialAdLoader loadAdWith: adRequest completionHandler:^(YMAInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
         
-        if ( error )
-        {
-            [self log: @"Interstitial ad failed to load with error code %ld and description: %@", error.code, error.description];
-            MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
-            [delegate didFailToLoadInterstitialAdWithError: adapterError];
-            return;
-        }
-        
-        if ( !interstitialAd )
-        {
-            [self log: @"Interstitial ad failed to load: ad is nil"];
-            [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.adNotReady];
-            return;
-        }
-        
-        [self log: @"Interstitial ad loaded"];
-        self.interstitialAd = interstitialAd;
-        interstitialAd.delegate = self.interstitialAdapterDelegate;
-        [delegate didLoadInterstitialAd];
+        dispatchOnMainQueue(^{
+            
+            if ( error )
+            {
+                [self log: @"Interstitial ad failed to load with error code %ld and description: %@", error.code, error.description];
+                MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+                [delegate didFailToLoadInterstitialAdWithError: adapterError];
+                return;
+            }
+            
+            if ( !interstitialAd )
+            {
+                [self log: @"Interstitial ad failed to load: ad is nil"];
+                [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.adNotReady];
+                return;
+            }
+            
+            [self log: @"Interstitial ad loaded"];
+            self.interstitialAd = interstitialAd;
+            interstitialAd.delegate = self.interstitialAdapterDelegate;
+            [delegate didLoadInterstitialAd];
+        });
     }];
 }
 
@@ -282,25 +285,28 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     
     [self.rewardedAdLoader loadAdWith: adRequest completionHandler:^(YMARewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
         
-        if ( error )
-        {
-            [self log: @"Rewarded ad failed to load with error code %ld and description: %@", error.code, error.description];
-            MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
-            [delegate didFailToLoadRewardedAdWithError: adapterError];
-            return;
-        }
-        
-        if ( !rewardedAd )
-        {
-            [self log: @"Rewarded ad failed to load: ad is nil"];
-            [delegate didFailToLoadRewardedAdWithError: MAAdapterError.adNotReady];
-            return;
-        }
-        
-        [self log: @"Rewarded ad loaded"];
-        self.rewardedAd = rewardedAd;
-        rewardedAd.delegate = self.rewardedAdapterDelegate;
-        [delegate didLoadRewardedAd];
+        dispatchOnMainQueue(^{
+            
+            if ( error )
+            {
+                [self log: @"Rewarded ad failed to load with error code %ld and description: %@", error.code, error.description];
+                MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+                [delegate didFailToLoadRewardedAdWithError: adapterError];
+                return;
+            }
+            
+            if ( !rewardedAd )
+            {
+                [self log: @"Rewarded ad failed to load: ad is nil"];
+                [delegate didFailToLoadRewardedAdWithError: MAAdapterError.adNotReady];
+                return;
+            }
+            
+            [self log: @"Rewarded ad loaded"];
+            self.rewardedAd = rewardedAd;
+            rewardedAd.delegate = self.rewardedAdapterDelegate;
+            [delegate didLoadRewardedAd];
+        });
     }];
 }
 
@@ -383,39 +389,42 @@ static YMABidderTokenLoader *ALYandexBidderTokenLoader;
     
     [self.nativeAdLoader loadAdWith: adRequest options: [[YMANativeAdOptions alloc] initWithShouldLoadImagesAutomatically:YES] completionHandler:^(id<YMANativeAd> _Nullable nativeAd, NSError * _Nullable error) {
         
-        if ( error )
-        {
-            [self log: @"Native ad failed to load with error code %ld and description: %@", error.code, error.description];
-            MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
-            [delegate didFailToLoadNativeAdWithError: adapterError];
-            return;
-        }
-        
-        if ( !nativeAd )
-        {
-            [self log: @"Native ad failed to load: ad is nil"];
-            [delegate didFailToLoadNativeAdWithError: MAAdapterError.adNotReady];
-            return;
-        }
-        
-        [self log: @"Native ad loaded"];
-        self.nativeAd = nativeAd;
-        nativeAd.delegate = self.nativeAdapterDelegate;
-        YMANativeAdAssets *assets = [nativeAd adAssets];
-        MANativeAd *maxNativeAd = [[MAYandexNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = assets.title;
-            builder.advertiser = assets.domain;
-            builder.body = assets.body;
-            builder.callToAction = assets.callToAction;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: assets.icon.imageValue];
-            builder.mainImage = [[MANativeAdImage alloc] initWithImage: assets.image.imageValue];
-            builder.optionsView = [[UIButton alloc] init];
-            builder.mediaView = [[YMANativeMediaView alloc] init];
-            builder.mediaContentAspectRatio = assets.media.aspectRatio;
-            builder.starRating = assets.rating;
-        }];
-        
-        [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        dispatchOnMainQueue(^{
+            
+            if ( error )
+            {
+                [self log: @"Native ad failed to load with error code %ld and description: %@", error.code, error.description];
+                MAAdapterError *adapterError = [ALYandexMediationAdapter toMaxError: error];
+                [delegate didFailToLoadNativeAdWithError: adapterError];
+                return;
+            }
+            
+            if ( !nativeAd )
+            {
+                [self log: @"Native ad failed to load: ad is nil"];
+                [delegate didFailToLoadNativeAdWithError: MAAdapterError.adNotReady];
+                return;
+            }
+            
+            [self log: @"Native ad loaded"];
+            self.nativeAd = nativeAd;
+            nativeAd.delegate = self.nativeAdapterDelegate;
+            YMANativeAdAssets *assets = [nativeAd adAssets];
+            MANativeAd *maxNativeAd = [[MAYandexNativeAd alloc] initWithParentAdapter: self builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = assets.title;
+                builder.advertiser = assets.domain;
+                builder.body = assets.body;
+                builder.callToAction = assets.callToAction;
+                builder.icon = [[MANativeAdImage alloc] initWithImage: assets.icon.imageValue];
+                builder.mainImage = [[MANativeAdImage alloc] initWithImage: assets.image.imageValue];
+                builder.optionsView = [[UIButton alloc] init];
+                builder.mediaView = [[YMANativeMediaView alloc] init];
+                builder.mediaContentAspectRatio = assets.media.aspectRatio;
+                builder.starRating = assets.rating;
+            }];
+            
+            [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+        });
     }];
 }
 
