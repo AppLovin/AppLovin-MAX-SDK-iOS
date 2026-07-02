@@ -216,9 +216,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VungleAdapter/Pods-VungleAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VungleAdapter/Pods-VungleAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -409,6 +413,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0EA0EB429F7339965317886F /* Pods-VungleAdapter.debug.xcconfig */;
 			buildSettings = {
+				MARKETING_VERSION = 7.7.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.VungleAdapter;
 			};
 			name = Debug;
@@ -417,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FF3D0671D21B24A832A974D8 /* Pods-VungleAdapter.release.xcconfig */;
 			buildSettings = {
+				MARKETING_VERSION = 7.7.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.VungleAdapter;
 			};
 			name = Release;
