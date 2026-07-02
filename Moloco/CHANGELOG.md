@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.8.0.1
+* Add support for adaptive banner ads.
+
 ## 4.8.0.0
 * Certified with Moloco SDK 4.8.0.
 
