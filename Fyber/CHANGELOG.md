@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.4.8.0
+* Certified with Fyber SDK 8.4.8.
+* Updated minimum iOS version to 15.0 to match Fyber SDK.
+* Updated minimum Xcode requirement to 26.
+
 ## 8.4.7.0
 * Certified with Fyber SDK 8.4.7.
 
