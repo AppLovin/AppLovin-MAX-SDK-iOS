@@ -3,3 +3,4 @@
 "GetRewardAfterWatching"    = "เหลือ %d วิ";
 "Claim"                     = "รับรางวัลแล้ว!";
 "Skip"                     = "ข้าม";
+"CanSkipAfterWatching"    = "ข้ามได้ใน %d วินาที";

@@ -21,6 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly, getter=isReady) BOOL ready;
 
 /**
+ * 广告是否已经准备展示
+ * 与isReady的区别在与， 内部会统计ready率， 因此外界只有在广告参与比价或者调用广告展示时，使用该值判断
+ */
+@property (nonatomic, assign, readonly, getter=isReadyForShow) BOOL readyForShow;
+
+/**
  * prebid广告是否已经准备
  */
 @property (nonatomic, assign, readonly, getter=isPrebidReady) BOOL prebidReady;
@@ -49,6 +55,22 @@ NS_ASSUME_NONNULL_BEGIN
  *  广告 ecpm
  */
 @property (nonatomic, assign, readonly) double ecpm;
+
+
+/**
+ *  adx 直连广告请求的bidfloor
+ */
+@property (nonatomic, assign) double bidfloor;
+
+/**
+ *  adx 请求广告的额外信息， 针对每一次load请求
+ */
+@property (nonatomic, copy, nullable) NSDictionary *extraInfo;
+
+/**
+ *  广告服务端ecpm
+ */
+@property (nonatomic, assign, readonly) double serverEcpm;
 
 /**
  * 创建插屏广告实例
@@ -124,6 +146,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @param bid 竞价结果 model
  */
 -(void)bidResult:(HSSBidResultModel *)bid;
+
+// 获取对外真实报价（ecpm）
+- (double)priceWithBidContext:(NSArray<NSDictionary *> *)bidContext;
+
+// 旧方法， 合入之后删除
+- (double)priceWithHighestEcpm:(double)ecpm;
 
 @end
 

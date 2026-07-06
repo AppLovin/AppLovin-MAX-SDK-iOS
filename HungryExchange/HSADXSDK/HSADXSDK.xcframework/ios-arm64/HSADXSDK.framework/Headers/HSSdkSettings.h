@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *adWayNum;
 
+/// 是否开启内部自动重试
+/// NO：并不一定意味着会自动重试，是否自动重试还需要首adx服务端控制
+/// YES：一定会关闭内部的自动重试
+@property (nonatomic, assign) BOOL disableAutoRetry;
+
 @end
 
 NS_ASSUME_NONNULL_END

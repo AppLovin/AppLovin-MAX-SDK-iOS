@@ -17,7 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *dspName;
 
+@property (nonatomic, copy, readonly) NSString *domain;
+
 @property (nonatomic, weak, nullable) id<HSSBannerAdDelegate> delegate;
+
+@property (nonatomic, strong, readonly) HSSAd *hssAd;
 
 - (instancetype)initWithPlacementId:(NSString *)placementId adSize:(CGSize)adSize;
 

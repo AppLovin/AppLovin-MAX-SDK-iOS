@@ -51,6 +51,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) double selfPrice;
 
+/**
+ 是否只有adx参与竞价
+ */
+@property (nonatomic, assign) BOOL onlyAdxBid;
+
+// 竞价结果额外参数，业务使用方赋值， sdk透传
+@property (nonatomic, copy) NSDictionary *extraInfo;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

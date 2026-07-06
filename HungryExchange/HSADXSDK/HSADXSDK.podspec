@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "HSADXSDK"
-  spec.version      = "1.0.61"
+  spec.version      = "1.2.36"
   spec.summary      = "HSADXSDK Binary Distribution - Ad SDK with OMSDK integration"
   
   spec.description  = <<-DESC

@@ -3,3 +3,4 @@
 "GetRewardAfterWatching"    = "%ds avant récompense";
 "Claim"                     = "Récompensé!";
 "Skip"                     = "Passer";
+"CanSkipAfterWatching"    = "Passer dans %ds";

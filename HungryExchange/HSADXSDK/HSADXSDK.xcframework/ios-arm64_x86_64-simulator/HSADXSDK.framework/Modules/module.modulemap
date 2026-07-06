@@ -4,3 +4,8 @@ framework module HSADXSDK {
   export *
   module * { export * }
 }
+
+module HSADXSDK.Swift {
+  header "HSADXSDK-Swift.h"
+  requires objc
+}

@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, readonly) BOOL isOffline;
 
+@property (nonatomic, assign, readonly) BOOL fromCache;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

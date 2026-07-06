@@ -21,6 +21,7 @@
 #import <HSADXSDK/HSSADXBannerView.h>
 #import <HSADXSDK/HSSInterstitialLocalAd.h>
 #import <HSADXSDK/HSSRewardedLocalAd.h>
+#import <HSADXSDK/HSSCrashReportManager.h>
 
 // 协议
 #import <HSADXSDK/HSSAdDelegate.h>

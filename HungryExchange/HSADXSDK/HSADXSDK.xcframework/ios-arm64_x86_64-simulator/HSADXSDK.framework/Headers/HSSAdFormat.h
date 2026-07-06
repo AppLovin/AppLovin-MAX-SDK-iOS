@@ -26,6 +26,7 @@ typedef enum : NSUInteger {
     HSSAdMaterialTypeAdxUniTmpl = 8, // adx统一模版
     HSSAdMaterialTypeNativeBanner = 9, // Native Banner
     HSSAdMaterialTypeVideoBanner = 10, // Video Banner
+    HSSAdMaterialTypeModularTemplate = 11, // 模版2.0 视频/试玩（由 tmpl.segments 决定具体渲染）
 } HSSAdMaterialType;
 
 typedef enum :NSUInteger {

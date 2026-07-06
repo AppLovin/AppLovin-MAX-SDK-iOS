@@ -3,4 +3,5 @@
 "GetRewardAfterWatching"    = "あと%d秒で報酬";
 "Claim"                     = "報酬獲得!";
 "Skip"                     = "スキップ";
+"CanSkipAfterWatching"    = "%d秒後にスキップ";
 
