@@ -48,21 +48,15 @@ extension MolocoAdapter: MAAdViewAdapter
         else
         {
             Task {
-                let viewController = await MainActor.run {
-                    presentingViewController(for: parameters)
+                let (viewController, size) = await MainActor.run { () -> (UIViewController, MolocoBannerAdSize) in
+                    let viewController = presentingViewController(for: parameters)
+                    let size = molocoBannerAdSize(for: adFormat, parameters: parameters, presentingViewController: viewController)
+                    return (viewController, size)
                 }
-                
+
                 adViewDelegate = .init(adapter: self, delegate: delegate, adFormat: adFormat, parameters: parameters)
-                
-                switch adFormat
-                {
-                case .banner, .leader:
-                    adView = await Moloco.shared.createBanner(params: .init(adUnit: placementId, mediation: "max"), viewController: viewController)
-                case .mrec:
-                    adView = await Moloco.shared.createMREC(params: .init(adUnit: placementId, mediation: "max"), viewController: viewController)
-                default:
-                    break
-                }
+
+                adView = await Moloco.shared.createMolocoBanner(params: .init(adUnit: placementId, mediation: "max"), size: size, viewController: viewController)
                 
                 guard let adView else
                 {
@@ -78,6 +72,81 @@ extension MolocoAdapter: MAAdViewAdapter
                 await adView.load(bidResponse: parameters.bidResponse)
             }
         }
+    }
+}
+
+@available(iOS 13.0, *)
+extension MolocoAdapter
+{
+    @MainActor
+    func molocoBannerAdSize(for adFormat: MAAdFormat,
+                            parameters: MAAdapterResponseParameters,
+                            presentingViewController: UIViewController) -> MolocoBannerAdSize
+    {
+        let isAdaptiveBanner = boolValue(adaptiveParameter("adaptive_banner", from: parameters))
+        if isAdaptiveBanner, isAdaptiveAdViewFormat(adFormat, parameters: parameters)
+        {
+            let width = adaptiveBannerWidth(from: parameters, presentingViewController: presentingViewController)
+            return isInlineAdaptiveBanner(parameters)
+                ? .inlineAdaptive(width: Int(width))
+                : .anchoredAdaptive(width: Int(width))
+        }
+
+        switch adFormat
+        {
+        case .banner, .leader:
+            return .standard
+        case .mrec:
+            return .mrec
+        default:
+            return .standard
+        }
+    }
+
+    // Adaptive banners must be inline for MRECs.
+    private func isAdaptiveAdViewFormat(_ adFormat: MAAdFormat, parameters: MAAdapterResponseParameters) -> Bool
+    {
+        if adFormat == MAAdFormat.mrec
+        {
+            return isInlineAdaptiveBanner(parameters)
+        }
+        return adFormat == MAAdFormat.banner || adFormat == MAAdFormat.leader
+    }
+
+    private func isInlineAdaptiveBanner(_ parameters: MAAdapterResponseParameters) -> Bool
+    {
+        guard let type = adaptiveParameter("adaptive_banner_type", from: parameters) as? String else { return false }
+        return type.caseInsensitiveCompare("inline") == .orderedSame
+    }
+
+    @MainActor
+    private func adaptiveBannerWidth(from parameters: MAAdapterResponseParameters,
+                                     presentingViewController: UIViewController) -> CGFloat
+    {
+        if let customWidth = adaptiveParameter("adaptive_banner_width", from: parameters) as? NSNumber
+        {
+            return CGFloat(customWidth.doubleValue)
+        }
+        if let window = presentingViewController.view.window
+        {
+            return window.frame.inset(by: window.safeAreaInsets).width
+        }
+        return UIScreen.main.bounds.width
+    }
+
+    // Adaptive params arrive via serverParameters (server-enabled networks) or
+    // localExtraParameters (client MAAdViewConfiguration). Read both.
+    private func adaptiveParameter(_ key: String, from parameters: MAAdapterResponseParameters) -> Any?
+    {
+        parameters.localExtraParameters[key] ?? parameters.serverParameters[key]
+    }
+
+    private func boolValue(_ value: Any?) -> Bool
+    {
+        if let value = value as? Bool { return value }
+        if let value = value as? NSNumber { return value.boolValue }
+        if let value = value as? String { return (value as NSString).boolValue }
+        return false
     }
 }
 
