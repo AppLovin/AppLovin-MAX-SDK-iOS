@@ -57,6 +57,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [self updatePrivacyConsent: parameters];
     
     if ([UnityAds isInitialized]) {
+        ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
         completionHandler(ALUnityAdsInitializationStatus, nil);
         return;
     }
@@ -555,9 +556,9 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 - (void)showDidReceiveReward:(UADSRewardedAd *)unityAd
 {
+    // The reward is granted in showDidComplete: based on the finish state (and MAX's
+    // shouldAlwaysRewardUser override), so this callback only logs to avoid a double grant.
     [self.parentAdapter log: @"Rewarded ad received reward callback"];
-    
-    [self.delegate didRewardUserWithReward:nil];
 }
 
 @end
