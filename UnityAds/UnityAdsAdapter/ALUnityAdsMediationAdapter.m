@@ -11,6 +11,31 @@
 
 #define ADAPTER_VERSION @"4.19.0.1"
 
+// Unity Ads public error codes. The SDK does not expose named symbols for these;
+// names mirror `PublicErrorCode` in the Unity Ads SDK (UnityAdsError.swift), the source of truth.
+typedef NS_ENUM(NSInteger, ALUnityAdsErrorCode)
+{
+    ALUnityAdsErrorCodeTimeout                 = 2,
+    ALUnityAdsErrorCodeInitUnknown             = 52000,
+    ALUnityAdsErrorCodeInitNotFound            = 52001,
+    ALUnityAdsErrorCodeInitMismatchedPlatform  = 52002,
+    ALUnityAdsErrorCodeInitProto               = 52003,
+    ALUnityAdsErrorCodeInitInternalSystem      = 52004,
+    ALUnityAdsErrorCodeInitNetwork             = 52005,
+    ALUnityAdsErrorCodeInitFileSystem          = 52006,
+    ALUnityAdsErrorCodeLoadNoFill              = 52100,
+    ALUnityAdsErrorCodeLoadNotInitialized      = 52101,
+    ALUnityAdsErrorCodeLoadPlacementNotFound   = 52102,
+    ALUnityAdsErrorCodeLoadProto               = 52103,
+    ALUnityAdsErrorCodeLoadUnsupportedPlacement = 52104,
+    ALUnityAdsErrorCodeLoadNetwork             = 52105,
+    ALUnityAdsErrorCodeLoadFileSystem          = 52106,
+    ALUnityAdsErrorCodeLoadAdviewer            = 52107,
+    ALUnityAdsErrorCodeShowExpired             = 52200,
+    ALUnityAdsErrorCodeShowAlreadyShowing      = 52201,
+    ALUnityAdsErrorCodeShowInternal            = 52202,
+};
+
 @interface ALUnityAdsInterstitialShowDelegate : NSObject <UADSInterstitialShowDelegate>
 @property (nonatomic,   weak) ALUnityAdsMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
@@ -41,14 +66,7 @@
 @end
 
 @implementation ALUnityAdsMediationAdapter
-static ALAtomicBoolean *ALUnityAdsInitialized;
 static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerMin;
-
-+ (void)initialize
-{
-    [super initialize];
-    ALUnityAdsInitialized = [[ALAtomicBoolean alloc] init];
-}
 
 #pragma mark - MAAdapter Methods
 
@@ -81,7 +99,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [UnityAds initialize: [builder build] completion:^(id<UnityAdsError> error) {
         if ( error )
         {
-            [weakSelf log: @"UnityAds SDK failed to initialize with error: %d %@", error.code, error.message];
+            [weakSelf log: @"UnityAds SDK failed to initialize with error: %ld %@", (long) error.code, error.message];
             ALUnityAdsInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
             completionHandler(ALUnityAdsInitializationStatus, error.message);
         }
@@ -168,7 +186,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [UADSInterstitialAd load: [builder build] completion:^(UADSInterstitialAd *ad, id<UnityAdsError> error) {
         if ( error )
         {
-            [weakSelf log: @"Interstitial placement \"%@\" failed to load with error: %d: %@", placementIdentifier, error.code, error.message];
+            [weakSelf log: @"Interstitial placement \"%@\" failed to load with error: %ld: %@", placementIdentifier, (long) error.code, error.message];
             MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithUnityAdsError: error];
             [delegate didFailToLoadInterstitialAdWithError: adapterError];
         }
@@ -232,7 +250,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [UADSRewardedAd load: [builder build] completion:^(UADSRewardedAd *ad, id<UnityAdsError> error) {
         if ( error )
         {
-            [weakSelf log: @"Rewarded ad placement \"%@\" failed to load with error: %d: %@", placementIdentifier, error.code, error.message];
+            [weakSelf log: @"Rewarded ad placement \"%@\" failed to load with error: %ld: %@", placementIdentifier, (long) error.code, error.message];
             MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithUnityAdsError: error];
             [delegate didFailToLoadRewardedAdWithError: adapterError];
         }
@@ -303,7 +321,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [UADSBannerAd load: [builder build] completion:^(UADSBannerAd *ad, id<UnityAdsError> error) {
         if ( error )
         {
-            [weakSelf log: @"%@ ad placement \"%@\" failed to load with error: %d: %@", adFormat.label, placementIdentifier, error.code, error.message];
+            [weakSelf log: @"%@ ad placement \"%@\" failed to load with error: %ld: %@", adFormat.label, placementIdentifier, (long) error.code, error.message];
             MAAdapterError *adapterError = [ALUnityAdsMediationAdapter toMaxErrorWithUnityAdsError: error];
             [delegate didFailToLoadAdViewAdWithError: adapterError];
         }
@@ -374,63 +392,55 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     switch ( errorCode )
     {
-            // Shared timeout error
-        case 2:
+        case ALUnityAdsErrorCodeTimeout:
             adapterError = MAAdapterError.timeout;
             break;
-            
-            // Initialization errors (52000-52006)
-        case 52000: // Unknown error
+
+        case ALUnityAdsErrorCodeInitUnknown:
             adapterError = MAAdapterError.unspecified;
             break;
-        case 52001: // Invalid Game ID
-        case 52002: // Game ID mismatch
+        case ALUnityAdsErrorCodeInitNotFound:
+        case ALUnityAdsErrorCodeInitMismatchedPlatform:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
-        case 52003: // Internal protocol error
-        case 52004: // System error
+        case ALUnityAdsErrorCodeInitProto:
+        case ALUnityAdsErrorCodeInitInternalSystem:
+        case ALUnityAdsErrorCodeInitFileSystem:
             adapterError = MAAdapterError.internalError;
             break;
-        case 52005: // Network error
+        case ALUnityAdsErrorCodeInitNetwork:
             adapterError = MAAdapterError.noConnection;
             break;
-        case 52006: // Insufficient storage
-            adapterError = MAAdapterError.internalError;
-            break;
-            
-            // Load errors (52100-52107)
-        case 52100: // No fill
+
+        case ALUnityAdsErrorCodeLoadNoFill:
             adapterError = MAAdapterError.noFill;
             break;
-        case 52101: // SDK not initialized
+        case ALUnityAdsErrorCodeLoadNotInitialized:
             adapterError = MAAdapterError.notInitialized;
             break;
-        case 52102: // Placement not found
-        case 52104: // Placement/format mismatch
+        case ALUnityAdsErrorCodeLoadPlacementNotFound:
+        case ALUnityAdsErrorCodeLoadUnsupportedPlacement:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
-        case 52103: // Internal protocol error
-        case 52107: // Internal parsing error
+        case ALUnityAdsErrorCodeLoadProto:
+        case ALUnityAdsErrorCodeLoadAdviewer:
+        case ALUnityAdsErrorCodeLoadFileSystem:
             adapterError = MAAdapterError.internalError;
             break;
-        case 52105: // Network error
+        case ALUnityAdsErrorCodeLoadNetwork:
             adapterError = MAAdapterError.noConnection;
             break;
-        case 52106: // Insufficient storage
-            adapterError = MAAdapterError.internalError;
-            break;
-            
-            // Show errors (52200-52202)
-        case 52200: // Ad expired
+
+        case ALUnityAdsErrorCodeShowExpired:
             adapterError = MAAdapterError.adExpiredError;
             break;
-        case 52201: // Already showing
+        case ALUnityAdsErrorCodeShowAlreadyShowing:
             adapterError = MAAdapterError.invalidLoadState;
             break;
-        case 52202: // Internal error
+        case ALUnityAdsErrorCodeShowInternal:
             adapterError = MAAdapterError.internalError;
             break;
-            
+
         default:
             adapterError = MAAdapterError.unspecified;
             break;
@@ -495,7 +505,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 - (void)showDidFail:(UADSInterstitialAd *)unityAd error:(id<UnityAdsError>)error
 {
-    [self.parentAdapter log: @"Interstitial ad failed to display with error: %d: %@", error.code, error.message];
+    [self.parentAdapter log: @"Interstitial ad failed to display with error: %ld: %@", (long) error.code, error.message];
     
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
@@ -546,7 +556,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 - (void)showDidFail:(UADSRewardedAd *)unityAd error:(id<UnityAdsError>)error
 {
-    [self.parentAdapter log: @"Rewarded ad failed to display with error: %d: %@", error.code, error.message];
+    [self.parentAdapter log: @"Rewarded ad failed to display with error: %ld: %@", (long) error.code, error.message];
     
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
@@ -594,7 +604,7 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
 
 - (void)bannerDidFailShow:(UADSBannerAd *)banner error:(id<UnityAdsError>)error
 {
-    [self.parentAdapter log: @"%@ ad placement \"%@\" failed to show: %d: %@", self.adFormat.label, self.placementIdentifier, error.code, error.message];
+    [self.parentAdapter log: @"%@ ad placement \"%@\" failed to show: %ld: %@", self.adFormat.label, self.placementIdentifier, (long) error.code, error.message];
     
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
