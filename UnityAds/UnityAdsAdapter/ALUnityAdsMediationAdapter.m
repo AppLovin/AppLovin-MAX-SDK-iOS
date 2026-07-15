@@ -134,8 +134,11 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     if ( adFormat == UADSAdFormatBanner )
     {
+        // Server parameters are not reliably populated with placement-level settings during signal
+        // collection, so the adaptive banner flag is read from local extra parameters here
         MAAdFormat *maxAdFormat = parameters.adFormat;
-        builder = [builder withBannerSize: [self bannerSizeFromAdFormat: maxAdFormat]];
+        BOOL isAdaptiveBannerEnabled = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        builder = [builder withBannerSize: [self bannerSizeForAdFormat: maxAdFormat isAdaptiveBannerEnabled: isAdaptiveBannerEnabled parameters: parameters]];
     }
     
     [UnityAds getToken: [builder build] completion:^(NSString *signal) {
@@ -287,7 +290,8 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     
     self.adViewDelegate = [[ALUnityAdsAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier adFormat: adFormat andNotify: delegate];
     
-    CGSize bannerSize = [self bannerSizeFromParameters: parameters adFormat: adFormat];
+    BOOL isAdaptiveBannerEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+    CGSize bannerSize = [self bannerSizeForAdFormat: adFormat isAdaptiveBannerEnabled: isAdaptiveBannerEnabled parameters: parameters];
     
     UADSBannerLoadConfigurationBuilder *builder = [[[UADSBannerLoadConfigurationBuilder alloc] initWithPlacementId: placementIdentifier
                                                                                                         bannerSize: bannerSize
@@ -346,14 +350,15 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     return UADSAdFormatUnspecified;
 }
 
-- (CGSize)bannerSizeFromParameters:(id<MAAdapterResponseParameters>)parameters adFormat:(MAAdFormat *)adFormat
+- (CGSize)bannerSizeForAdFormat:(MAAdFormat *)adFormat
+        isAdaptiveBannerEnabled:(BOOL)isAdaptiveBannerEnabled
+                     parameters:(id<MAAdapterParameters>)parameters
 {
     if ( adFormat == MAAdFormat.mrec )
     {
         return CGSizeMake(300, 250);
     }
 
-    BOOL isAdaptiveBannerEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
     if ( isAdaptiveBannerEnabled )
     {
         CGFloat width = [self adaptiveAdViewWidthFromParameters: parameters];
