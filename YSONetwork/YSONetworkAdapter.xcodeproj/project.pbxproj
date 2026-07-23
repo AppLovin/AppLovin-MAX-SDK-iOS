@@ -3,63 +3,37 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D31B64E219BA4E600875D92 /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
-		50ED7EAF391CC52D102AA316 /* Pods_YSONetworkAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FBE5ACD46B9CA683EDD866 /* Pods_YSONetworkAdapter.framework */; };
-		6F32E3092C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F32E3082C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.m */; };
+		25C0B4002CBDA9350027222A /* ALYSONetworkMediationAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25C0B3FC2CBDA9350027222A /* ALYSONetworkMediationAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25C0B4022CBDA9350027222A /* ALYSONetworkMediationAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C0B3FD2CBDA9350027222A /* ALYSONetworkMediationAdapter.m */; };
+		25C0B4032CBDA9590027222A /* AppLovinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */; };
+		25FCB2ED2E26E4250025F901 /* AppLovinMediationYSONetworkAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FCB2EC2E26E4250025F901 /* AppLovinMediationYSONetworkAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		68A011FBC792A873A9A35A66 /* Pods_YSONetworkAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE8081C6DAE626C8F84F160 /* Pods_YSONetworkAdapter.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1D97FB831FBCF38B00D6C309 /* Copy Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D97FB851FBCF38B00D6C309 /* libYSONetworkAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYSONetworkAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D9AE8E221423C7D00080475 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		1D9AE8E321423C7D00080475 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		1D9AE8E421423C7D00080475 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E521423C7E00080475 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D9AE8E621423C7E00080475 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		1D9AE8E721423C7E00080475 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E821423C7E00080475 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1D9AE8E921423C7E00080475 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1D9AE8EB21423C7E00080475 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		1D9AE8EC21423C7E00080475 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		1D9AE8EE21423C7E00080475 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1D9AE8FC21423C9200080475 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		5952B0538E24B0F6F33EB3B4 /* Pods-YSONetworkAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSONetworkAdapter.release.xcconfig"; path = "Target Support Files/Pods-YSONetworkAdapter/Pods-YSONetworkAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		25C0B3F02CBDA9210027222A /* AppLovinMediationYSONetworkAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppLovinMediationYSONetworkAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25C0B3FC2CBDA9350027222A /* ALYSONetworkMediationAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ALYSONetworkMediationAdapter.h; sourceTree = "<group>"; };
+		25C0B3FD2CBDA9350027222A /* ALYSONetworkMediationAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALYSONetworkMediationAdapter.m; sourceTree = "<group>"; };
+		25FCB2EC2E26E4250025F901 /* AppLovinMediationYSONetworkAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationYSONetworkAdapter.h; sourceTree = "<group>"; };
+		2F2760ED073D4874C62BF270 /* Pods-YSONetworkAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSONetworkAdapter.release.xcconfig"; path = "Target Support Files/Pods-YSONetworkAdapter/Pods-YSONetworkAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		5FE8081C6DAE626C8F84F160 /* Pods_YSONetworkAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YSONetworkAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		650EC3F93E33748A9C70ED57 /* Pods-YSONetworkAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSONetworkAdapter.debug.xcconfig"; path = "Target Support Files/Pods-YSONetworkAdapter/Pods-YSONetworkAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		6A5A632B21C086E500B755D7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		6F32E3072C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALYSONetworkMediationAdapter.h; sourceTree = "<group>"; };
-		6F32E3082C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALYSONetworkMediationAdapter.m; sourceTree = "<group>"; };
 		6F32E30B2C2CAFFD00E6BC33 /* AppLovinMediationYSONetworkAdapter.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AppLovinMediationYSONetworkAdapter.podspec; sourceTree = "<group>"; };
-		72FBE5ACD46B9CA683EDD866 /* Pods_YSONetworkAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YSONetworkAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CD53E6909591679999BBD37 /* Pods-YsoNetworkAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YsoNetworkAdapter.debug.xcconfig"; path = "Target Support Files/Pods-YsoNetworkAdapter/Pods-YsoNetworkAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		BF306DC71C9CA3313F4E462F /* Pods-YsoNetworkAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YsoNetworkAdapter.release.xcconfig"; path = "Target Support Files/Pods-YsoNetworkAdapter/Pods-YsoNetworkAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		E309F821CE094FC87ACD06AF /* Pods-YSONetworkAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YSONetworkAdapter.debug.xcconfig"; path = "Target Support Files/Pods-YSONetworkAdapter/Pods-YSONetworkAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1D97FB821FBCF38B00D6C309 /* Frameworks */ = {
+		25C0B3ED2CBDA9210027222A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D31B64E219BA4E600875D92 /* AppLovinSDK.framework in Frameworks */,
-				50ED7EAF391CC52D102AA316 /* Pods_YSONetworkAdapter.framework in Frameworks */,
+				25C0B4032CBDA9590027222A /* AppLovinSDK.framework in Frameworks */,
+				68A011FBC792A873A9A35A66 /* Pods_YSONetworkAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,38 +44,15 @@
 			isa = PBXGroup;
 			children = (
 				1D31B64D219BA4E600875D92 /* AppLovinSDK.framework */,
-				1D9AE8FC21423C9200080475 /* QuartzCore.framework */,
-				1D9AE8EB21423C7E00080475 /* AdSupport.framework */,
-				1D9AE8EC21423C7E00080475 /* AVFoundation.framework */,
-				1D9AE8E921423C7E00080475 /* AVKit.framework */,
-				1D9AE8E221423C7D00080475 /* CFNetwork.framework */,
-				1D9AE8EE21423C7E00080475 /* CoreData.framework */,
-				1D9AE8E421423C7D00080475 /* CoreFoundation.framework */,
-				1D9AE8ED21423C7E00080475 /* CoreTelephony.framework */,
-				1D9AE8E621423C7E00080475 /* MediaPlayer.framework */,
-				1D9AE8E521423C7E00080475 /* Foundation.framework */,
-				1D9AE8E321423C7D00080475 /* SafariServices.framework */,
-				1D9AE8EA21423C7E00080475 /* SystemConfiguration.framework */,
-				1D9AE8E821423C7E00080475 /* UIKit.framework */,
-				1D9AE8E721423C7E00080475 /* WebKit.framework */,
-				72FBE5ACD46B9CA683EDD866 /* Pods_YSONetworkAdapter.framework */,
+				5FE8081C6DAE626C8F84F160 /* Pods_YSONetworkAdapter.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		1D31B649219BA2E000875D92 /* YSONetworkAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				6F32E3072C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.h */,
-				6F32E3082C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.m */,
-			);
-			path = YSONetworkAdapter;
 			sourceTree = "<group>";
 		};
 		1D97FB7C1FBCF38B00D6C309 = {
 			isa = PBXGroup;
 			children = (
-				1D31B649219BA2E000875D92 /* YSONetworkAdapter */,
+				25C0B3FF2CBDA9350027222A /* YSONetworkAdapter */,
 				6A12947D21C086460052F283 /* Supporting Files */,
 				1D97FB861FBCF38B00D6C309 /* Products */,
 				1D2303A61FBCF4C7001939D7 /* Frameworks */,
@@ -112,9 +63,19 @@
 		1D97FB861FBCF38B00D6C309 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D97FB851FBCF38B00D6C309 /* libYSONetworkAdapter.a */,
+				25C0B3F02CBDA9210027222A /* AppLovinMediationYSONetworkAdapter.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		25C0B3FF2CBDA9350027222A /* YSONetworkAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				25FCB2EC2E26E4250025F901 /* AppLovinMediationYSONetworkAdapter.h */,
+				25C0B3FC2CBDA9350027222A /* ALYSONetworkMediationAdapter.h */,
+				25C0B3FD2CBDA9350027222A /* ALYSONetworkMediationAdapter.m */,
+			);
+			path = YSONetworkAdapter;
 			sourceTree = "<group>";
 		};
 		6A12947D21C086460052F283 /* Supporting Files */ = {
@@ -129,10 +90,8 @@
 		7D146ABA038ECCFBC5F38DE7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8CD53E6909591679999BBD37 /* Pods-YsoNetworkAdapter.debug.xcconfig */,
-				BF306DC71C9CA3313F4E462F /* Pods-YsoNetworkAdapter.release.xcconfig */,
-				E309F821CE094FC87ACD06AF /* Pods-YSONetworkAdapter.debug.xcconfig */,
-				5952B0538E24B0F6F33EB3B4 /* Pods-YSONetworkAdapter.release.xcconfig */,
+				650EC3F93E33748A9C70ED57 /* Pods-YSONetworkAdapter.debug.xcconfig */,
+				2F2760ED073D4874C62BF270 /* Pods-YSONetworkAdapter.release.xcconfig */,
 			);
 			name = Pods;
 			path = "../../iOS-Workspace/Pods";
@@ -140,24 +99,37 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		25C0B3EB2CBDA9210027222A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25C0B4002CBDA9350027222A /* ALYSONetworkMediationAdapter.h in Headers */,
+				25FCB2ED2E26E4250025F901 /* AppLovinMediationYSONetworkAdapter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		1D97FB841FBCF38B00D6C309 /* YSONetworkAdapter */ = {
+		25C0B3EF2CBDA9210027222A /* YSONetworkAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D97FB8E1FBCF38B00D6C309 /* Build configuration list for PBXNativeTarget "YSONetworkAdapter" */;
+			buildConfigurationList = 25C0B3F52CBDA9210027222A /* Build configuration list for PBXNativeTarget "YSONetworkAdapter" */;
 			buildPhases = (
-				281FEEF1FA2F1FE7B8B546C5 /* [CP] Check Pods Manifest.lock */,
-				1D97FB811FBCF38B00D6C309 /* Sources */,
-				1D97FB821FBCF38B00D6C309 /* Frameworks */,
-				1D97FB831FBCF38B00D6C309 /* Copy Files */,
+				E09DC5B4BE26B5469684607C /* [CP] Check Pods Manifest.lock */,
+				38306339636461652D666336 /* Set Version String */,
+				25C0B3EB2CBDA9210027222A /* Headers */,
+				25C0B3EC2CBDA9210027222A /* Sources */,
+				25C0B3ED2CBDA9210027222A /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = YSONetworkAdapter;
-			productName = "Unity Plugin";
-			productReference = 1D97FB851FBCF38B00D6C309 /* libYSONetworkAdapter.a */;
-			productType = "com.apple.product-type.library.static";
+			productName = AppLovinMediationYSONetworkAdapter;
+			productReference = 25C0B3F02CBDA9210027222A /* AppLovinMediationYSONetworkAdapter.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -165,17 +137,18 @@
 		1D97FB7D1FBCF38B00D6C309 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1330;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = AppLovin;
 				TargetAttributes = {
-					1D97FB841FBCF38B00D6C309 = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Manual;
+					25C0B3EF2CBDA9210027222A = {
+						CreatedOnToolsVersion = 16.0;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 1D97FB801FBCF38B00D6C309 /* Build configuration list for PBXProject "YSONetworkAdapter" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -187,13 +160,33 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D97FB841FBCF38B00D6C309 /* YSONetworkAdapter */,
+				25C0B3EF2CBDA9210027222A /* YSONetworkAdapter */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		281FEEF1FA2F1FE7B8B546C5 /* [CP] Check Pods Manifest.lock */ = {
+		38306339636461652D666336 /* Set Version String */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version String";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/usr/bin/env bash\n\nIFS='.' read -ra VERSION_PARTS <<< \"$MARKETING_VERSION\"\n\n# Get the last component (build number)\nLAST_INDEX=$((${#VERSION_PARTS[@]} - 1))\nBUILD_NUMBER=${VERSION_PARTS[$LAST_INDEX]}\n\n# Build version code from all components except the last\nVERSION_CODE=${VERSION_PARTS[0]}\nfor ((i=1; i<$LAST_INDEX; i++)); do\n    VERSION_CODE=\"${VERSION_CODE}$(printf \"%02d\" ${VERSION_PARTS[$i]})\"\ndone\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${VERSION_CODE}.0.${BUILD_NUMBER}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"";
+			showEnvVarsInLog = 0;
+		};
+		E09DC5B4BE26B5469684607C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -218,11 +211,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1D97FB811FBCF38B00D6C309 /* Sources */ = {
+		25C0B3EC2CBDA9210027222A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F32E3092C2CA29600E6BC33 /* ALYSONetworkMediationAdapter.m in Sources */,
+				25C0B4022CBDA9350027222A /* ALYSONetworkMediationAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,13 +225,13 @@
 		1D97FB8C1FBCF38B00D6C309 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -261,12 +254,21 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -281,23 +283,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.2.1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = AppLovinMediationYSONetworkAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		1D97FB8D1FBCF38B00D6C309 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -320,12 +337,20 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = LUDVB6Z3BS;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -334,47 +359,41 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 AppLovin. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.2.1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_NAME = AppLovinMediationYSONetworkAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		1D97FB8F1FBCF38B00D6C309 /* Debug */ = {
+		25609BA12E21D4F70055CBAD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E309F821CE094FC87ACD06AF /* Pods-YSONetworkAdapter.debug.xcconfig */;
+			baseConfigurationReference = 650EC3F93E33748A9C70ED57 /* Pods-YSONetworkAdapter.debug.xcconfig */;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = X8JXXK4FF5;
-				ENABLE_BITCODE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.YSONetworkAdapter;
 			};
 			name = Debug;
 		};
-		1D97FB901FBCF38B00D6C309 /* Release */ = {
+		25609BA22E21D4F70055CBAD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5952B0538E24B0F6F33EB3B4 /* Pods-YSONetworkAdapter.release.xcconfig */;
+			baseConfigurationReference = 2F2760ED073D4874C62BF270 /* Pods-YSONetworkAdapter.release.xcconfig */;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = X8JXXK4FF5;
-				ENABLE_BITCODE = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.YSONetworkAdapter;
 			};
 			name = Release;
 		};
@@ -390,11 +409,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D97FB8E1FBCF38B00D6C309 /* Build configuration list for PBXNativeTarget "YSONetworkAdapter" */ = {
+		25C0B3F52CBDA9210027222A /* Build configuration list for PBXNativeTarget "YSONetworkAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1D97FB8F1FBCF38B00D6C309 /* Debug */,
-				1D97FB901FBCF38B00D6C309 /* Release */,
+				25609BA12E21D4F70055CBAD /* Debug */,
+				25609BA22E21D4F70055CBAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

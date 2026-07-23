@@ -10,7 +10,7 @@
 #import <YsoNetwork/YsoNetwork.h>
 #import <YsoNetwork/YsoNetwork-Swift.h>
 
-#define ADAPTER_VERSION @"1.1.31.1"
+#define ADAPTER_VERSION @"1.2.1.0"
 
 // NOTE: YSO initially named their adapter ALYsoNetworkMediationAdapter but iOS/Apple convention should be ALYSONetworkMediationAdapter. We will support both naming conventions.
 @interface ALYsoNetworkMediationAdapter : ALYSONetworkMediationAdapter
@@ -35,7 +35,7 @@ static MAAdapterInitializationStatus ALYSONetworkInitializationStatus = NSIntege
     {
         [self log: @"Initializing YSO Network"];
         ALYSONetworkInitializationStatus = MAAdapterInitializationStatusInitializing;
-        [YsoNetwork initializeWithViewController: [ALUtils topViewControllerFromKeyWindow]];
+        [YsoNetwork initializeSdk];
         
         if ( [YsoNetwork isInitialized] )
         {

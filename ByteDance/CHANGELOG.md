@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.1.1.1.0
+* Certified with ByteDance SDK 8.1.1.1.
+
+## 8.1.1.0.0
+* Certified with ByteDance SDK 8.1.1.0.
+
+## 8.1.0.9.0
+* Certified with ByteDance SDK 8.1.0.9.
+
+## 8.1.0.8.0
+* Certified with ByteDance SDK 8.1.0.8.
+
 ## 8.1.0.7.0
 * Certified with ByteDance SDK 8.1.0.7.
 

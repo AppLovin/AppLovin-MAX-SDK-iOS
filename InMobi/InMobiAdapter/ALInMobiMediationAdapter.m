@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"11.3.0.0"
+#define ADAPTER_VERSION @"11.3.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -27,7 +27,8 @@
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
 
-- (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
@@ -130,6 +131,13 @@
 static ALAtomicBoolean              *ALInMobiInitialized;
 static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin;
 
+// String constants
+static NSString *const ADAPTIVE_BANNER = @"adaptive_banner";
+static NSString *const AB_AD_SLOT = @"ab-ad-slot";
+static NSString *const AB_TYPE = @"ab-type";
+static NSString *const ADAPTIVE_TYPE_INLINE = @"inline";
+static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
+
 + (void)initialize
 {
     [super initialize];
@@ -227,7 +235,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     
     [self updatePrivacySettingsWithParameters: parameters];
     
-    NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters] andKeywords: nil];
+    BOOL isAdaptiveAdViewEnabled = [parameters.localExtraParameters al_boolForKey: ADAPTIVE_BANNER defaultValue: NO];
+    NSString *signal = [IMSdk getTokenWithExtras: [self extrasForParameters: parameters adFormat: parameters.adFormat isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled] andKeywords: nil];
     [delegate didCollectSignal: signal];
 }
 
@@ -251,7 +260,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                                                      parameters: parameters
                                                                                                       andNotify: delegate];
         self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdViewDelegate];
-        self.nativeAd.extras = [self extrasForParameters: parameters];
+        self.nativeAd.extras = [self baseExtras];
         
         if ( isBiddingAd )
         {
@@ -264,13 +273,31 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     }
     else
     {
-        CGRect frame = [self rectFromAdFormat: adFormat];
+        BOOL isAdaptiveBannerEnabled = [parameters.serverParameters al_boolForKey: ADAPTIVE_BANNER defaultValue: NO];
+        if ( isAdaptiveBannerEnabled && ALSdk.versionCode < 13020099 )
+        {
+            isAdaptiveBannerEnabled = NO;
+            [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use InMobi adaptive ads"];
+        }
+
+        CGRect frame;
+        if ( isAdaptiveBannerEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+        {
+            CGSize adaptiveSize = [self adaptiveAdSizeFromParameters: parameters];
+            frame = CGRectMake(0, 0, adaptiveSize.width, adaptiveSize.height);
+        }
+        else
+        {
+            frame = [self rectFromAdFormat: adFormat];
+        }
+
         self.adView = [[IMBanner alloc] initWithFrame: frame placementId: placementId];
-        self.adView.extras = [self extrasForParameters: parameters];
+        self.adView.extras = [self extrasForParameters: parameters adFormat: adFormat isAdaptiveAdViewEnabled: isAdaptiveBannerEnabled];
         self.adView.transitionAnimation = UIViewAnimationTransitionNone;
         [self.adView shouldAutoRefresh: NO];
         
-        self.adViewDelegate = [[ALInMobiMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.adViewDelegate = [[ALInMobiMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                          andNotify: delegate];
         self.adView.delegate = self.adViewDelegate;
         
         if ( isBiddingAd )
@@ -354,7 +381,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                                                                          parameters: parameters
                                                                                           andNotify: delegate];
     self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdDelegate];
-    self.nativeAd.extras = [self extrasForParameters: parameters];
+    self.nativeAd.extras = [self baseExtras];
     
     [self updatePrivacySettingsWithParameters: parameters];
     
@@ -376,7 +403,7 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
                                          andNotify:(id<IMInterstitialDelegate>)delegate
 {
     IMInterstitial *interstitial = [[IMInterstitial alloc] initWithPlacementId: placementId delegate: delegate];
-    interstitial.extras = [self extrasForParameters: parameters];
+    interstitial.extras = [self baseExtras];
     
     [self updatePrivacySettingsWithParameters: parameters];
     
@@ -422,10 +449,28 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return consentDict;
 }
 
-- (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
+- (NSDictionary<NSString *, id> *)baseExtras
 {
-    return @{@"tp"     : @"c_applovin",
-             @"tp-ver" : [ALSdk version]};
+    return @{
+        @"tp"     : @"c_applovin",
+        @"tp-ver" : [ALSdk version]
+    };
+}
+
+- (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
+                                              adFormat:(MAAdFormat *)adFormat
+                               isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+{
+    NSMutableDictionary<NSString *, id> *extras = [NSMutableDictionary dictionaryWithDictionary: [self baseExtras]];
+
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        CGSize adaptiveSize = [self adaptiveAdSizeFromParameters: parameters];
+        extras[AB_AD_SLOT] = [NSString stringWithFormat: @"%dx%d", (int) adaptiveSize.width, (int) adaptiveSize.height];
+        extras[AB_TYPE] = [self isInlineAdaptiveAdViewForParameters: parameters] ? ADAPTIVE_TYPE_INLINE : ADAPTIVE_TYPE_ANCHORED;
+    }
+
+    return extras;
 }
 
 - (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
@@ -485,6 +530,27 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
     return [MAAdapterError errorWithAdapterError: adapterError
                         mediatedNetworkErrorCode: inMobiErrorCode
                      mediatedNetworkErrorMessage: inMobiError.localizedDescription];
+}
+
+- (CGSize)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaxHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        if ( inlineMaxHeight > 0 )
+        {
+            return CGSizeMake(adaptiveAdWidth, inlineMaxHeight);
+        }
+        
+        CGFloat screenHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
+        return CGSizeMake(adaptiveAdWidth, screenHeight);
+    }
+    
+    // Anchored banners use the default adaptive height
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return CGSizeMake(adaptiveAdWidth, anchoredHeight);
 }
 
 - (CGRect)rectFromAdFormat:(MAAdFormat *)adFormat
@@ -550,7 +616,8 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 
 @implementation ALInMobiMediationAdapterAdViewDelegate
 
-- (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
+                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
@@ -565,14 +632,16 @@ static MAAdapterInitializationStatus ALInMobiInitializationStatus = NSIntegerMin
 {
     [self.parentAdapter log: @"AdView loaded"];
     
+    NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
+    extraInfo[@"ad_width"] = @((NSInteger) CGRectGetWidth(banner.frame));
+    extraInfo[@"ad_height"] = @((NSInteger) CGRectGetHeight(banner.frame));
+    
     if ( [banner.creativeId al_isValidString] )
     {
-        [self.delegate didLoadAdForAdView: banner withExtraInfo: @{@"creative_id" : banner.creativeId}];
+        extraInfo[@"creative_id"] = banner.creativeId;
     }
-    else
-    {
-        [self.delegate didLoadAdForAdView: banner];
-    }
+    
+    [self.delegate didLoadAdForAdView: banner withExtraInfo: extraInfo];
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
