@@ -51,6 +51,12 @@ public extension AdnSdk.AppLovinAdapter {
             return (.initializedFailure, error.localizedDescription)
         }
     }
+
+    /// Releases any cached ads held by the adapter.
+    override func destroy() {
+        interstitialAdAdapter.destroy()
+        rewardedAdAdapter.destroy()
+    }
 }
 
 extension AdnSdk.AppLovinAdapter: MASignalProvider {

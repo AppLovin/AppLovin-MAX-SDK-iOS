@@ -35,6 +35,10 @@ extension FullscreenAdAdapterBase: FullscreenAdAdapter {
         adUnit.show(with: .init(viewController: parameters.viewController()), events: eventHandler)
     }
 
+    func destroy() {
+        adStorage.removeAll()
+    }
+
     private func handleLoadAd(_ identifier: String,
                               from result: Result<AdnSdk.AdUnit, Error>,
                               completionHandler: @escaping (MAAdapterErrorResult) -> Void) {
