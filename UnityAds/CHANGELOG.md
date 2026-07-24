@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.19.0.1
+* Update to use new UnityAds initialization, load/show, banner, privacy, and signal APIs.
+
 ## 4.19.0.0
 * Certified with UnityAds SDK 4.19.0.
 
