@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.11.0.0"
+#define ADAPTER_VERSION @"9.13.0.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -324,6 +324,15 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         case CHBCacheErrorCodeServerError:
             adapterError = MAAdapterError.serverError;
             break;
+        case CHBCacheErrorCodeWebViewFailed:
+            adapterError = MAAdapterError.webViewError;
+            break;
+        case CHBCacheErrorCodeAssetUnavailable:
+        case CHBCacheErrorCodeInvalidADM:
+        case CHBCacheErrorCodeVastError:
+            adapterError = MAAdapterError.unspecified;
+            
+            break;
     }
     
     return [MAAdapterError errorWithAdapterError: adapterError
@@ -355,7 +364,9 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             adapterError = MAAdapterError.missingViewController;
             break;
         case CHBShowErrorCodeNoAdInstance:
+        case CHBShowErrorCodePublisherDisabled:
             adapterError = MAAdapterError.invalidConfiguration;
+            break;
         case CHBShowErrorCodeAdAlreadyVisible:
             adapterError = MAAdapterError.adDisplayFailedError;
             break;

@@ -1,5 +1,12 @@
 # Changelog
 
+## 9.13.0.0
+* Certified with Chartboost SDK 9.13.0.
+* Updated minimum Xcode requirement to 26.
+
+## 9.12.0.0
+* Certified with Chartboost SDK 9.12.0.
+
 ## 9.11.0.0
 * Certified with Chartboost SDK 9.11.0.
 
