@@ -123,9 +123,9 @@ extension MolocoAdapter
     private func adaptiveBannerWidth(from parameters: MAAdapterResponseParameters,
                                      presentingViewController: UIViewController) -> CGFloat
     {
-        if let customWidth = adaptiveParameter("adaptive_banner_width", from: parameters) as? NSNumber
+        if let customWidth = doubleValue(adaptiveParameter("adaptive_banner_width", from: parameters))
         {
-            return CGFloat(customWidth.doubleValue)
+            return CGFloat(customWidth)
         }
         if let window = presentingViewController.view.window
         {
@@ -139,6 +139,13 @@ extension MolocoAdapter
     private func adaptiveParameter(_ key: String, from parameters: MAAdapterResponseParameters) -> Any?
     {
         parameters.localExtraParameters[key] ?? parameters.serverParameters[key]
+    }
+
+    private func doubleValue(_ value: Any?) -> Double?
+    {
+        if let value = value as? NSNumber { return value.doubleValue }
+        if let value = value as? String { return Double(value) }
+        return nil
     }
 
     private func boolValue(_ value: Any?) -> Bool
