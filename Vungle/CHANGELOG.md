@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.7.6.1
+* Removed `canPlayAd` and SDK-initialization checks to follow Vungle SDK. Added `VungleMediationLogger` for native ad mismatch and unspecified errors.
+
 ## 7.7.6.0
 * Certified with Vungle SDK 7.7.6.
 
