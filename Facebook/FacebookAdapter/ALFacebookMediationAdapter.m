@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.22.0.0"
+#define ADAPTER_VERSION @"6.22.0.1"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -300,6 +300,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     if ( isNative )
     {
         self.nativeAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
+        self.nativeAd.preferredAdOptionsViewPosition = FBNativeAdOptionsViewPositionTopRight;
         self.nativeAdViewAdAdapterDelegate = [[ALFacebookMediationAdapterNativeAdViewAdDelegate alloc] initWithParentAdapter: self
                                                                                                             serverParameters: parameters.serverParameters
                                                                                                                       format: adFormat
@@ -341,6 +342,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     if ( isNativeBanner )
     {
         self.nativeBannerAd = [[FBNativeBannerAd alloc] initWithPlacementID: placementIdentifier];
+        self.nativeBannerAd.preferredAdOptionsViewPosition = FBNativeAdOptionsViewPositionTopRight;
         self.nativeBannerAdAdapterDelegate = [[ALFacebookMediationAdapterNativeBannerAdDelegate alloc] initWithParentAdapter: self
                                                                                                             serverParameters: serverParameters
                                                                                                                    andNotify: delegate];
@@ -353,6 +355,7 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
     else
     {
         self.nativeAd = [[FBNativeAd alloc] initWithPlacementID: placementIdentifier];
+        self.nativeAd.preferredAdOptionsViewPosition = FBNativeAdOptionsViewPositionTopRight;
         self.nativeAdAdapterDelegate = [[ALFacebookMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
                                                                                                 serverParameters: serverParameters
                                                                                                        andNotify: delegate];
@@ -483,11 +486,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             builder.body = nativeAd.bodyText;
             builder.callToAction = nativeAd.callToAction;
             builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.iconImage];
-            
-            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
-            adOptionsView.nativeAd = nativeAd;
-            adOptionsView.backgroundColor = UIColor.clearColor;
-            builder.optionsView = adOptionsView;
             
             if ( self.nativeBannerAd )
             {
@@ -769,11 +767,6 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
             builder.callToAction = self.parentAdapter.nativeAd.callToAction;
             builder.iconView = iconView;
             builder.mediaView = mediaView;
-            
-            FBAdOptionsView *adOptionsView = [[FBAdOptionsView alloc] init];
-            adOptionsView.nativeAd = self.parentAdapter.nativeAd;
-            adOptionsView.backgroundColor = UIColor.clearColor;
-            builder.optionsView = adOptionsView;
         }];
         
         // Backend will pass down `vertical` as the template to indicate using a vertical native template
