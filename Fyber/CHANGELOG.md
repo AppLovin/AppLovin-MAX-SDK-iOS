@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.4.10.0
+* Certified with Fyber SDK 8.4.10.
+
 ## 8.4.9.0
 * Certified with Fyber SDK 8.4.9.
 
