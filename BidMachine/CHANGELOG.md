@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.7.1.0.1
+* Add support for publisher-configured placement IDs during signal collection.
+
 ## 3.7.1.0.0
 * Certified with BidMachine SDK 3.7.1.
 

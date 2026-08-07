@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine-Swift.h>
 
-#define ADAPTER_VERSION @"3.7.1.0.0"
+#define ADAPTER_VERSION @"3.7.1.0.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -170,16 +170,33 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     BidMachinePlacementFormat bidMachinePlacementFormat = [self bidMachinePlacementFormatFromAdFormat: parameters.adFormat];
     
+    NSString *placementId = [parameters.serverParameters al_stringForKey: @"placement_id"];
+    if ( ![placementId al_isValidString] )
+    {
+        NSDictionary *placementIds = [parameters.serverParameters al_dictionaryForKey: @"placement_ids"];
+        placementId = [placementIds al_stringForKey: parameters.adUnitIdentifier];
+    }
+    
+    if ( ![placementId al_isValidString] )
+    {
+        [self log: @"No valid placement ID found during signal collection"];
+    }
+    
     NSError *error;
     BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: bidMachinePlacementFormat
                                                                    error: &error
-                                                                 builder: nil];
-
+                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+        if ( [placementId al_isValidString] )
+        {
+            [builder withPlacementId: placementId];
+        }
+    }];
+    
     if ( !placement || error )
     {
         [self log: @"Signal collection failed while retrieving placement with error: %@", error];
         [delegate didFailToCollectSignalWithErrorMessage: error.localizedDescription];
-        
+
         return;
     }
     
