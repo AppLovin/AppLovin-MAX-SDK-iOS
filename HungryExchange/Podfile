@@ -1,0 +1,22 @@
+use_frameworks!
+platform :ios, '13.0'
+
+workspace 'HungryExchangeAdapter.xcworkspace'
+
+target 'HungryExchangeAdapter' do
+  # 本地依赖 HSADXSDK（仅用于编译，不打包进最终产物）
+  pod 'HSADXSDK', :path => './HSADXSDK'
+  
+  # AppLovinSDK
+  pod 'AppLovinSDK'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 13.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      end
+    end
+  end
+end

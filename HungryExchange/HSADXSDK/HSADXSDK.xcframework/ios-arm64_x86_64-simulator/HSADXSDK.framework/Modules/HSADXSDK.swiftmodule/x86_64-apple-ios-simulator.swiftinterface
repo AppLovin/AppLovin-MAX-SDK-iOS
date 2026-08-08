@@ -1,0 +1,73 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name HSADXSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+import CryptoKit
+import Foundation
+@_exported import HSADXSDK
+import Security
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum SecurityEncodeError : Foundation.LocalizedError {
+  case nonceGenerationError
+  case aesKeyGenerationError
+  case gcmIVGenerationError
+  case AESEncryptError
+  case SecurityEncode
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+  public static func == (a: HSADXSDK.SecurityEncodeError, b: HSADXSDK.SecurityEncodeError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum SecurityDecodeError : Foundation.LocalizedError {
+  case AESKeyEmpty
+  case AESDecryptError
+  case Base64DecodeError
+  case IVReadError
+  case DataLengthError
+  case HMACError
+  case HMACSignatureError
+  case ExtractTagError
+  case DecryptionError
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+  public static func == (a: HSADXSDK.SecurityDecodeError, b: HSADXSDK.SecurityDecodeError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @available(iOS 13.0, *)
+@objc public class HSSCryptoCipher : ObjectiveC.NSObject {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc(encrypt:) public static func encrypt(_ data: Foundation.Data) -> HSADXSDK.HSSCipherPayload?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc(decryptPayload:aesKey:) public static func decryptPayload(_ base64Payload: Swift.String, aesKey: Foundation.Data?) -> Foundation.Data?
+  #endif
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class HSSCipherPayload : ObjectiveC.NSObject {
+  @objc final public let base64Payload: Swift.String
+  @objc final public let aesKey: Foundation.Data?
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc public init(base64Payload: Swift.String, aesKey: Foundation.Data?)
+  #endif
+  @objc deinit
+}
+extension HSADXSDK.SecurityEncodeError : Swift.Equatable {}
+extension HSADXSDK.SecurityEncodeError : Swift.Hashable {}
+extension HSADXSDK.SecurityDecodeError : Swift.Equatable {}
+extension HSADXSDK.SecurityDecodeError : Swift.Hashable {}
