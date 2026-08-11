@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.19.0.2
+* Add support for [adaptive banners](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#adaptive-banners) & [inline adaptive banners](https://developers.applovin.com/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners). Inline adaptive MRECs are not supported by Unity Ads. Requires AppLovin MAX SDK 13.2.0 or higher.
+
 ## 4.19.0.1
 * Update to use new UnityAds initialization, load/show, banner, privacy, and signal APIs.
 
