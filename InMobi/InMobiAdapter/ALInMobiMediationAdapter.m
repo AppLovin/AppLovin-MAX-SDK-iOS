@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"11.4.1.0"
+#define ADAPTER_VERSION @"11.4.1.1"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -26,8 +26,10 @@
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+@property (nonatomic, assign) CGSize adSize;
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
+                               adSize:(CGSize)adSize
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -279,24 +281,23 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
             isAdaptiveBannerEnabled = NO;
             [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use InMobi adaptive ads"];
         }
-
-        CGRect frame;
+        
+        // InMobi expects the standard banner size in the layout request and reads adaptive
+        // dimensions from extras (ab-ad-slot / ab-type).
+        CGRect frame = [self rectFromAdFormat: adFormat];
+        CGSize reportedAdSize = frame.size;
         if ( isAdaptiveBannerEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
         {
-            CGSize adaptiveSize = [self adaptiveAdSizeFromParameters: parameters];
-            frame = CGRectMake(0, 0, adaptiveSize.width, adaptiveSize.height);
+            reportedAdSize = [self adaptiveAdSizeFromParameters: parameters];
         }
-        else
-        {
-            frame = [self rectFromAdFormat: adFormat];
-        }
-
+        
         self.adView = [[IMBanner alloc] initWithFrame: frame placementId: placementId];
         self.adView.extras = [self extrasForParameters: parameters adFormat: adFormat isAdaptiveAdViewEnabled: isAdaptiveBannerEnabled];
         self.adView.transitionAnimation = UIViewAnimationTransitionNone;
         [self.adView shouldAutoRefresh: NO];
         
         self.adViewDelegate = [[ALInMobiMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                             adSize: reportedAdSize
                                                                                           andNotify: delegate];
         self.adView.delegate = self.adViewDelegate;
         
@@ -458,18 +459,18 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 }
 
 - (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
-                                              adFormat:(MAAdFormat *)adFormat
-                               isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                             adFormat:(MAAdFormat *)adFormat
+                              isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
 {
     NSMutableDictionary<NSString *, id> *extras = [NSMutableDictionary dictionaryWithDictionary: [self baseExtras]];
-
+    
     if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
     {
         CGSize adaptiveSize = [self adaptiveAdSizeFromParameters: parameters];
         extras[AB_AD_SLOT] = [NSString stringWithFormat: @"%dx%d", (int) adaptiveSize.width, (int) adaptiveSize.height];
         extras[AB_TYPE] = [self isInlineAdaptiveAdViewForParameters: parameters] ? ADAPTIVE_TYPE_INLINE : ADAPTIVE_TYPE_ANCHORED;
     }
-
+    
     return extras;
 }
 
@@ -617,12 +618,14 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 @implementation ALInMobiMediationAdapterAdViewDelegate
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
+                               adSize:(CGSize)adSize
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
+        self.adSize = adSize;
         self.delegate = delegate;
     }
     return self;
@@ -633,8 +636,8 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     [self.parentAdapter log: @"AdView loaded"];
     
     NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
-    extraInfo[@"ad_width"] = @((NSInteger) CGRectGetWidth(banner.frame));
-    extraInfo[@"ad_height"] = @((NSInteger) CGRectGetHeight(banner.frame));
+    extraInfo[@"ad_width"] = @((NSInteger) self.adSize.width);
+    extraInfo[@"ad_height"] = @((NSInteger) self.adSize.height);
     
     if ( [banner.creativeId al_isValidString] )
     {
