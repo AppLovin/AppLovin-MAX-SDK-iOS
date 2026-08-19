@@ -407,6 +407,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     interstitial.extras = [self baseExtras];
     
     [self updatePrivacySettingsWithParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -472,6 +473,14 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     }
     
     return extras;
+}
+
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters
+{
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+    {
+        [IMSdk setMute: [serverParameters al_numberForKey: @"is_muted"].boolValue];
+    }
 }
 
 - (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
