@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.4.1.2
+* Fix UI methods being called on background thread when adaptive banner enabled.
+* Add setMute support for interstitial and rewarded ads.
+
 ## 11.4.1.1
 * Fix adaptive banner layout to use the standard banner size while continuing to pass adaptive dimensions through extras.
 

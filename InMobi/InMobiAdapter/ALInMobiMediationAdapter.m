@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"11.4.1.1"
+#define ADAPTER_VERSION @"11.4.1.2"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -407,6 +407,7 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     interstitial.extras = [self baseExtras];
     
     [self updatePrivacySettingsWithParameters: parameters];
+    [self updateMuteStateFromServerParameters: parameters.serverParameters];
     
     NSString *bidResponse = parameters.bidResponse;
     if ( [bidResponse al_isValidString] )
@@ -474,6 +475,14 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     return extras;
 }
 
+- (void)updateMuteStateFromServerParameters:(NSDictionary<NSString *, id> *)serverParameters
+{
+    if ( [serverParameters al_containsValueForKey: @"is_muted"] )
+    {
+        [IMSdk setMute: [serverParameters al_numberForKey: @"is_muted"].boolValue];
+    }
+}
+
 - (void)updatePrivacySettingsWithParameters:(id<MAAdapterParameters>)parameters
 {
     [IMSdk setPartnerGDPRConsent: [self consentDictionaryForParameters: parameters]];
@@ -535,7 +544,10 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
 - (CGSize)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
 {
-    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    __block CGFloat adaptiveAdWidth;
+    dispatchSyncOnMainQueue(^{
+        adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    });
     
     if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
     {
