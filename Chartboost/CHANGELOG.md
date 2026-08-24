@@ -1,5 +1,14 @@
 # Changelog
 
+## 9.14.0.1
+* Updated cache and show error mapping to `CHBErrorCode`, which `NSError.code` has carried since Chartboost SDK 9.10.0. Legacy `CHBCacheErrorCode` and `CHBShowErrorCode` values remain mapped, as the Chartboost SDK still emits them.
+* Wired up `toMaxErrorFromCHBShowError:`, which was previously never called, so all three display failure paths report a mapped error instead of a generic one.
+* Report ad expiration to MAX using `MAAdapterError.adExpiredError` for interstitial and rewarded ads.
+* Build `CHBMediation` once in `+initialize` and hold it in a static, so every ad request carries mediation info rather than only the first.
+* Call `didFailToCollectSignalWithErrorMessage:` when the Chartboost bidder token is unavailable.
+* Pass the presenting view controller supplied by MAX when showing ad view ads.
+* Use `localizedDescription` for the mediated network error message.
+
 ## 9.14.0.0
 * Certified with Chartboost SDK 9.14.0.
 

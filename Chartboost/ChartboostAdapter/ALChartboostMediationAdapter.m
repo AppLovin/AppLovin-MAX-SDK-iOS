@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.14.0.0"
+#define ADAPTER_VERSION @"9.14.0.1"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
@@ -40,19 +40,26 @@
 @property (nonatomic, strong) ALChartboostRewardedDelegate *rewardedDelegate;
 @property (nonatomic, strong) ALChartboostAdViewDelegate *adViewDelegate;
 
-@property (nonatomic, strong) CHBMediation *mediationInfo;
+// Chartboost expires a cached ad that is not shown within its expiration interval. MAX has no
+// adapter callback for expiry, so we record it and fail the show attempt instead.
+@property (nonatomic, assign, getter=isInterstitialAdExpired) BOOL interstitialAdExpired;
+@property (nonatomic, assign, getter=isRewardedAdExpired) BOOL rewardedAdExpired;
+
+@property (nonatomic, weak) UIViewController *adViewPresentingViewController;
 @end
 
 @implementation ALChartboostMediationAdapter
 
 static ALAtomicBoolean              *ALChartboostInitialized;
 static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntegerMin;
+static CHBMediation                 *ALChartboostMediation;
 
 + (void)initialize
 {
     [super initialize];
     
     ALChartboostInitialized = [[ALAtomicBoolean alloc] init];
+    ALChartboostMediation = [[CHBMediation alloc] initWithName: @"MAX" libraryVersion: ALSdk.version adapterVersion: ADAPTER_VERSION];
 }
 
 #pragma mark - MAAdapter Methods
@@ -88,8 +95,6 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             ALChartboostInitializationStatus = MAAdapterInitializationStatusInitializedSuccess;
             completionHandler(ALChartboostInitializationStatus, nil);
         }];
-        
-        self.mediationInfo = [[CHBMediation alloc] initWithName: @"MAX" libraryVersion: ALSdk.version adapterVersion: ADAPTER_VERSION];
         
         // Real test mode should be enabled from UI (https://answers.chartboost.com/en-us/articles/200780549)
         if ( [parameters isTesting] )
@@ -141,6 +146,13 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     [self log: @"Collecting signal..."];
     
     NSString *signal = [Chartboost bidderToken];
+    if ( ![signal al_isValidString] )
+    {
+        [self log: @"Failed to collect signal"];
+        [delegate didFailToCollectSignalWithErrorMessage: @"Chartboost bidder token is unavailable"];
+        return;
+    }
+    
     [delegate didCollectSignal: signal];
 }
 
@@ -157,7 +169,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     [self updateUserConsentForParameters: parameters];
     
     self.interstitialDelegate = [[ALChartboostInterstitialDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.interstitialAd = [[CHBInterstitial alloc] initWithLocation: location mediation: self.mediationInfo delegate: self.interstitialDelegate];
+    self.interstitialAd = [[CHBInterstitial alloc] initWithLocation: location mediation: ALChartboostMediation delegate: self.interstitialDelegate];
     
     if ( isBidding )
     {
@@ -172,6 +184,15 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
 {
     [self log: @"Showing interstitial ad for location \"%@\"...", parameters.thirdPartyAdPlacementIdentifier];
+    
+    if ( [self isInterstitialAdExpired] )
+    {
+        [self log: @"Interstitial ad expired"];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
+        return;
+    }
     
     // NOTE: Do not use `isCached:` since it does not reliably indicate ad readiness.
     if ( self.interstitialAd )
@@ -200,7 +221,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     [self updateUserConsentForParameters: parameters];
     
     self.rewardedDelegate = [[ALChartboostRewardedDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.rewardedAd = [[CHBRewarded alloc] initWithLocation: location mediation: self.mediationInfo delegate: self.rewardedDelegate];
+    self.rewardedAd = [[CHBRewarded alloc] initWithLocation: location mediation: ALChartboostMediation delegate: self.rewardedDelegate];
     
     if ( isBidding )
     {
@@ -215,6 +236,15 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
 {
     [self log: @"Showing rewarded ad for location \"%@\"...", parameters.thirdPartyAdPlacementIdentifier];
+    
+    if ( [self isRewardedAdExpired] )
+    {
+        [self log: @"Rewarded ad expired"];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.adExpiredError.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.adExpiredError.message]];
+        return;
+    }
     
     // NOTE: Do not use `isCached:` since it does not reliably indicate ad readiness.
     if ( self.rewardedAd )
@@ -247,10 +277,11 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     
     [self updateUserConsentForParameters: parameters];
     
+    self.adViewPresentingViewController = parameters.presentingViewController;
     self.adViewDelegate = [[ALChartboostAdViewDelegate alloc] initWithParentAdapter: self format: adFormat andNotify: delegate];
     self.adView = [[CHBBanner alloc] initWithSize: [self sizeFromAdFormat: adFormat]
                                          location: location
-                                        mediation: self.mediationInfo
+                                        mediation: ALChartboostMediation
                                          delegate: self.adViewDelegate];
     
     if ( isBidding )
@@ -296,27 +327,148 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     }
 }
 
+// Maps a Chartboost SDK 9.10.0+ error code. These codes are ad-lifecycle-agnostic: the value
+// itself identifies the phase (1XX initialization, 2XX connectivity, 3XX load, 4XX show,
+// 5XX render, 9XX other), so cache and show failures share this mapping.
+- (MAAdapterError *)maxErrorFromChartboostErrorCode:(NSInteger)chartBoostErrorCode
+{
+    switch ( chartBoostErrorCode )
+    {
+        // MARK: Initialization (1XX)
+        case CHBErrorCodeInitializationUnknownError:
+        case CHBErrorCodeInitializationNoContext: // Android only
+            return MAAdapterError.notInitialized;
+        case CHBErrorCodeInitializationDisabled:
+        case CHBErrorCodeInitializationInvalidCredentials:
+        case CHBErrorCodeInitializationInvalidConfiguration:
+        case CHBErrorCodeInitializationOSVersionNotSupported:
+        case CHBErrorCodeInitializationPermissionsNotSet: // Android only
+            return MAAdapterError.invalidConfiguration;
+        case CHBErrorCodeInitializationInternalError:
+            return MAAdapterError.internalError;
+
+        // MARK: Connectivity (2XX)
+        case CHBErrorCodeConnectivityUnknownError:
+        case CHBErrorCodeConnectivityNoInternet:
+        case CHBErrorCodeConnectivityNetworkError:
+            return MAAdapterError.noConnection;
+        case CHBErrorCodeConnectivityServerError:
+            return MAAdapterError.serverError;
+        case CHBErrorCodeConnectivityTimedOut:
+            return MAAdapterError.timeout;
+        case CHBErrorCodeConnectivityInternalError:
+            return MAAdapterError.internalError;
+        case CHBErrorCodeConnectivityInvalidRequest:
+            return MAAdapterError.badRequest;
+
+        // MARK: Load (3XX)
+        case CHBErrorCodeLoadNoAd:
+            return MAAdapterError.noFill;
+        case CHBErrorCodeLoadDisabled:
+        case CHBErrorCodeLoadInvalidPlacement:
+            return MAAdapterError.invalidConfiguration;
+        case CHBErrorCodeLoadNotInitialized:
+            return MAAdapterError.notInitialized;
+        case CHBErrorCodeLoadInProgress:
+        case CHBErrorCodeLoadAlreadyLoaded:
+            return MAAdapterError.invalidLoadState;
+        case CHBErrorCodeLoadNoContext: // Android only
+            return MAAdapterError.missingViewController;
+        // Chartboost is throttling us; frequency capping is the closest MAX signal that also
+        // tells MAX to back off rather than immediately retrying this network.
+        case CHBErrorCodeLoadRateLimited:
+            return MAAdapterError.adFrequencyCappedError;
+        case CHBErrorCodeLoadInvalidRequest:
+        case CHBErrorCodeLoadInvalidADM:
+            return MAAdapterError.badRequest;
+        case CHBErrorCodeLoadInvalidResponse:
+        case CHBErrorCodeLoadInvalidAssetURL:
+            return MAAdapterError.serverError;
+        case CHBErrorCodeLoadWebViewFailed:
+        case CHBErrorCodeLoadWebViewCrashed:
+            return MAAdapterError.webViewError;
+        case CHBErrorCodeLoadTimedOut:
+        case CHBErrorCodeLoadProgressiveBufferingFailed:
+            return MAAdapterError.timeout;
+        case CHBErrorCodeLoadInternalError:
+        case CHBErrorCodeLoadNoStorage:
+        case CHBErrorCodeLoadNoMRAIDJS:
+        case CHBErrorCodeLoadInvalidHTML:
+        case CHBErrorCodeLoadVASTError:
+        case CHBErrorCodeLoadAssetUnavailable:
+        case CHBErrorCodeLoadUnsupportedCodec:
+            return MAAdapterError.internalError;
+
+        // MARK: Show (4XX)
+        case CHBErrorCodeShowNoAd:
+            return MAAdapterError.adNotReady;
+        // An ad that expired or was invalidated after caching is no longer showable.
+        case CHBErrorCodeShowAdExpired:
+        case CHBErrorCodeShowAdInvalidated:
+            return MAAdapterError.adExpiredError;
+        case CHBErrorCodeShowNoContext:
+            return MAAdapterError.missingViewController;
+        case CHBErrorCodeShowTimedOut:
+            return MAAdapterError.timeout;
+        case CHBErrorCodeShowDisabled:
+            return MAAdapterError.invalidConfiguration;
+        case CHBErrorCodeShowNotInitialized:
+            return MAAdapterError.notInitialized;
+        case CHBErrorCodeShowAssetUnavailable:
+            return MAAdapterError.internalError;
+        case CHBErrorCodeShowUnknownError:
+        case CHBErrorCodeShowFullscreenAlreadyShowing:
+            return MAAdapterError.adDisplayFailedError;
+
+        // MARK: Render (5XX)
+        case CHBErrorCodeRenderWebViewMRAIDUnload:
+        case CHBErrorCodeRenderWebViewTerminated:
+            return MAAdapterError.webViewError;
+        case CHBErrorCodeRenderInternalError:
+        case CHBErrorCodeRenderMissingSKANParameters:
+        case CHBErrorCodeRenderLoadSKProductFailed:
+            return MAAdapterError.internalError;
+        case CHBErrorCodeRenderUnknown:
+        case CHBErrorCodeRenderVideoPlaybackError:
+        case CHBErrorCodeRenderInvalidClickthroughURL:
+        case CHBErrorCodeRenderAssetUnavailable:
+        case CHBErrorCodeRenderUnexpectedDismiss:
+            return MAAdapterError.adDisplayFailedError;
+        // Click-path only, and MAX has no click-failure callback to surface these through.
+        case CHBErrorCodeRenderClickIgnoredNoGesture:
+        case CHBErrorCodeRenderClickIgnoredBusy:
+            return MAAdapterError.unspecified;
+
+        // MARK: Unknown (deliberately unspecified rather than guessed)
+        case CHBErrorCodeLoadUnknownError:
+        case CHBErrorCodeOtherUnknownError:
+            return MAAdapterError.unspecified;
+
+        default:
+            [self log: @"Unmapped Chartboost error code: %ld", (long) chartBoostErrorCode];
+            return MAAdapterError.unspecified;
+    }
+}
+
+// NOTE: `CHBCacheError.code` carries a legacy `CHBCacheErrorCode` (0-11) when the failure comes
+// from the Chartboost SDK's legacy rendering pipeline, or a `CHBErrorCode` (100-900) when it
+// comes from the current one. Both pipelines are live and reach this delegate, and the two
+// ranges do not overlap, so a single switch over the raw code handles both.
 - (MAAdapterError *)toMaxErrorFromCHBCacheError:(CHBCacheError *)chartBoostCacheError
 {
-    CHBCacheErrorCode chartBoostCacheErrorCode = chartBoostCacheError.code;
-    MAAdapterError *adapterError = MAAdapterError.unspecified;
+    NSInteger chartBoostCacheErrorCode = chartBoostCacheError.code;
+    MAAdapterError *adapterError;
     switch ( chartBoostCacheErrorCode )
     {
-        case CHBCacheErrorCodeInternalError:
-            adapterError = MAAdapterError.internalError;
+        case CHBCacheErrorCodeNoAdFound:
+            adapterError = MAAdapterError.noFill;
             break;
         case CHBCacheErrorCodeInternetUnavailable:
         case CHBCacheErrorCodeNetworkFailure:
             adapterError = MAAdapterError.noConnection;
             break;
-        case CHBCacheErrorCodeNoAdFound:
-            adapterError = MAAdapterError.noFill;
-            break;
         case CHBCacheErrorCodeSessionNotStarted:
             adapterError = MAAdapterError.notInitialized;
-            break;
-        case CHBCacheErrorCodeAssetDownloadFailure:
-            adapterError = MAAdapterError.badRequest;
             break;
         case CHBCacheErrorCodePublisherDisabled:
             adapterError = MAAdapterError.invalidConfiguration;
@@ -327,38 +479,42 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         case CHBCacheErrorCodeWebViewFailed:
             adapterError = MAAdapterError.webViewError;
             break;
-        case CHBCacheErrorCodeAssetUnavailable:
         case CHBCacheErrorCodeInvalidADM:
+            adapterError = MAAdapterError.badRequest;
+            break;
+        case CHBCacheErrorCodeInternalError:
+        case CHBCacheErrorCodeAssetDownloadFailure:
+        case CHBCacheErrorCodeAssetUnavailable:
         case CHBCacheErrorCodeVastError:
-            adapterError = MAAdapterError.unspecified;
-            
+            adapterError = MAAdapterError.internalError;
+            break;
+        default:
+            adapterError = [self maxErrorFromChartboostErrorCode: chartBoostCacheErrorCode];
             break;
     }
-    
+
     return [MAAdapterError errorWithAdapterError: adapterError
                         mediatedNetworkErrorCode: chartBoostCacheErrorCode
-                     mediatedNetworkErrorMessage: chartBoostCacheError.description];
+                     mediatedNetworkErrorMessage: chartBoostCacheError.localizedDescription];
 }
 
+// See the note on -toMaxErrorFromCHBCacheError: - `CHBShowError.code` carries either a legacy
+// `CHBShowErrorCode` (0-9) or a `CHBErrorCode` (100-900). Note the legacy cache and show codes
+// overlap numerically but mean different things, so they must not share a switch.
 - (MAAdapterError *)toMaxErrorFromCHBShowError:(CHBShowError *)chartBoostShowError
 {
-    CHBShowErrorCode chartBoostShowErrorCode = chartBoostShowError.code;
-    MAAdapterError *adapterError = MAAdapterError.unspecified;
+    NSInteger chartBoostShowErrorCode = chartBoostShowError.code;
+    MAAdapterError *adapterError;
     switch ( chartBoostShowErrorCode )
     {
-        case CHBShowErrorCodeInternalError:
-        case CHBShowErrorCodePresentationFailure:
-        case CHBShowErrorCodeAssetsFailure:
-            adapterError = MAAdapterError.internalError;
+        case CHBShowErrorCodeNoCachedAd:
+            adapterError = MAAdapterError.adNotReady;
             break;
         case CHBShowErrorCodeSessionNotStarted:
             adapterError = MAAdapterError.notInitialized;
             break;
         case CHBShowErrorCodeInternetUnavailable:
             adapterError = MAAdapterError.noConnection;
-            break;
-        case CHBShowErrorCodeNoCachedAd:
-            adapterError = MAAdapterError.adNotReady;
             break;
         case CHBShowErrorCodeNoViewController:
             adapterError = MAAdapterError.missingViewController;
@@ -367,14 +523,24 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
         case CHBShowErrorCodePublisherDisabled:
             adapterError = MAAdapterError.invalidConfiguration;
             break;
+        case CHBShowErrorCodeInternalError:
+        case CHBShowErrorCodeAssetsFailure:
+            adapterError = MAAdapterError.internalError;
+            break;
+        // Both are display failures. `MAAdapterError.invalidLoadState` is arguably a closer fit
+        // for AdAlreadyVisible, but this preserves the adapter's existing behavior.
+        case CHBShowErrorCodePresentationFailure:
         case CHBShowErrorCodeAdAlreadyVisible:
             adapterError = MAAdapterError.adDisplayFailedError;
             break;
+        default:
+            adapterError = [self maxErrorFromChartboostErrorCode: chartBoostShowErrorCode];
+            break;
     }
-    
+
     return [MAAdapterError errorWithAdapterError: adapterError
                         mediatedNetworkErrorCode: chartBoostShowErrorCode
-                     mediatedNetworkErrorMessage: chartBoostShowError.description];
+                     mediatedNetworkErrorMessage: chartBoostShowError.localizedDescription];
 }
 
 - (CHBBannerSize)sizeFromAdFormat:(MAAdFormat *)adFormat
@@ -427,7 +593,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self.parentAdapter log: @"Interstitial loaded: %@", event.ad.location];
-        
+
         if ( [event.adID al_isValidString] )
         {
             [self.delegate didLoadInterstitialAdWithExtraInfo: @{@"creative_id" : event.adID}];
@@ -448,9 +614,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                    mediatedNetworkErrorCode: error.code
-                                                 mediatedNetworkErrorMessage: error.description];
+        MAAdapterError *adapterError = [self.parentAdapter toMaxErrorFromCHBShowError: error];
         
         [self.parentAdapter log: @"Interstitial failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
@@ -464,7 +628,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)didRecordImpression:(CHBImpressionEvent *)event
 {
     [self.parentAdapter log: @"Interstitial impression tracked: %@", event.ad.location];
-    
+
     NSString *creativeID = event.adID;
     if ( [creativeID al_isValidString] )
     {
@@ -497,7 +661,11 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 - (void)didExpireAd:(CHBExpirationEvent *)event
 {
-    [self.parentAdapter log: @"Interstitial ad expired"];
+    [self.parentAdapter log: @"Interstitial ad expired: %@", event.ad.location];
+    
+    // MAX has no adapter callback for an ad expiring while cached, so flag it and fail the next
+    // show attempt with `MAAdapterError.adExpiredError` rather than presenting a dead ad.
+    self.parentAdapter.interstitialAdExpired = YES;
 }
 
 @end
@@ -529,7 +697,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     else
     {
         [self.parentAdapter log: @"Rewarded loaded: %@", event.ad.location];
-        
+
         // Passing extra info such as creative id supported in 6.15.0+
         if ( [event.adID al_isValidString] )
         {
@@ -551,9 +719,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                    mediatedNetworkErrorCode: error.code
-                                                 mediatedNetworkErrorMessage: error.description];
+        MAAdapterError *adapterError = [self.parentAdapter toMaxErrorFromCHBShowError: error];
         
         [self.parentAdapter log: @"Rewarded failed \"%@\" to show with error: %@", event.ad.location, error];
         [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
@@ -567,7 +733,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)didRecordImpression:(CHBImpressionEvent *)event
 {
     [self.parentAdapter log: @"Rewarded impression tracked: %@", event.ad.location];
-    
+
     NSString *creativeID = event.adID;
     if ( [creativeID al_isValidString] )
     {
@@ -595,7 +761,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 // This is called when the video has completed and has earned the reward.
 - (void)didEarnReward:(CHBRewardEvent *)event
 {
-    [self.parentAdapter log: @"Rewarded complete \"%@\" with reward: %d", event.ad.location, event.reward];
+    [self.parentAdapter log: @"Rewarded complete \"%@\" with reward: %ld", event.ad.location, (long) event.reward];
     
     self.grantedReward = YES;
 }
@@ -619,7 +785,10 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 - (void)didExpireAd:(CHBExpirationEvent *)event
 {
-    [self.parentAdapter log: @"Rewarded ad expired"];
+    [self.parentAdapter log: @"Rewarded ad expired: %@", event.ad.location];
+    
+    // See the note in ALChartboostInterstitialDelegate -didExpireAd:.
+    self.parentAdapter.rewardedAdExpired = YES;
 }
 
 @end
@@ -653,7 +822,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
     {
         [self.parentAdapter log: @"%@ ad loaded: %@", self.adFormat.label, event.ad.location];
         CHBBanner *adView = (CHBBanner *) event.ad;
-        
+
         // Passing extra info such as creative id supported in 6.15.0+
         if ( [event.adID al_isValidString] )
         {
@@ -664,7 +833,8 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
             [self.delegate didLoadAdForAdView: adView];
         }
         
-        [event.ad showFromViewController: [ALUtils topViewControllerFromKeyWindow]];
+        UIViewController *presentingViewController = self.parentAdapter.adViewPresentingViewController ?: [ALUtils topViewControllerFromKeyWindow];
+        [event.ad showFromViewController: presentingViewController];
     }
 }
 
@@ -677,9 +847,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 {
     if ( error )
     {
-        MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
-                                                    mediatedNetworkErrorCode: error.code
-                                                 mediatedNetworkErrorMessage: error.description];
+        MAAdapterError *adapterError = [self.parentAdapter toMaxErrorFromCHBShowError: error];
         
         [self.parentAdapter log: @"%@ ad failed \"%@\" to show with error: %@", self.adFormat.label, event.ad.location, error];
         [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
@@ -693,7 +861,7 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 - (void)didRecordImpression:(CHBImpressionEvent *)event
 {
     [self.parentAdapter log: @"%@ ad impression tracked: %@", self.adFormat.label, event.ad.location];
-    
+
     NSString *creativeID = event.adID;
     if ( [creativeID al_isValidString] )
     {
@@ -720,7 +888,12 @@ static MAAdapterInitializationStatus ALChartboostInitializationStatus = NSIntege
 
 - (void)didExpireAd:(CHBExpirationEvent *)event
 {
-    [self.parentAdapter log: @"AdView ad expired"];
+    // Unlike the fullscreen formats, there is no show entry point for an ad view: MAAdViewAdapter
+    // declares only a load method, and -didCacheAd:error: hands the view to MAX and calls
+    // -showFromViewController: in the same runloop turn. An ad view therefore cannot expire
+    // between load and show, so any expiry here arrives after the ad was rendered and its
+    // impression recorded, where no MAX failure callback would be correct.
+    [self.parentAdapter log: @"%@ ad expired: %@", self.adFormat.label, event.ad.location];
 }
 
 @end
