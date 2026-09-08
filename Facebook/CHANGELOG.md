@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.22.0.2
+* Updated minimum iOS version to 15.0 in Swift Package Manager.
+
 ## 6.22.0.1
 * Migrated native AdOptions rendering to Facebook's preferred position API.
 
