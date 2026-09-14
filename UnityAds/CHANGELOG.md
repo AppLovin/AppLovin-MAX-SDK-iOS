@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.20.0.1
+* Fixed adapter versioning for SPM
+
 ## 4.20.0.0
 * Certified with UnityAds SDK 4.20.0.
 
