@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.1.1
+* Fixed adapter versioning for SPM
+
 ## 3.1.1.0
 * Certified with Line SDK 3.1.1.
 
