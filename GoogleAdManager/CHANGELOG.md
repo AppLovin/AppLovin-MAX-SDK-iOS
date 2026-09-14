@@ -1,5 +1,8 @@
 # Changelog
 
+## 13.9.0.1
+* Fixed adapter versioning for SPM
+
 ## 13.9.0.0
 * Certified with GoogleAdManager SDK 13.9.0.
 
