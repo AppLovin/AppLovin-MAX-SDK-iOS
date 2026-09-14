@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.22.0.3
+* Fixed adapter versioning for SPM
+
 ## 6.22.0.2
 * Updated minimum iOS version to 15.0 in Swift Package Manager.
 
