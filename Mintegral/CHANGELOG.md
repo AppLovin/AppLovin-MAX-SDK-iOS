@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.1.7.0.1
+* Fixed adapter versioning for SPM
+
 ## 8.1.7.0.0
 * Certified with Mintegral SDK 8.1.7.
 
