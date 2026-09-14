@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.10.0.1
+* Fixed adapter versioning for SPM
+
 ## 4.10.0.0
 * Certified with Moloco SDK 4.10.0.
 
