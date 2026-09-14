@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.3.0.1
+* Fixed adapter versioning for SPM
+
 ## 5.3.0.0
 * Certified with OguryPresage SDK 5.3.0.
 
