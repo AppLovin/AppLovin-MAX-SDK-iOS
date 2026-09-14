@@ -1,5 +1,8 @@
 # Changelog
 
+## 11.4.1.3
+* Fixed adapter versioning for SPM
+
 ## 11.4.1.2
 * Fix UI methods being called on background thread when adaptive banner enabled.
 * Add setMute support for interstitial and rewarded ads.
