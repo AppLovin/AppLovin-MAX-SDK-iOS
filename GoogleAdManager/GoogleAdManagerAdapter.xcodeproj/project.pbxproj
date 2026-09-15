@@ -196,9 +196,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GoogleAdManagerAdapter/Pods-GoogleAdManagerAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GoogleAdManagerAdapter/Pods-GoogleAdManagerAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -310,7 +314,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 13.9.0.1;
+				MARKETING_VERSION = 13.9.0.2;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
@@ -386,7 +390,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 13.9.0.1;
+				MARKETING_VERSION = 13.9.0.2;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_NAME = AppLovinMediationGoogleAdManagerAdapter;
@@ -404,6 +408,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CADE25E828706EA42DEEB956 /* Pods-GoogleAdManagerAdapter.debug.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.GoogleAdManagerAdapter;
 			};
 			name = Debug;
@@ -412,6 +417,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 66B3BE45F8950E4AA10A2D47 /* Pods-GoogleAdManagerAdapter.release.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.GoogleAdManagerAdapter;
 			};
 			name = Release;

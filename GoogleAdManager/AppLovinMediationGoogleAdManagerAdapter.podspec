@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationGoogleAdManagerAdapter'
-s.version = '13.9.0.1'
-s.platform = :ios, '12.0'
+s.version = '13.9.0.2'
+s.platform = :ios, '13.0'
 s.summary = 'Google Ad Manager adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license =
