@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.9.2.0
+* Certified with Verve SDK 3.9.2.
+
+## 3.9.1.1
+* Fixed adapter versioning for SPM
+
+## 3.9.1.0
+* Certified with Verve SDK 3.9.1.
+
 ## 3.9.0.0
 * Certified with Verve SDK 3.9.0.
 

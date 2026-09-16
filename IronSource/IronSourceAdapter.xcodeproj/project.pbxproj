@@ -290,7 +290,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 9.5.0.0.0;
+				MARKETING_VERSION = 9.6.0.0.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				ONLY_ACTIVE_ARCH = YES;
@@ -366,7 +366,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 9.5.0.0.0;
+				MARKETING_VERSION = 9.6.0.0.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_NAME = AppLovinMediationIronSourceAdapter;
@@ -384,6 +384,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6416FFF3E611D37EF98FBA77 /* Pods-IronSourceAdapter.debug.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.IronSourceAdapter;
 			};
 			name = Debug;
@@ -392,6 +393,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7A69956063F60FD13972E0C /* Pods-IronSourceAdapter.release.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.applovin.mediation.adapters.IronSourceAdapter;
 			};
 			name = Release;

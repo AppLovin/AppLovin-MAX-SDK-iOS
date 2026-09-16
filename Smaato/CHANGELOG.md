@@ -1,5 +1,11 @@
 # Changelog
 
+## 23.2.1.1
+* Fixed adapter versioning for SPM
+
+## 23.2.1.0
+* Certified with Smaato SDK 23.2.1.
+
 ## 23.2.0.0
 * Certified with Smaato SDK 23.2.0.
 

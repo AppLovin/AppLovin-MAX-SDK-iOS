@@ -16,7 +16,7 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #import <MTGSDKSplash/MTGSplashAD.h>
 
-#define ADAPTER_VERSION @"8.1.5.0.0"
+#define ADAPTER_VERSION @"8.1.7.0.1"
 
 // List of Mintegral error codes not defined in API, but in their docs
 //

@@ -9,7 +9,7 @@
 #import "ALInMobiMediationAdapter.h"
 #import <InMobiSDK/InMobiSDK.h>
 
-#define ADAPTER_VERSION @"11.3.0.1"
+#define ADAPTER_VERSION @"11.4.1.3"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -26,8 +26,10 @@
 
 @property (nonatomic,   weak) ALInMobiMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
+@property (nonatomic, assign) CGSize adSize;
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
+                               adSize:(CGSize)adSize
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -138,6 +140,9 @@ static NSString *const AB_TYPE = @"ab-type";
 static NSString *const ADAPTIVE_TYPE_INLINE = @"inline";
 static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
+// Class-level locks: created in +initialize, which the runtime guarantees runs
+// exactly once before the first message is sent to this class, regardless of
+// which initializer (-init or the deprecated -initWithSdk:) MAX core calls.
 static NSObject *ALInMobiBannerAdLock;
 static NSObject *ALInMobiInterstitialAdLock;
 static NSObject *ALInMobiRewardedAdLock;
@@ -236,7 +241,7 @@ static NSObject *ALInMobiNativeAdLock;
         self.nativeAd = nil;
         self.nativeAdDelegate.delegate = nil;
         self.nativeAdDelegate = nil;
-    
+
         self.maxNativeAdViewAd = nil;
         self.nativeAdViewDelegate.delegate = nil;
         self.nativeAdViewDelegate = nil;
@@ -277,24 +282,26 @@ static NSObject *ALInMobiNativeAdLock;
     
     if ( isNative )
     {
-        @synchronized ( ALInMobiNativeAdLock )
-        {
-            self.nativeAdViewDelegate = [[ALInMobiMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                                             format: adFormat
-                                                                                                         parameters: parameters
-                                                                                                          andNotify: delegate];
-            self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdViewDelegate];
-            self.nativeAd.extras = [self baseExtras];
+        dispatchOnMainQueue(^{
+            @synchronized ( ALInMobiNativeAdLock )
+            {
+                self.nativeAdViewDelegate = [[ALInMobiMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                                 format: adFormat
+                                                                                                             parameters: parameters
+                                                                                                              andNotify: delegate];
+                self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdViewDelegate];
+                self.nativeAd.extras = [self baseExtras];
 
-            if ( isBiddingAd )
-            {
-                [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
+                if ( isBiddingAd )
+                {
+                    [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
+                }
+                else
+                {
+                    [self.nativeAd load];
+                }
             }
-            else
-            {
-                [self.nativeAd load];
-            }
-        }
+        });
     }
     else
     {
@@ -305,15 +312,13 @@ static NSObject *ALInMobiNativeAdLock;
             [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use InMobi adaptive ads"];
         }
 
-        CGRect frame;
+        // InMobi expects the standard banner size in the layout request and reads adaptive
+        // dimensions from extras (ab-ad-slot / ab-type).
+        CGRect frame = [self rectFromAdFormat: adFormat];
+        CGSize reportedAdSize = frame.size;
         if ( isAdaptiveBannerEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
         {
-            CGSize adaptiveSize = [self adaptiveAdSizeFromParameters: parameters];
-            frame = CGRectMake(0, 0, adaptiveSize.width, adaptiveSize.height);
-        }
-        else
-        {
-            frame = [self rectFromAdFormat: adFormat];
+            reportedAdSize = [self adaptiveAdSizeFromParameters: parameters];
         }
 
         @synchronized ( ALInMobiBannerAdLock )
@@ -324,6 +329,7 @@ static NSObject *ALInMobiNativeAdLock;
             [self.adView shouldAutoRefresh: NO];
 
             self.adViewDelegate = [[ALInMobiMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                 adSize: reportedAdSize
                                                                                               andNotify: delegate];
             self.adView.delegate = self.adViewDelegate;
 
@@ -411,10 +417,6 @@ static NSObject *ALInMobiNativeAdLock;
     
     [self log: @"Loading %@native ad for placement: %lld...", ( isBiddingAd ? @"bidding " : @"" ), placementId];
     
-    [self updatePrivacySettingsWithParameters: parameters];
-    
-    NSString *bidResponse = parameters.bidResponse;
-
     @synchronized ( ALInMobiNativeAdLock )
     {
         self.nativeAdDelegate = [[ALInMobiMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
@@ -423,6 +425,9 @@ static NSObject *ALInMobiNativeAdLock;
         self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdDelegate];
         self.nativeAd.extras = [self baseExtras];
 
+        [self updatePrivacySettingsWithParameters: parameters];
+
+        NSString *bidResponse = parameters.bidResponse;
         if ( [bidResponse al_isValidString] )
         {
             [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
@@ -497,18 +502,18 @@ static NSObject *ALInMobiNativeAdLock;
 }
 
 - (NSDictionary<NSString *, id> *)extrasForParameters:(id<MAAdapterParameters>)parameters
-                                              adFormat:(MAAdFormat *)adFormat
-                               isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                             adFormat:(MAAdFormat *)adFormat
+                              isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
 {
     NSMutableDictionary<NSString *, id> *extras = [NSMutableDictionary dictionaryWithDictionary: [self baseExtras]];
-
+    
     if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
     {
         CGSize adaptiveSize = [self adaptiveAdSizeFromParameters: parameters];
         extras[AB_AD_SLOT] = [NSString stringWithFormat: @"%dx%d", (int) adaptiveSize.width, (int) adaptiveSize.height];
         extras[AB_TYPE] = [self isInlineAdaptiveAdViewForParameters: parameters] ? ADAPTIVE_TYPE_INLINE : ADAPTIVE_TYPE_ANCHORED;
     }
-
+    
     return extras;
 }
 
@@ -581,7 +586,10 @@ static NSObject *ALInMobiNativeAdLock;
 
 - (CGSize)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
 {
-    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    __block CGFloat adaptiveAdWidth;
+    dispatchSyncOnMainQueue(^{
+        adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    });
     
     if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
     {
@@ -664,12 +672,14 @@ static NSObject *ALInMobiNativeAdLock;
 @implementation ALInMobiMediationAdapterAdViewDelegate
 
 - (instancetype)initWithParentAdapter:(ALInMobiMediationAdapter *)parentAdapter
+                               adSize:(CGSize)adSize
                             andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
+        self.adSize = adSize;
         self.delegate = delegate;
     }
     return self;
@@ -680,8 +690,8 @@ static NSObject *ALInMobiNativeAdLock;
     [self.parentAdapter log: @"AdView loaded"];
     
     NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
-    extraInfo[@"ad_width"] = @((NSInteger) CGRectGetWidth(banner.frame));
-    extraInfo[@"ad_height"] = @((NSInteger) CGRectGetHeight(banner.frame));
+    extraInfo[@"ad_width"] = @((NSInteger) self.adSize.width);
+    extraInfo[@"ad_height"] = @((NSInteger) self.adSize.height);
     
     if ( [banner.creativeId al_isValidString] )
     {
@@ -1098,11 +1108,14 @@ static NSObject *ALInMobiNativeAdLock;
     [self.parentAdapter log: @"Native ad loaded: %@", self.placementId];
     
     dispatchOnMainQueue(^{
-        @synchronized (ALInMobiNativeAdLock) {
-            
-            MANativeAd *maxNativeAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
-                                                                             adFormat: MAAdFormat.native
-                                                                         builderBlock:^(MANativeAdBuilder *builder) {
+
+        MANativeAd *maxNativeAd;
+
+        @synchronized ( ALInMobiNativeAdLock )
+        {
+            maxNativeAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                  adFormat: MAAdFormat.native
+                                                              builderBlock:^(MANativeAdBuilder *builder) {
                 builder.title = nativeAd.adTitle;
                 builder.advertiser = nativeAd.advertiserName;
                 builder.body = nativeAd.adDescription;
@@ -1111,10 +1124,10 @@ static NSObject *ALInMobiNativeAdLock;
                 builder.mediaView = [nativeAd getMediaView];
                 builder.starRating = @(nativeAd.adRating.doubleValue);
             }];
-            
-            NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
-            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
         }
+
+        NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
+        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
     });
 }
 
@@ -1280,3 +1293,4 @@ static NSObject *ALInMobiNativeAdLock;
 }
 
 @end
+

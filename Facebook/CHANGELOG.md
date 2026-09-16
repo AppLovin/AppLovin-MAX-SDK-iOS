@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.22.0.3
+* Fixed adapter versioning for SPM
+
+## 6.22.0.2
+* Updated minimum iOS version to 15.0 in Swift Package Manager.
+
+## 6.22.0.1
+* Migrated native AdOptions rendering to Facebook's preferred position API.
+
+## 6.22.0.0
+* Certified with Facebook SDK 6.22.0.
+* Updated minimum iOS version to 15.0 to match Facebook SDK.
+
 ## 6.21.1.0
 * Certified with Facebook SDK 6.21.1.
 

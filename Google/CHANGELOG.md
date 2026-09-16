@@ -1,5 +1,23 @@
 # Changelog
 
+## 13.9.0.3
+* Fixed minimum iOS version for SPM.
+
+## 13.9.0.2
+* Updated minimum iOS version to 13.0 to match Google SDK.
+
+## 13.9.0.1
+* Fixed adapter versioning for SPM
+
+## 13.9.0.0
+* Certified with Google SDK 13.9.0.
+
+## 13.8.0.0
+* Certified with Google SDK 13.8.0.
+
+## 13.7.0.0
+* Certified with Google SDK 13.7.0.
+
 ## 13.6.0.0
 * Certified with Google SDK 13.6.0.
 

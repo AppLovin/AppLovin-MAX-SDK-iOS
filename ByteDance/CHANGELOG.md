@@ -1,5 +1,23 @@
 # Changelog
 
+## 8.3.0.6.1
+* Fixed adapter versioning for SPM
+
+## 8.3.0.6.0
+* Certified with ByteDance SDK 8.3.0.6.
+
+## 8.2.1.0.0
+* Certified with ByteDance SDK 8.2.1.0.
+
+## 8.2.0.9.0
+* Certified with ByteDance SDK 8.2.0.9.
+
+## 8.2.0.8.0
+* Certified with ByteDance SDK 8.2.0.8.
+
+## 8.2.0.7.0
+* Certified with ByteDance SDK 8.2.0.7.
+
 ## 8.1.1.1.0
 * Certified with ByteDance SDK 8.1.1.1.
 

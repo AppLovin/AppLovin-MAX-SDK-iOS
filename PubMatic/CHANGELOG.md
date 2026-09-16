@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.4.0.1
+* Fixed adapter versioning for SPM
+
+## 5.4.0.0
+* Certified with PubMatic SDK 5.4.0.
+
+## 5.3.0.0
+* Certified with PubMatic SDK 5.3.0.
+
+## 5.2.0.0
+* Certified with PubMatic SDK 5.2.0.
+
 ## 5.1.1.0
 * Certified with PubMatic SDK 5.1.1.
 

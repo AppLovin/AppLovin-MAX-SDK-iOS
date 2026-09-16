@@ -1,5 +1,21 @@
 # Changelog
 
+## 11.4.1.3
+* Fixed adapter versioning for SPM
+
+## 11.4.1.2
+* Fix UI methods being called on background thread when adaptive banner enabled.
+* Add setMute support for interstitial and rewarded ads.
+
+## 11.4.1.1
+* Fix adaptive banner layout to use the standard banner size while continuing to pass adaptive dimensions through extras.
+
+## 11.4.1.0
+* Certified with InMobi SDK 11.4.1.
+
+## 11.4.0.0
+* Certified with InMobi SDK 11.4.0.
+
 ## 11.3.0.1
 * Add support for adaptive banners & inline adaptive ads in both banners and MRECs. Requires AppLovin MAX SDK 13.2.0 or higher.
 

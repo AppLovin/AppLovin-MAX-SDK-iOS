@@ -1,5 +1,21 @@
 # Changelog
 
+## 8.5.0.1
+* Fixed adapter versioning for SPM
+
+## 8.5.0.0
+* Certified with Yandex SDK 8.5.0.
+* Updated minimum iOS version to 15.0 to match Yandex SDK.
+
+## 8.4.0.0
+* Certified with Yandex SDK 8.4.0.
+
+## 8.3.0.0
+* Certified with Yandex SDK 8.3.0.
+
+## 8.2.1.0
+* Certified with Yandex SDK 8.2.1.
+
 ## 8.2.0.0
 * Certified with Yandex SDK 8.2.0.
 

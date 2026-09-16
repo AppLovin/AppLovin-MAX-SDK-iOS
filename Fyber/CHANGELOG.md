@@ -1,5 +1,14 @@
 # Changelog
 
+## 8.4.10.1
+* Fixed adapter versioning for SPM
+
+## 8.4.10.0
+* Certified with Fyber SDK 8.4.10.
+
+## 8.4.9.0
+* Certified with Fyber SDK 8.4.9.
+
 ## 8.4.8.0
 * Certified with Fyber SDK 8.4.8.
 * Updated minimum iOS version to 15.0 to match Fyber SDK.

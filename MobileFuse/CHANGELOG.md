@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.12.0.1
+* Fixed adapter versioning for SPM
+
+## 1.12.0.0
+* Certified with MobileFuse SDK 1.12.0.
+
+## 1.11.1.0
+* Certified with MobileFuse SDK 1.11.1.
+
 ## 1.11.0.0
 * Certified with MobileFuse SDK 1.11.0.
 

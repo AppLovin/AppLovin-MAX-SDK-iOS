@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.1.1.1
+* Fixed adapter versioning for SPM
+
+## 3.1.1.0
+* Certified with Line SDK 3.1.1.
+
+## 3.1.0.0
+* Certified with Line SDK 3.1.0.
+* Updated minimum iOS version to 15.0 to match Line SDK.
+
 ## 3.0.1.0
 * Certified with Line SDK 3.0.1.
 

@@ -1,5 +1,20 @@
 # Changelog
 
+## 7.7.7.1
+* Fixed adapter versioning for SPM
+
+## 7.7.7.0
+* Certified with Vungle SDK 7.7.7.
+
+## 7.7.6.1
+* Removed `canPlayAd` and SDK-initialization checks to follow Vungle SDK. Added `VungleMediationLogger` for native ad mismatch and unspecified errors.
+
+## 7.7.6.0
+* Certified with Vungle SDK 7.7.6.
+
+## 7.7.5.0
+* Certified with Vungle SDK 7.7.5.
+
 ## 7.7.4.0
 * Certified with Vungle SDK 7.7.4.
 
