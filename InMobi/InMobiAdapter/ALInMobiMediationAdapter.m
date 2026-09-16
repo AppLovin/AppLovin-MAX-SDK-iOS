@@ -138,10 +138,20 @@ static NSString *const AB_TYPE = @"ab-type";
 static NSString *const ADAPTIVE_TYPE_INLINE = @"inline";
 static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
+static NSObject *ALInMobiBannerAdLock;
+static NSObject *ALInMobiInterstitialAdLock;
+static NSObject *ALInMobiRewardedAdLock;
+static NSObject *ALInMobiNativeAdLock;
+
 + (void)initialize
 {
     [super initialize];
     ALInMobiInitialized = [[ALAtomicBoolean alloc] init];
+
+    ALInMobiBannerAdLock = [[NSObject alloc] init];
+    ALInMobiInterstitialAdLock = [[NSObject alloc] init];
+    ALInMobiRewardedAdLock = [[NSObject alloc] init];
+    ALInMobiNativeAdLock = [[NSObject alloc] init];
 }
 
 #pragma mark - MAAdapter Methods
@@ -197,28 +207,40 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
 
 - (void)destroy
 {
-    self.adView.delegate = nil;
-    self.adViewDelegate.delegate = nil;
-    self.adViewDelegate = nil;
+    @synchronized (ALInMobiBannerAdLock)
+    {
+        self.adView.delegate = nil;
+        self.adViewDelegate.delegate = nil;
+        self.adViewDelegate = nil;
+    }
+
+    @synchronized (ALInMobiInterstitialAdLock)
+    {
+        self.interstitialAd.delegate = nil;
+        self.interstitialAd = nil;
+        self.interstitialAdDelegate.delegate = nil;
+        self.interstitialAdDelegate = nil;
+    }
+
+    @synchronized (ALInMobiRewardedAdLock)
+    {
+        self.rewardedAd.delegate = nil;
+        self.rewardedAd = nil;
+        self.rewardedAdDelegate.delegate = nil;
+        self.rewardedAdDelegate = nil;
+    }
+
+    @synchronized (ALInMobiNativeAdLock)
+    {
+        self.nativeAd.delegate = nil;
+        self.nativeAd = nil;
+        self.nativeAdDelegate.delegate = nil;
+        self.nativeAdDelegate = nil;
     
-    self.interstitialAd.delegate = nil;
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate.delegate = nil;
-    self.interstitialAdDelegate = nil;
-    
-    self.rewardedAd.delegate = nil;
-    self.rewardedAd = nil;
-    self.rewardedAdDelegate.delegate = nil;
-    self.rewardedAdDelegate = nil;
-    
-    self.nativeAd.delegate = nil;
-    self.nativeAd = nil;
-    self.nativeAdDelegate.delegate = nil;
-    self.nativeAdDelegate = nil;
-    
-    self.maxNativeAdViewAd = nil;
-    self.nativeAdViewDelegate.delegate = nil;
-    self.nativeAdViewDelegate = nil;
+        self.maxNativeAdViewAd = nil;
+        self.nativeAdViewDelegate.delegate = nil;
+        self.nativeAdViewDelegate = nil;
+    }
 }
 
 #pragma mark - Signal Collection
@@ -255,20 +277,23 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     
     if ( isNative )
     {
-        self.nativeAdViewDelegate = [[ALInMobiMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                                         format: adFormat
-                                                                                                     parameters: parameters
-                                                                                                      andNotify: delegate];
-        self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdViewDelegate];
-        self.nativeAd.extras = [self baseExtras];
-        
-        if ( isBiddingAd )
+        @synchronized ( ALInMobiNativeAdLock )
         {
-            [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
-        }
-        else
-        {
-            [self.nativeAd load];
+            self.nativeAdViewDelegate = [[ALInMobiMediationAdapterNativeAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                                             format: adFormat
+                                                                                                         parameters: parameters
+                                                                                                          andNotify: delegate];
+            self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdViewDelegate];
+            self.nativeAd.extras = [self baseExtras];
+
+            if ( isBiddingAd )
+            {
+                [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
+            }
+            else
+            {
+                [self.nativeAd load];
+            }
         }
     }
     else
@@ -291,22 +316,25 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
             frame = [self rectFromAdFormat: adFormat];
         }
 
-        self.adView = [[IMBanner alloc] initWithFrame: frame placementId: placementId];
-        self.adView.extras = [self extrasForParameters: parameters adFormat: adFormat isAdaptiveAdViewEnabled: isAdaptiveBannerEnabled];
-        self.adView.transitionAnimation = UIViewAnimationTransitionNone;
-        [self.adView shouldAutoRefresh: NO];
-        
-        self.adViewDelegate = [[ALInMobiMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
-                                                                                          andNotify: delegate];
-        self.adView.delegate = self.adViewDelegate;
-        
-        if ( isBiddingAd )
+        @synchronized ( ALInMobiBannerAdLock )
         {
-            [self.adView load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
-        }
-        else
-        {
-            [self.adView load];
+            self.adView = [[IMBanner alloc] initWithFrame: frame placementId: placementId];
+            self.adView.extras = [self extrasForParameters: parameters adFormat: adFormat isAdaptiveAdViewEnabled: isAdaptiveBannerEnabled];
+            self.adView.transitionAnimation = UIViewAnimationTransitionNone;
+            [self.adView shouldAutoRefresh: NO];
+
+            self.adViewDelegate = [[ALInMobiMediationAdapterAdViewDelegate alloc] initWithParentAdapter: self
+                                                                                              andNotify: delegate];
+            self.adView.delegate = self.adViewDelegate;
+
+            if ( isBiddingAd )
+            {
+                [self.adView load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
+            }
+            else
+            {
+                [self.adView load];
+            }
         }
     }
 }
@@ -318,10 +346,13 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     long long placementId = parameters.thirdPartyAdPlacementIdentifier.longLongValue;
     [self log: @"Loading interstitial ad for placement: %lld...", placementId];
     
-    self.interstitialAdDelegate = [[ALInMobiMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.interstitialAd = [self loadFullscreenAdForPlacementId: placementId
-                                                    parameters: parameters
-                                                     andNotify: self.interstitialAdDelegate];
+    @synchronized ( ALInMobiInterstitialAdLock )
+    {
+        self.interstitialAdDelegate = [[ALInMobiMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.interstitialAd = [self loadFullscreenAdForPlacementId: placementId
+                                                        parameters: parameters
+                                                         andNotify: self.interstitialAdDelegate];
+    }
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -345,10 +376,13 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     long long placementId = parameters.thirdPartyAdPlacementIdentifier.longLongValue;
     [self log: @"Loading rewarded ad for placement: %lld...", placementId];
     
-    self.rewardedAdDelegate = [[ALInMobiMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
-    self.rewardedAd = [self loadFullscreenAdForPlacementId: placementId
-                                                parameters: parameters
-                                                 andNotify: self.rewardedAdDelegate];
+    @synchronized ( ALInMobiRewardedAdLock )
+    {
+        self.rewardedAdDelegate = [[ALInMobiMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
+        self.rewardedAd = [self loadFullscreenAdForPlacementId: placementId
+                                                    parameters: parameters
+                                                     andNotify: self.rewardedAdDelegate];
+    }
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -377,22 +411,26 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     
     [self log: @"Loading %@native ad for placement: %lld...", ( isBiddingAd ? @"bidding " : @"" ), placementId];
     
-    self.nativeAdDelegate = [[ALInMobiMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
-                                                                                         parameters: parameters
-                                                                                          andNotify: delegate];
-    self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdDelegate];
-    self.nativeAd.extras = [self baseExtras];
-    
     [self updatePrivacySettingsWithParameters: parameters];
     
     NSString *bidResponse = parameters.bidResponse;
-    if ( [bidResponse al_isValidString] )
+
+    @synchronized ( ALInMobiNativeAdLock )
     {
-        [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
-    }
-    else
-    {
-        [self.nativeAd load];
+        self.nativeAdDelegate = [[ALInMobiMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                             parameters: parameters
+                                                                                              andNotify: delegate];
+        self.nativeAd = [[IMNative alloc] initWithPlacementId: placementId delegate: self.nativeAdDelegate];
+        self.nativeAd.extras = [self baseExtras];
+
+        if ( [bidResponse al_isValidString] )
+        {
+            [self.nativeAd load: [bidResponse dataUsingEncoding: NSUTF8StringEncoding]];
+        }
+        else
+        {
+            [self.nativeAd load];
+        }
     }
 }
 
@@ -907,42 +945,46 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     [self.parentAdapter log: @"Native %@ ad loaded: %@", self.format.label, self.placementId];
     
     dispatchOnMainQueue(^{
-        
-        // Need a strong reference of MAInMobiNativeAd in parentAdapter to make gesture recognizers work
-        self.parentAdapter.maxNativeAdViewAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
-                                                                                      adFormat: self.format
-                                                                                  builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = nativeAd.adTitle;
-            builder.advertiser = nativeAd.advertiserName;
-            builder.body = nativeAd.adDescription;
-            builder.callToAction = nativeAd.adCtaText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon.imageview.image];
-            builder.mediaView = [nativeAd getMediaView];
-            builder.starRating = @(nativeAd.adRating.doubleValue);
-        }];
-        
-        // Backend will pass down `vertical` as the template to indicate using a vertical native template
+
         MANativeAdView *maxNativeAdView;
-        NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
-        if ( [templateName containsString: @"vertical"] )
+
+        @synchronized ( ALInMobiNativeAdLock )
         {
-            if ( [templateName isEqualToString: @"vertical"] )
+            // Need a strong reference of MAInMobiNativeAd in parentAdapter to make gesture recognizers work
+            self.parentAdapter.maxNativeAdViewAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                                          adFormat: self.format
+                                                                                      builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = nativeAd.adTitle;
+                builder.advertiser = nativeAd.advertiserName;
+                builder.body = nativeAd.adDescription;
+                builder.callToAction = nativeAd.adCtaText;
+                builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon.imageview.image];
+                builder.mediaView = [nativeAd getMediaView];
+                builder.starRating = @(nativeAd.adRating.doubleValue);
+            }];
+
+            // Backend will pass down `vertical` as the template to indicate using a vertical native template
+            NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+            if ( [templateName containsString: @"vertical"] )
             {
-                NSString *verticalTemplateName = ( self.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
-                maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: verticalTemplateName];
+                if ( [templateName isEqualToString: @"vertical"] )
+                {
+                    NSString *verticalTemplateName = ( self.format == MAAdFormat.leader ) ? @"vertical_leader_template" : @"vertical_media_banner_template";
+                    maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: verticalTemplateName];
+                }
+                else
+                {
+                    maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: templateName];
+                }
             }
             else
             {
-                maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: templateName];
+                maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
             }
+
+            [self.parentAdapter.maxNativeAdViewAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
         }
-        else
-        {
-            maxNativeAdView = [MANativeAdView nativeAdViewFromAd: self.parentAdapter.maxNativeAdViewAd withTemplate: [templateName al_isValidString] ? templateName : @"media_banner_template"];
-        }
-        
-        [self.parentAdapter.maxNativeAdViewAd prepareForInteractionClickableViews: [self.parentAdapter clickableViewsForNativeAdView: maxNativeAdView] withContainer: maxNativeAdView];
-        
+
         if ( [nativeAd.creativeId al_isValidString] )
         {
             NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
@@ -1056,21 +1098,23 @@ static NSString *const ADAPTIVE_TYPE_ANCHORED = @"anchored";
     [self.parentAdapter log: @"Native ad loaded: %@", self.placementId];
     
     dispatchOnMainQueue(^{
-        
-        MANativeAd *maxNativeAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
-                                                                         adFormat: MAAdFormat.native
-                                                                     builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = nativeAd.adTitle;
-            builder.advertiser = nativeAd.advertiserName;
-            builder.body = nativeAd.adDescription;
-            builder.callToAction = nativeAd.adCtaText;
-            builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon.imageview.image];
-            builder.mediaView = [nativeAd getMediaView];
-            builder.starRating = @(nativeAd.adRating.doubleValue);
-        }];
-        
-        NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
+        @synchronized (ALInMobiNativeAdLock) {
+            
+            MANativeAd *maxNativeAd = [[MAInMobiNativeAd alloc] initWithParentAdapter: self.parentAdapter
+                                                                             adFormat: MAAdFormat.native
+                                                                         builderBlock:^(MANativeAdBuilder *builder) {
+                builder.title = nativeAd.adTitle;
+                builder.advertiser = nativeAd.advertiserName;
+                builder.body = nativeAd.adDescription;
+                builder.callToAction = nativeAd.adCtaText;
+                builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.adIcon.imageview.image];
+                builder.mediaView = [nativeAd getMediaView];
+                builder.starRating = @(nativeAd.adRating.doubleValue);
+            }];
+            
+            NSDictionary *extraInfo = [nativeAd.creativeId al_isValidString] ? @{@"creative_id" : nativeAd.creativeId} : nil;
+            [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
+        }
     });
 }
 
