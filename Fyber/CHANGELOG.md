@@ -1,5 +1,8 @@
 # Changelog
 
+## 8.5.0.0
+* Certified with Fyber SDK 8.5.0.
+
 ## 8.4.10.1
 * Fixed adapter versioning for SPM
 
