@@ -1,5 +1,8 @@
 # Changelog
 
+## 13.10.0.0
+* Certified with Google SDK 13.10.0.
+
 ## 13.9.0.3
 * Fixed minimum iOS version for SPM.
 
