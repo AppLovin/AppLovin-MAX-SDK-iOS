@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.1.0
+* Certified with OguryPresage SDK 5.3.1.
+* Updated minimum iOS version to 15.0 to match OguryPresage SDK.
+
 ## 5.3.0.1
 * Fixed adapter versioning for SPM
 
