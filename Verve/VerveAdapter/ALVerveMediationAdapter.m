@@ -137,7 +137,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     [self updateLocationCollectionEnabled: parameters];
     [self updateConsentWithParameters: parameters];
     
-    NSString *signal = [HyBid getCustomRequestSignalData];
+    NSString *signal = [HyBid getCustomRequestSignalData: nil mediationAdUnitID: parameters.adUnitIdentifier];
     [delegate didCollectSignal: signal];
 }
 
