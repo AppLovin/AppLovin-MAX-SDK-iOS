@@ -8,7 +8,7 @@
 #import "ALLineMediationAdapter.h"
 #import <FiveAd/FiveAd.h>
 
-#define ADAPTER_VERSION @"3.1.1.1"
+#define ADAPTER_VERSION @"3.1.1.2"
 
 @interface ALLineMediationAdapterInterstitialAdDelegate : NSObject <FADInterstitialEventListener>
 @property (nonatomic,   weak) ALLineMediationAdapter *parentAdapter;
@@ -224,7 +224,7 @@ static ALAtomicBoolean *ALLineInitialized;
     }
     else
     {
-        FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+        FADAdSlotConfig *slotConfig = [self createSlotConfig: slotId];
         [self.adLoader loadInterstitialAdWithConfig: slotConfig withLoadCallback: interstitialLoadCallback];
     }
 }
@@ -295,7 +295,7 @@ static ALAtomicBoolean *ALLineInitialized;
     }
     else
     {
-        FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+        FADAdSlotConfig *slotConfig = [self createSlotConfig: slotId];
         [self.adLoader loadRewardAdWithConfig: slotConfig withLoadCallback: rewardedLoadCallback];
     }
 }
@@ -376,7 +376,7 @@ static ALAtomicBoolean *ALLineInitialized;
             }
             else
             {
-                FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+                FADAdSlotConfig *slotConfig = [self createSlotConfig: slotId];
                 [self.adLoader loadNativeAdWithConfig: slotConfig withInitialWidth: adFormat.size.width withLoadCallback: nativeAdViewLoadCallback];
             }
         }
@@ -425,7 +425,7 @@ static ALAtomicBoolean *ALLineInitialized;
             }
             else
             {
-                FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+                FADAdSlotConfig *slotConfig = [self createSlotConfig: slotId];
                 [self.adLoader loadBannerAdWithConfig: slotConfig withInitialWidth: adFormat.size.width withLoadCallback: adViewLoadCallback];
             }
         }
@@ -516,12 +516,20 @@ static ALAtomicBoolean *ALLineInitialized;
     }
     else
     {
-        FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+        FADAdSlotConfig *slotConfig = [self createSlotConfig: slotId];
         [self.adLoader loadNativeAdWithConfig: slotConfig withInitialWidth: CGRectGetWidth([UIScreen mainScreen].bounds) withLoadCallback: nativeLoadCallback];
     }
 }
 
 #pragma mark - Shared Methods
+
+- (FADAdSlotConfig *)createSlotConfig:(NSString *)slotId
+{
+    FADAdSlotConfig *slotConfig = [FADAdSlotConfig configWithSlotId: slotId];
+    [slotConfig setMediationName: @"max" version: [ALSdk version]];
+    
+    return slotConfig;
+}
 
 - (FADAdLoader *)retrieveAdLoader:(id<MAAdapterParameters>)parameters
 {

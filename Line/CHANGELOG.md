@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.1.2
+* Pass mediation name and version to the Line SDK via `[FADAdSlotConfig setMediationName]`.
+
 ## 3.1.1.1
 * Fixed adapter versioning for SPM
 
