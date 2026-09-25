@@ -9,7 +9,7 @@
 #import "ALChartboostMediationAdapter.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
-#define ADAPTER_VERSION @"9.14.1.0"
+#define ADAPTER_VERSION @"9.14.2.0"
 
 @interface ALChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
 @property (nonatomic,   weak) ALChartboostMediationAdapter *parentAdapter;
