@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.8.1.0.0
+* Certified with BidMachine SDK 3.8.1.
+
 ## 3.8.0.0.1
 * Fixed adapter versioning for SPM
 
