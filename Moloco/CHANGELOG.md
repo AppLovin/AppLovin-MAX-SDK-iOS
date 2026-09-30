@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.10.0.2
+* Add support for [adaptive banners](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#adaptive-banners) & inline adaptive ads in both [banners](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-banners) and [MRECs](https://support.axon.ai/en/max/ios/ad-formats/banner-and-mrec-ads#inline-adaptive-mrecs). Requires AppLovin MAX SDK 13.2.0 or higher.
+
 ## 4.10.0.1
 * Fixed adapter versioning for SPM
 
