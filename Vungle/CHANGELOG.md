@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.7.8.0
+* Certified with Vungle SDK 7.7.8.
+
 ## 7.7.7.1
 * Fixed adapter versioning for SPM
 
