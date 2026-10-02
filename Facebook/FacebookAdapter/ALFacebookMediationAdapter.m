@@ -9,7 +9,7 @@
 #import "ALFacebookMediationAdapter.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#define ADAPTER_VERSION @"6.22.0.3"
+#define ADAPTER_VERSION @"6.22.0.4"
 #define MEDIATION_IDENTIFIER [NSString stringWithFormat: @"APPLOVIN_%@:%@", [ALSdk version], self.adapterVersion]
 #define ICON_VIEW_TAG            3
 
@@ -439,6 +439,9 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
         case 2001: // Internal Error - actually a timeout error
             adapterError = MAAdapterError.timeout;
             break;
+        case 9001: // Ad Presentation Error
+            adapterError = MAAdapterError.adDisplayFailedError;
+            break;
     }
     
     return [MAAdapterError errorWithAdapterError: adapterError
@@ -532,8 +535,18 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 - (void)interstitialAd:(FBInterstitialAd *)interstitialAd didFailWithError:(NSError *)error
 {
     MAAdapterError *adapterError = [ALFacebookMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Interstitial ad (%@) failed to load with error: %@", interstitialAd.placementID, adapterError];
-    [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
+
+    // Both display and load failures are surfaced through this callback
+    if ( error.code == 9001 )
+    {
+        [self.parentAdapter log: @"Interstitial ad (%@) failed to display with error: %@", interstitialAd.placementID, adapterError];
+        [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
+    }
+    else
+    {
+        [self.parentAdapter log: @"Interstitial ad (%@) failed to load with error: %@", interstitialAd.placementID, adapterError];
+        [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
+    }
 }
 
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd
@@ -578,8 +591,18 @@ static MAAdapterInitializationStatus ALFacebookSDKInitializationStatus = NSInteg
 - (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error
 {
     MAAdapterError *adapterError = [ALFacebookMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Rewarded ad (%@) failed to load with error: %@", rewardedVideoAd.placementID, adapterError];
-    [self.delegate didFailToLoadRewardedAdWithError: adapterError];
+
+    // Both display and load failures are surfaced through this callback
+    if ( error.code == 9001 )
+    {
+        [self.parentAdapter log: @"Rewarded ad (%@) failed to display with error: %@", rewardedVideoAd.placementID, adapterError];
+        [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
+    }
+    else
+    {
+        [self.parentAdapter log: @"Rewarded ad (%@) failed to load with error: %@", rewardedVideoAd.placementID, adapterError];
+        [self.delegate didFailToLoadRewardedAdWithError: adapterError];
+    }
 }
 
 - (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd

@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.22.0.4
+* Fixed interstitial and rewarded ads not firing display failed callbacks when Facebook reports error 9001 ("Ad could not be presented") during ad show.
+
 ## 6.22.0.3
 * Fixed adapter versioning for SPM
 
