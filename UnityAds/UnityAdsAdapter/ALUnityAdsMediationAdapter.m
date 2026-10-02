@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.20.1.0"
+#define ADAPTER_VERSION @"4.21.0.0"
 
 @interface ALUnityAdsInitializationDelegate : NSObject
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
