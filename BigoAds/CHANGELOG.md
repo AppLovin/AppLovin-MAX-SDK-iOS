@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.1.0.1
+* Added support for SPM.
+
 ## 6.1.0.0
 * Certified with BigoAds SDK 6.1.0.
 
