@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.0.0
+* Certified with MobileFuse SDK 1.13.0.
+* Updated minimum iOS version to 15.0 to match MobileFuse SDK.
+
 ## 1.12.0.1
 * Fixed adapter versioning for SPM
 
