@@ -9,7 +9,7 @@
 #import "ALUnityAdsMediationAdapter.h"
 #import <UnityAds/UnityAds.h>
 
-#define ADAPTER_VERSION @"4.21.0.0"
+#define ADAPTER_VERSION @"4.21.0.1"
 
 @interface ALUnityAdsInitializationDelegate : NSObject
 @property (nonatomic, weak) ALUnityAdsMediationAdapter *parentAdapter;
@@ -133,7 +133,11 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     builder = [builder withMediationInfo: [self mediationInfo]];
     if ( [parameters.adFormat isAdViewAd] )
     {
-        builder = [builder withBannerSize: [self bannerSizeFromAdFormat: parameters.adFormat]];
+        // Server parameters are not reliably populated with placement-level settings during signal collection, so the adaptive banner flag is read from local extra parameters instead
+        BOOL isAdaptiveAdViewEnabled = [parameters.localExtraParameters al_boolForKey: @"adaptive_banner"];
+        builder = [builder withBannerSize: [self bannerSizeFromAdFormat: parameters.adFormat
+                                                 isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                              parameters: parameters]];
     }
     
     [UnityAds getToken: [builder build] completion:^(NSString *signal) {
@@ -269,9 +273,15 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
     [self updatePrivacyConsent: parameters];
     
     self.adViewDelegate = [[ALUnityAdsAdViewDelegate alloc] initWithParentAdapter: self placementIdentifier: placementIdentifier adFormat: adFormat andNotify: delegate];
-    
+
+    // Check if adaptive ad view sizes should be used
+    BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+    CGSize bannerSize = [self bannerSizeFromAdFormat: adFormat
+                             isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                          parameters: parameters];
+
     UADSBannerLoadConfigurationBuilder *builder = [[UADSBannerLoadConfigurationBuilder alloc] initWithPlacementId: placementIdentifier
-                                                                                                       bannerSize: [self bannerSizeFromAdFormat: adFormat]
+                                                                                                       bannerSize: bannerSize
                                                                                                          delegate: self.adViewDelegate];
     builder = [builder withMediationInfo: [self mediationInfo]];
     NSString *bidResponse = parameters.bidResponse;
@@ -290,7 +300,12 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         {
             [self log: @"%@ ad placement \"%@\" loaded", adFormat.label, placementIdentifier];
             self.bannerAd = ad;
-            [delegate didLoadAdForAdView: ad.view];
+
+            NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 2];
+            extraInfo[@"ad_width"] = @(bannerSize.width);
+            extraInfo[@"ad_height"] = @(bannerSize.height);
+
+            [delegate didLoadAdForAdView: ad.view withExtraInfo: extraInfo];
         }
     }];
 }
@@ -345,6 +360,44 @@ static MAAdapterInitializationStatus ALUnityAdsInitializationStatus = NSIntegerM
         [NSException raise: NSInvalidArgumentException format: @"Unsupported ad format: %@", adFormat];
         return CGSizeMake(320, 50);
     }
+}
+
+- (CGSize)bannerSizeFromAdFormat:(MAAdFormat *)adFormat
+          isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                       parameters:(id<MAAdapterParameters>)parameters
+{
+    if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+    {
+        [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Unity Ads adaptive ads"];
+        isAdaptiveAdViewEnabled = NO;
+    }
+
+    // Unity Ads does not support adaptive MRECs
+    if ( isAdaptiveAdViewEnabled && adFormat != MAAdFormat.mrec && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        return [self adaptiveAdSizeFromParameters: parameters];
+    }
+
+    return [self bannerSizeFromAdFormat: adFormat];
+}
+
+- (CGSize)adaptiveAdSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+
+    // Unity Ads banner sizes are fixed with no notion of a maximum height, so an unspecified inline maximum height falls back to the anchored size below instead of the screen height
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaximumHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        if ( inlineMaximumHeight > 0 )
+        {
+            return CGSizeMake(adaptiveAdWidth, inlineMaximumHeight);
+        }
+    }
+
+    // Return anchored size by default
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return CGSizeMake(adaptiveAdWidth, anchoredHeight);
 }
 
 + (MAAdapterError *)toMaxError:(id<UnityAdsError>)unityAdsError
