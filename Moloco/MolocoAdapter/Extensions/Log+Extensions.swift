@@ -13,6 +13,7 @@ extension LogEvent
     enum Moloco
     {
         case unsupportedMinimumOS
+        case unsupportedMaxSDKVersionForAdaptiveAdView
     }
 }
 
@@ -25,6 +26,8 @@ extension MolocoAdapter
         {
         case .unsupportedMinimumOS:
             logInfo("Current iOS version is: \(UIDevice.current.systemVersion), but Moloco requires minimum iOS 13.0")
+        case .unsupportedMaxSDKVersionForAdaptiveAdView:
+            logUserError("Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use Moloco adaptive ads")
         }
     }
 }
