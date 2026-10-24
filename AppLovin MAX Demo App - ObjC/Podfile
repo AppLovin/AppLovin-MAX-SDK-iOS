@@ -1,10 +1,26 @@
 use_frameworks!
 inhibit_all_warnings!
-platform :ios, '11.0'
+platform :ios, '13.0'
 
 # Please use 'pod install --repo-update' to ensure you have the latest versions of our SDKs.
 
 target 'AppLovin MAX Demo App - ObjC' do
   pod 'AppLovinSDK'
   pod 'Adjust'
+
+  # HSADXSDK 是底层 SDK，必须显式声明本地路径，
+  # 否则 AppLovinMediationHungryExchangeAdapter 会去 trunk 找 HSADXSDK
+  pod 'HSADXSDK', :path => '../HungryExchange/HSADXSDK'
+  pod 'AppLovinMediationHungryExchangeAdapter', :path => '../HungryExchange'
+
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 13.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      end
+    end
+  end
 end

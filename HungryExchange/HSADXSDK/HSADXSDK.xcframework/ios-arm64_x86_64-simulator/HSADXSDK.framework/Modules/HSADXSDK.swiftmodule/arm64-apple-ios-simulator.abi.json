@@ -1,0 +1,1572 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "HSADXSDK",
+    "printedName": "HSADXSDK",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "HSADXSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "HSADXSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "HSADXSDK"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SecurityEncodeError",
+        "printedName": "SecurityEncodeError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "nonceGenerationError",
+            "printedName": "nonceGenerationError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityEncodeError.Type) -> HSADXSDK.SecurityEncodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityEncodeError",
+                    "printedName": "HSADXSDK.SecurityEncodeError",
+                    "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityEncodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityEncodeError",
+                        "printedName": "HSADXSDK.SecurityEncodeError",
+                        "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO015nonceGenerationD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO015nonceGenerationD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "aesKeyGenerationError",
+            "printedName": "aesKeyGenerationError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityEncodeError.Type) -> HSADXSDK.SecurityEncodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityEncodeError",
+                    "printedName": "HSADXSDK.SecurityEncodeError",
+                    "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityEncodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityEncodeError",
+                        "printedName": "HSADXSDK.SecurityEncodeError",
+                        "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO016aesKeyGenerationD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO016aesKeyGenerationD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "gcmIVGenerationError",
+            "printedName": "gcmIVGenerationError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityEncodeError.Type) -> HSADXSDK.SecurityEncodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityEncodeError",
+                    "printedName": "HSADXSDK.SecurityEncodeError",
+                    "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityEncodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityEncodeError",
+                        "printedName": "HSADXSDK.SecurityEncodeError",
+                        "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO015gcmIVGenerationD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO015gcmIVGenerationD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "AESEncryptError",
+            "printedName": "AESEncryptError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityEncodeError.Type) -> HSADXSDK.SecurityEncodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityEncodeError",
+                    "printedName": "HSADXSDK.SecurityEncodeError",
+                    "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityEncodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityEncodeError",
+                        "printedName": "HSADXSDK.SecurityEncodeError",
+                        "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO010AESEncryptD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO010AESEncryptD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "SecurityEncode",
+            "printedName": "SecurityEncode",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityEncodeError.Type) -> HSADXSDK.SecurityEncodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityEncodeError",
+                    "printedName": "HSADXSDK.SecurityEncodeError",
+                    "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityEncodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityEncodeError",
+                        "printedName": "HSADXSDK.SecurityEncodeError",
+                        "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO0bC0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO0bC0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "errorDescription",
+            "printedName": "errorDescription",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO16errorDescriptionSSSgvp",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO16errorDescriptionSSSgvp",
+            "moduleName": "HSADXSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:8HSADXSDK19SecurityEncodeErrorO16errorDescriptionSSSgvg",
+                "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO16errorDescriptionSSSgvg",
+                "moduleName": "HSADXSDK",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SecurityEncodeError",
+                "printedName": "HSADXSDK.SecurityEncodeError",
+                "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SecurityEncodeError",
+                "printedName": "HSADXSDK.SecurityEncodeError",
+                "usr": "s:8HSADXSDK19SecurityEncodeErrorO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO2eeoiySbAC_ACtFZ",
+            "moduleName": "HSADXSDK",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO9hashValueSivp",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO9hashValueSivp",
+            "moduleName": "HSADXSDK",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:8HSADXSDK19SecurityEncodeErrorO9hashValueSivg",
+                "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO9hashValueSivg",
+                "moduleName": "HSADXSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8HSADXSDK19SecurityEncodeErrorO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO4hash4intoys6HasherVz_tF",
+            "moduleName": "HSADXSDK",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:8HSADXSDK19SecurityEncodeErrorO",
+        "mangledName": "$s8HSADXSDK19SecurityEncodeErrorO",
+        "moduleName": "HSADXSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "LocalizedError",
+            "printedName": "LocalizedError",
+            "usr": "s:10Foundation14LocalizedErrorP",
+            "mangledName": "$s10Foundation14LocalizedErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SecurityDecodeError",
+        "printedName": "SecurityDecodeError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "AESKeyEmpty",
+            "printedName": "AESKeyEmpty",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO11AESKeyEmptyyA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO11AESKeyEmptyyA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "AESDecryptError",
+            "printedName": "AESDecryptError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO010AESDecryptD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO010AESDecryptD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "Base64DecodeError",
+            "printedName": "Base64DecodeError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO06Base64cD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO06Base64cD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "IVReadError",
+            "printedName": "IVReadError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO06IVReadD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO06IVReadD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "DataLengthError",
+            "printedName": "DataLengthError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO010DataLengthD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO010DataLengthD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "HMACError",
+            "printedName": "HMACError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO9HMACErroryA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO9HMACErroryA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "HMACSignatureError",
+            "printedName": "HMACSignatureError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO013HMACSignatureD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO013HMACSignatureD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "ExtractTagError",
+            "printedName": "ExtractTagError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO010ExtractTagD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO010ExtractTagD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "DecryptionError",
+            "printedName": "DecryptionError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(HSADXSDK.SecurityDecodeError.Type) -> HSADXSDK.SecurityDecodeError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SecurityDecodeError",
+                    "printedName": "HSADXSDK.SecurityDecodeError",
+                    "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "HSADXSDK.SecurityDecodeError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SecurityDecodeError",
+                        "printedName": "HSADXSDK.SecurityDecodeError",
+                        "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO010DecryptionD0yA2CmF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO010DecryptionD0yA2CmF",
+            "moduleName": "HSADXSDK"
+          },
+          {
+            "kind": "Var",
+            "name": "errorDescription",
+            "printedName": "errorDescription",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO16errorDescriptionSSSgvp",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO16errorDescriptionSSSgvp",
+            "moduleName": "HSADXSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:8HSADXSDK19SecurityDecodeErrorO16errorDescriptionSSSgvg",
+                "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO16errorDescriptionSSSgvg",
+                "moduleName": "HSADXSDK",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SecurityDecodeError",
+                "printedName": "HSADXSDK.SecurityDecodeError",
+                "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SecurityDecodeError",
+                "printedName": "HSADXSDK.SecurityDecodeError",
+                "usr": "s:8HSADXSDK19SecurityDecodeErrorO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO2eeoiySbAC_ACtFZ",
+            "moduleName": "HSADXSDK",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO9hashValueSivp",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO9hashValueSivp",
+            "moduleName": "HSADXSDK",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:8HSADXSDK19SecurityDecodeErrorO9hashValueSivg",
+                "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO9hashValueSivg",
+                "moduleName": "HSADXSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8HSADXSDK19SecurityDecodeErrorO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO4hash4intoys6HasherVz_tF",
+            "moduleName": "HSADXSDK",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:8HSADXSDK19SecurityDecodeErrorO",
+        "mangledName": "$s8HSADXSDK19SecurityDecodeErrorO",
+        "moduleName": "HSADXSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "LocalizedError",
+            "printedName": "LocalizedError",
+            "usr": "s:10Foundation14LocalizedErrorP",
+            "mangledName": "$s10Foundation14LocalizedErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "HSSCryptoCipher",
+        "printedName": "HSSCryptoCipher",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "encrypt",
+            "printedName": "encrypt(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "HSADXSDK.HSSCipherPayload?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "HSSCipherPayload",
+                    "printedName": "HSADXSDK.HSSCipherPayload",
+                    "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCryptoCipher(cm)encrypt:",
+            "mangledName": "$s8HSADXSDK15HSSCryptoCipherC7encryptyAA16HSSCipherPayloadCSg10Foundation4DataVFZ",
+            "moduleName": "HSADXSDK",
+            "static": true,
+            "objc_name": "encrypt:",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "decryptPayload",
+            "printedName": "decryptPayload(_:aesKey:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCryptoCipher(cm)decryptPayload:aesKey:",
+            "mangledName": "$s8HSADXSDK15HSSCryptoCipherC14decryptPayload_6aesKey10Foundation4DataVSgSS_AItFZ",
+            "moduleName": "HSADXSDK",
+            "static": true,
+            "objc_name": "decryptPayload:aesKey:",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "HSSCryptoCipher",
+                "printedName": "HSADXSDK.HSSCryptoCipher",
+                "usr": "c:@M@HSADXSDK@objc(cs)HSSCryptoCipher"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCryptoCipher(im)init",
+            "mangledName": "$s8HSADXSDK15HSSCryptoCipherCACycfc",
+            "moduleName": "HSADXSDK",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@HSADXSDK@objc(cs)HSSCryptoCipher",
+        "mangledName": "$s8HSADXSDK15HSSCryptoCipherC",
+        "moduleName": "HSADXSDK",
+        "intro_iOS": "13.0",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "Available",
+          "RawDocComment"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "HSSCipherPayload",
+        "printedName": "HSSCipherPayload",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "base64Payload",
+            "printedName": "base64Payload",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload(py)base64Payload",
+            "mangledName": "$s8HSADXSDK16HSSCipherPayloadC06base64C0SSvp",
+            "moduleName": "HSADXSDK",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload(im)base64Payload",
+                "mangledName": "$s8HSADXSDK16HSSCipherPayloadC06base64C0SSvg",
+                "moduleName": "HSADXSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "aesKey",
+            "printedName": "aesKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload(py)aesKey",
+            "mangledName": "$s8HSADXSDK16HSSCipherPayloadC6aesKey10Foundation4DataVSgvp",
+            "moduleName": "HSADXSDK",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Foundation.Data?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Data",
+                        "printedName": "Foundation.Data",
+                        "usr": "s:10Foundation4DataV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload(im)aesKey",
+                "mangledName": "$s8HSADXSDK16HSSCipherPayloadC6aesKey10Foundation4DataVSgvg",
+                "moduleName": "HSADXSDK",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(base64Payload:aesKey:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "HSSCipherPayload",
+                "printedName": "HSADXSDK.HSSCipherPayload",
+                "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload(im)initWithBase64Payload:aesKey:",
+            "mangledName": "$s8HSADXSDK16HSSCipherPayloadC06base64C06aesKeyACSS_10Foundation4DataVSgtcfc",
+            "moduleName": "HSADXSDK",
+            "objc_name": "initWithBase64Payload:aesKey:",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "HSSCipherPayload",
+                "printedName": "HSADXSDK.HSSCipherPayload",
+                "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload(im)init",
+            "mangledName": "$s8HSADXSDK16HSSCipherPayloadCACycfc",
+            "moduleName": "HSADXSDK",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@HSADXSDK@objc(cs)HSSCipherPayload",
+        "mangledName": "$s8HSADXSDK16HSSCipherPayloadC",
+        "moduleName": "HSADXSDK",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "RawDocComment"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "HSADXSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "HSADXSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2258,
+      "length": 3,
+      "value": "256"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2264,
+      "length": 1,
+      "value": "8"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2329,
+      "length": 2,
+      "value": "12"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2370,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2410,
+      "length": 2,
+      "value": "32"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2453,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoDictionary.swift",
+      "kind": "BooleanLiteral",
+      "offset": 440,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoDictionary.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1290,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 610,
+      "length": 3,
+      "value": "\" \""
+    },
+    {
+      "filePath": "\/Users\/edy\/Desktop\/hsadxsdk\/HSADXSDK\/Classes\/HSSADXTools\/HSSecureRequest\/Classes\/HSSCryptoLogger.swift",
+      "kind": "StringLiteral",
+      "offset": 654,
+      "length": 4,
+      "value": "\"\n\""
+    }
+  ]
+}
