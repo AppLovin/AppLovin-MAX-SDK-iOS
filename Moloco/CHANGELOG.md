@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.12.0.0
+* Certified with Moloco SDK 4.12.0.
+
 ## 4.11.1.1
 * Add support for adaptive banners and inline adaptive ads in both banners and MRECs. Requires AppLovin MAX SDK 13.2.0 or higher.
 
