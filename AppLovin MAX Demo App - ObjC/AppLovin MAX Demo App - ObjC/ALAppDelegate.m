@@ -61,4 +61,27 @@ static NSString *const YOUR_SDK_KEY = @"05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5
     return YES;
 }
 
+#pragma mark - UIApplicationDelegate (Scene Configuration)
+
+- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options
+{
+    return [[UISceneConfiguration alloc] initWithName: @"Default Configuration" sessionRole: connectingSceneSession.role];
+}
+
+- (void)application:(UIApplication *)application didDiscardSceneSessions:(NSSet<UISceneSession *> *)sceneSessions {}
+
+#pragma mark - UIWindowSceneDelegate
+
+- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions
+{
+    // UIKit automatically creates the window and sets the root view controller from the storyboard
+    // specified by UISceneStoryboardFile in Info.plist. No manual setup needed.
+}
+
+- (void)sceneDidDisconnect:(UIScene *)scene {}
+- (void)sceneDidBecomeActive:(UIScene *)scene {}
+- (void)sceneWillResignActive:(UIScene *)scene {}
+- (void)sceneWillEnterForeground:(UIScene *)scene {}
+- (void)sceneDidEnterBackground:(UIScene *)scene {}
+
 @end
