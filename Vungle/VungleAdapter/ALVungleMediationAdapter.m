@@ -97,6 +97,7 @@
 
 @implementation ALVungleMediationAdapter
 
+static NSString *const kALVungleAdapterMediationPartnerName   = @"max";
 static NSString *const kALVungleAdapterAdFormatInterstitial   = @"MAInterstitialAdapter";
 static NSString *const kALVungleAdapterAdFormatAppOpen        = @"MAAppOpenAdapter";
 static NSString *const kALVungleAdapterAdFormatRewarded       = @"MARewardedAdapter";
@@ -219,8 +220,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.interstitialAd = [[VungleInterstitial alloc] initWithPlacementId: placementIdentifier];
     self.interstitialAdDelegate = [[ALVungleMediationAdapterInterstitialAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
+    self.interstitialAd.mediationPartnerName = kALVungleAdapterMediationPartnerName;
     self.interstitialAd.adapterAdFormat = kALVungleAdapterAdFormatInterstitial;
-    
+
     [self.interstitialAd load: bidResponse];
 }
 
@@ -246,8 +248,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.appOpenAdDelegate = [[ALVungleMediationAdapterAppOpenAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.appOpenAd = [[VungleInterstitial alloc] initWithPlacementId: placementIdentifier];
     self.appOpenAd.delegate = self.appOpenAdDelegate;
+    self.appOpenAd.mediationPartnerName = kALVungleAdapterMediationPartnerName;
     self.appOpenAd.adapterAdFormat = kALVungleAdapterAdFormatAppOpen;
-    
+
     [self.appOpenAd load: bidResponse];
 }
 
@@ -273,8 +276,9 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.rewardedAd = [[VungleRewarded alloc] initWithPlacementId: placementIdentifier];
     self.rewardedAdDelegate = [[ALVungleMediationAdapterRewardedAdDelegate alloc] initWithParentAdapter: self andNotify: delegate];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
+    self.rewardedAd.mediationPartnerName = kALVungleAdapterMediationPartnerName;
     self.rewardedAd.adapterAdFormat = kALVungleAdapterAdFormatRewarded;
-    
+
     [self.rewardedAd load: bidResponse];
 }
 
@@ -341,6 +345,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
                                                                                              parameters: parameters
                                                                                               andNotify: delegate];
         self.adViewAd.delegate = self.adViewAdDelegate;
+        self.adViewAd.mediationPartnerName = kALVungleAdapterMediationPartnerName;
         self.adViewAd.adapterAdFormat = isAdaptiveAdViewEnabled ? kALVungleAdapterAdFormatAdViewAdaptive : kALVungleAdapterAdFormatAdView;
         if ( shouldLogSizeMismatch )
         {
@@ -407,6 +412,7 @@ static MAAdapterInitializationStatus ALVungleIntializationStatus = NSIntegerMin;
     self.nativeAd = [[VungleNative alloc] initWithPlacementId: placementIdentifier];
     self.nativeAd.delegate = delegate;
     self.nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
+    self.nativeAd.mediationPartnerName = kALVungleAdapterMediationPartnerName;
     self.nativeAd.adapterAdFormat = adapterAdFormat;
     [self.nativeAd load: bidResponse];
 }
