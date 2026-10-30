@@ -10,7 +10,7 @@ import AdjustSdk
 import AppLovinSDK
 import UIKit
 
-class ALAppDelegate: UIResponder, UIApplicationDelegate
+class ALAppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate
 {
     // If you want to test your own AppLovin SDK key, change the value here and update the bundle identifier in the xcodeproj.
     let YOUR_SDK_KEY = "05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF"
@@ -63,4 +63,27 @@ class ALAppDelegate: UIResponder, UIApplicationDelegate
         
         return true
     }
+
+    // MARK: - UIApplicationDelegate (Scene Configuration)
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration
+    {
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
+
+    // MARK: - UIWindowSceneDelegate
+
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions)
+    {
+        // UIKit automatically creates the window and sets the root view controller from the storyboard
+        // specified by UISceneStoryboardFile in Info.plist. No manual setup needed.
+    }
+
+    func sceneDidDisconnect(_ scene: UIScene) {}
+    func sceneDidBecomeActive(_ scene: UIScene) {}
+    func sceneWillResignActive(_ scene: UIScene) {}
+    func sceneWillEnterForeground(_ scene: UIScene) {}
+    func sceneDidEnterBackground(_ scene: UIScene) {}
 }
