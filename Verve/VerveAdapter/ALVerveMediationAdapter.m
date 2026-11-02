@@ -16,6 +16,7 @@
 #endif
 
 #define ADAPTER_VERSION @"3.9.3.0"
+#define DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS 10.0
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -36,7 +37,7 @@
 - (instancetype)initWithParentAdapter:(ALVerveMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALVerveMediationAdapterNativeAdDelegate : NSObject <HyBidNativeAdLoaderDelegate, HyBidNativeAdFetchDelegate, HyBidNativeAdDelegate>
+@interface ALVerveMediationAdapterNativeAdDelegate : NSObject <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
@@ -146,7 +147,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
 
-    [self.nativeAd stopTracking];
+    // stopTracking removes gesture recognizers and finishes the OM session, both need main
+    HyBidNativeAd *nativeAd = self.nativeAd;
+    dispatchOnMainQueue(^{
+        [nativeAd stopTracking];
+    });
     self.nativeAd = nil;
     self.nativeAdLoader = nil;
 
@@ -611,15 +616,53 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         return;
     }
 
-    // A text only ad has no images to download, HyBid would fail the fetch with "No assets to fetch."
-    if ( ![nativeAd.iconUrl al_isValidString] && ![nativeAd.bannerUrl al_isValidString] )
+    // Same as the other MAX adapters: the images are downloaded here, and an image that can't be downloaded is left out
+    // instead of failing the ad. A text only ad has nothing to download.
+    dispatch_group_t group = dispatch_group_create();
+    NSMutableDictionary<NSString *, UIImage *> *images = [NSMutableDictionary dictionary];
+    if ( [nativeAd.iconUrl al_isValidURL] )
     {
-        [self nativeAdDidFinishFetching: nativeAd];
-        return;
+        [self loadImageForURLString: nativeAd.iconUrl key: @"icon" into: images group: group];
+    }
+    if ( [nativeAd.bannerUrl al_isValidURL] )
+    {
+        [self loadImageForURLString: nativeAd.bannerUrl key: @"main" into: images group: group];
     }
 
-    // Downloads the icon and main image before the ad is handed to MAX
-    [nativeAd fetchNativeAdAssetsWithDelegate: self];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSTimeInterval timeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS)] doubleValue];
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (timeoutSeconds * NSEC_PER_SEC)));
+
+        UIImage *iconImage;
+        UIImage *mainImage;
+        @synchronized ( images )
+        {
+            iconImage = images[@"icon"];
+            mainImage = images[@"main"];
+        }
+        [self processNativeAd: nativeAd iconImage: iconImage mainImage: mainImage];
+    });
+}
+
+- (void)loadImageForURLString:(NSString *)urlString key:(NSString *)key into:(NSMutableDictionary<NSString *, UIImage *> *)images group:(dispatch_group_t)group
+{
+    dispatch_group_enter(group);
+    [[[NSURLSession sharedSession] dataTaskWithURL: [NSURL URLWithString: urlString]
+                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        UIImage *image = data ? [UIImage imageWithData: data] : nil;
+        if ( image )
+        {
+            @synchronized ( images )
+            {
+                images[key] = image;
+            }
+        }
+        else
+        {
+            [self.parentAdapter log: @"Native ad image (%@) could not be downloaded, loading the ad without it: %@", key, error];
+        }
+        dispatch_group_leave(group);
+    }] resume];
 }
 
 - (void)nativeLoaderDidFailWithError:(NSError *)error
@@ -630,7 +673,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     [self.delegate didFailToLoadNativeAdWithError: adapterError];
 }
 
-- (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd
+- (void)processNativeAd:(HyBidNativeAd *)nativeAd iconImage:(UIImage *)iconImage mainImage:(UIImage *)mainImage
 {
     dispatchOnMainQueue(^{
         MANativeAd *maxNativeAd = [[MAVerveNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
@@ -639,19 +682,17 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
             builder.callToAction = nativeAd.callToActionTitle;
             builder.starRating = nativeAd.rating;
 
-            if ( nativeAd.icon )
+            if ( iconImage )
             {
-                builder.icon = [[MANativeAdImage alloc] initWithImage: nativeAd.icon];
+                builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
             }
 
-            if ( nativeAd.banner )
+            if ( mainImage )
             {
-                builder.mediaView = nativeAd.banner;
-            }
-
-            if ( nativeAd.bannerImage )
-            {
-                builder.mainImage = [[MANativeAdImage alloc] initWithImage: nativeAd.bannerImage];
+                UIImageView *mainImageView = [[UIImageView alloc] initWithImage: mainImage];
+                mainImageView.contentMode = UIViewContentModeScaleAspectFit;
+                builder.mediaView = mainImageView;
+                builder.mainImage = [[MANativeAdImage alloc] initWithImage: mainImage];
             }
 
             if ( nativeAd.contentInfo )
@@ -662,17 +703,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 
         [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
     });
-}
-
-- (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error
-{
-    [self.parentAdapter log: @"Native ad failed to fetch assets: %@", error];
-
-    // An image that cannot be downloaded leaves the ad without a required asset
-    MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.missingRequiredNativeAdAssets
-                                                mediatedNetworkErrorCode: error.code
-                                             mediatedNetworkErrorMessage: error.localizedDescription];
-    [self.delegate didFailToLoadNativeAdWithError: adapterError];
 }
 
 - (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
@@ -710,7 +740,9 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         return NO;
     }
 
-    [nativeAd startTrackingView: container withClickableViews: clickableViews withDelegate: self.parentAdapter.nativeAdAdapterDelegate];
+    // HyBid falls back to the container only for nil, an empty list would leave nothing clickable
+    NSArray<UIView *> *views = clickableViews.count > 0 ? clickableViews : nil;
+    [nativeAd startTrackingView: container withClickableViews: views withDelegate: self.parentAdapter.nativeAdAdapterDelegate];
 
     return YES;
 }
