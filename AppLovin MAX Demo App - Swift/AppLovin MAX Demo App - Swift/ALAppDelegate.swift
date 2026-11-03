@@ -10,7 +10,7 @@ import AdjustSdk
 import AppLovinSDK
 import UIKit
 
-class ALAppDelegate: UIResponder, UIApplicationDelegate
+class ALAppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate
 {
     // If you want to test your own AppLovin SDK key, change the value here and update the bundle identifier in the xcodeproj.
     let YOUR_SDK_KEY = "05TMDQ5tZabpXQ45_UTbmEGNUtVAzSTzT6KmWQc5_CuWdzccS4DCITZoL3yIWUG3bbq60QC_d4WF28tUC4gVTF"
