@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.4.0.0
+* Certified with OguryPresage SDK 5.4.0.
+
 ## 5.3.1.0
 * Certified with OguryPresage SDK 5.3.1.
 * Updated minimum iOS version to 15.0 to match OguryPresage SDK.
