@@ -21,11 +21,10 @@ This `AppLovin-MAX-SDK-iOS` repository contains:
 ### Demo App
 The [Swift Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift) and [Objective-C Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC) are sample projects demonstrating how to mediate ads using AppLovin MAX. To get started with the demo apps, follow the instructions below:
 
-1. Open a Terminal window in the directory of the desired project: `AppLovin MAX Demo App - Swift` or `AppLovin MAX Demo App - ObjC`.
-2. Install the latest SDK using CocoaPods by issuing the command `pod install --repo-update`.
-3. Open the Xcode workspace file that the `pod install` command generates: `YOUR_PROJECT_NAME.xcworkspace`.
-4. Change the value of the bundle identifier to your own unique identifier. Base your identifier on the name of the application you will create or that you have already created in the MAX dashboard. To change the bundle identifier value, select **Project > Info** and then edit the **Bundle identifier** value under **Custom iOS Target Properties**.
-5. Update the unique MAX ad unit ID value within the view controller code for each ad format located in the **AppLovin MAX Demo App - [Swift\Obj-C] > MAX** folder. Each ad format corresponds to a unique MAX ad unit ID you create in the AppLovin dashboard for your application’s bundle identifier. 
+1. Open the Xcode project of the desired demo app: `AppLovin MAX Demo App - Swift/AppLovin MAX Demo App - Swift.xcodeproj` or `AppLovin MAX Demo App - ObjC/AppLovin MAX Demo App - ObjC.xcodeproj`.
+2. Xcode resolves the AppLovin MAX SDK and the other dependencies with Swift Package Manager. If it doesn't, select **File > Packages > Resolve Package Versions**. To get the latest SDK, select **File > Packages > Update to Latest Package Versions**.
+3. Change the value of the bundle identifier to your own unique identifier. Base your identifier on the name of the application you will create or that you have already created in the MAX dashboard. To change the bundle identifier value, select **Project > Info** and then edit the **Bundle identifier** value under **Custom iOS Target Properties**.
+4. Update the unique MAX ad unit ID value within the view controller code for each ad format located in the **AppLovin MAX Demo App - [Swift\Obj-C] > MAX** folder. Each ad format corresponds to a unique MAX ad unit ID you create in the AppLovin dashboard for your application’s bundle identifier. 
 
 <img src="https://github.com/user-attachments/assets/63763968-ecd3-46bd-a92b-be6f52b0fe28" height="500" />
 
