@@ -1,5 +1,5 @@
 //
-//  ALMAXTemplateNativeAdViewController.m
+//  ALMAXManualNativeAdViewController.m
 //  AppLovin MAX Demo App - ObjC
 //
 //  Created by Billy Hu on 1/20/22.
