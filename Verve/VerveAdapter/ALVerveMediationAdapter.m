@@ -16,6 +16,7 @@
 #endif
 
 #define ADAPTER_VERSION @"3.9.3.0"
+#define DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS 10.0
 
 @interface ALVerveMediationAdapterInterstitialAdDelegate : NSObject <HyBidInterstitialAdDelegate>
 @property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
@@ -36,6 +37,21 @@
 - (instancetype)initWithParentAdapter:(ALVerveMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
+@interface ALVerveMediationAdapterNativeAdDelegate : NSObject <HyBidNativeAdLoaderDelegate, HyBidNativeAdDelegate>
+@property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
+@property (nonatomic, strong) NSDictionary<NSString *, id> *serverParameters;
+@property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
+- (instancetype)initWithParentAdapter:(ALVerveMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+@end
+
+@interface MAVerveNativeAd : MANativeAd
+@property (nonatomic, weak) ALVerveMediationAdapter *parentAdapter;
+- (instancetype)initWithParentAdapter:(ALVerveMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithFormat:(MAAdFormat *)format builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock NS_UNAVAILABLE;
+@end
+
 @interface ALVerveMediationAdapter ()
 
 // Interstitial
@@ -49,6 +65,11 @@
 // AdView
 @property (nonatomic, strong) HyBidAdView *adViewAd;
 @property (nonatomic, strong) ALVerveMediationAdapterAdViewDelegate *adViewAdapterDelegate;
+
+// Native
+@property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
+@property (nonatomic, strong) HyBidNativeAd *nativeAd;
+@property (nonatomic, strong) ALVerveMediationAdapterNativeAdDelegate *nativeAdAdapterDelegate;
 
 @end
 
@@ -125,6 +146,17 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     
     self.adViewAdapterDelegate.delegate = nil;
     self.adViewAdapterDelegate = nil;
+
+    // stopTracking removes gesture recognizers and finishes the OM session, both need main
+    HyBidNativeAd *nativeAd = self.nativeAd;
+    dispatchOnMainQueue(^{
+        [nativeAd stopTracking];
+    });
+    self.nativeAd = nil;
+    self.nativeAdLoader = nil;
+
+    self.nativeAdAdapterDelegate.delegate = nil;
+    self.nativeAdAdapterDelegate = nil;
 }
 
 #pragma mark - MASignalProvider Methods
@@ -247,6 +279,32 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
     self.adViewAd.delegate = self.adViewAdapterDelegate;
     
     [self.adViewAd renderAdWithContent: parameters.bidResponse withDelegate: self.adViewAdapterDelegate];
+}
+
+#pragma mark - MANativeAdAdapter Methods
+
+- (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    [self log: @"Loading native ad..."];
+
+    if ( ![HyBid isInitialized] )
+    {
+        [self log: @"Verve SDK is not initialized: failing native ad load..."];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.notInitialized];
+
+        return;
+    }
+
+    [self updateLocationCollectionEnabled: parameters];
+    [self updateConsentWithParameters: parameters];
+
+    self.nativeAdAdapterDelegate = [[ALVerveMediationAdapterNativeAdDelegate alloc] initWithParentAdapter: self
+                                                                                        serverParameters: parameters.serverParameters
+                                                                                               andNotify: delegate];
+    self.nativeAdLoader = [[HyBidNativeAdLoader alloc] init];
+
+    // The bid response is HyBid's signal data envelope, as for the other formats
+    [self.nativeAdLoader prepareNativeAdWithDelegate: self.nativeAdAdapterDelegate withContent: parameters.bidResponse];
 }
 
 #pragma mark - Shared Methods
@@ -515,6 +573,178 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 {
     [self.parentAdapter log: @"AdView clicked: %@", adView];
     [self.delegate didClickAdViewAd];
+}
+
+@end
+
+@implementation ALVerveMediationAdapterNativeAdDelegate
+
+- (instancetype)initWithParentAdapter:(ALVerveMediationAdapter *)parentAdapter
+                     serverParameters:(NSDictionary<NSString *, id> *)serverParameters
+                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+{
+    self = [super init];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+        self.serverParameters = serverParameters;
+        self.delegate = delegate;
+    }
+    return self;
+}
+
+- (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd
+{
+    if ( !nativeAd )
+    {
+        [self.parentAdapter log: @"Native ad failed to load: no fill"];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
+
+        return;
+    }
+
+    [self.parentAdapter log: @"Native ad loaded"];
+    self.parentAdapter.nativeAd = nativeAd;
+
+    NSString *templateName = [self.serverParameters al_stringForKey: @"template" defaultValue: @""];
+    BOOL isTemplateAd = [templateName al_isValidString];
+    if ( isTemplateAd && ![nativeAd.title al_isValidString] )
+    {
+        [self.parentAdapter log: @"Native ad (%@) does not have required assets.", nativeAd];
+        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
+
+        return;
+    }
+
+    // Same as the other MAX adapters: the images are downloaded here, and an image that can't be downloaded is left out
+    // instead of failing the ad. A text only ad has nothing to download.
+    dispatch_group_t group = dispatch_group_create();
+    NSMutableDictionary<NSString *, UIImage *> *images = [NSMutableDictionary dictionary];
+    if ( [nativeAd.iconUrl al_isValidURL] )
+    {
+        [self loadImageForURLString: nativeAd.iconUrl key: @"icon" into: images group: group];
+    }
+    if ( [nativeAd.bannerUrl al_isValidURL] )
+    {
+        [self loadImageForURLString: nativeAd.bannerUrl key: @"main" into: images group: group];
+    }
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSTimeInterval timeoutSeconds = [[self.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(DEFAULT_IMAGE_TASK_TIMEOUT_SECONDS)] doubleValue];
+        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (timeoutSeconds * NSEC_PER_SEC)));
+
+        UIImage *iconImage;
+        UIImage *mainImage;
+        @synchronized ( images )
+        {
+            iconImage = images[@"icon"];
+            mainImage = images[@"main"];
+        }
+        [self processNativeAd: nativeAd iconImage: iconImage mainImage: mainImage];
+    });
+}
+
+- (void)loadImageForURLString:(NSString *)urlString key:(NSString *)key into:(NSMutableDictionary<NSString *, UIImage *> *)images group:(dispatch_group_t)group
+{
+    dispatch_group_enter(group);
+    [[[NSURLSession sharedSession] dataTaskWithURL: [NSURL URLWithString: urlString]
+                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        UIImage *image = data ? [UIImage imageWithData: data] : nil;
+        if ( image )
+        {
+            @synchronized ( images )
+            {
+                images[key] = image;
+            }
+        }
+        else
+        {
+            [self.parentAdapter log: @"Native ad image (%@) could not be downloaded, loading the ad without it: %@", key, error];
+        }
+        dispatch_group_leave(group);
+    }] resume];
+}
+
+- (void)nativeLoaderDidFailWithError:(NSError *)error
+{
+    [self.parentAdapter log: @"Native ad failed to load: %@", error];
+
+    MAAdapterError *adapterError = [ALVerveMediationAdapter toMaxError: error];
+    [self.delegate didFailToLoadNativeAdWithError: adapterError];
+}
+
+- (void)processNativeAd:(HyBidNativeAd *)nativeAd iconImage:(UIImage *)iconImage mainImage:(UIImage *)mainImage
+{
+    dispatchOnMainQueue(^{
+        MANativeAd *maxNativeAd = [[MAVerveNativeAd alloc] initWithParentAdapter: self.parentAdapter builderBlock:^(MANativeAdBuilder *builder) {
+            builder.title = nativeAd.title;
+            builder.body = nativeAd.body;
+            builder.callToAction = nativeAd.callToActionTitle;
+            builder.starRating = nativeAd.rating;
+
+            if ( iconImage )
+            {
+                builder.icon = [[MANativeAdImage alloc] initWithImage: iconImage];
+            }
+
+            if ( mainImage )
+            {
+                UIImageView *mainImageView = [[UIImageView alloc] initWithImage: mainImage];
+                mainImageView.contentMode = UIViewContentModeScaleAspectFit;
+                builder.mediaView = mainImageView;
+                builder.mainImage = [[MANativeAdImage alloc] initWithImage: mainImage];
+            }
+
+            if ( nativeAd.contentInfo )
+            {
+                builder.optionsView = nativeAd.contentInfo;
+            }
+        }];
+
+        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: nil];
+    });
+}
+
+- (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view
+{
+    [self.parentAdapter log: @"Native ad did track impression"];
+    [self.delegate didDisplayNativeAdWithExtraInfo: nil];
+}
+
+- (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd
+{
+    [self.parentAdapter log: @"Native ad clicked"];
+    [self.delegate didClickNativeAd];
+}
+
+@end
+
+@implementation MAVerveNativeAd
+
+- (instancetype)initWithParentAdapter:(ALVerveMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+{
+    self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
+    if ( self )
+    {
+        self.parentAdapter = parentAdapter;
+    }
+    return self;
+}
+
+- (BOOL)prepareForInteractionClickableViews:(NSArray<UIView *> *)clickableViews withContainer:(UIView *)container
+{
+    HyBidNativeAd *nativeAd = self.parentAdapter.nativeAd;
+    if ( !nativeAd )
+    {
+        [self.parentAdapter log: @"Failed to register native ad views: native ad is nil."];
+        return NO;
+    }
+
+    // HyBid falls back to the container only for nil, an empty list would leave nothing clickable
+    NSArray<UIView *> *views = clickableViews.count > 0 ? clickableViews : nil;
+    [nativeAd startTrackingView: container withClickableViews: views withDelegate: self.parentAdapter.nativeAdAdapterDelegate];
+
+    return YES;
 }
 
 @end
