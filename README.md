@@ -17,6 +17,11 @@ This `AppLovin-MAX-SDK-iOS` repository contains:
 1. Example source code for using MAX
 2. Open source mediation adapters
 
+## Installation
+Install the AppLovin MAX SDK and its mediation adapters with Swift Package Manager: in Xcode, select **File > Add Package Dependencies…**, enter `https://github.com/AppLovin/AppLovin-MAX-Swift-Package`, and add the `AppLovinSDK` product to your app target. Each mediation adapter has its own package, `AppLovin-MAX-Swift-Package-<Network>`.
+
+New SDK and adapter versions are published only through Swift Package Manager. CocoaPods trunk is read-only, and the podspecs are frozen at the last versions published there: those versions stay available, but no new versions are added.
+
 ## Examples
 ### Demo App
 The [Swift Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20Swift) and [Objective-C Demo App](https://github.com/AppLovin/AppLovin-MAX-SDK-iOS/tree/master/AppLovin%20MAX%20Demo%20App%20-%20ObjC) are sample projects demonstrating how to mediate ads using AppLovin MAX. To get started with the demo apps, follow the instructions below:
