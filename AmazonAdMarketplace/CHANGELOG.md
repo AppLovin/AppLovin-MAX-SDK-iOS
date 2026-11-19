@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.7.0.0
+* Certified with AmazonAdMarketplace SDK 5.7.0.
+* Updated minimum iOS version to 15.0 to match AmazonAdMarketplace SDK.
+
 ## 5.6.6.1
 * Add suppport for SPM.
 

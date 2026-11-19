@@ -2,8 +2,8 @@ Pod::Spec.new do |s|
 
 s.authors = 'AppLovin Corporation'
 s.name = 'AppLovinMediationAmazonAdMarketplaceAdapter'
-s.version = '5.6.6.1'
-s.platform = :ios, '12.0'
+s.version = '5.7.0.0'
+s.platform = :ios, '15.0'
 s.summary = 'Amazon Publisher Services adapter used for mediation with the AppLovin MAX SDK'
 s.homepage = "https://github.com/CocoaPods/Specs/search?o=desc&q=#{s.name}&s=indexed"
 s.license =
