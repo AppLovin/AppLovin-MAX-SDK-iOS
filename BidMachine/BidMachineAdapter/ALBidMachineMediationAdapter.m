@@ -9,7 +9,7 @@
 #import "ALBidMachineMediationAdapter.h"
 #import <BidMachine/BidMachine-Swift.h>
 
-#define ADAPTER_VERSION @"3.8.2.0.0"
+#define ADAPTER_VERSION @"4.0.0.0.0"
 
 #define TITLE_LABEL_TAG          1
 #define MEDIA_VIEW_CONTAINER_TAG 2
@@ -18,57 +18,43 @@
 #define CALL_TO_ACTION_VIEW_TAG  5
 #define ADVERTISER_VIEW_TAG      8
 
-@interface ALBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
+@interface ALBidMachineInterstitialDelegate : NSObject <BidMachineInterstitialDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAInterstitialAdapterDelegate> delegate;
 - (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter andNotify:(id<MAInterstitialAdapterDelegate>)delegate;
 @end
 
-@interface ALBidMachineRewardedDelegate : NSObject <BidMachineAdDelegate>
+@interface ALBidMachineRewardedDelegate : NSObject <BidMachineRewardedDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MARewardedAdapterDelegate> delegate;
 @property (nonatomic, assign, getter=hasGrantedReward) BOOL grantedReward;
 - (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter andNotify:(id<MARewardedAdapterDelegate>)delegate;
 @end
 
-@interface ALBidMachineAdViewDelegate : NSObject <BidMachineAdDelegate>
-@property (nonatomic,   weak) MAAdFormat *format;
+@interface ALBidMachineAdViewDelegate : NSObject <BidMachineBannerDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MAAdViewAdapterDelegate> delegate;
-- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter
-                               format:(MAAdFormat *)format
-                            andNotify:(id<MAAdViewAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate;
 @end
 
-@interface ALBidMachineNativeDelegate : NSObject <BidMachineAdDelegate>
+@interface ALBidMachineNativeDelegate : NSObject <BidMachineNativeDelegate>
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
 @property (nonatomic, strong) id<MANativeAdAdapterDelegate> delegate;
-@property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
-- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter
-                           parameters:(id<MAAdapterResponseParameters>)parameters
-                            andNotify:(id<MANativeAdAdapterDelegate>)delegate;
+- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter andNotify:(id<MANativeAdAdapterDelegate>)delegate;
 @end
 
 @interface MABidMachineNativeAd : MANativeAd
 @property (nonatomic,   weak) ALBidMachineMediationAdapter *parentAdapter;
-@property (nonatomic, strong) id<MAAdapterResponseParameters> parameters;
-- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter
-                           parameters:(id<MAAdapterResponseParameters>)parameters
-                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
+- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock;
 @end
 
-@interface MABidMachineNativeAdRendering : NSObject <BidMachineNativeAdRendering>
-@property (nonatomic, weak) MANativeAdView *adView;
-- (instancetype)initWithNativeAdView:(MANativeAdView *)adView;
-@end
-
-@interface MABidMachineNativeAdPluginRendering : NSObject <BidMachineNativeAdRendering>
-@property (nonatomic, strong) UILabel *callToActionLabel;
-@property (nonatomic, strong) UILabel *descriptionLabel;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, weak) UIImageView *iconView;
-@property (nonatomic, weak) UIView *mediaContainerView;
-@property (nonatomic, weak) UIView *adChoiceView;
+@interface ALBidMachineConsentProvider : NSObject <BidMachineConsentProvider>
+@property (nonatomic, strong, nullable) NSNumber *coppa;
+@property (nonatomic, strong, nullable) NSNumber *gdprApplies;
+@property (nonatomic, strong, nullable) NSNumber *gdprConsent;
+@property (nonatomic, strong, nullable) NSNumber *nonPersonalized;
+@property (nonatomic,   copy, nullable) NSString *gppString;
+@property (nonatomic,   copy, nullable) NSArray<NSNumber *> *gppSids;
 @end
 
 @interface ALBidMachineMediationAdapter ()
@@ -84,9 +70,9 @@
 @end
 
 @implementation ALBidMachineMediationAdapter
-static NSTimeInterval const kDefaultImageTaskTimeoutSeconds = 10.0;
 static ALAtomicBoolean *ALBidMachineSDKInitialized;
 static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSIntegerMin;
+static BidMachineInstance *ALBidMachineSDKInstance;
 
 + (void)initialize
 {
@@ -104,22 +90,26 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         ALBidMachineSDKInitializationStatus = MAAdapterInitializationStatusInitializing;
         
         NSString *sourceId = [parameters.serverParameters al_stringForKey: @"source_id"];
+        if ( ![sourceId al_isValidString] )
+        {
+            [self log: @"BidMachine SDK failed to initialize: source id is missing"];
+            
+            ALBidMachineSDKInitializationStatus = MAAdapterInitializationStatusInitializedFailure;
+            [ALBidMachineSDKInitialized set: NO];
+            
+            completionHandler(ALBidMachineSDKInitializationStatus, @"source_id is missing");
+            return;
+        }
+        
         [self log: @"Initializing BidMachine SDK with source id: %@", sourceId];
         
-        [BidMachineSdk.shared populate:^(id<BidMachineInfoBuilderProtocol> builder) {
-            
-            if ( [parameters isTesting] )
-            {
-                [builder withTestMode: YES];
-                [builder withLoggingMode: YES];
-                [builder withEventLoggingMode: YES];
-                [builder withBidLoggingMode: YES];
-            }
-        }];
+        BidMachineSdk.testMode = [parameters isTesting];
+        BidMachineSdk.isLoggingEnabled = [parameters isTesting];
         
         [self updateSettings: parameters];
         
-        [BidMachineSdk.shared initializeSdk: sourceId];
+        ALBidMachineSDKInstance = [BidMachineSdk initializeWithSourceId: sourceId
+                                                          configuration: [self mediationSettings]];
     }
     
     completionHandler(MAAdapterInitializationStatusDoesNotApply, nil);
@@ -133,6 +123,11 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 - (NSString *)adapterVersion
 {
     return ADAPTER_VERSION;
+}
+
+- (nullable NSNumber *)shouldShowAdsOnMainThreadForAdFormat:(MAAdFormat *)adFormat
+{
+    return @(YES);
 }
 
 - (void)destroy
@@ -168,23 +163,28 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    BidMachinePlacementFormat bidMachinePlacementFormat = [self bidMachinePlacementFormatFromAdFormat: parameters.adFormat];
-    
-    NSError *error;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: bidMachinePlacementFormat
-                                                                   error: &error
-                                                                 builder: nil];
-
-    if ( !placement || error )
+    if ( !ALBidMachineSDKInstance )
     {
-        [self log: @"Signal collection failed while retrieving placement with error: %@", error];
-        [delegate didFailToCollectSignalWithErrorMessage: error.localizedDescription];
+        [self log: @"Signal collection failed: BidMachine SDK is not initialized"];
+        [delegate didFailToCollectSignalWithErrorMessage: @"BidMachine SDK is not initialized"];
         
         return;
     }
     
-    [BidMachineSdk.shared tokenWithPlacement: placement completion:^(NSString *_Nullable signal) {
-        [self log: @"Signal collection successful with%@ valid signal", [signal al_isValidString] ? @"" : @"out"];
+    BidMachinePlacement *placement = [self placementFromParameters: parameters];
+    NSArray<BidMachinePlacement *> *placements = placement ? @[placement] : @[];
+    
+    __weak typeof(self) weakSelf = self;
+    [ALBidMachineSDKInstance collectTokenWithPlacements: placements completion:^(NSString *_Nullable signal, BidMachineError *_Nullable error) {
+        if ( error )
+        {
+            [weakSelf log: @"Signal collection failed with error: %@", error];
+            [delegate didFailToCollectSignalWithErrorMessage: error.description];
+            
+            return;
+        }
+        
+        [weakSelf log: @"Signal collection successful with%@ valid signal", [signal al_isValidString] ? @"" : @"out"];
         [delegate didCollectSignal: signal];
     }];
 }
@@ -197,29 +197,17 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSError *configurationError;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: BidMachinePlacementFormatInterstitial
-                                                                   error: &configurationError
-                                                                 builder: nil];
-    
-    if ( !placement || configurationError )
+    if ( !ALBidMachineSDKInstance )
     {
-        [self log: @"Interstitial ad failed to load with error: %@", configurationError];
-        [delegate didFailToLoadInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                                     mediatedNetworkErrorCode: configurationError.code
-                                                                  mediatedNetworkErrorMessage: configurationError.localizedDescription]];
+        [self log: @"Interstitial ad failed to load: BidMachine SDK is not initialized"];
+        [delegate didFailToLoadInterstitialAdWithError: MAAdapterError.notInitialized];
         
         return;
     }
     
-    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
-                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload: parameters.bidResponse];
-    }];
-    
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared interstitialWithRequest: request completion:^(BidMachineInterstitial *interstitialAd, NSError *error) {
+    void (^completion)(BidMachineInterstitial *, BidMachineError *) = ^(BidMachineInterstitial *interstitialAd, BidMachineError *error) {
         
         if ( error )
         {
@@ -238,12 +226,32 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             return;
         }
         
+        [weakSelf log: @"Interstitial ad loaded"];
+        
         weakSelf.interstitialAd = interstitialAd;
         weakSelf.interstitialAdapterDelegate = [[ALBidMachineInterstitialDelegate alloc] initWithParentAdapter: weakSelf andNotify: delegate];
         weakSelf.interstitialAd.delegate = weakSelf.interstitialAdapterDelegate;
         
-        [weakSelf.interstitialAd loadAd];
-    }];
+        NSString *creativeId = interstitialAd.auctionInfo.creativeId;
+        NSDictionary *extraInfo;
+        
+        if ( [creativeId al_isValidString] )
+        {
+            extraInfo = @{@"creative_id" : creativeId};
+        }
+        
+        [delegate didLoadInterstitialAdWithExtraInfo: extraInfo];
+    };
+    
+    NSString *bidResponse = parameters.bidResponse;
+    if ( [bidResponse al_isValidString] )
+    {
+        [ALBidMachineSDKInstance loadInterstitialWithPayload: bidResponse completion: completion];
+    }
+    else
+    {
+        [ALBidMachineSDKInstance loadInterstitialWithPlacement: [self placementFromParameters: parameters] completion: completion];
+    }
 }
 
 - (void)showInterstitialAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MAInterstitialAdapterDelegate>)delegate
@@ -260,8 +268,18 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         return;
     }
     
-    self.interstitialAd.controller = [self presentingViewControllerFromParameters: parameters];
-    [self.interstitialAd presentAd];
+    UIViewController *presentingViewController = [self presentingViewControllerFromParameters: parameters];
+    if ( !presentingViewController )
+    {
+        [self log: @"Unable to show interstitial - missing view controller"];
+        [delegate didFailToDisplayInterstitialAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                        mediatedNetworkErrorCode: MAAdapterError.missingViewController.code
+                                                                     mediatedNetworkErrorMessage: MAAdapterError.missingViewController.message]];
+        
+        return;
+    }
+    
+    [self.interstitialAd showFrom: presentingViewController];
 }
 
 #pragma mark - MARewardedAdapter Methods
@@ -272,29 +290,17 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSError *configurationError;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: BidMachinePlacementFormatRewarded
-                                                                   error: &configurationError
-                                                                 builder: nil];
-    
-    if ( !placement || configurationError )
+    if ( !ALBidMachineSDKInstance )
     {
-        [self log: @"Rewarded ad failed to load with error: %@", configurationError];
-        [delegate didFailToLoadRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                                 mediatedNetworkErrorCode: configurationError.code
-                                                              mediatedNetworkErrorMessage: configurationError.localizedDescription]];
+        [self log: @"Rewarded ad failed to load: BidMachine SDK is not initialized"];
+        [delegate didFailToLoadRewardedAdWithError: MAAdapterError.notInitialized];
         
         return;
     }
     
-    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
-                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload: parameters.bidResponse];
-    }];
-    
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared rewardedWithRequest: request completion:^(BidMachineRewarded *rewardedAd, NSError *error) {
+    void (^completion)(BidMachineRewarded *, BidMachineError *) = ^(BidMachineRewarded *rewardedAd, BidMachineError *error) {
         
         if ( error )
         {
@@ -313,12 +319,32 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             return;
         }
         
+        [weakSelf log: @"Rewarded ad loaded"];
+        
         weakSelf.rewardedAd = rewardedAd;
         weakSelf.rewardedAdapterDelegate = [[ALBidMachineRewardedDelegate alloc] initWithParentAdapter: weakSelf andNotify: delegate];
         weakSelf.rewardedAd.delegate = weakSelf.rewardedAdapterDelegate;
         
-        [weakSelf.rewardedAd loadAd];
-    }];
+        NSString *creativeId = rewardedAd.auctionInfo.creativeId;
+        NSDictionary *extraInfo;
+        
+        if ( [creativeId al_isValidString] )
+        {
+            extraInfo = @{@"creative_id" : creativeId};
+        }
+        
+        [delegate didLoadRewardedAdWithExtraInfo: extraInfo];
+    };
+    
+    NSString *bidResponse = parameters.bidResponse;
+    if ( [bidResponse al_isValidString] )
+    {
+        [ALBidMachineSDKInstance loadRewardedWithPayload: bidResponse completion: completion];
+    }
+    else
+    {
+        [ALBidMachineSDKInstance loadRewardedWithPlacement: [self placementFromParameters: parameters] completion: completion];
+    }
 }
 
 - (void)showRewardedAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MARewardedAdapterDelegate>)delegate
@@ -337,8 +363,18 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self configureRewardForParameters: parameters];
     
-    self.rewardedAd.controller = [self presentingViewControllerFromParameters: parameters];
-    [self.rewardedAd presentAd];
+    UIViewController *presentingViewController = [self presentingViewControllerFromParameters: parameters];
+    if ( !presentingViewController )
+    {
+        [self log: @"Unable to show rewarded ad - missing view controller"];
+        [delegate didFailToDisplayRewardedAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
+                                                                    mediatedNetworkErrorCode: MAAdapterError.missingViewController.code
+                                                                 mediatedNetworkErrorMessage: MAAdapterError.missingViewController.message]];
+        
+        return;
+    }
+    
+    [self.rewardedAd showFrom: presentingViewController];
 }
 
 #pragma mark - MAAdViewAdapter Methods
@@ -351,31 +387,29 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    BidMachinePlacementFormat format = [self bidMachinePlacementFormatFromAdFormat: adFormat];
-    
-    NSError *configurationError;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: format
-                                                                   error: &configurationError
-                                                                 builder: nil];
-    
-    if ( !placement || configurationError )
+    if ( !ALBidMachineSDKInstance )
     {
-        [self log: @"AdView ad failed to load with error: %@", configurationError];
-        [delegate didFailToLoadAdViewAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                               mediatedNetworkErrorCode: configurationError.code
-                                                            mediatedNetworkErrorMessage: configurationError.localizedDescription]];
+        [self log: @"AdView ad failed to load: BidMachine SDK is not initialized"];
+        [delegate didFailToLoadAdViewAdWithError: MAAdapterError.notInitialized];
         
         return;
     }
     
-    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
-                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload: parameters.bidResponse];
-    }];
+    BOOL isAdaptiveAdViewEnabled = [parameters.serverParameters al_boolForKey: @"adaptive_banner"];
+    BidMachineBannerSize *size = [self bannerSizeFromAdFormat: adFormat
+                                      isAdaptiveAdViewEnabled: isAdaptiveAdViewEnabled
+                                                   parameters: parameters];
+    if ( !size )
+    {
+        [self log: @"AdView ad failed to load: unsupported ad format: %@", adFormat.label];
+        [delegate didFailToLoadAdViewAdWithError: MAAdapterError.invalidConfiguration];
+        
+        return;
+    }
     
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared bannerWithRequest: request completion:^(BidMachineBanner *bannerAd, NSError *error) {
+    void (^completion)(BidMachineBanner *, BidMachineError *) = ^(BidMachineBanner *bannerAd, BidMachineError *error) {
         
         if ( error )
         {
@@ -394,14 +428,40 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             return;
         }
         
+        [weakSelf log: @"AdView loaded"];
+        
         weakSelf.adView = bannerAd;
-        weakSelf.adViewAdapterDelegate = [[ALBidMachineAdViewDelegate alloc] initWithParentAdapter: weakSelf
-                                                                                            format: adFormat
-                                                                                         andNotify: delegate];
+        weakSelf.adViewAdapterDelegate = [[ALBidMachineAdViewDelegate alloc] initWithParentAdapter: weakSelf andNotify: delegate];
         weakSelf.adView.delegate = weakSelf.adViewAdapterDelegate;
-        weakSelf.adView.controller = [ALUtils topViewControllerFromKeyWindow];
-        [weakSelf.adView loadAd];
-    }];
+        weakSelf.adView.rootViewController = [ALUtils topViewControllerFromKeyWindow];
+        
+        NSMutableDictionary *extraInfo = [NSMutableDictionary dictionaryWithCapacity: 3];
+        
+        NSString *creativeId = bannerAd.auctionInfo.creativeId;
+        if ( [creativeId al_isValidString] )
+        {
+            extraInfo[@"creative_id"] = creativeId;
+        }
+        
+        CGSize adSize = bannerAd.adSize.cgSize;
+        if ( !CGSizeEqualToSize(CGSizeZero, adSize) )
+        {
+            extraInfo[@"ad_width"] = @(adSize.width);
+            extraInfo[@"ad_height"] = @(adSize.height);
+        }
+        
+        [delegate didLoadAdForAdView: bannerAd withExtraInfo: extraInfo];
+    };
+    
+    NSString *bidResponse = parameters.bidResponse;
+    if ( [bidResponse al_isValidString] )
+    {
+        [ALBidMachineSDKInstance loadBannerWithPayload: bidResponse size: size completion: completion];
+    }
+    else
+    {
+        [ALBidMachineSDKInstance loadBannerWithPlacement: [self placementFromParameters: parameters] size: size completion: completion];
+    }
 }
 
 #pragma mark - MANativeAdAdapter Methods
@@ -412,29 +472,17 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     [self updateSettings: parameters];
     
-    NSError *configurationError;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom: BidMachinePlacementFormatNative
-                                                                   error: &configurationError
-                                                                 builder: nil];
-    
-    if ( !placement || configurationError )
+    if ( !ALBidMachineSDKInstance )
     {
-        [self log: @"Native ad failed to load with error: %@", configurationError];
-        [delegate didFailToLoadNativeAdWithError: [MAAdapterError errorWithAdapterError: MAAdapterError.invalidConfiguration
-                                                               mediatedNetworkErrorCode: configurationError.code
-                                                            mediatedNetworkErrorMessage: configurationError.localizedDescription]];
+        [self log: @"Native ad failed to load: BidMachine SDK is not initialized"];
+        [delegate didFailToLoadNativeAdWithError: MAAdapterError.notInitialized];
         
         return;
     }
     
-    BidMachineAuctionRequest *request = [BidMachineSdk.shared auctionRequestWithPlacement: placement
-                                                                                  builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload: parameters.bidResponse];
-    }];
-    
     __weak typeof(self) weakSelf = self;
     
-    [BidMachineSdk.shared nativeWithRequest: request completion:^(BidMachineNative *nativeAd, NSError *error) {
+    void (^completion)(BidMachineNative *, BidMachineError *) = ^(BidMachineNative *nativeAd, BidMachineError *error) {
         
         if ( error )
         {
@@ -453,14 +501,63 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
             return;
         }
         
+        if ( ![nativeAd canShow] )
+        {
+            [weakSelf log: @"Native ad not ready to show"];
+            [delegate didFailToLoadNativeAdWithError: MAAdapterError.adNotReady];
+            
+            return;
+        }
+        
+        NSString *templateName = [parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
+        BOOL isTemplateAd = [templateName al_isValidString];
+        if ( isTemplateAd && ![nativeAd.title al_isValidString] )
+        {
+            [weakSelf log: @"Native ad (%@) does not have required assets.", nativeAd];
+            [delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
+            
+            return;
+        }
+        
+        [weakSelf log: @"Native ad loaded"];
+        
         weakSelf.nativeAd = nativeAd;
-        weakSelf.nativeAdAdapterDelegate = [[ALBidMachineNativeDelegate alloc] initWithParentAdapter: weakSelf
-                                                                                          parameters: parameters
-                                                                                           andNotify: delegate];
+        weakSelf.nativeAdAdapterDelegate = [[ALBidMachineNativeDelegate alloc] initWithParentAdapter: weakSelf andNotify: delegate];
         weakSelf.nativeAd.delegate = weakSelf.nativeAdAdapterDelegate;
-        weakSelf.nativeAd.controller = [ALUtils topViewControllerFromKeyWindow];
-        [weakSelf.nativeAd loadAd];
-    }];
+        weakSelf.nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
+        
+        MANativeAd *maxNativeAd = [[MABidMachineNativeAd alloc] initWithParentAdapter: weakSelf builderBlock:^(MANativeAdBuilder *builder) {
+            builder.title = nativeAd.title;
+            builder.advertiser = nativeAd.advertiser;
+            builder.body = nativeAd.body;
+            builder.callToAction = nativeAd.callToAction;
+            builder.icon = [weakSelf nativeAdImageFromImage: nativeAd.icon];
+            builder.mainImage = [weakSelf nativeAdImageFromImage: nativeAd.mainImage];
+            builder.optionsView = nativeAd.adChoice;
+            builder.mediaView = nativeAd.mediaView;
+            builder.starRating = nativeAd.starRating;
+        }];
+        
+        NSString *creativeId = nativeAd.auctionInfo.creativeId;
+        NSDictionary *extraInfo;
+        
+        if ( [creativeId al_isValidString] )
+        {
+            extraInfo = @{@"creative_id" : creativeId};
+        }
+        
+        [delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
+    };
+    
+    NSString *bidResponse = parameters.bidResponse;
+    if ( [bidResponse al_isValidString] )
+    {
+        [ALBidMachineSDKInstance loadNativeWithPayload: bidResponse completion: completion];
+    }
+    else
+    {
+        [ALBidMachineSDKInstance loadNativeWithPlacement: [self placementFromParameters: parameters] completion: completion];
+    }
 }
 
 #pragma mark - Shared Methods
@@ -472,31 +569,34 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     
     switch ( bidmachineErrorCode )
     {
-        case 100: // No connection
+        case BidMachineErrorCodeNoConnection:
             adapterError = MAAdapterError.noConnection;
             break;
-        case 102: // Timeout
+        case BidMachineErrorCodeTimeout:
             adapterError = MAAdapterError.timeout;
             break;
-        case 103: // No Content
+        case BidMachineErrorCodeNoContent:
             adapterError = MAAdapterError.noFill;
             break;
-        case 104: // Exception
+        case BidMachineErrorCodeWasUsedAlready:
             adapterError = MAAdapterError.invalidLoadState;
             break;
-        case 107: // Ad Expired
+        case BidMachineErrorCodeWasExpired:
             adapterError = MAAdapterError.adExpiredError;
             break;
-        case 101: // Bad Content
-        case 106: // Ad Destroyed
-        case 108: // Interior Error
+        case BidMachineErrorCodeNotInitialized:
+            adapterError = MAAdapterError.notInitialized;
+            break;
+        case BidMachineErrorCodeBadContent:
+        case BidMachineErrorCodeWasDestroyed:
+        case BidMachineErrorCodeInternalError:
+        case BidMachineErrorCodeEncryption:
             adapterError = MAAdapterError.internalError;
             break;
-        case 109: // Server Error
-        case 200: // Header Bidding Error
+        case BidMachineErrorCodeHttpServerError:
             adapterError = MAAdapterError.serverError;
             break;
-        case 110: // Bad Request
+        case BidMachineErrorCodeHttpBadRequest:
             adapterError = MAAdapterError.badRequest;
             break;
     }
@@ -506,98 +606,104 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
                      mediatedNetworkErrorMessage: bidmachineError.localizedDescription];
 }
 
-- (BidMachinePlacementFormat)bidMachinePlacementFormatFromAdFormat:(MAAdFormat *)adFormat
+- (BidMachineBannerSize *)bannerSizeFromAdFormat:(MAAdFormat *)adFormat
+                         isAdaptiveAdViewEnabled:(BOOL)isAdaptiveAdViewEnabled
+                                      parameters:(id<MAAdapterParameters>)parameters
+{
+    if ( isAdaptiveAdViewEnabled && ALSdk.versionCode < 13020099 )
+    {
+        [self userError: @"Please update AppLovin MAX SDK to version 13.2.0 or higher in order to use BidMachine adaptive ads"];
+        isAdaptiveAdViewEnabled = NO;
+    }
+    
+    if ( isAdaptiveAdViewEnabled && [self isAdaptiveAdViewFormat: adFormat forParameters: parameters] )
+    {
+        return [self adaptiveBannerSizeFromParameters: parameters];
+    }
+    
+    return [self bannerSizeFromAdFormat: adFormat];
+}
+
+- (BidMachineBannerSize *)adaptiveBannerSizeFromParameters:(id<MAAdapterParameters>)parameters
+{
+    CGFloat adaptiveAdWidth = [self adaptiveAdViewWidthFromParameters: parameters];
+    
+    if ( [self isInlineAdaptiveAdViewForParameters: parameters] )
+    {
+        CGFloat inlineMaximumHeight = [self inlineAdaptiveAdViewMaximumHeightFromParameters: parameters];
+        return [BidMachineBannerSize adaptiveWithWidth: (uint32_t) adaptiveAdWidth maxHeight: (uint32_t) MAX(inlineMaximumHeight, 0)];
+    }
+    
+    CGFloat anchoredHeight = [MAAdFormat.banner adaptiveSizeForWidth: adaptiveAdWidth].height;
+    return [BidMachineBannerSize adaptiveWithWidth: (uint32_t) adaptiveAdWidth maxHeight: (uint32_t) anchoredHeight];
+}
+
+- (BidMachineBannerSize *)bannerSizeFromAdFormat:(MAAdFormat *)adFormat
 {
     if ( adFormat == MAAdFormat.banner )
     {
-        return BidMachinePlacementFormatBanner320x50;
+        return BidMachineBannerSize.banner;
     }
     else if ( adFormat == MAAdFormat.leader )
     {
-        return BidMachinePlacementFormatBanner728x90;
+        return BidMachineBannerSize.leaderboard;
     }
     else if ( adFormat == MAAdFormat.mrec )
     {
-        return BidMachinePlacementFormatBanner300x250;
-    }
-    else if ( adFormat == MAAdFormat.native )
-    {
-        return BidMachinePlacementFormatNative;
-    }
-    else if ( adFormat == MAAdFormat.interstitial )
-    {
-        return BidMachinePlacementFormatInterstitial;
-    }
-    else if ( adFormat == MAAdFormat.rewarded )
-    {
-        return BidMachinePlacementFormatRewarded;
+        return BidMachineBannerSize.mrec;
     }
     else
     {
-        return BidMachinePlacementFormatUnknown;
+        return nil;
     }
+}
+
+- (BidMachineConfiguration *)mediationSettings
+{
+    BidMachineConfiguration *configuration = [[BidMachineConfiguration alloc] init];
+    configuration.mediationInfo = [[BidMachineMediationInfo alloc] initWithName: @"applovin"
+                                                                        version: ALSdk.version
+                                                                 adapterVersion: ADAPTER_VERSION];
+    return configuration;
+}
+
+- (BidMachinePlacement *)placementFromParameters:(id<MAAdapterParameters>)parameters
+{
+    NSString *placementId = [parameters.serverParameters al_stringForKey: @"placement_id"];
+    if ( ![placementId al_isValidString] )
+    {
+        NSDictionary *placementIds = [parameters.serverParameters al_dictionaryForKey: @"placement_ids"];
+        placementId = [placementIds al_stringForKey: parameters.adUnitIdentifier];
+    }
+    
+    if ( ![placementId al_isValidString] )
+    {
+        [self log: @"No valid placement ID found"];
+        return nil;
+    }
+    
+    return [[BidMachinePlacement alloc] initWithId: placementId extras: @{}];
 }
 
 - (void)updateSettings:(id<MAAdapterParameters>)parameters
 {
-    __block id<BidMachineRegulationInfoBuilderProtocol> regulationBuilder = nil;
-    [BidMachineSdk.shared.regulationInfo populate:^(id<BidMachineRegulationInfoBuilderProtocol> builder) {
-        regulationBuilder = builder;
-    }];
-    
-    if ( parameters.consentString )
-    {
-        [regulationBuilder withGDPRConsentString: parameters.consentString];
-    }
-    
-    NSNumber *hasUserConsent = [parameters hasUserConsent];
-    if ( hasUserConsent != nil )
-    {
-        [regulationBuilder withGDPRConsent: hasUserConsent.boolValue];
-    }
-    
-    NSNumber *isDoNotSell = [parameters isDoNotSell];
-    if ( isDoNotSell != nil )
-    {
-        [regulationBuilder withUSPrivacyString: isDoNotSell.boolValue ? @"1YY-" : @"1YN-"];
-    }
-    else
-    {
-        [regulationBuilder withUSPrivacyString: @"1---"];
-    }
+    ALBidMachineConsentProvider *consentProvider = [[ALBidMachineConsentProvider alloc] init];
+    consentProvider.gdprConsent = [parameters hasUserConsent];
+    BidMachineSdk.consentProvider = consentProvider;
 }
 
-- (void)loadImageForURLString:(NSString *)urlString group:(dispatch_group_t)group successHandler:(void (^)(UIImage *image))successHandler;
+- (MANativeAdImage *)nativeAdImageFromImage:(BidMachineNativeImage *)nativeImage
 {
-    // BidMachine's image resource comes in the form of a URL which needs to be fetched in a non-blocking manner
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
-        dispatch_group_enter(group);
-        
-        [[[NSURLSession sharedSession] dataTaskWithURL: [NSURL URLWithString: urlString]
-                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if ( error )
-            {
-                [self log: @"Failed to fetch native ad image with error: %@", error];
-            }
-            else if ( data )
-            {
-                [self log: @"Native ad image data retrieved"];
-                
-                UIImage *image = [UIImage imageWithData: data];
-                if ( image )
-                {
-                    // Run on main queue for convenient image view updates
-                    dispatchOnMainQueue(^{
-                        successHandler(image);
-                    });
-                }
-            }
-            
-            // Don't consider the block done until this task is complete
-            dispatch_group_leave(group);
-        }] resume];
-    });
+    if ( nativeImage.image )
+    {
+        return [[MANativeAdImage alloc] initWithImage: nativeImage.image];
+    }
+    else if ( nativeImage.url )
+    {
+        return [[MANativeAdImage alloc] initWithURL: nativeImage.url];
+    }
+    
+    return nil;
 }
 
 - (UIViewController *)presentingViewControllerFromParameters:(id<MAAdapterResponseParameters>)parameters
@@ -607,51 +713,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 @end
 
-@implementation MABidMachineNativeAdRendering
-
-- (instancetype)initWithNativeAdView:(MANativeAdView *)adView
-{
-    self = [super init];
-    if ( self )
-    {
-        self.adView = adView;
-    }
-    return self;
-}
-
-- (UILabel *)callToActionLabel
-{
-    return self.adView.callToActionButton.titleLabel;
-}
-
-- (UILabel *)descriptionLabel
-{
-    return self.adView.bodyLabel;
-}
-
-- (UILabel *)titleLabel
-{
-    return self.adView.titleLabel;
-}
-
-- (UIImageView *)iconView
-{
-    return self.adView.iconImageView;
-}
-
-- (UIView *)mediaContainerView
-{
-    return self.adView.mediaContentView;
-}
-
-- (UIView *)adChoiceView
-{
-    return nil;
-}
-
-@end
-
-@implementation MABidMachineNativeAdPluginRendering
+@implementation ALBidMachineConsentProvider
 
 @end
 
@@ -668,46 +730,24 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     return self;
 }
 
-- (void)didLoadAd:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad loaded"];
-    
-    NSString *creativeId = ad.auctionInfo.creativeId;
-    NSDictionary *extraInfo;
-    
-    if ( [creativeId al_isValidString] )
-    {
-        extraInfo = @{@"creative_id" : creativeId};
-    }
-    
-    [self.delegate didLoadInterstitialAdWithExtraInfo: extraInfo];
-}
-
-- (void)didFailLoadAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
-{
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Interstitial failed to load ad with error: %@", adapterError];
-    [self.delegate didFailToLoadInterstitialAdWithError: adapterError];
-}
-
-- (void)didPresentAd:(id<BidMachineAdProtocol>)ad
+- (void)interstitialDidPresent:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad shown"];
 }
 
-- (void)didTrackImpression:(id<BidMachineAdProtocol>)ad
+- (void)interstitialDidTrackImpression:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad impression tracked"];
     [self.delegate didDisplayInterstitialAd];
 }
 
-- (void)didDismissAd:(id<BidMachineAdProtocol>)ad
+- (void)interstitialDidDismiss:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad hidden"];
     [self.delegate didHideInterstitialAd];
 }
 
-- (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
+- (void)interstitialDidFailPresent:(BidMachineInterstitial *)ad error:(BidMachineError *)error
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
@@ -716,28 +756,23 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self.delegate didFailToDisplayInterstitialAdWithError: adapterError];
 }
 
-- (void)didUserInteraction:(id<BidMachineAdProtocol>)ad
+- (void)interstitialDidClick:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad clicked"];
     [self.delegate didClickInterstitialAd];
 }
 
-- (void)willPresentScreen:(id<BidMachineAdProtocol>)ad
+- (void)interstitialWillPresentScreen:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad screen will present"];
 }
 
-- (void)didTrackInteraction:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Interstitial ad interaction tracked"];
-}
-
-- (void)didDismissScreen:(id<BidMachineAdProtocol>)ad
+- (void)interstitialDidDismissScreen:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad screen dismissed"];
 }
 
-- (void)didExpired:(id<BidMachineAdProtocol>)ad
+- (void)interstitialDidExpire:(BidMachineInterstitial *)ad
 {
     [self.parentAdapter log: @"Interstitial ad expired"];
 }
@@ -757,40 +792,18 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     return self;
 }
 
-- (void)didLoadAd:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad loaded"];
-    
-    NSString *creativeId = ad.auctionInfo.creativeId;
-    NSDictionary *extraInfo;
-    
-    if ( [creativeId al_isValidString] )
-    {
-        extraInfo = @{@"creative_id" : creativeId};
-    }
-    
-    [self.delegate didLoadRewardedAdWithExtraInfo: extraInfo];
-}
-
-- (void)didFailLoadAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
-{
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Rewarded failed to load ad with error: %@", adapterError];
-    [self.delegate didFailToLoadRewardedAdWithError: adapterError];
-}
-
-- (void)didPresentAd:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidPresent:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad shown"];
 }
 
-- (void)didTrackImpression:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidTrackImpression:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad impression tracked"];
     [self.delegate didDisplayRewardedAd];
 }
 
-- (void)didDismissAd:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidDismiss:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad hidden"];
     
@@ -804,19 +817,19 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self.delegate didHideRewardedAd];
 }
 
-- (void)didUserInteraction:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidClick:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad clicked"];
     [self.delegate didClickRewardedAd];
 }
 
-- (void)didReceiveReward:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidReceiveReward:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad should grant reward"];
     self.grantedReward = YES;
 }
 
-- (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
+- (void)rewardedDidFailPresent:(BidMachineRewarded *)ad error:(BidMachineError *)error
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
@@ -825,22 +838,17 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self.delegate didFailToDisplayRewardedAdWithError: adapterError];
 }
 
-- (void)willPresentScreen:(id<BidMachineAdProtocol>)ad
+- (void)rewardedWillPresentScreen:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad screen will present"];
 }
 
-- (void)didTrackInteraction:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Rewarded ad interaction tracked"];
-}
-
-- (void)didDismissScreen:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidDismissScreen:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad screen dismissed"];
 }
 
-- (void)didExpired:(id<BidMachineAdProtocol>)ad
+- (void)rewardedDidExpire:(BidMachineRewarded *)ad
 {
     [self.parentAdapter log: @"Rewarded ad expired"];
 }
@@ -849,83 +857,47 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 @implementation ALBidMachineAdViewDelegate
 
-- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter
-                               format:(MAAdFormat *)format
-                            andNotify:(id<MAAdViewAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter andNotify:(id<MAAdViewAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
         self.delegate = delegate;
-        self.format = format;
     }
     return self;
 }
 
-- (void)didLoadAd:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"AdView loaded"];
-    
-    NSString *creativeId = ad.auctionInfo.creativeId;
-    NSDictionary *extraInfo;
-    
-    if ( [creativeId al_isValidString] )
-    {
-        extraInfo = @{@"creative_id" : creativeId};
-    }
-    
-    [self.delegate didLoadAdForAdView: self.parentAdapter.adView withExtraInfo: extraInfo];
-}
-
-- (void)didFailLoadAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
-{
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"AdView failed to load with error: %@", adapterError];
-    [self.delegate didFailToLoadAdViewAdWithError: adapterError];
-}
-
--(void)didTrackImpression:(id<BidMachineAdProtocol>)ad
+- (void)bannerDidTrackImpression:(BidMachineBanner *)ad
 {
     [self.parentAdapter log: @"AdView shown"];
     [self.delegate didDisplayAdViewAd];
 }
 
-- (void)didPresentAd:(id<BidMachineAdProtocol>)ad
+- (void)bannerDidPresent:(BidMachineBanner *)ad
 {
     [self.parentAdapter log: @"AdView ad presented"];
 }
 
-- (void)didUserInteraction:(id<BidMachineAdProtocol>)ad
+- (void)bannerDidClick:(BidMachineBanner *)ad
 {
     [self.parentAdapter log: @"AdView clicked"];
     [self.delegate didClickAdViewAd];
 }
 
-- (void)willPresentScreen:(id<BidMachineAdProtocol>)ad
+- (void)bannerWillPresentScreen:(BidMachineBanner *)ad
 {
     [self.parentAdapter log: @"AdView screen will present"];
     [self.delegate didExpandAdViewAd];
 }
 
-- (void)didTrackInteraction:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"AdView click tracked"];
-}
-
-- (void)didDismissScreen:(id<BidMachineAdProtocol>)ad
+- (void)bannerDidDismissScreen:(BidMachineBanner *)ad
 {
     [self.parentAdapter log: @"AdView dismissed screen"];
     [self.delegate didCollapseAdViewAd];
 }
 
-- (void)didDismissAd:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"AdView ad hidden"];
-    [self.delegate didHideAdViewAd];
-}
-
-- (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
+- (void)bannerDidFailPresent:(BidMachineBanner *)ad error:(BidMachineError *)error
 {
     MAAdapterError *adapterError = [MAAdapterError errorWithAdapterError: MAAdapterError.adDisplayFailedError
                                                 mediatedNetworkErrorCode: error.code
@@ -934,7 +906,7 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
     [self.delegate didFailToDisplayAdViewAdWithError: adapterError];
 }
 
-- (void)didExpired:(id<BidMachineAdProtocol>)ad
+- (void)bannerDidExpire:(BidMachineBanner *)ad
 {
     [self.parentAdapter log: @"AdView expired"];
 }
@@ -943,154 +915,50 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 @implementation ALBidMachineNativeDelegate
 
-- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter
-                           parameters:(id<MAAdapterResponseParameters>)parameters
-                            andNotify:(id<MANativeAdAdapterDelegate>)delegate
+- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
     self = [super init];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
         self.delegate = delegate;
-        self.parameters = parameters;
     }
     return self;
 }
 
-- (void)didLoadAd:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Native ad loaded"];
-    
-    BidMachineNative *nativeAd = self.parentAdapter.nativeAd;
-    
-    if ( !nativeAd )
-    {
-        [self.parentAdapter log: @"Native ad can't be nil"];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
-        
-        return;
-    }
-    
-    if ( ![nativeAd canShow] )
-    {
-        [self.parentAdapter log: @"Native ad not ready to show"];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.adNotReady];
-        
-        return;
-    }
-    
-    NSString *templateName = [self.parameters.serverParameters al_stringForKey: @"template" defaultValue: @""];
-    BOOL isTemplateAd = [templateName al_isValidString];
-    if ( isTemplateAd && ![nativeAd.title al_isValidString] )
-    {
-        [self.parentAdapter log: @"Native ad (%@) does not have required assets.", nativeAd];
-        [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.missingRequiredNativeAdAssets];
-        
-        return;
-    }
-    
-    // Run image fetching tasks asynchronously in the background
-    dispatch_group_t group = dispatch_group_create();
-    
-    __block MANativeAdImage *iconImage = nil;
-    if ( nativeAd.icon && [nativeAd.icon al_isValidURL] )
-    {
-        [self.parentAdapter log: @"Fetching native ad icon: %@", nativeAd.icon];
-        [self.parentAdapter loadImageForURLString: nativeAd.icon group: group successHandler:^(UIImage *image) {
-            iconImage = [[MANativeAdImage alloc] initWithImage: image];
-        }];
-    }
-    
-    __block UIImageView *mainImageView = nil;
-    __block MANativeAdImage *mainImage = nil;
-    if ( nativeAd.main && [nativeAd.main al_isValidURL] )
-    {
-        [self.parentAdapter log: @"Fetching native ad main image: %@", nativeAd.main];
-        mainImageView = [[UIImageView alloc] init];
-        [self.parentAdapter loadImageForURLString: nativeAd.main group: group successHandler:^(UIImage *image) {
-            mainImageView.image = image;
-            mainImage = [[MANativeAdImage alloc] initWithImage: image];
-        }];
-    }
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Timeout tasks if incomplete within the given time
-        NSTimeInterval imageTaskTimeoutSeconds = [[self.parameters.serverParameters al_numberForKey: @"image_task_timeout_seconds" defaultValue: @(kDefaultImageTaskTimeoutSeconds)] doubleValue];
-        dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, (int64_t) (imageTaskTimeoutSeconds * NSEC_PER_SEC)));
-        
-        MANativeAd *maxNativeAd = [[MABidMachineNativeAd alloc] initWithParentAdapter: self.parentAdapter
-                                                                           parameters: self.parameters
-                                                                         builderBlock:^(MANativeAdBuilder *builder) {
-            builder.title = nativeAd.title;
-            builder.body = nativeAd.body;
-            builder.callToAction = nativeAd.cta;
-            builder.icon = iconImage;
-            builder.mainImage = mainImage;
-            builder.mediaView = mainImageView;
-        }];
-        
-        NSString *creativeId = nativeAd.auctionInfo.creativeId;
-        NSDictionary *extraInfo;
-        
-        if ( [creativeId al_isValidString] )
-        {
-            extraInfo = @{@"creative_id" : creativeId};
-        }
-        
-        [self.delegate didLoadAdForNativeAd: maxNativeAd withExtraInfo: extraInfo];
-    });
-}
-
-- (void)didFailLoadAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
-{
-    MAAdapterError *adapterError = [ALBidMachineMediationAdapter toMaxError: error];
-    [self.parentAdapter log: @"Native ad failed to load with error: %@", adapterError];
-    [self.delegate didFailToLoadNativeAdWithError: adapterError];
-}
-
-- (void)didTrackImpression:(id<BidMachineAdProtocol>)ad
+- (void)nativeDidTrackImpression:(BidMachineNative *)ad
 {
     [self.parentAdapter log: @"Native ad shown"];
     [self.delegate didDisplayNativeAdWithExtraInfo: nil];
 }
 
-- (void)didPresentAd:(id<BidMachineAdProtocol>)ad
+- (void)nativeDidPresent:(BidMachineNative *)ad
 {
     [self.parentAdapter log: @"Native ad presented"];
 }
 
-- (void)didUserInteraction:(id<BidMachineAdProtocol>)ad
+- (void)nativeDidClick:(BidMachineNative *)ad
 {
     [self.parentAdapter log: @"Native ad clicked"];
     [self.delegate didClickNativeAd];
 }
 
-- (void)didTrackInteraction:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Native ad user interaction tracked"];
-}
-
-- (void)willPresentScreen:(id<BidMachineAdProtocol>)ad
+- (void)nativeWillPresentScreen:(BidMachineNative *)ad
 {
     [self.parentAdapter log: @"Native ad screen will present"];
 }
 
-- (void)didDismissScreen:(id<BidMachineAdProtocol>)ad
+- (void)nativeDidDismissScreen:(BidMachineNative *)ad
 {
     [self.parentAdapter log: @"Native ad screen dismissed"];
 }
 
-- (void)didDismissAd:(id<BidMachineAdProtocol>)ad
-{
-    [self.parentAdapter log: @"Native ad hidden"];
-}
-
-- (void)didFailPresentAd:(id<BidMachineAdProtocol>)ad :(NSError *)error
+- (void)nativeDidFailPresent:(BidMachineNative *)ad error:(BidMachineError *)error
 {
     [self.parentAdapter log: @"Native ad failed to present with error: %@", error];
 }
 
-- (void)didExpired:(id<BidMachineAdProtocol>)ad
+- (void)nativeDidExpire:(BidMachineNative *)ad
 {
     [self.parentAdapter log: @"Native ad expired"];
 }
@@ -1099,15 +967,12 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
 
 @implementation MABidMachineNativeAd
 
-- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter
-                           parameters:(id<MAAdapterResponseParameters>)parameters
-                         builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
+- (instancetype)initWithParentAdapter:(ALBidMachineMediationAdapter *)parentAdapter builderBlock:(NS_NOESCAPE MANativeAdBuilderBlock)builderBlock
 {
     self = [super initWithFormat: MAAdFormat.native builderBlock: builderBlock];
     if ( self )
     {
         self.parentAdapter = parentAdapter;
-        self.parameters = parameters;
     }
     return self;
 }
@@ -1121,83 +986,90 @@ static MAAdapterInitializationStatus ALBidMachineSDKInitializationStatus = NSInt
         return NO;
     }
     
-    NSError *error = nil;
-    
     [self.parentAdapter d: @"Preparing views for interaction: %@ with container: %@", clickableViews, container];
     
-    // Native integrations
-    if ( [container isKindOfClass: [MANativeAdView class]] )
+    NSMutableArray<BidMachineNativeAdEntry *> *clickables = [NSMutableArray arrayWithCapacity: clickableViews.count];
+    for ( UIView *view in clickableViews )
     {
-        MABidMachineNativeAdRendering *adRendering = [[MABidMachineNativeAdRendering alloc] initWithNativeAdView: container];
-        self.parentAdapter.nativeAd.controller = [ALUtils topViewControllerFromKeyWindow];
-        [self.parentAdapter.nativeAd registerDefaultAssetsForInteraction];
-        [self.parentAdapter.nativeAd presentAd: container : adRendering error: &error];
-    }
-    // Plugins
-    else
-    {
-        NSMutableArray *assetsForInteraction = [NSMutableArray array];
-        MABidMachineNativeAdPluginRendering *adPluginRendering = [[MABidMachineNativeAdPluginRendering alloc] init];
-        
-        for ( UIView *view in clickableViews )
-        {
-            if ( view.tag == TITLE_LABEL_TAG )
-            {
-                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeTitleLabel)];
-                adPluginRendering.titleLabel = [self bidMachineAssetViewOfClass: [UILabel class] forParent: view];
-            }
-            else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
-            {
-                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeMediaContainerView)];
-                adPluginRendering.mediaContainerView = view;
-            }
-            else if ( view.tag == ICON_VIEW_TAG )
-            {
-                if ( [view isKindOfClass: [UIImageView class]] )
-                {
-                    [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeIconView)];
-                    adPluginRendering.iconView = (UIImageView *) view;
-                }
-            }
-            else if ( view.tag == BODY_VIEW_TAG )
-            {
-                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeDescriptionLabel)];
-                adPluginRendering.descriptionLabel = [self bidMachineAssetViewOfClass: [UILabel class] forParent: view];
-            }
-            else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
-            {
-                [assetsForInteraction addObject: @(BidMachineNativeAdRenderingAssetTypeCallToActionLabel)];
-                adPluginRendering.callToActionLabel = [self bidMachineAssetViewOfClass: [UILabel class] forParent: view];
-            }
-        }
-        
-        [self.parentAdapter.nativeAd registerAssetsForInteraction: assetsForInteraction];
-        [self.parentAdapter.nativeAd presentAd: container : adPluginRendering error: &error];
+        BidMachineNativeAsset asset = [self assetForClickableView: view inContainer: container];
+        [clickables addObject: [[BidMachineNativeAdEntry alloc] initWithView: view asset: asset]];
     }
     
-    if ( error )
+    nativeAd.rootViewController = [ALUtils topViewControllerFromKeyWindow];
+    
+    if ( ![nativeAd bind: container clickables: clickables] )
     {
-        [self.parentAdapter e: @"Native ad failed to present with error: %@", error];
+        [self.parentAdapter e: @"Native ad failed to present"];
         return NO;
     }
     
     return YES;
 }
 
-/**
- * Creates a dummy asset view based on BidMachine API class requirements and the asset view type.
- */
-- (id)bidMachineAssetViewOfClass:(Class)aClass forParent:(UIView *)parentView
+- (BidMachineNativeAsset)assetForClickableView:(UIView *)view inContainer:(UIView *)container
 {
-    UIView *assetView = [[aClass alloc] init];
+    if ( [container isKindOfClass: [MANativeAdView class]] )
+    {
+        MANativeAdView *nativeAdView = (MANativeAdView *) container;
+        
+        if ( view == nativeAdView.titleLabel )
+        {
+            return BidMachineNativeAssetTitle;
+        }
+        else if ( view == nativeAdView.advertiserLabel )
+        {
+            return BidMachineNativeAssetAdvertiser;
+        }
+        else if ( view == nativeAdView.bodyLabel )
+        {
+            return BidMachineNativeAssetBody;
+        }
+        else if ( view == nativeAdView.callToActionButton )
+        {
+            return BidMachineNativeAssetCallToAction;
+        }
+        else if ( view == nativeAdView.iconImageView )
+        {
+            return BidMachineNativeAssetIcon;
+        }
+        else if ( view == nativeAdView.mediaContentView )
+        {
+            return BidMachineNativeAssetMainImage;
+        }
+        else if ( view == nativeAdView.starRatingContentView )
+        {
+            return BidMachineNativeAssetStarRating;
+        }
+    }
+    else
+    {
+        if ( view.tag == TITLE_LABEL_TAG )
+        {
+            return BidMachineNativeAssetTitle;
+        }
+        else if ( view.tag == MEDIA_VIEW_CONTAINER_TAG )
+        {
+            return BidMachineNativeAssetMainImage;
+        }
+        else if ( view.tag == ICON_VIEW_TAG )
+        {
+            return BidMachineNativeAssetIcon;
+        }
+        else if ( view.tag == BODY_VIEW_TAG )
+        {
+            return BidMachineNativeAssetBody;
+        }
+        else if ( view.tag == CALL_TO_ACTION_VIEW_TAG )
+        {
+            return BidMachineNativeAssetCallToAction;
+        }
+        else if ( view.tag == ADVERTISER_VIEW_TAG )
+        {
+            return BidMachineNativeAssetAdvertiser;
+        }
+    }
     
-    // Set the view's alpha to make it essentially invisible but interactable, as the plugin's asset view manages actual content presentation.
-    assetView.alpha = 0.011f;
-    
-    [parentView addSubview: assetView];
-    [assetView al_pinToSuperview];
-    
-    return assetView;
+    return BidMachineNativeAssetUnknown;
 }
 
 @end
