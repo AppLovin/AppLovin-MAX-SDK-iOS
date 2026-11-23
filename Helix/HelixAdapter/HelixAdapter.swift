@@ -28,7 +28,7 @@ final class HelixAdapter: ALMediationAdapter
     
     override var thirdPartySdkName: String { "Helix" }
     
-    override var adapterVersion: String { "3.17.0.0" }
+    override var adapterVersion: String { "4.30.2.0" }
     
     override var sdkVersion: String { AdnSdk.version }
     

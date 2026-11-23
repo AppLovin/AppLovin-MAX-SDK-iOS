@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.30.2.0
+- Certified with Helix SDK 4.30.2.
+
 ## 3.17.0.0
 - Initial commit.
 - Certified with Helix SDK 3.17.0.
