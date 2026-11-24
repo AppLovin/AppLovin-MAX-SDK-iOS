@@ -661,7 +661,7 @@ static BidMachineInstance *ALBidMachineSDKInstance;
 - (BidMachineConfiguration *)mediationSettings
 {
     BidMachineConfiguration *configuration = [[BidMachineConfiguration alloc] init];
-    configuration.mediationInfo = [[BidMachineMediationInfo alloc] initWithName: @"applovin"
+    configuration.mediationInfo = [[BidMachineMediationInfo alloc] initWithName: @"applovin_max"
                                                                         version: ALSdk.version
                                                                  adapterVersion: ADAPTER_VERSION];
     return configuration;
