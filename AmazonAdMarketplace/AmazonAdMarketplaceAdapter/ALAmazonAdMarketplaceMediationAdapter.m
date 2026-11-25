@@ -9,7 +9,7 @@
 #import "ALAmazonAdMarketplaceMediationAdapter.h"
 #import <DTBiOSSDK/DTBiOSSDK.h>
 
-#define ADAPTER_VERSION @"5.7.0.0"
+#define ADAPTER_VERSION @"5.7.0.1"
 
 /**
  * Container object for holding mediation hints dict generated from Amazon's SDK and the timestamp it was geenrated at.
@@ -327,7 +327,7 @@ static NSString *ALAPSSDKVersion;
                 });
             }
             
-            [self setCreativeIdentifier: adResponse.crid forAdFormat: adFormat];
+            [self setCreativeIdentifier: [self buildCreativeIdForAdResponse: adResponse] forAdFormat: adFormat];
             [self setHashedBidderIdentifier: adResponse.customTargeting[@"amznp"] forAdFormat: adFormat];
             
             [self d: @"Successfully loaded encoded bid id: %@", encodedBidId];
@@ -565,6 +565,14 @@ static NSString *ALAPSSDKVersion;
     {
         ALAmazonCreativeIdentifiers[adFormat] = creativeId;
     }
+}
+
+- (NSString *)buildCreativeIdForAdResponse:(DTBAdResponse *)adResponse
+{
+    NSString *crid = adResponse.crid ?: @"null";
+    NSString *bidder = adResponse.amznbidder ?: @"null";
+    
+    return [NSString stringWithFormat: @"%@+%@+%@", crid, bidder, adResponse.bidId];
 }
 
 - (void)setHashedBidderIdentifier:(NSString *)hashedBidderId forAdFormat:(MAAdFormat *)adFormat

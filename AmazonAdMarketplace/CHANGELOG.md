@@ -1,5 +1,8 @@
 # Changelog
 
+## 5.7.0.1
+* Updated creative_id value to reflect additional information
+
 ## 5.7.0.0
 * Certified with AmazonAdMarketplace SDK 5.7.0.
 * Updated minimum iOS version to 15.0 to match AmazonAdMarketplace SDK.
