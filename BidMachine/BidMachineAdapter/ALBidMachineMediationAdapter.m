@@ -103,8 +103,11 @@ static BidMachineInstance *ALBidMachineSDKInstance;
         
         [self log: @"Initializing BidMachine SDK with source id: %@", sourceId];
         
-        BidMachineSdk.testMode = [parameters isTesting];
-        BidMachineSdk.isLoggingEnabled = [parameters isTesting];
+        if ( [parameters isTesting] )
+        {
+            BidMachineSdk.testMode = YES;
+            BidMachineSdk.isLoggingEnabled = YES;
+        }
         
         [self updateSettings: parameters];
         
@@ -687,9 +690,12 @@ static BidMachineInstance *ALBidMachineSDKInstance;
 
 - (void)updateSettings:(id<MAAdapterParameters>)parameters
 {
-    ALBidMachineConsentProvider *consentProvider = [[ALBidMachineConsentProvider alloc] init];
-    consentProvider.gdprConsent = [parameters hasUserConsent];
-    BidMachineSdk.consentProvider = consentProvider;
+    @synchronized ( [ALBidMachineMediationAdapter class] )
+    {
+        ALBidMachineConsentProvider *consentProvider = [[ALBidMachineConsentProvider alloc] init];
+        consentProvider.gdprConsent = [parameters hasUserConsent];
+        BidMachineSdk.consentProvider = consentProvider;
+    }
 }
 
 - (MANativeAdImage *)nativeAdImageFromImage:(BidMachineNativeImage *)nativeImage
