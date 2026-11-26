@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1.1
+* Fixed adapter versioning for SPM
+
 ## 1.2.1.0
 * Certified with YSONetwork SDK 1.2.1.
 
