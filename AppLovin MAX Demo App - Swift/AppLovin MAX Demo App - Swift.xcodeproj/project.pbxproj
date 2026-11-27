@@ -12,7 +12,6 @@
 		07DAFDF32A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF22A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift */; };
 		07DAFDF52A794B1900AA54FA /* ALMAXSwiftUITemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF42A794B1900AA54FA /* ALMAXSwiftUITemplateNativeAdViewController.swift */; };
 		07DAFDF72A8369C100AA54FA /* ALDemoAdViewSwiftUIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFDF62A8369C100AA54FA /* ALDemoAdViewSwiftUIViewModel.swift */; };
-		0F59AFEA2C1B64BF96C40680 /* Pods_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */; };
 		1055D8A32984A18700228C1B /* MAAdViewSwiftUIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A22984A18700228C1B /* MAAdViewSwiftUIWrapper.swift */; };
 		1055D8A52984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A42984A19400228C1B /* ALMAXSwiftUIMRecAdViewController.swift */; };
 		1055D8A72984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1055D8A62984A1A200228C1B /* ALMAXSwiftUIMRecAdView.swift */; };
@@ -28,6 +27,7 @@
 		35C0C88227F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */; };
 		35C0C88427F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */; };
 		35C0C88627F79E090030B2F8 /* ALTextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */; };
+		3681B69645CDD7369EA9953E /* AppLovinSDK in Frameworks */ = {isa = PBXBuildFile; productRef = CA10D32A2790BCC26D447FA3 /* AppLovinSDK */; };
 		3763B23723357C4B00E49783 /* ALAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763B23623357C4B00E49783 /* ALAppDelegate.swift */; };
 		3763B23E23357C4D00E49783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23D23357C4D00E49783 /* Assets.xcassets */; };
 		3763B24123357C4D00E49783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23F23357C4D00E49783 /* LaunchScreen.storyboard */; };
@@ -41,12 +41,12 @@
 		77B6F43D279B51F70063F81D /* ALMAXManualNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */; };
 		77B6F43E279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */; };
 		77B6F441279B52050063F81D /* NativeManualAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77B6F440279B52050063F81D /* NativeManualAdView.xib */; };
+		7ED584ADC4033AA5CDA1471A /* AdjustSdk in Frameworks */ = {isa = PBXBuildFile; productRef = 3B29643A286207F9C56965B1 /* AdjustSdk */; };
 		DEEC21F1299EC36F002313FB /* ALMAXAppOpenAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */; };
 		E5EE50E7241D9E5B0032B659 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3763B23A23357C4B00E49783 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		078501F52BC6135FA410F2C8 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		07DAFDDF2A781A4C00AA54FA /* ALAdViewSwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALAdViewSwiftUIWrapper.swift; sourceTree = "<group>"; };
 		07DAFDEF2A78613000AA54FA /* ALMAXNativeTemplateAdViewSwiftUIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXNativeTemplateAdViewSwiftUIWrapper.swift; sourceTree = "<group>"; };
 		07DAFDF22A794B0600AA54FA /* ALMAXSwiftUITemplateNativeAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXSwiftUITemplateNativeAdView.swift; sourceTree = "<group>"; };
@@ -64,7 +64,6 @@
 		1DDCE59C242AE564007EAC8D /* ALMAXInterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXInterstitialAdViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A3242AE5CE007EAC8D /* ALHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALHomeViewController.swift; sourceTree = "<group>"; };
 		1DDCE5A4242AE5CE007EAC8D /* ALBaseAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALBaseAdViewController.swift; sourceTree = "<group>"; };
-		327A5740B44E574F21A6720C /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/AppLovin MAX Demo App - Swift/Pods/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
 		35C0C88127F79C820030B2F8 /* ALMAXAdPlacerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerTableViewController.swift; sourceTree = "<group>"; };
 		35C0C88327F79C910030B2F8 /* ALMAXAdPlacerCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALMAXAdPlacerCollectionViewController.swift; sourceTree = "<group>"; };
 		35C0C88527F79E090030B2F8 /* ALTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALTextCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -84,9 +83,6 @@
 		77B6F43A279B51F70063F81D /* ALMAXManualNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXManualNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F43B279B51F70063F81D /* ALMAXTemplateNativeAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXTemplateNativeAdViewController.swift; sourceTree = "<group>"; };
 		77B6F440279B52050063F81D /* NativeManualAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeManualAdView.xib; sourceTree = "<group>"; };
-		A49BD6F0C5004760192CA0D3 /* Pods-AppLovin MAX Demo App - Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppLovin MAX Demo App - Swift.debug.xcconfig"; path = "../../AppLovin-MAX-SDK-iOS/AppLovin MAX Demo App - Swift/Pods/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift.debug.xcconfig"; sourceTree = "<group>"; };
-		C395ACD57CFF0746B2DE19C2 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; path = "Target Support Files/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift/Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig"; sourceTree = "<group>"; };
-		C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppLovin_MAX_Demo_App___Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEC21F0299EC36F002313FB /* ALMAXAppOpenAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALMAXAppOpenAdViewController.swift; sourceTree = "<group>"; };
 		E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovin MAX Demo App-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,7 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F59AFEA2C1B64BF96C40680 /* Pods_AppLovin_MAX_Demo_App___Swift.framework in Frameworks */,
+				3681B69645CDD7369EA9953E /* AppLovinSDK in Frameworks */,
+				7ED584ADC4033AA5CDA1471A /* AdjustSdk in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +164,6 @@
 				E5BDBFEF2435197700F82D79 /* AppLovin MAX Demo App-Bridging-Header.h */,
 				3763B23523357C4B00E49783 /* AppLovin MAX Demo App - Swift */,
 				3763B23423357C4B00E49783 /* Products */,
-				7CDCB641AA96688D84385A62 /* Pods */,
 				47C548B6FFA12425795CF4C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -233,7 +229,6 @@
 		47C548B6FFA12425795CF4C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C9AD48B42EE79CDEA120A731 /* Pods_AppLovin_MAX_Demo_App___Swift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -261,18 +256,6 @@
 			path = "Native Ads";
 			sourceTree = "<group>";
 		};
-		7CDCB641AA96688D84385A62 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				078501F52BC6135FA410F2C8 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.debug.xcconfig */,
-				C395ACD57CFF0746B2DE19C2 /* Pods-Non-Mediated Projects-AppLovin MAX Demo App - Swift.release.xcconfig */,
-				A49BD6F0C5004760192CA0D3 /* Pods-AppLovin MAX Demo App - Swift.debug.xcconfig */,
-				327A5740B44E574F21A6720C /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */,
-			);
-			name = Pods;
-			path = "../../iOS-Workspace/Pods";
-			sourceTree = "<group>";
-		};
 		DEEC21EF299EC36F002313FB /* App Open Ads */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,17 +271,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3763B24523357C4D00E49783 /* Build configuration list for PBXNativeTarget "AppLovin MAX Demo App - Swift" */;
 			buildPhases = (
-				B115D9839009FB2F03D77930 /* [CP] Check Pods Manifest.lock */,
 				3763B22F23357C4B00E49783 /* Sources */,
 				3763B23023357C4B00E49783 /* Frameworks */,
 				3763B23123357C4B00E49783 /* Resources */,
-				F29D313FDB890A24D9B2E2AA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "AppLovin MAX Demo App - Swift";
+			packageProductDependencies = (
+				CA10D32A2790BCC26D447FA3 /* AppLovinSDK */,
+				3B29643A286207F9C56965B1 /* AdjustSdk */,
+			);
 			productName = "DemoApp-Swift";
 			productReference = 3763B23323357C4B00E49783 /* AppLovin MAX Demo App - Swift.app */;
 			productType = "com.apple.product-type.application";
@@ -328,6 +313,10 @@
 				Base,
 			);
 			mainGroup = 3763B22A23357C4B00E49783;
+			packageReferences = (
+				5A3A761C1983490258E6A163 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */,
+				ADAE5D282D65FC14C965C60C /* XCRemoteSwiftPackageReference "ios_sdk" */,
+			);
 			productRefGroup = 3763B23423357C4B00E49783 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -350,48 +339,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		B115D9839009FB2F03D77930 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AppLovin MAX Demo App - Swift-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F29D313FDB890A24D9B2E2AA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppLovin MAX Demo App - Swift/Pods-AppLovin MAX Demo App - Swift-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3763B22F23357C4B00E49783 /* Sources */ = {
@@ -576,7 +523,6 @@
 		};
 		3763B24623357C4D00E49783 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A49BD6F0C5004760192CA0D3 /* Pods-AppLovin MAX Demo App - Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -605,7 +551,6 @@
 		};
 		3763B24723357C4D00E49783 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 327A5740B44E574F21A6720C /* Pods-AppLovin MAX Demo App - Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -653,6 +598,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A3A761C1983490258E6A163 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppLovin/AppLovin-MAX-Swift-Package.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.0;
+			};
+		};
+		ADAE5D282D65FC14C965C60C /* XCRemoteSwiftPackageReference "ios_sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adjust/ios_sdk.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B29643A286207F9C56965B1 /* AdjustSdk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ADAE5D282D65FC14C965C60C /* XCRemoteSwiftPackageReference "ios_sdk" */;
+			productName = AdjustSdk;
+		};
+		CA10D32A2790BCC26D447FA3 /* AppLovinSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A3A761C1983490258E6A163 /* XCRemoteSwiftPackageReference "AppLovin-MAX-Swift-Package" */;
+			productName = AppLovinSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3763B22B23357C4B00E49783 /* Project object */;
 }
